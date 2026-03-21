@@ -17,18 +17,21 @@ class Notifications: NotificationsWrapper {
     private let systemLoadID: String = "systemUsage"
     private let userLoadID: String = "userUsage"
     private let eCoresLoadID: String = "eCoresUsage"
+    private let sCoresLoadID: String = "sCoresUsage"
     private let pCoresLoadID: String = "pCoresUsage"
     
     private var totalLoadState: Bool = false
     private var systemLoadState: Bool = false
     private var userLoadState: Bool = false
     private var eCoresLoadState: Bool = false
+    private var sCoresLoadState: Bool = false
     private var pCoresLoadState: Bool = false
     
     private var totalLoad: Int = 75
     private var systemLoad: Int = 75
     private var userLoad: Int = 75
     private var eCoresLoad: Int = 75
+    private var sCoresLoad: Int = 75
     private var pCoresLoad: Int = 75
     
     public init(_ module: ModuleType) {
@@ -85,6 +88,8 @@ class Notifications: NotificationsWrapper {
         
         self.eCoresLoadState = Store.shared.bool(key: "\(self.module)_notifications_eCoresLoad_state", defaultValue: self.eCoresLoadState)
         self.eCoresLoad = Store.shared.int(key: "\(self.module)_notifications_eCoresLoad_value", defaultValue: self.eCoresLoad)
+        self.sCoresLoadState = Store.shared.bool(key: "\(self.module)_notifications_sCoresLoad_state", defaultValue: self.sCoresLoadState)
+        self.sCoresLoad = Store.shared.int(key: "\(self.module)_notifications_sCoresLoad_value", defaultValue: self.sCoresLoad)
         self.pCoresLoadState = Store.shared.bool(key: "\(self.module)_notifications_pCoresLoad_state", defaultValue: self.pCoresLoadState)
         self.pCoresLoad = Store.shared.int(key: "\(self.module)_notifications_pCoresLoad_value", defaultValue: self.pCoresLoad)
         
@@ -108,6 +113,10 @@ class Notifications: NotificationsWrapper {
             PreferencesRow(localizedString("Efficiency cores load"), component: PreferencesSwitch(
                 action: self.toggleECoresLoad, state: self.eCoresLoadState,
                 with: StepperInput(self.eCoresLoad, callback: self.changeECoresLoad)
+            )),
+            PreferencesRow(localizedString("Super cores load"), component: PreferencesSwitch(
+                action: self.toggleSCoresLoad, state: self.sCoresLoadState,
+                with: StepperInput(self.sCoresLoad, callback: self.changeSCoresLoad)
             )),
             PreferencesRow(localizedString("Performance cores load"), component: PreferencesSwitch(
                 action: self.togglePCoresLoad, state: self.pCoresLoadState,
@@ -142,6 +151,11 @@ class Notifications: NotificationsWrapper {
         if self.eCoresLoadState, let usage = value.usageECores {
             let subtitle = "\(localizedString("Efficiency cores load")): \(Int((usage)*100))%"
             self.checkDouble(id: self.eCoresLoadID, value: usage, threshold: Double(self.eCoresLoad)/100, title: title, subtitle: subtitle)
+        }
+        
+        if self.sCoresLoadState, let usage = value.usageSCores {
+            let subtitle = "\(localizedString("Super cores load")): \(Int((usage)*100))%"
+            self.checkDouble(id: self.sCoresLoadID, value: usage, threshold: Double(self.sCoresLoad)/100, title: title, subtitle: subtitle)
         }
         
         if self.pCoresLoadState, let usage = value.usagePCores {
@@ -186,6 +200,15 @@ class Notifications: NotificationsWrapper {
     @objc private func changeECoresLoad(_ newValue: Int) {
         self.eCoresLoad = newValue
         Store.shared.set(key: "\(self.module)_notifications_eCoresLoad_value", value: self.eCoresLoad)
+    }
+    
+    @objc private func toggleSCoresLoad(_ sender: NSControl) {
+        self.sCoresLoadState = controlState(sender)
+        Store.shared.set(key: "\(self.module)_notifications_sCoresLoad_state", value: self.sCoresLoadState)
+    }
+    @objc private func changeSCoresLoad(_ newValue: Int) {
+        self.sCoresLoad = newValue
+        Store.shared.set(key: "\(self.module)_notifications_sCoresLoad_value", value: self.sCoresLoad)
     }
     
     @objc private func togglePCoresLoad(_ sender: NSControl) {

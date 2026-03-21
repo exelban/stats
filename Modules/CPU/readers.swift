@@ -134,17 +134,30 @@ internal class LoadReader: Reader<CPU_Load> {
                 if self.response.usagePerCore.indices.contains(Int(c.id)) {
                     return self.response.usagePerCore[Int(c.id)]
                 }
-                return i < usagePerCore.count ? usagePerCore[i] : 0
+                return i < self.usagePerCore.count ? self.usagePerCore[i] : 0
             }
             let pCoresList: [Double] = cores.filter({ $0.type == .performance }).enumerated().compactMap { (i, c) -> Double? in
                 if self.response.usagePerCore.indices.contains(Int(c.id)) {
                     return self.response.usagePerCore[Int(c.id)]
                 }
-                return i < usagePerCore.count ? usagePerCore[i] : 0
+                return i < self.usagePerCore.count ? self.usagePerCore[i] : 0
+            }
+            let sCoresList: [Double] = cores.filter({ $0.type == .super }).enumerated().compactMap { (i, c) -> Double? in
+                if self.response.usagePerCore.indices.contains(Int(c.id)) {
+                    return self.response.usagePerCore[Int(c.id)]
+                }
+                return i < self.usagePerCore.count ? self.usagePerCore[i] : 0
             }
             
-            self.response.usageECores = eCoresList.reduce(0, +)/Double(eCoresList.count)
-            self.response.usagePCores = pCoresList.reduce(0, +)/Double(pCoresList.count)
+            if !eCoresList.isEmpty {
+                self.response.usageECores = eCoresList.reduce(0, +)/Double(eCoresList.count)
+            }
+            if !pCoresList.isEmpty {
+                self.response.usagePCores = pCoresList.reduce(0, +)/Double(pCoresList.count)
+            }
+            if !sCoresList.isEmpty {
+                self.response.usageSCores = sCoresList.reduce(0, +)/Double(sCoresList.count)
+            }
         }
         
         self.callback(self.response)
@@ -258,6 +271,8 @@ public class TemperatureReader: Reader<Double> {
             self.list = ["Te05", "Te0L", "Te0P", "Te0S", "Tf04", "Tf09", "Tf0A", "Tf0B", "Tf0D", "Tf0E", "Tf44", "Tf49", "Tf4A", "Tf4B", "Tf4D", "Tf4E"]
         case .m4, .m4Pro, .m4Max, .m4Ultra:
             self.list = ["Te05", "Te09", "Te0H", "Te0S", "Tp01", "Tp05", "Tp09", "Tp0D", "Tp0V", "Tp0Y", "Tp0b", "Tp0e"]
+        case .m5, .m5Pro, .m5Max, .m5Ultra:
+            self.list = ["Tp00", "Tp04", "Tp08", "Tp0C", "Tp0G", "Tp0K", "Tp0O", "Tp0R", "Tp0U", "Tp0X", "Tp0a", "Tp0d", "Tp0g", "Tp0j", "Tp0m", "Tp0p", "Tp0u", "Tp0y"]
         default: break
         }
     }
@@ -297,8 +312,10 @@ public class TemperatureReader: Reader<Double> {
 public class FrequencyReader: Reader<CPU_Frequency> {
     private var eCoreFreqs: [Int32] = []
     private var pCoreFreqs: [Int32] = []
+    private var sCoreFreqs: [Int32] = []
     private var eCoreCount: Double = 0
     private var pCoreCount: Double = 0
+    private var sCoreCount: Double = 0
     
     private var channels: CFMutableDictionary? = nil
     private var subscription: IOReportSubscriptionRef? = nil
@@ -323,10 +340,13 @@ public class FrequencyReader: Reader<CPU_Frequency> {
     
     public override func setup() {
         self.popup = true
+        self.preview = true
         self.eCoreFreqs = SystemKit.shared.device.info.cpu?.eCoreFrequencies ?? []
         self.pCoreFreqs = SystemKit.shared.device.info.cpu?.pCoreFrequencies ?? []
+        self.sCoreFreqs = SystemKit.shared.device.info.cpu?.sCoreFrequencies ?? []
         self.eCoreCount = Double(SystemKit.shared.device.info.cpu?.eCores ?? 0)
         self.pCoreCount = Double(SystemKit.shared.device.info.cpu?.pCores ?? 0)
+        self.sCoreCount = Double(SystemKit.shared.device.info.cpu?.sCores ?? 0)
         self.channels = self.getChannels()
         var dict: Unmanaged<CFMutableDictionary>?
         self.subscription = IOReportCreateSubscription(nil, self.channels, &dict, 0, nil)
@@ -334,40 +354,54 @@ public class FrequencyReader: Reader<CPU_Frequency> {
     }
     
     public override func read() {
-        guard !self.isReading, !self.eCoreFreqs.isEmpty && !self.pCoreFreqs.isEmpty, self.channels != nil, self.subscription != nil else { return }
+        guard !self.isReading, (!self.eCoreFreqs.isEmpty || !self.sCoreFreqs.isEmpty) && !self.pCoreFreqs.isEmpty, self.channels != nil, self.subscription != nil else { return }
         self.isReading = true
         let minECoreFreq = Double(self.eCoreFreqs.min() ?? 0)
         let minPCoreFreq = Double(self.pCoreFreqs.min() ?? 0)
+        let minSCoreFreq = Double(self.sCoreFreqs.min() ?? 0)
         
         Task {
             var eCores: [Double] = []
+            var sCores: [Double] = []
             var pCores: [Double] = []
             
             for (samples, _) in await self.getSamples() {
                 var eCore: [Double] = []
                 var pCore: [Double] = []
+                var sCore: [Double] = []
                 
                 for sample in samples {
                     guard sample.group == "CPU Stats" else { continue }
                     if sample.channel.starts(with: "ECPU") {
                         eCore.append(self.calculateFrequencies(dict: sample.delta, freqs: self.eCoreFreqs))
                     }
-                    if sample.channel.starts(with: "PCPU") {
+                    if sample.channel.starts(with: "MCPU") {
                         pCore.append(self.calculateFrequencies(dict: sample.delta, freqs: self.pCoreFreqs))
+                    }
+                    if sample.channel.starts(with: "PCPU") {
+                        sCore.append(self.calculateFrequencies(dict: sample.delta, freqs: self.sCoreFreqs))
                     }
                 }
                 
-                let eCoresAvgFreq: Double = eCore.isEmpty ? 0 : (eCore.reduce(0.0, { $0 + $1 }) / Double(eCore.count))
-                let pCoresAvgFreq: Double = pCore.isEmpty ? 0 : (pCore.reduce(0.0, { $0 + $1 }) / Double(pCore.count))
-                eCores.append(max(eCoresAvgFreq, minECoreFreq))
-                pCores.append(max(pCoresAvgFreq, minPCoreFreq))
+                if !eCore.isEmpty {
+                    eCores.append(max(eCore.reduce(0.0, +) / Double(eCore.count), minECoreFreq))
+                }
+                if !pCore.isEmpty {
+                    pCores.append(max(pCore.reduce(0.0, +) / Double(pCore.count), minPCoreFreq))
+                }
+                if !sCore.isEmpty {
+                    sCores.append(max(sCore.reduce(0.0, +) / Double(sCore.count), minSCoreFreq))
+                }
             }
             
-            let eFreq: Double = eCores.reduce(0, { $0 + $1 }) / Double(self.measurementCount)
-            let pFreq: Double = pCores.reduce(0, { $0 + $1 }) / Double(self.measurementCount)
-            let value: Double = ((eFreq * self.eCoreCount) + (pFreq * self.pCoreCount)) / (self.eCoreCount + self.pCoreCount)
+            let eFreq: Double? = eCores.isEmpty ? nil : eCores.reduce(0, +) / Double(self.measurementCount)
+            let pFreq: Double? = pCores.isEmpty ? nil : pCores.reduce(0, +) / Double(self.measurementCount)
+            let sFreq: Double? = sCores.isEmpty ? nil : sCores.reduce(0, +) / Double(self.measurementCount)
             
-            self.callback(CPU_Frequency(value: value, eCore: eFreq, pCore: pFreq))
+            let activeCores: Double = (eFreq != nil ? self.eCoreCount : 0) + (sFreq != nil ? self.sCoreCount : 0) + (pFreq != nil ? self.pCoreCount : 0)
+            let value: Double = ((eFreq ?? 0) * self.eCoreCount + (sFreq ?? 0) * self.sCoreCount + (pFreq ?? 0) * self.pCoreCount) / activeCores
+            
+            self.callback(CPU_Frequency(value: value, eCore: eFreq, pCore: pFreq, sCore: sFreq))
             self.isReading = false
         }
     }

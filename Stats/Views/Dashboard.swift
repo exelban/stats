@@ -57,6 +57,12 @@ class Dashboard: NSStackView {
                 }
                 mini += localizedString("Number of p-cores", "\(pCores)")
             }
+            if let sCores = cpu.sCores {
+                if mini != "" {
+                    mini += "\n"
+                }
+                mini += localizedString("Number of s-cores", "\(sCores)")
+            }
             value += "\(mini)"
         }
         

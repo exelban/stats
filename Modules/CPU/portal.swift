@@ -25,6 +25,7 @@ public class Portal: PortalWrapper {
     private var speedLimitField: NSTextField? = nil
     private var eCoresField: NSTextField? = nil
     private var pCoresField: NSTextField? = nil
+    private var sCoresField: NSTextField? = nil
     private var average1Field: NSTextField? = nil
     private var average5Field: NSTextField? = nil
     private var average15Field: NSTextField? = nil
@@ -34,6 +35,7 @@ public class Portal: PortalWrapper {
     private var idleColorView: NSView? = nil
     private var eCoresColorView: NSView? = nil
     private var pCoresColorView: NSView? = nil
+    private var sCoresColorView: NSView? = nil
     
     private var systemColorState: SColor = .secondRed
     private var systemColor: NSColor { self.systemColorState.additional as? NSColor ?? NSColor.systemRed }
@@ -45,6 +47,8 @@ public class Portal: PortalWrapper {
     private var eCoresColor: NSColor { self.eCoresColorState.additional as? NSColor ?? NSColor.systemTeal }
     private var pCoresColorState: SColor = .indigo
     private var pCoresColor: NSColor { self.pCoresColorState.additional as? NSColor ?? NSColor.systemBlue }
+    private var sCoresColorState: SColor = .orange
+    private var sCoresColor: NSColor { self.eCoresColorState.additional as? NSColor ?? NSColor.systemOrange }
     
     public override func load() {
         self.loadColors()
@@ -78,6 +82,7 @@ public class Portal: PortalWrapper {
         self.idleColorState = SColor.fromString(Store.shared.string(key: "\(self.name)_idleColor", defaultValue: self.idleColorState.key))
         self.eCoresColorState = SColor.fromString(Store.shared.string(key: "\(self.name)_eCoresColor", defaultValue: self.eCoresColorState.key))
         self.pCoresColorState = SColor.fromString(Store.shared.string(key: "\(self.name)_pCoresColor", defaultValue: self.pCoresColorState.key))
+        self.sCoresColorState = SColor.fromString(Store.shared.string(key: "\(self.name)_sCoresColor", defaultValue: self.sCoresColorState.key))
     }
     
     private func charts() -> NSView {
@@ -127,6 +132,9 @@ public class Portal: PortalWrapper {
         if SystemKit.shared.device.info.cpu?.pCores != nil {
             (self.pCoresColorView, self.pCoresField) = portalWithColorRow(view, color: self.pCoresColor, title: "P-cores:")
         }
+        if SystemKit.shared.device.info.cpu?.sCores != nil {
+            (self.sCoresColorView, self.sCoresField) = portalWithColorRow(view, color: self.sCoresColor, title: "S-cores:")
+        }
         
         return view
     }
@@ -150,6 +158,9 @@ public class Portal: PortalWrapper {
                     field.stringValue = "\(Int(usage * 100))%"
                 }
                 if let field = self.pCoresField, let usage = value.usagePCores {
+                    field.stringValue = "\(Int(usage * 100))%"
+                }
+                if let field = self.sCoresField, let usage = value.usageSCores {
                     field.stringValue = "\(Int(usage * 100))%"
                 }
                 

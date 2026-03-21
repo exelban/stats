@@ -15,6 +15,7 @@ public struct CPU_Load: Codable, RemoteType {
     var usagePerCore: [Double] = []
     var usageECores: Double? = nil
     var usagePCores: Double? = nil
+    var usageSCores: Double? = nil
     
     var systemLoad: Double = 0
     var userLoad: Double = 0
@@ -32,8 +33,9 @@ public struct CPU_Load: Codable, RemoteType {
 
 public struct CPU_Frequency: Codable, RemoteType {
     var value: Double = 0
-    var eCore: Double = 0
-    var pCore: Double = 0
+    var eCore: Double? = nil
+    var pCore: Double? = nil
+    var sCore: Double? = nil
     
     public func remote() -> Data? {
         let string = "1,1,\(self.value)$"
@@ -63,6 +65,7 @@ public class CPU: Module {
     private let settingsView: Settings
     private let portalView: Portal
     private let notificationsView: Notifications
+    private let previewView: Preview
     
     private var loadReader: LoadReader? = nil
     private var processReader: ProcessReader? = nil
@@ -97,7 +100,7 @@ public class CPU: Module {
         return color.additional as! NSColor
     }
     
-    private var eCoreColor: NSColor {
+    private var eCoresColor: NSColor {
         let color = SColor.teal
         let key = Store.shared.string(key: "\(self.config.name)_eCoresColor", defaultValue: color.key)
         if let c = SColor.fromString(key).additional as? NSColor {
@@ -105,9 +108,17 @@ public class CPU: Module {
         }
         return color.additional as! NSColor
     }
-    private var pCoreColor: NSColor {
+    private var pCoresColor: NSColor {
         let color = SColor.indigo
         let key = Store.shared.string(key: "\(self.config.name)_pCoresColor", defaultValue: color.key)
+        if let c = SColor.fromString(key).additional as? NSColor {
+            return c
+        }
+        return color.additional as! NSColor
+    }
+    private var sCoresColor: NSColor {
+        let color = SColor.orange
+        let key = Store.shared.string(key: "\(self.config.name)_sCoresColor", defaultValue: color.key)
         if let c = SColor.fromString(key).additional as? NSColor {
             return c
         }
@@ -123,13 +134,15 @@ public class CPU: Module {
         self.popupView = Popup(.CPU)
         self.portalView = Portal(.CPU)
         self.notificationsView = Notifications(.CPU)
+        self.previewView = Preview(.CPU)
         
         super.init(
             moduleType: .CPU,
             popup: self.popupView,
             settings: self.settingsView,
             portal: self.portalView,
-            notifications: self.notificationsView
+            notifications: self.notificationsView,
+            preview: self.previewView
         )
         guard self.available else { return }
         
@@ -141,6 +154,7 @@ public class CPU: Module {
         }
         self.averageLoadReader = AverageLoadReader(.CPU, popup: true) { [weak self] value in
             self?.popupView.averageCallback(value)
+            self?.previewView.averageCallback(value)
         }
         self.temperatureReader = TemperatureReader(.CPU, popup: true) { [weak self] value in
             self?.popupView.temperatureCallback(value)
@@ -151,8 +165,9 @@ public class CPU: Module {
             self?.popupView.limitCallback(value)
         }
         #else
-        self.frequencyReader = FrequencyReader(.CPU, popup: false) { [weak self] value in
+        self.frequencyReader = FrequencyReader(.CPU) { [weak self] value in
             self?.popupView.frequencyCallback(value)
+            self?.previewView.frequencyCallback(value)
         }
         #endif
         
@@ -188,6 +203,7 @@ public class CPU: Module {
         self.popupView.loadCallback(value)
         self.portalView.callback(value)
         self.notificationsView.loadCallback(value)
+        self.previewView.loadCallback(value)
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { [self] (w: SWidget) in
             switch w.item {
@@ -202,7 +218,8 @@ public class CPU: Module {
                         val = []
                         for (i, v) in value.usagePerCore.enumerated() {
                             let core = cores.first(where: {$0.id == i })
-                            val.append([ColorValue(v, color: core?.type == .efficiency ? self.eCoreColor : self.pCoreColor)])
+                            let color = core?.type == .efficiency ? self.eCoresColor : core?.type == .super ? self.sCoresColor : self.pCoresColor
+                            val.append([ColorValue(v, color: color)])
                         }
                     } else {
                         val = value.usagePerCore.map({ [ColorValue($0)] })
@@ -212,14 +229,25 @@ public class CPU: Module {
                         ColorValue(value.systemLoad, color: self.systemColor),
                         ColorValue(value.userLoad, color: self.userColor)
                     ]]
-                } else if self.groupByClustersState, let e = value.usageECores, let p = value.usagePCores {
-                    if widget.colorState == .cluster {
-                        val = [
-                            [ColorValue(e, color: self.eCoreColor)],
-                            [ColorValue(p, color: self.pCoreColor)]
-                        ]
-                    } else {
-                        val = [[ColorValue(e)], [ColorValue(p)]]
+                } else if self.groupByClustersState {
+                    var clusters: [[ColorValue]] = []
+                    var clustersPlain: [[ColorValue]] = []
+                    
+                    if let e = value.usageECores {
+                        clusters.append([ColorValue(e, color: self.eCoresColor)])
+                        clustersPlain.append([ColorValue(e)])
+                    }
+                    if let p = value.usagePCores {
+                        clusters.append([ColorValue(p, color: self.pCoresColor)])
+                        clustersPlain.append([ColorValue(p)])
+                    }
+                    if let s = value.usageSCores {
+                        clusters.append([ColorValue(s, color: self.sCoresColor)])
+                        clustersPlain.append([ColorValue(s)])
+                    }
+                    
+                    if !clusters.isEmpty {
+                        val = widget.colorState == .cluster ? clusters : clustersPlain
                     }
                 }
                 widget.setValue(val)
