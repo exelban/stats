@@ -879,8 +879,8 @@ let deviceDict: [String: model_s] = [
     "Mac13,2": model_s(name: "Mac Studio (M1 Ultra)", year: 2022, type: .macStudio),
     "Mac14,13": model_s(name: "Mac Studio (M2 Max)", year: 2023, type: .macStudio),
     "Mac14,14": model_s(name: "Mac Studio (M2 Ultra)", year: 2023, type: .macStudio),
-    "Mac15,14": model_s(name: "Mac Studio (M3 Max)", year: 2023, type: .macStudio),
-    "Mac16,9": model_s(name: "Mac Studio (M4 Max)", year: 2024, type: .macStudio),
+    "Mac15,14": model_s(name: "Mac Studio (M3 Ultra)", year: 2025, type: .macStudio),
+    "Mac16,9": model_s(name: "Mac Studio (M4 Max)", year: 2025, type: .macStudio),
     
     // Mac Pro
     "MacPro1,1": model_s(name: "Mac Pro", year: 2006, type: .macPro),
@@ -1022,7 +1022,7 @@ let deviceDict: [String: model_s] = [
     "Mac16,6": model_s(name: "MacBook Pro 14\" (M4 Max)", year: 2024, type: .macbookPro),
     "Mac16,7": model_s(name: "MacBook Pro 16\" (M4 Pro)", year: 2024, type: .macbookPro),
     "Mac16,8": model_s(name: "MacBook Pro 14\" (M4 Pro)", year: 2024, type: .macbookPro),
-    "Mac17,2": model_s(name: "MacBook Pro 14\" (M5)", year: 2026, type: .macbookPro),
+    "Mac17,2": model_s(name: "MacBook Pro 14\" (M5)", year: 2025, type: .macbookPro),
     "Mac17,6": model_s(name: "MacBook Pro 16\" (M5 Max)", year: 2026, type: .macbookPro),
     "Mac17,7": model_s(name: "MacBook Pro 14\" (M5 Max)", year: 2026, type: .macbookPro),
     "Mac17,8": model_s(name: "MacBook Pro 16\" (M5 Pro)", year: 2026, type: .macbookPro),
