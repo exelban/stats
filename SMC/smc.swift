@@ -160,6 +160,7 @@ extension Float {
 public class SMC {
     public static let shared = SMC()
     private var conn: io_connect_t = 0
+    private var _fanModeKeyIsLower: Bool?
     
     public init() {
         var result: kern_return_t
@@ -210,7 +211,7 @@ public class SMC {
         }
         
         if val.dataSize > 0 {
-            if val.bytes.first(where: { $0 != 0 }) == nil && val.key != "FS! " && val.key != "F0Md" && val.key != "F1Md" {
+            if val.bytes.first(where: { $0 != 0 }) == nil && val.key != "FS! " && val.key != "F0Md" && val.key != "F1Md" && val.key != "F0md" && val.key != "F1md" {
                 return nil
             }
             
@@ -355,13 +356,25 @@ public class SMC {
     }
     
     // MARK: - fans
-    
+
+    public func fanModeKey(_ id: Int) -> String {
+        #if arch(arm64)
+        if _fanModeKeyIsLower == nil {
+            var probe = SMCVal_t("F0md")
+            _fanModeKeyIsLower = read(&probe) == kIOReturnSuccess && probe.dataSize > 0
+        }
+        return _fanModeKeyIsLower! ? "F\(id)md" : "F\(id)Md"
+        #else
+        return "F\(id)Md"
+        #endif
+    }
+
     public func setFanMode(_ id: Int, mode: FanMode) {
         #if arch(arm64)
         if mode == .forced {
             if !unlockFanControl(fanId: id) { return }
         } else {
-            let modeKey = "F\(id)Md"
+            let modeKey = fanModeKey(id)
             let targetKey = "F\(id)Tg"
             
             if self.getValue(modeKey) != nil {
@@ -474,7 +487,7 @@ public class SMC {
         }
         
         #if arch(arm64)
-        var modeVal = SMCVal_t("F\(id)Md")
+        var modeVal = SMCVal_t(fanModeKey(id))
         let modeResult = read(&modeVal)
         guard modeResult == kIOReturnSuccess else {
             print("Error read fan mode: " + (String(cString: mach_error_string(modeResult), encoding: String.Encoding.ascii) ?? "unknown error"))
@@ -556,20 +569,8 @@ public class SMC {
     }
     
     private func unlockFanControl(fanId: Int) -> Bool {
-        var ftstCheck = SMCVal_t("Ftst")
-        let ftstResult = read(&ftstCheck)
-        guard ftstResult == kIOReturnSuccess else {
-            print(smcError("read", key: "Ftst", result: ftstResult))
-            return false
-        }
-        let ftstActive = ftstCheck.bytes[0] == 1
-        
-        if ftstActive {
-            return retryModeWrite(fanId: fanId, maxAttempts: 20)
-        }
-        
-        // Try direct write first (works on M1 without Ftst)
-        let modeKey = "F\(fanId)Md"
+        // Try direct mode write first (works on M5+ without Ftst)
+        let modeKey = fanModeKey(fanId)
         var modeVal = SMCVal_t(modeKey)
         let modeRead = read(&modeVal)
         guard modeRead == kIOReturnSuccess else {
@@ -580,27 +581,31 @@ public class SMC {
         if write(modeVal) == kIOReturnSuccess {
             return true
         }
-        
-        // Direct failed; fall back to Ftst unlock
+
+        // Direct failed; try Ftst unlock (M1-M4)
         var ftstVal = SMCVal_t("Ftst")
-        let ftstRead = read(&ftstVal)
-        guard ftstRead == kIOReturnSuccess else {
-            print(smcError("read", key: "Ftst", result: ftstRead))
+        let ftstResult = read(&ftstVal)
+        guard ftstResult == kIOReturnSuccess, ftstVal.dataSize > 0 else {
             return false
         }
+
+        if ftstVal.bytes[0] == 1 {
+            return retryModeWrite(fanId: fanId, maxAttempts: 20)
+        }
+
         ftstVal.bytes[0] = 1
         if !writeWithRetry(ftstVal, maxAttempts: 100) {
             return false
         }
-        
+
         // Wait for thermalmonitord to yield control
         usleep(3_000_000)
-        
+
         return retryModeWrite(fanId: fanId, maxAttempts: 300)
     }
     
     private func retryModeWrite(fanId: Int, maxAttempts: Int) -> Bool {
-        let modeKey = "F\(fanId)Md"
+        let modeKey = fanModeKey(fanId)
         var modeVal = SMCVal_t(modeKey)
         let result = read(&modeVal)
         guard result == kIOReturnSuccess else {
@@ -614,13 +619,25 @@ public class SMC {
     public func resetFanControl() -> Bool {
         var value = SMCVal_t("Ftst")
         let result = read(&value)
-        guard result == kIOReturnSuccess else {
-            print(smcError("read", key: "Ftst", result: result))
-            return false
+        if result == kIOReturnSuccess && value.dataSize > 0 {
+            if value.bytes[0] == 0 { return true }
+            value.bytes[0] = 0
+            return writeWithRetry(value)
         }
-        if value.bytes[0] == 0 { return true }
-        value.bytes[0] = 0
-        return writeWithRetry(value)
+
+        // Ftst absent (M5+): reset fan modes directly
+        guard let count = getValue("FNum") else { return false }
+        var success = true
+        for i in 0..<Int(count) {
+            let modeKey = fanModeKey(i)
+            var modeVal = SMCVal_t(modeKey)
+            let readResult = read(&modeVal)
+            guard readResult == kIOReturnSuccess else { continue }
+            if modeVal.bytes[0] == 0 { continue }
+            modeVal.bytes[0] = 0
+            if !writeWithRetry(modeVal) { success = false }
+        }
+        return success
     }
     
     #endif
