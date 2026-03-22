@@ -188,6 +188,8 @@ public class RAM: Module {
                     circle_segment(value: value.wired/total, color: self.wiredColor),
                     circle_segment(value: value.compressed/total, color: self.compressedColor)
                 ])
+            case let widget as StateWidget:
+                widget.setPressure(value.pressure.value)
             case let widget as TextWidget:
                 var text = "\(self.textValue)"
                 let pairs = TextWidget.parseText(text)

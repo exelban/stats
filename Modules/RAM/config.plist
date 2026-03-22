@@ -92,12 +92,24 @@
 			<key>Order</key>
 			<integer>6</integer>
 		</dict>
+		<key>state</key>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Preview</key>
+			<dict>
+				<key>Value</key>
+				<true/>
+			</dict>
+			<key>Order</key>
+			<integer>7</integer>
+		</dict>
 		<key>text</key>
 		<dict>
 			<key>Default</key>
 			<false/>
 			<key>Order</key>
-			<integer>7</integer>
+			<integer>8</integer>
 		</dict>
 	</dict>
 	<key>Settings</key>

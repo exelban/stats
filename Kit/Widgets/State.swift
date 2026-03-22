@@ -16,6 +16,7 @@ public class StateWidget: WidgetWrapper {
     private var nonactiveColorState: SColor = .secondRed
     
     private var value: Bool = false
+    private var _pressureLevel: RAMPressure?
     
     private var colors: [SColor] = SColor.allColors
     
@@ -56,8 +57,12 @@ public class StateWidget: WidgetWrapper {
         super.draw(dirtyRect)
         
         let circle = NSBezierPath(ovalIn: CGRect(x: Constants.Widget.margin.x, y: (self.frame.height - 8)/2, width: 8, height: 8))
-        let color = self.value ? self.activeColorState : self.nonactiveColorState
-        (color.additional as? NSColor)?.set()
+        if let pressure = self._pressureLevel {
+            pressure.pressureColor().set()
+        } else {
+            let color = self.value ? self.activeColorState : self.nonactiveColorState
+            (color.additional as? NSColor)?.set()
+        }
         circle.fill()
     }
     
@@ -66,6 +71,14 @@ public class StateWidget: WidgetWrapper {
         self.value = value
         DispatchQueue.main.async(execute: {
             self.display()
+        })
+    }
+
+    public func setPressure(_ newPressureLevel: RAMPressure) {
+        guard self._pressureLevel != newPressureLevel else { return }
+        self._pressureLevel = newPressureLevel
+        DispatchQueue.main.async(execute: {
+            self.needsDisplay = true
         })
     }
     
