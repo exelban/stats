@@ -375,11 +375,13 @@ public class FrequencyReader: Reader<CPU_Frequency> {
                     if sample.channel.starts(with: "ECPU") {
                         eCore.append(self.calculateFrequencies(dict: sample.delta, freqs: self.eCoreFreqs))
                     }
-                    if sample.channel.starts(with: "MCPU") {
+                    if sample.channel.starts(with: self.sCoreCount == 0 ? "PCPU" : "MCPU") {
                         pCore.append(self.calculateFrequencies(dict: sample.delta, freqs: self.pCoreFreqs))
                     }
-                    if sample.channel.starts(with: "PCPU") {
-                        sCore.append(self.calculateFrequencies(dict: sample.delta, freqs: self.sCoreFreqs))
+                    if self.sCoreCount != 0 {
+                        if sample.channel.starts(with: "PCPU") {
+                            sCore.append(self.calculateFrequencies(dict: sample.delta, freqs: self.sCoreFreqs))
+                        }
                     }
                 }
                 

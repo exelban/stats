@@ -65,7 +65,6 @@ public class CPU: Module {
     private let settingsView: Settings
     private let portalView: Portal
     private let notificationsView: Notifications
-    private let previewView: Preview
     
     private var loadReader: LoadReader? = nil
     private var processReader: ProcessReader? = nil
@@ -134,15 +133,13 @@ public class CPU: Module {
         self.popupView = Popup(.CPU)
         self.portalView = Portal(.CPU)
         self.notificationsView = Notifications(.CPU)
-        self.previewView = Preview(.CPU)
         
         super.init(
             moduleType: .CPU,
             popup: self.popupView,
             settings: self.settingsView,
             portal: self.portalView,
-            notifications: self.notificationsView,
-            preview: self.previewView
+            notifications: self.notificationsView
         )
         guard self.available else { return }
         
@@ -154,7 +151,6 @@ public class CPU: Module {
         }
         self.averageLoadReader = AverageLoadReader(.CPU, popup: true) { [weak self] value in
             self?.popupView.averageCallback(value)
-            self?.previewView.averageCallback(value)
         }
         self.temperatureReader = TemperatureReader(.CPU, popup: true) { [weak self] value in
             self?.popupView.temperatureCallback(value)
@@ -167,7 +163,6 @@ public class CPU: Module {
         #else
         self.frequencyReader = FrequencyReader(.CPU) { [weak self] value in
             self?.popupView.frequencyCallback(value)
-            self?.previewView.frequencyCallback(value)
         }
         #endif
         
@@ -203,7 +198,6 @@ public class CPU: Module {
         self.popupView.loadCallback(value)
         self.portalView.callback(value)
         self.notificationsView.loadCallback(value)
-        self.previewView.loadCallback(value)
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { [self] (w: SWidget) in
             switch w.item {
