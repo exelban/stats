@@ -58,7 +58,7 @@
 "Left alignment" = "Do lewej";
 "Center alignment" = "Centrum";
 "Right alignment" = "Do prawej";
-"Dashboard" = "Panel kontrolny"; // translategemma:4b
+"Dashboard" = "Strona główna";
 "Enabled" = "Włączone";
 "Disabled" = "Wyłączone";
 "Silent" = "Tryb cichy";
@@ -298,7 +298,7 @@
 "GPU utilization" = "Wykorzystanie GPU";
 "Vendor" = "Producent";
 "Model" = "Model";
-"Status" = "Stan"; // translategemma:4b
+"Status" = "Stan";
 "Active" = "Aktywny";
 "Non active" = "Nieaktywny";
 "Fan speed" = "Prędkość wentylatora";
@@ -348,7 +348,7 @@
 "Write speed" = "Zapis";
 "Read speed" = "Odczyt";
 "Drives" = "Dyski";
-"SMART data" = "SMART dane";
+"SMART data" = "Dane SMART";
 
 // Sensors
 "Temperature unit" = "Jednostka temperatury";
