@@ -233,7 +233,7 @@ public class LineChartView: NSView {
             }
             
             let point = CGPoint(
-                x: CGFloat(i) * xRatio,
+                x: (CGFloat(i) * xRatio) + dirtyRect.origin.x,
                 y: y
             )
             line.append(point)
