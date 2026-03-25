@@ -24,6 +24,9 @@ public struct BLEDevice: Codable {
     var isConnected: Bool = false
     var isPaired: Bool = false
     
+    var vendorId: Int? = nil
+    var productId: Int? = nil
+    
     var peripheral: CBPeripheral? = nil
     var isPeripheralInitialized: Bool = false
     
@@ -39,10 +42,10 @@ public struct BLEDevice: Codable {
     }
     
     private enum CodingKeys: String, CodingKey {
-        case address, name, uuid, RSSI, batteryLevel, isConnected, isPaired
+        case address, name, uuid, RSSI, batteryLevel, isConnected, isPaired, vendorId, productId
     }
     
-    init(address: String, name: String, uuid: UUID?, RSSI: Int?, batteryLevel: [KeyValue_t], isConnected: Bool, isPaired: Bool) {
+    init(address: String, name: String, uuid: UUID?, RSSI: Int?, batteryLevel: [KeyValue_t], isConnected: Bool, isPaired: Bool, vendorId: Int? = nil, productId: Int? = nil) {
         self.address = address
         self.name = name
         self.uuid = uuid
@@ -50,6 +53,8 @@ public struct BLEDevice: Codable {
         self.batteryLevel = batteryLevel
         self.isConnected = isConnected
         self.isPaired = isPaired
+        self.vendorId = vendorId
+        self.productId = productId
     }
     
     public init(from decoder: Decoder) throws {
@@ -61,6 +66,8 @@ public struct BLEDevice: Codable {
         self.batteryLevel = try container.decode(Array<KeyValue_t>.self, forKey: .batteryLevel)
         self.isConnected = try container.decode(Bool.self, forKey: .isConnected)
         self.isPaired = try container.decode(Bool.self, forKey: .isPaired)
+        self.vendorId = try? container.decode(Int.self, forKey: .vendorId)
+        self.productId = try? container.decode(Int.self, forKey: .productId)
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -72,6 +79,8 @@ public struct BLEDevice: Codable {
         try container.encode(batteryLevel, forKey: .batteryLevel)
         try container.encode(isConnected, forKey: .isConnected)
         try container.encode(isPaired, forKey: .isPaired)
+        try container.encode(vendorId, forKey: .vendorId)
+        try container.encode(productId, forKey: .productId)
     }
 }
 
@@ -117,7 +126,7 @@ public class Bluetooth: Module {
         active.forEach { (d: BLEDevice) in
             if d.state {
                 d.batteryLevel.forEach { (p: KeyValue_t) in
-                    list.append(Stack_t(key: "\(d.address)-\(p.key)", value: "\(p.value)%"))
+                    list.append(Stack_t(key: "\(d.address)-\(p.key)", value: "\(p.value)%", label: "\(d.name) - \(p.key)"))
                 }
             }
         }
