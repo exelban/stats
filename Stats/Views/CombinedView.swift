@@ -92,6 +92,9 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
                     }
                 }
             }
+            self.menuBarItem?.button?.target = self
+            self.menuBarItem?.button?.action = #selector(self.handleClick)
+            self.menuBarItem?.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
         } else {
             self.menuBarItem?.button?.target = self
             self.menuBarItem?.button?.action = #selector(self.togglePopup)
@@ -167,6 +170,25 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
             popup.setIsVisible(false)
         }
     }
+
+    @objc private func handleClick(_ sender: NSButton) {
+        let mouseLocation = sender.window?.mouseLocationOutsideOfEventStream ?? NSEvent.mouseLocation
+        let pointInView = sender.convert(mouseLocation, from: nil)
+
+        for m in self.activeModules {
+            for w in m.menuBar.widgets where w.item.frame.contains(pointInView) {
+                if let window = w.item.window {
+                    NotificationCenter.default.post(name: .togglePopup, object: nil, userInfo: [
+                        "module": m.name,
+                        "widget": w.type,
+                        "origin": window.frame.origin,
+                        "center": window.frame.width/2
+                    ])
+                }
+                return
+            }
+        }
+    }
     
     @objc private func listenForOneView(_ notification: Notification) {
         guard notification.userInfo?["module"] == nil else { return }
@@ -198,7 +220,9 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
                     }
                 }
             }
-            self.menuBarItem?.button?.action = nil
+            self.menuBarItem?.button?.target = self
+            self.menuBarItem?.button?.action = #selector(self.handleClick)
+            self.menuBarItem?.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
         } else {
             self.activeModules.forEach { (m: Module) in
                 m.menuBar.widgets.forEach { w in
