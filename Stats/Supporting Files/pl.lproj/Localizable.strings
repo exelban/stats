@@ -58,7 +58,7 @@
 "Left alignment" = "Do lewej";
 "Center alignment" = "Centrum";
 "Right alignment" = "Do prawej";
-"Dashboard" = "Strona główna";
+"Dashboard" = "Panel kontrolny"; // translategemma:4b
 "Enabled" = "Włączone";
 "Disabled" = "Wyłączone";
 "Silent" = "Tryb cichy";
@@ -298,7 +298,7 @@
 "GPU utilization" = "Wykorzystanie GPU";
 "Vendor" = "Producent";
 "Model" = "Model";
-"Status" = "Stan";
+"Status" = "Stan"; // translategemma:4b
 "Active" = "Aktywny";
 "Non active" = "Nieaktywny";
 "Fan speed" = "Prędkość wentylatora";
