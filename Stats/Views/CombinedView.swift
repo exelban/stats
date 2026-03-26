@@ -176,18 +176,16 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
         let pointInView = sender.convert(mouseLocation, from: nil)
         
         for m in self.activeModules {
-            for w in m.menuBar.widgets {
-                if w.item.frame.contains(pointInView) {
-                    if let window = w.item.window {
-                        NotificationCenter.default.post(name: .togglePopup, object: nil, userInfo: [
-                            "module": m.name,
-                            "widget": w.type,
-                            "origin": window.frame.origin,
-                            "center": window.frame.width/2
-                        ])
-                    }
-                    return
+            for w in m.menuBar.widgets where w.item.frame.contains(pointInView) {
+                if let window = w.item.window {
+                    NotificationCenter.default.post(name: .togglePopup, object: nil, userInfo: [
+                        "module": m.name,
+                        "widget": w.type,
+                        "origin": window.frame.origin,
+                        "center": window.frame.width/2
+                    ])
                 }
+                return
             }
         }
     }
