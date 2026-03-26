@@ -372,14 +372,20 @@ public class FrequencyReader: Reader<CPU_Frequency> {
                 
                 for sample in samples {
                     guard sample.group == "CPU Stats" else { continue }
-                    if sample.channel.starts(with: "ECPU") {
+
+                    var channel = sample.channel
+                    if let range = channel.range(of: #"^DIE_\d+_"#, options: .regularExpression) {
+                        channel.removeSubrange(range)
+                    }
+
+                    if channel.starts(with: "ECPU") {
                         eCore.append(self.calculateFrequencies(dict: sample.delta, freqs: self.eCoreFreqs))
                     }
-                    if sample.channel.starts(with: self.sCoreCount == 0 ? "PCPU" : "MCPU") {
+                    if channel.starts(with: self.sCoreCount == 0 ? "PCPU" : "MCPU") {
                         pCore.append(self.calculateFrequencies(dict: sample.delta, freqs: self.pCoreFreqs))
                     }
                     if self.sCoreCount != 0 {
-                        if sample.channel.starts(with: "PCPU") {
+                        if channel.starts(with: "PCPU") {
                             sCore.append(self.calculateFrequencies(dict: sample.delta, freqs: self.sCoreFreqs))
                         }
                     }
