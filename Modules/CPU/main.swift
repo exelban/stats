@@ -31,16 +31,11 @@ public struct CPU_Load: Codable, RemoteType {
     }
 }
 
-public struct CPU_Frequency: Codable, RemoteType {
-    var value: Double = 0
+public struct CPU_Frequency: Codable {
+    var value: Double? = nil
     var eCore: Double? = nil
     var pCore: Double? = nil
     var sCore: Double? = nil
-    
-    public func remote() -> Data? {
-        let string = "1,1,\(self.value)$"
-        return string.data(using: .utf8)
-    }
 }
 
 public struct CPU_Limit: Codable {

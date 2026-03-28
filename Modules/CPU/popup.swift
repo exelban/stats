@@ -458,15 +458,17 @@ internal class Popup: PopupWrapper {
             }
             
             if (self.window?.isVisible ?? false) || !self.initializedFrequency {
-                if value.value > self.maxFreq {
-                    self.maxFreq = value.value
-                }
-                
-                self.coresFreqField?.stringValue = "\(Int(value.value)) MHz"
-                if let circle = self.frequencyCircle {
-                    circle.setValue((100*value.value)/self.maxFreq)
-                    circle.setText("\((value.value/1000).rounded(toPlaces: 2))")
-                    circle.toolTip = "\(localizedString("CPU frequency")): \(Int(value.value)) MHz - \(((100*value.value)/self.maxFreq).rounded(toPlaces: 2))%"
+                if let v = value.value {
+                    if v > self.maxFreq {
+                        self.maxFreq = v
+                    }
+                    
+                    self.coresFreqField?.stringValue = "\(Int(v)) MHz"
+                    if let circle = self.frequencyCircle {
+                        circle.setValue((100*v)/self.maxFreq)
+                        circle.setText("\((v/1000).rounded(toPlaces: 2))")
+                        circle.toolTip = "\(localizedString("CPU frequency")): \(Int(v)) MHz - \(((100*v)/self.maxFreq).rounded(toPlaces: 2))%"
+                    }
                 }
                 
                 if let v = value.eCore {

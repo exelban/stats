@@ -372,14 +372,14 @@ public class FrequencyReader: Reader<CPU_Frequency> {
                 
                 for sample in samples {
                     guard sample.group == "CPU Stats" else { continue }
-                    if sample.channel.starts(with: "ECPU") {
+                    if sample.channel.contains("ECPU") {
                         eCore.append(self.calculateFrequencies(dict: sample.delta, freqs: self.eCoreFreqs))
                     }
-                    if sample.channel.starts(with: self.sCoreCount == 0 ? "PCPU" : "MCPU") {
+                    if sample.channel.contains(self.sCoreCount == 0 ? "PCPU" : "MCPU") {
                         pCore.append(self.calculateFrequencies(dict: sample.delta, freqs: self.pCoreFreqs))
                     }
                     if self.sCoreCount != 0 {
-                        if sample.channel.starts(with: "PCPU") {
+                        if sample.channel.contains("PCPU") {
                             sCore.append(self.calculateFrequencies(dict: sample.delta, freqs: self.sCoreFreqs))
                         }
                     }
@@ -400,8 +400,22 @@ public class FrequencyReader: Reader<CPU_Frequency> {
             let pFreq: Double? = pCores.isEmpty ? nil : pCores.reduce(0, +) / Double(self.measurementCount)
             let sFreq: Double? = sCores.isEmpty ? nil : sCores.reduce(0, +) / Double(self.measurementCount)
             
-            let activeCores: Double = (eFreq != nil ? self.eCoreCount : 0) + (sFreq != nil ? self.sCoreCount : 0) + (pFreq != nil ? self.pCoreCount : 0)
-            let value: Double = ((eFreq ?? 0) * self.eCoreCount + (sFreq ?? 0) * self.sCoreCount + (pFreq ?? 0) * self.pCoreCount) / activeCores
+            var activeCores: Double = 0
+            var totalFreq: Double = 0
+            
+            if let freq = eFreq {
+                activeCores += self.eCoreCount
+                totalFreq += freq * self.eCoreCount
+            }
+            if let freq = pFreq {
+                activeCores += self.pCoreCount
+                totalFreq += freq * self.pCoreCount
+            }
+            if let freq = sFreq {
+                activeCores += self.sCoreCount
+                totalFreq += freq * self.sCoreCount
+            }
+            let value: Double? = activeCores > 0 ? totalFreq / activeCores : nil
             
             self.callback(CPU_Frequency(value: value, eCore: eFreq, pCore: pFreq, sCore: sFreq))
             self.isReading = false

@@ -58,6 +58,9 @@ public struct drive: Codable {
         if usedSpace < 0 {
             usedSpace = 0
         }
+        if total == 0 {
+            return 0
+        }
         return Double(usedSpace) / Double(total)
     }
     
@@ -319,10 +322,14 @@ public class Disk: Module {
                         }
                     case "$percentage":
                         var percentage: Int
-                        switch pair.value {
-                        case "used": percentage = Int((Double(d.size - d.free) / Double(d.size)) * 100)
-                        case "free": percentage = Int((Double(d.free) / Double(d.size)) * 100)
-                        default: return
+                        if d.size == 0 {
+                            percentage = 0
+                        } else {
+                            switch pair.value {
+                            case "used": percentage = Int((Double(d.size - d.free) / Double(d.size)) * 100)
+                            case "free": percentage = Int((Double(d.free) / Double(d.size)) * 100)
+                            default: return
+                            }
                         }
                         replacement = "\(percentage < 0 ? 0 : percentage)%"
                     default: return
