@@ -10,7 +10,7 @@
 //
 
 // Modules
-"CPU" = "Çekirdek"; // translategemma:4b
+"CPU" = "CPU";
 "Open CPU settings" = "CPU ayalarını aç";
 "GPU" = "GPU";
 "Open GPU settings" = "GPU ayarlarını aç";
@@ -52,7 +52,7 @@
 "Long" = "Uzun";
 "Statistics" = "İstatistik";
 "Max" = "Maks";
-"Min" = "Minimum"; // translategemma:4b
+"Min" = "Min";
 "Reset" = "Sıfırla";
 "Alignment" = "Hizalama";
 "Left alignment" = "Sola hizalı";
@@ -73,7 +73,7 @@
 "Cores" = "Çekirdekler";
 "Settings" = "Ayarlar";
 "Name" = "Ad";
-"Format" = "Biçim"; // translategemma:4b
+"Format" = "Biçim";
 "Turn off" = "Kapat";
 "Normal" = "Normal";
 "Warning" = "Uyarı";
@@ -451,7 +451,7 @@
 "Percentage" = "Yüzde";
 "Percentage and time" = "Yüzde ve zaman";
 "Time and percentage" = "Zaman ve yüzde";
-"Time format" = "Zaman formatı";
+"Time format" = "Zaman biçimi";
 "Hide additional information when full" = "Pil dolduğunda ek bilgileri gizle";
 "Last charge" = "Son şarj";
 "Capacity" = "Kapasite";
@@ -461,7 +461,7 @@
 "Colorize battery" = "Pili renklendir";
 "Charging current" = "Şarj akımı";
 "Charging Voltage" = "Şarj Voltajı";
-"Charger state inside the battery" = "Şarj durumunun pilin içinde"; // translategemma:4b
+"Charger state inside the battery" = "Pil içindeki şarj cihazının durumu";
 
 // Bluetooth
 "Battery to show" = "Gösterilecek pil";
