@@ -348,7 +348,7 @@
 "Write speed" = "Zapis";
 "Read speed" = "Odczyt";
 "Drives" = "Dyski";
-"SMART data" = "SMART dane";
+"SMART data" = "Dane SMART";
 
 // Sensors
 "Temperature unit" = "Jednostka temperatury";
