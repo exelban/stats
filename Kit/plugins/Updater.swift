@@ -183,14 +183,10 @@ public class Updater {
             return
         }
         
-        defer {
-            self.lastInstallTS = Int(Date().timeIntervalSince1970)
-        }
-        
         print("Started new version installation...")
         
         _ = syncShell("mkdir /tmp/Stats") // make sure that directory exist
-        let res = syncShell("/usr/bin/hdiutil attach \(path) -mountpoint /tmp/Stats -noverify -nobrowse -noautoopen") // mount the dmg
+        let res = syncShell("/usr/bin/hdiutil attach \(path) -mountpoint /tmp/Stats -noverify -nobrowse -noautoopen 2>&1") // mount the dmg
         
         print("DMG is mounted")
         
@@ -199,6 +195,11 @@ public class Updater {
             
             _ = syncShell("/usr/bin/hdiutil detach $TMPDIR/Stats")
             _ = syncShell("/usr/bin/hdiutil attach \(path) -mountpoint /tmp/Stats -noverify -nobrowse -noautoopen")
+        } else if res.contains("attach failed") { // Attach can fail due to edge cases like MDM restrictions.
+            let errorMessage = res.replacingOccurrences(of: "hdiutil: attach failed - ", with: "")
+            completion("Could not mount DMG (attach failed) - \(errorMessage)")
+            _ = syncShell("rm \(dmg)")
+            return
         }
         
         _ = syncShell("cp -rf /tmp/Stats/Stats.app/Contents/Resources/Scripts/updater.sh $TMPDIR/updater.sh") // copy updater script to tmp folder
@@ -208,6 +209,10 @@ public class Updater {
         asyncShell("sh $TMPDIR/updater.sh --app \(pwd) --dmg \(dmg) >/dev/null &") // run updater script in in background
         
         print("Run updater.sh with app: \(pwd) and dmg: \(dmg)")
+        
+        defer {
+            self.lastInstallTS = Int(Date().timeIntervalSince1970)
+        }
         
         exit(0)
     }
