@@ -14,15 +14,17 @@ import Cocoa
 public struct Stack_t: KeyValue_p {
     public var key: String
     public var value: String
+    public var label: String?
     
     var index: Int {
         get { Store.shared.int(key: "stack_\(self.key)_index", defaultValue: -1) }
         set { Store.shared.set(key: "stack_\(self.key)_index", value: newValue) }
     }
     
-    public init(key: String, value: String) {
+    public init(key: String, value: String, label: String? = nil) {
         self.key = key
         self.value = value
+        self.label = label
     }
 }
 
@@ -392,7 +394,7 @@ private class OrderTableView: NSView, NSTableViewDelegate, NSTableViewDataSource
         text.identifier = NSUserInterfaceItemIdentifier(item.key)
         
         switch tableColumn?.identifier.rawValue {
-        case "name": text.stringValue = item.key
+        case "name": text.stringValue = item.label ?? item.key
         default: break
         }
         
