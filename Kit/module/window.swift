@@ -131,7 +131,9 @@ open class Window: NSStackView {
             view = v
         }
         
-        container.addArrangedSubview(view)
+        let scrollView = ScrollableStackView()
+        scrollView.stackView.addArrangedSubview(view)
+        container.addArrangedSubview(scrollView)
         
         return container
     }

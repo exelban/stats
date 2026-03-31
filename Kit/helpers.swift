@@ -447,6 +447,42 @@ public func portalWithColorRow(_ v: NSStackView, color: NSColor, title: String) 
     return (colorView, valueView)
 }
 
+public func previewRow(_ view: NSStackView?, space: Bool = true, color: NSColor? = nil, title: String, value: String) -> ValueField {
+    let row: NSStackView = NSStackView(frame: NSRect.zero)
+    row.heightAnchor.constraint(equalToConstant: 22).isActive = true
+    row.orientation = .horizontal
+    row.distribution = .fill
+    row.spacing = 1
+    
+    if let color {
+        let colorView: NSView = NSView()
+        colorView.widthAnchor.constraint(equalToConstant: 10).isActive = true
+        colorView.heightAnchor.constraint(equalToConstant: 10).isActive = true
+        colorView.wantsLayer = true
+        colorView.layer?.backgroundColor = color.cgColor
+        colorView.layer?.cornerRadius = 2
+        
+        row.addArrangedSubview(colorView)
+    }
+    
+    let labelView: LabelField = LabelField(title)
+    labelView.font = NSFont.systemFont(ofSize: 11, weight: .regular)
+    let valueView: ValueField = ValueField(value)
+    valueView.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+    
+    row.addArrangedSubview(labelView)
+    if space {
+        row.addArrangedSubview(NSView())
+    }
+    row.addArrangedSubview(valueView)
+    
+    if let view {
+        view.addArrangedSubview(row)
+    }
+    
+    return valueView
+}
+
 public extension Array where Element: Hashable {
     func difference(from other: [Element]) -> [Element] {
         let thisSet = Set(self)
@@ -1289,7 +1325,7 @@ public class PreferencesSection: NSStackView {
         space.widthAnchor.constraint(equalToConstant: 4).isActive = true
         
         let field: NSTextField = TextView()
-        field.font = NSFont.systemFont(ofSize: 12, weight: .semibold)
+        field.font = NSFont.systemFont(ofSize: 12, weight: .medium)
         field.stringValue = value
         
         view.addArrangedSubview(space)

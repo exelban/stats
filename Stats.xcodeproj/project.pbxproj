@@ -34,6 +34,7 @@
 		5C23BC0C29A10BE000DBA990 /* portal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C23BC0B29A10BE000DBA990 /* portal.swift */; };
 		5C23BC1029A3B5AE00DBA990 /* portal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C23BC0F29A3B5AE00DBA990 /* portal.swift */; };
 		5C3068732C32E83200B05EFA /* widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3068722C32E83200B05EFA /* widget.swift */; };
+		5C4A1F5D2F6099AA009CFEE6 /* preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4A1F5C2F6099A7009CFEE6 /* preview.swift */; };
 		5C4E8BA12B6EEE8E00F148B6 /* lldb.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C4E8BA02B6EEE8E00F148B6 /* lldb.m */; };
 		5C4E8BB12B6EEEE800F148B6 /* filter_policy.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C4E8BA22B6EEEE800F148B6 /* filter_policy.h */; };
 		5C4E8BB22B6EEEE800F148B6 /* export.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C4E8BA32B6EEEE800F148B6 /* export.h */; };
@@ -521,6 +522,7 @@
 		5C23BC0F29A3B5AE00DBA990 /* portal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = portal.swift; sourceTree = "<group>"; };
 		5C3068722C32E83200B05EFA /* widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widget.swift; sourceTree = "<group>"; };
 		5C32910A2C315A250010012D /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		5C4A1F5C2F6099A7009CFEE6 /* preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = preview.swift; sourceTree = "<group>"; };
 		5C4E8B9F2B6EEE6D00F148B6 /* lldb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lldb.h; sourceTree = "<group>"; };
 		5C4E8BA02B6EEE8E00F148B6 /* lldb.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = lldb.m; sourceTree = "<group>"; };
 		5C4E8BA22B6EEEE800F148B6 /* filter_policy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = filter_policy.h; sourceTree = "<group>"; };
@@ -1172,6 +1174,7 @@
 				9A97CEFA253733F300742D8F /* settings.swift */,
 				5CF221122B1E8078006C583F /* notifications.swift */,
 				5C3068722C32E83200B05EFA /* widget.swift */,
+				5C4A1F5C2F6099A7009CFEE6 /* preview.swift */,
 				9A97CECD2537331B00742D8F /* Info.plist */,
 				9A97CEFF2537340400742D8F /* config.plist */,
 				5C1E45572D11D67600525864 /* bridge.h */,
@@ -2177,6 +2180,7 @@
 			files = (
 				9A97CEF1253733D200742D8F /* readers.swift in Sources */,
 				9A97CEF6253733E400742D8F /* popup.swift in Sources */,
+				5C4A1F5D2F6099AA009CFEE6 /* preview.swift in Sources */,
 				5C3068732C32E83200B05EFA /* widget.swift in Sources */,
 				5C23BC0229A0102500DBA990 /* portal.swift in Sources */,
 				9A97CEFB253733F300742D8F /* settings.swift in Sources */,
