@@ -455,7 +455,15 @@ public class ProcessReader: Reader<[Disk_process]> {
             let pidFind = str.findAndCrop(pattern: "^\\d+")
             guard let pid = Int32(pidFind.cropped) else { return }
             let name = pidFind.remain.findAndCrop(pattern: "^[^ ]+").cropped
-            
+
+            // Skip defunct (zombie) processes. They appear in the ps output but have already
+            // exited and are waiting to be reaped by their parent. Calling proc_pid_rusage on
+            // a defunct PID causes the kernel to return sentinel values such as 0xFFFFFFFFFFFF8000
+            // for disk I/O fields. Those values exceed Int64.max, so converting them to Int crashes
+            // with a Swift precondition failure. There is no useful I/O data to display for a
+            // defunct process anyway, so we skip them entirely.
+            guard name != "<defunct>" else { return }
+
             var usage = rusage_info_current()
             let result = withUnsafeMutablePointer(to: &usage) {
                 $0.withMemoryRebound(to: (rusage_info_t?.self), capacity: 1) {
@@ -463,9 +471,11 @@ public class ProcessReader: Reader<[Disk_process]> {
                 }
             }
             guard result != -1 else { return }
-            
-            let bytesRead = Int(usage.ri_diskio_bytesread)
-            let bytesWritten = Int(usage.ri_diskio_byteswritten)
+
+            // Use clamping conversion as a safety net: if the kernel ever returns a UInt64 value
+            // that exceeds Int64.max (e.g. for other unusual process states), clamp rather than crash.
+            let bytesRead = Int(clamping: usage.ri_diskio_bytesread)
+            let bytesWritten = Int(clamping: usage.ri_diskio_byteswritten)
             
             if self.list[pid] == nil {
                 self.list[pid] = io(read: bytesRead, write: bytesWritten)
