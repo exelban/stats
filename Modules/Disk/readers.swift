@@ -462,7 +462,9 @@ public class ProcessReader: Reader<[Disk_process]> {
             // for disk I/O fields. Those values exceed Int64.max, so converting them to Int crashes
             // with a Swift precondition failure. There is no useful I/O data to display for a
             // defunct process anyway, so we skip them entirely.
-            guard name != "<defunct>" else { return }
+            // Note: we check pidFind.remain rather than the parsed name because findAndCrop uses
+            // "^[^ ]+" which won't match a leading space, leaving name as "" for defunct lines.
+            guard !pidFind.remain.contains("<defunct>") else { return }
 
             var usage = rusage_info_current()
             let result = withUnsafeMutablePointer(to: &usage) {
