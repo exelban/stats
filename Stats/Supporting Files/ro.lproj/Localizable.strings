@@ -71,6 +71,7 @@
 "Logarithmic" = "Logaritmic"; // translategemma:4b
 "Fixed scale" = "Reparat"; // translategemma:4b
 "Cores" = "Nuclee"; // translategemma:4b
+"Core" = "Nucleu"; // translategemma:4b
 "Settings" = "Setări"; // translategemma:4b
 "Name" = "Nume"; // translategemma:4b
 "Format" = "Format";
@@ -177,6 +178,7 @@
 "Number of threads" = "%0 fire"; // translategemma:4b
 "Number of e-cores" = "%0 nuclee cu eficiență ridicată"; // translategemma:4b
 "Number of p-cores" = "%0 nuclee de performanță"; // translategemma:4b
+"Number of s-cores" = "%0 nuclee super"; // translategemma:4b
 "Disks" = "Discuri"; // translategemma:4b
 "Display" = "Ecran"; // translategemma:4b
 
@@ -255,6 +257,7 @@
 "Main chart scaling" = "Scala principală a graficului"; // translategemma:4b
 "Scale value" = "Valoarea măsurată"; // translategemma:4b
 "Text widget value" = "Valoarea widget-ului de text"; // translategemma:4b
+"Combined processes" = "Combined processes";
 
 // CPU
 "CPU usage" = "Utilizarea procesorului";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "Procese eficiente sunt încărcate"; // translategemma:4b
 "Performance cores load" = "Procesele de bază încep să funcționeze"; // translategemma:4b
 "All cores" = "Toate nucleele"; // translategemma:4b
+"Load per core" = "Utilizare pe nucleu"; // translategemma:4b
+"Efficiency core" = "Nucleul eficienței"; // translategemma:4b
+"Performance core" = "Nucleul de performanță"; // translategemma:4b
+"Super core" = "Foarte bun"; // translategemma:4b
 
 // GPU
 "GPU to show" = "Placa video să fie arătată";
@@ -402,7 +409,7 @@
 "Internet connection" = "Conexiune la internet"; // translategemma:4b
 "Active state color" = "Culoarea stării active"; // translategemma:4b
 "Nonactive state color" = "Culoarea stării inactive"; // translategemma:4b
-"Connectivity host (ICMP)" = "Server de conectivitate (ICMP)"; // translategemma:4b
+"Connectivity host" = "Server de conectivitate"; // translategemma:4b
 "Leave empty to disable the check" = "Lăsați câmpul gol pentru a dezactiva verificarea."; // translategemma:4b
 "Connectivity history" = "Istoricul conexiunilor"; // translategemma:4b
 "Auto-refresh public IP address" = "Actualizare automată a adresei IP publice"; // translategemma:4b
@@ -422,6 +429,7 @@
 "New IP" = "Nou adresă IP: %0"; // translategemma:4b
 "Internet connection lost" = "Conexiunea la internet a fost pierdută"; // translategemma:4b
 "Internet connection established" = "Conexiunea la internet a fost stabilită"; // translategemma:4b
+"Show country code instead of emoji" = "Afișa codul țării în loc de emoji"; // translategemma:4b
 
 // Battery
 "Level" = "Nivel";

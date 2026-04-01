@@ -71,6 +71,7 @@
 "Logarithmic" = "Logaritmický";
 "Fixed scale" = "Opraveno"; // translategemma:4b
 "Cores" = "Jádra";
+"Core" = "Základní"; // translategemma:4b
 "Settings" = "Nastavení";
 "Name" = "Jméno"; // translategemma:4b
 "Format" = "Formát"; // translategemma:4b
@@ -177,6 +178,7 @@
 "Number of threads" = "%0 vláken";
 "Number of e-cores" = "%0 efektivních jader";
 "Number of p-cores" = "%0 výkonných jader";
+"Number of s-cores" = "%0 vynikající jádra"; // translategemma:4b
 "Disks" = "Disky"; // translategemma:4b
 "Display" = "Zobrazení"; // translategemma:4b
 
@@ -255,6 +257,7 @@
 "Main chart scaling" = "Hlavní škálování grafu"; // translategemma:4b
 "Scale value" = "Hodnota měřítka"; // translategemma:4b
 "Text widget value" = "Hodnota widgetu textu"; // translategemma:4b
+"Combined processes" = "Combined processes";
 
 // CPU
 "CPU usage" = "Použití CPU";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "Procesory pro efektivní zpracování jsou načítány."; // translategemma:4b
 "Performance cores load" = "Načítání výkonových jader"; // translategemma:4b
 "All cores" = "Všechny jádra"; // translategemma:4b
+"Load per core" = "Na jedno jádro"; // translategemma:4b
+"Efficiency core" = "Základní principy efektivity"; // translategemma:4b
+"Performance core" = "Základní výkonnostní komponenta"; // translategemma:4b
+"Super core" = "Vynikající základ"; // translategemma:4b
 
 // GPU
 "GPU to show" = "GPU k zobrazení";
@@ -402,7 +409,7 @@
 "Internet connection" = "Připojení k internetu";
 "Active state color" = "Barva aktivního stavu";
 "Nonactive state color" = "Barva neaktivního stavu";
-"Connectivity host (ICMP)" = "Hostitel připojení (ICMP)";
+"Connectivity host" = "Hostitel připojení";
 "Leave empty to disable the check" = "Pro vypnutí kontroly ponechte prázdné pole";
 "Connectivity history" = "Historie připojení"; // translategemma:4b
 "Auto-refresh public IP address" = "Automatické obnovení veřejné IP adresy"; // translategemma:4b
@@ -422,6 +429,7 @@
 "New IP" = "Nová IP adresa: %0"; // translategemma:4b
 "Internet connection lost" = "Přerušeno připojení k internetu"; // translategemma:4b
 "Internet connection established" = "Připojení k internetu zřízeno"; // translategemma:4b
+"Show country code instead of emoji" = "Zobrazte kód země místo emoji."; // translategemma:4b
 
 // Battery
 "Level" = "Úroveň";

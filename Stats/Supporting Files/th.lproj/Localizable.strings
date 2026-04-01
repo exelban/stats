@@ -71,6 +71,7 @@
 "Logarithmic" = "ลอการิทึม";
 "Fixed scale" = "แก้ไขแล้ว"; // translategemma:4b
 "Cores" = "หน่วยความจำ";
+"Core" = "แกนหลัก"; // translategemma:4b
 "Settings" = "การตั้งค่า";
 "Name" = "ชื่อ"; // translategemma:4b
 "Format" = "รูปแบบ"; // translategemma:4b
@@ -177,6 +178,7 @@
 "Number of threads" = "%0 thread";
 "Number of e-cores" = "%0 cores ประสิทธิภาพ";
 "Number of p-cores" = "%0 cores ประสิทธิผล";
+"Number of s-cores" = "%0 คอร์ประสิทธิภาพสูง"; // translategemma:4b
 "Disks" = "ฮาร์ดดิสก์"; // translategemma:4b
 "Display" = "แสดงผล"; // translategemma:4b
 
@@ -255,6 +257,7 @@
 "Main chart scaling" = "การปรับขนาดกราฟหลัก"; // translategemma:4b
 "Scale value" = "ค่าสเกล"; // translategemma:4b
 "Text widget value" = "ค่าสำหรับส่วนประกอบ Text"; // translategemma:4b
+"Combined processes" = "Combined processes";
 
 // CPU
 "CPU usage" = "การใช้งาน CPU";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "การโหลดคอร์ประสิทธิภาพ"; // translategemma:4b
 "Performance cores load" = "การโหลดคอร์ประสิทธิภาพ"; // translategemma:4b
 "All cores" = "ทุกคอร์"; // translategemma:4b
+"Load per core" = "การโหลดต่อคอร์"; // translategemma:4b
+"Efficiency core" = "ประสิทธิภาพหลัก"; // translategemma:4b
+"Performance core" = "ส่วนประสิทธิภาพหลัก"; // translategemma:4b
+"Super core" = "ประสิทธิภาพสูงสุด"; // translategemma:4b
 
 // GPU
 "GPU to show" = "แสดง GPU";
@@ -402,7 +409,7 @@
 "Internet connection" = "การเชื่อมต่ออินเทอร์เน็ต";
 "Active state color" = "สีของสถานะที่ใช้งาน";
 "Nonactive state color" = "สีของสถานะที่ไม่ใช้งาน";
-"Connectivity host (ICMP)" = "โฮสต์ที่เชื่อมต่อ (ICMP)";
+"Connectivity host" = "โฮสต์ที่เชื่อมต่อ";
 "Leave empty to disable the check" = "เว้นว่างไว้เพื่อปิดการตรวจสอบ";
 "Connectivity history" = "ประวัติการเชื่อมต่อ"; // translategemma:4b
 "Auto-refresh public IP address" = "อัปเดตที่อยู่ IP สาธารณะโดยอัตโนมัติ"; // translategemma:4b
@@ -422,6 +429,7 @@
 "New IP" = "IP ใหม่: %0"; // translategemma:4b
 "Internet connection lost" = "การเชื่อมต่ออินเทอร์เน็ตขาด"; // translategemma:4b
 "Internet connection established" = "การเชื่อมต่ออินเทอร์เน็ตสำเร็จ"; // translategemma:4b
+"Show country code instead of emoji" = "แสดงรหัสประเทศแทนสัญลักษณ์อีโมจิ"; // translategemma:4b
 
 // Battery
 "Level" = "ระดับ";

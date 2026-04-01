@@ -71,6 +71,7 @@
 "Logarithmic" = "Логаритмично";
 "Fixed scale" = "Решено"; // translategemma:4b
 "Cores" = "Ядра";
+"Core" = "Основа"; // translategemma:4b
 "Settings" = "Настройки"; // translategemma:4b
 "Name" = "Име"; // translategemma:4b
 "Format" = "Формат"; // translategemma:4b
@@ -177,6 +178,7 @@
 "Number of threads" = "%0 нишки";
 "Number of e-cores" = "%0 ефикасни ядра";
 "Number of p-cores" = "%0 производителни ядра";
+"Number of s-cores" = "%0 супер ядра"; // translategemma:4b
 "Disks" = "Твърди дискове"; // translategemma:4b
 "Display" = "Дисплей"; // translategemma:4b
 
@@ -255,6 +257,7 @@
 "Main chart scaling" = "Основно мащабиране на графиката"; // translategemma:4b
 "Scale value" = "Стойност на мащаба"; // translategemma:4b
 "Text widget value" = "Стойност на текстовото поле"; // translategemma:4b
+"Combined processes" = "Combined processes";
 
 // CPU
 "CPU usage" = "Употреба на процесора";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "Ядрото за ефективност се зарежда"; // translategemma:4b
 "Performance cores load" = "Зареждане на ядрата за производителност"; // translategemma:4b
 "All cores" = "Всички ядра"; // translategemma:4b
+"Load per core" = "Зареждане на ядрото"; // translategemma:4b
+"Efficiency core" = "Основа за ефективност"; // translategemma:4b
+"Performance core" = "Ядро за производителност"; // translategemma:4b
+"Super core" = "Изключително мощен център"; // translategemma:4b
 
 // GPU
 "GPU to show" = "Показване на графична карта";
@@ -402,7 +409,7 @@
 "Internet connection" = "Интернет връзка";
 "Active state color" = "Цвят на активното състояние";
 "Nonactive state color" = "Цвят на неактивното състояние";
-"Connectivity host (ICMP)" = "Хост за свързаност (ICMP)"; // translategemma:4b
+"Connectivity host" = "Хост за свързаност"; // translategemma:4b
 "Leave empty to disable the check" = "Оставете празно, за да изключите проверката";
 "Connectivity history" = "История на връзките"; // translategemma:4b
 "Auto-refresh public IP address" = "Автоматично обновяване на публичния IP адрес"; // translategemma:4b
@@ -422,6 +429,7 @@
 "New IP" = "Нов IP: %0"; // translategemma:4b
 "Internet connection lost" = "Прекъснатото интернет връзка"; // translategemma:4b
 "Internet connection established" = "Установена е връзка към интернет"; // translategemma:4b
+"Show country code instead of emoji" = "Показвайте кода на страната вместо емотико"; // translategemma:4b
 
 // Battery
 "Level" = "Ниво";

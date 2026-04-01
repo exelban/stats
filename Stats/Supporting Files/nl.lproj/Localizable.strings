@@ -71,6 +71,7 @@
 "Logarithmic" = "Logaritmisch"; // translategemma:4b
 "Fixed scale" = "Opgelost"; // translategemma:4b
 "Cores" = "Kernen"; // translategemma:4b
+"Core" = "Kern"; // translategemma:4b
 "Settings" = "Instellingen"; // translategemma:4b
 "Name" = "Naam"; // translategemma:4b
 "Format" = "Formaat"; // translategemma:4b
@@ -96,7 +97,7 @@
 "2 sec" = "2 second"; // translategemma:4b
 "3 sec" = "3 seconden"; // translategemma:4b
 "5 sec" = "5 seconden"; // translategemma:4b
-"10 sec" = "10 sec";
+"10 sec" = "10 seconden"; // translategemma:4b
 "15 sec" = "15 sec";
 "30 sec" = "30 seconden"; // translategemma:4b
 "60 sec" = "60 seconden"; // translategemma:4b
@@ -177,6 +178,7 @@
 "Number of threads" = "%0 threads";
 "Number of e-cores" = "%0 efficiënte kernen"; // translategemma:4b
 "Number of p-cores" = "%0 prestatiecores"; // translategemma:4b
+"Number of s-cores" = "%0 super cores";
 "Disks" = "Schijven"; // translategemma:4b
 "Display" = "Weergave"; // translategemma:4b
 
@@ -207,7 +209,7 @@
 "Network chart widget" = "Netwerkgrafiek";
 "Speed widget" = "Snelheidswidget";
 "Battery widget" = "Batterijwidget";
-"Stack widget" = "Stack";
+"Stack widget" = "Stapel"; // translategemma:4b
 "Memory widget" = "Geheugenwidget";
 "Static width" = "Vaste breedte"; // translategemma:4b
 "Tachometer widget" = "Snelheidsmeter"; // translategemma:4b
@@ -255,6 +257,7 @@
 "Main chart scaling" = "Hoofdschaal schaal"; // translategemma:4b
 "Scale value" = "Waarde"; // translategemma:4b
 "Text widget value" = "Waarde van het tekstwidget-element"; // translategemma:4b
+"Combined processes" = "Combined processes";
 
 // CPU
 "CPU usage" = "CPU gebruik";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "Efficiëntie-cores laden"; // translategemma:4b
 "Performance cores load" = "Laad van de prestatie-cores"; // translategemma:4b
 "All cores" = "Alle kernen"; // translategemma:4b
+"Load per core" = "Laad per kern"; // translategemma:4b
+"Efficiency core" = "Kern van de efficiëntie"; // translategemma:4b
+"Performance core" = "Kernprestaties"; // translategemma:4b
+"Super core" = "Zeer krachtig"; // translategemma:4b
 
 // GPU
 "GPU to show" = "GPU om te laten zien";
@@ -402,7 +409,7 @@
 "Internet connection" = "Internetverbinding"; // translategemma:4b
 "Active state color" = "Kleur in de actieve toestand"; // translategemma:4b
 "Nonactive state color" = "Kleur voor de niet-actieve toestand"; // translategemma:4b
-"Connectivity host (ICMP)" = "Host voor verbinding (ICMP)"; // translategemma:4b
+"Connectivity host" = "Host voor verbinding"; // translategemma:4b
 "Leave empty to disable the check" = "Laat dit vel leeg, om de controle uit te schakelen."; // translategemma:4b
 "Connectivity history" = "Historie van verbindingen"; // translategemma:4b
 "Auto-refresh public IP address" = "Automatisch IP-adres van het publieke netwerk herstellen"; // translategemma:4b
@@ -422,6 +429,7 @@
 "New IP" = "Nieuw IP-adres: %0"; // translategemma:4b
 "Internet connection lost" = "Verbinding met het internet is verloren gegaan"; // translategemma:4b
 "Internet connection established" = "Internetverbinding is opgezet"; // translategemma:4b
+"Show country code instead of emoji" = "Toon het landencode in plaats van een emoji"; // translategemma:4b
 
 // Battery
 "Level" = "Niveau";

@@ -71,6 +71,7 @@
 "Logarithmic" = "لوغاريتمي";
 "Fixed scale" = "مقاس ثابت";
 "Cores" = "نوى";
+"Core" = "الجوهر"; // translategemma:4b
 "Settings" = "الإعدادات";
 "Name" = "الاسم";
 "Format" = "التنسيق";
@@ -177,6 +178,7 @@
 "Number of threads" = "%0 خيوط";
 "Number of e-cores" = "%0 نوى كفاءة";
 "Number of p-cores" = "%0 نوى أداء";
+"Number of s-cores" = "%0 نوى فائقة الأداء"; // translategemma:4b
 "Disks" = "الأقراص"; // translategemma:4b
 "Display" = "عرض"; // translategemma:4b
 
@@ -255,6 +257,7 @@
 "Main chart scaling" = "تحجيم المخطط الرئيسي";
 "Scale value" = "قيمة المقياس";
 "Text widget value" = "قيمة عنصر واجهة النص"; // translategemma:4b
+"Combined processes" = "Combined processes";
 
 // CPU
 "CPU usage" = "استخدام المعالج";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "حمل نوى الكفاءة";
 "Performance cores load" = "حمل نوى الأداء";
 "All cores" = "جميع النواة"; // translategemma:4b
+"Load per core" = "التحميل لكل نواة"; // translategemma:4b
+"Efficiency core" = "التركيز على الكفاءة"; // translategemma:4b
+"Performance core" = "نواة الأداء"; // translategemma:4b
+"Super core" = "نواة قوية"; // translategemma:4b
 
 // GPU
 "GPU to show" = "عرض GPU";
@@ -402,7 +409,7 @@
 "Internet connection" = "اتصال بالإنترنت";
 "Active state color" = "لون الحالة النشطة";
 "Nonactive state color" = "لون الحالة غير النشطة";
-"Connectivity host (ICMP)" = "مضيف الاتصال (ICMP)";
+"Connectivity host" = "مضيف الاتصال";
 "Leave empty to disable the check" = "اتركه فارغًا لتعطيل الفحص";
 "Connectivity history" = "سجل الاتصال";
 "Auto-refresh public IP address" = "تحديث تلقائي لعنوان IP العام";
@@ -422,6 +429,7 @@
 "New IP" = "عنوان IP الجديد: %0"; // translategemma:4b
 "Internet connection lost" = "فقدان الاتصال بالإنترنت"; // translategemma:4b
 "Internet connection established" = "تم إنشاء اتصال بالإنترنت"; // translategemma:4b
+"Show country code instead of emoji" = "اعرض رمز الدولة بدلاً من الرموز التعبيرية."; // translategemma:4b
 
 // Battery
 "Level" = "المستوى";

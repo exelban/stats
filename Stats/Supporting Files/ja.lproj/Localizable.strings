@@ -71,6 +71,7 @@
 "Logarithmic" = "対数"; // translategemma:4b
 "Fixed scale" = "修正"; // translategemma:4b
 "Cores" = "コア数"; // translategemma:4b
+"Core" = "核"; // translategemma:4b
 "Settings" = "設定";
 "Name" = "名前";
 "Format" = "フォーマット";
@@ -177,6 +178,7 @@
 "Number of threads" = "%0 スレッド";
 "Number of e-cores" = "%0 高効率コア";
 "Number of p-cores" = "%0 高性能コア";
+"Number of s-cores" = "%0 超高性能コア"; // translategemma:4b
 "Disks" = "ディスク"; // translategemma:4b
 "Display" = "表示"; // translategemma:4b
 
@@ -255,6 +257,7 @@
 "Main chart scaling" = "主なグラフのスケール設定"; // translategemma:4b
 "Scale value" = "スケール値"; // translategemma:4b
 "Text widget value" = "テキストウィジェットの値"; // translategemma:4b
+"Combined processes" = "Combined processes";
 
 // CPU
 "CPU usage" = "CPU 使用率";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "効率的なコアのロード"; // translategemma:4b
 "Performance cores load" = "パフォーマンスコアの読み込み"; // translategemma:4b
 "All cores" = "すべてのコア"; // translategemma:4b
+"Load per core" = "コアごとの負荷"; // translategemma:4b
+"Efficiency core" = "効率を重視する核"; // translategemma:4b
+"Performance core" = "パフォーマンスコア"; // translategemma:4b
+"Super core" = "超高性能"; // translategemma:4b
 
 // GPU
 "GPU to show" = "表示する GPU";
@@ -402,7 +409,7 @@
 "Internet connection" = "インターネット接続"; // translategemma:4b
 "Active state color" = "アクティブな状態の色"; // translategemma:4b
 "Nonactive state color" = "非アクティブ状態の色"; // translategemma:4b
-"Connectivity host (ICMP)" = "接続ホスト (ICMP)"; // translategemma:4b
+"Connectivity host" = "接続ホスト"; // translategemma:4b
 "Leave empty to disable the check" = "空欄にすることで、機能を無効化します。"; // translategemma:4b
 "Connectivity history" = "接続履歴"; // translategemma:4b
 "Auto-refresh public IP address" = "自動でパブリックなIPアドレスを更新する"; // translategemma:4b
@@ -422,6 +429,7 @@
 "New IP" = "新しいIPアドレス: %0"; // translategemma:4b
 "Internet connection lost" = "インターネット接続が失われました"; // translategemma:4b
 "Internet connection established" = "インターネット接続が確立されました"; // translategemma:4b
+"Show country code instead of emoji" = "絵文字の代わりに、国コードを表示する"; // translategemma:4b
 
 // Battery
 "Level" = "充電残量";

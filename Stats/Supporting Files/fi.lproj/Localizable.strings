@@ -71,6 +71,7 @@
 "Logarithmic" = "Logaritmi";
 "Fixed scale" = "Kiinteä";
 "Cores" = "Ytimet";
+"Core" = "Ydin"; // translategemma:4b
 "Settings" = "Asetukset";
 "Name" = "Nimi";
 "Format" = "Muoto";
@@ -177,6 +178,7 @@
 "Number of threads" = "%0 säiettä";
 "Number of e-cores" = "%0 e-ydintä";
 "Number of p-cores" = "%0 p-ydintä";
+"Number of s-cores" = "%0 super-ydinprosessorit"; // translategemma:4b
 "Disks" = "Levyt"; // translategemma:4b
 "Display" = "Näyttö"; // translategemma:4b
 
@@ -255,6 +257,7 @@
 "Main chart scaling" = "Pääkaavion skaalaus";
 "Scale value" = "Skaalausarvo";
 "Text widget value" = "Tekstikomponentin arvo"; // translategemma:4b
+"Combined processes" = "Combined processes";
 
 // CPU
 "CPU usage" = "Suorittimen käyttö";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "Tehokkuusytimien kuorma";
 "Performance cores load" = "Suorituskykyytimien kuorma";
 "All cores" = "Kaikki ytimet"; // translategemma:4b
+"Load per core" = "Peruskuormitus per ydin"; // translategemma:4b
+"Efficiency core" = "Tehokkuuden perusta"; // translategemma:4b
+"Performance core" = "Suorituskyvyn ydin"; // translategemma:4b
+"Super core" = "Erittäin tehokas ydin"; // translategemma:4b
 
 // GPU
 "GPU to show" = "Näytettävä GPU";
@@ -402,7 +409,7 @@
 "Internet connection" = "Internet-yhteys";
 "Active state color" = "Aktiivitilan väri";
 "Nonactive state color" = "Ei-aktiivitilan väri";
-"Connectivity host (ICMP)" = "Yhteyden isäntä (ICMP)";
+"Connectivity host" = "Yhteyden isäntä";
 "Leave empty to disable the check" = "Jätä tyhjäksi poistaaksesi tarkistuksen käytöstä";
 "Connectivity history" = "Yhteyshistoria";
 "Auto-refresh public IP address" = "Päivitä julkinen IP-osoite automaattisesti";
@@ -422,6 +429,7 @@
 "New IP" = "Uusi IP-osoite: %0"; // translategemma:4b
 "Internet connection lost" = "Internet-yhteys katkennut"; // translategemma:4b
 "Internet connection established" = "Internet-yhteys muodostettu"; // translategemma:4b
+"Show country code instead of emoji" = "Näytä maiden koodi sen sijaan, että näytettäisiin emojia."; // translategemma:4b
 
 // Battery
 "Level" = "Taso";

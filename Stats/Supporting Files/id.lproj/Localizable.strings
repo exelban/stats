@@ -71,6 +71,7 @@
 "Logarithmic" = "Logaritmik"; // translategemma:4b
 "Fixed scale" = "Sudah diperbaiki"; // translategemma:4b
 "Cores" = "Inti"; // translategemma:4b
+"Core" = "Inti"; // translategemma:4b
 "Settings" = "Pengaturan"; // translategemma:4b
 "Name" = "Nama"; // translategemma:4b
 "Format" = "Format";
@@ -177,6 +178,7 @@
 "Number of threads" = "%0 thread";
 "Number of e-cores" = "%0 inti efisiensi"; // translategemma:4b
 "Number of p-cores" = "%0 inti kinerja"; // translategemma:4b
+"Number of s-cores" = "%0 inti super"; // translategemma:4b
 "Disks" = "Disk"; // translategemma:4b
 "Display" = "Tampilan"; // translategemma:4b
 
@@ -255,6 +257,7 @@
 "Main chart scaling" = "Skala grafik utama"; // translategemma:4b
 "Scale value" = "Nilai skala"; // translategemma:4b
 "Text widget value" = "Nilai widget teks"; // translategemma:4b
+"Combined processes" = "Combined processes";
 
 // CPU
 "CPU usage" = "Penggunaan CPU";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "Prosesor inti mulai bekerja"; // translategemma:4b
 "Performance cores load" = "Prosesor inti memuat"; // translategemma:4b
 "All cores" = "Semua inti"; // translategemma:4b
+"Load per core" = "Beban per inti"; // translategemma:4b
+"Efficiency core" = "Fokus utama pada efisiensi"; // translategemma:4b
+"Performance core" = "Inti kinerja"; // translategemma:4b
+"Super core" = "Inti utama"; // translategemma:4b
 
 // GPU
 "GPU to show" = "GPU yang ditampilkan";
@@ -402,7 +409,7 @@
 "Internet connection" = "Koneksi internet"; // translategemma:4b
 "Active state color" = "Warna pada keadaan aktif"; // translategemma:4b
 "Nonactive state color" = "Warna untuk keadaan tidak aktif"; // translategemma:4b
-"Connectivity host (ICMP)" = "Host koneksi (ICMP)"; // translategemma:4b
+"Connectivity host" = "Host koneksi"; // translategemma:4b
 "Leave empty to disable the check" = "Kosongkan untuk menonaktifkan pemeriksaan"; // translategemma:4b
 "Connectivity history" = "Riwayat koneksi"; // translategemma:4b
 "Auto-refresh public IP address" = "Perbarui otomatis alamat IP publik"; // translategemma:4b
@@ -422,6 +429,7 @@
 "New IP" = "Alamat IP baru: %0"; // translategemma:4b
 "Internet connection lost" = "Koneksi internet terputus"; // translategemma:4b
 "Internet connection established" = "Koneksi internet telah terhubung"; // translategemma:4b
+"Show country code instead of emoji" = "Tampilkan kode negara sebagai gantinya daripada emoji"; // translategemma:4b
 
 // Battery
 "Level" = "Tingkat"; // translategemma:4b

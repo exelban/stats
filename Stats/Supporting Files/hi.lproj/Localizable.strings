@@ -71,6 +71,7 @@
 "Logarithmic" = "लघुगणकीय";
 "Fixed scale" = "समाधान"; // translategemma:4b
 "Cores" = "कोर";
+"Core" = "मुख्य"; // translategemma:4b
 "Settings" = "सेटिंग्स";
 "Name" = "नाम";
 "Format" = "प्रारूप";
@@ -177,6 +178,7 @@
 "Number of threads" = "%0 थ्रेड्स";
 "Number of e-cores" = "%0 दक्षता कोर";
 "Number of p-cores" = "%0 प्रदर्शन कोर";
+"Number of s-cores" = "%0 सुपर कोर"; // translategemma:4b
 "Disks" = "डिस्क"; // translategemma:4b
 "Display" = "प्रदर्शन"; // translategemma:4b
 
@@ -255,6 +257,7 @@
 "Main chart scaling" = "मुख्य चार्ट स्केल"; // translategemma:4b
 "Scale value" = "माप मान"; // translategemma:4b
 "Text widget value" = "टेक्स्ट विजेट का मान"; // translategemma:4b
+"Combined processes" = "Combined processes";
 
 // CPU
 "CPU usage" = "सीपीयू उपयोग";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "कार्यक्षमता कोर लोड"; // translategemma:4b
 "Performance cores load" = "परफॉर्मेंस कोर लोड"; // translategemma:4b
 "All cores" = "सभी कोर"; // translategemma:4b
+"Load per core" = "प्रति कोर लोडिंग"; // translategemma:4b
+"Efficiency core" = "कार्यकुशलता का मूल"; // translategemma:4b
+"Performance core" = "प्रदर्शन का मुख्य भाग"; // translategemma:4b
+"Super core" = "सुपर कोर"; // translategemma:4b
 
 // GPU
 "GPU to show" = "दिखाने के लिए जीपीयू";
@@ -402,7 +409,7 @@
 "Internet connection" = "इंटरनेट कनेक्शन";
 "Active state color" = "सक्रिय राज्य रंग";
 "Nonactive state color" = "नॉनएक्टिव स्टेट कलर";
-"Connectivity host (ICMP)" = "कनेक्टिविटी होस्ट (आईसीएमपी)";
+"Connectivity host" = "कनेक्टिविटी होस्ट (आईसीएमपी)";
 "Leave empty to disable the check" = "चेक को अक्षम करने के लिए खाली छोड़ दें";
 "Connectivity history" = "कनेक्टिविटी इतिहास";
 "Auto-refresh public IP address" = "ऑटो-रिफ्रेश सार्वजनिक आईपी पता";
@@ -422,6 +429,7 @@
 "New IP" = "नया आईपी: %0"; // translategemma:4b
 "Internet connection lost" = "इंटरनेट कनेक्शन खो गया"; // translategemma:4b
 "Internet connection established" = "इंटरनेट कनेक्शन स्थापित"; // translategemma:4b
+"Show country code instead of emoji" = "इमोजी के बजाय देश कोड दिखाएं"; // translategemma:4b
 
 // Battery
 "Level" = "स्तर";

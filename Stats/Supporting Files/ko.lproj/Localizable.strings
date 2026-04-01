@@ -71,6 +71,7 @@
 "Logarithmic" = "로그";
 "Fixed scale" = "고정 스케일";
 "Cores" = "코어 수";
+"Core" = "핵"; // translategemma:4b
 "Settings" = "설정";
 "Name" = "이름";
 "Format" = "형식";
@@ -177,6 +178,7 @@
 "Number of threads" = "%0 스레드";
 "Number of e-cores" = "%0 효율 코어";
 "Number of p-cores" = "%0 성능 코어";
+"Number of s-cores" = "%0 초고성능 코어"; // translategemma:4b
 "Disks" = "디스크"; // translategemma:4b
 "Display" = "화면 표시"; // translategemma:4b
 
@@ -255,6 +257,7 @@
 "Main chart scaling" = "주요 차트 스케일 설정"; // translategemma:4b
 "Scale value" = "척도 값"; // translategemma:4b
 "Text widget value" = "텍스트 위젯 값"; // translategemma:4b
+"Combined processes" = "Combined processes";
 
 // CPU
 "CPU usage" = "CPU 사용량";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "효율성 코어 로드"; // translategemma:4b
 "Performance cores load" = "성능 코어 로드"; // translategemma:4b
 "All cores" = "모든 코어"; // translategemma:4b
+"Load per core" = "코어당 로드"; // translategemma:4b
+"Efficiency core" = "핵심 효율성"; // translategemma:4b
+"Performance core" = "성능 핵심"; // translategemma:4b
+"Super core" = "핵심 기능"; // translategemma:4b
 
 // GPU
 "GPU to show" = "표시할 GPU";
@@ -402,7 +409,7 @@
 "Internet connection" = "인터넷 연결";
 "Active state color" = "활성 상태 색상";
 "Nonactive state color" = "비활성 상태 색상";
-"Connectivity host (ICMP)" = "연결성 확인 호스트 (ICMP)";
+"Connectivity host" = "연결성 확인 호스트";
 "Leave empty to disable the check" = "연결성 확인을 비활성화하려면 이 란을 비워 두세요";
 "Connectivity history" = "연결성 기록";
 "Auto-refresh public IP address" = "공개 IP주소 자동으로 새로고침";
@@ -422,6 +429,7 @@
 "New IP" = "새 IP: %0"; // translategemma:4b
 "Internet connection lost" = "인터넷 연결이 끊김"; // translategemma:4b
 "Internet connection established" = "인터넷 연결 완료"; // translategemma:4b
+"Show country code instead of emoji" = "이모지를 대신하여 국가 코드를 표시합니다."; // translategemma:4b
 
 // Battery
 "Level" = "잔량";

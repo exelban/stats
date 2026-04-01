@@ -71,6 +71,7 @@
 "Logarithmic" = "Logaritmisk";
 "Fixed scale" = "Fast skala";
 "Cores" = "Kärnor";
+"Core" = "Kärna"; // translategemma:4b
 "Settings" = "Inställningar";
 "Name" = "Namn";
 "Format" = "Format";
@@ -177,6 +178,7 @@
 "Number of threads" = "%0 trådar";
 "Number of e-cores" = "%0 effektivitetskärnor";
 "Number of p-cores" = "%0 prestandakärnor";
+"Number of s-cores" = "%0 superkärnor"; // translategemma:4b
 "Disks" = "Skivor"; // translategemma:4b
 "Display" = "Visning"; // translategemma:4b
 
@@ -255,6 +257,7 @@
 "Main chart scaling" = "Huvuddiagramskalning";
 "Scale value" = "Skalvärde";
 "Text widget value" = "Värdet för textwidget"; // translategemma:4b
+"Combined processes" = "Combined processes";
 
 // CPU
 "CPU usage" = "CPU-användning";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "Effektivitetskärnors belastning";
 "Performance cores load" = "Prestandakärnors belastning";
 "All cores" = "Alla kärnor";
+"Load per core" = "Last per kärna"; // translategemma:4b
+"Efficiency core" = "Kärna för effektivitet"; // translategemma:4b
+"Performance core" = "Prestandakärna"; // translategemma:4b
+"Super core" = "Super kärna"; // translategemma:4b
 
 // GPU
 "GPU to show" = "GPU att visa";
@@ -402,7 +409,7 @@
 "Internet connection" = "Internetanslutning";
 "Active state color" = "Aktivt tillståndsfärg";
 "Nonactive state color" = "Inaktivt tillståndsfärg";
-"Connectivity host (ICMP)" = "Anslutningsvärd (ICMP)";
+"Connectivity host" = "Anslutningsvärd";
 "Leave empty to disable the check" = "Lämna tomt för att inaktivera kontrollen";
 "Connectivity history" = "Anslutningshistorik";
 "Auto-refresh public IP address" = "Uppdatera publik IP-adress automatiskt";
@@ -422,6 +429,7 @@
 "New IP" = "Ny IP-adress: %0"; // translategemma:4b
 "Internet connection lost" = "Förlorad internetanslutning"; // translategemma:4b
 "Internet connection established" = "Internetanslutning etablerad"; // translategemma:4b
+"Show country code instead of emoji" = "Visa landskod istället för emoji"; // translategemma:4b
 
 // Battery
 "Level" = "Nivå";

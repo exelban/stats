@@ -71,6 +71,7 @@
 "Logarithmic" = "Λογαριθμικό";
 "Fixed scale" = "Διορθώθηκε"; // translategemma:4b
 "Cores" = "Πυρήνες";
+"Core" = "Κεντρικό"; // translategemma:4b
 "Settings" = "Ρυθμίσεις";
 "Name" = "Όνομα"; // translategemma:4b
 "Format" = "Μορφή"; // translategemma:4b
@@ -177,6 +178,7 @@
 "Number of threads" = "%0 θέματα"; // translategemma:4b
 "Number of e-cores" = "%0 πυρήνες απόδοσης";
 "Number of p-cores" = "%0 πυρήνες επίδοσης";
+"Number of s-cores" = "%0 υπερ-πρωτεύοντα"; // translategemma:4b
 "Disks" = "Δίσκοι"; // translategemma:4b
 "Display" = "Οθόνη"; // translategemma:4b
 
@@ -255,6 +257,7 @@
 "Main chart scaling" = "Κύρια κλίμακα γραφήματος"; // translategemma:4b
 "Scale value" = "Τιμή κλίμακας"; // translategemma:4b
 "Text widget value" = "Τιμή στο πεδίο κειμένου"; // translategemma:4b
+"Combined processes" = "Combined processes";
 
 // CPU
 "CPU usage" = "Χρήση CPU";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "Ενα λειτουργικά κέντρα φορτώνουν"; // translategemma:4b
 "Performance cores load" = "Φόρτωση των βασικών πυρήνων"; // translategemma:4b
 "All cores" = "Όλα τα πυρήνες"; // translategemma:4b
+"Load per core" = "Φόρτωση ανά πυρήνα"; // translategemma:4b
+"Efficiency core" = "Βασική λειτουργικότητα"; // translategemma:4b
+"Performance core" = "Κεντρικό στοιχείο απόδοσης"; // translategemma:4b
+"Super core" = "Εξαιρετικά ισχυρό"; // translategemma:4b
 
 // GPU
 "GPU to show" = "GPU προς εμφάνιση";
@@ -402,7 +409,7 @@
 "Internet connection" = "Σύνδεση στο διαδίκτυο"; // translategemma:4b
 "Active state color" = "Χρώμα κατά την ενεργή κατάσταση"; // translategemma:4b
 "Nonactive state color" = "Χρώμα κατά την κατάσταση μη λειτουργίας"; // translategemma:4b
-"Connectivity host (ICMP)" = "Υπολογιστής διασύνδεσης (ICMP)"; // translategemma:4b
+"Connectivity host" = "Υπολογιστής διασύνδεσης"; // translategemma:4b
 "Leave empty to disable the check" = "Αφήστε το κενό για να απενεργοποιήσετε τον έλεγχο."; // translategemma:4b
 "Connectivity history" = "Ιστορικό σύνδεσης"; // translategemma:4b
 "Auto-refresh public IP address" = "Αυτόματη ανανέωση της δημόσιας διεύθυνσης IP"; // translategemma:4b
@@ -422,6 +429,7 @@
 "New IP" = "Νέα διεύθυνση IP: %0"; // translategemma:4b
 "Internet connection lost" = "Απώλεια σύνδεσης στο διαδίκτυο"; // translategemma:4b
 "Internet connection established" = "Εγκαταστάθηκε σύνδεση στο διαδίκτυο"; // translategemma:4b
+"Show country code instead of emoji" = "Εμφάνιση του κωδικού χώρας αντί για εικονίδια"; // translategemma:4b
 
 // Battery
 "Level" = "Επίπεδο";

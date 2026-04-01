@@ -71,6 +71,7 @@
 "Logarithmic" = "對數";
 "Fixed scale" = "固定值";
 "Cores" = "核心數";
+"Core" = "核心"; // translategemma:4b
 "Settings" = "設定";
 "Name" = "名稱";
 "Format" = "格式";
@@ -177,6 +178,7 @@
 "Number of threads" = "%0 執行緒";
 "Number of e-cores" = "%0 個節能核心";
 "Number of p-cores" = "%0 個效能核心";
+"Number of s-cores" = "%0 超級核心"; // translategemma:4b
 "Disks" = "磁碟機";
 "Display" = "顯示器";
 
@@ -255,6 +257,7 @@
 "Main chart scaling" = "主圖表縮放";
 "Scale value" = "縮放值";
 "Text widget value" = "文字小工具值";
+"Combined processes" = "Combined processes";
 
 // CPU
 "CPU usage" = "CPU使用量";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "節能核心占用";
 "Performance cores load" = "效能核心占用";
 "All cores" = "總核心占用";
+"Load per core" = "每個核心的載入量"; // translategemma:4b
+"Efficiency core" = "核心效率"; // translategemma:4b
+"Performance core" = "效能核心"; // translategemma:4b
+"Super core" = "極致核心"; // translategemma:4b
 
 // GPU
 "GPU to show" = "顯示GPU";
@@ -402,7 +409,7 @@
 "Internet connection" = "網際網路連線裝態";
 "Active state color" = "已連線狀態色彩";
 "Nonactive state color" = "未連線狀態色彩";
-"Connectivity host (ICMP)" = "連線能力測試主機（ICMP）";
+"Connectivity host" = "連線能力測試主機（ICMP）";
 "Leave empty to disable the check" = "留空來停用檢查";
 "Connectivity history" = "連線歷程紀錄";
 "Auto-refresh public IP address" = "自動重新整理公用IP位址";
@@ -422,6 +429,7 @@
 "New IP" = "新IP：%0";
 "Internet connection lost" = "網際網路連線已遺失";
 "Internet connection established" = "網際網路連線已建立";
+"Show country code instead of emoji" = "顯示國家代碼，而不是表情符號"; // translategemma:4b
 
 // Battery
 "Level" = "電量";

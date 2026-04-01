@@ -71,6 +71,7 @@
 "Logarithmic" = "Logaritmiline";
 "Fixed scale" = "Lahendatud"; // translategemma:4b
 "Cores" = "Tuumad";
+"Core" = "Põhi"; // translategemma:4b
 "Settings" = "Seaded";
 "Name" = "Nimi";
 "Format" = "Vorming";
@@ -177,6 +178,7 @@
 "Number of threads" = "%0 lõimed";
 "Number of e-cores" = "%0 tõhusatuumad";
 "Number of p-cores" = "%0 jõudlustuumad";
+"Number of s-cores" = "%0 superiorsed protsessorid"; // translategemma:4b
 "Disks" = "Plaadid"; // translategemma:4b
 "Display" = "Ekraan"; // translategemma:4b
 
@@ -255,6 +257,7 @@
 "Main chart scaling" = "Peamise graafi skaala"; // translategemma:4b
 "Scale value" = "Mõõtühiku väärtus"; // translategemma:4b
 "Text widget value" = "Teksti atribuudi väärtus"; // translategemma:4b
+"Combined processes" = "Combined processes";
 
 // CPU
 "CPU usage" = "CPU kasutus";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "Efektiivsed protsessorid laadivad"; // translategemma:4b
 "Performance cores load" = "Protsessori üditöödel laadimise algus"; // translategemma:4b
 "All cores" = "Kõik protsessorid"; // translategemma:4b
+"Load per core" = "Koos töötavate protsessorite arv"; // translategemma:4b
+"Efficiency core" = "Efektiivsuse keskpunkt"; // translategemma:4b
+"Performance core" = "Töömajad"; // translategemma:4b
+"Super core" = "Väga tugev süda"; // translategemma:4b
 
 // GPU
 "GPU to show" = "GPU, mida näidata";
@@ -402,7 +409,7 @@
 "Internet connection" = "Interneti-ühendus";
 "Active state color" = "Aktiivse oleku värv";
 "Nonactive state color" = "Mitteaktiivse oleku värv";
-"Connectivity host (ICMP)" = "Ühendushost (ICMP)";
+"Connectivity host" = "Ühendushost";
 "Leave empty to disable the check" = "Tšeki keelamiseks jätke tühjaks";
 "Connectivity history" = "Ühenduse ajalugu";
 "Auto-refresh public IP address" = "Avaliku IP-aadressi automaatne värskendamine";
@@ -422,6 +429,7 @@
 "New IP" = "Uus IP-aadress: %0"; // translategemma:4b
 "Internet connection lost" = "Internet-ühendus katkestas."; // translategemma:4b
 "Internet connection established" = "Internet-ühendus on toimimas"; // translategemma:4b
+"Show country code instead of emoji" = "Näita riiklikku koodi selle asemel, kus on emojid"; // translategemma:4b
 
 // Battery
 "Level" = "Tase";

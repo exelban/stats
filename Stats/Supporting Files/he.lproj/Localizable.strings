@@ -71,6 +71,7 @@
 "Logarithmic" = "לוגריתמי"; // translategemma:4b
 "Fixed scale" = "תוקן"; // translategemma:4b
 "Cores" = "ליבות"; // translategemma:4b
+"Core" = "ליבה"; // translategemma:4b
 "Settings" = "הגדרות"; // translategemma:4b
 "Name" = "שם"; // translategemma:4b
 "Format" = "פורמט"; // translategemma:4b
@@ -177,6 +178,7 @@
 "Number of threads" = "%0 טרדים";
 "Number of e-cores" = "%0 ליבות ביצוע"; // translategemma:4b
 "Number of p-cores" = "%0 ליבות ביצוע"; // translategemma:4b
+"Number of s-cores" = "%0 ליבות עיקריות"; // translategemma:4b
 "Disks" = "כוננים"; // translategemma:4b
 "Display" = "תצוגה"; // translategemma:4b
 
@@ -255,6 +257,7 @@
 "Main chart scaling" = "הגדרת סולם הגרף הראשי"; // translategemma:4b
 "Scale value" = "ערך סולם"; // translategemma:4b
 "Text widget value" = "ערך של רכיב טקסט"; // translategemma:4b
+"Combined processes" = "Combined processes";
 
 // CPU
 "CPU usage" = "שימוש המעבד";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "טעינת ליבות ביצוע"; // translategemma:4b
 "Performance cores load" = "ליבות הביצוע מתחילות לעבוד"; // translategemma:4b
 "All cores" = "כל הליבות"; // translategemma:4b
+"Load per core" = "טעינה לפי ליבה"; // translategemma:4b
+"Efficiency core" = "ליבת יעילות"; // translategemma:4b
+"Performance core" = "ליבת ביצועים"; // translategemma:4b
+"Super core" = "ליבה חזקה במיוחד"; // translategemma:4b
 
 // GPU
 "GPU to show" = "להראות GPU";
@@ -402,7 +409,7 @@
 "Internet connection" = "חיבור לאינטרנט"; // translategemma:4b
 "Active state color" = "צבע המצב הפעיל"; // translategemma:4b
 "Nonactive state color" = "צבע למצב לא פעיל"; // translategemma:4b
-"Connectivity host (ICMP)" = "שרת קישוריות (ICMP)"; // translategemma:4b
+"Connectivity host" = "שרת קישוריות"; // translategemma:4b
 "Leave empty to disable the check" = "השאירו ריק כדי לבטל את הבדיקה"; // translategemma:4b
 "Connectivity history" = "היסטוריית חיבורים"; // translategemma:4b
 "Auto-refresh public IP address" = "עדכון אוטומטי של כתובת ה-IP הציבורית"; // translategemma:4b
@@ -422,6 +429,7 @@
 "New IP" = "כתובת IP חדשה: %0"; // translategemma:4b
 "Internet connection lost" = "ניתק התחברות לאינטרנט"; // translategemma:4b
 "Internet connection established" = "חיבור לאינטרנט הושלם"; // translategemma:4b
+"Show country code instead of emoji" = "הצג קידוד מדינה במקום סמל רגש"; // translategemma:4b
 
 // Battery
 "Level" = "רמה";

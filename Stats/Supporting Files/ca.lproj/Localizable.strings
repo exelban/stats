@@ -71,6 +71,7 @@
 "Logarithmic" = "Logarítmic";
 "Fixed scale" = "Escala fixe";
 "Cores" = "Nuclis";
+"Core" = "Núcle"; // translategemma:4b
 "Settings" = "Configuració";
 "Name" = "Nom";
 "Format" = "Format";
@@ -177,6 +178,7 @@
 "Number of threads" = "%0 fils";
 "Number of e-cores" = "%0 nuclis d'eficiència";
 "Number of p-cores" = "%0 nuclis de rendiment";
+"Number of s-cores" = "%0 nuclis principals"; // translategemma:4b
 "Disks" = "Discs"; // translategemma:4b
 "Display" = "Pantalla"; // translategemma:4b
 
@@ -255,6 +257,7 @@
 "Main chart scaling" = "Escala del gràfic principal";
 "Scale value" = "Valor d'escala";
 "Text widget value" = "Valor del widget de text"; // translategemma:4b
+"Combined processes" = "Combined processes";
 
 // CPU
 "CPU usage" = "Ús de la CPU";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "Càrrega dels nuclis d'eficiència";
 "Performance cores load" = "Càrrega dels nuclis de rendiment";
 "All cores" = "Totes les nuclis"; // translategemma:4b
+"Load per core" = "Càrrega per nuclis"; // translategemma:4b
+"Efficiency core" = "Núcle del màxim rendiment"; // translategemma:4b
+"Performance core" = "Núcle del rendiment"; // translategemma:4b
+"Super core" = "Fantàstic"; // translategemma:4b
 
 // GPU
 "GPU to show" = "GPU a mostrar";
@@ -402,7 +409,7 @@
 "Internet connection" = "Connexió a internet";
 "Active state color" = "Color per l'estat actiu";
 "Nonactive state color" = "Color per l'estat inactiu";
-"Connectivity host (ICMP)" = "Connectivitat host (ICMP)";
+"Connectivity host" = "Connectivitat host";
 "Leave empty to disable the check" = "Deixa en blanc per desactivar el check";
 "Connectivity history" = "Historial de connectivitat";
 "Auto-refresh public IP address" = "Refresca automàticament l'adreça pública IP";
@@ -422,6 +429,7 @@
 "New IP" = "Nova IP: %0"; // translategemma:4b
 "Internet connection lost" = "S'ha perdut la connexió a Internet"; // translategemma:4b
 "Internet connection established" = "Connexió a Internet establerta"; // translategemma:4b
+"Show country code instead of emoji" = "Mostra el codi de país en comptes de l'emoticon"; // translategemma:4b
 
 // Battery
 "Level" = "Nivell";

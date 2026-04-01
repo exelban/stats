@@ -71,6 +71,7 @@
 "Logarithmic" = "对数";
 "Fixed scale" = "固定值";
 "Cores" = "核心数";
+"Core" = "核心"; // translategemma:4b
 "Settings" = "设置";
 "Name" = "名称";
 "Format" = "格式";
@@ -177,6 +178,7 @@
 "Number of threads" = "%0 线程";
 "Number of e-cores" = "%0 能效核心";
 "Number of p-cores" = "%0 性能核心";
+"Number of s-cores" = "%0 超级核心"; // translategemma:4b
 "Disks" = "磁盘"; // translategemma:4b
 "Display" = "显示"; // translategemma:4b
 
@@ -255,6 +257,7 @@
 "Main chart scaling" = "主图表缩放";
 "Scale value" = "缩放值";
 "Text widget value" = "文本小组件值";
+"Combined processes" = "Combined processes";
 
 // CPU
 "CPU usage" = "CPU占用";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "能效核心占用";
 "Performance cores load" = "性能核心占用";
 "All cores" = "所有核心";
+"Load per core" = "每核心负载"; // translategemma:4b
+"Efficiency core" = "核心效率"; // translategemma:4b
+"Performance core" = "性能核心"; // translategemma:4b
+"Super core" = "超核心"; // translategemma:4b
 
 // GPU
 "GPU to show" = "显示的GPU";
@@ -402,7 +409,7 @@
 "Internet connection" = "网络连接状态";
 "Active state color" = "活跃状态颜色";
 "Nonactive state color" = "非活跃状态颜色";
-"Connectivity host (ICMP)" = "连接 Host (ICMP)";
+"Connectivity host" = "连接 Host";
 "Leave empty to disable the check" = "不在该选项内输入以禁用检查";
 "Connectivity history" = "连接历史";
 "Auto-refresh public IP address" = "自动刷新公网IP地址";
@@ -422,6 +429,7 @@
 "New IP" = "新IP：%0";
 "Internet connection lost" = "互联网连接丢失";
 "Internet connection established" = "互联网连接已建立";
+"Show country code instead of emoji" = "显示国家代码，而不是表情符号"; // translategemma:4b
 
 // Battery
 "Level" = "电量";

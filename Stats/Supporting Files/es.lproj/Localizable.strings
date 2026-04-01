@@ -71,6 +71,7 @@
 "Logarithmic" = "Logarítmica";
 "Fixed scale" = "Escala fija";
 "Cores" = "Núcleos";
+"Core" = "Núcleo"; // translategemma:4b
 "Settings" = "Ajustes";
 "Name" = "Nombre";
 "Format" = "Formato";
@@ -177,6 +178,7 @@
 "Number of threads" = "Número de hilos";
 "Number of e-cores" = "Número de núcleos de eficiencia";
 "Number of p-cores" = "Número de núcleos de rendimiento";
+"Number of s-cores" = "%0 núcleos de alto rendimiento"; // translategemma:4b
 "Disks" = "Discos"; // translategemma:4b
 "Display" = "Pantalla"; // translategemma:4b
 
@@ -255,6 +257,7 @@
 "Main chart scaling" = "Escalado del gráfico principal";
 "Scale value" = "Valor de la escala";
 "Text widget value" = "Valor del widget de texto"; // translategemma:4b
+"Combined processes" = "Combined processes";
 
 // CPU
 "CPU usage" = "Uso de la CPU";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "Carga de los núcleos de eficiencia";
 "Performance cores load" = "Carga de los núcleos de rendimiento";
 "All cores" = "Todos los núcleos";
+"Load per core" = "Carga por núcleo"; // translategemma:4b
+"Efficiency core" = "Núcleo de eficiencia"; // translategemma:4b
+"Performance core" = "Núcleo de rendimiento"; // translategemma:4b
+"Super core" = "Extremadamente importante"; // translategemma:4b
 
 // GPU
 "GPU to show" = "GPU a mostrar";
@@ -402,7 +409,7 @@
 "Internet connection" = "Conexión a internet";
 "Active state color" = "Color de estado activo";
 "Nonactive state color" = "Color de estado inactivo";
-"Connectivity host (ICMP)" = "Host de conectividad (ICMP)";
+"Connectivity host" = "Host de conectividad";
 "Leave empty to disable the check" = "Dejar vacío para desactivar la verificación";
 "Connectivity history" = "Historial de conectividad";
 "Auto-refresh public IP address" = "Auto-actualizar IP pública";
@@ -422,6 +429,7 @@
 "New IP" = "Nueva dirección IP: %0"; // translategemma:4b
 "Internet connection lost" = "Se ha perdido la conexión a Internet."; // translategemma:4b
 "Internet connection established" = "Conexión a Internet establecida"; // translategemma:4b
+"Show country code instead of emoji" = "Mostrar el código de país en lugar de los emojis."; // translategemma:4b
 
 // Battery
 "Level" = "Nivel";

@@ -71,6 +71,7 @@
 "Logarithmic" = "Logarithmisch";
 "Fixed scale" = "Fest";
 "Cores" = "Kerne";
+"Core" = "Kern"; // translategemma:4b
 "Settings" = "Einstellungen";
 "Name" = "Name";
 "Format" = "Format";
@@ -177,6 +178,7 @@
 "Number of threads" = "%0 Threads";
 "Number of e-cores" = "%0 Effizienzkerne";
 "Number of p-cores" = "%0 Leistungskerne";
+"Number of s-cores" = "%0 Super-Prozessoren"; // translategemma:4b
 "Disks" = "Festplatten";
 "Display" = "Bildschirm";
 
@@ -255,6 +257,7 @@
 "Main chart scaling" = "Hauptdiagramm-Skalierung";
 "Scale value" = "Skalierungswert";
 "Text widget value" = "Text-Widget-Wert";
+"Combined processes" = "Combined processes";
 
 // CPU
 "CPU usage" = "CPU-Auslastung";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "Effizienzkerne-Last";
 "Performance cores load" = "Leistungskerne-Last";
 "All cores" = "Alle Kerne";
+"Load per core" = "Laden pro Kern"; // translategemma:4b
+"Efficiency core" = "Kern der Effizienz"; // translategemma:4b
+"Performance core" = "Leistungszentrum"; // translategemma:4b
+"Super core" = "Hervorragende Kernfunktion"; // translategemma:4b
 
 // GPU
 "GPU to show" = "Anzuzeigende GPU";
@@ -402,7 +409,7 @@
 "Internet connection" = "Internetverbindung";
 "Active state color" = "Farbe für aktiven Zustand";
 "Nonactive state color" = "Farbe für inaktiven Zustand";
-"Connectivity host (ICMP)" = "Verbindungshost (ICMP)";
+"Connectivity host" = "Verbindungshost";
 "Leave empty to disable the check" = "Leer lassen, um die Prüfung zu deaktivieren";
 "Connectivity history" = "Verbindungsverlauf";
 "Auto-refresh public IP address" = "Öffentliche IP-Adresse automatisch aktualisieren";
@@ -422,6 +429,7 @@
 "New IP" = "Neue IP: %0";
 "Internet connection lost" = "Internetverbindung unterbrochen";
 "Internet connection established" = "Internetverbindung hergestellt";
+"Show country code instead of emoji" = "Zeige den Landescode anstelle des Emojis"; // translategemma:4b
 
 // Battery
 "Level" = "Ladezustand";

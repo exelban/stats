@@ -71,6 +71,7 @@
 "Logarithmic" = "Logarit";
 "Fixed scale" = "Tỷ lệ cố định";
 "Cores" = "Nhân";
+"Core" = "Trục cơ bản"; // translategemma:4b
 "Settings" = "Cài đặt";
 "Name" = "Tên";
 "Format" = "Định dạng";
@@ -177,6 +178,7 @@
 "Number of threads" = "%0 luồng";
 "Number of e-cores" = "%0 nhân tiết kiệm";
 "Number of p-cores" = "%0 nhân hiệu năng";
+"Number of s-cores" = "%0 các nhân xử lý chính"; // translategemma:4b
 "Disks" = "Ổ cứng"; // translategemma:4b
 "Display" = "Hiển thị"; // translategemma:4b
 
@@ -255,6 +257,7 @@
 "Main chart scaling" = "Tỷ lệ biểu đồ chính";
 "Scale value" = "Giá trị tỷ lệ";
 "Text widget value" = "Giá trị của widget văn bản"; // translategemma:4b
+"Combined processes" = "Combined processes";
 
 // CPU
 "CPU usage" = "Sử dụng CPU";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "Tải nhân tiết kiệm";
 "Performance cores load" = "Tải nhân hiệu năng";
 "All cores" = "Tất cả các nhân";
+"Load per core" = "Tải theo mỗi nhân xử lý"; // translategemma:4b
+"Efficiency core" = "Trọng tâm về hiệu quả"; // translategemma:4b
+"Performance core" = "Trục hiệu năng"; // translategemma:4b
+"Super core" = "Vô cùng mạnh mẽ"; // translategemma:4b
 
 // GPU
 "GPU to show" = "GPU hiển thị";
@@ -402,7 +409,7 @@
 "Internet connection" = "Kết nối internet";
 "Active state color" = "Màu trạng thái hoạt động";
 "Nonactive state color" = "Màu trạng thái không hoạt động";
-"Connectivity host (ICMP)" = "Máy chủ kết nối (ICMP)";
+"Connectivity host" = "Máy chủ kết nối";
 "Leave empty to disable the check" = "Để trống để tắt kiểm tra";
 "Connectivity history" = "Lịch sử kết nối";
 "Auto-refresh public IP address" = "Tự làm mới địa chỉ IP công khai";
@@ -422,6 +429,7 @@
 "New IP" = "IP mới: %0";
 "Internet connection lost" = "Mất kết nối internet";
 "Internet connection established" = "Kết nối internet được thiết lập";
+"Show country code instead of emoji" = "Hiển thị mã quốc gia thay vì biểu tượng cảm xúc"; // translategemma:4b
 
 // Battery
 "Level" = "Mức";

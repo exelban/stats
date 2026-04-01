@@ -51,7 +51,7 @@
 "Short" = "Kort";
 "Long" = "Lang";
 "Statistics" = "Statistik";
-"Max" = "Max";
+"Max" = "Maks"; // translategemma:4b
 "Min" = "Mit"; // translategemma:4b
 "Reset" = "Nulstil";
 "Alignment" = "Opstilling"; //As in text alignment
@@ -71,6 +71,7 @@
 "Logarithmic" = "Logaritmisk";
 "Fixed scale" = "Løst"; // translategemma:4b
 "Cores" = "Kerner";
+"Core" = "Kerne"; // translategemma:4b
 "Settings" = "Indstillinger";
 "Name" = "Navn";
 "Format" = "Format";
@@ -177,6 +178,7 @@
 "Number of threads" = "%0 tråde";
 "Number of e-cores" = "%0 efficiency kerner";
 "Number of p-cores" = "%0 performance kerner";
+"Number of s-cores" = "%0 superkerner"; // translategemma:4b
 "Disks" = "Skiver"; // translategemma:4b
 "Display" = "Skærm"; // translategemma:4b
 
@@ -255,6 +257,7 @@
 "Main chart scaling" = "Primær diagramskala"; // translategemma:4b
 "Scale value" = "Skala værdi"; // translategemma:4b
 "Text widget value" = "Værdien for tekstwidget"; // translategemma:4b
+"Combined processes" = "Combined processes";
 
 // CPU
 "CPU usage" = "CPU brug";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "Effektivitetskerner indlæses"; // translategemma:4b
 "Performance cores load" = "Ydestykkerne indlæses"; // translategemma:4b
 "All cores" = "Alle kerner"; // translategemma:4b
+"Load per core" = "Belastning pr. kerne"; // translategemma:4b
+"Efficiency core" = "Effektivitetscenter"; // translategemma:4b
+"Performance core" = "Ydeevnekerne"; // translategemma:4b
+"Super core" = "Ekstremt central"; // translategemma:4b
 
 // GPU
 "GPU to show" = "GPU der vises";
@@ -402,7 +409,7 @@
 "Internet connection" = "Internetforbindelse";
 "Active state color" = "Aktiv farve";
 "Nonactive state color" = "Inaktiv farve";
-"Connectivity host (ICMP)" = "Host for forbindelse (ICMP)"; // translategemma:4b
+"Connectivity host" = "Host for forbindelse"; // translategemma:4b
 "Leave empty to disable the check" = "Lad feltet være tom for at deaktivere tjekket";
 "Connectivity history" = "Forbindelseshistorik";
 "Auto-refresh public IP address" = "Automatisk opdatering af offentlig IP adresse";
@@ -422,6 +429,7 @@
 "New IP" = "Ny IP-adresse: %0"; // translategemma:4b
 "Internet connection lost" = "Internetforbindelsen er mistet"; // translategemma:4b
 "Internet connection established" = "Internetforbindelse etableret"; // translategemma:4b
+"Show country code instead of emoji" = "Vis landekoden i stedet for emoji"; // translategemma:4b
 
 // Battery
 "Level" = "Niveau";

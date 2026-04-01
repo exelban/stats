@@ -71,6 +71,7 @@
 "Logarithmic" = "Logarithmic";
 "Fixed scale" = "Fixed";
 "Cores" = "Cores";
+"Core" = "Core";
 "Settings" = "Settings";
 "Name" = "Name";
 "Format" = "Format";
@@ -177,6 +178,7 @@
 "Number of threads" = "%0 threads";
 "Number of e-cores" = "%0 efficiency cores";
 "Number of p-cores" = "%0 performance cores";
+"Number of s-cores" = "%0 super cores";
 "Disks" = "Disks";
 "Display" = "Display";
 
@@ -255,6 +257,7 @@
 "Main chart scaling" = "Main chart scaling";
 "Scale value" = "Scale value";
 "Text widget value" = "Text widget value";
+"Combined processes" = "Combined processes";
 
 // CPU
 "CPU usage" = "CPU usage";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "Efficiency cores load";
 "Performance cores load" = "Performance cores load";
 "All cores" = "All cores";
+"Load per core" = "Load per core";
+"Efficiency core" = "Efficiency core";
+"Performance core" = "Performance core";
+"Super core" = "Super core";
 
 // GPU
 "GPU to show" = "GPU to show";
@@ -402,7 +409,7 @@
 "Internet connection" = "Internet connection";
 "Active state color" = "Active state colour";
 "Nonactive state color" = "Nonactive state colour";
-"Connectivity host (ICMP)" = "Connectivity host (ICMP)";
+"Connectivity host" = "Connectivity host";
 "Leave empty to disable the check" = "Leave empty to disable the check";
 "Connectivity history" = "Connectivity history";
 "Auto-refresh public IP address" = "Auto-refresh public IP address";
@@ -422,6 +429,7 @@
 "New IP" = "New IP: %0";
 "Internet connection lost" = "Internet connection lost";
 "Internet connection established" = "Internet connection established";
+"Show country code instead of emoji" = "Show country code instead of emoji";
 
 // Battery
 "Level" = "Level";

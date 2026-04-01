@@ -71,6 +71,7 @@
 "Logarithmic" = "Logaritmistički"; // translategemma:4b
 "Fixed scale" = "Popravljeno"; // translategemma:4b
 "Cores" = "Srdci"; // translategemma:4b
+"Core" = "Osnovni"; // translategemma:4b
 "Settings" = "Postavke"; // translategemma:4b
 "Name" = "Ime"; // translategemma:4b
 "Format" = "Format";
@@ -177,6 +178,7 @@
 "Number of threads" = "Broj komponenti procesa: %0";
 "Number of e-cores" = "%0 učinkovitost jezgara"; // translategemma:4b
 "Number of p-cores" = "%0 je broj jezgri za izvođenje."; // translategemma:4b
+"Number of s-cores" = "%0 vrhunske jezgre"; // translategemma:4b
 "Disks" = "Diskove"; // translategemma:4b
 "Display" = "Prikaz"; // translategemma:4b
 
@@ -255,6 +257,7 @@
 "Main chart scaling" = "Glavna skaliranje grafikona"; // translategemma:4b
 "Scale value" = "Vrijednost skaliranja"; // translategemma:4b
 "Text widget value" = "Vrijednost polja teksta"; // translategemma:4b
+"Combined processes" = "Combined processes";
 
 // CPU
 "CPU usage" = "Korištenje procesora";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "Procesori za učinkovitost se iniciraju"; // translategemma:4b
 "Performance cores load" = "Optimizirani jezgre se aktiviraju"; // translategemma:4b
 "All cores" = "Sve jezgre"; // translategemma:4b
+"Load per core" = "Optimizirano po jezgru"; // translategemma:4b
+"Efficiency core" = "Osnovni princip učinkovitosti"; // translategemma:4b
+"Performance core" = "Središte za performanse"; // translategemma:4b
+"Super core" = "Odlična osnova"; // translategemma:4b
 
 // GPU
 "GPU to show" = "Grafički procesor";
@@ -402,7 +409,7 @@
 "Internet connection" = "Povezivanje s internetom"; // translategemma:4b
 "Active state color" = "Boja u aktivnom stanju"; // translategemma:4b
 "Nonactive state color" = "Boja stanja u kojem se komponenta ne koristi"; // translategemma:4b
-"Connectivity host (ICMP)" = "Host za konekciju (ICMP)"; // translategemma:4b
+"Connectivity host" = "Host za konekciju"; // translategemma:4b
 "Leave empty to disable the check" = "Ostavite praznim kako biste isključili provjeru."; // translategemma:4b
 "Connectivity history" = "Historija konektivnosti"; // translategemma:4b
 "Auto-refresh public IP address" = "Automatsko ažuriranje javne IP adrese"; // translategemma:4b
@@ -422,6 +429,7 @@
 "New IP" = "Nova IP adresa: %0"; // translategemma:4b
 "Internet connection lost" = "Gubitak veze s internetom"; // translategemma:4b
 "Internet connection established" = "Uspostavljena je veza s internetom"; // translategemma:4b
+"Show country code instead of emoji" = "Prikažite kod zemlje umjesto emoji-a"; // translategemma:4b
 
 // Battery
 "Level" = "Stanje";

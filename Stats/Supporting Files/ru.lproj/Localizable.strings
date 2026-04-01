@@ -71,6 +71,7 @@
 "Logarithmic" = "Логарифмическое";
 "Fixed scale" = "Фиксированное";
 "Cores" = "Ядра";
+"Core" = "Ядро";
 "Settings" = "Настройки";
 "Name" = "Название";
 "Format" = "Формат";
@@ -177,6 +178,7 @@
 "Number of threads" = "%0 потоков";
 "Number of e-cores" = "%0 энергоэффективных ядер";
 "Number of p-cores" = "%0 производительных ядер";
+"Number of s-cores" = "%0: супер ядра";
 "Disks" = "Диски";
 "Display" = "Монитор";
 
@@ -255,6 +257,7 @@
 "Main chart scaling" = "Масштабирование основного графика";
 "Scale value" = "Значение масштаба";
 "Text widget value" = "Значение текстового виджета";
+"Combined processes" = "Згруппировать процессы";
 
 // CPU
 "CPU usage" = "Использование процессора";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "Нагрузка энергоэффективных ядер";
 "Performance cores load" = "Нагрузка производительных ядер";
 "All cores" = "Все ядра";
+"Load per core" = "Нагрузка на ядро";
+"Efficiency core" = "Ядро эффективности";
+"Performance core" = "Ядро производительности";
+"Super core" = "Супер ядро";
 
 // GPU
 "GPU to show" = "Активный графический процессор";
@@ -402,7 +409,7 @@
 "Internet connection" = "Интернет-соединение";
 "Active state color" = "Цвет активного состояния";
 "Nonactive state color" = "Цвет неактивного состояния";
-"Connectivity host (ICMP)" = "Хост подключения (ICMP)";
+"Connectivity host" = "Хост подключения";
 "Leave empty to disable the check" = "Оставьте пустым, чтобы отключить проверку";
 "Connectivity history" = "История подключения";
 "Auto-refresh public IP address" = "Автоматическое обновление IP-адреса";
@@ -422,6 +429,7 @@
 "New IP" = "Новый IP-адрес: %0";
 "Internet connection lost" = "Соединение с интернетом потеряно";
 "Internet connection established" = "Соединение с интернетом восстановлено";
+"Show country code instead of emoji" = "Отображать код страны вместо эмодзи"; // translategemma:4b
 
 // Battery
 "Level" = "Уровень заряда";

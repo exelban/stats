@@ -71,6 +71,7 @@
 "Logarithmic" = "Logaritmikus";
 "Fixed scale" = "Javítva"; // translategemma:4b
 "Cores" = "Magok";
+"Core" = "Alap"; // translategemma:4b
 "Settings" = "Beállítások";
 "Name" = "Név";
 "Format" = "Formátum";
@@ -177,6 +178,7 @@
 "Number of threads" = "%0 szál";
 "Number of e-cores" = "%0 energiatakarékos mag";
 "Number of p-cores" = "%0 teljesítményre optimalizált mag";
+"Number of s-cores" = "%0 nagyteljesítményű magok"; // translategemma:4b
 "Disks" = "Merevlemezek"; // translategemma:4b
 "Display" = "Megjelenítés"; // translategemma:4b
 
@@ -255,6 +257,7 @@
 "Main chart scaling" = "Fődiagram méretezése"; // translategemma:4b
 "Scale value" = "Skálázási érték"; // translategemma:4b
 "Text widget value" = "A szöveges widget értéke"; // translategemma:4b
+"Combined processes" = "Combined processes";
 
 // CPU
 "CPU usage" = "CPU használat";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "Energiatakarékos magok terheltsége";
 "Performance cores load" = "Teljesítmény magok terheltsége";
 "All cores" = "Minden mag"; // translategemma:4b
+"Load per core" = "Egy magonként betöltött mennyiség"; // translategemma:4b
+"Efficiency core" = "Hatékony működés alapja"; // translategemma:4b
+"Performance core" = "Teljesítmény alap"; // translategemma:4b
+"Super core" = "Kiemelt teljesítmény"; // translategemma:4b
 
 // GPU
 "GPU to show" = "Megjelenítendő GPU";
@@ -402,7 +409,7 @@
 "Internet connection" = "Internet kapcsolat";
 "Active state color" = "Aktív állapot színe";
 "Nonactive state color" = "Inaktív állapot színe";
-"Connectivity host (ICMP)" = "Kapcsolati gazdagép (ICMP)";
+"Connectivity host" = "Kapcsolati gazdagép";
 "Leave empty to disable the check" = "Hagyd üresen az ellenőrzés kikapcsolásához";
 "Connectivity history" = "Kapcsolati előzmények";
 "Auto-refresh public IP address" = "Publikus IP cím automatikus frissítése";
@@ -422,6 +429,7 @@
 "New IP" = "Új IP cím: %0"; // translategemma:4b
 "Internet connection lost" = "Az internetkapcsolat megszűnt"; // translategemma:4b
 "Internet connection established" = "Az internetkapcsolat létrejött"; // translategemma:4b
+"Show country code instead of emoji" = "Használjon országkódot, nem pedig emojit."; // translategemma:4b
 
 // Battery
 "Level" = "Töltöttségi szint";

@@ -71,6 +71,7 @@
 "Logarithmic" = "Logaritmično";
 "Fixed scale" = "Fiksna skala";
 "Cores" = "Jedra";
+"Core" = "Osnovna"; // translategemma:4b
 "Settings" = "Nastavitve";
 "Name" = "Ime";
 "Format" = "Format";
@@ -177,6 +178,7 @@
 "Number of threads" = "%0 niti";
 "Number of e-cores" = "%0 učinkovitih jeder";
 "Number of p-cores" = "%0 performančnih jeder";
+"Number of s-cores" = "%0 odličen procesor"; // translategemma:4b
 "Disks" = "Diskji"; // translategemma:4b
 "Display" = "Prikaz"; // translategemma:4b
 
@@ -255,6 +257,7 @@
 "Main chart scaling" = "Skaliranje glavnega grafa";
 "Scale value" = "Vrednost skale";
 "Text widget value" = "Vrednost komponenta \"Text"; // translategemma:4b
+"Combined processes" = "Combined processes";
 
 // CPU
 "CPU usage" = "CPE poraba";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "Obremenitev učinkovitih jeder";
 "Performance cores load" = "Obremenitev performančnih jeder";
 "All cores" = "Vsa jedra";
+"Load per core" = "Za vsako jedro"; // translategemma:4b
+"Efficiency core" = "Osrednja enostavnost"; // translategemma:4b
+"Performance core" = "Osnovna zmogljivost"; // translategemma:4b
+"Super core" = "Odličen os"; // translategemma:4b
 
 // GPU
 "GPU to show" = "GPE za prikaz";
@@ -402,7 +409,7 @@
 "Internet connection" = "Internetna povezava";
 "Active state color" = "Barva aktivnega stanja";
 "Nonactive state color" = "Barva neaktivnega stanja";
-"Connectivity host (ICMP)" = "Gostitelj za preverjanje povezljivosti (ICMP)";
+"Connectivity host" = "Gostitelj za preverjanje povezljivosti";
 "Leave empty to disable the check" = "Pusti prazno, če želiš onemogočiti preverjanje povezljivosti";
 "Connectivity history" = "Zgodovina povezljivosti";
 "Auto-refresh public IP address" = "Samodejna osvežitev javnega IP naslova";
@@ -422,6 +429,7 @@
 "New IP" = "Novo IP: %0"; // translategemma:4b
 "Internet connection lost" = "Izguba povezave z internetom"; // translategemma:4b
 "Internet connection established" = "Ustanovljena je povezava s spletom"; // translategemma:4b
+"Show country code instead of emoji" = "Prikažite kodo države namesto emotikon."; // translategemma:4b
 
 // Battery
 "Level" = "Raven";

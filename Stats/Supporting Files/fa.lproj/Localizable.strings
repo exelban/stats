@@ -71,6 +71,7 @@
 "Logarithmic" = "لگاریتمی";
 "Fixed scale" = "اصلاح شده"; // translategemma:4b
 "Cores" = "هسته ها";
+"Core" = "مرکزی"; // translategemma:4b
 "Settings" = "تنظیمات"; // translategemma:4b
 "Name" = "نام"; // translategemma:4b
 "Format" = "فرمت"; // translategemma:4b
@@ -177,6 +178,7 @@
 "Number of threads" = "%0 ترد‌ها";
 "Number of e-cores" = "%0 هسته‌های کم‌مصرف";
 "Number of p-cores" = "%0 هسته‌های پرقدرت";
+"Number of s-cores" = "%0 هسته‌ها (به معنای هسته‌های اصلی یا مرکزی)"; // translategemma:4b
 "Disks" = "دیسک‌ها"; // translategemma:4b
 "Display" = "نمایش"; // translategemma:4b
 
@@ -255,6 +257,7 @@
 "Main chart scaling" = "مقیاس‌بندی نمودار اصلی"; // translategemma:4b
 "Scale value" = "مقیاس مقدار"; // translategemma:4b
 "Text widget value" = "مقدار عنصر `Text`"; // translategemma:4b
+"Combined processes" = "Combined processes";
 
 // CPU
 "CPU usage" = "مصرف سی پی یو";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "بارگیری هسته‌های کارآمد"; // translategemma:4b
 "Performance cores load" = "بارگذاری هسته‌های عملکرد"; // translategemma:4b
 "All cores" = "تمام هسته‌ها"; // translategemma:4b
+"Load per core" = "بارگذاری بر اساس هسته"; // translategemma:4b
+"Efficiency core" = "مفهوم اصلی: کارایی"; // translategemma:4b
+"Performance core" = "هسته عملکرد"; // translategemma:4b
+"Super core" = "سخت‌افزار اصلی"; // translategemma:4b
 
 // GPU
 "GPU to show" = "نمایش جی پی یو";
@@ -402,7 +409,7 @@
 "Internet connection" = "اتصال اینترنت";
 "Active state color" = "رنگ حالت فعال";
 "Nonactive state color" = "رنگ حالت غیر فعال";
-"Connectivity host (ICMP)" = "میزبان اتصال (ICMP)";
+"Connectivity host" = "میزبان اتصال";
 "Leave empty to disable the check" = "خالی بگذارید تا بررسی غیرفعال شود";
 "Connectivity history" = "تاریخچه اتصال"; // translategemma:4b
 "Auto-refresh public IP address" = "به‌طور خودکار، آدرس IP عمومی را به‌روزرسانی کنید."; // translategemma:4b
@@ -422,6 +429,7 @@
 "New IP" = "آدرس IP جدید: %0"; // translategemma:4b
 "Internet connection lost" = "اتصال اینترنت قطع شد"; // translategemma:4b
 "Internet connection established" = "اتصال اینترنت برقرار شد"; // translategemma:4b
+"Show country code instead of emoji" = "به جای استفاده از ایموجی، کد کشور را نمایش دهید."; // translategemma:4b
 
 // Battery
 "Level" = "سطح";

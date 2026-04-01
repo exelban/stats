@@ -71,6 +71,7 @@
 "Logarithmic" = "Logaritmisk";
 "Fixed scale" = "Løst"; // translategemma:4b
 "Cores" = "Kjerner";
+"Core" = "Kjerne"; // translategemma:4b
 "Settings" = "Innstillinger";
 "Name" = "Navn";
 "Format" = "Format";
@@ -177,6 +178,7 @@
 "Number of threads" = "%0 tråder";
 "Number of e-cores" = "%0 effektivitetskjerner";
 "Number of p-cores" = "%0 ytelseskjerner";
+"Number of s-cores" = "%0 superkjerner"; // translategemma:4b
 "Disks" = "Disker"; // translategemma:4b
 "Display" = "Visning"; // translategemma:4b
 
@@ -255,6 +257,7 @@
 "Main chart scaling" = "Hovedskala for diagrammet"; // translategemma:4b
 "Scale value" = "Skalaverdi"; // translategemma:4b
 "Text widget value" = "Verdi for tekstfelt"; // translategemma:4b
+"Combined processes" = "Combined processes";
 
 // CPU
 "CPU usage" = "CPU-bruk";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "Effektivitetskerner laster"; // translategemma:4b
 "Performance cores load" = "Ytelseskjerner lastes"; // translategemma:4b
 "All cores" = "Alle kjerner"; // translategemma:4b
+"Load per core" = "Last per kjerne"; // translategemma:4b
+"Efficiency core" = "Kjerne for effektivitet"; // translategemma:4b
+"Performance core" = "Ytelseskjerne"; // translategemma:4b
+"Super core" = "Ekstremt kraftig"; // translategemma:4b
 
 // GPU
 "GPU to show" = "GPU å vise";
@@ -402,7 +409,7 @@
 "Internet connection" = "Internett-tilkobling";
 "Active state color" = "Aktiv statusfarge";
 "Nonactive state color" = "Inaktiv statusfarge";
-"Connectivity host (ICMP)" = "Tilkoblingsvert (ICMP)";
+"Connectivity host" = "Tilkoblingsvert";
 "Leave empty to disable the check" = "La stå tom for å deaktivere sjekken";
 "Connectivity history" = "Tilkoblingshistorikk";
 "Auto-refresh public IP address" = "Auto-oppfrisk offentlig IP-adresse";
@@ -422,6 +429,7 @@
 "New IP" = "Ny IP: %0"; // translategemma:4b
 "Internet connection lost" = "Internett-tilkoblingen er tapt."; // translategemma:4b
 "Internet connection established" = "Internett-tilkobling etablert"; // translategemma:4b
+"Show country code instead of emoji" = "Vis landekode i stedet for emoji"; // translategemma:4b
 
 // Battery
 "Level" = "Nivå";

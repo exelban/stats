@@ -71,6 +71,7 @@
 "Logarithmic" = "Logarytmiczne";
 "Fixed scale" = "Stałe";
 "Cores" = "Rdzeni";
+"Core" = "Rdzeń"; // translategemma:4b
 "Settings" = "Ustawienia";
 "Name" = "Nazwa";
 "Format" = "Format";
@@ -177,6 +178,7 @@
 "Number of threads" = "%0 wątków";
 "Number of e-cores" = "%0 rdzeni energooszczędnych";
 "Number of p-cores" = "%0 rdzeni wydajnościowych";
+"Number of s-cores" = "%0 super rdzeni";
 "Disks" = "Dyski";
 "Display" = "Wyświetlacz";
 
@@ -255,6 +257,7 @@
 "Main chart scaling" = "Skalowanie wykresu głównego";
 "Scale value" = "Wartość skali";
 "Text widget value" = "Wartość widżetu tekstowego";
+"Combined processes" = "Zgrupowane procesy";
 
 // CPU
 "CPU usage" = "Obciążenie procesora";
@@ -288,6 +291,10 @@
 "Efficiency cores load" = "Obciążenie rdzeni energooszczędnych";
 "Performance cores load" = "Obciążenie rdzeni wydajnościowych";
 "All cores" = "Wszystkie rdzenie";
+"Load per core" = "Obciążenie na rdzeń";
+"Efficiency core" = "Rdzeń energooszczędny";
+"Performance core" = "Rdzeń wydajnościowy";
+"Super core" = "Super rdzeń";
 
 // GPU
 "GPU to show" = "GPU do wyświetlenia";
@@ -402,7 +409,7 @@
 "Internet connection" = "Połączenie internetowe";
 "Active state color" = "Kolor stanu aktywnego";
 "Nonactive state color" = "Kolor stanu nieaktywnego";
-"Connectivity host (ICMP)" = "Host łączności (ICMP)";
+"Connectivity host" = "Host łączności";
 "Leave empty to disable the check" = "Pozostaw puste, aby wyłączyć sprawdzanie";
 "Connectivity history" = "Historia łączności";
 "Auto-refresh public IP address" = "Automatyczne odświeżanie adresu IP";
@@ -422,6 +429,7 @@
 "New IP" = "Nowy adres IP: %0";
 "Internet connection lost" = "Utracono połączenie z internetem";
 "Internet connection established" = "Połączenie z internetem zostało przywrócone";
+"Show country code instead of emoji" = "Wyświetl kod kraju zamiast emoji"; // translategemma:4b
 
 // Battery
 "Level" = "Poziom naładowania";
