@@ -73,8 +73,8 @@ public enum widget_t: String {
             preview = Tachometer(title: module, preview: true)
             item = Tachometer(title: module, preview: false)
         case .state:
-            preview = StateWidget(title: module, config: widgetConfig, preview: true)
-            item = StateWidget(title: module, config: widgetConfig, preview: false)
+            preview = DotWidget(title: module, config: widgetConfig, preview: true)
+            item = DotWidget(title: module, config: widgetConfig, preview: false)
         case .text:
             preview = TextWidget(title: module, config: widgetConfig, preview: true)
             item = TextWidget(title: module, config: widgetConfig, preview: false)

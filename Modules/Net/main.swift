@@ -352,7 +352,9 @@ public class Network: Module {
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: SWidget) in
             switch w.item {
-            case let widget as StateWidget: widget.setValue(value.status)
+            case let widget as DotWidget:
+                let value = value.status ? SColor.secondGreen : SColor.secondRed
+                widget.setValue(value.additional as? NSColor ?? .systemGray)
             default: break
             }
         }
