@@ -449,6 +449,7 @@ public class ProcessReader: Reader<[Disk_process]> {
     public override func read() {
         guard self.numberOfProcesses != 0, let output = runProcess(path: "/bin/ps", args: ["-Aceo pid,args", "-r"]) else { return }
         
+        var snapshot = self.list
         var processes: [Disk_process] = []
         output.enumerateLines { (line, _) in
             let str = line.trimmingCharacters(in: .whitespaces)
@@ -467,11 +468,11 @@ public class ProcessReader: Reader<[Disk_process]> {
             let bytesRead = Int(usage.ri_diskio_bytesread)
             let bytesWritten = Int(usage.ri_diskio_byteswritten)
             
-            if self.list[pid] == nil {
-                self.list[pid] = io(read: bytesRead, write: bytesWritten)
+            if snapshot[pid] == nil {
+                snapshot[pid] = io(read: bytesRead, write: bytesWritten)
             }
             
-            if let v = self.list[pid] {
+            if let v = snapshot[pid] {
                 let read = bytesRead - v.read
                 let write = bytesWritten - v.write
                 if read != 0 || write != 0 {
@@ -479,9 +480,10 @@ public class ProcessReader: Reader<[Disk_process]> {
                 }
             }
             
-            self.list[pid]?.read = bytesRead
-            self.list[pid]?.write = bytesWritten
+            snapshot[pid]?.read = bytesRead
+            snapshot[pid]?.write = bytesWritten
         }
+        self.list = snapshot
         
         processes.sort {
             let firstMax = max($0.read, $0.write)
