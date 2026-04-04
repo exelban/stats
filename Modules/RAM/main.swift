@@ -232,6 +232,7 @@ public class RAM: Module {
                     }
                 }
                 widget.setValue(text)
+            case let widget as DotWidget: widget.setValue(value.pressure.value.pressureColor())
             default: break
             }
         }
