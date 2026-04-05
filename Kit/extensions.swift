@@ -103,21 +103,6 @@ extension String: @retroactive LocalizedError {
     }
 }
 
-public extension DispatchSource.MemoryPressureEvent {
-    func pressureColor() -> NSColor {
-        switch self {
-        case .normal:
-            return NSColor.systemGreen
-        case .warning:
-            return NSColor.systemYellow
-        case .critical:
-            return NSColor.systemRed
-        default:
-            return .controlAccentColor
-        }
-    }
-}
-
 public extension Double {
     func roundTo(decimalPlaces: Int) -> String {
         return NSString(format: "%.\(decimalPlaces)f" as NSString, self) as String

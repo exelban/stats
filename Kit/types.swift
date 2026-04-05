@@ -405,7 +405,7 @@ public enum RAMPressure: String, Codable {
     case warning
     case critical
     
-    func pressureColor() -> NSColor {
+    public func pressureColor() -> NSColor {
         switch self {
         case .normal:
             return NSColor.systemGreen
