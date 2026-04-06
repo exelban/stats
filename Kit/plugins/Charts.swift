@@ -11,16 +11,6 @@
 
 import Cocoa
 
-public struct circle_segment {
-    public let value: Double
-    public var color: NSColor
-    
-    public init(value: Double, color: NSColor) {
-        self.value = value
-        self.color = color
-    }
-}
-
 internal func scaleValue(scale: Scale = .linear, value: Double, maxValue: Double, zeroValue: Double, maxHeight: CGFloat, limit: Double) -> CGFloat {
     var value = value
     if scale == .none && value > 1 && maxValue != 0 {
@@ -537,10 +527,10 @@ public class PieChartView: NSView {
     private var nonActiveSegmentColor: NSColor = NSColor.lightGray
     
     private var value: Double? = nil
-    private var segments: [circle_segment] = []
+    private var segments: [ColorValue] = []
     private var queue: DispatchQueue = DispatchQueue(label: "eu.exelban.Stats.charts.pie")
     
-    public init(frame: NSRect = .zero, segments: [circle_segment] = [], filled: Bool = false, drawValue: Bool = false) {
+    public init(frame: NSRect = .zero, segments: [ColorValue] = [], filled: Bool = false, drawValue: Bool = false) {
         self.filled = filled
         self.drawValue = drawValue
         self.segments = segments
@@ -559,7 +549,7 @@ public class PieChartView: NSView {
         var drawValue: Bool = false
         var nonActiveSegmentColor: NSColor = NSColor.lightGray
         var value: Double? = nil
-        var segments: [circle_segment] = []
+        var segments: [ColorValue] = []
         self.queue.sync {
             filled = self.filled
             drawValue = self.drawValue
@@ -572,7 +562,7 @@ public class PieChartView: NSView {
         let fullCircle = 2 * CGFloat.pi
         let totalAmount = segments.reduce(0) { $0 + $1.value }
         if totalAmount < 1 {
-            segments.append(circle_segment(value: Double(1-totalAmount), color: nonActiveSegmentColor.withAlphaComponent(0.5)))
+            segments.append(ColorValue(Double(1-totalAmount), color: nonActiveSegmentColor.withAlphaComponent(0.5)))
         }
         
         let centerPoint = CGPoint(x: self.frame.width/2, y: self.frame.height/2)
@@ -590,7 +580,9 @@ public class PieChartView: NSView {
         for segment in segments.reversed() {
             let currentAngle: CGFloat = previousAngle + (CGFloat(segment.value) * fullCircle)
             
-            context.setStrokeColor(segment.color.cgColor)
+            if let color = segment.color {
+                context.setStrokeColor(color.cgColor)
+            }
             context.addArc(center: centerPoint, radius: radius, startAngle: previousAngle, endAngle: currentAngle, clockwise: false)
             context.strokePath()
             
@@ -621,7 +613,7 @@ public class PieChartView: NSView {
         }
     }
     
-    public func setSegments(_ segments: [circle_segment]) {
+    public func setSegments(_ segments: [ColorValue]) {
         self.queue.async(flags: .barrier) {
             self.segments = segments
         }
@@ -685,11 +677,11 @@ public class HalfCircleGraphView: NSView {
         context.setLineWidth(arcWidth)
         context.setLineCap(.round)
         
-        var segments: [circle_segment] = [
-            circle_segment(value: value, color: color)
+        var segments: [ColorValue] = [
+            ColorValue(value, color: color)
         ]
         if value < 1 {
-            segments.append(circle_segment(value: Double(1-value), color: NSColor.lightGray.withAlphaComponent(0.5)))
+            segments.append(ColorValue(Double(1-value), color: NSColor.lightGray.withAlphaComponent(0.5)))
         }
         
         let startAngle: CGFloat = -(1/4)*CGFloat.pi
@@ -703,7 +695,9 @@ public class HalfCircleGraphView: NSView {
         for segment in segments {
             let currentAngle: CGFloat = previousAngle + (CGFloat(segment.value) * endCircle)
             
-            context.setStrokeColor(segment.color.cgColor)
+            if let color = segment.color {
+                context.setStrokeColor(color.cgColor)
+            }
             context.addArc(center: centerPoint, radius: radius, startAngle: previousAngle, endAngle: currentAngle, clockwise: false)
             context.strokePath()
             
@@ -749,10 +743,10 @@ public class HalfCircleGraphView: NSView {
 
 internal class TachometerGraphView: NSView {
     private var filled: Bool
-    private var segments: [circle_segment]
+    private var segments: [ColorValue]
     private var queue: DispatchQueue = DispatchQueue(label: "eu.exelban.Stats.charts.tachometer")
     
-    internal init(frame: NSRect, segments: [circle_segment], filled: Bool = true) {
+    internal init(frame: NSRect, segments: [ColorValue], filled: Bool = true) {
         self.filled = filled
         self.segments = segments
         
@@ -765,7 +759,7 @@ internal class TachometerGraphView: NSView {
     
     public override func draw(_ rect: CGRect) {
         var filled: Bool = false
-        var segments: [circle_segment] = []
+        var segments: [ColorValue] = []
         self.queue.sync {
             filled = self.filled
             segments = self.segments
@@ -774,7 +768,7 @@ internal class TachometerGraphView: NSView {
         let arcWidth: CGFloat = filled ? min(self.frame.width, self.frame.height) / 2 : 7
         let totalAmount = segments.reduce(0) { $0 + $1.value }
         if totalAmount < 1 {
-            segments.append(circle_segment(value: Double(1-totalAmount), color: NSColor.lightGray.withAlphaComponent(0.5)))
+            segments.append(ColorValue(Double(1-totalAmount), color: NSColor.lightGray.withAlphaComponent(0.5)))
         }
         
         let centerPoint = CGPoint(x: self.frame.width/2, y: self.frame.height/2)
@@ -795,7 +789,9 @@ internal class TachometerGraphView: NSView {
         for segment in segments {
             let currentAngle: CGFloat = previousAngle + (CGFloat(segment.value) * endCircle)
             
-            context.setStrokeColor(segment.color.cgColor)
+            if let color = segment.color {
+                context.setStrokeColor(color.cgColor)
+            }
             context.addArc(center: centerPoint, radius: radius, startAngle: previousAngle, endAngle: currentAngle, clockwise: false)
             context.strokePath()
             
@@ -803,7 +799,7 @@ internal class TachometerGraphView: NSView {
         }
     }
     
-    internal func setSegments(_ segments: [circle_segment]) {
+    internal func setSegments(_ segments: [ColorValue]) {
         self.queue.async(flags: .barrier) {
             self.segments = segments
         }

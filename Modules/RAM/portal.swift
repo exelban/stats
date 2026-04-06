@@ -114,9 +114,9 @@ public class Portal: PortalWrapper {
                 self.circle?.toolTip = "\(localizedString("Memory usage")): \(Int(value.usage*100))%"
                 self.circle?.setValue(value.usage)
                 self.circle?.setSegments([
-                    circle_segment(value: value.app/value.total, color: self.appColor),
-                    circle_segment(value: value.wired/value.total, color: self.wiredColor),
-                    circle_segment(value: value.compressed/value.total, color: self.compressedColor)
+                    ColorValue(value.app/value.total, color: self.appColor),
+                    ColorValue(value.wired/value.total, color: self.wiredColor),
+                    ColorValue(value.compressed/value.total, color: self.compressedColor)
                 ])
                 self.circle?.setNonActiveSegmentColor(self.freeColor)
                 

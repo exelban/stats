@@ -109,7 +109,7 @@ public class Portal: PortalWrapper {
                 self.circle?.toolTip = "\(localizedString("Disk usage")): \(Int(value.percentage*100))%"
                 self.circle?.setValue(value.percentage)
                 self.circle?.setSegments([
-                    circle_segment(value: value.percentage, color: self.valueColor)
+                    ColorValue(value.percentage, color: self.valueColor)
                 ])
                 self.initialized = true
             }

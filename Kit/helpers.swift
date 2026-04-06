@@ -447,7 +447,7 @@ public func portalWithColorRow(_ v: NSStackView, color: NSColor, title: String) 
     return (colorView, valueView)
 }
 
-public func previewRow(_ view: NSStackView?, space: Bool = true, color: NSColor? = nil, title: String, value: String) -> ValueField {
+public func previewRow(_ view: NSStackView?, space: Bool = true, color: NSColor? = nil, title: String, value: String = "") -> ValueField {
     let row: NSStackView = NSStackView(frame: NSRect.zero)
     row.heightAnchor.constraint(equalToConstant: 22).isActive = true
     row.orientation = .horizontal

@@ -25,7 +25,7 @@ extension [DoubleValue] {
 
 public struct ColorValue: Equatable {
     public let value: Double
-    public let color: NSColor?
+    public var color: NSColor?
     
     public init(_ value: Double, color: NSColor? = nil) {
         self.value = value

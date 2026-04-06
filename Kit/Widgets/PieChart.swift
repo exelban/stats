@@ -48,18 +48,18 @@ public class PieChart: WidgetWrapper {
         if preview {
             if self.title == "CPU" {
                 self.chart.setSegments([
-                    circle_segment(value: 0.16, color: NSColor.systemRed),
-                    circle_segment(value: 0.28, color: NSColor.systemBlue)
+                    ColorValue(0.16, color: NSColor.systemRed),
+                    ColorValue(0.28, color: NSColor.systemBlue)
                 ])
             } else if self.title == "RAM" {
                 self.chart.setSegments([
-                    circle_segment(value: 0.36, color: NSColor.systemBlue),
-                    circle_segment(value: 0.12, color: NSColor.systemOrange),
-                    circle_segment(value: 0.08, color: NSColor.systemPink)
+                    ColorValue(0.36, color: NSColor.systemBlue),
+                    ColorValue(0.12, color: NSColor.systemOrange),
+                    ColorValue(0.08, color: NSColor.systemPink)
                 ])
             } else if self.title == "Disk" {
                 self.chart.setSegments([
-                    circle_segment(value: 0.86, color: NSColor.systemBlue)
+                    ColorValue(0.86, color: NSColor.systemBlue)
                 ])
             }
         } else {
@@ -89,12 +89,14 @@ public class PieChart: WidgetWrapper {
         self.setWidth(self.size + x)
     }
     
-    public func setValue(_ list: [circle_segment]) {
+    public func setValue(_ list: [ColorValue]) {
         var segments = list
         
         if self.monochromeState {
             for i in 0..<segments.count {
-                segments[i].color = segments[i].color.grayscaled()
+                if let color = segments[i].color {
+                    segments[i].color = color.grayscaled()
+                }
             }
         }
         

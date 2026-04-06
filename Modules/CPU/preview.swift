@@ -269,8 +269,8 @@ internal class Preview: NSStackView, Preview_v {
                 self.circle?.toolTip = "\(localizedString("CPU usage")): \(Int(value.totalUsage.rounded(toPlaces: 2) * 100))%"
                 self.circle?.setValue(value.totalUsage)
                 self.circle?.setSegments([
-                    circle_segment(value: value.systemLoad, color: self.systemColor),
-                    circle_segment(value: value.userLoad, color: self.userColor)
+                    ColorValue(value.systemLoad, color: self.systemColor),
+                    ColorValue(value.userLoad, color: self.userColor)
                 ])
                 self.circle?.setNonActiveSegmentColor(self.idleColor)
                 

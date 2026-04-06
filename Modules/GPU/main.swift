@@ -187,7 +187,7 @@ public class GPU: Module {
             case let widget as BarChart: widget.setValue([[ColorValue(utilization)]])
             case let widget as Tachometer:
                 widget.setValue([
-                    circle_segment(value: utilization, color: NSColor.systemBlue)
+                    ColorValue(utilization, color: NSColor.systemBlue)
                 ])
             default: break
             }

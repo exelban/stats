@@ -248,13 +248,13 @@ public class CPU: Module {
                 widget.setValue(val)
             case let widget as PieChart:
                 widget.setValue([
-                    circle_segment(value: value.systemLoad, color: self.systemColor),
-                    circle_segment(value: value.userLoad, color: self.userColor)
+                    ColorValue(value.systemLoad, color: self.systemColor),
+                    ColorValue(value.userLoad, color: self.userColor)
                 ])
             case let widget as Tachometer:
                 widget.setValue([
-                    circle_segment(value: value.systemLoad, color: self.systemColor),
-                    circle_segment(value: value.userLoad, color: self.userColor)
+                    ColorValue(value.systemLoad, color: self.systemColor),
+                    ColorValue(value.userLoad, color: self.userColor)
                 ])
             default: break
             }

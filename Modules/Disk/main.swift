@@ -304,7 +304,7 @@ public class Disk: Module {
                 widget.setValue((DiskSize(d.free).getReadableMemory(), DiskSize(d.size - d.free).getReadableMemory()), usedPercentage: d.percentage)
             case let widget as PieChart:
                 widget.setValue([
-                    circle_segment(value: d.percentage, color: NSColor.systemBlue)
+                    ColorValue(d.percentage, color: NSColor.systemBlue)
                 ])
             case let widget as TextWidget:
                 var text = "\(self.textValue)"

@@ -249,9 +249,9 @@ internal class Popup: PopupWrapper {
                 self.circle?.toolTip = "\(localizedString("Memory usage")): \(Int(value.usage*100))%"
                 self.circle?.setValue(value.usage)
                 self.circle?.setSegments([
-                    circle_segment(value: value.app/value.total, color: self.appColor),
-                    circle_segment(value: value.wired/value.total, color: self.wiredColor),
-                    circle_segment(value: value.compressed/value.total, color: self.compressedColor)
+                    ColorValue(value.app/value.total, color: self.appColor),
+                    ColorValue(value.wired/value.total, color: self.wiredColor),
+                    ColorValue(value.compressed/value.total, color: self.compressedColor)
                 ])
                 self.circle?.setNonActiveSegmentColor(self.freeColor)
                 self.level?.setValue(value.pressure)
@@ -428,10 +428,10 @@ internal class Popup: PopupWrapper {
 }
 
 public class PressureView: NSView {
-    private let segments: [circle_segment] = [
-        circle_segment(value: 1/3, color: NSColor.systemGreen),
-        circle_segment(value: 1/3, color: NSColor.systemYellow),
-        circle_segment(value: 1/3, color: NSColor.systemRed)
+    private let segments: [ColorValue] = [
+        ColorValue(1/3, color: NSColor.systemGreen),
+        ColorValue(1/3, color: NSColor.systemYellow),
+        ColorValue(1/3, color: NSColor.systemRed)
     ]
     
     private var value: Pressure = Pressure(level: 1, value: .normal)
@@ -467,7 +467,9 @@ public class PressureView: NSView {
         for segment in self.segments {
             let currentAngle: CGFloat = previousAngle + (CGFloat(segment.value) * endCircle)
             
-            context.setStrokeColor(segment.color.cgColor)
+            if let color = segment.color {
+                context.setStrokeColor(color.cgColor)
+            }
             context.addArc(center: centerPoint, radius: radius, startAngle: previousAngle, endAngle: currentAngle, clockwise: false)
             context.strokePath()
             

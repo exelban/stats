@@ -173,9 +173,9 @@ public class RAM: Module {
                 }
             case let widget as PieChart:
                 widget.setValue([
-                    circle_segment(value: value.app/total, color: self.appColor),
-                    circle_segment(value: value.wired/total, color: self.wiredColor),
-                    circle_segment(value: value.compressed/total, color: self.compressedColor)
+                    ColorValue(value.app/total, color: self.appColor),
+                    ColorValue(value.wired/total, color: self.wiredColor),
+                    ColorValue(value.compressed/total, color: self.compressedColor)
                 ])
             case let widget as MemoryWidget:
                 let free = Units(bytes: Int64(value.free)).getReadableMemory(style: .memory)
@@ -184,9 +184,9 @@ public class RAM: Module {
                 widget.setPressure(value.pressure.value)
             case let widget as Tachometer:
                 widget.setValue([
-                    circle_segment(value: value.app/total, color: self.appColor),
-                    circle_segment(value: value.wired/total, color: self.wiredColor),
-                    circle_segment(value: value.compressed/total, color: self.compressedColor)
+                    ColorValue(value.app/total, color: self.appColor),
+                    ColorValue(value.wired/total, color: self.wiredColor),
+                    ColorValue(value.compressed/total, color: self.compressedColor)
                 ])
             case let widget as TextWidget:
                 var text = "\(self.textValue)"
