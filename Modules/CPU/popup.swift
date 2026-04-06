@@ -238,7 +238,7 @@ internal class Popup: PopupWrapper {
             box.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
             box.layer?.cornerRadius = 3
             
-            let chartFrame = NSRect(x: 1, y: 0, width: box.frame.width, height: box.frame.height)
+            let chartFrame = NSRect(x: 1, y: 0, width: box.frame.width - 2, height: box.frame.height)
             self.lineChart = LineChartView(frame: chartFrame, num: self.lineChartHistory, scale: self.lineChartScale, fixedScale: self.lineChartFixedScale)
             self.lineChart?.color = self.chartColor
             box.addSubview(self.lineChart!)

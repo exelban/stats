@@ -226,17 +226,16 @@ public class LineChart: WidgetWrapper {
         }
         
         context.saveGState()
-        
-        let chartFrame = NSRect(
-            x: x+offset+lineWidth,
-            y: offset,
+        context.translateBy(x: x+offset+lineWidth, y: offset)
+
+        let chartSize = NSSize(
             width: box.bounds.width - (offset*2+lineWidth),
             height: box.bounds.height - offset
         )
         self.chart.color = color
-        self.chart.setFrameSize(NSSize(width: chartFrame.width, height: chartFrame.height))
-        self.chart.draw(chartFrame)
-        
+        self.chart.setFrameSize(chartSize)
+        self.chart.draw(NSRect(origin: .zero, size: chartSize))
+
         context.restoreGState()
         
         if self.boxState || self.frameState {
