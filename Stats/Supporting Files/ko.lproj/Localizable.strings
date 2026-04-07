@@ -257,7 +257,7 @@
 "Main chart scaling" = "주요 차트 스케일 설정"; // translategemma:4b
 "Scale value" = "척도 값"; // translategemma:4b
 "Text widget value" = "텍스트 위젯 값"; // translategemma:4b
-"Combined processes" = "Combined processes";
+"Combined processes" = "통합된 프로세스"; // translategemma:4b
 
 // CPU
 "CPU usage" = "CPU 사용량";
@@ -484,6 +484,7 @@
 "Add new clock" = "새로운 시계 추가"; // translategemma:4b
 "Delete selected clock" = "선택된 시계 삭제"; // translategemma:4b
 "Help with datetime format" = "datetime 형식에 대한 도움"; // translategemma:4b
+"Sync with NTP server" = "NTP 서버와 동기화"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "사용률 기준";

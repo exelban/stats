@@ -257,7 +257,7 @@
 "Main chart scaling" = "Ana çizelge ölçeklendirmesi";
 "Scale value" = "Ölçekleme değeri";
 "Text widget value" = "Metin widget'ı değeri";
-"Combined processes" = "Combined processes";
+"Combined processes" = "Birleştirilmiş süreçler"; // translategemma:4b
 
 // CPU
 "CPU usage" = "CPU kullanımı";
@@ -484,6 +484,7 @@
 "Add new clock" = "Yeni saat ekle";
 "Delete selected clock" = "Seçili saati sil";
 "Help with datetime format" = "Tarih-saat biçimiyle ilgili yardım";
+"Sync with NTP server" = "NTP sunucusuyla senkronize ol"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "Kullanıma dayalı";

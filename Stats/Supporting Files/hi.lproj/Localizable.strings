@@ -257,7 +257,7 @@
 "Main chart scaling" = "मुख्य चार्ट स्केल"; // translategemma:4b
 "Scale value" = "माप मान"; // translategemma:4b
 "Text widget value" = "टेक्स्ट विजेट का मान"; // translategemma:4b
-"Combined processes" = "Combined processes";
+"Combined processes" = "संयुक्त प्रक्रियाएं"; // translategemma:4b
 
 // CPU
 "CPU usage" = "सीपीयू उपयोग";
@@ -484,6 +484,7 @@
 "Add new clock" = "नया घड़ी जोड़ें"; // translategemma:4b
 "Delete selected clock" = "चुना हुआ घड़ी हटाएँ"; // translategemma:4b
 "Help with datetime format" = "datetime प्रारूप के साथ सहायता"; // translategemma:4b
+"Sync with NTP server" = "NTP सर्वर के साथ सिंक करें"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "उपयोग के आधार पर";

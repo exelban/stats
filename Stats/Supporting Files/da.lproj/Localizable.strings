@@ -12,7 +12,7 @@
 // Modules
 "CPU" = "CPU";
 "Open CPU settings" = "Åben indstillinger for CPU";
-"GPU" = "GPU";
+"GPU" = "Grafikprocessor"; // translategemma:4b
 "Open GPU settings" = "Åben indstillinger for GPU";
 "RAM" = "RAM";
 "Open RAM settings" = "Åben indstillinger for RAM";
@@ -257,7 +257,7 @@
 "Main chart scaling" = "Primær diagramskala"; // translategemma:4b
 "Scale value" = "Skala værdi"; // translategemma:4b
 "Text widget value" = "Værdien for tekstwidget"; // translategemma:4b
-"Combined processes" = "Combined processes";
+"Combined processes" = "Kombinerede processer"; // translategemma:4b
 
 // CPU
 "CPU usage" = "CPU brug";
@@ -484,6 +484,7 @@
 "Add new clock" = "Tilføj et nyt ur"; // translategemma:4b
 "Delete selected clock" = "Slet det valgte ur"; // translategemma:4b
 "Help with datetime format" = "Hjælp med at formatere dato og tid"; // translategemma:4b
+"Sync with NTP server" = "Synkroniser med NTP-server"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "Baseret på brug";

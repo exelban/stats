@@ -257,7 +257,7 @@
 "Main chart scaling" = "Hovedskala for diagrammet"; // translategemma:4b
 "Scale value" = "Skalaverdi"; // translategemma:4b
 "Text widget value" = "Verdi for tekstfelt"; // translategemma:4b
-"Combined processes" = "Combined processes";
+"Combined processes" = "Kombinerte prosesser"; // translategemma:4b
 
 // CPU
 "CPU usage" = "CPU-bruk";
@@ -484,6 +484,7 @@
 "Add new clock" = "Legg til ny klokke"; // translategemma:4b
 "Delete selected clock" = "Slett valgt klokke"; // translategemma:4b
 "Help with datetime format" = "Hjelp med formatering av dato og klokkeslett"; // translategemma:4b
+"Sync with NTP server" = "Synkroniser med NTP-server"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "Basert på bruk";

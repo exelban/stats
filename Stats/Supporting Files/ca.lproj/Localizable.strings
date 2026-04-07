@@ -257,7 +257,7 @@
 "Main chart scaling" = "Escala del gràfic principal";
 "Scale value" = "Valor d'escala";
 "Text widget value" = "Valor del widget de text"; // translategemma:4b
-"Combined processes" = "Combined processes";
+"Combined processes" = "Processos combinats"; // translategemma:4b
 
 // CPU
 "CPU usage" = "Ús de la CPU";
@@ -360,7 +360,7 @@
 // Sensors
 "Temperature unit" = "Unitat de temperatura";
 "Celsius" = "Celsius";
-"Fahrenheit" = "Fahrenheit";
+"Fahrenheit" = "Gra Celsius"; // translategemma:4b
 "Save the fan speed" = "Guarda la velocitat del ventilador";
 "Fan" = "Ventilador";
 "HID sensors" = "Sensors HID";
@@ -484,6 +484,7 @@
 "Add new clock" = "Afegir un nou rellotge"; // translategemma:4b
 "Delete selected clock" = "Eliminar l'horari seleccionat"; // translategemma:4b
 "Help with datetime format" = "Ajuda amb el format de data i hora"; // translategemma:4b
+"Sync with NTP server" = "Sincronitza amb el servidor NTP"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "Basat en l'utilització";

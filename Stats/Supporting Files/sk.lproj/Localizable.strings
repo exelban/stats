@@ -52,7 +52,7 @@
 "Long" = "Dlhý";
 "Statistics" = "Štatistiky";
 "Max" = "Max";
-"Min" = "Min";
+"Min" = "Minúta"; // translategemma:4b
 "Reset" = "Reset";
 "Alignment" = "Zarovnanie";
 "Left alignment" = "Zarovnať doľava";
@@ -257,7 +257,7 @@
 "Main chart scaling" = "Hlavné škálovanie grafu"; // translategemma:4b
 "Scale value" = "Hodnota rozsahu"; // translategemma:4b
 "Text widget value" = "Hodnota prvku textového pole"; // translategemma:4b
-"Combined processes" = "Combined processes";
+"Combined processes" = "Spojené procesy"; // translategemma:4b
 
 // CPU
 "CPU usage" = "Použitie CPU";
@@ -484,6 +484,7 @@
 "Add new clock" = "Pridajte nové hodiny"; // translategemma:4b
 "Delete selected clock" = "Odstrániť vybraný časovač"; // translategemma:4b
 "Help with datetime format" = "Pomoc s formátovaním dát a času"; // translategemma:4b
+"Sync with NTP server" = "Synchronizácia s NTP serverom"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "Na základe využívania";

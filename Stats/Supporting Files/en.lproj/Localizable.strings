@@ -484,6 +484,7 @@
 "Add new clock" = "Add new clock";
 "Delete selected clock" = "Delete selected clock";
 "Help with datetime format" = "Help with datetime format";
+"Sync with NTP server" = "Sync with NTP server";
 
 // Colors
 "Based on utilization" = "Based on utilization";

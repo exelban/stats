@@ -257,7 +257,7 @@
 "Main chart scaling" = "主圖表縮放";
 "Scale value" = "縮放值";
 "Text widget value" = "文字小工具值";
-"Combined processes" = "Combined processes";
+"Combined processes" = "合併流程"; // translategemma:4b
 
 // CPU
 "CPU usage" = "CPU使用量";
@@ -484,6 +484,7 @@
 "Add new clock" = "加入新時鐘";
 "Delete selected clock" = "刪除所選時鐘";
 "Help with datetime format" = "時間日期格式說明";
+"Sync with NTP server" = "與 NTP 伺服器同步"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "根據使用率";

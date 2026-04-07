@@ -257,7 +257,7 @@
 "Main chart scaling" = "Основно мащабиране на графиката"; // translategemma:4b
 "Scale value" = "Стойност на мащаба"; // translategemma:4b
 "Text widget value" = "Стойност на текстовото поле"; // translategemma:4b
-"Combined processes" = "Combined processes";
+"Combined processes" = "Комбинирани процеси"; // translategemma:4b
 
 // CPU
 "CPU usage" = "Употреба на процесора";
@@ -484,6 +484,7 @@
 "Add new clock" = "Добавете нов часовник"; // translategemma:4b
 "Delete selected clock" = "Изтрийте избраното време"; // translategemma:4b
 "Help with datetime format" = "Помощ при форматиране на дати и часове"; // translategemma:4b
+"Sync with NTP server" = "Синхронизиране с NTP сървър"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "На база утилизация";

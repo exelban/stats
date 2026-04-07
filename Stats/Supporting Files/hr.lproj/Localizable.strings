@@ -12,7 +12,7 @@
 // Modules
 "CPU" = "Procesor"; // translategemma:4b
 "Open CPU settings" = "Otvori postavke procesora";
-"GPU" = "GPU";
+"GPU" = "Grafička kartica"; // translategemma:4b
 "Open GPU settings" = "Otvori postavke grafičkog procesora";
 "RAM" = "RAM";
 "Open RAM settings" = "Otvori postavke radne memorije";
@@ -257,7 +257,7 @@
 "Main chart scaling" = "Glavna skaliranje grafikona"; // translategemma:4b
 "Scale value" = "Vrijednost skaliranja"; // translategemma:4b
 "Text widget value" = "Vrijednost polja teksta"; // translategemma:4b
-"Combined processes" = "Combined processes";
+"Combined processes" = "Spojeni procesi"; // translategemma:4b
 
 // CPU
 "CPU usage" = "Korištenje procesora";
@@ -484,6 +484,7 @@
 "Add new clock" = "Dodajte novi sat"; // translategemma:4b
 "Delete selected clock" = "Izbrisati odabranu satnu jedinicu"; // translategemma:4b
 "Help with datetime format" = "Pomoć s formatiranjem datuma i vremena"; // translategemma:4b
+"Sync with NTP server" = "Sinkronizacija s NTP serverom"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "Na osnovi korištenja";

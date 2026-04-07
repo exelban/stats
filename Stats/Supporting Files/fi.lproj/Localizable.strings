@@ -257,7 +257,7 @@
 "Main chart scaling" = "Pääkaavion skaalaus";
 "Scale value" = "Skaalausarvo";
 "Text widget value" = "Tekstikomponentin arvo"; // translategemma:4b
-"Combined processes" = "Combined processes";
+"Combined processes" = "Yhdistetyt prosessit"; // translategemma:4b
 
 // CPU
 "CPU usage" = "Suorittimen käyttö";
@@ -484,6 +484,7 @@
 "Add new clock" = "Lisää uusi kello"; // translategemma:4b
 "Delete selected clock" = "Poista valittu kellonaika"; // translategemma:4b
 "Help with datetime format" = "Apua päivämäärän ja ajan muotoilussa"; // translategemma:4b
+"Sync with NTP server" = "Synkronoi NTP-palvelimen kanssa"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "Perustuu käyttöasteeseen";

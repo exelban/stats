@@ -257,7 +257,7 @@
 "Main chart scaling" = "Hlavní škálování grafu"; // translategemma:4b
 "Scale value" = "Hodnota měřítka"; // translategemma:4b
 "Text widget value" = "Hodnota widgetu textu"; // translategemma:4b
-"Combined processes" = "Combined processes";
+"Combined processes" = "Spojené procesy"; // translategemma:4b
 
 // CPU
 "CPU usage" = "Použití CPU";
@@ -484,6 +484,7 @@
 "Add new clock" = "Přidejte nové hodiny"; // translategemma:4b
 "Delete selected clock" = "Smaž vybrané hodiny"; // translategemma:4b
 "Help with datetime format" = "Pomoc s formátováním dat a času"; // translategemma:4b
+"Sync with NTP server" = "Synchronizace s NTP serverem"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "Na základě využití";

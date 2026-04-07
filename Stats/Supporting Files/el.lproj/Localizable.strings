@@ -257,7 +257,7 @@
 "Main chart scaling" = "Κύρια κλίμακα γραφήματος"; // translategemma:4b
 "Scale value" = "Τιμή κλίμακας"; // translategemma:4b
 "Text widget value" = "Τιμή στο πεδίο κειμένου"; // translategemma:4b
-"Combined processes" = "Combined processes";
+"Combined processes" = "Συνδυασμένες διαδικασίες"; // translategemma:4b
 
 // CPU
 "CPU usage" = "Χρήση CPU";
@@ -484,6 +484,7 @@
 "Add new clock" = "Προσθέστε ένα νέο ρολόι"; // translategemma:4b
 "Delete selected clock" = "Διαγραφή επιλεγμένου χρονοδιαγράμματος"; // translategemma:4b
 "Help with datetime format" = "Βοήθεια με τη μορφοποίηση ημερομηνίας και ώρας"; // translategemma:4b
+"Sync with NTP server" = "Συγχρονισμός με τον διακομιστή NTP"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "Βάσει της χρήσης";

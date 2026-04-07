@@ -484,6 +484,7 @@
 "Add new clock" = "Додати новий годинник";
 "Delete selected clock" = "Видалити вибраний годинник";
 "Help with datetime format" = "Довідка з форматом дати й часу";
+"Sync with NTP server" = "Синхронізація з сервером NTP"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "На основі використання";

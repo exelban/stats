@@ -257,7 +257,7 @@
 "Main chart scaling" = "Escalado del gráfico principal";
 "Scale value" = "Valor de la escala";
 "Text widget value" = "Valor del widget de texto"; // translategemma:4b
-"Combined processes" = "Combined processes";
+"Combined processes" = "Procesos combinados"; // translategemma:4b
 
 // CPU
 "CPU usage" = "Uso de la CPU";
@@ -484,6 +484,7 @@
 "Add new clock" = "Añadir un nuevo reloj"; // translategemma:4b
 "Delete selected clock" = "Eliminar reloj seleccionado"; // translategemma:4b
 "Help with datetime format" = "Ayuda con el formato de fecha y hora"; // translategemma:4b
+"Sync with NTP server" = "Sincronizar con el servidor NTP"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "Basado en utilización";

@@ -257,7 +257,7 @@
 "Main chart scaling" = "مقیاس‌بندی نمودار اصلی"; // translategemma:4b
 "Scale value" = "مقیاس مقدار"; // translategemma:4b
 "Text widget value" = "مقدار عنصر `Text`"; // translategemma:4b
-"Combined processes" = "Combined processes";
+"Combined processes" = "فرآینده ترکیبی"; // translategemma:4b
 
 // CPU
 "CPU usage" = "مصرف سی پی یو";
@@ -484,6 +484,7 @@
 "Add new clock" = "اضافه کردن ساعت جدید"; // translategemma:4b
 "Delete selected clock" = "حذف ساعت انتخاب‌شده"; // translategemma:4b
 "Help with datetime format" = "کمک در فرمت تاریخ و زمان"; // translategemma:4b
+"Sync with NTP server" = "همگام‌سازی با سرور NTP"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "بر اساس استفاده";

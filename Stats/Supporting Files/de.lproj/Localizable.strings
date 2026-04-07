@@ -257,7 +257,7 @@
 "Main chart scaling" = "Hauptdiagramm-Skalierung";
 "Scale value" = "Skalierungswert";
 "Text widget value" = "Text-Widget-Wert";
-"Combined processes" = "Combined processes";
+"Combined processes" = "Kombinierte Prozesse"; // translategemma:4b
 
 // CPU
 "CPU usage" = "CPU-Auslastung";
@@ -484,6 +484,7 @@
 "Add new clock" = "Neue Uhr hinzufügen";
 "Delete selected clock" = "Ausgewählte Uhr löschen";
 "Help with datetime format" = "Hilfe zum Datums-/Zeitformat";
+"Sync with NTP server" = "Synchronisieren mit NTP-Server"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "Nach Auslastung";

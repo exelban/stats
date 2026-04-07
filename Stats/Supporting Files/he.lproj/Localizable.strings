@@ -257,7 +257,7 @@
 "Main chart scaling" = "הגדרת סולם הגרף הראשי"; // translategemma:4b
 "Scale value" = "ערך סולם"; // translategemma:4b
 "Text widget value" = "ערך של רכיב טקסט"; // translategemma:4b
-"Combined processes" = "Combined processes";
+"Combined processes" = "תהליכים משולבים"; // translategemma:4b
 
 // CPU
 "CPU usage" = "שימוש המעבד";
@@ -484,6 +484,7 @@
 "Add new clock" = "הוסף שעון חדש"; // translategemma:4b
 "Delete selected clock" = "מחק את השעון הנבחר"; // translategemma:4b
 "Help with datetime format" = "עזרה בפורמט תאריך ושעה"; // translategemma:4b
+"Sync with NTP server" = "סנכרון עם שרת NTP"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "מבוסס על ניצול";

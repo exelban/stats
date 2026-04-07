@@ -257,7 +257,7 @@
 "Main chart scaling" = "การปรับขนาดกราฟหลัก"; // translategemma:4b
 "Scale value" = "ค่าสเกล"; // translategemma:4b
 "Text widget value" = "ค่าสำหรับส่วนประกอบ Text"; // translategemma:4b
-"Combined processes" = "Combined processes";
+"Combined processes" = "กระบวนการที่รวมกัน"; // translategemma:4b
 
 // CPU
 "CPU usage" = "การใช้งาน CPU";
@@ -484,6 +484,7 @@
 "Add new clock" = "เพิ่มนาฬิกาใหม่"; // translategemma:4b
 "Delete selected clock" = "ลบนาฬิกาที่เลือก"; // translategemma:4b
 "Help with datetime format" = "ขอความช่วยเหลือเกี่ยวกับการจัดรูปแบบวันที่และเวลา"; // translategemma:4b
+"Sync with NTP server" = "ซิงค์กับเซิร์ฟเวอร์ NTP"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "อ้างอิงจากการใช้งาน";

@@ -257,7 +257,7 @@
 "Main chart scaling" = "Skaliranje glavnega grafa";
 "Scale value" = "Vrednost skale";
 "Text widget value" = "Vrednost komponenta \"Text"; // translategemma:4b
-"Combined processes" = "Combined processes";
+"Combined processes" = "Skupni postopki"; // translategemma:4b
 
 // CPU
 "CPU usage" = "CPE poraba";
@@ -360,7 +360,7 @@
 // Sensors
 "Temperature unit" = "Enota za temperaturo";
 "Celsius" = "Celzija";
-"Fahrenheit" = "Fahrenheit";
+"Fahrenheit" = "Farenhajt"; // translategemma:4b
 "Save the fan speed" = "Shrani hitrost ventilatorja";
 "Fan" = "Ventilator";
 "HID sensors" = "HID senzorji";
@@ -484,6 +484,7 @@
 "Add new clock" = "Dodajte novo uro"; // translategemma:4b
 "Delete selected clock" = "Izbrišite izbran uro"; // translategemma:4b
 "Help with datetime format" = "Pomoč pri formiranju datuma in časa"; // translategemma:4b
+"Sync with NTP server" = "Sinhronizacija z NTP strežnikom"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "Na podlagi uporabe";

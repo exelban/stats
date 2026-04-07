@@ -140,7 +140,7 @@
 "Support the application" = "Ondersteun de applicatie";
 "Close application" = "Applicatie sluiten";
 "Open application settings" = "Open de applicatie-instellingen";
-"Open dashboard" = "Open dashboard";
+"Open dashboard" = "Dashboard openen"; // translategemma:4b
 "No notifications available in this module" = "Geen meldingen beschikbaar in dit module"; // translategemma:4b
 "Open Calendar" = "Open Kalender"; // translategemma:4b
 "Toggle the module" = "Activeer/deactiveer het module"; // translategemma:4b
@@ -178,7 +178,7 @@
 "Number of threads" = "%0 threads";
 "Number of e-cores" = "%0 efficiënte kernen"; // translategemma:4b
 "Number of p-cores" = "%0 prestatiecores"; // translategemma:4b
-"Number of s-cores" = "%0 super cores";
+"Number of s-cores" = "%0 supercores"; // translategemma:4b
 "Disks" = "Schijven"; // translategemma:4b
 "Display" = "Weergave"; // translategemma:4b
 
@@ -257,7 +257,7 @@
 "Main chart scaling" = "Hoofdschaal schaal"; // translategemma:4b
 "Scale value" = "Waarde"; // translategemma:4b
 "Text widget value" = "Waarde van het tekstwidget-element"; // translategemma:4b
-"Combined processes" = "Combined processes";
+"Combined processes" = "Gecombineerde processen"; // translategemma:4b
 
 // CPU
 "CPU usage" = "CPU gebruik";
@@ -484,6 +484,7 @@
 "Add new clock" = "Voeg een nieuwe klok toe"; // translategemma:4b
 "Delete selected clock" = "Verwijder de geselecteerde klok"; // translategemma:4b
 "Help with datetime format" = "Hulp bij het formatteren van datums en tijden"; // translategemma:4b
+"Sync with NTP server" = "Synchroniseer met de NTP-server"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "Gebaseerd op gebruik";

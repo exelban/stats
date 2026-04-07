@@ -10,7 +10,7 @@
 //
 
 // Modules
-"CPU" = "CPU";
+"CPU" = "Processzor"; // translategemma:4b
 "Open CPU settings" = "CPU beállítások megnyitása";
 "GPU" = "Grafikus processzor"; // translategemma:4b
 "Open GPU settings" = "GPU beállítások megnyitása";
@@ -83,7 +83,7 @@
 "2 minutes" = "2 perc"; // translategemma:4b
 "3 minutes" = "3 perc"; // translategemma:4b
 "10 minutes" = "10 perc"; // translategemma:4b
-"Import" = "Import";
+"Import" = "Importálás"; // translategemma:4b
 "Export" = "Kivonás"; // translategemma:4b
 "Separator" = "Elválasztó"; // translategemma:4b
 "Read" = "Olvassa el"; // translategemma:4b
@@ -257,7 +257,7 @@
 "Main chart scaling" = "Fődiagram méretezése"; // translategemma:4b
 "Scale value" = "Skálázási érték"; // translategemma:4b
 "Text widget value" = "A szöveges widget értéke"; // translategemma:4b
-"Combined processes" = "Combined processes";
+"Combined processes" = "Összetett folyamatok"; // translategemma:4b
 
 // CPU
 "CPU usage" = "CPU használat";
@@ -484,6 +484,7 @@
 "Add new clock" = "Hozzon létre új órát"; // translategemma:4b
 "Delete selected clock" = "Telenóra törlése"; // translategemma:4b
 "Help with datetime format" = "Segítség a dátum és idő formázásában"; // translategemma:4b
+"Sync with NTP server" = "Sinkolás az NTP szerverrel"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "Használat függő";

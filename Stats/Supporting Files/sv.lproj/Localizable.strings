@@ -12,7 +12,7 @@
 // Modules
 "CPU" = "CPU";
 "Open CPU settings" = "Öppna CPU-inställningar";
-"GPU" = "GPU";
+"GPU" = "Grafikkort"; // translategemma:4b
 "Open GPU settings" = "Öppna GPU-inställningar";
 "RAM" = "RAM";
 "Open RAM settings" = "Öppna RAM-inställningar";
@@ -257,7 +257,7 @@
 "Main chart scaling" = "Huvuddiagramskalning";
 "Scale value" = "Skalvärde";
 "Text widget value" = "Värdet för textwidget"; // translategemma:4b
-"Combined processes" = "Combined processes";
+"Combined processes" = "Kombinerade processer"; // translategemma:4b
 
 // CPU
 "CPU usage" = "CPU-användning";
@@ -484,6 +484,7 @@
 "Add new clock" = "Lägg till en ny klocka"; // translategemma:4b
 "Delete selected clock" = "Ta bort vald klocka"; // translategemma:4b
 "Help with datetime format" = "Hjälp med att formatera datum och tid"; // translategemma:4b
+"Sync with NTP server" = "Synkronisera med NTP-server"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "Baserat på användning";

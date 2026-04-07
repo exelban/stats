@@ -97,10 +97,10 @@
 "2 sec" = "2 secunde"; // translategemma:4b
 "3 sec" = "3 secunde"; // translategemma:4b
 "5 sec" = "5 secunde"; // translategemma:4b
-"10 sec" = "10 sec";
-"15 sec" = "15 sec";
+"10 sec" = "10 secunde"; // translategemma:4b
+"15 sec" = "15 secunde"; // translategemma:4b
 "30 sec" = "30 sec";
-"60 sec" = "60 sec";
+"60 sec" = "60 secunde"; // translategemma:4b
 
 // Setup
 "Stats Setup" = "Configurarea statisticilor"; // translategemma:4b
@@ -257,7 +257,7 @@
 "Main chart scaling" = "Scala principală a graficului"; // translategemma:4b
 "Scale value" = "Valoarea măsurată"; // translategemma:4b
 "Text widget value" = "Valoarea widget-ului de text"; // translategemma:4b
-"Combined processes" = "Combined processes";
+"Combined processes" = "Procese combinate"; // translategemma:4b
 
 // CPU
 "CPU usage" = "Utilizarea procesorului";
@@ -359,7 +359,7 @@
 
 // Sensors
 "Temperature unit" = "Temperatura unității";
-"Celsius" = "Celsius";
+"Celsius" = "Celcius"; // translategemma:4b
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Salvați viteza ventilatorului"; // translategemma:4b
 "Fan" = "Fan";
@@ -484,6 +484,7 @@
 "Add new clock" = "Adaugă un ceas nou"; // translategemma:4b
 "Delete selected clock" = "Șterge ceasul selectat"; // translategemma:4b
 "Help with datetime format" = "Ajutor cu formatarea datelor și a orelor"; // translategemma:4b
+"Sync with NTP server" = "Sincronizare cu serverul NTP"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "În funcție de utilizare"; // translategemma:4b

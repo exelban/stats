@@ -257,7 +257,7 @@
 "Main chart scaling" = "主なグラフのスケール設定"; // translategemma:4b
 "Scale value" = "スケール値"; // translategemma:4b
 "Text widget value" = "テキストウィジェットの値"; // translategemma:4b
-"Combined processes" = "Combined processes";
+"Combined processes" = "統合されたプロセス"; // translategemma:4b
 
 // CPU
 "CPU usage" = "CPU 使用率";
@@ -484,6 +484,7 @@
 "Add new clock" = "新しい時計を追加する"; // translategemma:4b
 "Delete selected clock" = "選択したクロックを削除する"; // translategemma:4b
 "Help with datetime format" = "日付と時刻の形式に関するサポート"; // translategemma:4b
+"Sync with NTP server" = "NTP サーバーとの同期"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "使用率に基づいたカラー";

@@ -257,7 +257,7 @@
 "Main chart scaling" = "Skala grafik utama"; // translategemma:4b
 "Scale value" = "Nilai skala"; // translategemma:4b
 "Text widget value" = "Nilai widget teks"; // translategemma:4b
-"Combined processes" = "Combined processes";
+"Combined processes" = "Proses yang digabungkan"; // translategemma:4b
 
 // CPU
 "CPU usage" = "Penggunaan CPU";
@@ -484,6 +484,7 @@
 "Add new clock" = "Tambahkan jam baru"; // translategemma:4b
 "Delete selected clock" = "Hapus jam yang dipilih"; // translategemma:4b
 "Help with datetime format" = "Bantuan dalam memformat tanggal dan waktu"; // translategemma:4b
+"Sync with NTP server" = "Sinkronkan dengan server NTP"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "Berdasarkan pemanfaatan";

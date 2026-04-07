@@ -484,6 +484,7 @@
 "Add new clock" = "Dodaj nowy zegar";
 "Delete selected clock" = "Usuń wybrany zegar";
 "Help with datetime format" = "Pomoc z formatem daty i godziny";
+"Sync with NTP server" = "Synchronizacja z serwerem NTP"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "Na podstawie wykorzystania";

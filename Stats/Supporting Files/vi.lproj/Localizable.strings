@@ -257,7 +257,7 @@
 "Main chart scaling" = "Tỷ lệ biểu đồ chính";
 "Scale value" = "Giá trị tỷ lệ";
 "Text widget value" = "Giá trị của widget văn bản"; // translategemma:4b
-"Combined processes" = "Combined processes";
+"Combined processes" = "Quy trình kết hợp"; // translategemma:4b
 
 // CPU
 "CPU usage" = "Sử dụng CPU";
@@ -484,6 +484,7 @@
 "Add new clock" = "Thêm đồng hồ mới";
 "Delete selected clock" = "Xóa đồng hồ đã chọn";
 "Help with datetime format" = "Trợ giúp về định dạng ngày giờ";
+"Sync with NTP server" = "Đồng bộ với máy chủ NTP"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "Dựa trên mức sử dụng";
