@@ -45,6 +45,12 @@ public class Portal: PortalWrapper {
         view.orientation = .vertical
         view.distribution = .fillEqually
         view.spacing = Constants.Popup.spacing*2
+        view.edgeInsets = NSEdgeInsets(
+            top: Constants.Popup.spacing*4,
+            left: Constants.Popup.spacing*4,
+            bottom: Constants.Popup.spacing*4,
+            right: Constants.Popup.spacing*4
+        )
 
         let chart = PieChartView(frame: .zero, segments: [], drawValue: true)
         chart.toolTip = "Claude 5h usage"

@@ -62,7 +62,16 @@ public class Claude: Module {
             switch w.item {
             case let widget as Mini: widget.setValue(value.utilization5h)
             case let widget as LineChart: widget.setValue(value.utilization5h)
-            case let widget as TextWidget: widget.setValue("\(Int(value.utilization5h * 100))%")
+            case let widget as TextWidget:
+                if let reset = value.reset5h {
+                    let formatter = DateFormatter()
+                    formatter.dateFormat = "ha"
+                    formatter.amSymbol = "AM"
+                    formatter.pmSymbol = "PM"
+                    widget.setValue("reset\n\(formatter.string(from: reset))")
+                } else {
+                    widget.setValue("-")
+                }
             default: break
             }
         }
