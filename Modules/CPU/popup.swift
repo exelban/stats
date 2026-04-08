@@ -81,8 +81,8 @@ internal class Popup: PopupWrapper {
     private var lineChart: LineChartView? = nil
     private var columnChart: ColumnChartView? = nil
     private var circle: PieChartView? = nil
-    private var temperatureCircle: HalfCircleGraphView? = nil
-    private var frequencyCircle: HalfCircleGraphView? = nil
+    private var temperatureCircle: PieChartView? = nil
+    private var frequencyCircle: PieChartView? = nil
     private var initialized: Bool = false
     private var initializedTemperature: Bool = false
     private var initializedFrequency: Bool = false
@@ -206,12 +206,12 @@ internal class Popup: PopupWrapper {
         self.circle!.toolTip = localizedString("CPU usage")
         usage.addSubview(self.circle!)
         
-        self.temperatureCircle = HalfCircleGraphView(frame: NSRect(x: 0, y: 0, width: temperature.frame.width, height: temperature.frame.height))
+        self.temperatureCircle = PieChartView(frame: NSRect(x: 0, y: 0, width: temperature.frame.width, height: temperature.frame.height), openCircle: true)
         self.temperatureCircle!.toolTip = localizedString("CPU temperature")
         (self.temperatureCircle! as NSView).isHidden = true
         temperature.addSubview(self.temperatureCircle!)
         
-        self.frequencyCircle = HalfCircleGraphView(frame: NSRect(x: 0, y: 0, width: frequency.frame.width, height: frequency.frame.height))
+        self.frequencyCircle = PieChartView(frame: NSRect(x: 0, y: 0, width: frequency.frame.width, height: frequency.frame.height), openCircle: true)
         self.frequencyCircle!.toolTip = localizedString("CPU frequency")
         (self.frequencyCircle! as NSView).isHidden = true
         frequency.addSubview(self.frequencyCircle!)

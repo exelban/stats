@@ -37,7 +37,7 @@ internal class Popup: PopupWrapper {
     
     private var chart: LineChartView? = nil
     private var circle: PieChartView? = nil
-    private var level: PressureView? = nil
+    private var level: PieChartView? = nil
     private var initialized: Bool = false
     private var processesInitialized: Bool = false
     
@@ -147,7 +147,11 @@ internal class Popup: PopupWrapper {
         
         let centralWidth: CGFloat = self.dashboardHeight-20
         let sideWidth: CGFloat = (view.frame.width - centralWidth - (Constants.Popup.margins*2))/2
-        self.level = PressureView(frame: NSRect(x: (sideWidth - 60)/2, y: 10, width: 60, height: 50))
+        self.level = PieChartView(frame: NSRect(x: (sideWidth - 60)/2, y: 10, width: 60, height: 50), segments: [
+            ColorValue(1/3, color: NSColor.systemGreen),
+            ColorValue(1/3, color: NSColor.systemYellow),
+            ColorValue(1/3, color: NSColor.systemRed)
+        ], drawValue: true, drawNeedle: true, openCircle: true)
         self.level!.toolTip = localizedString("Memory pressure")
         
         view.addSubview(self.level!)
@@ -254,7 +258,8 @@ internal class Popup: PopupWrapper {
                     ColorValue(value.compressed/value.total, color: self.compressedColor)
                 ])
                 self.circle?.setNonActiveSegmentColor(self.freeColor)
-                self.level?.setValue(value.pressure)
+                
+                self.level?.setActiveSegment(value.pressure.value.number())
                 self.level?.toolTip = "\(localizedString("Memory pressure")): \(value.pressure.value.rawValue)"
                 
                 self.initialized = true
@@ -424,106 +429,5 @@ internal class Popup: PopupWrapper {
         self.lineChartFixedScale = sender.doubleValue / 100
         self.chart?.setScale(self.lineChartScale, fixedScale: self.lineChartFixedScale)
         Store.shared.set(key: "\(self.title)_lineChartFixedScale", value: value)
-    }
-}
-
-public class PressureView: NSView {
-    private let segments: [ColorValue] = [
-        ColorValue(1/3, color: NSColor.systemGreen),
-        ColorValue(1/3, color: NSColor.systemYellow),
-        ColorValue(1/3, color: NSColor.systemRed)
-    ]
-    
-    private var value: Pressure = Pressure(level: 1, value: .normal)
-    
-    public override init(frame: NSRect) {
-        super.init(frame: frame)
-        self.setAccessibilityElement(true)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    public override func draw(_ rect: CGRect) {
-        let arcWidth: CGFloat = 7.0
-        let centerPoint = CGPoint(x: self.frame.width/2, y: self.frame.height/2)
-        let radius = (min(self.frame.width, self.frame.height) - arcWidth) / 2
-        
-        guard let context = NSGraphicsContext.current?.cgContext else { return }
-        context.setShouldAntialias(true)
-        
-        context.setLineWidth(arcWidth)
-        context.setLineCap(.round)
-        
-        let startAngle: CGFloat = -(1/4)*CGFloat.pi
-        let endCircle: CGFloat = (7/4)*CGFloat.pi - (1/4)*CGFloat.pi
-        var previousAngle = startAngle
-        
-        context.saveGState()
-        context.translateBy(x: self.frame.width, y: 0)
-        context.scaleBy(x: -1, y: 1)
-        
-        for segment in self.segments {
-            let currentAngle: CGFloat = previousAngle + (CGFloat(segment.value) * endCircle)
-            
-            if let color = segment.color {
-                context.setStrokeColor(color.cgColor)
-            }
-            context.addArc(center: centerPoint, radius: radius, startAngle: previousAngle, endAngle: currentAngle, clockwise: false)
-            context.strokePath()
-            
-            previousAngle = currentAngle
-        }
-        
-        context.restoreGState()
-        
-        let needleEndSize: CGFloat = 2
-        let needlePath =  NSBezierPath()
-        
-        switch self.value.value {
-        case .normal:
-            needlePath.move(to: CGPoint(x: self.bounds.width * 0.15, y: self.bounds.width * 0.40))
-            needlePath.line(to: CGPoint(x: self.bounds.width/2, y: self.bounds.height/2 - needleEndSize))
-            needlePath.line(to: CGPoint(x: self.bounds.width/2, y: self.bounds.height/2 + needleEndSize))
-        case .warning:
-            needlePath.move(to: CGPoint(x: self.bounds.width/2, y: self.bounds.width * 0.85))
-            needlePath.line(to: CGPoint(x: self.bounds.width/2 - needleEndSize, y: self.bounds.height/2))
-            needlePath.line(to: CGPoint(x: self.bounds.width/2 + needleEndSize, y: self.bounds.height/2))
-        case .critical:
-            needlePath.move(to: CGPoint(x: self.bounds.width * 0.85, y: self.bounds.width * 0.40))
-            needlePath.line(to: CGPoint(x: self.bounds.width/2, y: self.bounds.height/2 - needleEndSize))
-            needlePath.line(to: CGPoint(x: self.bounds.width/2, y: self.bounds.height/2 + needleEndSize))
-        }
-        
-        needlePath.close()
-        
-        let needleCirclePath = NSBezierPath(
-            roundedRect: NSRect(x: self.bounds.width/2-needleEndSize, y: self.bounds.height/2-needleEndSize, width: needleEndSize*2, height: needleEndSize*2),
-            xRadius: needleEndSize*2,
-            yRadius: needleEndSize*2
-        )
-        needleCirclePath.close()
-        
-        NSColor.systemBlue.setFill()
-        needlePath.fill()
-        needleCirclePath.fill()
-        
-        let stringAttributes = [
-            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .regular),
-            NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
-            NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
-        ]
-        
-        let rect = CGRect(x: (self.frame.width-6)/2, y: (self.frame.height-26)/2, width: 6, height: 12)
-        let str = NSAttributedString.init(string: "\(self.value.level)", attributes: stringAttributes)
-        str.draw(with: rect)
-    }
-    
-    public func setValue(_ newValue: Pressure) {
-        self.value = newValue
-        if self.window?.isVisible ?? true {
-            self.display()
-        }
     }
 }

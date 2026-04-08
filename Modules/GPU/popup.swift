@@ -198,13 +198,13 @@ private class GPUView: NSStackView {
     private func addStats(id: String, _ val: Double? = nil) {
         guard let value = val else { return }
         
-        var circle: HalfCircleGraphView
+        var circle: PieChartView
         var chart: LineChartView
         
-        if let view = self.circleRow?.arrangedSubviews.filter({ $0 is HalfCircleGraphView }).first(where: { ($0 as! HalfCircleGraphView).id == id }) {
-            circle = view as! HalfCircleGraphView
+        if let view = self.circleRow?.arrangedSubviews.filter({ $0 is PieChartView }).first(where: { ($0 as! PieChartView).id == id }) {
+            circle = view as! PieChartView
         } else {
-            circle = HalfCircleGraphView(frame: NSRect(x: 0, y: 0, width: circleSize, height: circleSize))
+            circle = PieChartView(frame: NSRect(x: 0, y: 0, width: circleSize, height: circleSize), openCircle: true)
             circle.id = id
             circle.toolTip = localizedString(id)
             if let row = self.circleRow {
