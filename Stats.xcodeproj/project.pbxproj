@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3425362EABD20E46823588A0 /* Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2846F72666A9CC00EC1F6D /* Kit.framework */; };
+		34F9CA2C9741F4A8CC0792B4 /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB93CE02A53DA5F3F7926CC3 /* popup.swift */; };
+		4CEAC079941F26CEF280C32F /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF3E189FFF33F826E0593D0 /* main.swift */; };
+		5113E8A495AC750E39154A8C /* Claude.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2EA43594D702B8F6449BE6 /* Claude.framework */; };
 		5C038CF62D86EE8A00516809 /* Remote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C038CF52D86EE8700516809 /* Remote.swift */; };
 		5C044F7A2B3DE6F3005F6951 /* portal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C044F792B3DE6F3005F6951 /* portal.swift */; };
 		5C0A2A8A292A5B4D009B4C1F /* SMJobBlessUtil.py in Resources */ = {isa = PBXBuildFile; fileRef = 5C0A2A89292A5B4D009B4C1F /* SMJobBlessUtil.py */; };
@@ -85,6 +89,9 @@
 		5CFE494429265421000F2856 /* changelog.py in Resources */ = {isa = PBXBuildFile; fileRef = 5CFE494329265421000F2856 /* changelog.py */; };
 		5EC1B2E52E2FEAFB007042A6 /* UnitedWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC1B2E42E2FEAFB007042A6 /* UnitedWidget.swift */; };
 		5EE8037F29C36BDD0063D37D /* portal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE8037E29C36BDD0063D37D /* portal.swift */; };
+		68675BBAF9DE17E1CC765222 /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD04412085012D976A877E12 /* settings.swift */; };
+		7682B12E2998D1B6FEEA61FA /* portal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C55AE16DD22CBA4B5E2CF3 /* portal.swift */; };
+		97B737CF4E6A41DAEB974DF5 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = B2ABB04C4AC5CD0F519E7879 /* config.plist */; };
 		9A045EB72594F8D100ED58F2 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A045EB62594F8D100ED58F2 /* Dashboard.swift */; };
 		9A11AAD6266FD77F000C1C05 /* Bluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A11AACF266FD77F000C1C05 /* Bluetooth.framework */; };
 		9A11AAD7266FD77F000C1C05 /* Bluetooth.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A11AACF266FD77F000C1C05 /* Bluetooth.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -204,6 +211,9 @@
 		9AF9EE0A24648751005D2270 /* Disk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AF9EE0224648751005D2270 /* Disk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AF9EE0F2464875F005D2270 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EE0E2464875F005D2270 /* main.swift */; };
 		9AF9EE1124648ADC005D2270 /* readers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EE1024648ADC005D2270 /* readers.swift */; };
+		A3A37CCF26F6EA0FB496939C /* Claude.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA2EA43594D702B8F6449BE6 /* Claude.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C196E65C2BCB9838301F3135 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50F1A03E25EDB05D2D19612D /* Cocoa.framework */; };
+		C77893974AE3CD3FBC912D5E /* readers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085D807EBBB92E8C222BD184 /* readers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -389,6 +399,20 @@
 			remoteGlobalIDString = 9AF9EE0124648751005D2270;
 			remoteInfo = Disk;
 		};
+		A3DFB2F810104DA176B08C67 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9A1410ED229E721100D29793 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 697A9C4BE7D8121C7A03CCFE;
+			remoteInfo = Claude;
+		};
+		FE374661FC4008CE33289DED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9A1410ED229E721100D29793 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9A2846F62666A9CC00EC1F6D;
+			remoteInfo = Kit;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -460,6 +484,7 @@
 				9A3E17D4247A94AF00449CD1 /* Net.framework in Embed Frameworks */,
 				9A90E19124EAD2BB00471E9A /* GPU.framework in Embed Frameworks */,
 				9A97CED22537331B00742D8F /* CPU.framework in Embed Frameworks */,
+				A3A37CCF26F6EA0FB496939C /* Claude.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -490,14 +515,17 @@
 
 /* Begin PBXFileReference section */
 		0192A7ED2B017E190056F918 /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/Localizable.strings; sourceTree = "<group>"; };
+		085D807EBBB92E8C222BD184 /* readers.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = readers.swift; path = ../../Claude/readers.swift; sourceTree = "<group>"; };
 		13BE56042D0E6963001C58EC /* en-AU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-AU"; path = "en-AU.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		2658929724FC0F3B00FB3B6A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		29AA17CA2926879000709C01 /* fa */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fa; path = fa.lproj/Localizable.strings; sourceTree = "<group>"; };
 		30370F8F253DCBC0006404D8 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		30C55AE16DD22CBA4B5E2CF3 /* portal.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = portal.swift; path = ../../Claude/portal.swift; sourceTree = "<group>"; };
 		40BE2B202745D63800AE9396 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
 		47665544298DC92F00F7B709 /* sk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4921436D25319699000A1C47 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4F92E6432D0F293100EA593F /* fi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fi; path = fi.lproj/Localizable.strings; sourceTree = "<group>"; };
+		50F1A03E25EDB05D2D19612D /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
 		5C038CF52D86EE8700516809 /* Remote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Remote.swift; sourceTree = "<group>"; };
 		5C044F792B3DE6F3005F6951 /* portal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = portal.swift; sourceTree = "<group>"; };
 		5C0A2A89292A5B4D009B4C1F /* SMJobBlessUtil.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = SMJobBlessUtil.py; sourceTree = "<group>"; };
@@ -712,16 +740,30 @@
 		9AF9EE1024648ADC005D2270 /* readers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = readers.swift; sourceTree = "<group>"; };
 		9AF9EE12246492E8005D2270 /* config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
 		9AF9EE192464A7B3005D2270 /* config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
+		9BF3E189FFF33F826E0593D0 /* main.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = main.swift; path = ../../Claude/main.swift; sourceTree = "<group>"; };
+		AD04412085012D976A877E12 /* settings.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = settings.swift; path = ../../Claude/settings.swift; sourceTree = "<group>"; };
+		B2ABB04C4AC5CD0F519E7879 /* config.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = config.plist; path = ../../Claude/config.plist; sourceTree = "<group>"; };
 		B8F0D4F1259D19B100AAFAAF /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		BB9E59E725BB5F5E004AED95 /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C904AECF255939DB004A9EBC /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CBF35F8F258CF80000B2BA41 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CE47845D298F55F900F564FD /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
+		DA2EA43594D702B8F6449BE6 /* Claude.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Claude.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8A38F83253303A8006D4D81 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		FB93CE02A53DA5F3F7926CC3 /* popup.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = popup.swift; path = ../../Claude/popup.swift; sourceTree = "<group>"; };
 		FCBD9253255C7D9900E1621A /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		18508ABC00990A1352E9D500 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C196E65C2BCB9838301F3135 /* Cocoa.framework in Frameworks */,
+				3425362EABD20E46823588A0 /* Kit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5C22299A29CCB3C400F00E69 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -773,6 +815,7 @@
 				9A3E17D3247A94AF00449CD1 /* Net.framework in Frameworks */,
 				9A90E19024EAD2BB00471E9A /* GPU.framework in Frameworks */,
 				9A97CED12537331B00742D8F /* CPU.framework in Frameworks */,
+				5113E8A495AC750E39154A8C /* Claude.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -867,6 +910,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		43528A1F2E91B6B07F549B9B /* Claude */ = {
+			isa = PBXGroup;
+			children = (
+				085D807EBBB92E8C222BD184 /* readers.swift */,
+				30C55AE16DD22CBA4B5E2CF3 /* portal.swift */,
+				AD04412085012D976A877E12 /* settings.swift */,
+				9BF3E189FFF33F826E0593D0 /* main.swift */,
+				FB93CE02A53DA5F3F7926CC3 /* popup.swift */,
+				B2ABB04C4AC5CD0F519E7879 /* config.plist */,
+			);
+			name = Claude;
+			path = Modules/Claude;
+			sourceTree = "<group>";
+		};
 		5C22299E29CCB3C400F00E69 /* Clock */ = {
 			isa = PBXGroup;
 			children = (
@@ -992,6 +1049,7 @@
 				5CFE492729264DF1000F2856 /* eu.exelban.Stats.SMC.Helper */,
 				5C22299D29CCB3C400F00E69 /* Clock.framework */,
 				5CE7E78A2C318512006BC92C /* WidgetsExtension.appex */,
+				DA2EA43594D702B8F6449BE6 /* Claude.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1192,6 +1250,7 @@
 				9A998CD722A199920087ADE7 /* Cocoa.framework */,
 				5CE7E78B2C318512006BC92C /* WidgetKit.framework */,
 				5CE7E78D2C318512006BC92C /* SwiftUI.framework */,
+				C1056B884348FBE54A5A51EA /* OS X */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1233,6 +1292,7 @@
 				9ABFF8F7248BEBCB00C9041A /* Battery */,
 				9A11AAD0266FD77F000C1C05 /* Bluetooth */,
 				5C22299E29CCB3C400F00E69 /* Clock */,
+				43528A1F2E91B6B07F549B9B /* Claude */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -1297,9 +1357,24 @@
 			path = Disk;
 			sourceTree = "<group>";
 		};
+		C1056B884348FBE54A5A51EA /* OS X */ = {
+			isa = PBXGroup;
+			children = (
+				50F1A03E25EDB05D2D19612D /* Cocoa.framework */,
+			);
+			name = "OS X";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		23A0B7C3C99C6287F2A2ADCB /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5C22299829CCB3C400F00E69 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -1449,6 +1524,25 @@
 			productReference = 5CFE492729264DF1000F2856 /* eu.exelban.Stats.SMC.Helper */;
 			productType = "com.apple.product-type.tool";
 		};
+		697A9C4BE7D8121C7A03CCFE /* Claude */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8A8D443C3E6035C5C36EEEA2 /* Build configuration list for PBXNativeTarget "Claude" */;
+			buildPhases = (
+				23A0B7C3C99C6287F2A2ADCB /* Headers */,
+				B2A99755B95F36CF18AD0DD4 /* Sources */,
+				18508ABC00990A1352E9D500 /* Frameworks */,
+				1D0927D2211B5C9F65D6389D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C176E6C20093C3F7E8A321EE /* PBXTargetDependency */,
+			);
+			name = Claude;
+			productName = Claude;
+			productReference = DA2EA43594D702B8F6449BE6 /* Claude.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		9A11AACE266FD77F000C1C05 /* Bluetooth */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9A11AADA266FD77F000C1C05 /* Build configuration list for PBXNativeTarget "Bluetooth" */;
@@ -1498,10 +1592,9 @@
 				9A11AAD5266FD77F000C1C05 /* PBXTargetDependency */,
 				5C2229A229CCB3C400F00E69 /* PBXTargetDependency */,
 				5CE7E79B2C318513006BC92C /* PBXTargetDependency */,
+				E8928C677ED0F9CEDEF9E549 /* PBXTargetDependency */,
 			);
 			name = Stats;
-			packageProductDependencies = (
-			);
 			productName = Stats;
 			productReference = 9A1410F5229E721100D29793 /* Stats.app */;
 			productType = "com.apple.product-type.application";
@@ -1520,8 +1613,6 @@
 			dependencies = (
 			);
 			name = Kit;
-			packageProductDependencies = (
-			);
 			productName = Kit;
 			productReference = 9A2846F72666A9CC00EC1F6D /* Kit.framework */;
 			productType = "com.apple.product-type.framework";
@@ -1558,8 +1649,6 @@
 				9A2847D92666AA9C00EC1F6D /* PBXTargetDependency */,
 			);
 			name = Net;
-			packageProductDependencies = (
-			);
 			productName = Net;
 			productReference = 9A3E17CC247A94AF00449CD1 /* Net.framework */;
 			productType = "com.apple.product-type.framework";
@@ -1835,8 +1924,6 @@
 				fi,
 			);
 			mainGroup = 9A1410EC229E721100D29793;
-			packageReferences = (
-			);
 			productRefGroup = 9A1410F6229E721100D29793 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1857,11 +1944,20 @@
 				9AAC5E29280ACC120043D892 /* Tests */,
 				5CFE492629264DF1000F2856 /* Helper */,
 				5CE7E7892C318512006BC92C /* WidgetsExtension */,
+				697A9C4BE7D8121C7A03CCFE /* Claude */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1D0927D2211B5C9F65D6389D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				97B737CF4E6A41DAEB974DF5 /* config.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5C22299B29CCB3C400F00E69 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2249,6 +2345,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B2A99755B95F36CF18AD0DD4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C77893974AE3CD3FBC912D5E /* readers.swift in Sources */,
+				7682B12E2998D1B6FEEA61FA /* portal.swift in Sources */,
+				68675BBAF9DE17E1CC765222 /* settings.swift in Sources */,
+				4CEAC079941F26CEF280C32F /* main.swift in Sources */,
+				34F9CA2C9741F4A8CC0792B4 /* popup.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -2381,6 +2489,18 @@
 			isa = PBXTargetDependency;
 			target = 9AF9EE0124648751005D2270 /* Disk */;
 			targetProxy = 9AF9EE0724648751005D2270 /* PBXContainerItemProxy */;
+		};
+		C176E6C20093C3F7E8A321EE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Kit;
+			target = 9A2846F62666A9CC00EC1F6D /* Kit */;
+			targetProxy = FE374661FC4008CE33289DED /* PBXContainerItemProxy */;
+		};
+		E8928C677ED0F9CEDEF9E549 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Claude;
+			target = 697A9C4BE7D8121C7A03CCFE /* Claude */;
+			targetProxy = A3DFB2F810104DA176B08C67 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -3640,6 +3760,85 @@
 			};
 			name = Release;
 		};
+		AF2940CEB466C97288A0BBE9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = RP2S87B72W;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Serhiy Mytrovtsiy. All rights reserved.";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats.Claude;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		F8F7C75A651EDAFF1332E19A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = RP2S87B72W;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Serhiy Mytrovtsiy. All rights reserved.";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats.Claude;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -3666,6 +3865,15 @@
 			buildConfigurations = (
 				5CFE492B29264DF1000F2856 /* Debug */,
 				5CFE492C29264DF1000F2856 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8A8D443C3E6035C5C36EEEA2 /* Build configuration list for PBXNativeTarget "Claude" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AF2940CEB466C97288A0BBE9 /* Release */,
+				F8F7C75A651EDAFF1332E19A /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

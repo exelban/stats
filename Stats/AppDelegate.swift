@@ -20,6 +20,7 @@ import Sensors
 import GPU
 import Bluetooth
 import Clock
+import Claude
 
 let updater = Updater(github: "exelban/stats", url: "https://api.mac-stats.com/release/latest")
 var modules: [Module] = [
@@ -28,6 +29,7 @@ var modules: [Module] = [
     RAM(),
     Disk(),
     Sensors(),
+    Claude(),
     Network(),
     Battery(),
     Bluetooth(),

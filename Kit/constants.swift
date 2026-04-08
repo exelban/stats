@@ -60,9 +60,10 @@ public enum ModuleType: Int {
     case battery
     case bluetooth
     case clock
-    
+    case claude
+
     case combined
-    
+
     public var stringValue: String {
         switch self {
         case .CPU: return "CPU"
@@ -74,6 +75,7 @@ public enum ModuleType: Int {
         case .battery: return "Battery"
         case .bluetooth: return "Bluetooth"
         case .clock: return "Clock"
+        case .claude: return "Claude"
         case .combined: return ""
         }
     }
