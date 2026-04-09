@@ -65,6 +65,7 @@
 		5CAA50722C8E417700B13E13 /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAA50712C8E417700B13E13 /* Text.swift */; };
 		5CB3878A2C35A7110030459D /* widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB387892C35A7110030459D /* widget.swift */; };
 		5CC3B4E52F5A033000775E2C /* reader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B4E42F5A032E00775E2C /* reader.swift */; };
+		5CC8042A2F7EDECA00B78DC7 /* bridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CC804292F7EDECA00B78DC7 /* bridge.h */; };
 		5CCA5CD52D4E8DB3002917F0 /* libIOReport.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C1E45552D11D66200525864 /* libIOReport.tbd */; };
 		5CD342F42B2F2FB700225631 /* notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD342F32B2F2FB700225631 /* notifications.swift */; };
 		5CE7E78C2C318512006BC92C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CE7E78B2C318512006BC92C /* WidgetKit.framework */; };
@@ -204,6 +205,7 @@
 		9AF9EE0A24648751005D2270 /* Disk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AF9EE0224648751005D2270 /* Disk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AF9EE0F2464875F005D2270 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EE0E2464875F005D2270 /* main.swift */; };
 		9AF9EE1124648ADC005D2270 /* readers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EE1024648ADC005D2270 /* readers.swift */; };
+		AA00000000000000000000A1 /* libIOReport.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C1E45552D11D66200525864 /* libIOReport.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -552,6 +554,7 @@
 		5CAA50712C8E417700B13E13 /* Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
 		5CB387892C35A7110030459D /* widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widget.swift; sourceTree = "<group>"; };
 		5CC3B4E42F5A032E00775E2C /* reader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = reader.swift; sourceTree = "<group>"; };
+		5CC804292F7EDECA00B78DC7 /* bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bridge.h; sourceTree = "<group>"; };
 		5CD342F32B2F2FB700225631 /* notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = notifications.swift; sourceTree = "<group>"; };
 		5CE7E78A2C318512006BC92C /* WidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CE7E78B2C318512006BC92C /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -811,6 +814,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA00000000000000000000A1 /* libIOReport.tbd in Frameworks */,
 				9A2847C72666AA8C00EC1F6D /* Kit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1160,6 +1164,7 @@
 				5C0A9CA32C467F7A00EE6A89 /* widget.swift */,
 				9A90E18C24EAD2BB00471E9A /* Info.plist */,
 				9A90E19724EAD3B000471E9A /* config.plist */,
+				5CC804292F7EDECA00B78DC7 /* bridge.h */,
 			);
 			path = GPU;
 			sourceTree = "<group>";
@@ -1355,6 +1360,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5CC8042A2F7EDECA00B78DC7 /* bridge.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3215,6 +3221,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = Modules/GPU/bridge.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -3250,6 +3257,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = Modules/GPU/bridge.h;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";

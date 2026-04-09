@@ -28,6 +28,10 @@ internal class InfoReader: Reader<GPUs> {
     private var gpus: GPUs = GPUs()
     private var displays: [gpu_s] = []
     private var devices: [device] = []
+
+    private var aneChannels: CFMutableDictionary? = nil
+    private var aneSubscription: IOReportSubscriptionRef? = nil
+    private var previousANEResidencies: [(on: Int64, total: Int64)] = []
     
     public override func setup() {
         if let list = SystemKit.shared.device.info.gpu {
@@ -39,6 +43,10 @@ internal class InfoReader: Reader<GPUs> {
         }
         let devices = PCIdevices.filter{ $0.object(forKey: "IOName") as? String == "display" }
         
+        #if arch(arm64)
+        self.setupANE()
+        #endif
+
         devices.forEach { (dict: NSDictionary) in
             guard let deviceID = dict["device-id"] as? Data, let vendorID = dict["vendor-id"] as? Data else {
                 error("device-id or vendor-id not found", log: self.log)
@@ -205,7 +213,83 @@ internal class InfoReader: Reader<GPUs> {
             }
         }
         
+        #if arch(arm64)
+        let aneValue = self.readANEUtilization()
+        for i in self.gpus.list.indices where self.gpus.list[i].IOClass.lowercased().contains("agx") {
+            self.gpus.list[i].aneUtilization = aneValue ?? 0
+        }
+        #endif
+        
         self.gpus.list.sort{ !$0.state && $1.state }
         self.callback(self.gpus)
+    }
+    
+    // MARK: - ANE utilization
+    
+    private func setupANE() {
+        guard let channel = IOReportCopyChannelsInGroup("SoC Stats" as CFString, "Cluster Power States" as CFString, 0, 0, 0)?.takeRetainedValue() else { return }
+        
+        let size = CFDictionaryGetCount(channel)
+        guard let mutable = CFDictionaryCreateMutableCopy(kCFAllocatorDefault, size, channel),
+              let dict = mutable as? [String: Any], dict["IOReportChannels"] != nil else { return }
+        
+        self.aneChannels = mutable
+        var sub: Unmanaged<CFMutableDictionary>?
+        self.aneSubscription = IOReportCreateSubscription(nil, mutable, &sub, 0, nil)
+        sub?.release()
+    }
+    
+    private func readANEUtilization() -> Double? {
+        guard let subscription = self.aneSubscription,
+              let channels = self.aneChannels,
+              let reportSample = IOReportCreateSamples(subscription, channels, nil)?.takeRetainedValue(),
+              let dict = reportSample as? [String: Any] else {
+            return nil
+        }
+        let items = dict["IOReportChannels"] as! CFArray
+        
+        var currentResidencies: [(on: Int64, total: Int64)] = []
+        
+        for i in 0..<CFArrayGetCount(items) {
+            let item = unsafeBitCast(CFArrayGetValueAtIndex(items, i), to: CFDictionary.self)
+            
+            guard let group = IOReportChannelGetGroup(item)?.takeUnretainedValue() as? String,
+                  group == "SoC Stats",
+                  let subgroup = IOReportChannelGetSubGroup(item)?.takeUnretainedValue() as? String,
+                  subgroup == "Cluster Power States",
+                  let channel = IOReportChannelGetChannelName(item)?.takeUnretainedValue() as? String,
+                  channel.hasPrefix("ANE") else { continue }
+            
+            let stateCount = IOReportStateGetCount(item)
+            guard stateCount == 2 else { continue }
+            
+            var on: Int64 = 0
+            var total: Int64 = 0
+            for s in 0..<stateCount {
+                let residency = IOReportStateGetResidency(item, s)
+                let name = IOReportStateGetNameForIndex(item, s)?.takeUnretainedValue() as? String ?? ""
+                total += residency
+                if name != "INACT" {
+                    on += residency
+                }
+            }
+            
+            currentResidencies.append((on: on, total: total))
+        }
+        
+        guard !currentResidencies.isEmpty else { return nil }
+        
+        defer { self.previousANEResidencies = currentResidencies }
+        guard self.previousANEResidencies.count == currentResidencies.count else { return nil }
+        
+        var totalDeltaOn: Int64 = 0
+        var totalDeltaAll: Int64 = 0
+        for i in 0..<currentResidencies.count {
+            totalDeltaOn += currentResidencies[i].on - self.previousANEResidencies[i].on
+            totalDeltaAll += currentResidencies[i].total - self.previousANEResidencies[i].total
+        }
+        
+        guard totalDeltaAll > 0 else { return 0 }
+        return Double(totalDeltaOn) / Double(totalDeltaAll)
     }
 }

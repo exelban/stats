@@ -40,6 +40,7 @@ public struct GPU_Info: Codable {
     public var utilization: Double? = nil
     public var renderUtilization: Double? = nil
     public var tilerUtilization: Double? = nil
+    public var aneUtilization: Double? = nil
     
     init(id: String, type: GPU_type, IOClass: String, vendor: String? = nil, model: String, cores: Int?, utilization: Double? = nil, render: Double? = nil, tiler: Double? = nil) {
         self.id = id
