@@ -993,7 +993,7 @@ public class SMCHelper {
         }
         
         var error: Unmanaged<CFError>?
-        if SMJobBless(kSMDomainUserLaunchd, "eu.exelban.Stats.SMC.Helper" as CFString, authRef, &error) == false {
+        if SMJobBless(kSMDomainSystemLaunchd, "eu.exelban.Stats.SMC.Helper" as CFString, authRef, &error) == false {
             let blessError = error!.takeRetainedValue() as Error
             print("Error while installing the Helper: \(blessError.localizedDescription)")
             completion(false)
