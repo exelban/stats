@@ -459,10 +459,11 @@ internal class ChartSensorView: NSStackView {
     }
     
     public func update(_ value: Double, _ suffix: String) {
-        if self.chart?.suffix != suffix {
-            self.chart?.suffix = suffix
+        guard let chart = self.chart else { return }
+        if chart.suffix != suffix {
+            chart.suffix = suffix
         }
-        self.chart?.addValue(value/100)
+        chart.addValue(value/100)
     }
 }
 
