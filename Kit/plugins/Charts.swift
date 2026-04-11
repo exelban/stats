@@ -124,10 +124,13 @@ public class LineChartView: NSView {
     public var suffix: String
     public var toolTipFunc: ((DoubleValue) -> String)?
     public var isTooltipEnabled: Bool = true
+    public var xLegend: Bool = false
+    public var yLegend: Bool = false
     
     private var scale: Scale
     private var fixedScale: Double
     private var zeroValue: Double
+    private let legendDateFormatter = DateFormatter()
     
     private var cursor: NSPoint? = nil
     private var stop: Bool = false
@@ -143,6 +146,7 @@ public class LineChartView: NSView {
         super.init(frame: frame)
         
         self.dateFormatter.dateFormat = "dd/MM HH:mm:ss"
+        self.legendDateFormatter.dateFormat = "HH:mm:ss"
         
         self.addTrackingArea(NSTrackingArea(
             rect: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height),
@@ -172,6 +176,8 @@ public class LineChartView: NSView {
         var suffix: String = "%"
         var toolTipFunc: ((DoubleValue) -> String)?
         var isTooltipEnabled: Bool = true
+        var xLegend: Bool = false
+        var yLegend: Bool = false
         self.queue.sync {
             originalPoints = self.points
             shadowPoints = self.shadowPoints
@@ -182,6 +188,8 @@ public class LineChartView: NSView {
             suffix = self.suffix
             toolTipFunc = self.toolTipFunc
             isTooltipEnabled = self.isTooltipEnabled
+            xLegend = self.xLegend
+            yLegend = self.yLegend
         }
         
         let points = stop ? shadowPoints : originalPoints
@@ -200,9 +208,12 @@ public class LineChartView: NSView {
         ])
         
         let offset: CGFloat = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
-        let height: CGFloat = self.frame.height - offset
-        let xRatio: CGFloat = self.frame.width / CGFloat(points.count-1)
-        let zero: CGFloat = flipY ? self.frame.height : 0
+        let xLegendHeight: CGFloat = xLegend ? 14 : 0
+        let yLegendWidth: CGFloat = yLegend ? 30 : 0
+        let height: CGFloat = self.frame.height - offset - xLegendHeight
+        let chartWidth: CGFloat = self.frame.width - yLegendWidth
+        let xRatio: CGFloat = chartWidth / CGFloat(points.count-1)
+        let zero: CGFloat = flipY ? self.frame.height : xLegendHeight
         
         var lines: [[CGPoint]] = []
         var line: [CGPoint] = []
@@ -223,8 +234,8 @@ public class LineChartView: NSView {
             }
             
             let point = CGPoint(
-                x: CGFloat(i) * xRatio,
-                y: y
+                x: yLegendWidth + CGFloat(i) * xRatio,
+                y: y + xLegendHeight
             )
             line.append(point)
             list.append((value: v, point: point))
@@ -278,13 +289,77 @@ public class LineChartView: NSView {
                 str = toolTipFunc != nil ? toolTipFunc!(DoubleValue(value)) : "\(Int(value.rounded(toPlaces: 2) * 100))\(suffix)"
             }
             let textWidth = str.widthOfString(usingFont: stringAttributes[NSAttributedString.Key.font] as! NSFont)
-            let y = flipY ? 1 : height - 9
+            let y = flipY ? xLegendHeight + 1 : height + xLegendHeight - 9
             let rect = CGRect(x: 1, y: y, width: textWidth, height: 8)
             NSAttributedString.init(string: str, attributes: stringAttributes).draw(with: rect)
         }
         
+        if xLegend, list.count >= 2 {
+            let legendFont = NSFont.systemFont(ofSize: 9, weight: .light)
+            let legendAttributes: [NSAttributedString.Key: Any] = [
+                .font: legendFont,
+                .foregroundColor: (isDarkMode ? NSColor.white : NSColor.textColor).withAlphaComponent(0.5)
+            ]
+            
+            let sampleWidth = "00:00:00".widthOfString(usingFont: legendFont)
+            let spacing: CGFloat = 8
+            let maxLabels = max(2, Int(self.frame.width / (sampleWidth + spacing)))
+            let count = min(maxLabels, 5)
+            let step = max(1, (list.count - 1) / (count - 1))
+            var indices: [Int] = []
+            for i in stride(from: 0, to: list.count - 1, by: step) {
+                indices.append(i)
+            }
+            if indices.last != list.count - 1 {
+                indices.append(list.count - 1)
+            }
+            
+            var lastMaxX: CGFloat = -.greatestFiniteMagnitude
+            for idx in indices {
+                let item = list[idx]
+                let str = self.legendDateFormatter.string(from: item.value.ts)
+                let textWidth = str.widthOfString(usingFont: legendFont)
+                var x = item.point.x - textWidth / 2
+                x = max(0, min(x, self.frame.width - textWidth))
+                guard x >= lastMaxX else { continue }
+                let attrStr = NSAttributedString(string: str, attributes: legendAttributes)
+                attrStr.draw(with: CGRect(x: x, y: 0, width: textWidth, height: 12))
+                lastMaxX = x + textWidth + spacing
+            }
+        }
+        
+        if yLegend {
+            let legendFont = NSFont.systemFont(ofSize: 9, weight: .light)
+            let legendAttributes: [NSAttributedString.Key: Any] = [
+                .font: legendFont,
+                .foregroundColor: (isDarkMode ? NSColor.white : NSColor.textColor).withAlphaComponent(0.5)
+            ]
+            
+            let textHeight = legendFont.ascender - legendFont.descender
+            let steps = [0, 25, 50, 75, 100]
+            let spacing = (height - textHeight) / CGFloat(steps.count - 1)
+            for (i, step) in steps.enumerated() {
+                let textY = xLegendHeight + CGFloat(i) * spacing
+                let lineY = xLegendHeight + height * CGFloat(step) / 100
+                
+                if xLegend {
+                    let gridColor = (isDarkMode ? NSColor.white : NSColor.black).withAlphaComponent(0.06)
+                    gridColor.setStroke()
+                    let line = NSBezierPath()
+                    line.move(to: CGPoint(x: yLegendWidth, y: lineY))
+                    line.line(to: CGPoint(x: self.frame.width, y: lineY))
+                    line.lineWidth = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
+                    line.stroke()
+                }
+                
+                let label = "\(step)\(suffix)"
+                let attrStr = NSAttributedString(string: label, attributes: legendAttributes)
+                attrStr.draw(at: CGPoint(x: 0, y: textY))
+            }
+        }
+        
         if isTooltipEnabled, let p = self.cursor, !list.isEmpty {
-            guard p.y <= height else { return }
+            guard p.y <= height + xLegendHeight else { return }
             
             let overPoints = list.filter { $0.point.x >= p.x }
             let underPoints = list.filter { $0.point.x <= p.x }
@@ -299,8 +374,8 @@ public class LineChartView: NSView {
                 vLine.setLineDash([4, 4], count: 2, phase: 0)
                 hLine.setLineDash([6, 6], count: 2, phase: 0)
                 
-                vLine.move(to: CGPoint(x: p.x, y: 0))
-                vLine.line(to: CGPoint(x: p.x, y: height))
+                vLine.move(to: CGPoint(x: p.x, y: xLegendHeight))
+                vLine.line(to: CGPoint(x: p.x, y: height + xLegendHeight))
                 vLine.close()
                 
                 hLine.move(to: CGPoint(x: 0, y: p.y))
@@ -326,10 +401,14 @@ public class LineChartView: NSView {
                 path.stroke()
                 
                 let date = self.dateFormatter.string(from: nearest.value.ts)
-                let roundedValue = (nearest.value.value * 100).rounded(toPlaces: 2)
-                let strValue = roundedValue >= 1 ? "\(Int(roundedValue))\(suffix)" : "\(roundedValue)\(suffix)"
+                let roundedValue = Int(nearest.value.value.rounded(toPlaces: 2) * 100)
+                let strValue = "\(roundedValue)\(suffix)"
                 let value = toolTipFunc != nil ? toolTipFunc!(nearest.value) : strValue
-                drawToolTip(self.frame, CGPoint(x: nearest.point.x+4, y: nearest.point.y+4), CGSize(width: 78, height: height), value: value, subtitle: date)
+                let tooltipWidth: CGFloat = 78
+                let tooltipX = nearest.point.x + 4 + tooltipWidth > self.frame.size.width
+                    ? nearest.point.x - tooltipWidth - 4
+                    : nearest.point.x + 4
+                drawToolTip(self.frame, CGPoint(x: tooltipX, y: nearest.point.y+4), CGSize(width: tooltipWidth, height: height), value: value, subtitle: date)
             }
         }
     }

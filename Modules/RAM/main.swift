@@ -58,6 +58,7 @@ public class RAM: Module {
     private let settingsView: Settings
     private let portalView: Portal
     private let notificationsView: Notifications
+    private let previewView: Preview
     
     private var usageReader: UsageReader? = nil
     private var processReader: ProcessReader? = nil
@@ -103,13 +104,15 @@ public class RAM: Module {
         self.popupView = Popup(.RAM)
         self.portalView = Portal(.RAM)
         self.notificationsView = Notifications(.RAM)
+        self.previewView = Preview(.RAM)
         
         super.init(
             moduleType: .RAM,
             popup: self.popupView,
             settings: self.settingsView,
             portal: self.portalView,
-            notifications: self.notificationsView
+            notifications: self.notificationsView,
+            preview: self.previewView
         )
         guard self.available else { return }
         
@@ -149,6 +152,7 @@ public class RAM: Module {
         self.popupView.loadCallback(value)
         self.portalView.callback(value)
         self.notificationsView.loadCallback(value)
+        self.previewView.loadCallback(value)
         
         let total: Double = value.total == 0 ? 1 : value.total
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: SWidget) in

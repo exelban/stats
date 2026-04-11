@@ -121,6 +121,7 @@ internal class Preview: NSStackView, Preview_v {
             let view = NSStackView()
             view.orientation = .vertical
             view.distribution = .fillEqually
+            view.spacing = 2
             
             var titleValue = localizedString("Unknown")
             if let cpu = SystemKit.shared.device.info.cpu {
@@ -133,6 +134,8 @@ internal class Preview: NSStackView, Preview_v {
                     titleValue.append(" (\(eCores)E)")
                 } else if let pCores = cpu.pCores {
                     titleValue.append(" (\(pCores)P)")
+                } else if let sCores = cpu.sCores {
+                    titleValue.append(" (\(sCores)S)")
                 }
             }
             
@@ -170,10 +173,12 @@ internal class Preview: NSStackView, Preview_v {
         view.orientation = .vertical
         view.distribution = .fillEqually
         view.spacing = Constants.Settings.margin*2
-        view.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        view.heightAnchor.constraint(equalToConstant: 140).isActive = true
         
         let chart = LineChartView(num: self.loadLineChartHistory, scale: self.loadLineChartScale, fixedScale: self.loadLineChartFixedScale)
         chart.color = self.chartColor
+        chart.xLegend = true
+        chart.yLegend = true
         self.loadLineChart = chart
         view.addArrangedSubview(chart)
         
@@ -199,6 +204,7 @@ internal class Preview: NSStackView, Preview_v {
         if let cpu = SystemKit.shared.device.info.cpu, let cores = cpu.cores {
             var e = 0
             var p = 0
+            var s = 0
             
             for (i, core) in cores.enumerated() {
                 var num = i
@@ -209,6 +215,9 @@ internal class Preview: NSStackView, Preview_v {
                 } else if core.type == .performance {
                     p += 1
                     num = p
+                } else if core.type == .super {
+                    s += 1
+                    num = s
                 }
                 
                 let c = CoreView(core, num: num)

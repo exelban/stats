@@ -82,29 +82,21 @@ open class Window: NSStackView {
         self.alignment = .width
         self.distribution = .fill
         self.spacing = Constants.Settings.margin
-        self.edgeInsets = NSEdgeInsets(
-            top: 0,
-            left: Constants.Settings.margin,
-            bottom: Constants.Settings.margin,
-            right: Constants.Settings.margin
-        )
         
         let settingsView = self.settings()
         self.settingsView = settingsView
-        let previewView = self.preview()
-        self.previewView = previewView
-        
         self.addArrangedSubview(settingsView)
-        self.addArrangedSubview(previewView)
+        
+        if self.isPreviewAvailable, let previewView = self.preview() {
+            settingsView.isHidden = true
+            self.addArrangedSubview(previewView)
+            self.previewView = previewView
+        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(listenForOneView), name: .toggleOneView, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenForToggleView), name: .togglePreview, object: nil)
         
         self.segmentedControl?.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -(Constants.Settings.margin*2)).isActive = true
-        
-        if self.isPreviewAvailable {
-            self.toggleView()
-        }
     }
     
     deinit {
@@ -120,28 +112,31 @@ open class Window: NSStackView {
         toggleNSControlState(self.enableControl, state: newState ? .on : .off)
     }
     
-    private func preview() -> NSView {
-        let container = NSStackView()
-        container.isHidden = true
-        container.orientation = .vertical
+    private func preview() -> NSView? {
+        guard let v = self.modulePreview else { return nil }
         
-        var view: NSView = EmptyView(height: 0, msg: localizedString("Preview is not available for that module"))
+        let scrollView: ScrollableStackView = ScrollableStackView()
+        scrollView.stackView.edgeInsets = NSEdgeInsets(
+            top: 0,
+            left: Constants.Settings.margin,
+            bottom: Constants.Settings.margin,
+            right: Constants.Settings.margin
+        )
+        scrollView.stackView.addArrangedSubview(v)
         
-        if self.isPreviewAvailable, let v = self.modulePreview {
-            view = v
-        }
-        
-        let scrollView = ScrollableStackView()
-        scrollView.stackView.addArrangedSubview(view)
-        container.addArrangedSubview(scrollView)
-        
-        return container
+        return scrollView
     }
     
     private func settings() -> NSView {
         let view = NSStackView()
         view.orientation = .vertical
         view.spacing = Constants.Settings.margin
+        view.edgeInsets = NSEdgeInsets(
+            top: 0,
+            left: Constants.Settings.margin,
+            bottom: Constants.Settings.margin,
+            right: Constants.Settings.margin
+        )
         
         var labels: [String] = [
             localizedString("Module"),
@@ -312,10 +307,14 @@ open class Window: NSStackView {
         guard let moduleName = notification.userInfo?["module"], self.config.pointee.name == moduleName as? String else { return }
         self.toggleView()
     }
+    
     private func toggleView() {
-        guard let preview = self.previewView, let settings = self.settingsView else { return }
-        preview.isHidden = !preview.isHidden
-        settings.isHidden = !settings.isHidden
+        if let preview = self.previewView {
+            preview.isHidden = !preview.isHidden
+        }
+        if let settings = self.settingsView {
+            settings.isHidden = !settings.isHidden
+        }
     }
 }
 
