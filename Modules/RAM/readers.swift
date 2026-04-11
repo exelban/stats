@@ -12,6 +12,9 @@
 import Cocoa
 import Kit
 
+@_silgen_name("memorystatus_get_level")
+private func memorystatus_get_level(_ level: UnsafeMutablePointer<UInt32>) -> Int32
+
 internal class UsageReader: Reader<RAM_Usage> {
     public var totalSize: Double = 0
     
@@ -61,7 +64,15 @@ internal class UsageReader: Reader<RAM_Usage> {
             var intSize: size_t = MemoryLayout<uint>.size
             var pressureLevel: Int = 0
             sysctlbyname("kern.memorystatus_vm_pressure_level", &pressureLevel, &intSize, nil, 0)
-            
+
+            var freeLevel: UInt32 = 0
+            let pressurePercentage: Double
+            if memorystatus_get_level(&freeLevel) == 0 {
+                pressurePercentage = Double(100 - Int(freeLevel)) / 100.0
+            } else {
+                pressurePercentage = 0
+            }
+
             var pressureValue: RAMPressure
             switch pressureLevel {
             case 2: pressureValue = .warning
@@ -91,7 +102,7 @@ internal class UsageReader: Reader<RAM_Usage> {
                     used: Double(swap.xsu_used),
                     free: Double(swap.xsu_avail)
                 ),
-                pressure: Pressure(level: pressureLevel, value: pressureValue),
+                pressure: Pressure(level: pressureLevel, value: pressureValue, percentage: pressurePercentage),
                 
                 swapins: swapins,
                 swapouts: swapouts

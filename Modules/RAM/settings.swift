@@ -39,6 +39,7 @@ You can use a combination of any of the variables.
 <li><b>$swap.free</b>: <small>Free swap memory.</small></li>
 <li><b>$pressure.value</b>: <small>Pressure value (normal, warning, critical).</small></li>
 <li><b>$pressure.level</b>: <small>Pressure level (1, 2, 4).</small></li>
+<li><b>$pressure.percentage</b>: <small>Memory pressure percentage (0-100%).</small></li>
 </ul>
 """
 
@@ -47,6 +48,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     private var updateTopIntervalValue: Int = 1
     private var numberOfProcesses: Int = 8
     private var splitValueState: Bool = false
+    private var pieChartPressureState: Bool = false
     private var notificationLevel: String = "Disabled"
     private var textValue: String = "$mem.used/$mem.total ($pressure.value)"
     private var combinedProcessesState: Bool = false
@@ -66,6 +68,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         self.updateTopIntervalValue = Store.shared.int(key: "\(self.title)_updateTopInterval", defaultValue: self.updateTopIntervalValue)
         self.numberOfProcesses = Store.shared.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
         self.splitValueState = Store.shared.bool(key: "\(self.title)_splitValue", defaultValue: self.splitValueState)
+        self.pieChartPressureState = Store.shared.bool(key: "\(self.title)_pieChartPressure", defaultValue: self.pieChartPressureState)
         self.notificationLevel = Store.shared.string(key: "\(self.title)_notificationLevel", defaultValue: self.notificationLevel)
         self.textValue = Store.shared.string(key: "\(self.title)_textWidgetValue", defaultValue: self.textValue)
         self.combinedProcessesState = Store.shared.bool(key: "\(self.title)_combinedProcesses", defaultValue: self.combinedProcessesState)
@@ -114,6 +117,15 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
                 PreferencesRow(localizedString("Split the value (App/Wired/Compressed)"), component: switchView(
                     action: #selector(toggleSplitValue),
                     state: self.splitValueState
+                ))
+            ]))
+        }
+
+        if !widgets.filter({ $0 == .pieChart }).isEmpty {
+            self.addArrangedSubview(PreferencesSection([
+                PreferencesRow(localizedString("Show memory pressure"), component: switchView(
+                    action: #selector(togglePieChartPressure),
+                    state: self.pieChartPressureState
                 ))
             ]))
         }
@@ -172,6 +184,11 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     @objc private func toggleCombinedProcesses(_ sender: NSControl) {
         self.combinedProcessesState = controlState(sender)
         Store.shared.set(key: "\(self.title)_combinedProcesses", value: self.combinedProcessesState)
+        self.callback()
+    }
+    @objc private func togglePieChartPressure(_ sender: NSControl) {
+        self.pieChartPressureState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_pieChartPressure", value: self.pieChartPressureState)
         self.callback()
     }
     

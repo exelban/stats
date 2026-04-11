@@ -695,8 +695,9 @@ public class PieChartView: ChartView {
     private var drawValue: Bool = false
     private var drawNeedle: Bool = false
     private var openCircle: Bool = false
-    private var nonActiveSegmentColor: NSColor = NSColor.lightGray
-    
+    private var nonActiveSegmentColor: NSColor = NSColor.white
+    public var transparent: Bool = false
+
     private var value: Double? = nil
     private var text: String? = nil
     private var activeSegment: Int? = nil
@@ -724,7 +725,8 @@ public class PieChartView: ChartView {
         var drawValue: Bool = false
         var drawNeedle: Bool = false
         var openCircle: Bool = false
-        var nonActiveSegmentColor: NSColor = NSColor.lightGray
+        var nonActiveSegmentColor: NSColor = NSColor.white
+        var transparent: Bool = false
         var value: Double? = nil
         var text: String? = nil
         var activeSegment: Int? = nil
@@ -736,6 +738,7 @@ public class PieChartView: ChartView {
             drawNeedle = self.drawNeedle
             openCircle = self.openCircle
             nonActiveSegmentColor = self.nonActiveSegmentColor
+            transparent = self.transparent
             value = self.value
             text = self.text
             activeSegment = self.activeSegment
@@ -758,7 +761,11 @@ public class PieChartView: ChartView {
         } else {
             let totalAmount = segments.reduce(0) { $0 + $1.value }
             if totalAmount < 1 {
-                segments.append(ColorValue(Double(1-totalAmount), color: nonActiveSegmentColor.withAlphaComponent(0.5)))
+                // Always append the remaining segment to preserve draw order.
+                // For filled views the color is clear — the background circle drawn
+                // below provides the actual visible colour.
+                let remainingColor: NSColor = filled ? .clear : nonActiveSegmentColor
+                segments.append(ColorValue(Double(1-totalAmount), color: remainingColor))
             }
         }
         
@@ -787,18 +794,27 @@ public class PieChartView: ChartView {
                 previousAngle = currentAngle
             }
         } else {
+            if filled && !transparent {
+                let bgPath = NSBezierPath()
+                bgPath.appendArc(withCenter: centerPoint, radius: radius, startAngle: 0, endAngle: 360, clockwise: false)
+                bgPath.lineWidth = arcWidth
+                bgPath.lineCapStyle = .butt
+                NSColor.systemRed.setStroke()
+                bgPath.stroke()
+            }
+
             let startAngle: CGFloat = CGFloat.pi/2
             var previousAngle = startAngle
-            
+
             for segment in segments.reversed() {
                 let currentAngle: CGFloat = previousAngle + (CGFloat(segment.value) * fullCircle)
-                
+
                 if let color = segment.color {
                     context.setStrokeColor(color.cgColor)
                 }
                 context.addArc(center: centerPoint, radius: radius, startAngle: previousAngle, endAngle: currentAngle, clockwise: false)
                 context.strokePath()
-                
+
                 previousAngle = currentAngle
             }
         }

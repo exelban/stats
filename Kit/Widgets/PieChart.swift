@@ -14,6 +14,7 @@ import Cocoa
 public class PieChart: WidgetWrapper {
     private var labelState: Bool = false
     private var monochromeState: Bool = false
+    private var boxState: Bool = true
     
     private var chart: PieChartView = PieChartView(
         frame: NSRect(
@@ -65,6 +66,7 @@ public class PieChart: WidgetWrapper {
         } else {
             self.labelState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
             self.monochromeState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_monochrome", defaultValue: self.monochromeState)
+            self.boxState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_box", defaultValue: self.boxState)
         }
         
         self.draw()
@@ -87,6 +89,8 @@ public class PieChart: WidgetWrapper {
         
         self.setFrameSize(NSSize(width: self.size + x, height: self.frame.size.height))
         self.setWidth(self.size + x)
+
+        self.chart.transparent = !self.boxState
     }
     
     public func setValue(_ list: [ColorValue]) {
@@ -111,6 +115,10 @@ public class PieChart: WidgetWrapper {
         let view = SettingsContainerView()
         
         view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Box"), component: switchView(
+                action: #selector(self.toggleBox),
+                state: self.boxState
+            )),
             PreferencesRow(localizedString("Label"), component: switchView(
                 action: #selector(self.toggleLabel),
                 state: self.labelState
@@ -124,6 +132,12 @@ public class PieChart: WidgetWrapper {
         return view
     }
     
+    @objc private func toggleBox(_ sender: NSControl) {
+        self.boxState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
+        self.chart.transparent = !self.boxState
+    }
+
     @objc private func toggleLabel(_ sender: NSControl) {
         self.labelState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_label", value: self.labelState)

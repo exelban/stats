@@ -51,6 +51,7 @@ public struct Swap: Codable {
 public struct Pressure: Codable {
     let level: Int
     let value: RAMPressure
+    let percentage: Double  // 0.0–1.0, from memorystatus_get_level (100 - free%)
 }
 
 public class RAM: Module {
@@ -65,6 +66,9 @@ public class RAM: Module {
     
     private var splitValueState: Bool {
         return Store.shared.bool(key: "\(self.config.name)_splitValue", defaultValue: false)
+    }
+    private var pieChartPressureState: Bool {
+        return Store.shared.bool(key: "\(self.config.name)_pieChartPressure", defaultValue: false)
     }
     private var appColor: NSColor {
         let color = SColor.secondBlue
@@ -176,11 +180,17 @@ public class RAM: Module {
                     widget.setPressure(value.pressure.value)
                 }
             case let widget as PieChart:
-                widget.setValue([
-                    ColorValue(value.app/total, color: self.appColor),
-                    ColorValue(value.wired/total, color: self.wiredColor),
-                    ColorValue(value.compressed/total, color: self.compressedColor)
-                ])
+                if self.pieChartPressureState {
+                    widget.setValue([
+                        ColorValue(value.pressure.percentage, color: value.pressure.value.pressureColor())
+                    ])
+                } else {
+                    widget.setValue([
+                        ColorValue(value.app/total, color: self.appColor),
+                        ColorValue(value.wired/total, color: self.wiredColor),
+                        ColorValue(value.compressed/total, color: self.compressedColor)
+                    ])
+                }
             case let widget as MemoryWidget:
                 let free = Units(bytes: Int64(value.free)).getReadableMemory(style: .memory)
                 let used = Units(bytes: Int64(value.used)).getReadableMemory(style: .memory)
@@ -225,7 +235,8 @@ public class RAM: Module {
                         switch pair.value {
                         case "level": replacement = "\(value.pressure.level)"
                         case "value": replacement = value.pressure.value.rawValue
-                        default: return
+                        case "percentage": replacement = "\(Int(value.pressure.percentage * 100))%"
+default: return
                         }
                     default: return
                     }
