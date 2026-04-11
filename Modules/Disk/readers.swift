@@ -465,8 +465,8 @@ public class ProcessReader: Reader<[Disk_process]> {
             }
             guard result != -1 else { return }
             
-            let bytesRead = Int(usage.ri_diskio_bytesread)
-            let bytesWritten = Int(usage.ri_diskio_byteswritten)
+            let bytesRead = Int(clamping: usage.ri_diskio_bytesread)
+            let bytesWritten = Int(clamping: usage.ri_diskio_byteswritten)
             
             if snapshot[pid] == nil {
                 snapshot[pid] = io(read: bytesRead, write: bytesWritten)

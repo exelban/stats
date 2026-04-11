@@ -109,23 +109,53 @@ private func drawToolTip(_ frame: NSRect, _ point: CGPoint, _ size: CGSize, valu
     }
 }
 
-public class LineChartView: NSView {
+public class ChartView: NSView {
     public var id: String = UUID().uuidString
+    fileprivate let stateQueue: DispatchQueue
     
+    fileprivate init(frame: NSRect, queueLabel: String) {
+        self.stateQueue = DispatchQueue(label: queueLabel, attributes: .concurrent)
+        super.init(frame: frame)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    fileprivate func read<T>(_ block: () -> T) -> T {
+        self.stateQueue.sync(execute: block)
+    }
+    
+    fileprivate func write(_ block: @escaping () -> Void) {
+        self.stateQueue.async(flags: .barrier, execute: block)
+    }
+    
+    fileprivate func displayIfVisible() {
+        if Thread.isMainThread {
+            if self.window?.isVisible ?? false { self.display() }
+        } else {
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                if self.window?.isVisible ?? false { self.display() }
+            }
+        }
+    }
+}
+
+public class LineChartView: ChartView {
     private let dateFormatter = DateFormatter()
-    private var queue: DispatchQueue = DispatchQueue(label: "eu.exelban.Stats.charts.line", attributes: .concurrent)
     
-    public var points: [DoubleValue?]
-    public var shadowPoints: [DoubleValue?] = []
-    public var transparent: Bool = true
-    public var flipY: Bool = false
-    public var minMax: Bool = false
-    public var color: NSColor
-    public var suffix: String
-    public var toolTipFunc: ((DoubleValue) -> String)?
-    public var isTooltipEnabled: Bool = true
-    public var xLegend: Bool = false
-    public var yLegend: Bool = false
+    private var points: [DoubleValue?]
+    private var shadowPoints: [DoubleValue?] = []
+    private var transparent: Bool = true
+    private var flipY: Bool = false
+    private var minMax: Bool = false
+    private var color: NSColor
+    private var suffix: String
+    private var toolTipFunc: ((DoubleValue) -> String)?
+    private var isTooltipEnabled: Bool = true
+    private var xLegend: Bool = false
+    private var yLegend: Bool = false
     
     private var scale: Scale
     private var fixedScale: Double
@@ -143,7 +173,7 @@ public class LineChartView: NSView {
         self.fixedScale = fixedScale
         self.zeroValue = zeroValue
         
-        super.init(frame: frame)
+        super.init(frame: frame, queueLabel: "eu.exelban.Stats.Charts.Line")
         
         self.dateFormatter.dateFormat = "dd/MM HH:mm:ss"
         self.legendDateFormatter.dateFormat = "HH:mm:ss"
@@ -178,7 +208,10 @@ public class LineChartView: NSView {
         var isTooltipEnabled: Bool = true
         var xLegend: Bool = false
         var yLegend: Bool = false
-        self.queue.sync {
+        var scale: Scale = .none
+        var fixedScale: Double = 1
+        var zeroValue: Double = 0.01
+        self.read {
             originalPoints = self.points
             shadowPoints = self.shadowPoints
             transparent = self.transparent
@@ -190,6 +223,9 @@ public class LineChartView: NSView {
             isTooltipEnabled = self.isTooltipEnabled
             xLegend = self.xLegend
             yLegend = self.yLegend
+            scale = self.scale
+            fixedScale = self.fixedScale
+            zeroValue = self.zeroValue
         }
         
         let points = stop ? shadowPoints : originalPoints
@@ -254,7 +290,7 @@ public class LineChartView: NSView {
                 path.fill()
                 continue
             }
-            
+
             path = NSBezierPath()
             path.move(to: linePoints[0])
             for i in 1..<linePoints.count {
@@ -263,7 +299,7 @@ public class LineChartView: NSView {
             lineColor.set()
             path.lineWidth = offset
             path.stroke()
-            
+
             path = path.copy() as! NSBezierPath
             path.line(to: CGPoint(x: linePoints[linePoints.count-1].x, y: zero))
             path.line(to: CGPoint(x: linePoints[0].x, y: zero))
@@ -429,15 +465,12 @@ public class LineChartView: NSView {
     }
     
     public func addValue(_ value: DoubleValue) {
-        self.queue.async(flags: .barrier) {
+        self.write {
             guard !self.points.isEmpty else { return }
             self.points.remove(at: 0)
             self.points.append(value)
         }
-        
-        if self.window?.isVisible ?? false {
-            self.display()
-        }
+        self.displayIfVisible()
     }
     
     public func addValue(_ value: Double) {
@@ -445,62 +478,115 @@ public class LineChartView: NSView {
     }
     
     public func reinit(_ num: Int = 60) {
-        guard self.points.count != num else { return }
-        
-        if num < self.points.count {
-            self.points = Array(self.points[self.points.count-num..<self.points.count])
-        } else {
-            let origin = self.points
-            self.points = Array(repeating: nil, count: num)
-            self.points.replaceSubrange(Range(uncheckedBounds: (lower: num-origin.count, upper: num)), with: origin)
+        self.write {
+            guard self.points.count != num else { return }
+            if num < self.points.count {
+                self.points = Array(self.points[self.points.count-num..<self.points.count])
+            } else {
+                let origin = self.points
+                self.points = Array(repeating: nil, count: num)
+                self.points.replaceSubrange(Range(uncheckedBounds: (lower: num-origin.count, upper: num)), with: origin)
+            }
         }
+        self.displayIfVisible()
     }
     
     public func setScale(_ newScale: Scale, fixedScale: Double = 1) {
-        self.scale = newScale
-        self.fixedScale = fixedScale
-        if self.window?.isVisible ?? false {
-            self.display()
+        self.write {
+            self.scale = newScale
+            self.fixedScale = fixedScale
         }
+        self.displayIfVisible()
+    }
+    
+    public func setPoints(_ newPoints: [DoubleValue]) {
+        self.write { self.points = newPoints.map { Optional($0) } }
+        self.displayIfVisible()
+    }
+    
+    public func setColor(_ newColor: NSColor) {
+        self.write { self.color = newColor }
+        self.displayIfVisible()
+    }
+    
+    public func setSuffix(_ newSuffix: String) {
+        self.write { self.suffix = newSuffix }
+        self.displayIfVisible()
+    }
+    
+    public func setTransparent(_ newValue: Bool) {
+        self.write { self.transparent = newValue }
+        self.displayIfVisible()
+    }
+    
+    public func setFlipY(_ newValue: Bool) {
+        self.write { self.flipY = newValue }
+        self.displayIfVisible()
+    }
+    
+    public func setMinMax(_ newValue: Bool) {
+        self.write { self.minMax = newValue }
+        self.displayIfVisible()
+    }
+    
+    public func setToolTipFunc(_ newValue: ((DoubleValue) -> String)?) {
+        self.write { self.toolTipFunc = newValue }
+    }
+    
+    public func setTooltipEnabled(_ newValue: Bool) {
+        self.write { self.isTooltipEnabled = newValue }
+    }
+    
+    public func setLegend(x: Bool, y: Bool) {
+        self.write {
+            self.xLegend = x
+            self.yLegend = y
+        }
+        self.displayIfVisible()
+    }
+    
+    private var tooltipEnabledSnapshot: Bool {
+        self.read { self.isTooltipEnabled }
     }
     
     public override func mouseEntered(with event: NSEvent) {
-        guard self.isTooltipEnabled else { return }
+        guard self.tooltipEnabledSnapshot else { return }
         self.cursor = convert(event.locationInWindow, from: nil)
         self.needsDisplay = true
     }
     
     public override func mouseMoved(with event: NSEvent) {
-        guard self.isTooltipEnabled else { return }
+        guard self.tooltipEnabledSnapshot else { return }
         self.cursor = convert(event.locationInWindow, from: nil)
         self.needsDisplay = true
     }
     
     public override func mouseDragged(with event: NSEvent) {
-        guard self.isTooltipEnabled else { return }
+        guard self.tooltipEnabledSnapshot else { return }
         self.cursor = convert(event.locationInWindow, from: nil)
         self.needsDisplay = true
     }
     
     public override func mouseExited(with event: NSEvent) {
-        guard self.isTooltipEnabled else { return }
+        guard self.tooltipEnabledSnapshot else { return }
         self.cursor = nil
         self.needsDisplay = true
     }
     
     public override func mouseDown(with: NSEvent) {
-        guard self.isTooltipEnabled else { return }
-        self.shadowPoints = self.points
+        guard self.tooltipEnabledSnapshot else { return }
+        self.write { self.shadowPoints = self.points }
         self.stop = true
     }
+    
     public override func mouseUp(with: NSEvent) {
-        guard self.isTooltipEnabled else { return }
+        guard self.tooltipEnabledSnapshot else { return }
         self.stop = false
     }
 }
 
-public class NetworkChartView: NSView {
-    public var base: DataSizeBase = .byte
+public class NetworkChartView: ChartView {
+    private var base: DataSizeBase = .byte
     
     private var reversedOrder: Bool
     
@@ -519,20 +605,20 @@ public class NetworkChartView: NSView {
         self.inChart = LineChartView(frame: inFrame, num: num, color: inColor, scale: scale, fixedScale: fixedScale, zeroValue: 256.0)
         self.outChart = LineChartView(frame: outFrame, num: num, color: outColor, scale: scale, fixedScale: fixedScale, zeroValue: 256.0)
         
-        super.init(frame: frame)
+        super.init(frame: frame, queueLabel: "eu.exelban.Stats.Charts.Network")
         
-        self.inChart.minMax = minMax
-        self.outChart.minMax = minMax
+        self.inChart.setMinMax(minMax)
+        self.outChart.setMinMax(minMax)
         
-        self.inChart.flipY = !self.reversedOrder
-        self.outChart.flipY = self.reversedOrder
+        self.inChart.setFlipY(!self.reversedOrder)
+        self.outChart.setFlipY(self.reversedOrder)
         
-        self.inChart.toolTipFunc = { v in
-            return Units(bytes: Int64(v.value)).getReadableSpeed(base: self.base)
+        let tooltip: (DoubleValue) -> String = { [weak self] v in
+            let base: DataSizeBase = self?.read { self?.base ?? .byte } ?? .byte
+            return Units(bytes: Int64(v.value)).getReadableSpeed(base: base)
         }
-        self.outChart.toolTipFunc = { v in
-            return Units(bytes: Int64(v.value)).getReadableSpeed(base: self.base)
-        }
+        self.inChart.setToolTipFunc(tooltip)
+        self.outChart.setToolTipFunc(tooltip)
         
         self.addSubview(self.inChart)
         self.addSubview(self.outChart)
@@ -540,6 +626,10 @@ public class NetworkChartView: NSView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func setBase(_ newBase: DataSizeBase) {
+        self.write { self.base = newBase }
     }
     
     public func addValue(upload: Double, download: Double) {
@@ -561,8 +651,8 @@ public class NetworkChartView: NSView {
         guard self.reversedOrder != newValue else { return }
         self.reversedOrder = newValue
         
-        self.inChart.flipY = !self.reversedOrder
-        self.outChart.flipY = self.reversedOrder
+        self.inChart.setFlipY(!self.reversedOrder)
+        self.outChart.setFlipY(self.reversedOrder)
         
         let safeHeight = max(frame.height, 2)
         let topFrame = CGPoint(x: 0, y: safeHeight/2)
@@ -576,16 +666,16 @@ public class NetworkChartView: NSView {
     
     public func setColors(in inColor: NSColor? = nil, out outColor: NSColor? = nil) {
         if let inColor {
-            self.inChart.color = inColor
+            self.inChart.setColor(inColor)
         }
         if let outColor {
-            self.outChart.color = outColor
+            self.outChart.setColor(outColor)
         }
     }
     
     public func setTooltipState(_ newState: Bool) {
-        self.inChart.isTooltipEnabled = newState
-        self.outChart.isTooltipEnabled = newState
+        self.inChart.setTooltipEnabled(newState)
+        self.outChart.setTooltipEnabled(newState)
     }
     
     public override func setFrameOrigin(_ newOrigin: NSPoint) {
@@ -600,9 +690,7 @@ public class NetworkChartView: NSView {
     }
 }
 
-public class PieChartView: NSView {
-    public var id: String = UUID().uuidString
-    
+public class PieChartView: ChartView {
     private var filled: Bool = false
     private var drawValue: Bool = false
     private var drawNeedle: Bool = false
@@ -613,8 +701,7 @@ public class PieChartView: NSView {
     private var text: String? = nil
     private var activeSegment: Int? = nil
     private var segments: [ColorValue] = []
-    public var color: NSColor = NSColor.systemBlue
-    private var queue: DispatchQueue = DispatchQueue(label: "eu.exelban.Stats.charts.pie")
+    private var color: NSColor = NSColor.systemBlue
     
     public init(frame: NSRect = .zero, segments: [ColorValue] = [], filled: Bool = false, drawValue: Bool = false, drawNeedle: Bool = false, openCircle: Bool = false) {
         self.filled = filled
@@ -623,7 +710,7 @@ public class PieChartView: NSView {
         self.openCircle = openCircle
         self.segments = segments
         
-        super.init(frame: frame)
+        super.init(frame: frame, queueLabel: "eu.exelban.Stats.Charts.Pie")
         
         self.setAccessibilityElement(true)
     }
@@ -643,7 +730,7 @@ public class PieChartView: NSView {
         var activeSegment: Int? = nil
         var segments: [ColorValue] = []
         var color: NSColor = NSColor.systemBlue
-        self.queue.sync {
+        self.read {
             filled = self.filled
             drawValue = self.drawValue
             drawNeedle = self.drawNeedle
@@ -806,68 +893,44 @@ public class PieChartView: NSView {
     }
     
     public func setValue(_ value: Double) {
-        self.queue.async(flags: .barrier) {
-            self.value = self.openCircle ? (value > 1 ? value/100 : value) : value
-        }
-        if self.window?.isVisible ?? false {
-            self.display()
-        }
+        let sanitized = value.isFinite ? value : 0
+        self.write { self.value = self.openCircle ? (sanitized > 1 ? sanitized/100 : sanitized) : sanitized }
+        self.displayIfVisible()
     }
     
     public func setActiveSegment(_ index: Int) {
-        self.queue.async(flags: .barrier) {
-            self.activeSegment = index
-        }
-        if self.window?.isVisible ?? false {
-            self.display()
-        }
+        self.write { self.activeSegment = index }
+        self.displayIfVisible()
     }
     
     public func setText(_ value: String) {
-        self.queue.async(flags: .barrier) {
-            self.text = value
-        }
-        if self.window?.isVisible ?? false {
-            self.display()
-        }
+        self.write { self.text = value }
+        self.displayIfVisible()
     }
     
     public func setSegments(_ segments: [ColorValue]) {
-        self.queue.async(flags: .barrier) {
-            self.segments = segments
-        }
-        if self.window?.isVisible ?? false {
-            self.display()
-        }
-    }
-    
-    public func setFrame(_ frame: NSRect) {
-        var original = self.frame
-        original = frame
-        self.frame = original
+        self.write { self.segments = segments }
+        self.displayIfVisible()
     }
     
     public func setNonActiveSegmentColor(_ newColor: NSColor) {
-        guard self.nonActiveSegmentColor != newColor else { return }
-        self.queue.async(flags: .barrier) {
+        self.write {
+            guard self.nonActiveSegmentColor != newColor else { return }
             self.nonActiveSegmentColor = newColor
         }
-        if self.window?.isVisible ?? false {
-            self.display()
-        }
+        self.displayIfVisible()
     }
 }
 
-public class TachometerGraphView: NSView {
+public class TachometerGraphView: ChartView {
     private var filled: Bool
     private var segments: [ColorValue]
-    private var queue: DispatchQueue = DispatchQueue(label: "eu.exelban.Stats.charts.tachometer")
     
     public init(frame: NSRect = .zero, segments: [ColorValue], filled: Bool = true) {
         self.filled = filled
         self.segments = segments
         
-        super.init(frame: frame)
+        super.init(frame: frame, queueLabel: "eu.exelban.Stats.Charts.Tachometer")
     }
     
     required init?(coder: NSCoder) {
@@ -877,7 +940,7 @@ public class TachometerGraphView: NSView {
     public override func draw(_ rect: CGRect) {
         var filled: Bool = false
         var segments: [ColorValue] = []
-        self.queue.sync {
+        self.read {
             filled = self.filled
             segments = self.segments
         }
@@ -917,28 +980,17 @@ public class TachometerGraphView: NSView {
     }
     
     internal func setSegments(_ segments: [ColorValue]) {
-        self.queue.async(flags: .barrier) {
-            self.segments = segments
-        }
-        if self.window?.isVisible ?? false {
-            self.display()
-        }
-    }
-    
-    internal func setFrame(_ frame: NSRect) {
-        var original = self.frame
-        original = frame
-        self.frame = original
+        self.write { self.segments = segments }
+        self.displayIfVisible()
     }
 }
 
-public class ColumnChartView: NSView {
+public class ColumnChartView: ChartView {
     private var values: [ColorValue] = []
     private var cursor: CGPoint? = nil
-    private var queue: DispatchQueue = DispatchQueue(label: "eu.exelban.Stats.charts.column")
     
     public init(frame: NSRect = NSRect.zero, num: Int) {
-        super.init(frame: frame)
+        super.init(frame: frame, queueLabel: "eu.exelban.Stats.Charts.Column")
         self.values = Array(repeating: ColorValue(0, color: .controlAccentColor), count: num)
         
         self.addTrackingArea(NSTrackingArea(
@@ -959,7 +1011,7 @@ public class ColumnChartView: NSView {
     
     public override func draw(_ dirtyRect: NSRect) {
         var values: [ColorValue] = []
-        self.queue.sync {
+        self.read {
             values = self.values
         }
         
@@ -1028,12 +1080,8 @@ public class ColumnChartView: NSView {
     }
     
     public func setValues(_ values: [ColorValue]) {
-        self.queue.async(flags: .barrier) {
-            self.values = values
-        }
-        if self.window?.isVisible ?? false {
-            self.display()
-        }
+        self.write { self.values = values }
+        self.displayIfVisible()
     }
     
     public override func mouseEntered(with event: NSEvent) {
@@ -1069,18 +1117,17 @@ public class ColumnChartView: NSView {
     }
 }
 
-public class GridChartView: NSView {
+public class GridChartView: ChartView {
     private let okColor: NSColor = .systemGreen
     private let notOkColor: NSColor = .systemRed
     private let inactiveColor: NSColor = .underPageBackgroundColor.withAlphaComponent(0.4)
     
     private var values: [NSColor] = []
     private let grid: (rows: Int, columns: Int)
-    private var queue: DispatchQueue = DispatchQueue(label: "eu.exelban.Stats.charts.grid")
     
     public init(frame: NSRect, grid: (rows: Int, columns: Int)) {
         self.grid = grid
-        super.init(frame: frame)
+        super.init(frame: frame, queueLabel: "eu.exelban.Stats.Charts.Grid")
         let totalCells = max(grid.rows * grid.columns, 1)
         self.values = Array(repeating: self.inactiveColor, count: totalCells)
     }
@@ -1092,7 +1139,7 @@ public class GridChartView: NSView {
     public override func draw(_ dirtyRect: NSRect) {
         var grid: (rows: Int, columns: Int) = (0, 0)
         var values: [NSColor] = []
-        self.queue.sync {
+        self.read {
             grid = self.grid
             values = self.values
         }
@@ -1120,21 +1167,17 @@ public class GridChartView: NSView {
     }
     
     public func addValue(_ value: Bool) {
-        self.queue.async(flags: .barrier) {
+        self.write {
             self.values.remove(at: 0)
             self.values.append(value ? self.okColor : self.notOkColor)
         }
-        
-        if self.window?.isVisible ?? false {
-            self.display()
-        }
+        self.displayIfVisible()
     }
 }
 
-public class BarChartView: NSView {
+public class BarChartView: ChartView {
     private var values: [ColorValue] = []
     private var cursor: CGPoint? = nil
-    private var queue: DispatchQueue = DispatchQueue(label: "eu.exelban.Stats.charts.bar")
     
     private var size: CGFloat?
     private var horizontal: Bool
@@ -1143,7 +1186,7 @@ public class BarChartView: NSView {
         self.size = size
         self.horizontal = horizontal
         
-        super.init(frame: frame)
+        super.init(frame: frame, queueLabel: "eu.exelban.Stats.Charts.Bar")
     }
     
     required init?(coder: NSCoder) {
@@ -1154,7 +1197,7 @@ public class BarChartView: NSView {
         var widthHeight: CGFloat? = nil
         var isHorizontal: Bool = false
         var values: [ColorValue] = []
-        self.queue.sync {
+        self.read {
             widthHeight = self.size
             isHorizontal = self.horizontal
             values = self.values
@@ -1204,20 +1247,12 @@ public class BarChartView: NSView {
     }
     
     public func setValue(_ values: ColorValue) {
-        self.queue.async(flags: .barrier) {
-            self.values = [values]
-        }
-        if self.window?.isVisible ?? false {
-            self.display()
-        }
+        self.write { self.values = [values] }
+        self.displayIfVisible()
     }
     
     public func setValues(_ values: [ColorValue]) {
-        self.queue.async(flags: .barrier) {
-            self.values = values
-        }
-        if self.window?.isVisible ?? false {
-            self.display()
-        }
+        self.write { self.values = values }
+        self.displayIfVisible()
     }
 }

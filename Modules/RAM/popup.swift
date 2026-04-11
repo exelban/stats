@@ -170,7 +170,7 @@ internal class Popup: PopupWrapper {
         
         let chartFrame = NSRect(x: 1, y: 0, width: view.frame.width - 2, height: container.frame.height)
         self.chart = LineChartView(frame: chartFrame, num: self.lineChartHistory, scale: self.lineChartScale, fixedScale: self.lineChartFixedScale)
-        self.chart?.color = self.chartColor
+        self.chart?.setColor(self.chartColor)
         container.addSubview(self.chart!)
         
         view.addSubview(separator)
@@ -401,7 +401,7 @@ internal class Popup: PopupWrapper {
         self.chartColorState = newValue
         Store.shared.set(key: "\(self.title)_chartColor", value: key)
         if let color = newValue.additional as? NSColor {
-            self.chart?.color = color
+            self.chart?.setColor(color)
         }
     }
     @objc private func toggleLineChartHistory(_ sender: NSMenuItem) {

@@ -65,7 +65,7 @@ public class Tachometer: WidgetWrapper {
         self.addSubview(self.labelView!)
         self.addSubview(self.chart)
         
-        self.chart.setFrame(NSRect(x: x, y: 0, width: self.frame.size.height, height: self.frame.size.height))
+        self.chart.frame = NSRect(x: x, y: 0, width: self.frame.size.height, height: self.frame.size.height)
         
         self.setFrameSize(NSSize(width: self.size + x, height: self.frame.size.height))
         self.setWidth(self.size + x)

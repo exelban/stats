@@ -116,7 +116,7 @@ public class LineChart: WidgetWrapper {
             for _ in 0..<16 {
                 list.append(DoubleValue(Double.random(in: 0..<1)))
             }
-            self.chart.points = list
+            self.chart.setPoints(list)
             self._value = 0.38
         }
         
@@ -218,13 +218,13 @@ public class LineChart: WidgetWrapper {
             (isDarkMode ? NSColor.white : NSColor.black).set()
             box.stroke()
             box.fill()
-            self.chart.transparent = false
+            self.chart.setTransparent(false)
         } else if self.frameState {
-            self.chart.transparent = true
+            self.chart.setTransparent(true)
         } else {
-            self.chart.transparent = true
+            self.chart.setTransparent(true)
         }
-        
+
         context.saveGState()
         context.translateBy(x: x+offset+lineWidth, y: offset)
 
@@ -232,7 +232,7 @@ public class LineChart: WidgetWrapper {
             width: box.bounds.width - (offset*2+lineWidth),
             height: box.bounds.height - offset
         )
-        self.chart.color = color
+        self.chart.setColor(color)
         self.chart.setFrameSize(chartSize)
         self.chart.draw(NSRect(origin: .zero, size: chartSize))
 

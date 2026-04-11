@@ -221,7 +221,7 @@ private class GPUView: NSStackView {
             chart = view as! LineChartView
         } else {
             chart = LineChartView(frame: NSRect(x: 0, y: 0, width: 100, height: self.chartSize), num: 120)
-            chart.isTooltipEnabled = false
+            chart.setTooltipEnabled(false)
             chart.wantsLayer = true
             chart.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
             chart.layer?.cornerRadius = 3
@@ -245,7 +245,7 @@ private class GPUView: NSStackView {
             circle.setValue(value)
             circle.setText(temperature(value))
             circle.toolTip = "\(localizedString(id)): \(temperature(value))"
-            chart.suffix = UnitTemperature.current.symbol
+            chart.setSuffix(UnitTemperature.current.symbol)
             
             if self.temperatureChart == nil {
                 self.temperatureChart = chart

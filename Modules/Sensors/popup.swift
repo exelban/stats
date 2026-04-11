@@ -430,8 +430,10 @@ internal class ValueSensorView: NSStackView {
 
 internal class ChartSensorView: NSStackView {
     private var chart: LineChartView? = nil
-    
+    private var currentSuffix: String
+
     public init(width: CGFloat, suffix: String) {
+        self.currentSuffix = suffix
         super.init(frame: NSRect(x: 0, y: 0, width: width, height: 60))
         
         self.wantsLayer = true
@@ -442,7 +444,7 @@ internal class ChartSensorView: NSStackView {
         self.layer?.cornerRadius = 3
         
         self.chart = LineChartView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height), num: 120, scale: .linear)
-        self.chart?.suffix = suffix
+        self.chart?.setSuffix(suffix)
         
         if let view = self.chart {
             self.addArrangedSubview(view)
@@ -460,8 +462,9 @@ internal class ChartSensorView: NSStackView {
     
     public func update(_ value: Double, _ suffix: String) {
         guard let chart = self.chart else { return }
-        if chart.suffix != suffix {
-            chart.suffix = suffix
+        if self.currentSuffix != suffix {
+            self.currentSuffix = suffix
+            chart.setSuffix(suffix)
         }
         chart.addValue(value/100)
     }

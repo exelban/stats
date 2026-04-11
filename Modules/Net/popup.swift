@@ -214,7 +214,7 @@ internal class Popup: PopupWrapper {
             scale: self.chartScale,
             fixedScale: Double(self.chartFixedScaleSize.toBytes(self.chartFixedScale))
         )
-        chart.base = self.base
+        chart.setBase(self.base)
         container.addSubview(chart)
         self.chart = chart
         
@@ -603,9 +603,7 @@ internal class Popup: PopupWrapper {
             }
             
             if let chart = self.chart {
-                if chart.base != self.base {
-                    chart.base = self.base
-                }
+                chart.setBase(self.base)
                 chart.addValue(upload: Double(value.bandwidth.upload), download: Double(value.bandwidth.download))
             }
         })

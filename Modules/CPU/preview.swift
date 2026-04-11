@@ -176,9 +176,8 @@ internal class Preview: NSStackView, Preview_v {
         view.heightAnchor.constraint(equalToConstant: 140).isActive = true
         
         let chart = LineChartView(num: self.loadLineChartHistory, scale: self.loadLineChartScale, fixedScale: self.loadLineChartFixedScale)
-        chart.color = self.chartColor
-        chart.xLegend = true
-        chart.yLegend = true
+        chart.setColor(self.chartColor)
+        chart.setLegend(x: true, y: true)
         self.loadLineChart = chart
         view.addArrangedSubview(chart)
         

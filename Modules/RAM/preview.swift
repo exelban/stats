@@ -179,9 +179,8 @@ internal class Preview: NSStackView, Preview_v {
         view.heightAnchor.constraint(equalToConstant: 140).isActive = true
         
         let chart = LineChartView(num: self.lineChartHistory, scale: self.lineChartScale, fixedScale: self.lineChartFixedScale)
-        chart.color = self.chartColor
-        chart.xLegend = true
-        chart.yLegend = true
+        chart.setColor(self.chartColor)
+        chart.setLegend(x: true, y: true)
         self.loadLineChart = chart
         view.addArrangedSubview(chart)
         
@@ -212,9 +211,9 @@ internal class Preview: NSStackView, Preview_v {
         self.pressureCircle = circle
         
         let chart = LineChartView(num: self.lineChartHistory, fixedScale: 3)
-        chart.color = self.chartColor
-        chart.xLegend = true
-        chart.toolTipFunc = { v in
+        chart.setColor(self.chartColor)
+        chart.setLegend(x: true, y: false)
+        chart.setToolTipFunc { v in
             let original = v.value * 2
             let level = RAMPressure(from: Int(original)).rawValue.capitalized
             return "\(level) (\(Int(original)+1))"
@@ -247,9 +246,9 @@ internal class Preview: NSStackView, Preview_v {
         self.swapCircle = circle
         
         let chart = LineChartView(num: self.lineChartHistory)
-        chart.color = self.chartColor
-        chart.xLegend = true
-        chart.toolTipFunc = { v in
+        chart.setColor(self.chartColor)
+        chart.setLegend(x: true, y: false)
+        chart.setToolTipFunc { v in
             return Units(bytes: Int64(v.value)).getReadableMemory(style: .memory)
         }
         self.swapLineChart = chart
@@ -289,7 +288,7 @@ internal class Preview: NSStackView, Preview_v {
                 self.pressureCircle?.toolTip = "\(localizedString("Memory pressure")): \(value.pressure.value.rawValue)"
                 self.pressureField?.stringValue = localizedString(value.pressure.value.rawValue.capitalized)
                 
-                self.swapCircle?.setValue((value.swap.used*100)/value.swap.total)
+                self.swapCircle?.setValue(value.swap.total > 0 ? (value.swap.used*100)/value.swap.total : 0)
                 self.swapCircle?.setText(Units(bytes: Int64(value.swap.used)).getReadableMemory(style: .memory))
                 
                 self.initialized = true
