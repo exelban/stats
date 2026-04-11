@@ -429,7 +429,7 @@
 "New IP" = "새 IP: %0"; // translategemma:4b
 "Internet connection lost" = "인터넷 연결이 끊김"; // translategemma:4b
 "Internet connection established" = "인터넷 연결 완료"; // translategemma:4b
-"Show country code instead of emoji" = "이모티콘 대신 국가 코드를 표시하기";
+"Show country code instead of emoji" = "이모티콘 대신 국가 코드 표시하기";
 
 // Battery
 "Level" = "잔량";
@@ -473,7 +473,7 @@
 
 // Bluetooth
 "Battery to show" = "표시할 배터리";
-"No Bluetooth devices are available" = "사용 가능한 Bluetooth 장치가 없습니다";
+"No Bluetooth devices are available" = "사용 가능한 블루투스 장치가 없습니다";
 
 // Clock
 "Time zone" = "시간대";
