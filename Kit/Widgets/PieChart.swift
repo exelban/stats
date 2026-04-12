@@ -83,6 +83,14 @@ public class PieChart: WidgetWrapper {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    private var isRAMPieChart: Bool {
+        self.title == "RAM"
+    }
+
+    private var pressurePreferenceKey: String {
+        "\(self.title)_\(self.type.rawValue)_pressure"
+    }
     
     private func draw() {
         let x: CGFloat = self.labelState ? 8 + Constants.Widget.spacing : 0
@@ -100,43 +108,52 @@ public class PieChart: WidgetWrapper {
 
         self.chart.transparent = !self.boxState
     }
-    
-    public func setValue(_ list: [ColorValue]) {
-        var segments = list
-        var backgroundColor: NSColor = .systemBlue
 
-        if self.title == "RAM" {
-            let freeColor = SColor.fromString(
-                Store.shared.string(key: "\(self.title)_freeColor", defaultValue: SColor.lightGray.key)
-            ).additional as? NSColor
-            backgroundColor = freeColor ?? .lightGray
+    private func backgroundColor() -> NSColor {
+        guard self.isRAMPieChart else {
+            return .systemBlue
         }
-        
-        if self.monochromeState {
-            if self.dynamicMonochromeState {
-                for i in 0..<segments.count {
-                    if let color = segments[i].color {
-                        let monochromeColor = self.boxState ? NSColor.widgetMonochromeBackground : NSColor.widgetMonochromeAccent
-                        segments[i].color = monochromeColor.withAlphaComponent(color.alphaComponent)
-                    }
-                }
-                if self.boxState {
-                    backgroundColor = .widgetMonochromeAccent
-                }
-            } else {
-                for i in 0..<segments.count {
-                    if let color = segments[i].color {
-                        segments[i].color = color.grayscaled()
-                    }
-                }
-                if self.boxState {
-                    backgroundColor = backgroundColor.grayscaled()
+
+        let freeColor = SColor.fromString(
+            Store.shared.string(key: "\(self.title)_freeColor", defaultValue: SColor.lightGray.key)
+        ).additional as? NSColor
+        return freeColor ?? .lightGray
+    }
+
+    private func monochromeSegments(_ segments: [ColorValue], backgroundColor: inout NSColor) -> [ColorValue] {
+        var resolved = segments
+
+        if self.dynamicMonochromeState {
+            for i in 0..<resolved.count {
+                if let color = resolved[i].color {
+                    let monochromeColor = self.boxState ? NSColor.widgetMonochromeBackground : NSColor.widgetMonochromeAccent
+                    resolved[i].color = monochromeColor.withAlphaComponent(color.alphaComponent)
                 }
             }
+            if self.boxState {
+                backgroundColor = .widgetMonochromeAccent
+            }
+            return resolved
         }
+
+        for i in 0..<resolved.count {
+            if let color = resolved[i].color {
+                resolved[i].color = color.grayscaled()
+            }
+        }
+        if self.boxState {
+            backgroundColor = backgroundColor.grayscaled()
+        }
+
+        return resolved
+    }
+    
+    public func setValue(_ list: [ColorValue]) {
+        var backgroundColor = self.backgroundColor()
+        let segments = self.monochromeState ? self.monochromeSegments(list, backgroundColor: &backgroundColor) : list
         
         DispatchQueue.main.async(execute: {
-            self.chart.color = backgroundColor
+            self.chart.setColor(backgroundColor)
             self.chart.setSegments(segments)
         })
     }
@@ -165,7 +182,7 @@ public class PieChart: WidgetWrapper {
             ))
         ]
 
-        if self.title == "RAM" {
+        if self.isRAMPieChart {
             rows.append(PreferencesRow(localizedString("Show memory pressure"), component: switchView(
                 action: #selector(self.togglePressure),
                 state: self.pressureState
@@ -200,6 +217,6 @@ public class PieChart: WidgetWrapper {
 
     @objc private func togglePressure(_ sender: NSControl) {
         self.pressureState = controlState(sender)
-        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_pressure", value: self.pressureState)
+        Store.shared.set(key: self.pressurePreferenceKey, value: self.pressureState)
     }
 }

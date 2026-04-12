@@ -928,6 +928,14 @@ public class PieChartView: ChartView {
         self.write { self.segments = segments }
         self.displayIfVisible()
     }
+
+    public func setColor(_ newColor: NSColor) {
+        self.write {
+            guard self.color != newColor else { return }
+            self.color = newColor
+        }
+        self.displayIfVisible()
+    }
     
     public func setNonActiveSegmentColor(_ newColor: NSColor) {
         self.write {

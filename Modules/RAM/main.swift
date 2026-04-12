@@ -149,6 +149,18 @@ public class RAM: Module {
         
         self.setReaders([self.usageReader, self.processReader])
     }
+
+    private func pieChartSegments(_ value: RAM_Usage, total: Double) -> [ColorValue] {
+        if self.pieChartPressureState {
+            return [ColorValue(value.pressure.percentage, color: value.pressure.value.pressureColor())]
+        }
+
+        return [
+            ColorValue(value.app/total, color: self.appColor),
+            ColorValue(value.wired/total, color: self.wiredColor),
+            ColorValue(value.compressed/total, color: self.compressedColor)
+        ]
+    }
     
     private func loadCallback(_ raw: RAM_Usage?) {
         guard let value = raw, self.enabled else { return }
@@ -181,17 +193,7 @@ public class RAM: Module {
                 }
             case let widget as PieChart:
                 widget.setDynamicMonochrome(self.pieChartPressureState)
-                if self.pieChartPressureState {
-                    widget.setValue([
-                        ColorValue(value.pressure.percentage, color: value.pressure.value.pressureColor())
-                    ])
-                } else {
-                    widget.setValue([
-                        ColorValue(value.app/total, color: self.appColor),
-                        ColorValue(value.wired/total, color: self.wiredColor),
-                        ColorValue(value.compressed/total, color: self.compressedColor)
-                    ])
-                }
+                widget.setValue(self.pieChartSegments(value, total: total))
             case let widget as MemoryWidget:
                 let free = Units(bytes: Int64(value.free)).getReadableMemory(style: .memory)
                 let used = Units(bytes: Int64(value.used)).getReadableMemory(style: .memory)
@@ -237,7 +239,7 @@ public class RAM: Module {
                         case "level": replacement = "\(value.pressure.level)"
                         case "value": replacement = value.pressure.value.rawValue
                         case "percentage": replacement = "\(Int(value.pressure.percentage * 100))%"
-default: return
+                        default: return
                         }
                     default: return
                     }
