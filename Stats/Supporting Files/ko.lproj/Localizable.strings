@@ -162,8 +162,8 @@
 "Reset settings" = "설정 초기화";
 "Pause the Stats" = "Stats 일시정지";
 "Resume the Stats" = "Stats 재개";
-"Combined modules" = "모듈 결합";
-"Combined details" = "세부 정보 결합하기";
+"Combined modules" = "전체 모듈";
+"Combined details" = "전체 세부 정보";
 "Spacing" = "간격";
 "Share anonymous telemetry" = "익명 사용정보 공유";
 "Choose file" = "파일 선택";
