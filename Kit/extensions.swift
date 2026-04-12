@@ -418,6 +418,38 @@ extension URL {
 }
 
 public extension NSColor {
+    static var widgetMonochromeAccent: NSColor {
+        NSColor(name: nil) { appearance in
+            switch appearance.bestMatch(from: [
+                .darkAqua,
+                .vibrantDark,
+                .accessibilityHighContrastDarkAqua,
+                .accessibilityHighContrastVibrantDark
+            ]) {
+            case .some:
+                return .white
+            default:
+                return .black
+            }
+        }
+    }
+
+    static var widgetMonochromeBackground: NSColor {
+        NSColor(name: nil) { appearance in
+            switch appearance.bestMatch(from: [
+                .darkAqua,
+                .vibrantDark,
+                .accessibilityHighContrastDarkAqua,
+                .accessibilityHighContrastVibrantDark
+            ]) {
+            case .some:
+                return .black
+            default:
+                return .white
+            }
+        }
+    }
+
     func grayscaled() -> NSColor {
         guard let space = CGColorSpace(name: CGColorSpace.extendedGray),
               let cg = self.cgColor.converted(to: space, intent: .perceptual, options: nil),

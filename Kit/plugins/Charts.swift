@@ -799,7 +799,7 @@ public class PieChartView: ChartView {
                 bgPath.appendArc(withCenter: centerPoint, radius: radius, startAngle: 0, endAngle: 360, clockwise: false)
                 bgPath.lineWidth = arcWidth
                 bgPath.lineCapStyle = .butt
-                NSColor.systemRed.setStroke()
+                color.setStroke()
                 bgPath.stroke()
             }
 

@@ -77,7 +77,7 @@ public class Tachometer: WidgetWrapper {
         if self.monochromeState {
             for i in 0..<segments.count {
                 if let color = segments[i].color {
-                    segments[i].color = color.grayscaled()
+                    segments[i].color = NSColor.widgetMonochromeAccent.withAlphaComponent(color.alphaComponent)
                 }
             }
         }

@@ -68,7 +68,7 @@ public class RAM: Module {
         return Store.shared.bool(key: "\(self.config.name)_splitValue", defaultValue: false)
     }
     private var pieChartPressureState: Bool {
-        return Store.shared.bool(key: "\(self.config.name)_pieChartPressure", defaultValue: false)
+        return Store.shared.bool(key: "\(self.config.name)_\(widget_t.pieChart.rawValue)_pressure", defaultValue: false)
     }
     private var appColor: NSColor {
         let color = SColor.secondBlue
@@ -180,6 +180,7 @@ public class RAM: Module {
                     widget.setPressure(value.pressure.value)
                 }
             case let widget as PieChart:
+                widget.setDynamicMonochrome(self.pieChartPressureState)
                 if self.pieChartPressureState {
                     widget.setValue([
                         ColorValue(value.pressure.percentage, color: value.pressure.value.pressureColor())

@@ -68,6 +68,8 @@
 		</dict>
 		<key>pie_chart</key>
 		<dict>
+			<key>Box</key>
+			<true/>
 			<key>Default</key>
 			<false/>
 			<key>Order</key>
