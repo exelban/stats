@@ -10,7 +10,7 @@
 //
 
 // Modules
-"CPU" = "Çekirdek"; // translategemma:4b
+"CPU" = "CPU";
 "Open CPU settings" = "CPU ayalarını aç";
 "GPU" = "GPU";
 "Open GPU settings" = "GPU ayarlarını aç";

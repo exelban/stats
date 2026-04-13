@@ -3,7 +3,6 @@ import sys
 import json
 import urllib.request
 import subprocess
-import unicodedata
 
 try:
     import langcodes
@@ -217,15 +216,17 @@ class i18n:
                 authors.append(line[len("author "):].strip())
         return authors
 
-    def _my_git_author(self):
-        try:
-            return subprocess.check_output(
-                ["git", "config", "user.name"],
-                text=True,
-                cwd=os.getcwd()
-            ).strip()
-        except Exception:
+    def _file_author(self, authors):
+        if not authors:
             return ""
+        counts = {}
+        for a in authors:
+            if a:
+                counts[a] = counts.get(a, 0) + 1
+        if not counts:
+            return ""
+        return max(counts, key=counts.get)
+
 
     def _strings_escape(self, value):
         s = "" if value is None else str(value)
@@ -235,7 +236,6 @@ class i18n:
     def translate(self, model="translategemma:4b", accept=False):
         en_lines = self.en_file()
         en_dict = dictionary(en_lines)
-        my_author = self._my_git_author()
         omit_keys = ["Swap"]
         ai_tag = f"// {model}"
 
@@ -262,6 +262,7 @@ class i18n:
                 authors = self._line_authors(lang_path)
             except Exception:
                 authors = [""] * len(old_lines)
+            file_author = self._file_author(authors)
 
             candidates = []
             for i, en_item in en_dict.items():
@@ -279,7 +280,7 @@ class i18n:
                     else:
                         new_lines.append(line)
                     if i <= len(authors):
-                        authors.insert(i, my_author)
+                        authors.insert(i, file_author)
                     changed = True
                     translate_value = en_value
 
@@ -287,7 +288,7 @@ class i18n:
                     continue
                 if en_key in omit_keys:
                     continue
-                if i < len(authors) and my_author and authors[i] != my_author and en_value != translate_value:
+                if i < len(authors) and file_author and authors[i] != file_author:
                     continue
 
                 if translate_value is None or translate_value == en_value:
