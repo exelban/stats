@@ -67,9 +67,6 @@ public class RAM: Module {
     private var splitValueState: Bool {
         return Store.shared.bool(key: "\(self.config.name)_splitValue", defaultValue: false)
     }
-    private var pieChartPressureState: Bool {
-        return Store.shared.bool(key: "\(self.config.name)_\(widget_t.pieChart.rawValue)_pressure", defaultValue: false)
-    }
     private var appColor: NSColor {
         let color = SColor.secondBlue
         let key = Store.shared.string(key: "\(self.config.name)_appColor", defaultValue: color.key)
@@ -94,7 +91,15 @@ public class RAM: Module {
         }
         return color.additional as! NSColor
     }
-    
+    private var freeColor: NSColor {
+        let color = SColor.lightGray
+        let key = Store.shared.string(key: "\(self.config.name)_freeColor", defaultValue: color.key)
+        if let c = SColor.fromString(key).additional as? NSColor {
+            return c
+        }
+        return color.additional as! NSColor
+    }
+
     private var textValue: String {
         Store.shared.string(key: "\(self.name)_textWidgetValue", defaultValue: "$mem.used/$mem.total ($pressure.value)")
     }
@@ -150,18 +155,6 @@ public class RAM: Module {
         self.setReaders([self.usageReader, self.processReader])
     }
 
-    private func pieChartSegments(_ value: RAM_Usage, total: Double) -> [ColorValue] {
-        if self.pieChartPressureState {
-            return [ColorValue(value.pressure.percentage, color: value.pressure.value.pressureColor())]
-        }
-
-        return [
-            ColorValue(value.app/total, color: self.appColor),
-            ColorValue(value.wired/total, color: self.wiredColor),
-            ColorValue(value.compressed/total, color: self.compressedColor)
-        ]
-    }
-    
     private func loadCallback(_ raw: RAM_Usage?) {
         guard let value = raw, self.enabled else { return }
         
@@ -192,8 +185,13 @@ public class RAM: Module {
                     widget.setPressure(value.pressure.value)
                 }
             case let widget as PieChart:
-                widget.setDynamicMonochrome(self.pieChartPressureState)
-                widget.setValue(self.pieChartSegments(value, total: total))
+                widget.setBackgroundColor(self.freeColor)
+                widget.setPressure(value.pressure.value, percentage: value.pressure.percentage)
+                widget.setValue([
+                    ColorValue(value.app/total, color: self.appColor),
+                    ColorValue(value.wired/total, color: self.wiredColor),
+                    ColorValue(value.compressed/total, color: self.compressedColor)
+                ])
             case let widget as MemoryWidget:
                 let free = Units(bytes: Int64(value.free)).getReadableMemory(style: .memory)
                 let used = Units(bytes: Int64(value.used)).getReadableMemory(style: .memory)

@@ -695,7 +695,7 @@ public class PieChartView: ChartView {
     private var drawValue: Bool = false
     private var drawNeedle: Bool = false
     private var openCircle: Bool = false
-    private var nonActiveSegmentColor: NSColor = NSColor.white
+    private var nonActiveSegmentColor: NSColor = NSColor.lightGray
     public var transparent: Bool = false
 
     private var value: Double? = nil

@@ -15,9 +15,8 @@ public class PieChart: WidgetWrapper {
     private var labelState: Bool = false
     private var monochromeState: Bool = false
     private var boxState: Bool = true
-    private var dynamicMonochromeState: Bool = false
     private var pressureState: Bool = false
-    
+
     private var chart: PieChartView = PieChartView(
         frame: NSRect(
             x: Constants.Widget.margin.x,
@@ -28,9 +27,13 @@ public class PieChart: WidgetWrapper {
         segments: [], filled: true, drawValue: false
     )
     private var labelView: NSView? = nil
-    
+
     private let size: CGFloat = Constants.Widget.height - (Constants.Widget.margin.y*2) + (Constants.Widget.margin.x*2)
-    
+    private var backgroundColorBase: NSColor = .systemBlue
+    private var _segments: [ColorValue] = []
+    private var _pressureLevel: RAMPressure = .normal
+    private var _pressurePercentage: Double = 0
+
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
         var widgetTitle: String = title
         if config != nil {
@@ -41,16 +44,16 @@ public class PieChart: WidgetWrapper {
                 self.boxState = box
             }
         }
-        
+
         super.init(.pieChart, title: widgetTitle, frame: CGRect(
             x: Constants.Widget.margin.x,
             y: Constants.Widget.margin.y,
             width: self.size,
             height: Constants.Widget.height - (Constants.Widget.margin.y*2)
         ))
-        
+
         self.canDrawConcurrently = true
-        
+
         if preview {
             if self.title == "CPU" {
                 self.chart.setSegments([
@@ -72,102 +75,92 @@ public class PieChart: WidgetWrapper {
             self.labelState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
             self.monochromeState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_monochrome", defaultValue: self.monochromeState)
             self.boxState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_box", defaultValue: self.boxState)
-            if self.title == "RAM" {
-                self.pressureState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_pressure", defaultValue: self.pressureState)
-            }
+            self.pressureState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_pressure", defaultValue: self.pressureState)
         }
-        
+
         self.draw()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private var isRAMPieChart: Bool {
-        self.title == "RAM"
-    }
-
-    private var pressurePreferenceKey: String {
-        "\(self.title)_\(self.type.rawValue)_pressure"
-    }
-    
     private func draw() {
         let x: CGFloat = self.labelState ? 8 + Constants.Widget.spacing : 0
-        
+
         self.labelView = WidgetLabelView(self.title, height: self.frame.height)
         self.labelView!.isHidden = !self.labelState
-        
+
         self.addSubview(self.labelView!)
         self.addSubview(self.chart)
-        
+
         self.chart.frame = NSRect(x: x, y: 0, width: self.frame.size.height, height: self.frame.size.height)
-        
+
         self.setFrameSize(NSSize(width: self.size + x, height: self.frame.size.height))
         self.setWidth(self.size + x)
 
         self.chart.transparent = !self.boxState
     }
 
-    private func backgroundColor() -> NSColor {
-        guard self.isRAMPieChart else {
-            return .systemBlue
-        }
-
-        let freeColor = SColor.fromString(
-            Store.shared.string(key: "\(self.title)_freeColor", defaultValue: SColor.lightGray.key)
-        ).additional as? NSColor
-        return freeColor ?? .lightGray
+    public func setValue(_ list: [ColorValue]) {
+        self._segments = list
+        self.updateChart()
     }
 
-    private func monochromeSegments(_ segments: [ColorValue], backgroundColor: inout NSColor) -> [ColorValue] {
-        var resolved = segments
+    public func setPressure(_ level: RAMPressure, percentage: Double) {
+        self._pressureLevel = level
+        self._pressurePercentage = percentage
+    }
 
-        if self.dynamicMonochromeState {
-            for i in 0..<resolved.count {
-                if let color = resolved[i].color {
-                    let monochromeColor = self.boxState ? NSColor.widgetMonochromeBackground : NSColor.widgetMonochromeAccent
-                    resolved[i].color = monochromeColor.withAlphaComponent(color.alphaComponent)
+    public func setBackgroundColor(_ color: NSColor) {
+        self.backgroundColorBase = color
+    }
+
+    private func updateChart() {
+        var backgroundColor = self.backgroundColorBase
+        var segments: [ColorValue]
+
+        if self.pressureState && self._pressurePercentage > 0 {
+            segments = [ColorValue(self._pressurePercentage, color: self._pressureLevel.pressureColor())]
+        } else {
+            segments = self._segments
+        }
+
+        if self.monochromeState {
+            if self.pressureState {
+                for i in 0..<segments.count {
+                    if let color = segments[i].color {
+                        let monochromeColor = self.boxState ? NSColor.widgetMonochromeBackground : NSColor.widgetMonochromeAccent
+                        segments[i].color = monochromeColor.withAlphaComponent(color.alphaComponent)
+                    }
+                }
+                if self.boxState {
+                    backgroundColor = .widgetMonochromeAccent
+                }
+            } else {
+                for i in 0..<segments.count {
+                    if let color = segments[i].color {
+                        segments[i].color = color.grayscaled()
+                    }
+                }
+                if self.boxState {
+                    backgroundColor = backgroundColor.grayscaled()
                 }
             }
-            if self.boxState {
-                backgroundColor = .widgetMonochromeAccent
-            }
-            return resolved
         }
 
-        for i in 0..<resolved.count {
-            if let color = resolved[i].color {
-                resolved[i].color = color.grayscaled()
-            }
-        }
-        if self.boxState {
-            backgroundColor = backgroundColor.grayscaled()
-        }
-
-        return resolved
-    }
-    
-    public func setValue(_ list: [ColorValue]) {
-        var backgroundColor = self.backgroundColor()
-        let segments = self.monochromeState ? self.monochromeSegments(list, backgroundColor: &backgroundColor) : list
-        
         DispatchQueue.main.async(execute: {
             self.chart.setColor(backgroundColor)
             self.chart.setSegments(segments)
         })
     }
 
-    public func setDynamicMonochrome(_ value: Bool) {
-        self.dynamicMonochromeState = value
-    }
-    
     // MARK: - Settings
-    
+
     public override func settings() -> NSView {
         let view = SettingsContainerView()
 
-        var rows: [PreferencesRow] = [
+        view.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Box"), component: switchView(
                 action: #selector(self.toggleBox),
                 state: self.boxState
@@ -179,21 +172,16 @@ public class PieChart: WidgetWrapper {
             PreferencesRow(localizedString("Monochrome accent"), component: switchView(
                 action: #selector(self.toggleMonochrome),
                 state: self.monochromeState
-            ))
-        ]
-
-        if self.isRAMPieChart {
-            rows.append(PreferencesRow(localizedString("Show memory pressure"), component: switchView(
+            )),
+            PreferencesRow(localizedString("Show memory pressure"), component: switchView(
                 action: #selector(self.togglePressure),
                 state: self.pressureState
-            )))
-        }
+            ))
+        ]))
 
-        view.addArrangedSubview(PreferencesSection(rows))
-        
         return view
     }
-    
+
     @objc private func toggleBox(_ sender: NSControl) {
         self.boxState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
@@ -203,13 +191,13 @@ public class PieChart: WidgetWrapper {
     @objc private func toggleLabel(_ sender: NSControl) {
         self.labelState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_label", value: self.labelState)
-        
+
         let x = self.labelState ? 6 + Constants.Widget.spacing : 0
         self.labelView!.isHidden = !self.labelState
         self.chart.setFrameOrigin(NSPoint(x: x, y: 0))
         self.setWidth(self.labelState ? self.size+x : self.size)
     }
-    
+
     @objc private func toggleMonochrome(_ sender: NSControl) {
         self.monochromeState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_monochrome", value: self.monochromeState)
@@ -217,6 +205,7 @@ public class PieChart: WidgetWrapper {
 
     @objc private func togglePressure(_ sender: NSControl) {
         self.pressureState = controlState(sender)
-        Store.shared.set(key: self.pressurePreferenceKey, value: self.pressureState)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_pressure", value: self.pressureState)
+        self.updateChart()
     }
 }

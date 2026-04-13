@@ -175,7 +175,6 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         Store.shared.set(key: "\(self.title)_combinedProcesses", value: self.combinedProcessesState)
         self.callback()
     }
-    
     func controlTextDidChange(_ notification: Notification) {
         if let field = notification.object as? NSTextField {
             if field.identifier == NSUserInterfaceItemIdentifier("text") {
