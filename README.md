@@ -49,6 +49,11 @@ To change the order of any menu bar icon - macOS Mojave (version 10.14) and up.
 2. Drag the icon to the desired position on the menu bar.
 3. Release ⌘ (command key)
 
+### Stats icons do not appear in the menu bar
+macOS 26 introduced a new privacy control under System Settings → Menu Bar. Apps must be explicitly allowed there to display menu bar items. If Stats is running with at least one module active and one widget enabled, but none of its icons show up in the menu bar, this is almost certainly the cause. More details you can find [here](https://github.com/exelban/stats/issues/3120).
+
+**Solution:** open **System Settings → Menu Bar** and toggle **Stats** ON.
+
 ### How to reduce energy impact or CPU usage of Stats?
 Stats tries to be efficient as it's possible. But reading some data periodically is not a cheap task. Each module has its own "price". So, if you want to reduce energy impact from the Stats you need to disable some Stats modules. The most inefficient modules are Sensors and Bluetooth. Disabling these modules could reduce CPU usage and power efficiency by up to 50% in some cases.
 
