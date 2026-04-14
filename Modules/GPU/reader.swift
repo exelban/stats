@@ -32,6 +32,11 @@ internal class InfoReader: Reader<GPUs> {
     private var aneChannels: CFMutableDictionary? = nil
     private var aneSubscription: IOReportSubscriptionRef? = nil
     private var previousANEResidencies: [(on: Int64, total: Int64)] = []
+
+    private var framesChannels: CFMutableDictionary? = nil
+    private var framesSubscription: IOReportSubscriptionRef? = nil
+    private var previousFramesCount: Int64 = 0
+    private var previousFramesTime: CFAbsoluteTime = 0
     
     public override func setup() {
         if let list = SystemKit.shared.device.info.gpu {
@@ -45,6 +50,7 @@ internal class InfoReader: Reader<GPUs> {
         
         #if arch(arm64)
         self.setupANE()
+        self.setupFrames()
         #endif
 
         devices.forEach { (dict: NSDictionary) in
@@ -215,13 +221,71 @@ internal class InfoReader: Reader<GPUs> {
         
         #if arch(arm64)
         let aneValue = self.readANEUtilization()
+        let fpsValue = self.readFrames()
         for i in self.gpus.list.indices where self.gpus.list[i].IOClass.lowercased().contains("agx") {
             self.gpus.list[i].aneUtilization = aneValue ?? 0
+            self.gpus.list[i].fps = fpsValue
         }
         #endif
         
         self.gpus.list.sort{ !$0.state && $1.state }
         self.callback(self.gpus)
+    }
+    
+    // MARK: - FPS
+    
+    private func setupFrames() {
+        let groups = ["DCP", "DCPEXT0", "DCPEXT1", "DCPEXT2", "DCPEXT3"]
+        var merged: CFMutableDictionary? = nil
+        
+        for group in groups {
+            guard let channel = IOReportCopyChannelsInGroup(group as CFString, "swap" as CFString, 0, 0, 0)?.takeRetainedValue() else { continue }
+            if merged == nil {
+                merged = CFDictionaryCreateMutableCopy(kCFAllocatorDefault, 0, channel)
+            } else {
+                IOReportMergeChannels(merged, channel, nil)
+            }
+        }
+        
+        guard let merged, let dict = merged as? [String: Any], dict["IOReportChannels"] != nil else { return }
+        
+        self.framesChannels = merged
+        var sub: Unmanaged<CFMutableDictionary>?
+        self.framesSubscription = IOReportCreateSubscription(nil, merged, &sub, 0, nil)
+        sub?.release()
+    }
+    
+    private func readFrames() -> Double? {
+        guard let subscription = self.framesSubscription,
+              let channels = self.framesChannels,
+              let sample = IOReportCreateSamples(subscription, channels, nil)?.takeRetainedValue(),
+              let dict = sample as? [String: Any] else {
+            return nil
+        }
+        let items = dict["IOReportChannels"] as! CFArray
+        
+        var total: Int64 = 0
+        for i in 0..<CFArrayGetCount(items) {
+            let item = unsafeBitCast(CFArrayGetValueAtIndex(items, i), to: CFDictionary.self)
+            guard let group = IOReportChannelGetGroup(item)?.takeUnretainedValue() as? String,
+                  group.hasPrefix("DCP"),
+                  let sub = IOReportChannelGetSubGroup(item)?.takeUnretainedValue() as? String,
+                  sub == "swap" else { continue }
+            total += IOReportSimpleGetIntegerValue(item, 0)
+        }
+        
+        let now = CFAbsoluteTimeGetCurrent()
+        defer {
+            self.previousFramesCount = total
+            self.previousFramesTime = now
+        }
+        
+        guard self.previousFramesTime != 0 else { return nil }
+        let elapsed = now - self.previousFramesTime
+        guard elapsed > 0 else { return nil }
+        let delta = total - self.previousFramesCount
+        guard delta >= 0 else { return nil }
+        return Double(delta) / elapsed
     }
     
     // MARK: - ANE utilization

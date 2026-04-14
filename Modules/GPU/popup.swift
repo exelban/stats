@@ -345,6 +345,7 @@ private class GPUDetails: NSView {
     private var renderUtilization: NSTextField? = nil
     private var tilerUtilization: NSTextField? = nil
     private var aneUtilization: NSTextField? = nil
+    private var fps: NSTextField? = nil
     
     open override var intrinsicContentSize: CGSize {
         return CGSize(width: self.bounds.width, height: self.bounds.height)
@@ -431,6 +432,12 @@ private class GPUDetails: NSView {
             grid.addRow(with: arr)
             num += 1
         }
+        if let value = value.fps {
+            let arr = keyValueRow("\(localizedString("FPS")):", "\(Int(value.rounded()))")
+            self.fps = arr.last
+            grid.addRow(with: arr)
+            num += 1
+        }
         
         self.setFrameSize(NSSize(width: self.frame.width, height: (16 * num) + Constants.Popup.margins))
         grid.setFrameSize(NSSize(width: grid.frame.width, height: self.frame.height - Constants.Popup.margins))
@@ -475,6 +482,9 @@ private class GPUDetails: NSView {
         }
         if let value = gpu.aneUtilization {
             self.aneUtilization?.stringValue = "\(Int(value*100))%"
+        }
+        if let value = gpu.fps {
+            self.fps?.stringValue = "\(Int(value.rounded()))"
         }
     }
 }
