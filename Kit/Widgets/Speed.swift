@@ -28,6 +28,7 @@ public class SpeedWidget: WidgetWrapper {
     
     private var symbols: (input: String, output: String) = ("I", "O")
     private var words: (input: String, output: String) = ("Input", "Output")
+    private var colorNames: (input: String, output: String) = ("Color of download", "Color of upload")
     
     private var inputValue: Int64 = 0
     private var outputValue: Int64 = 0
@@ -89,6 +90,10 @@ public class SpeedWidget: WidgetWrapper {
             if let words = config!["Words"] as? NSDictionary {
                 if let i = words["Input"] as? String { self.words.input = i }
                 if let o = words["Output"] as? String { self.words.output = o }
+            }
+            if let colors = config!["Colors"] as? NSDictionary {
+                if let i = colors["Input"] as? String { self.colorNames.input = i }
+                if let o = colors["Output"] as? String { self.colorNames.output = o }
             }
         }
         
@@ -559,12 +564,12 @@ public class SpeedWidget: WidgetWrapper {
                 action: #selector(self.toggleMonochrome),
                 state: self.monochromeState
             )),
-            PreferencesRow(localizedString("Color of download"), component: selectView(
+            PreferencesRow(localizedString(self.colorNames.input), component: selectView(
                 action: #selector(self.toggleInputColor),
                 items: SColor.allColors,
                 selected: self.inputColorState.key
             )),
-            PreferencesRow(localizedString("Color of upload"), component: selectView(
+            PreferencesRow(localizedString(self.colorNames.output), component: selectView(
                 action: #selector(self.toggleOutputColor),
                 items: SColor.allColors,
                 selected: self.outputColorState.key

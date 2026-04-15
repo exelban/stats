@@ -20,6 +20,7 @@ public class NetworkChart: WidgetWrapper {
     private var uploadColor: SColor = .secondRed
     private var scaleState: Scale = .linear
     private var reverseOrderState: Bool = false
+    private var colorNames: (download: String, upload: String) = ("Color of download", "Color of upload")
     
     private var points: [(Double, Double)] = Array(repeating: (0, 0), count: 60)
     
@@ -61,6 +62,10 @@ public class NetworkChart: WidgetWrapper {
             }
             if let unsupportedColors = config["Unsupported colors"] as? [String] {
                 self.colors = self.colors.filter{ !unsupportedColors.contains($0.key) }
+            }
+            if let colorConfig = config["Colors"] as? NSDictionary {
+                if let d = colorConfig["Download"] as? String { self.colorNames.download = d }
+                if let u = colorConfig["Upload"] as? String { self.colorNames.upload = u }
             }
         }
         
@@ -300,12 +305,12 @@ public class NetworkChart: WidgetWrapper {
                 action: #selector(self.toggleReverseOrder),
                 state: self.reverseOrderState
             )),
-            PreferencesRow(localizedString("Color of download"), component: selectView(
+            PreferencesRow(localizedString(self.colorNames.download), component: selectView(
                 action: #selector(self.toggleDownloadColor),
                 items: self.colors,
                 selected: self.downloadColor.key
             )),
-            PreferencesRow(localizedString("Color of upload"), component: selectView(
+            PreferencesRow(localizedString(self.colorNames.upload), component: selectView(
                 action: #selector(self.toggleUploadColor),
                 items: self.colors,
                 selected: self.uploadColor.key

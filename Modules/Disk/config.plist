@@ -107,6 +107,13 @@
 				<key>Input</key>
 				<string>Read speed</string>
 			</dict>
+			<key>Colors</key>
+			<dict>
+				<key>Input</key>
+				<string>Read color</string>
+				<key>Output</key>
+				<string>Write color</string>
+			</dict>
 			<key>Order</key>
 			<integer>5</integer>
 		</dict>
@@ -124,6 +131,13 @@
 				<string>pressure</string>
 				<string>system</string>
 			</array>
+			<key>Colors</key>
+			<dict>
+				<key>Download</key>
+				<string>Read color</string>
+				<key>Upload</key>
+				<string>Write color</string>
+			</dict>
 		</dict>
 		<key>text</key>
 		<dict>
