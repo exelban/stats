@@ -82,6 +82,9 @@ public class PopupWindow: NSWindow, NSWindowDelegate {
         self.collectionBehavior = .moveToActiveSpace
         self.backgroundColor = .clear
         self.hasShadow = true
+        if Store.shared.bool(key: "popup_above_floating", defaultValue: false) {
+            self.level = .statusBar
+        }
         self.setIsVisible(false)
         self.delegate = self
     }

@@ -22,6 +22,11 @@ class ApplicationSettings: NSStackView {
         set { Store.shared.set(key: "temperature_units", value: newValue) }
     }
     
+    private var popupAboveFloatingState: Bool {
+        get { Store.shared.bool(key: "popup_above_floating", defaultValue: false) }
+        set { Store.shared.set(key: "popup_above_floating", value: newValue) }
+    }
+
     private var combinedModulesState: Bool {
         get { Store.shared.bool(key: "CombinedModules", defaultValue: false) }
         set { Store.shared.set(key: "CombinedModules", value: newValue) }
@@ -105,7 +110,11 @@ class ApplicationSettings: NSStackView {
                 action: #selector(self.toggleDock),
                 state: Store.shared.bool(key: "dockIcon", defaultValue: false)
             )),
-            PreferencesRow(localizedString("Start at login"), component: self.startAtLoginBtn!)
+            PreferencesRow(localizedString("Start at login"), component: self.startAtLoginBtn!),
+            PreferencesRow(localizedString("Keep popups above other windows"), component: switchView(
+                action: #selector(self.togglePopupAboveFloating),
+                state: self.popupAboveFloatingState
+            ))
         ]))
         
         scrollView.stackView.addArrangedSubview(PreferencesSection([
@@ -327,6 +336,17 @@ class ApplicationSettings: NSStackView {
         LaunchAtLogin.isEnabled = sender.state == NSControl.StateValue.on
         if !Store.shared.exist(key: "runAtLoginInitialized") {
             Store.shared.set(key: "runAtLoginInitialized", value: true)
+        }
+    }
+
+    @objc private func togglePopupAboveFloating(_ sender: NSButton) {
+        let state = sender.state == NSControl.StateValue.on
+        self.popupAboveFloatingState = state
+        let newLevel: NSWindow.Level = state ? .statusBar : .normal
+        for window in NSApplication.shared.windows {
+            if window is PopupWindow {
+                window.level = newLevel
+            }
         }
     }
     
