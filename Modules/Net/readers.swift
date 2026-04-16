@@ -480,14 +480,12 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     }
     
     private func getBytesInfo(_ pointer: UnsafeMutablePointer<ifaddrs>) -> (upload: Int64, download: Int64)? {
-        let addr = pointer.pointee.ifa_addr.pointee
-        
-        guard addr.sa_family == UInt8(AF_LINK) else {
+        guard let addrPtr = pointer.pointee.ifa_addr, addrPtr.pointee.sa_family == UInt8(AF_LINK) else {
             return nil
         }
-        
-        let data: UnsafeMutablePointer<if_data>? = unsafeBitCast(pointer.pointee.ifa_data, to: UnsafeMutablePointer<if_data>.self)
-        return (upload: Int64(data?.pointee.ifi_obytes ?? 0), download: Int64(data?.pointee.ifi_ibytes ?? 0))
+        guard let raw = pointer.pointee.ifa_data else { return nil }
+        let data = raw.assumingMemoryBound(to: if_data.self)
+        return (upload: Int64(data.pointee.ifi_obytes), download: Int64(data.pointee.ifi_ibytes))
     }
     
     private func isIPv4(_ ip: String) -> Bool {
