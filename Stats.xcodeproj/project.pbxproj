@@ -35,6 +35,7 @@
 		5C23BC1029A3B5AE00DBA990 /* portal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C23BC0F29A3B5AE00DBA990 /* portal.swift */; };
 		5C2F5C442F8409F700B3F8AC /* preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2F5C432F8409F200B3F8AC /* preview.swift */; };
 		5C3068732C32E83200B05EFA /* widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3068722C32E83200B05EFA /* widget.swift */; };
+		5C30CD602F8A8F950001EF1C /* preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C30CD5F2F8A8F930001EF1C /* preview.swift */; };
 		5C4A1F5D2F6099AA009CFEE6 /* preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4A1F5C2F6099A7009CFEE6 /* preview.swift */; };
 		5C4E8BA12B6EEE8E00F148B6 /* lldb.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C4E8BA02B6EEE8E00F148B6 /* lldb.m */; };
 		5C4E8BB12B6EEEE800F148B6 /* filter_policy.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C4E8BA22B6EEEE800F148B6 /* filter_policy.h */; };
@@ -525,6 +526,7 @@
 		5C23BC0F29A3B5AE00DBA990 /* portal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = portal.swift; sourceTree = "<group>"; };
 		5C2F5C432F8409F200B3F8AC /* preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = preview.swift; sourceTree = "<group>"; };
 		5C3068722C32E83200B05EFA /* widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widget.swift; sourceTree = "<group>"; };
+		5C30CD5F2F8A8F930001EF1C /* preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = preview.swift; sourceTree = "<group>"; };
 		5C32910A2C315A250010012D /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		5C4A1F5C2F6099A7009CFEE6 /* preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = preview.swift; sourceTree = "<group>"; };
 		5C4E8B9F2B6EEE6D00F148B6 /* lldb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lldb.h; sourceTree = "<group>"; };
@@ -1165,6 +1167,7 @@
 				9A53EBF824EAFA5200648841 /* settings.swift */,
 				5CF221142B1F4792006C583F /* notifications.swift */,
 				5C0A9CA32C467F7A00EE6A89 /* widget.swift */,
+				5C30CD5F2F8A8F930001EF1C /* preview.swift */,
 				9A90E18C24EAD2BB00471E9A /* Info.plist */,
 				9A90E19724EAD3B000471E9A /* config.plist */,
 				5CC804292F7EDECA00B78DC7 /* bridge.h */,
@@ -2180,6 +2183,7 @@
 				5C23BC0A29A0EDA300DBA990 /* portal.swift in Sources */,
 				9A53EBFB24EB041E00648841 /* popup.swift in Sources */,
 				9A53EBF924EAFA5200648841 /* settings.swift in Sources */,
+				5C30CD602F8A8F950001EF1C /* preview.swift in Sources */,
 				5CF221152B1F4792006C583F /* notifications.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

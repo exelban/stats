@@ -165,8 +165,9 @@ public class Disks: Codable, RemoteType {
     }
     
     public func remote() -> Data? {
-        var string = "\(self.array.count),"
-        for (i, v) in self.array.enumerated() {
+        let arr = self.array.filter({ !$0.removable })
+        var string = "\(arr.count),"
+        for (i, v) in arr.enumerated() {
             string += v.remote()
             if i != self.array.count {
                 string += ","

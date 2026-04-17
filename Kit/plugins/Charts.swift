@@ -165,6 +165,10 @@ public class LineChartView: ChartView {
     private var cursor: NSPoint? = nil
     private var stop: Bool = false
     
+    private var tooltipEnabledSnapshot: Bool {
+        self.read { self.isTooltipEnabled }
+    }
+    
     public init(frame: NSRect = .zero, num: Int, suffix: String = "%", color: NSColor = .controlAccentColor, scale: Scale = .none, fixedScale: Double = 1, zeroValue: Double = 0.01) {
         self.points = Array(repeating: nil, count: max(num, 1))
         self.suffix = suffix
@@ -545,10 +549,6 @@ public class LineChartView: ChartView {
         self.displayIfVisible()
     }
     
-    private var tooltipEnabledSnapshot: Bool {
-        self.read { self.isTooltipEnabled }
-    }
-    
     public override func mouseEntered(with event: NSEvent) {
         guard self.tooltipEnabledSnapshot else { return }
         self.cursor = convert(event.locationInWindow, from: nil)
@@ -746,11 +746,11 @@ public class PieChartView: ChartView {
         let arcWidth: CGFloat = filled ? min(self.frame.width, self.frame.height) / 2 : 7
         let fullCircle: CGFloat = 2 * CGFloat.pi
         let arcSpan: CGFloat = openCircle ? (3/2) * CGFloat.pi : fullCircle
+        if segments.isEmpty {
+            segments = [ColorValue(value ?? 0, color: color)]
+        }
         
         if openCircle {
-            if segments.isEmpty {
-                segments = [ColorValue(value ?? 0, color: color)]
-            }
             let totalAmount = segments.reduce(0) { $0 + $1.value }
             if totalAmount < 1 {
                 segments.append(ColorValue(Double(1-totalAmount), color: NSColor.lightGray.withAlphaComponent(0.5)))
@@ -1202,8 +1202,6 @@ public class BarChartView: ChartView {
             isHorizontal = self.horizontal
             values = self.values
         }
-        
-        guard !values.isEmpty else { return }
         
         let totalValue = values.reduce(0) { $0 + $1.value }
         if totalValue < 1 {

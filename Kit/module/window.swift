@@ -15,7 +15,23 @@ public protocol Settings_v: NSView {
     func load(widgets: [widget_t])
 }
 
-public protocol Preview_v: NSView {}
+open class PreviewWrapper: NSStackView {
+    public let module: ModuleType
+    
+    public init(type: ModuleType) {
+        self.module = type
+        super.init(frame: NSRect.zero)
+        
+        self.orientation = .vertical
+        self.distribution = .gravityAreas
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.spacing = Constants.Settings.margin
+    }
+    
+    required public init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
 
 open class Window: NSStackView {
     private var config: UnsafePointer<module_c>
@@ -24,7 +40,7 @@ open class Window: NSStackView {
     private var segmentedControl: NSSegmentedControl?
     private var tabView: NSTabView?
     
-    private var modulePreview: Preview_v?
+    private var modulePreview: PreviewWrapper?
     private var moduleSettings: Settings_v?
     private var popupSettings: Popup_p?
     private var notificationsSettings: NotificationsWrapper?
@@ -59,7 +75,7 @@ open class Window: NSStackView {
     init(
         config: UnsafePointer<module_c>,
         widgets: UnsafeMutablePointer<[SWidget]>,
-        modulePreview: Preview_v?,
+        modulePreview: PreviewWrapper?,
         moduleSettings: Settings_v?,
         popupSettings: Popup_p?,
         notificationsSettings: NotificationsWrapper?

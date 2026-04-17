@@ -111,6 +111,7 @@ public class GPU: Module {
     private let settingsView: Settings
     private let portalView: Portal
     private let notificationsView: Notifications
+    private let previewView: Preview
     
     private var infoReader: InfoReader? = nil
     
@@ -131,13 +132,15 @@ public class GPU: Module {
         self.settingsView = Settings(.GPU)
         self.portalView = Portal(.GPU)
         self.notificationsView = Notifications(.GPU)
+        self.previewView = Preview(.GPU)
         
         super.init(
             moduleType: .GPU,
             popup: self.popupView,
             settings: self.settingsView,
             portal: self.portalView,
-            notifications: self.notificationsView
+            notifications: self.notificationsView,
+            preview: self.previewView,
         )
         guard self.available else { return }
         
@@ -179,6 +182,7 @@ public class GPU: Module {
         
         self.portalView.callback(selectedGPU)
         self.notificationsView.usageCallback(utilization)
+        self.previewView.loadCallback(selectedGPU)
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: SWidget) in
             switch w.item {

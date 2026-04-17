@@ -12,7 +12,7 @@
 import Cocoa
 import Kit
 
-internal class Preview: NSStackView, Preview_v {
+internal class Preview: PreviewWrapper {
     private var initialized: Bool = false
     private var initializedAverage: Bool = false
     private var initializedFrequency: Bool = false
@@ -28,7 +28,7 @@ internal class Preview: NSStackView, Preview_v {
     
     private var eCoresColor: NSColor {
         let color = SColor.teal
-        let key = Store.shared.string(key: "CPU_eCoresColor", defaultValue: color.key)
+        let key = Store.shared.string(key: "\(self.module.stringValue)_eCoresColor", defaultValue: color.key)
         if let c = SColor.fromString(key).additional as? NSColor {
             return c
         }
@@ -36,7 +36,7 @@ internal class Preview: NSStackView, Preview_v {
     }
     private var pCoresColor: NSColor {
         let color = SColor.indigo
-        let key = Store.shared.string(key: "CPU_pCoresColor", defaultValue: color.key)
+        let key = Store.shared.string(key: "\(self.module.stringValue)_pCoresColor", defaultValue: color.key)
         if let c = SColor.fromString(key).additional as? NSColor {
             return c
         }
@@ -44,7 +44,7 @@ internal class Preview: NSStackView, Preview_v {
     }
     private var sCoresColor: NSColor {
         let color = SColor.orange
-        let key = Store.shared.string(key: "CPU_sCoresColor", defaultValue: color.key)
+        let key = Store.shared.string(key: "\(self.module.stringValue)_sCoresColor", defaultValue: color.key)
         if let c = SColor.fromString(key).additional as? NSColor {
             return c
         }
@@ -68,17 +68,8 @@ internal class Preview: NSStackView, Preview_v {
     
     private var cores: [CoreView] = []
     
-    private var loadLineChartHistory: Int = 180
-    private var loadLineChartScale: Scale = .none
-    private var loadLineChartFixedScale: Double = 1
-    
     public init(_ module: ModuleType) {
-        super.init(frame: NSRect.zero)
-        
-        self.orientation = .vertical
-        self.distribution = .gravityAreas
-        self.translatesAutoresizingMaskIntoConstraints = false
-        self.spacing = Constants.Settings.margin
+        super.init(type: module)
         
         self.addArrangedSubview(PreferencesSection([self.totalView()]))
         self.addArrangedSubview(PreferencesSection(label: localizedString("Usage history"), [self.historyView()]))
@@ -175,7 +166,7 @@ internal class Preview: NSStackView, Preview_v {
         view.spacing = Constants.Settings.margin*2
         view.heightAnchor.constraint(equalToConstant: 140).isActive = true
         
-        let chart = LineChartView(num: self.loadLineChartHistory, scale: self.loadLineChartScale, fixedScale: self.loadLineChartFixedScale)
+        let chart = LineChartView(num: 600)
         chart.setColor(self.chartColor)
         chart.setLegend(x: true, y: true)
         self.loadLineChart = chart

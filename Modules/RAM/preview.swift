@@ -12,9 +12,7 @@
 import Cocoa
 import Kit
 
-internal class Preview: NSStackView, Preview_v {
-    private let title: String
-    
+internal class Preview: PreviewWrapper {
     private var usageCircle: PieChartView? = nil
     private var bar: BarChartView? = nil
     private var loadLineChart: LineChartView? = nil
@@ -34,10 +32,6 @@ internal class Preview: NSStackView, Preview_v {
     private var chartColorState: SColor = .systemAccent
     private var chartColor: NSColor { self.chartColorState.additional as? NSColor ?? NSColor.systemBlue }
     
-    private var lineChartHistory: Int = 180
-    private var lineChartScale: Scale = .none
-    private var lineChartFixedScale: Double = 1
-    
     private var usedField: NSTextField? = nil
     
     private var appField: NSTextField? = nil
@@ -50,16 +44,9 @@ internal class Preview: NSStackView, Preview_v {
     private var initialized: Bool = false
     
     public init(_ module: ModuleType) {
-        self.title = module.stringValue
-        
-        super.init(frame: NSRect.zero)
+        super.init(type: module)
         
         self.loadColors()
-        
-        self.orientation = .vertical
-        self.distribution = .gravityAreas
-        self.translatesAutoresizingMaskIntoConstraints = false
-        self.spacing = Constants.Settings.margin
         
         let splitView = NSStackView()
         splitView.orientation = .horizontal
@@ -79,14 +66,11 @@ internal class Preview: NSStackView, Preview_v {
     }
     
     private func loadColors() {
-        self.appColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_appColor", defaultValue: self.appColorState.key))
-        self.wiredColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_wiredColor", defaultValue: self.wiredColorState.key))
-        self.compressedColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_compressedColor", defaultValue: self.compressedColorState.key))
-        self.freeColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_freeColor", defaultValue: self.freeColorState.key))
-        self.chartColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_chartColor", defaultValue: self.chartColorState.key))
-        self.lineChartHistory = Store.shared.int(key: "\(self.title)_lineChartHistory", defaultValue: self.lineChartHistory)
-        self.lineChartScale = Scale.fromString(Store.shared.string(key: "\(self.title)_lineChartScale", defaultValue: self.lineChartScale.key))
-        self.lineChartFixedScale = Double(Store.shared.int(key: "\(self.title)_lineChartFixedScale", defaultValue: 100)) / 100
+        self.appColorState = SColor.fromString(Store.shared.string(key: "\(self.module.stringValue)_appColor", defaultValue: self.appColorState.key))
+        self.wiredColorState = SColor.fromString(Store.shared.string(key: "\(self.module.stringValue)_wiredColor", defaultValue: self.wiredColorState.key))
+        self.compressedColorState = SColor.fromString(Store.shared.string(key: "\(self.module.stringValue)_compressedColor", defaultValue: self.compressedColorState.key))
+        self.freeColorState = SColor.fromString(Store.shared.string(key: "\(self.module.stringValue)_freeColor", defaultValue: self.freeColorState.key))
+        self.chartColorState = SColor.fromString(Store.shared.string(key: "\(self.module.stringValue)_chartColor", defaultValue: self.chartColorState.key))
     }
     
     private func usageView() -> NSView {
@@ -178,7 +162,7 @@ internal class Preview: NSStackView, Preview_v {
         view.spacing = Constants.Settings.margin*2
         view.heightAnchor.constraint(equalToConstant: 140).isActive = true
         
-        let chart = LineChartView(num: self.lineChartHistory, scale: self.lineChartScale, fixedScale: self.lineChartFixedScale)
+        let chart = LineChartView(num: 600)
         chart.setColor(self.chartColor)
         chart.setLegend(x: true, y: true)
         self.loadLineChart = chart
@@ -210,7 +194,7 @@ internal class Preview: NSStackView, Preview_v {
         circle.toolTip = localizedString("Memory pressure")
         self.pressureCircle = circle
         
-        let chart = LineChartView(num: self.lineChartHistory, fixedScale: 3)
+        let chart = LineChartView(num: 600, fixedScale: 3)
         chart.setColor(self.chartColor)
         chart.setLegend(x: true, y: false)
         chart.setToolTipFunc { v in
@@ -245,7 +229,7 @@ internal class Preview: NSStackView, Preview_v {
         circle.toolTip = localizedString("Swap")
         self.swapCircle = circle
         
-        let chart = LineChartView(num: self.lineChartHistory)
+        let chart = LineChartView(num: 600)
         chart.setColor(self.chartColor)
         chart.setLegend(x: true, y: false)
         chart.setToolTipFunc { v in
