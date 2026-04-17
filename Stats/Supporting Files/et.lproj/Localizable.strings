@@ -12,11 +12,11 @@
 // Modules
 "CPU" = "Protsessor";
 "Open CPU settings" = "Ava CPU seaded";
-"GPU" = "Graafikaadapter";
+"GPU" = "Graafika";
 "Open GPU settings" = "Ava GPU seaded";
 "RAM" = "Muutmälu";
 "Open RAM settings" = "Ava muutmälu seaded";
-"Disk" = "Ketas";
+"Disk" = "Kettad";
 "Open Disk settings" = "Ava ketta seaded";
 "Sensors" = "Sensorid";
 "Open Sensors settings" = "Ava sensorite seaded";
@@ -44,7 +44,7 @@
 "No" = "Ei";
 "Automatic" = "Automaatne";
 "Manual" = "Käsitsi";
-"None" = "Mitte ühtegi";
+"None" = "Pole";
 "Dots" = "Täpid";
 "Arrows" = "Nooled";
 "Characters" = "Märgid";
@@ -127,12 +127,12 @@
 "finish_setup_message" = "Kõik on paika pandud! \n Stats on avatud lähtekoodiga tööriist, see on tasuta ja jääb alati tasuta. \n Kui teile meeldib, saate projekti toetada, see on alati teretulnud!";
 
 // Alerts
-"New version available" = "Uus versioon saadaval";
+"New version available" = "Uus versioon on saadaval";
 "Click to install the new version of Stats" = "Klõpsa Statsi uue versiooni installimiseks";
 "Successfully updated" = "Edukalt värskendatud";
 "Stats was updated to v" = "Stats värskendati versioonile %0";
 "Reset settings text" = "Kõik rakenduse seaded lähtestatakse ja rakendus taaskäivitatakse. Kas olete kindel, et soovite seda teha?";
-"Support text" = "Täname teid statistika kasutamise eest!\n\n Selle avatud lähtekoodiga projekti hooldamine ja täiustamine nõuab aega ja ressursse. Teie toetus aitab meil jätkuvalt pakkuda kõigile tasuta ja usaldusväärset rakendust.\n\nJa kui Stats on teie arvates kasulik, siis palun kaaluge panuse andmist. Iga väike summa aitab!";
+"Support text" = "Täname teid Statsi kasutamise eest!\n\n Selle avatud lähtekoodiga projekti hooldamine ja täiustamine nõuab aega ja ressursse. Teie toetus aitab meil jätkuvalt pakkuda kõigile tasuta ja usaldusväärset rakendust.\n\nJa kui Stats on teie arvates kasulik, siis palun kaaluge panuse andmist. Iga väike summa aitab!";
 
 // Settings
 "Open Activity Monitor" = "Ava aktiivsusmonitor";
@@ -148,14 +148,14 @@
 // Application settings
 "Update application" = "Uuenda rakendust";
 "Check for updates" = "Otsi värskendusi";
-"At start" = "Alguses";
+"At start" = "Käivitamisel";
 "Once per day" = "Üks kord päevas";
 "Once per week" = "Kord nädalas";
-"Once per month" = "Üks kord kuus";
+"Once per month" = "Kord kuus";
 "Never" = "Mitte kunagi";
 "Check for update" = "Otsi värskendusi";
 "Show icon in dock" = "Kuva ikoon dokis";
-"Start at login" = "Alusta sisselogimisest";
+"Start at login" = "Käivita sisselogimisest";
 "Build number" = "Järgunumber";
 "Import settings" = "Impordi seaded";
 "Export settings" = "Ekspordi seaded";
@@ -174,11 +174,11 @@
 "Model identifier" = "Mudeli identifikaator";
 "Production year" = "Valmistamise aasta";
 "Uptime" = "Tööaeg";
-"Number of cores" = "%0 tuumad";
-"Number of threads" = "%0 lõimed";
-"Number of e-cores" = "%0 tõhusatuumad";
-"Number of p-cores" = "%0 jõudlustuumad";
-"Number of s-cores" = "%0 ülijõudlustuumad";
+"Number of cores" = "%0 tuuma";
+"Number of threads" = "%0 lõime";
+"Number of e-cores" = "%0 tõhustuuma";
+"Number of p-cores" = "%0 jõudlustuuma";
+"Number of s-cores" = "%0 ülijõudlustuuma";
 "Disks" = "Kettad";
 "Display" = "Ekraan";
 
@@ -250,8 +250,8 @@
 "Listening..." = "Kuulamine...";
 
 // Modules
-"Number of top processes" = "Tippprotsesside arv";
-"Update interval for top processes" = "Tippprotsesside värskendusintervall";
+"Number of top processes" = "Tipp-protsesside arv";
+"Update interval for top processes" = "Tipp-protsesside värskendusintervall";
 "Notification level" = "Teavitustase";
 "Chart color" = "Diagrammi värv";
 "Main chart scaling" = "Peamise graafi skaala";
@@ -268,9 +268,9 @@
 "Idle" = "Ootel";
 "Show usage per core" = "Kuva kasutust tuuma kohta";
 "Show hyper-threading cores" = "Kuva hüperlõime tuumad";
-"Split the value (System/User)" = "Jagage väärtus (süsteem/kasutaja)";
+"Split the value (System/User)" = "Jaga väärtus (süsteem/kasutaja)";
 "Scheduler limit" = "Planeerija limiit";
-"Speed limit" = "Kiirusepiirang";
+"Speed limit" = "Kiiruspiirang";
 "Average load" = "Keskmine koormus";
 "1 minute" = "1 minut";
 "5 minutes" = "5 minutit";
@@ -288,11 +288,11 @@
 "Total load" = "Kokku koormus";
 "System load" = "Süsteemi koormus";
 "User load" = "Kasutajate koormus";
-"Efficiency cores load" = "Efektiivsustuumade koormus";
+"Efficiency cores load" = "Tõhusustuumade koormus";
 "Performance cores load" = "Jõudlustuumade koormus";
 "All cores" = "Kõik tuumad";
 "Load per core" = "Koormus tuuma kohta";
-"Efficiency core" = "Efektiivsustuum";
+"Efficiency core" = "Tõhusustuum";
 "Performance core" = "Jõudlustuum";
 "Super core" = "Superjõudlustuum";
 
@@ -435,10 +435,10 @@
 "Level" = "Tase";
 "Source" = "Allikas";
 "AC Power" = "Võrgutoide";
-"Battery Power" = "Aku võimsus";
+"Battery Power" = "Akutoide";
 "Time" = "Aeg";
 "Health" = "Tervis";
-"Amperage" = "Amperaaž";
+"Amperage" = "Voolutugevus";
 "Voltage" = "Pinge";
 "Cycles" = "Tsüklid";
 "Temperature" = "Temperatuur";
