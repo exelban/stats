@@ -71,7 +71,7 @@
 "Logarithmic" = "Logarithmique";
 "Fixed scale" = "Fixe";
 "Cores" = "Cœurs";
-"Core" = "Noyau"; // translategemma:4b
+"Core" = "Cœur";
 "Settings" = "Paramètres";
 "Name" = "Nom";
 "Format" = "Format";
@@ -91,10 +91,10 @@
 "Frequency" = "Fréquence"; // translategemma:4b
 "Save" = "Enregistrer"; // translategemma:4b
 "Run" = "Exécuter"; // translategemma:4b
-"Stop" = "Arrêtez"; // translategemma:4b
-"Uninstall" = "Supprimer"; // translategemma:4b
+"Stop" = "Arrêter";
+"Uninstall" = "Désinstaller";
 "1 sec" = "1 seconde"; // translategemma:4b
-"2 sec" = "2 sec"; // translategemma:4b
+"2 sec" = "2 secondes";
 "3 sec" = "3 secondes"; // translategemma:4b
 "5 sec" = "5 secondes"; // translategemma:4b
 "10 sec" = "10 secondes"; // translategemma:4b
@@ -124,15 +124,15 @@
 "Share anonymous telemetry data" = "Partager les données télémétriques anonymes";
 "Do not share anonymous telemetry data" = "Ne pas partager les données télémétriques anonymes";
 "The configuration is completed" = "La configuration est terminée";
-"finish_setup_message" = "Tout est prêt ! \n Stats est un outil open source, gratuit et le restera toujours. \n Si vous appréciez ce projet, vous pouvez le soutenir, cela sera toujours apprécié !";
+"finish_setup_message" = "Tout est prêt !\n Stats est un outil open source, gratuit et le restera toujours.\n Si vous appréciez ce projet, vous pouvez le soutenir, cela sera toujours apprécié !";
 
 // Alerts
 "New version available" = "Nouvelle version disponible";
 "Click to install the new version of Stats" = "Cliquez pour installer la nouvelle version de Stats";
 "Successfully updated" = "Mise à jour effectuée avec succès";
-"Stats was updated to v" = "Stats a été mis à jour en version %0";
-"Reset settings text" = "Tous les paramètres de l'application seront réinitialisés et l'application redémarrera. Êtes-vous sûr de vouloir continuer ?";
-"Support text" = "Merci d'utiliser Stats!\nLa maintenance et l'amélioration de ce projet open-source nécessitent du temps et des ressources. Votre soutien nous aide à continuer à fournir une application gratuite et fiable pour tout le monde.\nSi vous trouvez Stats utile, veuillez envisager de faire une contribution. Chaque petit geste compte !";
+"Stats was updated to v" = "Stats a été mis à jour à la version %0";
+"Reset settings text" = "Tous les paramètres de l'application seront réinitialisés et l'application redémarrera. Êtes-vous sûr de vouloir continuer ?";
+"Support text" = "Merci d'utiliser Stats !\nLa maintenance et l'amélioration de ce projet open source nécessitent du temps et des ressources. Votre soutien nous aide à continuer à fournir une application gratuite et fiable pour tout le monde.\nSi vous trouvez Stats utile, veuillez envisager de faire une contribution. Chaque petit geste compte !";
 
 // Settings
 "Open Activity Monitor" = "Ouvrir le Moniteur d'activité";
@@ -165,7 +165,7 @@
 "Combined modules" = "Modules combinés";
 "Combined details" = "Détails combinés";
 "Spacing" = "Espacement";
-"Share anonymous telemetry" = "Partager des données télémétriques anonymes";
+"Share anonymous telemetry" = "Partager des données anonymes de télémétrie";
 "Choose file" = "Sélectionner un fichier"; // translategemma:4b
 "Stress tests" = "Tests de charge"; // translategemma:4b
 
@@ -178,7 +178,7 @@
 "Number of threads" = "%0 threads";
 "Number of e-cores" = "%0 cœurs à haute effica­cité éner­gétique";
 "Number of p-cores" = "%0 cœurs de perfor­mance";
-"Number of s-cores" = "%0 cœurs de traitement de haut niveau"; // translategemma:4b
+"Number of s-cores" = "%0 super cœurs";
 "Disks" = "Disques"; // translategemma:4b
 "Display" = "Affichage"; // translategemma:4b
 
@@ -292,9 +292,9 @@
 "Performance cores load" = "Charge des cœurs de performance";
 "All cores" = "Tous les cœurs"; // translategemma:4b
 "Load per core" = "Charge par cœur"; // translategemma:4b
-"Efficiency core" = "Noyau de performance"; // translategemma:4b
-"Performance core" = "Noyau de performance"; // translategemma:4b
-"Super core" = "Extrêmement performant"; // translategemma:4b
+"Efficiency core" = "Cœur à haute effica­cité éner­gétique";
+"Performance core" = "Cœur de perfor­mance";
+"Super core" = "Super cœur";
 
 // GPU
 "GPU to show" = "GPU à afficher";
@@ -354,7 +354,7 @@
 "Total written" = "Écritures totales";
 "Write speed" = "Écritures";
 "Read speed" = "Lectures";
-"Drives" = "Galets"; // translategemma:4b
+"Drives" = "Disques";
 "SMART data" = "Données SMART"; // translategemma:4b
 
 // Sensors
@@ -372,7 +372,7 @@
 "Uninstall fan helper" = "Désinstaller l'assistant des ventilateurs";
 "Fan value" = "Vitesse du ventilateur";
 "Turn off fan" = "Éteindre les ventilateurs";
-"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Vous vous apprêtez à éteindre les ventilateurs. Cette action n'est pas recommandée car elle peut endommager votre mac, êtes-vous sûr de vouloir faire cela ?";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Vous vous apprêtez à éteindre les ventilateurs. Cette action n'est pas recommandée car elle peut endommager votre Mac, êtes-vous sûr de vouloir faire cela ?";
 "Sensor threshold" = "Seuil du capteur";
 "Left fan" = "Gauche";
 "Right fan" = "Droite";
@@ -387,10 +387,10 @@
 "Interface" = "Interface";
 "Physical address" = "Adresse physique";
 "Refresh" = "Actualiser";
-"Click to copy public IP address" = "Cliquez pour copier l'adresse IP publique";
-"Click to copy local IP address" = "Cliquez pour copier l'adresse IP locale";
-"Click to copy wifi name" = "Cliquez pour copier le nom du réseau Wi-Fi";
-"Click to copy mac address" = "Cliquez pour copier l'adresse MAC";
+"Click to copy public IP address" = "Cliquer pour copier l'adresse IP publique";
+"Click to copy local IP address" = "Cliquer pour copier l'adresse IP locale";
+"Click to copy wifi name" = "Cliquer pour copier le nom du réseau Wi-Fi";
+"Click to copy mac address" = "Cliquer pour copier l'adresse MAC";
 "No connection" = "Aucune connexion";
 "Network interface" = "Interface réseau";
 "Total download" = "Total des téléchargements";
@@ -400,7 +400,7 @@
 "Processes based" = "Basé sur les processus";
 "Reset data usage" = "Réinitialiser l'utilisation des données";
 "VPN mode" = "Mode VPN";
-"Standard" = "Norme"; // translategemma:4b
+"Standard" = "Normal";
 "Security" = "Sécurité";
 "Channel" = "Canal";
 "Common scale" = "Échelle commune";
@@ -410,26 +410,26 @@
 "Active state color" = "Couleur de l'état actif";
 "Nonactive state color" = "Couleur de l'état inactif";
 "Connectivity host" = "Hôte de connectivité";
-"Leave empty to disable the check" = "Laissez vide pour désactiver la vérification";
+"Leave empty to disable the check" = "Laisser vide pour désactiver la vérification";
 "Connectivity history" = "Historique de la connectivité";
 "Auto-refresh public IP address" = "Actualiser automatiquement l'adresse IP publique";
 "Every hour" = "Toutes les heures";
 "Every 12 hours" = "Toutes les 12 heures";
 "Every 24 hours" = "Toutes les 24 heures";
-"Network activity" = "L'activité réseau";
+"Network activity" = "Activité réseau";
 "Last reset" = "Dernière réinitialisation il y a %0";
 "Latency" = "Latence";
 "Upload speed" = "Envoi";
 "Download speed" = "Téléchargement";
 "Address" = "Adresse"; // translategemma:4b
-"WiFi network" = "Réseau WiFi"; // translategemma:4b
-"Local IP changed" = "L'adresse IP locale a changé."; // translategemma:4b
-"Public IP changed" = "L'adresse IP publique a été modifiée."; // translategemma:4b
+"WiFi network" = "Réseau Wi-Fi";
+"Local IP changed" = "Adresse IP locale modifiée";
+"Public IP changed" = "Adresse IP publique modifiée";
 "Previous IP" = "Adresse IP précédente : %0"; // translategemma:4b
 "New IP" = "Nouvelle adresse IP : %0"; // translategemma:4b
-"Internet connection lost" = "Perte de connexion Internet"; // translategemma:4b
+"Internet connection lost" = "Connexion Internet perdue";
 "Internet connection established" = "Connexion Internet établie"; // translategemma:4b
-"Show country code instead of emoji" = "Afficher le code du pays à la place des emojis."; // translategemma:4b
+"Show country code instead of emoji" = "Afficher le code du pays à la place des emojis";
 
 // Battery
 "Level" = "Niveau";
@@ -443,7 +443,7 @@
 "Cycles" = "Nombre de cycles";
 "Temperature" = "Température";
 "Power adapter" = "Adaptateur secteur";
-"Power" = "Courant";
+"Power" = "Puissance";
 "Is charging" = "En charge";
 "Time to discharge" = "Temps restant";
 "Time to charge" = "Temps de charge";
