@@ -168,16 +168,6 @@ extension Helper {
         }
     }
     
-    func powermetrics(_ samplers: [String], completion: @escaping (String?) -> Void) {
-        let result = syncShell("powermetrics -n 1 -s \(samplers.joined(separator: ",")) --sample-rate 1000")
-        if let error = result.error, !error.isEmpty {
-            NSLog("error call powermetrics: \(error)")
-            completion(nil)
-            return
-        }
-        completion(result.output)
-    }
-    
     public func syncShell(_ args: String) -> (output: String?, error: String?) {
         let task = Process()
         task.launchPath = "/bin/sh"
