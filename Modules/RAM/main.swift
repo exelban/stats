@@ -118,6 +118,7 @@ public class RAM: Module {
         
         self.settingsView.callback = { [weak self] in
             self?.usageReader?.read()
+            self?.processReader?.read()
         }
         self.settingsView.setInterval = { [weak self] value in
             self?.processReader?.read()
