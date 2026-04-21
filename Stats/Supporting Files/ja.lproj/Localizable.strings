@@ -69,25 +69,25 @@
 "Square" = "正方形"; // translategemma:4b
 "Cube" = "立方体"; // translategemma:4b
 "Logarithmic" = "対数"; // translategemma:4b
-"Fixed scale" = "修正"; // translategemma:4b
+"Fixed scale" = "固定";
 "Cores" = "コア数"; // translategemma:4b
-"Core" = "核"; // translategemma:4b
+"Core" = "コア";
 "Settings" = "設定";
 "Name" = "名前";
 "Format" = "フォーマット";
 "Turn off" = "停止";
 "Normal" = "通常"; // translategemma:4b
 "Warning" = "警告"; // translategemma:4b
-"Critical" = "重要な"; // translategemma:4b
-"Usage" = "使用方法"; // translategemma:4b
+"Critical" = "クリティカル";
+"Usage" = "使用率";
 "2 minutes" = "2分"; // translategemma:4b
 "3 minutes" = "3分"; // translategemma:4b
 "10 minutes" = "10分"; // translategemma:4b
 "Import" = "インポート"; // translategemma:4b
 "Export" = "エクスポート"; // translategemma:4b
 "Separator" = "区切り"; // translategemma:4b
-"Read" = "読む"; // translategemma:4b
-"Write" = "記述する"; // translategemma:4b
+"Read" = "読み込み";
+"Write" = "書き込み";
 "Frequency" = "頻度"; // translategemma:4b
 "Save" = "保存"; // translategemma:4b
 "Run" = "実行する"; // translategemma:4b
@@ -244,10 +244,10 @@
 "Merge widgets" = "ウィジェットを結合する";
 "No available widgets to configure" = "設定できるウィジェットがありません";
 "No options to configure for the popup in this module" = "このモジュールにはポップアップ用に設定するオプションはありません";
-"Process" = "手順"; // translategemma:4b
-"Kill process" = "プロセスを停止する"; // translategemma:4b
+"Process" = "プロセス";
+"Kill process" = "プロセスを終了する";
 "Keyboard shortcut" = "キーボードショートカット"; // translategemma:4b
-"Listening..." = "再生中…"; // translategemma:4b
+"Listening..." = "入力待ち...";
 
 // Modules
 "Number of top processes" = "表示する上位プロセスの数";
@@ -347,13 +347,13 @@
 "Switch view" = "表示を切り替える";
 "Disk utilization threshold" = "ディスク使用率の閾値"; // translategemma:4b
 "Disk utilization is" = "ディスクの使用率は %0 です。"; // translategemma:4b
-"Read color" = "色を認識する"; // translategemma:4b
-"Write color" = "色を記述する"; // translategemma:4b
+"Read color" = "読み込みの色";
+"Write color" = "書き込みの色";
 "Disk usage" = "ディスク使用量"; // translategemma:4b
 "Total read" = "合計読み込み"; // translategemma:4b
-"Total written" = "総文字数"; // translategemma:4b
-"Write speed" = "記述する"; // translategemma:4b
-"Read speed" = "読む"; // translategemma:4b
+"Total written" = "総書き込み量";
+"Write speed" = "書き込み速度";
+"Read speed" = "読み込み速度";
 "Drives" = "ドライブ"; // translategemma:4b
 "SMART data" = "SMARTデータ"; // translategemma:4b
 
@@ -365,8 +365,8 @@
 "Fan" = "ファン";
 "HID sensors" = "HID センサー";
 "Synchronize fan's control" = "ファンを制御するタイミングを同期する"; // translategemma:4b
-"Current" = "現在"; // translategemma:4b
-"Energy" = "エネルギー"; // translategemma:4b
+"Current" = "電流";
+"Energy" = "電力";
 "Show unknown sensors" = "未知のセンサーを表示する"; // translategemma:4b
 "Install fan helper" = "ファンヘルパーをインストールする"; // translategemma:4b
 "Uninstall fan helper" = "ファンヘルパーのアンインストール"; // translategemma:4b
@@ -421,7 +421,7 @@
 "Latency" = "遅延"; // translategemma:4b
 "Upload speed" = "アップロード"; // translategemma:4b
 "Download speed" = "ダウンロード"; // translategemma:4b
-"Address" = "住所"; // translategemma:4b
+"Address" = "アドレス";
 "WiFi network" = "Wi-Fi ネットワーク"; // translategemma:4b
 "Local IP changed" = "ローカルのIPアドレスが変更されました"; // translategemma:4b
 "Public IP changed" = "公開IPアドレスが変更されました"; // translategemma:4b
@@ -477,12 +477,12 @@
 
 // Clock
 "Time zone" = "タイムゾーン"; // translategemma:4b
-"Local" = "地域"; // translategemma:4b
+"Local" = "ローカル";
 "Calendar" = "カレンダー"; // translategemma:4b
 "Show week numbers" = "週番号を表示する"; // translategemma:4b
 "Local time" = "現地の時間"; // translategemma:4b
 "Add new clock" = "新しい時計を追加する"; // translategemma:4b
-"Delete selected clock" = "選択したクロックを削除する"; // translategemma:4b
+"Delete selected clock" = "選択した時計を削除する";
 "Help with datetime format" = "日付と時刻の形式に関するサポート"; // translategemma:4b
 "Sync with NTP server" = "NTP サーバーとの同期"; // translategemma:4b
 
