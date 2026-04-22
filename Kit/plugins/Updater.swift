@@ -11,6 +11,7 @@
 
 import Cocoa
 import SystemConfiguration
+import Security
 
 public struct version_s {
     public let current: String
@@ -166,12 +167,13 @@ public class Updater {
     }
     
     public func install(path: String, completion: @escaping (_ error: String?) -> Void) {
-        let pwd = Bundle.main.bundleURL.absoluteString
-            .replacingOccurrences(of: "file://", with: "")
-            .replacingOccurrences(of: "Stats.app", with: "")
-            .replacingOccurrences(of: "//", with: "/")
         let dmg = path.replacingOccurrences(of: "file://", with: "")
+        let pwd = Bundle.main.bundleURL.deletingLastPathComponent().path
         
+        guard FileManager.default.fileExists(atPath: dmg) else {
+            completion("DMG not found at \(dmg)")
+            return
+        }
         if !FileManager.default.isWritableFile(atPath: pwd) {
             completion("has no write permission on \(pwd)")
             return
@@ -185,36 +187,149 @@ public class Updater {
         
         print("Started new version installation...")
         
-        _ = syncShell("mkdir /tmp/Stats") // make sure that directory exist
-        let res = syncShell("/usr/bin/hdiutil attach \(path) -mountpoint /tmp/Stats -noverify -nobrowse -noautoopen 2>&1") // mount the dmg
-        
-        print("DMG is mounted")
-        
-        if res.contains("is busy") { // dmg can be busy, if yes, unmount it and mount again
-            print("DMG is busy, remounting")
-            
-            _ = syncShell("/usr/bin/hdiutil detach $TMPDIR/Stats")
-            _ = syncShell("/usr/bin/hdiutil attach \(path) -mountpoint /tmp/Stats -noverify -nobrowse -noautoopen")
-        } else if res.contains("attach failed") { // Attach can fail due to edge cases like MDM restrictions.
-            let errorMessage = res.replacingOccurrences(of: "hdiutil: attach failed - ", with: "")
-            completion("Could not mount DMG (attach failed) - \(errorMessage)")
-            _ = syncShell("rm \(dmg)")
+        let mountPoint: String
+        do {
+            mountPoint = try self.makeUniqueMountPoint()
+        } catch {
+            completion("failed to create mount point: \(error)")
             return
         }
         
-        _ = syncShell("cp -rf /tmp/Stats/Stats.app/Contents/Resources/Scripts/updater.sh $TMPDIR/updater.sh") // copy updater script to tmp folder
+        var attach = self.runProcess("/usr/bin/hdiutil", [
+            "attach", dmg, "-mountpoint", mountPoint, "-nobrowse", "-noautoopen", "-readonly"
+        ])
+        if attach.exit != 0, (attach.error + attach.output).contains("is busy") {
+            print("DMG is busy, remounting")
+            _ = self.runProcess("/usr/bin/hdiutil", ["detach", mountPoint, "-force"])
+            attach = self.runProcess("/usr/bin/hdiutil", [
+                "attach", dmg, "-mountpoint", mountPoint, "-nobrowse", "-noautoopen", "-readonly"
+            ])
+        }
+        if attach.exit != 0 {
+            let msg = (attach.error + attach.output).replacingOccurrences(of: "hdiutil: attach failed - ", with: "")
+            completion("Could not mount DMG (attach failed) - \(msg)")
+            try? FileManager.default.removeItem(atPath: dmg)
+            try? FileManager.default.removeItem(atPath: mountPoint)
+            return
+        }
         
-        print("Script is copied to $TMPDIR/updater.sh")
+        print("DMG is mounted at \(mountPoint)")
         
-        asyncShell("sh $TMPDIR/updater.sh --app \(pwd) --dmg \(dmg) >/dev/null &") // run updater script in in background
+        let mountedApp = (mountPoint as NSString).appendingPathComponent("Stats.app")
+        if let err = self.validateAppSignature(at: mountedApp) {
+            _ = self.runProcess("/usr/bin/hdiutil", ["detach", mountPoint, "-force"])
+            try? FileManager.default.removeItem(atPath: mountPoint)
+            try? FileManager.default.removeItem(atPath: dmg)
+            completion("DMG signature validation failed: \(err)")
+            return
+        }
+        
+        print("DMG signature validated")
+        
+        let scriptSrc = (mountedApp as NSString).appendingPathComponent("Contents/Resources/Scripts/updater.sh")
+        let scriptDst = (NSTemporaryDirectory() as NSString).appendingPathComponent("stats-updater-\(UUID().uuidString).sh")
+        do {
+            if FileManager.default.fileExists(atPath: scriptDst) {
+                try FileManager.default.removeItem(atPath: scriptDst)
+            }
+            try FileManager.default.copyItem(atPath: scriptSrc, toPath: scriptDst)
+            try FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: scriptDst)
+        } catch {
+            _ = self.runProcess("/usr/bin/hdiutil", ["detach", mountPoint, "-force"])
+            completion("failed to stage updater script: \(error)")
+            return
+        }
+        
+        print("Script staged at \(scriptDst)")
+        
+        let task = Process()
+        task.executableURL = URL(fileURLWithPath: "/bin/bash")
+        task.arguments = [scriptDst, "--app", pwd, "--dmg", dmg, "--mount", mountPoint]
+        do {
+            try task.run()
+        } catch {
+            completion("failed to launch updater: \(error)")
+            return
+        }
         
         print("Run updater.sh with app: \(pwd) and dmg: \(dmg)")
         
-        defer {
-            self.lastInstallTS = Int(Date().timeIntervalSince1970)
-        }
+        self.lastInstallTS = Int(Date().timeIntervalSince1970)
         
         exit(0)
+    }
+    
+    private func makeUniqueMountPoint() throws -> String {
+        let template = (NSTemporaryDirectory() as NSString).appendingPathComponent("Stats-update-XXXXXX")
+        var bytes = Array(template.utf8).map { Int8($0) } + [Int8(0)]
+        guard let dir = mkdtemp(&bytes) else {
+            throw NSError(domain: "Updater", code: Int(errno), userInfo: [NSLocalizedDescriptionKey: String(cString: strerror(errno))])
+        }
+        return String(cString: dir)
+    }
+    
+    private func validateAppSignature(at path: String) -> String? {
+        var staticCode: SecStaticCode?
+        let url = URL(fileURLWithPath: path) as CFURL
+        var status = SecStaticCodeCreateWithPath(url, [], &staticCode)
+        guard status == errSecSuccess, let code = staticCode else {
+            return "SecStaticCodeCreateWithPath failed (\(status))"
+        }
+        let flags = SecCSFlags(rawValue: kSecCSStrictValidate | kSecCSCheckAllArchitectures | kSecCSCheckNestedCode)
+        status = SecStaticCodeCheckValidity(code, flags, nil)
+        guard status == errSecSuccess else {
+            return "SecStaticCodeCheckValidity failed (\(status))"
+        }
+        
+        var selfCode: SecCode?
+        guard SecCodeCopySelf([], &selfCode) == errSecSuccess, let selfCode else {
+            return "SecCodeCopySelf failed"
+        }
+        var selfStatic: SecStaticCode?
+        guard SecCodeCopyStaticCode(selfCode, [], &selfStatic) == errSecSuccess, let selfStatic else {
+            return "SecCodeCopyStaticCode failed"
+        }
+        guard let selfTeam = self.teamID(for: selfStatic) else {
+            return "could not read current team ID"
+        }
+        guard let dmgTeam = self.teamID(for: code) else {
+            return "could not read DMG team ID"
+        }
+        if selfTeam != dmgTeam {
+            return "team ID mismatch: \(selfTeam) vs \(dmgTeam)"
+        }
+        return nil
+    }
+    
+    private func teamID(for code: SecStaticCode) -> String? {
+        var info: CFDictionary?
+        guard SecCodeCopySigningInformation(code, SecCSFlags(rawValue: kSecCSSigningInformation), &info) == errSecSuccess,
+              let dict = info as? [String: Any] else {
+            return nil
+        }
+        return dict[kSecCodeInfoTeamIdentifier as String] as? String
+    }
+    
+    private func runProcess(_ launch: String, _ args: [String]) -> (output: String, error: String, exit: Int32) {
+        let task = Process()
+        task.executableURL = URL(fileURLWithPath: launch)
+        task.arguments = args
+        let out = Pipe(), err = Pipe()
+        task.standardOutput = out
+        task.standardError = err
+        do {
+            try task.run()
+        } catch {
+            return ("", "runProcess: \(error.localizedDescription)", -1)
+        }
+        let outData = out.fileHandleForReading.readDataToEndOfFile()
+        let errData = err.fileHandleForReading.readDataToEndOfFile()
+        task.waitUntilExit()
+        return (
+            String(data: outData, encoding: .utf8) ?? "",
+            String(data: errData, encoding: .utf8) ?? "",
+            task.terminationStatus
+        )
     }
     
     private func copyFile(from: URL, to: URL, completionHandler: @escaping (_ path: String, _ error: Error?) -> Void) {

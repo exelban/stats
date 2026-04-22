@@ -1256,14 +1256,21 @@ public func iconFromSymbol(name: String, scale: NSImage.SymbolScale) -> NSImage 
 }
 
 public func showAlert(_ message: String, _ information: String? = nil, _ style: NSAlert.Style = .informational) {
-    let alert = NSAlert()
-    alert.messageText = message
-    if let information = information {
-        alert.informativeText = information
+    let show = {
+        let alert = NSAlert()
+        alert.messageText = message
+        if let information = information {
+            alert.informativeText = information
+        }
+        alert.addButton(withTitle: "OK")
+        alert.alertStyle = style
+        alert.runModal()
     }
-    alert.addButton(withTitle: "OK")
-    alert.alertStyle = style
-    alert.runModal()
+    if Thread.isMainThread {
+        show()
+    } else {
+        DispatchQueue.main.async(execute: show)
+    }
 }
 
 var isDarkMode: Bool {
