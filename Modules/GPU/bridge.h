@@ -26,6 +26,7 @@ CFDictionaryRef IOReportCreateSamples(IOReportSubscriptionRef a, CFMutableDictio
 CFStringRef IOReportChannelGetGroup(CFDictionaryRef a);
 CFStringRef IOReportChannelGetSubGroup(CFDictionaryRef a);
 CFStringRef IOReportChannelGetChannelName(CFDictionaryRef a);
+CFStringRef IOReportChannelGetUnitLabel(CFDictionaryRef a);
 int32_t IOReportStateGetCount(CFDictionaryRef a);
 CFStringRef IOReportStateGetNameForIndex(CFDictionaryRef a, int32_t b);
 int64_t IOReportStateGetResidency(CFDictionaryRef a, int32_t b);

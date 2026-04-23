@@ -63,18 +63,18 @@ internal class Preview: PreviewWrapper {
         let firstSplitView = NSStackView()
         firstSplitView.orientation = .horizontal
         firstSplitView.distribution = .fillEqually
-        firstSplitView.addArrangedSubview(PreferencesSection(label: localizedString("GPU utilization history"), [historyView]))
-        firstSplitView.addArrangedSubview(PreferencesSection(label: localizedString("ANE utilization history"), [aneHistoryView]))
+        firstSplitView.addArrangedSubview(PreferencesSection(title: localizedString("GPU utilization history"), [historyView]))
+        firstSplitView.addArrangedSubview(PreferencesSection(title: localizedString("ANE utilization history"), [aneHistoryView]))
         
         let secondSplitView = NSStackView()
         secondSplitView.orientation = .horizontal
         secondSplitView.distribution = .fillEqually
-        secondSplitView.addArrangedSubview(PreferencesSection(label: localizedString("Render utilization history"), [renderHistoryView]))
-        secondSplitView.addArrangedSubview(PreferencesSection(label: localizedString("Tiler utilization history"), [tilerHistoryView]))
+        secondSplitView.addArrangedSubview(PreferencesSection(title: localizedString("Render utilization history"), [renderHistoryView]))
+        secondSplitView.addArrangedSubview(PreferencesSection(title: localizedString("Tiler utilization history"), [tilerHistoryView]))
         
         self.addArrangedSubview(firstSplitView)
         self.addArrangedSubview(secondSplitView)
-        self.addArrangedSubview(PreferencesSection(label: localizedString("FPS history"), [fpsHistoryView]))
+        self.addArrangedSubview(PreferencesSection(title: localizedString("FPS history"), [fpsHistoryView]))
     }
     
     required init?(coder: NSCoder) {

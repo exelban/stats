@@ -39,7 +39,7 @@ internal class Popup: PopupWrapper {
     private var processes: ProcessesView? = nil
     private var processesView: NSView? = nil
     
-    private let settingsSection = PreferencesSection(label: localizedString("Drives"))
+    private let settingsSection = PreferencesSection(title: localizedString("Drives"))
     private var lastList: [String] = []
     
     public init(_ module: ModuleType) {
@@ -569,7 +569,7 @@ internal class ChartView: NSStackView {
     }
 }
 
-internal class LegendView: NSView {
+private class LegendView: NSView {
     private let size: Int64
     private var free: Int64
     private let id: String

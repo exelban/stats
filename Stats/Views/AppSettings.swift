@@ -145,7 +145,7 @@ class ApplicationSettings: NSStackView {
             action: #selector(self.toggleRemoteControlState),
             state: Remote.shared.control
         )
-        self.remoteView = PreferencesSection(label: localizedString("Remote (beta)"), [
+        self.remoteView = PreferencesSection(title: localizedString("Remote (beta)"), [
             PreferencesRow(localizedString("Authorization"), component: buttonView(#selector(self.loginToRemote), text: localizedString("Login"))),
             PreferencesRow(localizedString("Identificator"), component: textView(Remote.shared.id.uuidString)),
             PreferencesRow(localizedString("Monitoring"), component: switchView(
@@ -161,7 +161,7 @@ class ApplicationSettings: NSStackView {
         self.remoteView?.setRowVisibility(3, newState: false)
         self.remoteView?.setRowVisibility(4, newState: false)
         
-        scrollView.stackView.addArrangedSubview(PreferencesSection(label: localizedString("Settings"), [
+        scrollView.stackView.addArrangedSubview(PreferencesSection(title: localizedString("Settings"), [
             PreferencesRow(
                 localizedString("Export settings"),
                 component: buttonView(#selector(self.exportSettings), text: localizedString("Save"))
@@ -201,7 +201,7 @@ class ApplicationSettings: NSStackView {
         if self.GPUTest != nil {
             tests.append(PreferencesRow(localizedString("GPU"), component: GPUButton))
         }
-        scrollView.stackView.addArrangedSubview(PreferencesSection(label: localizedString("Stress tests"), tests))
+        scrollView.stackView.addArrangedSubview(PreferencesSection(title: localizedString("Stress tests"), tests))
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.toggleUninstallHelperButton), name: .fanHelperState, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleRemoteState), name: .remoteState, object: nil)

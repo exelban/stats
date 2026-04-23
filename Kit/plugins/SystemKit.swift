@@ -170,6 +170,7 @@ public struct disk_s: Codable {
     public var id: String? = nil
     public var name: String? = nil
     public var size: Int64? = nil
+    public var fileSystem: String? = nil
 }
 
 public struct display_s: Codable {
@@ -610,6 +611,9 @@ public class SystemKit {
                     }
                     if let totalSize = plist["TotalSize"] as? Int64 {
                         bootDisk.size = totalSize
+                    }
+                    if let fileSystem = plist["FilesystemType"] as? String {
+                        bootDisk.fileSystem = fileSystem
                     }
                     if bootDisk.id != nil {
                         bootableDisks.append(bootDisk)

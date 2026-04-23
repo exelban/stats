@@ -72,14 +72,14 @@ internal class Preview: PreviewWrapper {
         super.init(type: module)
         
         self.addArrangedSubview(PreferencesSection([self.totalView()]))
-        self.addArrangedSubview(PreferencesSection(label: localizedString("Usage history"), [self.historyView()]))
-        self.addArrangedSubview(PreferencesSection(label: localizedString("Load per core"), [self.coresView()]))
+        self.addArrangedSubview(PreferencesSection(title: localizedString("Usage history"), [self.historyView()]))
+        self.addArrangedSubview(PreferencesSection(title: localizedString("Load per core"), [self.coresView()]))
         
         let splitView = NSStackView()
         splitView.orientation = .horizontal
         splitView.distribution = .fillEqually
-        splitView.addArrangedSubview(PreferencesSection(label: localizedString("Average load"), [self.averageView()]))
-        splitView.addArrangedSubview(PreferencesSection(label: localizedString("Frequency"), [self.frequencyView()]))
+        splitView.addArrangedSubview(PreferencesSection(title: localizedString("Average load"), [self.averageView()]))
+        splitView.addArrangedSubview(PreferencesSection(title: localizedString("Frequency"), [self.frequencyView()]))
         
         self.addArrangedSubview(splitView)
         self.addArrangedSubview(NSView())

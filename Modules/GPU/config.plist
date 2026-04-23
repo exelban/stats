@@ -82,7 +82,7 @@
 	</dict>
 	<key>Preview</key>
 	<dict>
-		<key>enabled</key>
+		<key>available</key>
 		<false/>
 	</dict>
 </dict>

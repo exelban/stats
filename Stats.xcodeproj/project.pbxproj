@@ -60,6 +60,7 @@
 		5C645BFF2C591F6600D8342A /* widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C645BFE2C591F6600D8342A /* widget.swift */; };
 		5C645C002C591FFA00D8342A /* Net.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A3E17CC247A94AF00449CD1 /* Net.framework */; };
 		5C645C012C591FFA00D8342A /* Net.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A3E17CC247A94AF00449CD1 /* Net.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5C667EF82F992C45005A2D56 /* preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C667EF72F992C42005A2D56 /* preview.swift */; };
 		5C6F55A72D45694400AB58ED /* notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F55A62D45694400AB58ED /* notifications.swift */; };
 		5C7C1DF42C29A3A00060387D /* notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7C1DF32C29A3A00060387D /* notifications.swift */; };
 		5C8E001029269C7F0027C75A /* protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE493829265055000F2856 /* protocol.swift */; };
@@ -551,6 +552,7 @@
 		5C4E8BE82B7102A700F148B6 /* Kit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Kit.h; sourceTree = "<group>"; };
 		5C621D812B4770D6004ED7AF /* process.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = process.swift; sourceTree = "<group>"; };
 		5C645BFE2C591F6600D8342A /* widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widget.swift; sourceTree = "<group>"; };
+		5C667EF72F992C42005A2D56 /* preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = preview.swift; sourceTree = "<group>"; };
 		5C6F55A62D45694400AB58ED /* notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = notifications.swift; sourceTree = "<group>"; };
 		5C7C1DF32C29A3A00060387D /* notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = notifications.swift; sourceTree = "<group>"; };
 		5C9F90A02A76B30500D41748 /* et */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = et; path = et.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1301,6 +1303,7 @@
 				9AB7FD7B246B48DB00387FDA /* settings.swift */,
 				5CF221182B1F8B90006C583F /* notifications.swift */,
 				5C0A9CA12C467AA300EE6A89 /* widget.swift */,
+				5C667EF72F992C42005A2D56 /* preview.swift */,
 				9AF9EE0524648751005D2270 /* Info.plist */,
 				9AF9EE12246492E8005D2270 /* config.plist */,
 				5C2229BB29CF66B100F00E69 /* header.h */,
@@ -2255,6 +2258,7 @@
 			files = (
 				5C0A9CA22C467AA300EE6A89 /* widget.swift in Sources */,
 				9A5AF11B2469CE9B00684737 /* popup.swift in Sources */,
+				5C667EF82F992C45005A2D56 /* preview.swift in Sources */,
 				9AF9EE1124648ADC005D2270 /* readers.swift in Sources */,
 				5C23BC1029A3B5AE00DBA990 /* portal.swift in Sources */,
 				9AB7FD7C246B48DB00387FDA /* settings.swift in Sources */,
@@ -2889,7 +2893,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.5;
-				MARKETING_VERSION = 2.12.11;
+				MARKETING_VERSION = 2.12.9;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2926,7 +2930,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.5;
-				MARKETING_VERSION = 2.12.11;
+				MARKETING_VERSION = 2.12.9;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats;
 				PRODUCT_NAME = "$(TARGET_NAME)";

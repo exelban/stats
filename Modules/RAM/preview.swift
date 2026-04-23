@@ -51,8 +51,8 @@ internal class Preview: PreviewWrapper {
         let splitView = NSStackView()
         splitView.orientation = .horizontal
         splitView.distribution = .fillEqually
-        splitView.addArrangedSubview(PreferencesSection(label: localizedString("Memory pressure"), [self.pressureView()]))
-        splitView.addArrangedSubview(PreferencesSection(label: localizedString("Swap"), [self.swapView()]))
+        splitView.addArrangedSubview(PreferencesSection(title: localizedString("Memory pressure"), [self.pressureView()]))
+        splitView.addArrangedSubview(PreferencesSection(title: localizedString("Swap"), [self.swapView()]))
         
         self.addArrangedSubview(PreferencesSection([self.usageView()]))
         self.addArrangedSubview(PreferencesSection([self.historyView()]))

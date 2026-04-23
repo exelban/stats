@@ -678,15 +678,20 @@ public class NetworkChartView: ChartView {
         self.outChart.setTooltipEnabled(newState)
     }
     
-    public override func setFrameOrigin(_ newOrigin: NSPoint) {
-        super.setFrameOrigin(newOrigin)
+    public func setLegend(x: Bool, y: Bool) {
+        self.inChart.setLegend(x: x, y: y)
+    }
+    
+    public override func setFrameSize(_ newSize: NSSize) {
+        super.setFrameSize(newSize)
         
-        let safeHeight = max(frame.height, 2)
-        let topFrame = CGPoint(x: 0, y: safeHeight/2)
-        let bottomFrame = CGPoint(x: 0, y: 0)
+        let safeHeight = max(newSize.height, 2)
+        let halfHeight = safeHeight/2
+        let topFrame = NSRect(x: 0, y: halfHeight, width: newSize.width, height: halfHeight)
+        let bottomFrame = NSRect(x: 0, y: 0, width: newSize.width, height: halfHeight)
         
-        self.inChart.setFrameOrigin(self.reversedOrder ? topFrame : bottomFrame)
-        self.outChart.setFrameOrigin(self.reversedOrder ? bottomFrame : topFrame)
+        self.inChart.frame = self.reversedOrder ? topFrame : bottomFrame
+        self.outChart.frame = self.reversedOrder ? bottomFrame : topFrame
     }
 }
 

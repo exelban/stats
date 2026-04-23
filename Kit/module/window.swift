@@ -87,7 +87,7 @@ open class Window: NSStackView {
         self.popupSettings = popupSettings
         self.notificationsSettings = notificationsSettings
         
-        self.isPreviewAvailable = config.pointee.previewConfig["enabled"] as? Bool ?? false
+        self.isPreviewAvailable = config.pointee.previewConfig["available"] as? Bool ?? false
         
         self.isPopupSettingsAvailable = config.pointee.settingsConfig["popup"] as? Bool ?? false
         self.isNotificationsSettingsAvailable = config.pointee.settingsConfig["notifications"] as? Bool ?? false

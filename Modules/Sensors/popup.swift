@@ -159,7 +159,7 @@ internal class Popup: PopupWrapper {
             }
             
             if !reload {
-                let section = PreferencesSection(label: localizedString(typ.rawValue))
+                let section = PreferencesSection(title: localizedString(typ.rawValue))
                 section.identifier = NSUserInterfaceItemIdentifier("sensor")
                 groups.forEach { (group: SensorGroup) in
                     filtered.filter{ $0.group == group }.forEach { (s: Sensor_p) in

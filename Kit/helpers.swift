@@ -1284,8 +1284,9 @@ var isDarkMode: Bool {
 
 public class PreferencesSection: NSStackView {
     private let container: NSStackView = NSStackView()
-    
-    public init(label: String = "", id: String? = nil, _ components: [NSView] = []) {
+    private var subtitleField: NSTextField?
+
+    public init(title: String = "", subtitle: String = "", id: String? = nil, _ components: [NSView] = []) {
         super.init(frame: .zero)
         
         self.orientation = .vertical
@@ -1294,8 +1295,8 @@ public class PreferencesSection: NSStackView {
             self.identifier = NSUserInterfaceItemIdentifier(id)
         }
         
-        if label != "" {
-            self.addLabel(label)
+        if title != "" || subtitle != "" {
+            self.addHeader(title: title, subtitle: subtitle)
         }
         
         self.container.orientation = .vertical
@@ -1324,22 +1325,33 @@ public class PreferencesSection: NSStackView {
         self.container.layer?.backgroundColor = NSColor.quaternaryLabelColor.withAlphaComponent(0.025).cgColor
     }
     
-    private func addLabel(_ value: String) {
+    private func addHeader(title: String, subtitle: String) {
         let view = NSStackView()
         view.heightAnchor.constraint(equalToConstant: 26).isActive = true
         
         let space = NSView()
         space.widthAnchor.constraint(equalToConstant: 4).isActive = true
         
-        let field: NSTextField = TextView()
-        field.font = NSFont.systemFont(ofSize: 12, weight: .medium)
-        field.stringValue = value
+        let firstField: NSTextField = TextView()
+        firstField.font = NSFont.systemFont(ofSize: 12, weight: .medium)
+        firstField.stringValue = title
+        
+        let secondField: NSTextField = TextView()
+        secondField.font = NSFont.systemFont(ofSize: 11, weight: .regular)
+        secondField.textColor = .placeholderTextColor
+        secondField.stringValue = subtitle
+        self.subtitleField = secondField
         
         view.addArrangedSubview(space)
-        view.addArrangedSubview(field)
+        view.addArrangedSubview(firstField)
         view.addArrangedSubview(NSView())
+        view.addArrangedSubview(secondField)
         
         self.addArrangedSubview(view)
+    }
+    
+    public func setSubtitle(_ value: String) {
+        self.subtitleField?.stringValue = value
     }
     
     public func add(_ view: NSView) {
