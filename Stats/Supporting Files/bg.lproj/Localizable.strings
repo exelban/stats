@@ -227,6 +227,7 @@
 "Default color" = "Стойности по подразбиране"; // translategemma:4b
 "Transparent when no activity" = "Прозрачен, когато няма активност"; // translategemma:4b
 "Constant color" = "Постоянен"; // translategemma:4b
+"Custom..." = "Custom...";
 
 // Module Kit
 "Open module settings" = "Отваряне на настройките на модула";

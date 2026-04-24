@@ -227,6 +227,7 @@
 "Default color" = "پیش‌فرض"; // translategemma:4b
 "Transparent when no activity" = "شفاف در زمان عدم فعالیت"; // translategemma:4b
 "Constant color" = "ثابت"; // translategemma:4b
+"Custom..." = "Custom...";
 
 // Module Kit
 "Open module settings" = "باز کردن تنظیمات ماژول‌ها";

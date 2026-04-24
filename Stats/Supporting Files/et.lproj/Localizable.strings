@@ -227,6 +227,7 @@
 "Default color" = "Vaikevärv";
 "Transparent when no activity" = "Läbipaistev, kui pole tegevust";
 "Constant color" = "Ühtlane värv";
+"Custom..." = "Custom...";
 
 // Module Kit
 "Open module settings" = "Ava mooduli sätted";

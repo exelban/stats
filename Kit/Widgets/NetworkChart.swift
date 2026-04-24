@@ -300,12 +300,12 @@ public class NetworkChart: WidgetWrapper {
                 action: #selector(self.toggleReverseOrder),
                 state: self.reverseOrderState
             )),
-            PreferencesRow(localizedString("Color of download"), component: selectView(
+            PreferencesRow(localizedString("Color of download"), component: colorSelectView(
                 action: #selector(self.toggleDownloadColor),
                 items: self.colors,
                 selected: self.downloadColor.key
             )),
-            PreferencesRow(localizedString("Color of upload"), component: selectView(
+            PreferencesRow(localizedString("Color of upload"), component: colorSelectView(
                 action: #selector(self.toggleUploadColor),
                 items: self.colors,
                 selected: self.uploadColor.key
@@ -373,19 +373,15 @@ public class NetworkChart: WidgetWrapper {
     
     @objc private func toggleDownloadColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
-        if let newColor = SColor.allCases.first(where: { $0.key == key }) {
-            self.downloadColor = newColor
-            Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_downloadColor", value: newColor.key)
-        }
+        self.downloadColor = SColor.fromString(key, defaultValue: self.downloadColor)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_downloadColor", value: self.downloadColor.key)
         self.display()
     }
     
     @objc private func toggleUploadColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
-        if let newColor = SColor.allCases.first(where: { $0.key == key }) {
-            self.uploadColor = newColor
-            Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_uploadColor", value: newColor.key)
-        }
+        self.uploadColor = SColor.fromString(key, defaultValue: self.uploadColor)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_uploadColor", value: self.uploadColor.key)
         self.display()
     }
     

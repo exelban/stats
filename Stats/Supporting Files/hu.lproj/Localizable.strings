@@ -227,6 +227,7 @@
 "Default color" = "Alapérték"; // translategemma:4b
 "Transparent when no activity" = "Árnyalatless, ha nincs tevékenység"; // translategemma:4b
 "Constant color" = "Konstans"; // translategemma:4b
+"Custom..." = "Custom...";
 
 // Module Kit
 "Open module settings" = "Modul beállításainak megnyitása";

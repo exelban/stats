@@ -227,6 +227,7 @@
 "Default color" = "Oletusväri";
 "Transparent when no activity" = "Läpinäkyvä, kun ei ole toimintaa";
 "Constant color" = "Vakio väri";
+"Custom..." = "Custom...";
 
 // Module Kit
 "Open module settings" = "Avaa moduulin asetukset";

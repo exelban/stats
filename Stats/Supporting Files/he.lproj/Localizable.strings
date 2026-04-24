@@ -227,6 +227,7 @@
 "Default color" = "ברירת מחדל"; // translategemma:4b
 "Transparent when no activity" = "שקוף כאשר אין פעילות"; // translategemma:4b
 "Constant color" = "קבוע"; // translategemma:4b
+"Custom..." = "Custom...";
 
 // Module Kit
 "Open module settings" = "פתח/י הגדרות מודל";

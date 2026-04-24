@@ -227,6 +227,7 @@
 "Default color" = "Standardfärg";
 "Transparent when no activity" = "Genomskinlig vid inaktivitet";
 "Constant color" = "Konstant färg";
+"Custom..." = "Custom...";
 
 // Module Kit
 "Open module settings" = "Öppna modulinställningar";

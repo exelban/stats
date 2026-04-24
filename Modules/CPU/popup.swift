@@ -562,17 +562,17 @@ internal class Popup: PopupWrapper {
         ]))
         
         view.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("System color"), component: selectView(
+            PreferencesRow(localizedString("System color"), component: colorSelectView(
                 action: #selector(self.toggleSystemColor),
                 items: SColor.allColors,
                 selected: self.systemColorState.key
             )),
-            PreferencesRow(localizedString("User color"), component: selectView(
+            PreferencesRow(localizedString("User color"), component: colorSelectView(
                 action: #selector(self.toggleUserColor),
                 items: SColor.allColors,
                 selected: self.userColorState.key
             )),
-            PreferencesRow(localizedString("Idle color"), component: selectView(
+            PreferencesRow(localizedString("Idle color"), component: colorSelectView(
                 action: #selector(self.toggleIdleColor),
                 items: SColor.allColors,
                 selected: self.idleColorState.key
@@ -580,17 +580,17 @@ internal class Popup: PopupWrapper {
         ]))
         
         view.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Efficiency cores color"), component: selectView(
+            PreferencesRow(localizedString("Efficiency cores color"), component: colorSelectView(
                 action: #selector(self.toggleECoresColor),
                 items: SColor.allColors,
                 selected: self.eCoresColorState.key
             )),
-            PreferencesRow(localizedString("Performance cores color"), component: selectView(
+            PreferencesRow(localizedString("Performance cores color"), component: colorSelectView(
                 action: #selector(self.togglePCoresColor),
                 items: SColor.allColors,
                 selected: self.pCoresColorState.key
             )),
-            PreferencesRow(localizedString("Super cores color"), component: selectView(
+            PreferencesRow(localizedString("Super cores color"), component: colorSelectView(
                 action: #selector(self.toggleSCoresColor),
                 items: SColor.allColors,
                 selected: self.sCoresColorState.key
@@ -603,7 +603,7 @@ internal class Popup: PopupWrapper {
             initialValue: "\(Int(self.lineChartFixedScale * 100)) %"
         )
         self.chartPrefSection = PreferencesSection([
-            PreferencesRow(localizedString("Chart color"), component: selectView(
+            PreferencesRow(localizedString("Chart color"), component: colorSelectView(
                 action: #selector(self.toggleChartColor),
                 items: SColor.allColors,
                 selected: self.chartColorState.key
@@ -627,71 +627,54 @@ internal class Popup: PopupWrapper {
     }
     
     @objc private func toggleSystemColor(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String, let newValue = SColor.allColors.first(where: { $0.key == key }) else {
-            return
-        }
-        self.systemColorState = newValue
-        Store.shared.set(key: "\(self.title)_systemColor", value: key)
-        self.systemColorView?.layer?.backgroundColor = (newValue.additional as? NSColor)?.cgColor
+        guard let key = sender.representedObject as? String else { return }
+        self.systemColorState = SColor.fromString(key, defaultValue: self.systemColorState)
+        Store.shared.set(key: "\(self.title)_systemColor", value: self.systemColorState.key)
+        self.systemColorView?.layer?.backgroundColor = (self.systemColorState.additional as? NSColor)?.cgColor
     }
     @objc private func toggleUserColor(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String, let newValue = SColor.allColors.first(where: { $0.key == key }) else {
-            return
-        }
-        self.userColorState = newValue
-        Store.shared.set(key: "\(self.title)_userColor", value: key)
-        self.userColorView?.layer?.backgroundColor = (newValue.additional as? NSColor)?.cgColor
+        guard let key = sender.representedObject as? String else { return }
+        self.userColorState = SColor.fromString(key, defaultValue: self.userColorState)
+        Store.shared.set(key: "\(self.title)_userColor", value: self.userColorState.key)
+        self.userColorView?.layer?.backgroundColor = (self.userColorState.additional as? NSColor)?.cgColor
     }
     @objc private func toggleIdleColor(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String, let newValue = SColor.allColors.first(where: { $0.key == key }) else {
-            return
-        }
-        self.idleColorState = newValue
-        Store.shared.set(key: "\(self.title)_idleColor", value: key)
-        if let color = newValue.additional as? NSColor {
-            self.idleColorView?.layer?.backgroundColor = color.cgColor
-        }
-        self.idleColorView?.layer?.backgroundColor = (newValue.additional as? NSColor)?.cgColor
+        guard let key = sender.representedObject as? String else { return }
+        self.idleColorState = SColor.fromString(key, defaultValue: self.idleColorState)
+        Store.shared.set(key: "\(self.title)_idleColor", value: self.idleColorState.key)
+        self.idleColorView?.layer?.backgroundColor = (self.idleColorState.additional as? NSColor)?.cgColor
     }
     @objc private func toggleChartColor(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String, let newValue = SColor.allColors.first(where: { $0.key == key }) else {
-            return
-        }
-        self.chartColorState = newValue
-        Store.shared.set(key: "\(self.title)_chartColor", value: key)
-        if let color = newValue.additional as? NSColor {
+        guard let key = sender.representedObject as? String else { return }
+        self.chartColorState = SColor.fromString(key, defaultValue: self.chartColorState)
+        Store.shared.set(key: "\(self.title)_chartColor", value: self.chartColorState.key)
+        if let color = self.chartColorState.additional as? NSColor {
             self.lineChart?.setColor(color)
         }
     }
     @objc private func toggleECoresColor(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String, let newValue = SColor.allColors.first(where: { $0.key == key }) else {
-            return
-        }
-        self.eCoresColorState = newValue
-        Store.shared.set(key: "\(self.title)_eCoresColor", value: key)
-        if let color = (newValue.additional as? NSColor) {
+        guard let key = sender.representedObject as? String else { return }
+        self.eCoresColorState = SColor.fromString(key, defaultValue: self.eCoresColorState)
+        Store.shared.set(key: "\(self.title)_eCoresColor", value: self.eCoresColorState.key)
+        if let color = (self.eCoresColorState.additional as? NSColor) {
             self.eCoresColorView?.layer?.backgroundColor = color.cgColor
             self.eCoresFreqColorView?.layer?.backgroundColor = color.cgColor
         }
     }
     @objc private func togglePCoresColor(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String, let newValue = SColor.allColors.first(where: { $0.key == key }) else {
-            return
-        }
-        self.pCoresColorState = newValue
-        Store.shared.set(key: "\(self.title)_pCoresColor", value: key)
-        if let color = (newValue.additional as? NSColor) {
+        guard let key = sender.representedObject as? String else { return }
+        self.pCoresColorState = SColor.fromString(key, defaultValue: self.pCoresColorState)
+        Store.shared.set(key: "\(self.title)_pCoresColor", value: self.pCoresColorState.key)
+        if let color = (self.pCoresColorState.additional as? NSColor) {
             self.pCoresColorView?.layer?.backgroundColor = color.cgColor
             self.pCoresFreqColorView?.layer?.backgroundColor = color.cgColor
         }
     }
     @objc private func toggleSCoresColor(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String, let newValue = SColor.allColors.first(where: { $0.key == key }) else {
-            return
-        }
-        self.sCoresColorState = newValue
-        Store.shared.set(key: "\(self.title)_sCoresColor", value: key)
-        if let color = (newValue.additional as? NSColor) {
+        guard let key = sender.representedObject as? String else { return }
+        self.sCoresColorState = SColor.fromString(key, defaultValue: self.sCoresColorState)
+        Store.shared.set(key: "\(self.title)_sCoresColor", value: self.sCoresColorState.key)
+        if let color = (self.sCoresColorState.additional as? NSColor) {
             self.sCoresColorView?.layer?.backgroundColor = color.cgColor
             self.sCoresFreqColorView?.layer?.backgroundColor = color.cgColor
         }

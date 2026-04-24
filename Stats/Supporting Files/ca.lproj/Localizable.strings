@@ -227,6 +227,7 @@
 "Default color" = "Color per determinat";
 "Transparent when no activity" = "Transparent quan no hi hagi activitat";
 "Constant color" = "Color constant";
+"Custom..." = "Custom...";
 
 // Module Kit
 "Open module settings" = "Obre la configuració del mòdul";

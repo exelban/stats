@@ -227,6 +227,7 @@
 "Default color" = "Privzeto";
 "Transparent when no activity" = "Prosojno, ko ni dejavnosti";
 "Constant color" = "Stalna";
+"Custom..." = "Custom...";
 
 // Module Kit
 "Open module settings" = "Odpri nastavitve modula";

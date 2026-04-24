@@ -227,6 +227,7 @@
 "Default color" = "Výchozí"; // translategemma:4b
 "Transparent when no activity" = "Pri absencii aktivity je zobrazené ako transparentné."; // translategemma:4b
 "Constant color" = "Konštant"; // translategemma:4b
+"Custom..." = "Custom...";
 
 // Module Kit
 "Open module settings" = "Otvoriť nastavenia modulu";

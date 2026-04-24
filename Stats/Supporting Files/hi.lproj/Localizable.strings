@@ -227,6 +227,7 @@
 "Default color" = "डिफ़ॉल्ट"; // translategemma:4b
 "Transparent when no activity" = "जब कोई गतिविधि नहीं होती तो पारदर्शी।"; // translategemma:4b
 "Constant color" = "स्थिर"; // translategemma:4b
+"Custom..." = "Custom...";
 
 // Module Kit
 "Open module settings" = "ओपन मॉड्यूल सेटिंग्स";

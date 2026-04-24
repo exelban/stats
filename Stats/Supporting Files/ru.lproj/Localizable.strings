@@ -227,6 +227,7 @@
 "Default color" = "По умолчанию";
 "Transparent when no activity" = "Прозрачный когда нет активности";
 "Constant color" = "Постоянный";
+"Custom..." = "Custom...";
 
 // Module Kit
 "Open module settings" = "Открыть настройки модуля";

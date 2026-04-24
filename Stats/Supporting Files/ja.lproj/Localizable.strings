@@ -227,6 +227,7 @@
 "Default color" = "デフォルト"; // translategemma:4b
 "Transparent when no activity" = "活動がないときは透明状態"; // translategemma:4b
 "Constant color" = "一定"; // translategemma:4b
+"Custom..." = "Custom...";
 
 // Module Kit
 "Open module settings" = "このモジュールの設定を開く";

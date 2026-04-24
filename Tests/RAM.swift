@@ -10,6 +10,7 @@
 //
 
 import XCTest
+import Kit
 import RAM
 
 class RAM: XCTestCase {
@@ -77,5 +78,36 @@ class RAM: XCTestCase {
         XCTAssertEqual(process.pid, 0)
         XCTAssertEqual(process.name, "Safari")
         XCTAssertEqual(process.usage, 658 * Double(1000 * 1000))
+    }
+}
+
+class ColorTests: XCTestCase {
+    func testCustomColorSerialization() throws {
+        let color = NSColor(deviceRed: CGFloat(0x12) / 255, green: CGFloat(0x34) / 255, blue: CGFloat(0x56) / 255, alpha: CGFloat(0x78) / 255)
+        let custom = SColor.custom(color)
+        
+        XCTAssertEqual(custom.key, "custom:#12345678")
+        XCTAssertEqual((custom.additional as? NSColor)?.hexString, "#12345678")
+    }
+    
+    func testCustomColorParsing() throws {
+        let custom = SColor.fromString("custom:#12345678", defaultValue: .red)
+        
+        XCTAssertTrue(custom.isCustom)
+        XCTAssertEqual(custom.key, "custom:#12345678")
+        XCTAssertEqual((custom.additional as? NSColor)?.hexString, "#12345678")
+    }
+    
+    func testInvalidCustomColorFallsBack() throws {
+        let fallback = SColor.secondBlue
+        let custom = SColor.fromString("custom:not-a-color", defaultValue: fallback)
+        
+        XCTAssertEqual(custom, fallback)
+    }
+    
+    func testBuiltInColorParsingRemainsUnchanged() throws {
+        let color = SColor.fromString("secondBlue", defaultValue: .red)
+        
+        XCTAssertEqual(color, SColor.secondBlue)
     }
 }

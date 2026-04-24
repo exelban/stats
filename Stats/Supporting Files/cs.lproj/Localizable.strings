@@ -227,6 +227,7 @@
 "Default color" = "Výchozí"; // translategemma:4b
 "Transparent when no activity" = "Průhledný, když není žádná aktivita"; // translategemma:4b
 "Constant color" = "Konstantní"; // translategemma:4b
+"Custom..." = "Custom...";
 
 // Module Kit
 "Open module settings" = "Otevřít nastavení modulu";

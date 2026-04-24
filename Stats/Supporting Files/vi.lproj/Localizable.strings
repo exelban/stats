@@ -227,6 +227,7 @@
 "Default color" = "Màu mặc định";
 "Transparent when no activity" = "Trong suốt khi không có hoạt động";
 "Constant color" = "Màu cố định";
+"Custom..." = "Custom...";
 
 // Module Kit
 "Open module settings" = "Mở cài đặt module";

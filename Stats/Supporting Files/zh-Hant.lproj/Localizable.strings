@@ -227,6 +227,7 @@
 "Default color" = "預設"; // translategemma:4b
 "Transparent when no activity" = "閒置時以透明顯示";
 "Constant color" = "恆定色彩";
+"Custom..." = "Custom...";
 
 // Module Kit
 "Open module settings" = "打開模組設定";

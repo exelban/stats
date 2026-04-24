@@ -227,6 +227,7 @@
 "Default color" = "Varsayılan renk";
 "Transparent when no activity" = "Aktif değilse transparan";
 "Constant color" = "Sabit renk";
+"Custom..." = "Custom...";
 
 // Module Kit
 "Open module settings" = "Modül ayarlarını aç";

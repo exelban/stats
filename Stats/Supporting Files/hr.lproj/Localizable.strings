@@ -227,6 +227,7 @@
 "Default color" = "Predloženo"; // translategemma:4b
 "Transparent when no activity" = "Prozirno kada nema aktivnosti"; // translategemma:4b
 "Constant color" = "Konstanta"; // translategemma:4b
+"Custom..." = "Custom...";
 
 // Module Kit
 "Open module settings" = "Otvori postavke modula";

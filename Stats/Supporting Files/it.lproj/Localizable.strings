@@ -227,6 +227,7 @@
 "Default color" = "Predefinito"; // translategemma:4b
 "Transparent when no activity" = "Trasparente in assenza di attività";
 "Constant color" = "Costante";
+"Custom..." = "Custom...";
 
 // Module Kit
 "Open module settings" = "Apri impostazioni modulo";
