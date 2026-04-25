@@ -355,6 +355,8 @@ public class Network: Module {
             case let widget as DotWidget:
                 let value = value.status ? SColor.secondGreen : SColor.secondRed
                 widget.setValue(value.additional as? NSColor ?? .systemGray)
+            case let widget as LatencyBarsWidget:
+                widget.setValue(latency: value.status ? value.latency : nil, online: value.status)
             default: break
             }
         }

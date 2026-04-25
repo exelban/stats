@@ -77,6 +77,14 @@ internal class Popup: PopupWrapper {
     private var chartFixedScaleSize: SizeUnit = .MB
     private var chartPrefSection: PreferencesSection? = nil
     private var connectivityChart: GridChartView? = nil
+    private var latencyChart: LatencyBarChartView? = nil
+    private var connectivitySection: NSView? = nil
+    private var latencySection: NSView? = nil
+    private var chartsMode: String = "connectivity"
+    private static let chartsOptions: [(key: String, label: String)] = [
+        ("connectivity", "Connectivity history"),
+        ("latency",      "Latency history")
+    ]
     
     private var initialized: Bool = false
     private var processesInitialized: Bool = false
@@ -129,10 +137,13 @@ internal class Popup: PopupWrapper {
         self.publicIPState = Store.shared.bool(key: "\(self.title)_publicIP", defaultValue: self.publicIPState)
         self.interfaceDetailsState = Store.shared.bool(key: "\(self.title)_interfaceDetails", defaultValue: self.interfaceDetailsState)
         self.emojiCCState = Store.shared.bool(key: "\(self.title)_emojiCC", defaultValue: self.emojiCCState)
+        let storedChartsMode = Store.shared.string(key: "\(self.title)_chartsMode", defaultValue: self.chartsMode)
+        self.chartsMode = Self.chartsOptions.contains(where: { $0.key == storedChartsMode }) ? storedChartsMode : self.chartsMode
         
         self.addArrangedSubview(self.initDashboard())
         self.addArrangedSubview(self.initChart())
         self.addArrangedSubview(self.initConnectivityChart())
+        self.addArrangedSubview(self.initLatencyChart())
         self.addArrangedSubview(self.initDetails())
         self.addArrangedSubview(self.initInterface())
         self.addArrangedSubview(self.initAddress())
@@ -141,6 +152,8 @@ internal class Popup: PopupWrapper {
         if !self.publicIPState {
             self.addressView?.removeFromSuperview()
         }
+        if self.chartsMode == "latency" { self.connectivitySection?.removeFromSuperview() }
+        if self.chartsMode == "connectivity" { self.latencySection?.removeFromSuperview() }
         
         self.recalculateHeight()
         
@@ -236,7 +249,57 @@ internal class Popup: PopupWrapper {
         let chart = GridChartView(frame: NSRect(x: 0, y: 1, width: container.frame.width, height: container.frame.height - 2), grid: (30, 3))
         container.addSubview(chart)
         self.connectivityChart = chart
+        self.connectivitySection = view
         
+        view.addSubview(separator)
+        view.addSubview(container)
+        
+        return view
+    }
+
+    // Popup latency chart pitch (chart_width / popupLatencyBarPitch = max bar count).
+    // Chosen wider than the menu-bar widget pitch so individual bars stay legible
+    // in the larger popup canvas.
+    private static let popupLatencyBarPitch: CGFloat = 4
+
+    // When chartHistory exceeds the visual cap, ICMP samples aggregate into each
+    // bar (running mean) so the chart still covers the full requested time window
+    // — same wall-clock span as the usage chart, but with chunkier bars.
+    private func popupLatencyLayout(in width: CGFloat) -> (barCount: Int, samplesPerBar: Int) {
+        let history = max(self.chartHistory, 1)
+        let maxBars = max(1, Int(width / Self.popupLatencyBarPitch))
+        guard history > maxBars else { return (history, 1) }
+
+        let minSamplesPerBar = Int(ceil(Double(history) / Double(maxBars)))
+        for samplesPerBar in minSamplesPerBar...history {
+            if history % samplesPerBar == 0 {
+                return (history / samplesPerBar, samplesPerBar)
+            }
+        }
+        return (maxBars, minSamplesPerBar)
+    }
+
+    private func initLatencyChart() -> NSView {
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 30 + Constants.Popup.separatorHeight))
+        view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
+        let separator = separatorView(localizedString("Latency history"), origin: NSPoint(x: 0, y: 30), width: self.frame.width)
+        let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
+        container.wantsLayer = true
+        container.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
+        container.layer?.cornerRadius = 3
+
+        let chartFrame = NSRect(x: 0, y: 1, width: container.frame.width, height: container.frame.height - 2)
+        let layout = self.popupLatencyLayout(in: chartFrame.width)
+        let chart = LatencyBarChartView(
+            frame: chartFrame,
+            barCount: layout.barCount,
+            samplesPerBar: layout.samplesPerBar
+        )
+        chart.setThresholds(currentLatencyThresholds(module: self.title))
+        container.addSubview(chart)
+        self.latencyChart = chart
+        self.latencySection = view
+
         view.addSubview(separator)
         view.addSubview(container)
         
@@ -645,6 +708,10 @@ internal class Popup: PopupWrapper {
             if let value, let chart = self.connectivityChart {
                 chart.addValue(value.status)
             }
+            self.latencyChart?.addValue(LatencySample(
+                latency: value?.status == true ? value?.latency : nil,
+                online: value?.status ?? true
+            ))
         })
     }
     
@@ -700,6 +767,11 @@ internal class Popup: PopupWrapper {
             PreferencesRow(localizedString("Reverse order"), component: switchView(
                 action: #selector(self.toggleReverseOrder),
                 state: self.reverseOrderState
+            )),
+            PreferencesRow(localizedString("Display mode"), component: selectView(
+                action: #selector(self.toggleChartsMode),
+                items: Self.chartsOptions.map { KeyValue_t(key: $0.key, value: localizedString($0.label)) },
+                selected: self.chartsMode
             ))
         ]))
         
@@ -771,11 +843,30 @@ internal class Popup: PopupWrapper {
         Store.shared.set(key: "\(self.title)_reverseOrder", value: self.reverseOrderState)
         self.display()
     }
+    @objc private func toggleChartsMode(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String,
+              Self.chartsOptions.contains(where: { $0.key == key }) else { return }
+        self.chartsMode = key
+        Store.shared.set(key: "\(self.title)_chartsMode", value: key)
+
+        DispatchQueue.main.async {
+            self.connectivitySection?.removeFromSuperview()
+            self.latencySection?.removeFromSuperview()
+            // Insert the selected chart after Dashboard (0) and Usage chart (1).
+            let section = self.chartsMode == "latency" ? self.latencySection : self.connectivitySection
+            if let section { self.insertArrangedSubview(section, at: 2) }
+            self.recalculateHeight()
+        }
+    }
     @objc private func togglechartHistory(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String, let value = Int(key) else { return }
         self.chartHistory = value
         Store.shared.set(key: "\(self.title)_chartHistory", value: value)
         self.chart?.reinit(self.chartHistory)
+        if let chart = self.latencyChart {
+            let layout = self.popupLatencyLayout(in: chart.frame.width)
+            chart.reinit(barCount: layout.barCount, samplesPerBar: layout.samplesPerBar)
+        }
     }
     @objc private func toggleChartScale(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String,

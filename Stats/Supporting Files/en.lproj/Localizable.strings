@@ -412,6 +412,9 @@
 "Connectivity host" = "Connectivity host";
 "Leave empty to disable the check" = "Leave empty to disable the check";
 "Connectivity history" = "Connectivity history";
+"Size" = "Size";
+"Thresholds (ms)" = "Thresholds (ms)";
+"Latency history" = "Latency history";
 "Auto-refresh public IP address" = "Auto-refresh public IP address";
 "Every hour" = "Every hour";
 "Every 12 hours" = "Every 12 hours";

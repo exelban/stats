@@ -1180,6 +1180,363 @@ public class GridChartView: ChartView {
     }
 }
 
+public struct LatencySample {
+    public let latency: Double?
+    public let online: Bool
+    public init(latency: Double? = nil, online: Bool = true) {
+        self.latency = latency
+        self.online = online
+    }
+}
+
+internal struct LatencyBucket {
+    var latency: Double
+    var online: Bool
+    var hasData: Bool
+    static let empty = LatencyBucket(latency: 0, online: true, hasData: false)
+    init(latency: Double, online: Bool, hasData: Bool) {
+        self.latency = latency
+        self.online = online
+        self.hasData = hasData
+    }
+    init(_ sample: LatencySample) {
+        let v = sample.latency ?? 0
+        self.init(latency: v, online: sample.online, hasData: v > 0)
+    }
+}
+
+public struct LatencyThresholds {
+    public var green: Double
+    public var yellow: Double
+    public var red: Double
+    public static let `default` = LatencyThresholds(green: 50, yellow: 100, red: 200)
+    public init(green: Double, yellow: Double, red: Double) {
+        self.green = green
+        self.yellow = yellow
+        self.red = red
+    }
+}
+
+public func currentLatencyThresholds(module: String) -> LatencyThresholds {
+    return LatencyThresholds(
+        green:  Double(Store.shared.int(key: "\(module)_latencyThreshold_green",  defaultValue: Int(LatencyThresholds.default.green))),
+        yellow: Double(Store.shared.int(key: "\(module)_latencyThreshold_yellow", defaultValue: Int(LatencyThresholds.default.yellow))),
+        red:    Double(Store.shared.int(key: "\(module)_latencyThreshold_red",    defaultValue: Int(LatencyThresholds.default.red)))
+    )
+}
+
+internal func latencyColor(for latency: Double, thresholds: LatencyThresholds) -> NSColor {
+    if latency <= thresholds.green  { return .systemGreen }
+    if latency <= thresholds.yellow { return .systemYellow }
+    return .systemRed
+}
+
+// Auto-scale floor (ms): the chart's vertical range never goes below this even
+// on a perfectly idle link, so small fluctuations stay readable.
+private let latencyAutoScaleFloorMs: Double = 50
+// Inactive bar fill (no-data buckets) as a fraction of the chart height.
+private let latencyInactiveFillRatio: CGFloat = 0.08
+// When yellow or red appear inside a bar, each band gets at least this fraction
+// of the bar height so a threshold crossing reads clearly rather than as a 1-pixel tip.
+private let latencyBandAccentFraction: CGFloat = 0.3
+// Bar pitch (px per bar including spacing) used by the latency widget and popup.
+internal let latencyBarSpacing: CGFloat = 1
+
+// Returns (barWidth, spacing) that exactly fits `count` bars in `width`.
+// Drops spacing to 0 when bars become too dense to fit with normal spacing.
+internal func latencyBarLayout(width: CGFloat, count: Int) -> (barWidth: CGFloat, spacing: CGFloat) {
+    guard count > 0, width > 0 else { return (0, 0) }
+    let perBarWithSpacing = width / CGFloat(count)
+    let spacing: CGFloat = perBarWithSpacing >= 2 + latencyBarSpacing ? latencyBarSpacing : 0
+    let barWidth = max((width - spacing * CGFloat(count - 1)) / CGFloat(count), 0.5)
+    return (barWidth, spacing)
+}
+
+internal func renderLatencyBars(
+    in rect: NSRect,
+    bars: [LatencyBucket],
+    thresholds: LatencyThresholds
+) {
+    guard !bars.isEmpty, rect.width > 0, rect.height > 0 else { return }
+
+    let (barWidth, spacing) = latencyBarLayout(width: rect.width, count: bars.count)
+
+    // Fixed scale based on the red threshold. Keeps bar heights stable across
+    // redraws (no auto-rescale flicker as the visible-max changes). Bars above
+    // the red threshold are clipped to full height — which matches the "above
+    // bad" semantic of the threshold itself.
+    let scaleMax = max(thresholds.red, latencyAutoScaleFloorMs)
+
+    func heightFor(_ v: Double) -> CGFloat {
+        let capped = min(max(v, 0), scaleMax)
+        return rect.height * max(min(CGFloat(capped / scaleMax), 1), 0)
+    }
+
+    var x: CGFloat = rect.minX
+    for b in bars {
+        if !b.online {
+            NSColor.systemRed.setFill()
+            NSBezierPath(roundedRect: NSRect(x: x, y: rect.minY, width: barWidth, height: rect.height),
+                         xRadius: 1, yRadius: 1).fill()
+        } else if b.hasData {
+            let barHeight = max(heightFor(b.latency), rect.height * latencyInactiveFillRatio)
+            let barRect = NSRect(x: x, y: rect.minY, width: barWidth, height: barHeight)
+            let clip = NSBezierPath(roundedRect: barRect, xRadius: 1, yRadius: 1)
+
+            var greenTop  = min(heightFor(thresholds.green),  barHeight)
+            var yellowTop = min(heightFor(thresholds.yellow), barHeight)
+
+            if barHeight > yellowTop {
+                let minRed = barHeight * latencyBandAccentFraction
+                if barHeight - yellowTop < minRed { yellowTop = barHeight - minRed }
+            }
+            if yellowTop > greenTop {
+                let minYellow = barHeight * latencyBandAccentFraction
+                if yellowTop - greenTop < minYellow { greenTop = max(0, yellowTop - minYellow) }
+            }
+
+            NSGraphicsContext.current?.saveGraphicsState()
+            clip.addClip()
+            if greenTop > 0 {
+                NSColor.systemGreen.setFill()
+                NSRect(x: x, y: rect.minY, width: barWidth, height: greenTop).fill()
+            }
+            if yellowTop > greenTop {
+                NSColor.systemYellow.setFill()
+                NSRect(x: x, y: rect.minY + greenTop, width: barWidth, height: yellowTop - greenTop).fill()
+            }
+            if barHeight > yellowTop {
+                NSColor.systemRed.setFill()
+                NSRect(x: x, y: rect.minY + yellowTop, width: barWidth, height: barHeight - yellowTop).fill()
+            }
+            NSGraphicsContext.current?.restoreGraphicsState()
+        }
+        // Empty buckets: render nothing so the chart's filled length matches
+        // the usage chart's filled length when accumulating after launch.
+        x += barWidth + spacing
+    }
+}
+
+public class LatencyBarChartView: ChartView {
+    private static let tooltipWidth: CGFloat = 78
+    private static let rawSampleLimit: Int = 600
+    private static let tooltipDateFormatter: DateFormatter = {
+        let f = DateFormatter(); f.dateFormat = "HH:mm:ss"; return f
+    }()
+
+    private var bars: [LatencyBucket]
+    private var barTimes: [Date?]
+    private var rawBars: [LatencyBucket] = []
+    private var rawTimes: [Date?] = []
+    private var hoverIdx: Int? = nil
+    private var thresholds: LatencyThresholds = .default
+
+    private var samplesPerBar: Int
+    // Counts new raw samples accumulated since the last bar commit.
+    // When this reaches samplesPerBar, a new bar is committed (once, fixed value).
+    private var pendingCount: Int = 0
+
+    // Main-thread cache to skip redundant write+redraw on intra-bar mouseMoved events.
+    private var lastHoverIdx: Int? = nil
+
+    public init(frame: NSRect, barCount: Int, samplesPerBar: Int = 1) {
+        let count = max(barCount, 1)
+        self.bars = Array(repeating: .empty, count: count)
+        self.barTimes = Array(repeating: nil, count: count)
+        self.samplesPerBar = max(samplesPerBar, 1)
+        super.init(frame: frame, queueLabel: "eu.exelban.Stats.Charts.LatencyBars")
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    public override func draw(_ dirtyRect: NSRect) {
+        var bars: [LatencyBucket] = []
+        var barTimes: [Date?] = []
+        var thresholds: LatencyThresholds = .default
+        var hoverIdx: Int? = nil
+        self.read {
+            bars = self.bars
+            barTimes = self.barTimes
+            thresholds = self.thresholds
+            hoverIdx = self.hoverIdx
+        }
+        renderLatencyBars(in: self.bounds, bars: bars, thresholds: thresholds)
+
+        guard let idx = hoverIdx, idx >= 0, idx < bars.count else { return }
+        let b = bars[idx]
+        guard b.hasData || !b.online else { return }
+
+        let (barWidth, spacing) = latencyBarLayout(width: self.bounds.width, count: bars.count)
+        let xCenter = CGFloat(idx) * (barWidth + spacing) + barWidth / 2
+        let vLine = NSBezierPath()
+        vLine.setLineDash([4, 4], count: 2, phase: 0)
+        vLine.move(to: CGPoint(x: xCenter, y: 0))
+        vLine.line(to: CGPoint(x: xCenter, y: self.bounds.height))
+        NSColor.tertiaryLabelColor.set()
+        vLine.lineWidth = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
+        vLine.stroke()
+
+        let latencyText = b.online ? "\(Int(b.latency.rounded())) ms" : localizedString("Offline")
+        let timeText = barTimes[idx].map { Self.tooltipDateFormatter.string(from: $0) } ?? ""
+        let w = Self.tooltipWidth
+        let tooltipX = xCenter + 4 + w > self.bounds.width ? xCenter - w - 4 : xCenter + 4
+        drawToolTip(self.frame, CGPoint(x: tooltipX, y: self.bounds.height / 2),
+                    CGSize(width: w, height: self.bounds.height),
+                    value: latencyText, subtitle: timeText)
+    }
+
+    public func addValue(_ sample: LatencySample) {
+        self.write {
+            self.rawBars.append(LatencyBucket(sample))
+            self.rawTimes.append(Date())
+            if self.rawBars.count > Self.rawSampleLimit {
+                self.rawBars.removeFirst(self.rawBars.count - Self.rawSampleLimit)
+                self.rawTimes.removeFirst(self.rawTimes.count - Self.rawSampleLimit)
+            }
+
+            // Commit-once aggregation: once enough raw samples have accumulated for
+            // a bar, commit it as the rightmost bar with a fixed value. Older bars
+            // never recompute, eliminating per-sample height/color flicker.
+            self.pendingCount += 1
+            guard self.pendingCount >= self.samplesPerBar else { return }
+            let chunkStart = self.rawBars.count - self.samplesPerBar
+            let bucket = self.aggregate(self.rawBars[chunkStart..<self.rawBars.count])
+            let time = self.aggregateTime(self.rawTimes[chunkStart..<self.rawTimes.count])
+            self.bars.removeFirst()
+            self.bars.append(bucket)
+            self.barTimes.removeFirst()
+            self.barTimes.append(time)
+            self.pendingCount = 0
+            self.displayIfVisible()
+        }
+    }
+
+    public func setThresholds(_ thresholds: LatencyThresholds) {
+        self.write {
+            self.thresholds = thresholds
+            self.displayIfVisible()
+        }
+    }
+
+    // Aggregate a slice of raw samples into a single bucket. Latency is the
+    // arithmetic mean of samples that produced data. Any single offline sample
+    // in the slice marks the whole bucket as offline — by design, favouring
+    // visibility of brief outages over averaging them away. Result: a 1-of-10
+    // dropped ping at chartHistory=10min still paints a visible red bar.
+    private func aggregate(_ buckets: ArraySlice<LatencyBucket>) -> LatencyBucket {
+        var latency: Double = 0
+        var count: Int = 0
+        var online = true
+        var hasState = false
+        for b in buckets {
+            if b.hasData {
+                latency += b.latency
+                count += 1
+                hasState = true
+            }
+            if !b.online {
+                online = false
+                hasState = true
+            }
+        }
+        guard hasState else { return .empty }
+        return LatencyBucket(latency: count > 0 ? latency / Double(count) : 0, online: online, hasData: count > 0)
+    }
+
+    private func aggregateTime(_ times: ArraySlice<Date?>) -> Date? {
+        for t in times.reversed() {
+            if let t { return t }
+        }
+        return nil
+    }
+
+    private func resampleBars(
+        _ bars: [LatencyBucket],
+        _ times: [Date?],
+        to newCount: Int,
+        samplesPerBar: Int
+    ) -> (bars: [LatencyBucket], times: [Date?]) {
+        let newPerBar = max(samplesPerBar, 1)
+        let sampleCount = max(newCount * newPerBar, 1)
+        var samples = bars
+        var sampleTimes = times
+        if samples.count > sampleCount {
+            samples = Array(samples.suffix(sampleCount))
+            sampleTimes = Array(sampleTimes.suffix(sampleCount))
+        } else if samples.count < sampleCount {
+            samples = Array(repeating: .empty, count: sampleCount - samples.count) + samples
+            sampleTimes = Array(repeating: nil, count: sampleCount - sampleTimes.count) + sampleTimes
+        }
+
+        var resultBars: [LatencyBucket] = []
+        var resultTimes: [Date?] = []
+        for idx in 0..<newCount {
+            let start = idx * newPerBar
+            let range = start..<start + newPerBar
+            resultBars.append(self.aggregate(samples[range]))
+            resultTimes.append(self.aggregateTime(sampleTimes[range]))
+        }
+        return (resultBars, resultTimes)
+    }
+
+    public func reinit(barCount: Int, samplesPerBar: Int = 1) {
+        let count = max(barCount, 1)
+        let perBar = max(samplesPerBar, 1)
+        self.write {
+            // Re-aggregate from raw history so the chart's content reflects the new
+            // bucketing. The in-progress accumulator is reset since its prior chunking
+            // assumption no longer applies.
+            let resampled = self.resampleBars(self.rawBars, self.rawTimes, to: count, samplesPerBar: perBar)
+            self.bars = resampled.bars
+            self.barTimes = resampled.times
+            self.samplesPerBar = perBar
+            self.pendingCount = 0
+            self.hoverIdx = nil
+            self.displayIfVisible()
+        }
+        self.lastHoverIdx = nil
+    }
+
+    public override func updateTrackingAreas() {
+        self.trackingAreas.forEach { self.removeTrackingArea($0) }
+        self.addTrackingArea(NSTrackingArea(
+            rect: .zero,
+            options: [.activeAlways, .mouseEnteredAndExited, .mouseMoved, .inVisibleRect],
+            owner: self, userInfo: nil
+        ))
+        super.updateTrackingAreas()
+    }
+
+    private func barIndex(at point: CGPoint, count: Int) -> Int? {
+        guard count > 0, self.bounds.contains(point) else { return nil }
+        let (barWidth, spacing) = latencyBarLayout(width: self.bounds.width, count: count)
+        return min(max(Int(point.x / (barWidth + spacing)), 0), count - 1)
+    }
+
+    private func updateHover(_ idx: Int?) {
+        if idx == self.lastHoverIdx { return }
+        self.lastHoverIdx = idx
+        self.write {
+            self.hoverIdx = idx
+            self.displayIfVisible()
+        }
+    }
+
+    public override func mouseEntered(with event: NSEvent) {
+        let count = self.read { self.bars.count }
+        self.updateHover(self.barIndex(at: self.convert(event.locationInWindow, from: nil), count: count))
+    }
+    public override func mouseMoved(with event: NSEvent) {
+        let count = self.read { self.bars.count }
+        self.updateHover(self.barIndex(at: self.convert(event.locationInWindow, from: nil), count: count))
+    }
+    public override func mouseExited(with event: NSEvent) {
+        self.updateHover(nil)
+    }
+}
+
 public class BarChartView: ChartView {
     private var values: [ColorValue] = []
     private var cursor: CGPoint? = nil

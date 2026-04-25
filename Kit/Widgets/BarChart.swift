@@ -327,3 +327,341 @@ public class BarChart: WidgetWrapper {
         self.redraw()
     }
 }
+
+public class LatencyBarsWidget: WidgetWrapper {
+    private static let sizeOptions: [Int] = [15, 25, 35, 50, 70]
+    private static let barPitch: Int = 3 // 2px bar + 1px spacing
+
+    private var widthPx: Int = 35
+    private var thresholds: LatencyThresholds = .default
+    private var boxState: Bool = false
+    private var frameState: Bool = false
+    private var showValueState: Bool = false
+
+    private var boxSettingsView: NSSwitch? = nil
+    private var frameSettingsView: NSSwitch? = nil
+
+    private var _bars: [LatencyBucket] = []
+    private var _latestLatency: Double? = nil
+    private var _latestOnline: Bool = true
+
+    public init(title: String, config: NSDictionary?, preview: Bool = false) {
+        var widgetTitle: String = title
+        if let titleFromConfig = config?["Title"] as? String {
+            widgetTitle = titleFromConfig
+        }
+
+        super.init(.latencyBars, title: widgetTitle, frame: CGRect(
+            x: Constants.Widget.margin.x,
+            y: Constants.Widget.margin.y,
+            width: 35 + (2*Constants.Widget.margin.x),
+            height: Constants.Widget.height - (2*Constants.Widget.margin.y)
+        ))
+
+        self.canDrawConcurrently = true
+
+        if !preview {
+            self.widthPx = Store.shared.int(key: "\(self.title)_\(self.type.rawValue)_size", defaultValue: self.widthPx)
+            self.boxState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_box", defaultValue: self.boxState)
+            self.frameState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_frame", defaultValue: self.frameState)
+            self.showValueState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_showValue", defaultValue: self.showValueState)
+            self.thresholds = currentLatencyThresholds(module: self.title)
+        }
+
+        self._bars = Array(repeating: .empty, count: self.barCount)
+
+        if preview {
+            let pattern: [Double] = [30, 45, 80, 60, 40, 55, 90, 120, 250, 180, 90, 50, 70, 30, 40]
+            for i in 0..<self._bars.count {
+                self._bars[i] = LatencyBucket(latency: pattern[i % pattern.count], online: true, hasData: true)
+            }
+            self.display()
+        }
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private var barCount: Int {
+        max(1, self.widthPx / Self.barPitch)
+    }
+
+    public override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
+
+        var bars: [LatencyBucket] = []
+        var latestLatency: Double? = nil
+        var latestOnline: Bool = true
+        self.queue.sync {
+            bars = self._bars
+            latestLatency = self._latestLatency
+            latestOnline = self._latestOnline
+        }
+        guard !bars.isEmpty else {
+            self.setWidth(0)
+            return
+        }
+
+        let lineWidth = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
+        let offset = lineWidth / 2
+        let contentWidth = CGFloat(self.widthPx)
+
+        var labelWidth: CGFloat = 0
+        var valueStr: NSAttributedString? = nil
+        var unitStr: NSAttributedString? = nil
+        if self.showValueState {
+            let valueText: String
+            let unitText: String
+            var color: NSColor = .textColor
+            if !latestOnline {
+                valueText = "!!"
+                unitText = ""
+                color = .systemRed
+            } else if let l = latestLatency, l > 0 {
+                valueText = "\(Int(l.rounded()))"
+                unitText = "ms"
+                color = latencyColor(for: l, thresholds: self.thresholds)
+            } else {
+                valueText = "—"
+                unitText = ""
+            }
+            let valueFont: NSFont = !latestOnline
+                ? NSFont.systemFont(ofSize: 14, weight: .heavy)
+                : NSFont.systemFont(ofSize: 10, weight: .regular)
+            let valueAttrs: [NSAttributedString.Key: Any] = [
+                .font: valueFont,
+                .foregroundColor: color
+            ]
+            let unitAttrs: [NSAttributedString.Key: Any] = [
+                .font: NSFont.systemFont(ofSize: 7, weight: .regular),
+                .foregroundColor: color.withAlphaComponent(0.75)
+            ]
+            valueStr = NSAttributedString(string: valueText, attributes: valueAttrs)
+            if !unitText.isEmpty {
+                unitStr = NSAttributedString(string: unitText, attributes: unitAttrs)
+            }
+            let vW = valueStr?.size().width ?? 0
+            let uW = unitStr?.size().width ?? 0
+            let refAttrs: [NSAttributedString.Key: Any] = [
+                .font: NSFont.systemFont(ofSize: 10, weight: .regular)
+            ]
+            let refWidth = NSAttributedString(string: "000", attributes: refAttrs).size().width
+            labelWidth = ceil(max(refWidth, vW, uW))
+        }
+
+        let labelGap: CGFloat = (labelWidth > 0) ? Constants.Widget.spacing : 0
+        let totalWidth: CGFloat = labelWidth + labelGap + contentWidth + (Constants.Widget.margin.x * 2) + (offset * 2)
+        let labelOriginX = offset + contentWidth + labelGap
+
+        if let valueStr {
+            let frameH = self.frame.size.height
+            let vSize = valueStr.size()
+            if let unitStr {
+                let uSize = unitStr.size()
+                let vGap: CGFloat = -2
+                let totalH = ceil(vSize.height) + ceil(uSize.height) + vGap
+                let yBottom = (frameH - totalH) / 2
+                let xUnit = labelOriginX + (labelWidth - uSize.width) / 2
+                unitStr.draw(at: CGPoint(x: xUnit, y: yBottom))
+                let xValue = labelOriginX + (labelWidth - vSize.width) / 2
+                valueStr.draw(at: CGPoint(x: xValue, y: yBottom + ceil(uSize.height) + vGap))
+            } else {
+                let yCenter = (frameH - vSize.height) / 2
+                let xValue = labelOriginX + (labelWidth - vSize.width) / 2
+                valueStr.draw(at: CGPoint(x: xValue, y: yCenter))
+            }
+        }
+
+        let boxRect = NSRect(
+            x: offset,
+            y: offset,
+            width: contentWidth,
+            height: self.frame.size.height - (offset * 2)
+        )
+        let box = NSBezierPath(roundedRect: boxRect, xRadius: 2, yRadius: 2)
+
+        if self.boxState {
+            (isDarkMode ? NSColor.white : NSColor.black).set()
+            box.fill()
+        }
+
+        renderLatencyBars(in: boxRect, bars: bars, thresholds: self.thresholds)
+
+        if self.boxState || self.frameState {
+            (isDarkMode ? NSColor.white : NSColor.black).set()
+            box.lineWidth = lineWidth
+            box.stroke()
+        }
+
+        self.setWidth(totalWidth)
+    }
+
+    public func setValue(latency: Double?, online: Bool) {
+        let bucket = LatencyBucket(LatencySample(latency: latency, online: online))
+        self.queue.async(flags: .barrier) { [weak self] in
+            guard let self else { return }
+            guard !self._bars.isEmpty else { return }
+            self._bars.removeFirst()
+            self._bars.append(bucket)
+            self._latestLatency = bucket.hasData ? bucket.latency : nil
+            self._latestOnline = bucket.online
+            self.redraw()
+        }
+    }
+
+    private func resampleBars(newCount: Int) {
+        let newSize = max(newCount, 1)
+        self.queue.async(flags: .barrier) { [weak self] in
+            guard let self else { return }
+            if newSize == self._bars.count { return }
+            if self._bars.isEmpty {
+                self._bars = Array(repeating: .empty, count: newSize)
+            } else if self._bars.count >= newSize {
+                self._bars = Array(self._bars.suffix(newSize))
+            } else {
+                self._bars = Array(repeating: .empty, count: newSize - self._bars.count) + self._bars
+            }
+        }
+    }
+
+    public override func settings() -> NSView {
+        let view = SettingsContainerView()
+
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Size"), component: selectView(
+                action: #selector(self.toggleSize),
+                items: Self.sizeOptions.map { KeyValue_t(key: "\($0)", value: "\($0) px") },
+                selected: "\(self.widthPx)"
+            ))
+        ]))
+
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Thresholds (ms)"), component: self.buildThresholdsRow())
+        ]))
+
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Value"), component: switchView(
+                action: #selector(self.toggleShowValue),
+                state: self.showValueState
+            )),
+            PreferencesRow(localizedString("Box"), component: self.installedBoxSwitch()),
+            PreferencesRow(localizedString("Frame"), component: self.installedFrameSwitch())
+        ]))
+
+        return view
+    }
+
+    private func installedBoxSwitch() -> NSSwitch {
+        let s = switchView(action: #selector(self.toggleBox), state: self.boxState)
+        self.boxSettingsView = s
+        return s
+    }
+
+    private func installedFrameSwitch() -> NSSwitch {
+        let s = switchView(action: #selector(self.toggleFrame), state: self.frameState)
+        self.frameSettingsView = s
+        return s
+    }
+
+    @objc private func toggleShowValue(_ sender: NSControl) {
+        self.showValueState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_showValue", value: self.showValueState)
+        self.redraw()
+    }
+
+    private static let thresholdInputWidth: CGFloat = 100
+    private static let thresholdSpecs: [(key: String, color: NSColor, value: (LatencyThresholds) -> Double)] = [
+        ("green",  .systemGreen,  { $0.green }),
+        ("yellow", .systemYellow, { $0.yellow }),
+        ("red",    .systemRed,    { $0.red })
+    ]
+
+    private func buildThresholdsRow() -> NSView {
+        let row = NSStackView()
+        row.orientation = .horizontal
+        row.distribution = .fill
+        row.spacing = 6
+        for spec in Self.thresholdSpecs {
+            row.addArrangedSubview(self.thresholdInput(color: spec.color, key: spec.key, value: Int(spec.value(self.thresholds))))
+        }
+        return row
+    }
+
+    private func thresholdInput(color: NSColor, key: String, value: Int) -> NSView {
+        let container = NSStackView()
+        container.orientation = .horizontal
+        container.spacing = 3
+        container.alignment = .centerY
+
+        let dot = NSView()
+        dot.wantsLayer = true
+        dot.layer?.backgroundColor = color.cgColor
+        dot.layer?.cornerRadius = 4
+        dot.translatesAutoresizingMaskIntoConstraints = false
+        dot.widthAnchor.constraint(equalToConstant: 8).isActive = true
+        dot.heightAnchor.constraint(equalToConstant: 8).isActive = true
+
+        let le = NSTextField(labelWithString: "\u{2264}")
+        le.font = NSFont.systemFont(ofSize: 11, weight: .regular)
+        le.textColor = .secondaryLabelColor
+
+        let stepper = StepperInput(
+            value,
+            range: NSRange(location: 1, length: 4999),
+            unit: "",
+            callback: { [weak self] v in self?.setThreshold(key: key, value: v) }
+        )
+
+        container.addArrangedSubview(dot)
+        container.addArrangedSubview(le)
+        container.addArrangedSubview(stepper)
+        container.widthAnchor.constraint(equalToConstant: Self.thresholdInputWidth).isActive = true
+        return container
+    }
+
+    @objc private func toggleSize(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String,
+              let px = Int(key), Self.sizeOptions.contains(px) else { return }
+        self.widthPx = px
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_size", value: px)
+        self.resampleBars(newCount: self.barCount)
+        self.redraw()
+    }
+
+    private func setThreshold(key: String, value: Int) {
+        let v = Double(value)
+        switch key {
+        case "green":  self.thresholds.green  = min(v, self.thresholds.yellow - 1)
+        case "yellow": self.thresholds.yellow = min(max(v, self.thresholds.green + 1), self.thresholds.red - 1)
+        case "red":    self.thresholds.red    = max(v, self.thresholds.yellow + 1)
+        default: return
+        }
+        Store.shared.set(key: "\(self.title)_latencyThreshold_green",  value: Int(self.thresholds.green))
+        Store.shared.set(key: "\(self.title)_latencyThreshold_yellow", value: Int(self.thresholds.yellow))
+        Store.shared.set(key: "\(self.title)_latencyThreshold_red",    value: Int(self.thresholds.red))
+        self.redraw()
+    }
+
+    @objc private func toggleBox(_ sender: NSControl) {
+        self.boxState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
+        if self.boxState && self.frameState {
+            self.frameState = false
+            self.frameSettingsView?.state = .off
+            Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_frame", value: self.frameState)
+        }
+        self.redraw()
+    }
+
+    @objc private func toggleFrame(_ sender: NSControl) {
+        self.frameState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_frame", value: self.frameState)
+        if self.frameState && self.boxState {
+            self.boxState = false
+            self.boxSettingsView?.state = .off
+            Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
+        }
+        self.redraw()
+    }
+}
