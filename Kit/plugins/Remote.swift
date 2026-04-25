@@ -12,6 +12,7 @@
 import Foundation
 import Cocoa
 import CoreAudio
+import Security
 
 public protocol RemoteType {
     func remote() -> Data?
@@ -62,6 +63,7 @@ public class Remote {
     
     private var lastSleepTime: Date?
     private var lastRegisterTime: Date?
+    fileprivate let cooldownLock = NSLock()
     
     struct Details: Codable {
         let client: Client
@@ -99,12 +101,20 @@ public class Remote {
     public init() {
         self.log = NextLog.shared.copy(category: "Remote")
         
-        var id = UUID(uuidString: Store.shared.string(key: "remote_id", defaultValue: UUID().uuidString)) ?? UUID()
-        if Store.shared.exist(key: "telemetry_id") {
-            id = UUID(uuidString: Store.shared.string(key: "telemetry_id", defaultValue: UUID().uuidString)) ?? UUID()
+        let id: UUID
+        if Store.shared.exist(key: "remote_id"),
+           let existing = UUID(uuidString: Store.shared.string(key: "remote_id", defaultValue: "")) {
+            id = existing
+            if Store.shared.exist(key: "telemetry_id") {
+                Store.shared.remove("telemetry_id")
+            }
+        } else if Store.shared.exist(key: "telemetry_id"),
+                  let migrated = UUID(uuidString: Store.shared.string(key: "telemetry_id", defaultValue: "")) {
+            id = migrated
+            Store.shared.set(key: "remote_id", value: id.uuidString)
             Store.shared.remove("telemetry_id")
-        }
-        if !Store.shared.exist(key: "remote_id") {
+        } else {
+            id = UUID()
             Store.shared.set(key: "remote_id", value: id.uuidString)
         }
         self.id = id
@@ -191,11 +201,14 @@ public class Remote {
     private func registerDevice() {
         let oneHour: TimeInterval = 3600
         let now = Date()
+        self.cooldownLock.lock()
         if let lastTime = self.lastRegisterTime, now.timeIntervalSince(lastTime) < oneHour {
+            self.cooldownLock.unlock()
             debug("Device registration skipped: cooldown period not met", log: self.log)
             return
         }
         self.lastRegisterTime = now
+        self.cooldownLock.unlock()
         
         guard let url = URL(string: "\(Remote.host)/remote/device") else { return }
         
@@ -305,15 +318,26 @@ extension Remote {
     func sleep() {
         let minInterval: TimeInterval = 300
         let now = Date()
+        self.cooldownLock.lock()
         if let last = self.lastSleepTime, now.timeIntervalSince(last) < minInterval {
+            self.cooldownLock.unlock()
             debug("Sleep command ignored due to cooldown", log: self.log)
             return
         }
         self.lastSleepTime = now
+        self.cooldownLock.unlock()
+        
         let process = Process()
-        process.launchPath = "/usr/bin/pmset"
+        process.executableURL = URL(fileURLWithPath: "/usr/bin/pmset")
         process.arguments = ["sleepnow"]
-        process.launch()
+        do {
+            try process.run()
+        } catch {
+            self.cooldownLock.lock()
+            self.lastSleepTime = nil
+            self.cooldownLock.unlock()
+            debug("Failed to invoke pmset sleepnow: \(error.localizedDescription)", log: self.log)
+        }
     }
     
     private func getDefaultOutputDevice() -> AudioDeviceID? {
@@ -392,12 +416,12 @@ extension Remote {
 
 public class RemoteAuth {
     public var accessToken: String {
-        get { Store.shared.string(key: "access_token", defaultValue: "") }
-        set { Store.shared.set(key: "access_token", value: newValue) }
+        get { RemoteKeychain.read("access_token") ?? "" }
+        set { RemoteKeychain.write(newValue, for: "access_token") }
     }
     private var refreshToken: String {
-        get { Store.shared.string(key: "refresh_token", defaultValue: "") }
-        set { Store.shared.set(key: "refresh_token", value: newValue) }
+        get { RemoteKeychain.read("refresh_token") ?? "" }
+        set { RemoteKeychain.write(newValue, for: "refresh_token") }
     }
     private var clientID: String = "stats"
     
@@ -410,9 +434,11 @@ public class RemoteAuth {
     private var validationAttempts: Int = 0
     private let baseCooldown: TimeInterval = 2.0
     private let maxCooldown: TimeInterval = 60.0
+    private let cooldownLock = NSLock()
     
     private var isRefreshing = false
     private var refreshCompletions: [(Bool?) -> Void] = []
+    private let refreshLock = NSLock()
     
     private let session: URLSession = {
         let config = URLSessionConfiguration.default
@@ -420,13 +446,24 @@ public class RemoteAuth {
         return URLSession(configuration: config)
     }()
     
+    private static let formAllowed: CharacterSet = CharacterSet(charactersIn:
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~")
+    
+    private static func formBody(_ pairs: [(String, String)]) -> Data {
+        let body = pairs.map { key, value in
+            let k = key.addingPercentEncoding(withAllowedCharacters: formAllowed) ?? key
+            let v = value.addingPercentEncoding(withAllowedCharacters: formAllowed) ?? value
+            return "\(k)=\(v)"
+        }.joined(separator: "&")
+        return Data(body.utf8)
+    }
+    
     public init() {
-        NotificationCenter.default.addObserver(self, selector: #selector(self.successLogin), name: .remoteLoginSuccess, object: nil)
+        RemoteKeychain.migrateFromUserDefaultsIfNeeded()
     }
     
     deinit {
         self.session.invalidateAndCancel()
-        NotificationCenter.default.removeObserver(self, name: .remoteLoginSuccess, object: nil)
     }
     
     public func isAuthorized(completion: @escaping (Bool) -> Void) {
@@ -490,17 +527,19 @@ public class RemoteAuth {
         }
         
         let now = Date()
+        self.cooldownLock.lock()
         let dynamicCooldown = min(self.baseCooldown * pow(2.0, Double(self.validationAttempts)), self.maxCooldown)
         if let lastTime = self.lastValidationTime, now.timeIntervalSince(lastTime) < dynamicCooldown {
             let remainingTime = dynamicCooldown - now.timeIntervalSince(lastTime)
+            self.cooldownLock.unlock()
             DispatchQueue.main.asyncAfter(deadline: .now() + remainingTime) {
                 self.validate(completion)
             }
             return
         }
-        
         self.lastValidationTime = now
         self.validationAttempts += 1
+        self.cooldownLock.unlock()
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -515,14 +554,18 @@ public class RemoteAuth {
             if httpResponse.statusCode == 401 {
                 self.refreshTokenFunc { ok in
                     if ok == true {
+                        self.cooldownLock.lock()
                         self.validationAttempts = 0
                         self.lastValidationTime = nil
+                        self.cooldownLock.unlock()
                     }
                     completion(ok ?? false)
                 }
             } else if httpResponse.statusCode == 200 {
+                self.cooldownLock.lock()
                 self.validationAttempts = 0
                 self.lastValidationTime = nil
+                self.cooldownLock.unlock()
                 completion(true)
             } else {
                 completion(false)
@@ -531,9 +574,14 @@ public class RemoteAuth {
     }
     
     private func refreshTokenFunc(completion: @escaping (Bool?) -> Void) {
+        self.refreshLock.lock()
         self.refreshCompletions.append(completion)
-        guard !self.isRefreshing else { return }
+        if self.isRefreshing {
+            self.refreshLock.unlock()
+            return
+        }
         self.isRefreshing = true
+        self.refreshLock.unlock()
         
         guard let url = URL(string: "\(Remote.authHost)/token") else {
             self.completeRefresh(nil)
@@ -544,9 +592,10 @@ public class RemoteAuth {
         request.httpMethod = "POST"
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         
-        let body = "grant_type=refresh_token&refresh_token=\(self.refreshToken)"
-            .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-        request.httpBody = body?.data(using: .utf8)
+        request.httpBody = RemoteAuth.formBody([
+            ("grant_type", "refresh_token"),
+            ("refresh_token", self.refreshToken)
+        ])
         
         self.session.dataTask(with: request) { [weak self] data, response, error in
             guard let self else { return }
@@ -562,9 +611,11 @@ public class RemoteAuth {
     }
     
     private func completeRefresh(_ result: Bool?) {
+        self.refreshLock.lock()
         let completions = self.refreshCompletions
         self.refreshCompletions.removeAll()
         self.isRefreshing = false
+        self.refreshLock.unlock()
         for completion in completions {
             completion(result)
         }
@@ -580,9 +631,9 @@ public class RemoteAuth {
         request.httpMethod = "POST"
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         
-        let body = "client_id=\(self.clientID)"
-            .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-        request.httpBody = body?.data(using: .utf8)
+        request.httpBody = RemoteAuth.formBody([
+            ("client_id", self.clientID)
+        ])
         
         self.session.dataTask(with: request) { data, response, error in
             guard error == nil, let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200,
@@ -604,9 +655,11 @@ public class RemoteAuth {
         request.httpMethod = "POST"
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         
-        let body = "client_id=\(self.clientID)&device_code=\(self.deviceCode)&grant_type=urn:ietf:params:oauth:grant-type:device_code"
-            .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-        request.httpBody = body?.data(using: .utf8)
+        request.httpBody = RemoteAuth.formBody([
+            ("client_id", self.clientID),
+            ("device_code", self.deviceCode),
+            ("grant_type", "urn:ietf:params:oauth:grant-type:device_code")
+        ])
         
         self.session.dataTask(with: request) { data, response, error in
             if let error = error {
@@ -627,10 +680,9 @@ public class RemoteAuth {
                 
                 do {
                     let result = try JSONDecoder().decode(TokenResponse.self, from: data)
-                    NotificationCenter.default.post(name: .remoteLoginSuccess, object: nil, userInfo: [
-                        "access_token": result.access_token,
-                        "refresh_token": result.refresh_token
-                    ])
+                    self.accessToken = result.access_token
+                    self.refreshToken = result.refresh_token
+                    NotificationCenter.default.post(name: .remoteLoginSuccess, object: nil)
                     completion(nil)
                 } catch {
                     completion(error)
@@ -646,9 +698,10 @@ public class RemoteAuth {
                 } else if responseString.contains("expired_token") {
                     completion(NSError(domain: "", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: "Device code expired, please re-register"]))
                 } else if responseString.contains("slow_down") {
-                    DispatchQueue.global().asyncAfter(deadline: .now() + Double(self.interval)) {
-                        completion(nil)
-                    }
+                    self.interval += 5
+                    self.repeater?.reset(seconds: self.interval)
+                    self.repeater?.start()
+                    completion(nil)
                 } else {
                     completion(NSError(domain: "", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: responseString]))
                 }
@@ -657,15 +710,6 @@ public class RemoteAuth {
                 completion(NSError(domain: "", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: "Failed to get token (\(httpResponse.statusCode)): \(errorMessage)"]))
             }
         }.resume()
-    }
-    
-    @objc private func successLogin(_ notification: Notification) {
-        guard let userInfo = notification.userInfo,
-            let accessToken = userInfo["access_token"] as? String,
-            let refreshToken = userInfo["refresh_token"] as? String else { return }
-        
-        self.accessToken = accessToken
-        self.refreshToken = refreshToken
     }
     
     private func isTokenExpired() -> Bool {
@@ -766,6 +810,10 @@ class MQTTManager: NSObject {
                 debug("MQTT WebSocket connecting...", log: self.log)
             } else {
                 self.isConnecting = false
+                if Remote.shared.isAuthorized {
+                    Remote.shared.isAuthorized = false
+                    NotificationCenter.default.post(name: .remoteState, object: nil, userInfo: ["auth": false])
+                }
                 debug("Authorization failed, retrying connection...", log: self.log)
                 self.reconnect()
             }
@@ -852,10 +900,10 @@ class MQTTManager: NSObject {
         }
     }
     
-    public func publish(topic: String, data: Data) {
+    public func publish(topic: String, data: Data, retain: Bool = false) {
         guard self.isConnected else { return }
         
-        let publishPacket = createPublishPacket(topic: topic, payload: data)
+        let publishPacket = createPublishPacket(topic: topic, payload: data, retain: retain)
         self.webSocket?.send(.data(publishPacket)) { error in
             if let error = error {
                 print("Error publishing MQTT message: \(error)")
@@ -903,10 +951,10 @@ class MQTTManager: NSObject {
         return packet
     }
     
-    private func createPublishPacket(topic: String, payload: Data) -> Data {
+    private func createPublishPacket(topic: String, payload: Data, retain: Bool = false) -> Data {
         var packet = Data()
         
-        let fixedHeaderByte = (MQTTPacketType.publish.rawValue << 4) | 0x00
+        let fixedHeaderByte = (MQTTPacketType.publish.rawValue << 4) | (retain ? 0x01 : 0x00)
         
         var variableHeader = Data()
         variableHeader.append(contentsOf: encodeString(topic))
@@ -1076,16 +1124,20 @@ class MQTTManager: NSObject {
         
         guard data.count >= offset + topicLength else { return }
         let topicData = data.subdata(in: offset..<(offset + topicLength))
-        let topic = String(data: topicData, encoding: .utf8) ?? "<invalid topic>"
+        guard let topic = String(data: topicData, encoding: .utf8) else { return }
         offset += topicLength
         
-        if topic.hasSuffix("unregister") {
+        let base = "stats/\(Remote.shared.id.uuidString)/"
+        if topic == base + "unregister" {
+            self.publish(topic: topic, data: Data(), retain: true)
             self.unregisterHandler?()
             return
         }
         
-        let prefix = "stats/\(Remote.shared.id.uuidString)/control/"
-        let commandName = topic.hasPrefix(prefix) ? String(topic.dropFirst(prefix.count)) : topic
+        let controlPrefix = base + "control/"
+        guard topic.hasPrefix(controlPrefix) else { return }
+        let commandName = String(topic.dropFirst(controlPrefix.count))
+        guard !commandName.isEmpty, !commandName.contains("/") else { return }
         let payload = data.subdata(in: offset..<data.count)
         self.commandCallback?(commandName, payload)
     }
@@ -1107,14 +1159,79 @@ extension MQTTManager: URLSessionWebSocketDelegate {
     }
     
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        guard task === self.webSocket else { return }
         if let error = error {
             if let response = task.response as? HTTPURLResponse {
-                let statusCode = response.statusCode
-                let headers = response.allHeaderFields
-                debug("MQTT WebSocket failed: \(error.localizedDescription), status: \(statusCode), headers: \(headers)", log: self.log)
+                debug("MQTT WebSocket failed: \(error.localizedDescription), status: \(response.statusCode)", log: self.log)
             } else {
                 debug("MQTT WebSocket failed: \(error.localizedDescription)", log: self.log)
             }
         }
+        self.stopPingTimer()
+        self.isConnected = false
+        self.isConnecting = false
+        if !self.isDisconnected {
+            self.reconnect()
+        }
+    }
+}
+
+// MARK: - Keychain
+
+enum RemoteKeychain {
+    private static let service: String = (Bundle.main.bundleIdentifier ?? "eu.exelban.Stats") + ".remote"
+    
+    static func read(_ key: String) -> String? {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: service,
+            kSecAttrAccount as String: key,
+            kSecReturnData as String: true,
+            kSecMatchLimit as String: kSecMatchLimitOne
+        ]
+        var item: CFTypeRef?
+        let status = SecItemCopyMatching(query as CFDictionary, &item)
+        guard status == errSecSuccess, let data = item as? Data else { return nil }
+        return String(data: data, encoding: .utf8)
+    }
+    
+    static func write(_ value: String, for key: String) {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: service,
+            kSecAttrAccount as String: key
+        ]
+        
+        if value.isEmpty {
+            SecItemDelete(query as CFDictionary)
+            return
+        }
+        
+        let data = Data(value.utf8)
+        let attributes: [String: Any] = [
+            kSecValueData as String: data,
+            kSecAttrAccessible as String: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+        ]
+        
+        let status = SecItemUpdate(query as CFDictionary, attributes as CFDictionary)
+        if status == errSecItemNotFound {
+            var addQuery = query
+            for (k, v) in attributes { addQuery[k] = v }
+            SecItemAdd(addQuery as CFDictionary, nil)
+        }
+    }
+    
+    static func migrateFromUserDefaultsIfNeeded() {
+        let defaults = UserDefaults.standard
+        let migratedKey = "remote_tokens_migrated_to_keychain"
+        if defaults.bool(forKey: migratedKey) { return }
+        
+        for key in ["access_token", "refresh_token"] {
+            if let legacy = defaults.string(forKey: key), !legacy.isEmpty {
+                write(legacy, for: key)
+                defaults.removeObject(forKey: key)
+            }
+        }
+        defaults.set(true, forKey: migratedKey)
     }
 }
