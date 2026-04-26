@@ -190,10 +190,14 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
                 action: #selector(self.togglePublicIPState),
                 state: self.publicIPState
             )),
-            PreferencesRow(localizedString("Auto-refresh public IP address"), component: selectView(
+            PreferencesRow(localizedString("Auto-refresh public IP address"), id: "publicIPRefreshInterval", component: selectView(
                 action: #selector(self.toggleRefreshIPInterval),
                 items: PublicIPAddressRefreshIntervals,
                 selected: self.publicIPRefreshInterval
+            )),
+            PreferencesRow(localizedString("Refresh public IP now"), id: "refreshPublicIPNow", component: buttonView(
+                #selector(self.refreshPublicIP),
+                text: localizedString("Refresh")
             ))
         ]
         if self.vpnConnection {
@@ -204,7 +208,8 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         }
         let section = PreferencesSection(prefs)
         section.setRowVisibility(1, newState: self.readerType == "interface")
-        section.setRowVisibility(5, newState: self.publicIPState)
+        section.setRowVisibility("publicIPRefreshInterval", newState: self.publicIPState)
+        section.setRowVisibility("refreshPublicIPNow", newState: self.publicIPState)
         self.addArrangedSubview(section)
         self.section = section
         
@@ -354,7 +359,11 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     @objc func togglePublicIPState(_ sender: NSControl) {
         self.publicIPState = controlState(sender)
         Store.shared.set(key: "\(self.title)_publicIP", value: self.publicIPState)
-        self.section?.setRowVisibility(5, newState: self.publicIPState)
+        self.section?.setRowVisibility("publicIPRefreshInterval", newState: self.publicIPState)
+        self.section?.setRowVisibility("refreshPublicIPNow", newState: self.publicIPState)
+    }
+    @objc private func refreshPublicIP() {
+        NotificationCenter.default.post(name: .refreshPublicIP, object: nil, userInfo: nil)
     }
     @objc private func toggleRefreshIPInterval(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }

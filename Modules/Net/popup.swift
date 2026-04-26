@@ -61,8 +61,10 @@ internal class Popup: PopupWrapper {
     private var localIPField: ValueField? = nil
     private var publicIPv4Field: ValueField? = nil
     private var publicIPv6Field: ValueField? = nil
+    private var proxyIPField: ValueField? = nil
     private var publicIPv4View: NSView? = nil
     private var publicIPv6View: NSView? = nil
+    private var proxyIPView: NSView? = nil
     private var publicIPState: Bool = true
     private var emojiCCState: Bool = true
     
@@ -362,15 +364,19 @@ internal class Popup: PopupWrapper {
         
         let ipV4 = popupRow(view, title: "\(localizedString("Public IP")):", value: localizedString("Unknown"))
         let ipV6 = popupRow(view, title: "\(localizedString("Public IP")):", value: localizedString("Unknown"))
+        let proxyIP = popupRow(view, title: "\(localizedString("Proxy IP")):", value: localizedString("Unknown"))
         
         self.publicIPv4Field = ipV4.1
         self.publicIPv6Field = ipV6.1
+        self.proxyIPField = proxyIP.1
         self.publicIPv4View = ipV4.2
         self.publicIPv6View = ipV6.2
+        self.proxyIPView = proxyIP.2
         
         self.localIPField?.isSelectable = true
         self.publicIPv4Field?.isSelectable = true
         self.publicIPv6Field?.isSelectable = true
+        self.proxyIPField?.isSelectable = true
         
         if let valueView = self.publicIPv6Field {
             valueView.font = NSFont.systemFont(ofSize: 7, weight: .semibold)
@@ -379,6 +385,7 @@ internal class Popup: PopupWrapper {
         
         ipV4.2.removeFromSuperview()
         ipV6.2.removeFromSuperview()
+        proxyIP.2.removeFromSuperview()
         
         self.addressView = view
         return view
@@ -566,6 +573,31 @@ internal class Popup: PopupWrapper {
                         view.removeFromSuperview()
                         resized = true
                         self.publicIPv6Field?.stringValue = localizedString("Unknown")
+                    }
+                }
+                
+                if let view = self.proxyIPView {
+                    if let proxy = value.paddr, let addr = proxy.v4 ?? proxy.v6 {
+                        if view.superview == nil {
+                            self.addressView?.addArrangedSubview(view)
+                            resized = true
+                        }
+                        var ip = addr
+                        if let cc = proxy.countryCode, !cc.isEmpty {
+                            if self.emojiCCState, let flag = countryFlag(cc) {
+                                ip += " \(flag)"
+                            } else {
+                                ip += " (\(cc))"
+                            }
+                            self.proxyIPField?.toolTip = cc
+                        }
+                        if self.proxyIPField?.stringValue != ip {
+                            self.proxyIPField?.stringValue = ip
+                        }
+                    } else if view.superview != nil {
+                        view.removeFromSuperview()
+                        resized = true
+                        self.proxyIPField?.stringValue = localizedString("Unknown")
                     }
                 }
                 
@@ -938,6 +970,7 @@ internal class Popup: PopupWrapper {
         self.localIPField?.stringValue = localizedString("Updating...")
         self.publicIPv4Field?.stringValue = localizedString("Updating...")
         self.publicIPv6Field?.stringValue = localizedString("Updating...")
+        self.proxyIPField?.stringValue = localizedString("Updating...")
     }
     
     @objc private func resetTotalNetworkUsage() {
