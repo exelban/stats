@@ -105,19 +105,6 @@ extension CWChannel {
 }
 
 internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
-    private struct ProxyConfiguration {
-        let kind: String
-        let host: String
-        let port: Int
-        
-        var proxyURL: String {
-            switch self.kind {
-            case "SOCKS": return "socks5h://\(self.host):\(self.port)"
-            default: return "http://\(self.host):\(self.port)"
-            }
-        }
-    }
-    
     private var reachability: Reachability = Reachability(start: true)
     private let variablesQueue = DispatchQueue(label: "eu.exelban.NetworkUsageReader")
     private var _usage: Network_Usage = Network_Usage()
@@ -308,7 +295,7 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         let output = String(data: outputData, encoding: .utf8)
         _ = String(data: errorData, encoding: .utf8)
         guard let output, !output.isEmpty else { return Bandwidth() }
-        
+
         var totalUpload: Int64 = 0
         var totalDownload: Int64 = 0
         var firstLine = false
@@ -466,13 +453,8 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
             let country: String?
         }
         
-        let proxy = self.currentProxyConfiguration()
-        if proxy == nil {
-            self.usage.paddr = nil
-        }
-        
         DispatchQueue.global(qos: .userInitiated).async {
-            let response = self.fetchPublicIP(version: .v4)
+            let response = syncShell("curl -s -4 https://api.mac-stats.com/ip")
             if !response.isEmpty, let data = response.data(using: .utf8),
                let addr = try? JSONDecoder().decode(Addr_s.self, from: data) {
                 if let ip = addr.ipv4, self.isIPv4(ip) {
@@ -484,7 +466,7 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
             }
         }
         DispatchQueue.global(qos: .userInitiated).async {
-            let response = self.fetchPublicIP(version: .v6)
+            let response = syncShell("curl -s -6 https://api.mac-stats.com/ip")
             if !response.isEmpty, let data = response.data(using: .utf8),
                let addr = try? JSONDecoder().decode(Addr_s.self, from: data) {
                 if let ip = addr.ipv6, !self.isIPv4(ip) {
@@ -494,105 +476,6 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
                     self.usage.raddr.countryCode = countryCode
                 }
             }
-        }
-        if let proxy {
-            DispatchQueue.global(qos: .userInitiated).async {
-                let response = self.fetchPublicIP(version: .v4, proxy: proxy)
-                if !response.isEmpty, let data = response.data(using: .utf8),
-                   let addr = try? JSONDecoder().decode(Addr_s.self, from: data) {
-                    var proxyAddr = self.usage.paddr ?? Network_addr()
-                    if let ip = addr.ipv4, self.isIPv4(ip) {
-                        proxyAddr.v4 = ip
-                    }
-                    if let countryCode = addr.country {
-                        proxyAddr.countryCode = countryCode
-                    }
-                    self.usage.paddr = proxyAddr
-                }
-            }
-            DispatchQueue.global(qos: .userInitiated).async {
-                let response = self.fetchPublicIP(version: .v6, proxy: proxy)
-                if !response.isEmpty, let data = response.data(using: .utf8),
-                   let addr = try? JSONDecoder().decode(Addr_s.self, from: data) {
-                    var proxyAddr = self.usage.paddr ?? Network_addr()
-                    if let ip = addr.ipv6, !self.isIPv4(ip) {
-                        proxyAddr.v6 = ip
-                    }
-                    if let countryCode = addr.country {
-                        proxyAddr.countryCode = countryCode
-                    }
-                    self.usage.paddr = proxyAddr
-                }
-            }
-        }
-    }
-    
-    private enum IPVersion: String {
-        case v4 = "-4"
-        case v6 = "-6"
-    }
-    
-    private func fetchPublicIP(version: IPVersion, proxy: ProxyConfiguration? = nil) -> String {
-        var arguments = ["-s", "--connect-timeout", "5", version.rawValue]
-        if let proxy {
-            arguments.append(contentsOf: ["--proxy", proxy.proxyURL])
-        }
-        arguments.append("https://api.mac-stats.com/ip")
-        return process(path: "/usr/bin/curl", arguments: arguments) ?? ""
-    }
-    
-    private func currentProxyConfiguration() -> ProxyConfiguration? {
-        guard let settings = CFNetworkCopySystemProxySettings()?.takeRetainedValue() as? [String: Any] else {
-            return nil
-        }
-        
-        if let scoped = settings["__SCOPED__"] as? [String: Any],
-           let current = scoped[self.interfaceID] as? [String: Any],
-           let proxy = self.proxyConfiguration(from: current) {
-            return proxy
-        }
-        
-        return self.proxyConfiguration(from: settings)
-    }
-    
-    private func proxyConfiguration(from settings: [String: Any]) -> ProxyConfiguration? {
-        let keys = ["HTTPS", "HTTP", "SOCKS"]
-        for key in keys {
-            guard self.proxyIsEnabled(settings["\(key)Enable"]),
-                  let host = settings["\(key)Proxy"] as? String,
-                  !host.isEmpty else {
-                continue
-            }
-            
-            let port = self.proxyPort(settings["\(key)Port"])
-            return ProxyConfiguration(kind: key, host: host, port: port)
-        }
-        return nil
-    }
-    
-    private func proxyIsEnabled(_ raw: Any?) -> Bool {
-        switch raw {
-        case let value as NSNumber:
-            return value.intValue == 1
-        case let value as Int:
-            return value == 1
-        case let value as Bool:
-            return value
-        default:
-            return false
-        }
-    }
-    
-    private func proxyPort(_ raw: Any?) -> Int {
-        switch raw {
-        case let value as NSNumber:
-            return value.intValue
-        case let value as Int:
-            return value
-        case let value as String:
-            return Int(value) ?? 8080
-        default:
-            return 8080
         }
     }
     
@@ -613,7 +496,6 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     @objc func refreshPublicIP() {
         self.usage.raddr.v4 = nil
         self.usage.raddr.v6 = nil
-        self.usage.paddr = nil
         
         DispatchQueue.global(qos: .background).async {
             self.getPublicIP()

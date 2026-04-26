@@ -74,7 +74,6 @@ public struct Network_Usage: Codable, RemoteType {
     
     var laddr: Network_addr = Network_addr() // local ip
     var raddr: Network_addr = Network_addr() // remote ip
-    var paddr: Network_addr? = nil // remote ip via configured proxy
     
     var dns: [String] = []
     
@@ -89,7 +88,6 @@ public struct Network_Usage: Codable, RemoteType {
         
         self.laddr = Network_addr()
         self.raddr = Network_addr()
-        self.paddr = nil
         
         self.dns = []
         
