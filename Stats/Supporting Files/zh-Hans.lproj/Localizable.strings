@@ -31,6 +31,8 @@
 
 // Words
 "Unknown" = "未知";
+"UP" = "已连接";
+"DOWN" = "未连接";
 "Version" = "版本";
 "Processor" = "处理器";
 "Memory" = "内存";
@@ -383,6 +385,7 @@
 "Uploading" = "上传";
 "Downloading" = "下载";
 "Public IP" = "公网IP";
+"Proxy IP" = "代理IP";
 "Local IP" = "本地IP";
 "Interface" = "接口";
 "Physical address" = "物理地址";
@@ -407,6 +410,10 @@
 "Autodetection" = "自动检测";
 "Widget activation threshold" = "小组件激活阈值";
 "Internet connection" = "网络连接状态";
+"Enable in Settings" = "在设置中启用";
+"No data" = "暂无数据";
+"Network widget" = "网络小组件";
+"Displays network stats" = "显示网络统计信息";
 "Active state color" = "活跃状态颜色";
 "Nonactive state color" = "非活跃状态颜色";
 "Connectivity host" = "连接 Host";
