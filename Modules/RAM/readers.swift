@@ -10,11 +10,7 @@
 //
 
 import Cocoa
-import Darwin
 import Kit
-
-@_silgen_name("proc_pid_rusage")
-private func proc_pid_rusage_bridge(_ pid: Int32, _ flavor: Int32, _ buffer: UnsafeMutableRawPointer) -> Int32
 
 internal struct RAMMemoryBreakdown {
     let app: Double
@@ -23,12 +19,6 @@ internal struct RAMMemoryBreakdown {
     let cache: Double
     let used: Double
     let free: Double
-}
-
-internal struct RAMProcessSnapshot {
-    let pid: Int
-    let name: String
-    let usage: Double
 }
 
 internal class UsageReader: Reader<RAM_Usage> {
@@ -65,7 +55,6 @@ internal class UsageReader: Reader<RAM_Usage> {
         
         if result == KERN_SUCCESS {
             let active = Double(stats.active_count) * Double(vm_page_size)
-            let speculative = Double(stats.speculative_count) * Double(vm_page_size)
             let inactive = Double(stats.inactive_count) * Double(vm_page_size)
             let breakdown = Self.memoryBreakdown(
                 totalSize: self.totalSize,
@@ -118,7 +107,7 @@ internal class UsageReader: Reader<RAM_Usage> {
         
         error("host_statistics64(): \(String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error")", log: self.log)
     }
-    
+
     static func memoryBreakdown(totalSize: Double, stats: vm_statistics64, pageSize: Double) -> RAMMemoryBreakdown {
         let wired = Double(stats.wire_count) * pageSize
         let compressed = Double(stats.compressor_page_count) * pageSize
@@ -129,7 +118,7 @@ internal class UsageReader: Reader<RAM_Usage> {
         let cache = purgeable + external
         let used = min(max(app + wired + compressed, 0), totalSize)
         let free = max(totalSize - used, 0)
-        
+
         return RAMMemoryBreakdown(
             app: app,
             wired: wired,
@@ -163,32 +152,85 @@ public class ProcessReader: Reader<[TopProcess]> {
         if self.numberOfProcesses == 0 {
             return
         }
-        let snapshots = Self.readProcessSnapshots()
-        if !snapshots.isEmpty {
-            self.callback(Self.buildTopProcessList(
-                from: snapshots,
-                combined: self.combinedProcesses,
-                limit: self.numberOfProcesses
-            ))
+        
+        let task = Process()
+        task.launchPath = "/usr/bin/top"
+        if self.combinedProcesses {
+            task.arguments = ["-l", "1", "-o", "mem", "-stats", "pid,command,mem"]
+        } else {
+            task.arguments = ["-l", "1", "-o", "mem", "-n", "\(self.numberOfProcesses)", "-stats", "pid,command,mem"]
+        }
+        
+        let outputPipe = Pipe()
+        let errorPipe = Pipe()
+        
+        defer {
+            outputPipe.fileHandleForReading.closeFile()
+            errorPipe.fileHandleForReading.closeFile()
+        }
+        
+        task.standardOutput = outputPipe
+        task.standardError = errorPipe
+        
+        do {
+            try task.run()
+        } catch let err {
+            error("top(): \(err.localizedDescription)", log: self.log)
             return
         }
         
-        let fallbackProcesses = Self.readTopProcesses(
-            arguments: self.combinedProcesses ?
-                ["-l", "1", "-o", "mem", "-stats", "pid,command,mem"] :
-                ["-l", "1", "-o", "mem", "-n", "\(self.numberOfProcesses)", "-stats", "pid,command,mem"],
-            log: self.log
-        )
-        guard !fallbackProcesses.isEmpty else { return }
+        let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
+        let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
+        let output = String(data: outputData, encoding: .utf8)
+        _ = String(data: errorData, encoding: .utf8)
+        guard let output, !output.isEmpty else { return }
         
-        let fallbackSnapshots = fallbackProcesses.map {
-            RAMProcessSnapshot(pid: $0.pid, name: $0.name, usage: $0.usage)
+        var processes: [TopProcess] = []
+        output.enumerateLines { (line, _) in
+            if line.matches("^\\d+\\** +.* +\\d+[A-Z]*\\+?\\-? *$") {
+                processes.append(ProcessReader.parseProcess(line))
+            }
         }
-        self.callback(Self.buildTopProcessList(
-            from: fallbackSnapshots,
-            combined: self.combinedProcesses,
-            limit: self.numberOfProcesses
-        ))
+        
+        if !self.combinedProcesses {
+            self.callback(processes)
+            return
+        }
+        
+        var processGroups: [String: [TopProcess]] = [:]
+        for process in processes {
+            let responsiblePid = ProcessReader.getResponsiblePid(process.pid)
+            let groupKey = "\(responsiblePid)"
+            
+            if processGroups[groupKey] != nil {
+                processGroups[groupKey]!.append(process)
+            } else {
+                processGroups[groupKey] = [process]
+            }
+        }
+        
+        var result: [TopProcess] = []
+        for (_, processes) in processGroups {
+            let totalUsage = processes.reduce(0) { $0 + $1.usage }
+            let firstProcess = processes.first!
+            let name: String
+            
+            if let app = NSRunningApplication(processIdentifier: pid_t(ProcessReader.getResponsiblePid(firstProcess.pid))),
+               let appName = app.localizedName {
+                name = appName
+            } else {
+                name = firstProcess.name
+            }
+            
+            result.append(TopProcess(
+                pid: ProcessReader.getResponsiblePid(firstProcess.pid),
+                name: name,
+                usage: totalUsage
+            ))
+        }
+        
+        result.sort { $0.usage > $1.usage }
+        self.callback(Array(result.prefix(self.numberOfProcesses)))
     }
     
     private static let dynGetResponsiblePidFunc: UnsafeMutableRawPointer? = {
@@ -208,206 +250,6 @@ public class ProcessReader: Reader<[TopProcess]> {
             return childPid
         }
         return Int(responsiblePid)
-    }
-    
-    static func localizedAppName(pid: Int) -> String? {
-        NSRunningApplication(processIdentifier: pid_t(pid))?.localizedName
-    }
-    
-    static func executablePath(pid: Int) -> String? {
-        var pathBuffer = [CChar](repeating: 0, count: 4096)
-        let length = proc_pidpath(pid_t(pid), &pathBuffer, UInt32(pathBuffer.count))
-        guard length > 0 else {
-            return nil
-        }
-        let path = String(cString: pathBuffer)
-        return path.isEmpty ? nil : path
-    }
-    
-    static func processName(pid: Int, executablePath: String? = nil) -> String {
-        if let executablePath {
-            let executableName = URL(fileURLWithPath: executablePath).lastPathComponent
-            if !executableName.isEmpty {
-                return executableName
-            }
-        }
-        
-        var nameBuffer = [CChar](repeating: 0, count: 1024)
-        let length = proc_name(pid_t(pid), &nameBuffer, UInt32(nameBuffer.count))
-        guard length > 0 else {
-            return "\(pid)"
-        }
-        
-        let name = String(cString: nameBuffer)
-        return name.isEmpty ? "\(pid)" : name
-    }
-    
-    static func bestProcessName(
-        pid: Int,
-        fallbackName: String,
-        executablePath: String? = nil,
-        preferAppName: Bool,
-        appNameProvider: ((Int) -> String?) = ProcessReader.localizedAppName
-    ) -> String {
-        if fallbackName.contains("com.apple.Virtua"), let appName = appNameProvider(pid), appName.contains("Docker") {
-            return "Docker"
-        }
-        
-        if preferAppName, let appName = appNameProvider(pid), !appName.isEmpty {
-            return appName
-        }
-        
-        if let executablePath {
-            let executableName = URL(fileURLWithPath: executablePath).lastPathComponent
-            if !executableName.isEmpty && executableName.count >= fallbackName.count {
-                return executableName
-            }
-        }
-        
-        if !fallbackName.isEmpty {
-            return fallbackName
-        }
-        
-        return appNameProvider(pid) ?? "\(pid)"
-    }
-    
-    static func buildTopProcessList(
-        from snapshots: [RAMProcessSnapshot],
-        combined: Bool,
-        limit: Int,
-        responsiblePidProvider: ((Int) -> Int) = ProcessReader.getResponsiblePid,
-        appNameProvider: ((Int) -> String?) = ProcessReader.localizedAppName
-    ) -> [TopProcess] {
-        let sortedSnapshots = snapshots.sorted { $0.usage > $1.usage }
-        guard combined else {
-            return Array(sortedSnapshots.prefix(limit)).map {
-                TopProcess(pid: $0.pid, name: $0.name, usage: $0.usage)
-            }
-        }
-        
-        var processGroups: [Int: [RAMProcessSnapshot]] = [:]
-        sortedSnapshots.forEach { snapshot in
-            let responsiblePid = responsiblePidProvider(snapshot.pid)
-            processGroups[responsiblePid, default: []].append(snapshot)
-        }
-        
-        let result = processGroups.map { (responsiblePid, group) in
-            let totalUsage = group.reduce(0) { $0 + $1.usage }
-            let fallbackName = group.first(where: { $0.pid == responsiblePid })?.name ?? group.first?.name ?? "\(responsiblePid)"
-            return TopProcess(
-                pid: responsiblePid,
-                name: bestProcessName(
-                    pid: responsiblePid,
-                    fallbackName: fallbackName,
-                    preferAppName: true,
-                    appNameProvider: appNameProvider
-                ),
-                usage: totalUsage
-            )
-        }
-        
-        return Array(result.sorted { $0.usage > $1.usage }.prefix(limit))
-    }
-    
-    private static func readProcessSnapshots() -> [RAMProcessSnapshot] {
-        let processCount = proc_listallpids(nil, 0)
-        guard processCount > 0 else {
-            return []
-        }
-        
-        var pids = [pid_t](repeating: 0, count: Int(processCount))
-        let written = proc_listallpids(&pids, Int32(MemoryLayout<pid_t>.stride * pids.count))
-        guard written > 0 else {
-            return []
-        }
-        
-        var snapshots: [RAMProcessSnapshot] = []
-        snapshots.reserveCapacity(Int(written) + 1)
-        
-        pids.prefix(Int(written)).forEach { pid in
-            guard pid > 0, let snapshot = self.readProcessSnapshot(pid: Int(pid)) else {
-                return
-            }
-            snapshots.append(snapshot)
-        }
-        
-        if let kernelTask = self.kernelTaskSnapshot() {
-            snapshots.append(kernelTask)
-        }
-        
-        return snapshots
-    }
-    
-    private static func readProcessSnapshot(pid: Int) -> RAMProcessSnapshot? {
-        var info = rusage_info_current()
-        let result = withUnsafeMutablePointer(to: &info) { pointer in
-            proc_pid_rusage_bridge(pid_t(pid), RUSAGE_INFO_CURRENT, UnsafeMutableRawPointer(pointer))
-        }
-        guard result == 0, info.ri_phys_footprint > 0 else {
-            return nil
-        }
-        
-        let executablePath = self.executablePath(pid: pid)
-        let fallbackName = self.processName(pid: pid, executablePath: executablePath)
-        let name = self.bestProcessName(
-            pid: pid,
-            fallbackName: fallbackName,
-            executablePath: executablePath,
-            preferAppName: false
-        )
-        
-        return RAMProcessSnapshot(pid: pid, name: name, usage: Double(info.ri_phys_footprint))
-    }
-    
-    private static func kernelTaskSnapshot() -> RAMProcessSnapshot? {
-        let processes = self.readTopProcesses(arguments: ["-l", "1", "-pid", "0", "-stats", "pid,command,mem"])
-        guard let process = processes.first(where: { $0.pid == 0 }) else {
-            return nil
-        }
-        return RAMProcessSnapshot(pid: process.pid, name: process.name, usage: process.usage)
-    }
-    
-    private static func readTopProcesses(arguments: [String], log: NextLog? = nil) -> [TopProcess] {
-        let task = Process()
-        task.launchPath = "/usr/bin/top"
-        task.arguments = arguments
-        
-        let outputPipe = Pipe()
-        let errorPipe = Pipe()
-        
-        defer {
-            outputPipe.fileHandleForReading.closeFile()
-            errorPipe.fileHandleForReading.closeFile()
-        }
-        
-        task.standardOutput = outputPipe
-        task.standardError = errorPipe
-        
-        do {
-            try task.run()
-        } catch let err {
-            if let log {
-                error("top(): \(err.localizedDescription)", log: log)
-            }
-            return []
-        }
-        
-        let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
-        let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
-        let output = String(data: outputData, encoding: .utf8)
-        _ = String(data: errorData, encoding: .utf8)
-        guard let output, !output.isEmpty else {
-            return []
-        }
-        
-        var processes: [TopProcess] = []
-        output.enumerateLines { (line, _) in
-            if line.matches("^\\d+\\** +.* +\\d+[A-Z]*\\+?\\-? *$") {
-                processes.append(ProcessReader.parseProcess(line))
-            }
-        }
-        
-        return processes
     }
     
     static public func parseProcess(_ raw: String) -> TopProcess {
@@ -448,7 +290,14 @@ public class ProcessReader: Reader<[TopProcess]> {
             usage *= 1000
         }
         
-        let name = bestProcessName(pid: pid, fallbackName: command, preferAppName: false)
+        var name: String = command
+        if let app = NSRunningApplication(processIdentifier: pid_t(pid)), let n = app.localizedName {
+            name = n
+        }
+        
+        if command.contains("com.apple.Virtua") && name.contains("Docker") {
+            name = "Docker"
+        }
         
         return TopProcess(pid: pid, name: name, usage: usage * Double(1000 * 1000))
     }

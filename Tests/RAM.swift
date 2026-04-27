@@ -79,7 +79,7 @@ class RAM: XCTestCase {
         XCTAssertEqual(process.name, "Safari")
         XCTAssertEqual(process.usage, 658 * Double(1000 * 1000))
     }
-    
+
     func testMemoryBreakdownUsesAppWiredAndCompressedMemory() throws {
         var stats = vm_statistics64()
         stats.internal_page_count = 100
@@ -89,12 +89,11 @@ class RAM: XCTestCase {
         stats.external_page_count = 30
         stats.active_count = 40
         stats.inactive_count = 50
-        stats.speculative_count = 40
-        
+
         let pageSize = Double(4_096)
         let totalSize = Double(200) * pageSize
         let breakdown = UsageReader.memoryBreakdown(totalSize: totalSize, stats: stats, pageSize: pageSize)
-        
+
         XCTAssertEqual(breakdown.app, Double(90) * pageSize)
         XCTAssertEqual(breakdown.wired, Double(20) * pageSize)
         XCTAssertEqual(breakdown.compressed, Double(5) * pageSize)
@@ -102,68 +101,5 @@ class RAM: XCTestCase {
         XCTAssertEqual(breakdown.used, Double(115) * pageSize)
         XCTAssertEqual(breakdown.free, Double(85) * pageSize)
     }
-    
-    func testBuildTopProcessListKeepsRealProcessNamesInIndividualMode() throws {
-        let list = ProcessReader.buildTopProcessList(
-            from: [
-                RAMProcessSnapshot(pid: 101, name: "com.apple.WebKit.WebContent", usage: 800),
-                RAMProcessSnapshot(pid: 202, name: "Telegram", usage: 400)
-            ],
-            combined: false,
-            limit: 1,
-            responsiblePidProvider: { $0 },
-            appNameProvider: { _ in "Safari Web Content" }
-        )
-        
-        XCTAssertEqual(list.count, 1)
-        XCTAssertEqual(list[0].pid, 101)
-        XCTAssertEqual(list[0].name, "com.apple.WebKit.WebContent")
-        XCTAssertEqual(list[0].usage, 800)
-    }
-    
-    func testBuildTopProcessListCombinesResponsibleProcesses() throws {
-        let list = ProcessReader.buildTopProcessList(
-            from: [
-                RAMProcessSnapshot(pid: 11, name: "Codex Helper", usage: 500),
-                RAMProcessSnapshot(pid: 12, name: "Codex Helper (Renderer)", usage: 300),
-                RAMProcessSnapshot(pid: 21, name: "Telegram", usage: 600)
-            ],
-            combined: true,
-            limit: 2,
-            responsiblePidProvider: { pid in
-                switch pid {
-                case 11, 12: return 1
-                case 21: return 2
-                default: return pid
-                }
-            },
-            appNameProvider: { pid in
-                switch pid {
-                case 1: return "Codex"
-                case 2: return "Telegram"
-                default: return nil
-                }
-            }
-        )
-        
-        XCTAssertEqual(list.count, 2)
-        XCTAssertEqual(list[0].pid, 1)
-        XCTAssertEqual(list[0].name, "Codex")
-        XCTAssertEqual(list[0].usage, 800)
-        XCTAssertEqual(list[1].pid, 2)
-        XCTAssertEqual(list[1].name, "Telegram")
-        XCTAssertEqual(list[1].usage, 600)
-    }
-    
-    func testBestProcessNamePrefersExecutableNameOverLocalizedAppName() throws {
-        let name = ProcessReader.bestProcessName(
-            pid: 5726,
-            fallbackName: "Яндекс Музыка Helpe",
-            executablePath: "/Applications/Яндекс Музыка.app/Contents/Frameworks/Яндекс Музыка Helper (Renderer).app/Contents/MacOS/Яндекс Музыка Helper (Renderer)",
-            preferAppName: false,
-            appNameProvider: { _ in "Яндекс Музыка" }
-        )
-        
-        XCTAssertEqual(name, "Яндекс Музыка Helper (Renderer)")
-    }
+
 }
