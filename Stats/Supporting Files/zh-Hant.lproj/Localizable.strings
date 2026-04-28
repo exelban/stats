@@ -31,6 +31,8 @@
 
 // Words
 "Unknown" = "未知";
+"UP" = "已連線";
+"DOWN" = "未連線";
 "Version" = "版本";
 "Processor" = "處理器";
 "Memory" = "記憶體";
@@ -383,6 +385,7 @@
 "Uploading" = "上傳";
 "Downloading" = "下載";
 "Public IP" = "公用IP";
+"Proxy IP" = "代理IP";
 "Local IP" = "區域IP";
 "Interface" = "介面";
 "Physical address" = "實體位址";
@@ -407,6 +410,10 @@
 "Autodetection" = "自動檢測";
 "Widget activation threshold" = "小工具啟動臨界值";
 "Internet connection" = "網際網路連線裝態";
+"Enable in Settings" = "在設定中啟用";
+"No data" = "暫無資料";
+"Network widget" = "網路小工具";
+"Displays network stats" = "顯示網路統計資訊";
 "Active state color" = "已連線狀態色彩";
 "Nonactive state color" = "未連線狀態色彩";
 "Connectivity host" = "連線能力測試主機（ICMP）";
