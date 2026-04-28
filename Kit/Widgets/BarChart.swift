@@ -273,7 +273,7 @@ public class BarChart: WidgetWrapper {
                 action: #selector(self.toggleLabel),
                 state: self.labelState
             )),
-            PreferencesRow(localizedString("Color"), component: selectView(
+            PreferencesRow(localizedString("Color"), component: colorSelectView(
                 action: #selector(self.toggleColor),
                 items: self.colors,
                 selected: self.colorState.key
@@ -319,11 +319,8 @@ public class BarChart: WidgetWrapper {
     
     @objc private func toggleColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
-        if let newColor = self.colors.first(where: { $0.key == key }) {
-            self.colorState = newColor
-        }
-        
-        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_color", value: key)
+        self.colorState = SColor.fromString(key, defaultValue: self.colorState)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState.key)
         self.redraw()
     }
 }

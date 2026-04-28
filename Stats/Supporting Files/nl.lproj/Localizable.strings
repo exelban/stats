@@ -227,6 +227,7 @@
 "Default color" = "Standaard"; // translategemma:4b
 "Transparent when no activity" = "Transparant wanneer er geen activiteit is"; // translategemma:4b
 "Constant color" = "Constante"; // translategemma:4b
+"Custom..." = "Custom...";
 
 // Module Kit
 "Open module settings" = "Open module-instellingen";

@@ -227,6 +227,7 @@
 "Default color" = "Nilai default"; // translategemma:4b
 "Transparent when no activity" = "Transparan saat tidak ada aktivitas"; // translategemma:4b
 "Constant color" = "Konstan"; // translategemma:4b
+"Custom..." = "Custom...";
 
 // Module Kit
 "Open module settings" = "Buka pengaturan modul";

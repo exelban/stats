@@ -303,6 +303,10 @@ public extension NSView {
         return select
     }
     
+    func colorSelectView(action: Selector, items: [SColor], selected: String) -> NSView {
+        return SColorSelectView(target: self, action: action, items: items, selected: selected)
+    }
+    
     func switchView(action: Selector, state: Bool) -> NSSwitch {
         let s = NSSwitch()
         s.heightAnchor.constraint(equalToConstant: 25).isActive = true
@@ -374,6 +378,110 @@ public extension NSView {
     }
 }
 
+private class SColorSelectView: NSStackView {
+    private static let customKey = "custom"
+    
+    private weak var callbackTarget: NSObject?
+    private let callbackAction: Selector
+    private let select: NSPopUpButton = NSPopUpButton(frame: NSRect(x: 0, y: 4, width: 50, height: 28))
+    private let colorWell: NSColorWell = NSColorWell(frame: NSRect(x: 0, y: 0, width: 28, height: 24))
+    private var customItem: NSMenuItem?
+    
+    init(target: NSObject, action: Selector, items: [SColor], selected: String) {
+        self.callbackTarget = target
+        self.callbackAction = action
+        
+        super.init(frame: .zero)
+        
+        let selectedColor = SColor.fromString(selected)
+        self.orientation = .horizontal
+        self.alignment = .centerY
+        self.spacing = 6
+        
+        self.select.target = self
+        self.select.action = #selector(self.selectColor)
+        self.select.menu = self.menu(items: items, selected: selectedColor)
+        self.select.sizeToFit()
+        
+        if selectedColor.isCustom {
+            self.select.select(self.customItem)
+        }
+        
+        self.colorWell.color = selectedColor.additional as? NSColor ?? NSColor.controlAccentColor
+        self.colorWell.target = self
+        self.colorWell.action = #selector(self.changeCustomColor)
+        self.colorWell.widthAnchor.constraint(equalToConstant: 28).isActive = true
+        self.colorWell.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        
+        self.addArrangedSubview(self.select)
+        self.addArrangedSubview(self.colorWell)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func menu(items: [SColor], selected: SColor) -> NSMenu {
+        let menu = NSMenu()
+        items.forEach { (item) in
+            if item.key.contains("separator") {
+                menu.addItem(NSMenuItem.separator())
+            } else {
+                let menuItem = NSMenuItem(title: localizedString(item.value), action: nil, keyEquivalent: "")
+                menuItem.representedObject = item.key
+                menuItem.state = selected.key == item.key ? .on : .off
+                menu.addItem(menuItem)
+            }
+        }
+        
+        menu.addItem(NSMenuItem.separator())
+        let customItem = NSMenuItem(title: localizedString("Custom..."), action: nil, keyEquivalent: "")
+        customItem.representedObject = SColorSelectView.customKey
+        customItem.state = selected.isCustom ? .on : .off
+        menu.addItem(customItem)
+        self.customItem = customItem
+        
+        return menu
+    }
+    
+    @objc private func selectColor(_ sender: NSPopUpButton) {
+        guard let key = sender.selectedItem?.representedObject as? String else { return }
+        if key == SColorSelectView.customKey {
+            self.updateMenuState(selectedKey: key)
+            self.select.select(self.customItem)
+            self.colorWell.activate(true)
+            NSColorPanel.shared.orderFront(nil)
+            return
+        }
+        
+        let color = SColor.fromString(key)
+        if let nsColor = color.additional as? NSColor {
+            self.colorWell.color = nsColor
+        }
+        self.updateMenuState(selectedKey: key)
+        self.send(key)
+    }
+    
+    @objc private func changeCustomColor(_ sender: NSColorWell) {
+        self.updateMenuState(selectedKey: SColorSelectView.customKey)
+        self.select.select(self.customItem)
+        self.send(SColor.custom(sender.color).key)
+    }
+    
+    private func updateMenuState(selectedKey: String) {
+        self.select.menu?.items.forEach { (item) in
+            guard let key = item.representedObject as? String else { return }
+            item.state = key == selectedKey ? .on : .off
+        }
+    }
+    
+    private func send(_ key: String) {
+        let item = NSMenuItem(title: "", action: nil, keyEquivalent: "")
+        item.representedObject = key
+        _ = self.callbackTarget?.perform(self.callbackAction, with: item)
+    }
+}
+
 public class NSButtonWithPadding: NSButton {
     public var horizontalPadding: CGFloat = 0
     public var verticalPadding: CGFloat = 0
@@ -418,6 +526,46 @@ extension URL {
 }
 
 public extension NSColor {
+    convenience init?(hex: String) {
+        var value = hex.trimmingCharacters(in: .whitespacesAndNewlines)
+        if value.hasPrefix("#") {
+            value.removeFirst()
+        }
+        guard value.count == 6 || value.count == 8, let intValue = UInt32(value, radix: 16) else {
+            return nil
+        }
+        
+        let red: CGFloat
+        let green: CGFloat
+        let blue: CGFloat
+        let alpha: CGFloat
+        if value.count == 8 {
+            red = CGFloat((intValue >> 24) & 0xff) / 255
+            green = CGFloat((intValue >> 16) & 0xff) / 255
+            blue = CGFloat((intValue >> 8) & 0xff) / 255
+            alpha = CGFloat(intValue & 0xff) / 255
+        } else {
+            red = CGFloat((intValue >> 16) & 0xff) / 255
+            green = CGFloat((intValue >> 8) & 0xff) / 255
+            blue = CGFloat(intValue & 0xff) / 255
+            alpha = 1
+        }
+        
+        self.init(deviceRed: red, green: green, blue: blue, alpha: alpha)
+    }
+    
+    var hexString: String {
+        guard let color = self.usingColorSpace(.deviceRGB) else {
+            return "#000000FF"
+        }
+        
+        let red = Int((color.redComponent * 255).rounded())
+        let green = Int((color.greenComponent * 255).rounded())
+        let blue = Int((color.blueComponent * 255).rounded())
+        let alpha = Int((color.alphaComponent * 255).rounded())
+        return String(format: "#%02X%02X%02X%02X", red, green, blue, alpha)
+    }
+    
     func grayscaled() -> NSColor {
         guard let space = CGColorSpace(name: CGColorSpace.extendedGray),
               let cg = self.cgColor.converted(to: space, intent: .perceptual, options: nil),

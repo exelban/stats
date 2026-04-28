@@ -227,6 +227,7 @@
 "Default color" = "ค่าเริ่มต้น"; // translategemma:4b
 "Transparent when no activity" = "โปร่งใสเมื่อไม่มีการใช้งาน"; // translategemma:4b
 "Constant color" = "คงที่"; // translategemma:4b
+"Custom..." = "Custom...";
 
 // Module Kit
 "Open module settings" = "เปิดการตั้งค่าโมดูล";

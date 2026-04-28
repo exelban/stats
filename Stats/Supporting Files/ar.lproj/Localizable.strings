@@ -227,6 +227,7 @@
 "Default color" = "القيمة الافتراضية"; // translategemma:4b
 "Transparent when no activity" = "شفاف عندما لا يوجد نشاط"; // translategemma:4b
 "Constant color" = "ثابت"; // translategemma:4b
+"Custom..." = "Custom...";
 
 // Module Kit
 "Open module settings" = "فتح إعدادات الوحدة";

@@ -227,6 +227,7 @@
 "Default color" = "默认";
 "Transparent when no activity" = "无活动时保持透明";
 "Constant color" = "恒定颜色";
+"Custom..." = "Custom...";
 
 // Module Kit
 "Open module settings" = "打开模块设置";

@@ -227,6 +227,7 @@
 "Default color" = "За замовчуванням";
 "Transparent when no activity" = "Прозорий коли немає активності";
 "Constant color" = "Постійний";
+"Custom..." = "Custom...";
 
 // Module Kit
 "Open module settings" = "Відкрити налаштування модуля";

@@ -684,12 +684,12 @@ internal class Popup: PopupWrapper {
         ]))
         
         view.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Color of download"), component: selectView(
+            PreferencesRow(localizedString("Color of download"), component: colorSelectView(
                 action: #selector(self.toggleDownloadColor),
                 items: SColor.allColors,
                 selected: self.downloadColorState.key
             )),
-            PreferencesRow(localizedString("Color of upload"), component: selectView(
+            PreferencesRow(localizedString("Color of upload"), component: colorSelectView(
                 action: #selector(self.toggleUploadColor),
                 items: SColor.allColors,
                 selected: self.uploadColorState.key
@@ -738,13 +738,10 @@ internal class Popup: PopupWrapper {
     }
     
     @objc private func toggleUploadColor(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String,
-              let newValue = SColor.allColors.first(where: { $0.key == key }) else {
-            return
-        }
-        self.uploadColorState = newValue
-        Store.shared.set(key: "\(self.title)_uploadColor", value: key)
-        if let color = newValue.additional as? NSColor {
+        guard let key = sender.representedObject as? String else { return }
+        self.uploadColorState = SColor.fromString(key, defaultValue: self.uploadColorState)
+        Store.shared.set(key: "\(self.title)_uploadColor", value: self.uploadColorState.key)
+        if let color = self.uploadColorState.additional as? NSColor {
             self.processes?.setColor(1, color)
             self.uploadColorView?.layer?.backgroundColor = color.cgColor
             self.uploadStateView?.setColor(color)
@@ -752,13 +749,10 @@ internal class Popup: PopupWrapper {
         }
     }
     @objc private func toggleDownloadColor(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String,
-              let newValue = SColor.allColors.first(where: { $0.key == key }) else {
-            return
-        }
-        self.downloadColorState = newValue
-        Store.shared.set(key: "\(self.title)_downloadColor", value: key)
-        if let color = newValue.additional as? NSColor {
+        guard let key = sender.representedObject as? String else { return }
+        self.downloadColorState = SColor.fromString(key, defaultValue: self.downloadColorState)
+        Store.shared.set(key: "\(self.title)_downloadColor", value: self.downloadColorState.key)
+        if let color = self.downloadColorState.additional as? NSColor {
             self.processes?.setColor(0, color)
             self.downloadColorView?.layer?.backgroundColor = color.cgColor
             self.downloadStateView?.setColor(color)

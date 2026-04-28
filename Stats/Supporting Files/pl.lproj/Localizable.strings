@@ -227,6 +227,7 @@
 "Default color" = "Domyślny";
 "Transparent when no activity" = "Przejrzysty gdy nie ma żadnej aktywności";
 "Constant color" = "Stały";
+"Custom..." = "Custom...";
 
 // Module Kit
 "Open module settings" = "Otwórz ustawienia modułu";

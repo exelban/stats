@@ -559,12 +559,12 @@ public class SpeedWidget: WidgetWrapper {
                 action: #selector(self.toggleMonochrome),
                 state: self.monochromeState
             )),
-            PreferencesRow(localizedString("Color of download"), component: selectView(
+            PreferencesRow(localizedString("Color of download"), component: colorSelectView(
                 action: #selector(self.toggleInputColor),
                 items: SColor.allColors,
                 selected: self.inputColorState.key
             )),
-            PreferencesRow(localizedString("Color of upload"), component: selectView(
+            PreferencesRow(localizedString("Color of upload"), component: colorSelectView(
                 action: #selector(self.toggleOutputColor),
                 items: SColor.allColors,
                 selected: self.outputColorState.key
@@ -638,20 +638,16 @@ public class SpeedWidget: WidgetWrapper {
     }
     
     @objc private func toggleOutputColor(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String,
-              let newValue = SColor.allColors.first(where: { $0.key == key }) else {
-            return
-        }
-        self.outputColorState = newValue
-        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_uploadColor", value: key)
+        guard let key = sender.representedObject as? String else { return }
+        self.outputColorState = SColor.fromString(key, defaultValue: self.outputColorState)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_uploadColor", value: self.outputColorState.key)
+        self.display()
     }
     @objc private func toggleInputColor(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String,
-              let newValue = SColor.allColors.first(where: { $0.key == key }) else {
-            return
-        }
-        self.inputColorState = newValue
-        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_downloadColor", value: key)
+        guard let key = sender.representedObject as? String else { return }
+        self.inputColorState = SColor.fromString(key, defaultValue: self.inputColorState)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_downloadColor", value: self.inputColorState.key)
+        self.display()
     }
     
     public func setValue(input: Int64, output: Int64) {

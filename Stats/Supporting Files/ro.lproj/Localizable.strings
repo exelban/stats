@@ -227,6 +227,7 @@
 "Default color" = "Implicit"; // translategemma:4b
 "Transparent when no activity" = "Transparente când nu există activitate"; // translategemma:4b
 "Constant color" = "Constant";
+"Custom..." = "Custom...";
 
 // Module Kit
 "Open module settings" = "Deschide setăriile modulului";

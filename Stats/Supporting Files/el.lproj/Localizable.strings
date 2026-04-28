@@ -227,6 +227,7 @@
 "Default color" = "Προεπιλεγμένο"; // translategemma:4b
 "Transparent when no activity" = "Διαφανές όταν δεν υπάρχει κάποια δραστηριότητα"; // translategemma:4b
 "Constant color" = "Σταθερός"; // translategemma:4b
+"Custom..." = "Custom...";
 
 // Module Kit
 "Open module settings" = "Άνοιγμα ρυθμίσεων ενότητας";
