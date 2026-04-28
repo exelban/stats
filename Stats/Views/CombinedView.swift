@@ -129,7 +129,7 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
             if self.separator && i < 2 * self.activeModules.count - 1 {
                 let separator = NSView(frame: NSRect(x: w, y: 3, width: 1, height: Constants.Widget.height-6))
                 separator.wantsLayer = true
-                separator.layer?.backgroundColor = (separator.isDarkMode ? NSColor.black : NSColor.white).cgColor
+                separator.layer?.backgroundColor = (separator.isDarkMode ? NSColor.white : NSColor.black).cgColor
                 self.view.addSubview(separator)
                 w += 3 + self.spacing
                 i += 1
