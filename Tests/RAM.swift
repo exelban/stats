@@ -10,7 +10,8 @@
 //
 
 import XCTest
-import RAM
+import Darwin
+@testable import RAM
 
 class RAM: XCTestCase {
     func testProcessReader_parseProcess() throws {
@@ -78,4 +79,27 @@ class RAM: XCTestCase {
         XCTAssertEqual(process.name, "Safari")
         XCTAssertEqual(process.usage, 658 * Double(1000 * 1000))
     }
+
+    func testMemoryBreakdownUsesAppWiredAndCompressedMemory() throws {
+        var stats = vm_statistics64()
+        stats.internal_page_count = 100
+        stats.purgeable_count = 10
+        stats.wire_count = 20
+        stats.compressor_page_count = 5
+        stats.external_page_count = 30
+        stats.active_count = 40
+        stats.inactive_count = 50
+
+        let pageSize = Double(4_096)
+        let totalSize = Double(200) * pageSize
+        let breakdown = UsageReader.memoryBreakdown(totalSize: totalSize, stats: stats, pageSize: pageSize)
+
+        XCTAssertEqual(breakdown.app, Double(90) * pageSize)
+        XCTAssertEqual(breakdown.wired, Double(20) * pageSize)
+        XCTAssertEqual(breakdown.compressed, Double(5) * pageSize)
+        XCTAssertEqual(breakdown.cache, Double(40) * pageSize)
+        XCTAssertEqual(breakdown.used, Double(115) * pageSize)
+        XCTAssertEqual(breakdown.free, Double(85) * pageSize)
+    }
+
 }

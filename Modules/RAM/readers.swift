@@ -12,6 +12,15 @@
 import Cocoa
 import Kit
 
+internal struct RAMMemoryBreakdown {
+    let app: Double
+    let wired: Double
+    let compressed: Double
+    let cache: Double
+    let used: Double
+    let free: Double
+}
+
 internal class UsageReader: Reader<RAM_Usage> {
     public var totalSize: Double = 0
     
@@ -46,17 +55,14 @@ internal class UsageReader: Reader<RAM_Usage> {
         
         if result == KERN_SUCCESS {
             let active = Double(stats.active_count) * Double(vm_page_size)
-            let speculative = Double(stats.speculative_count) * Double(vm_page_size)
             let inactive = Double(stats.inactive_count) * Double(vm_page_size)
-            let wired = Double(stats.wire_count) * Double(vm_page_size)
-            let compressed = Double(stats.compressor_page_count) * Double(vm_page_size)
-            let purgeable = Double(stats.purgeable_count) * Double(vm_page_size)
-            let external = Double(stats.external_page_count) * Double(vm_page_size)
+            let breakdown = Self.memoryBreakdown(
+                totalSize: self.totalSize,
+                stats: stats,
+                pageSize: Double(vm_page_size)
+            )
             let swapins = Int64(stats.swapins)
             let swapouts = Int64(stats.swapouts)
-            
-            let used = active + inactive + speculative + wired + compressed - purgeable - external
-            let free = self.totalSize - used
             
             var intSize: size_t = MemoryLayout<uint>.size
             var pressureLevel: Int = 0
@@ -75,16 +81,16 @@ internal class UsageReader: Reader<RAM_Usage> {
             
             self.callback(RAM_Usage(
                 total: self.totalSize,
-                used: used,
-                free: free,
+                used: breakdown.used,
+                free: breakdown.free,
                 
                 active: active,
                 inactive: inactive,
-                wired: wired,
-                compressed: compressed,
+                wired: breakdown.wired,
+                compressed: breakdown.compressed,
                 
-                app: used - wired - compressed,
-                cache: purgeable + external,
+                app: breakdown.app,
+                cache: breakdown.cache,
                 
                 swap: Swap(
                     total: Double(swap.xsu_total),
@@ -100,6 +106,27 @@ internal class UsageReader: Reader<RAM_Usage> {
         }
         
         error("host_statistics64(): \(String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error")", log: self.log)
+    }
+
+    static func memoryBreakdown(totalSize: Double, stats: vm_statistics64, pageSize: Double) -> RAMMemoryBreakdown {
+        let wired = Double(stats.wire_count) * pageSize
+        let compressed = Double(stats.compressor_page_count) * pageSize
+        let purgeable = Double(stats.purgeable_count) * pageSize
+        let external = Double(stats.external_page_count) * pageSize
+        let appPages = max(Int64(stats.internal_page_count) - Int64(stats.purgeable_count), 0)
+        let app = Double(appPages) * pageSize
+        let cache = purgeable + external
+        let used = min(max(app + wired + compressed, 0), totalSize)
+        let free = max(totalSize - used, 0)
+
+        return RAMMemoryBreakdown(
+            app: app,
+            wired: wired,
+            compressed: compressed,
+            cache: cache,
+            used: used,
+            free: free
+        )
     }
 }
 
