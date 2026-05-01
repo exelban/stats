@@ -45,6 +45,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     internal var clickInNotification: Bool = false
     internal var menuBarItem: NSStatusItem? = nil
     internal var combinedView: CombinedView = CombinedView()
+    internal var previewMode: Bool = false
+    internal var previewWindow: WidgetPreviewWindow? = nil
     
     internal var pauseState: Bool {
         Store.shared.bool(key: "pause", defaultValue: false)
@@ -63,6 +65,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         let startingPoint = Date()
         
         self.parseArguments()
+        if self.previewMode {
+            NSApp.setActivationPolicy(.regular)
+            let win = WidgetPreviewWindow()
+            self.previewWindow = win
+            win.makeKeyAndOrderFront(nil)
+            NSApp.activate(ignoringOtherApps: true)
+            return
+        }
         self.parseVersion()
         SMCHelper.shared.checkForUpdate()
         self.setup {

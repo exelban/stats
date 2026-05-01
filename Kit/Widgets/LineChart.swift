@@ -17,6 +17,21 @@ public class LineChart: WidgetWrapper {
     private var frameState: Bool = false
     private var valueState: Bool = false
     private var valueColorState: Bool = false
+    // Liquid Glass / macOS Tahoe pill style. Defaults on for macOS 26+.
+    public var liquidGlassState: Bool = Constants.isTahoe
+    // Liquid Glass warning thresholds (see BarChart for the same logic).
+    private var liquidGlassWarningState: Bool = true
+    // Reuses the project's existing `colorZones` typealias so the same
+    // breakpoints feed both Utilization color mode (when offered) and the
+    // Liquid Glass warning hues. Persisted as two int percentages.
+    private var _colorZones: colorZones = (0.6, 0.8)
+    // Liquid Glass cosmetic options. See BarChart for the same trio.
+    public var liquidGlassPillWidth: Int = 28
+    // Pill height. Default of 8pt matches the original hard-coded value;
+    // the slider runs 4-14pt for a slimmer or beefier indicator.
+    public var liquidGlassPillHeight: Int = 8
+    private var liquidGlassOutlineState: Bool = false
+    private var liquidGlassOutlineColorKey: String = "same"
     private var colorState: SColor = .systemAccent
     private var historyCount: Int = 60
     private var scaleState: Scale = .none
@@ -56,6 +71,7 @@ public class LineChart: WidgetWrapper {
     
     private var boxSettingsView: NSSwitch? = nil
     private var frameSettingsView: NSSwitch? = nil
+    private var liquidGlassSettingsView: NSSwitch? = nil
     
     public var NSLabelCharts: [NSAttributedString] = []
     
@@ -99,6 +115,15 @@ public class LineChart: WidgetWrapper {
             self.valueState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_value", defaultValue: self.valueState)
             self.labelState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
             self.valueColorState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_valueColor", defaultValue: self.valueColorState)
+            self.liquidGlassState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_liquidGlass", defaultValue: self.liquidGlassState)
+            self.liquidGlassWarningState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_liquidGlassWarning", defaultValue: self.liquidGlassWarningState)
+            let storedOrange = Store.shared.int(key: "\(self.title)_\(self.type.rawValue)_colorZones_orange", defaultValue: Int(self._colorZones.orange * 100))
+            let storedRed = Store.shared.int(key: "\(self.title)_\(self.type.rawValue)_colorZones_red", defaultValue: Int(self._colorZones.red * 100))
+            self._colorZones = (Double(storedOrange) / 100.0, Double(storedRed) / 100.0)
+            self.liquidGlassPillWidth = Store.shared.int(key: "\(self.title)_\(self.type.rawValue)_liquidGlassPillWidth", defaultValue: self.liquidGlassPillWidth)
+            self.liquidGlassPillHeight = Store.shared.int(key: "\(self.title)_\(self.type.rawValue)_liquidGlassPillHeight", defaultValue: self.liquidGlassPillHeight)
+            self.liquidGlassOutlineState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_liquidGlassOutline", defaultValue: self.liquidGlassOutlineState)
+            self.liquidGlassOutlineColorKey = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_liquidGlassOutlineColor", defaultValue: self.liquidGlassOutlineColorKey)
             self.colorState = SColor.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.key))
             self.historyCount = Store.shared.int(key: "\(self.title)_\(self.type.rawValue)_historyCount", defaultValue: self.historyCount)
             self.scaleState = Scale.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_scale", defaultValue: self.scaleState.key))
@@ -158,7 +183,9 @@ public class LineChart: WidgetWrapper {
         
         var color: NSColor = .controlAccentColor
         switch self.colorState {
-        case .systemAccent: color = .controlAccentColor
+        case .systemAccent:
+            // Liquid Glass defaults to white to match Tahoe's monochrome glyphs.
+            color = self.liquidGlassState ? Constants.liquidGlassInk : .controlAccentColor
         case .utilization: color = value.usageColor()
         case .pressure: color = pressureLevel.pressureColor()
         case .monochrome:
@@ -168,6 +195,26 @@ public class LineChart: WidgetWrapper {
                 color = (isDarkMode ? NSColor.white : NSColor.black)
             }
         default: color = self.colorState.additional as? NSColor ?? .controlAccentColor
+        }
+        
+        // Liquid Glass: short-circuit the line chart and draw a single
+        // horizontal pill whose fill grows left-to-right with the current
+        // value. The classic line-chart code below is skipped entirely.
+        if self.liquidGlassState {
+            // Apply per-widget warning thresholds when the user is on the
+            // default color, so the pill turns yellow / red as the value
+            // saturates. Any explicit accent overrides the warning hue.
+            var pillColor = color
+            if self.liquidGlassWarningState, self.colorState == .systemAccent {
+                pillColor = Constants.liquidGlassWarningColor(
+                    value: value,
+                    warning: self._colorZones.orange,
+                    critical: self._colorZones.red
+                )
+            }
+            self.drawLiquidGlassPill(value: value, color: pillColor, x: &x, width: &width, lineWidth: lineWidth)
+            self.setWidth(width)
+            return
         }
         
         if self.labelState {
@@ -247,6 +294,68 @@ public class LineChart: WidgetWrapper {
         self.setWidth(width)
     }
     
+    /// Tahoe-style pill: a single horizontal capsule sized like the menu bar
+    /// glyphs. The capsule is outlined and the fill grows from left to right
+    /// in proportion to the current value, both in the same color.
+    private func drawLiquidGlassPill(value: Double, color: NSColor, x: inout CGFloat, width: inout CGFloat, lineWidth: CGFloat) {
+        let strokeWidth: CGFloat = 1.25
+        let pillWidth: CGFloat = CGFloat(self.liquidGlassPillWidth)
+        let pillHeight: CGFloat = CGFloat(self.liquidGlassPillHeight)
+        
+        let pillX = x + strokeWidth/2
+        let pillY = (self.frame.size.height - pillHeight) / 2
+        let radius = pillHeight / 2
+        let trackRect = NSRect(x: pillX, y: pillY, width: pillWidth - strokeWidth, height: pillHeight)
+        let track = NSBezierPath(roundedRect: trackRect, xRadius: radius, yRadius: radius)
+        
+        // Outline mode: inset the fill so a small gap separates it from the
+        // stroke, and round the inner fill so its ends mirror the outer pill
+        // (battery-style). Off: legacy clip-to-outer behavior.
+        let useInsetFill = self.liquidGlassOutlineState
+        let fillInset: CGFloat = useInsetFill ? max(strokeWidth + 0.75, 1.5) : 0
+        let innerRect = trackRect.insetBy(dx: fillInset, dy: fillInset)
+        let innerRadius = useInsetFill ? max(radius - fillInset, 0) : radius
+        let fillBaseWidth = useInsetFill ? innerRect.width : trackRect.width
+        let pct = CGFloat(min(max(value, 0), 1))
+        let fillWidth = fillBaseWidth * pct
+        
+        if fillWidth > 0 {
+            NSGraphicsContext.saveGraphicsState()
+            if useInsetFill {
+                // Build a sub-pill the exact width of the fill so both ends
+                // are rounded (not just the leading edge).
+                let innerFillRect = NSRect(x: innerRect.origin.x, y: innerRect.origin.y, width: fillWidth, height: innerRect.height)
+                let innerFillRadius = min(innerRadius, innerRect.height / 2)
+                let innerFill = NSBezierPath(roundedRect: innerFillRect, xRadius: innerFillRadius, yRadius: innerFillRadius)
+                color.setFill()
+                innerFill.fill()
+            } else {
+                track.addClip()
+                color.setFill()
+                NSBezierPath(rect: NSRect(x: trackRect.origin.x, y: pillY, width: fillWidth, height: pillHeight)).fill()
+            }
+            NSGraphicsContext.restoreGraphicsState()
+        }
+        
+        // Outline color override: lets the user color-code stroke vs fill.
+        let outlineColor = self.resolvedOutlineColor(fallback: color)
+        outlineColor.setStroke()
+        track.lineWidth = strokeWidth
+        track.stroke()
+        
+        width = x + pillWidth + Constants.Widget.margin.x
+    }
+    
+    /// Resolve the outline color override; returns the chosen `SColor` value
+    /// when the user has picked one, otherwise falls back to the fill color.
+    private func resolvedOutlineColor(fallback: NSColor) -> NSColor {
+        guard self.liquidGlassOutlineColorKey != "same",
+              let picked = self.colors.first(where: { $0.key == self.liquidGlassOutlineColorKey }),
+              let color = picked.additional as? NSColor
+        else { return fallback }
+        return color.withAlphaComponent(0.85)
+    }
+    
     public func setValue(_ newValue: Double) {
         DispatchQueue.main.async(execute: {
             self._value = newValue
@@ -278,8 +387,26 @@ public class LineChart: WidgetWrapper {
             state: self.frameState
         )
         self.frameSettingsView = frame
+        let liquid = switchView(
+            action: #selector(self.toggleLiquidGlass),
+            state: self.liquidGlassState
+        )
+        self.liquidGlassSettingsView = liquid
         
+        // Outline color picker: only real hues (semantic SColors like
+        // Utilization / Pressure / System accent / Monochrome are filtered).
+        let outlineExcluded: Set<String> = ["system", "monochrome", "utilization", "pressure", "cluster", "clear"]
+        var outlineColors: [KeyValue_t] = [KeyValue_t(key: "same", value: "Same as fill")]
+        for c in self.colors where !outlineExcluded.contains(c.key) && !c.key.contains("separator") {
+            outlineColors.append(KeyValue_t(key: c.key, value: c.value))
+        }
+        
+        // Section 1: appearance — every control that affects how the chart
+        // looks. Box/Frame is classic-mode only and the Bar width / Outline
+        // / Outline color trio is Liquid Glass only; grouped here so the
+        // user has a single place to tune visual style.
         view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Liquid Glass (Tahoe)"), component: liquid),
             PreferencesRow(localizedString("Label"), component: switchView(
                 action: #selector(self.toggleLabel),
                 state: self.labelState
@@ -288,8 +415,6 @@ public class LineChart: WidgetWrapper {
                 action: #selector(self.toggleValue),
                 state: self.valueState
             )),
-            PreferencesRow(localizedString("Box"), component: box),
-            PreferencesRow(localizedString("Frame"), component: frame),
             PreferencesRow(localizedString("Color"), component: selectView(
                 action: #selector(self.toggleColor),
                 items: self.colors,
@@ -299,6 +424,31 @@ public class LineChart: WidgetWrapper {
                 action: #selector(self.toggleValueColor),
                 state: self.valueColorState
             )),
+            PreferencesRow(localizedString("Bar width"), component: sliderView(
+                action: #selector(self.changeLiquidGlassPillWidth),
+                value: self.liquidGlassPillWidth,
+                initialValue: "\(self.liquidGlassPillWidth)",
+                min: 16,
+                max: 60
+            )),
+            PreferencesRow(localizedString("Bar height"), component: sliderView(
+                action: #selector(self.changeLiquidGlassPillHeight),
+                value: self.liquidGlassPillHeight,
+                initialValue: "\(self.liquidGlassPillHeight)",
+                min: 4,
+                max: 14
+            )),
+            PreferencesRow(localizedString("Outline"), component: switchView(
+                action: #selector(self.toggleLiquidGlassOutline),
+                state: self.liquidGlassOutlineState
+            )),
+            PreferencesRow(localizedString("Outline color"), component: selectView(
+                action: #selector(self.toggleLiquidGlassOutlineColor),
+                items: outlineColors,
+                selected: self.liquidGlassOutlineColorKey
+            )),
+            PreferencesRow(localizedString("Box"), component: box),
+            PreferencesRow(localizedString("Frame"), component: frame),
             PreferencesRow(localizedString("Number of reads in the chart"), component: selectView(
                 action: #selector(self.toggleHistoryCount),
                 items: self.historyNumbers,
@@ -308,6 +458,24 @@ public class LineChart: WidgetWrapper {
                 action: #selector(self.toggleScale),
                 items: Scale.allCases.filter({ $0 != .fixed }),
                 selected: self.scaleState.key
+            ))
+        ]))
+        
+        // Section 2: warning thresholds (mirrors the BarChart UI).
+        view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Warning colors"), component: switchView(
+                action: #selector(self.toggleLiquidGlassWarning),
+                state: self.liquidGlassWarningState
+            )),
+            PreferencesRow(localizedString("Warning threshold"), component: sliderView(
+                action: #selector(self.changeWarningThreshold),
+                value: Int(self._colorZones.orange * 100),
+                initialValue: "\(Int(self._colorZones.orange * 100))%"
+            )),
+            PreferencesRow(localizedString("Critical threshold"), component: sliderView(
+                action: #selector(self.changeCriticalThreshold),
+                value: Int(self._colorZones.red * 100),
+                initialValue: "\(Int(self._colorZones.red * 100))%"
             ))
         ]))
         
@@ -367,6 +535,26 @@ public class LineChart: WidgetWrapper {
         self.display()
     }
     
+    @objc private func toggleLiquidGlass(_ sender: NSControl) {
+        self.liquidGlassState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_liquidGlass", value: self.liquidGlassState)
+        // The classic Box/Frame chrome would composite with the capsule; turn
+        // them off when Liquid Glass is enabled to avoid double-stroking.
+        if self.liquidGlassState {
+            if self.boxState {
+                self.boxState = false
+                self.boxSettingsView?.state = .off
+                Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
+            }
+            if self.frameState {
+                self.frameState = false
+                self.frameSettingsView?.state = .off
+                Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_frame", value: self.frameState)
+            }
+        }
+        self.display()
+    }
+    
     @objc private func toggleHistoryCount(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String, let value = Int(key) else { return }
         self.historyCount = value
@@ -381,6 +569,71 @@ public class LineChart: WidgetWrapper {
         self.scaleState = value
         self.chart.setScale(value)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_scale", value: key)
+        self.display()
+    }
+    
+    @objc private func toggleLiquidGlassWarning(_ sender: NSControl) {
+        self.liquidGlassWarningState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_liquidGlassWarning", value: self.liquidGlassWarningState)
+        self.display()
+    }
+    
+    @objc private func changeWarningThreshold(_ sender: NSSlider) {
+        let newValue = Int(sender.intValue)
+        let clamped = min(newValue, Int(self._colorZones.red * 100) - 1)
+        self._colorZones.orange = Double(clamped) / 100.0
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_colorZones_orange", value: clamped)
+        if let stack = sender.superview as? NSStackView,
+           let label = stack.arrangedSubviews.compactMap({ $0 as? NSTextField }).first {
+            label.stringValue = "\(clamped)%"
+        }
+        self.display()
+    }
+    
+    @objc private func changeCriticalThreshold(_ sender: NSSlider) {
+        let newValue = Int(sender.intValue)
+        let clamped = max(newValue, Int(self._colorZones.orange * 100) + 1)
+        self._colorZones.red = Double(clamped) / 100.0
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_colorZones_red", value: clamped)
+        if let stack = sender.superview as? NSStackView,
+           let label = stack.arrangedSubviews.compactMap({ $0 as? NSTextField }).first {
+            label.stringValue = "\(clamped)%"
+        }
+        self.display()
+    }
+    
+    @objc private func changeLiquidGlassPillWidth(_ sender: NSSlider) {
+        let newValue = Int(sender.intValue)
+        self.liquidGlassPillWidth = newValue
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_liquidGlassPillWidth", value: newValue)
+        if let stack = sender.superview as? NSStackView,
+           let label = stack.arrangedSubviews.compactMap({ $0 as? NSTextField }).first {
+            label.stringValue = "\(newValue)"
+        }
+        self.display()
+    }
+    
+    @objc private func changeLiquidGlassPillHeight(_ sender: NSSlider) {
+        let newValue = Int(sender.intValue)
+        self.liquidGlassPillHeight = newValue
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_liquidGlassPillHeight", value: newValue)
+        if let stack = sender.superview as? NSStackView,
+           let label = stack.arrangedSubviews.compactMap({ $0 as? NSTextField }).first {
+            label.stringValue = "\(newValue)"
+        }
+        self.display()
+    }
+    
+    @objc private func toggleLiquidGlassOutline(_ sender: NSControl) {
+        self.liquidGlassOutlineState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_liquidGlassOutline", value: self.liquidGlassOutlineState)
+        self.display()
+    }
+    
+    @objc private func toggleLiquidGlassOutlineColor(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else { return }
+        self.liquidGlassOutlineColorKey = key
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_liquidGlassOutlineColor", value: key)
         self.display()
     }
 }

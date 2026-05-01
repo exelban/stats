@@ -176,6 +176,13 @@ public class Mini: WidgetWrapper {
     }
     
     public func setColorZones(_ newColorZones: colorZones) {
+        // Skip the module-supplied default if the user has saved a custom
+        // value via the settings sliders (presence in Store == customized).
+        let userKeyOrange = "\(self.title)_\(self.type.rawValue)_colorZones_orange"
+        let userKeyRed = "\(self.title)_\(self.type.rawValue)_colorZones_red"
+        if Store.shared.exist(key: userKeyOrange) || Store.shared.exist(key: userKeyRed) {
+            return
+        }
         guard self._colorZones != newColorZones else { return }
         self._colorZones = newColorZones
         DispatchQueue.main.async(execute: {

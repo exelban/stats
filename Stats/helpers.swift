@@ -17,6 +17,12 @@ extension AppDelegate {
     internal func parseArguments() {
         let args = CommandLine.arguments
         
+        if args.contains("--preview") {
+            // Dev-only: open the WidgetPreviewWindow and skip normal startup.
+            self.previewMode = true
+            return
+        }
+        
         if args.contains("--reset") {
             debug("Receive --reset argument. Resetting store (UserDefaults)...")
             Store.shared.reset()

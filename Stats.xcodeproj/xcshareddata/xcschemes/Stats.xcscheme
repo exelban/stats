@@ -89,6 +89,10 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = "--preview"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "--reset"
             isEnabled = "NO">
          </CommandLineArgument>

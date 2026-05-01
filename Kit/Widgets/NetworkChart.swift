@@ -15,6 +15,8 @@ public class NetworkChart: WidgetWrapper {
     private var boxState: Bool = false
     private var frameState: Bool = false
     private var labelState: Bool = false
+    // Liquid Glass / macOS Tahoe pill style. Defaults on for macOS 26+.
+    private var liquidGlassState: Bool = Constants.isTahoe
     private var historyCount: Int = 60
     private var downloadColor: SColor = .secondBlue
     private var uploadColor: SColor = .secondRed
@@ -50,6 +52,7 @@ public class NetworkChart: WidgetWrapper {
     
     private var boxSettingsView: NSSwitch? = nil
     private var frameSettingsView: NSSwitch? = nil
+    private var liquidGlassSettingsView: NSSwitch? = nil
     
     public var NSLabelCharts: [NSAttributedString] = []
     
@@ -77,6 +80,7 @@ public class NetworkChart: WidgetWrapper {
             self.boxState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_box", defaultValue: self.boxState)
             self.frameState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_frame", defaultValue: self.frameState)
             self.labelState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
+            self.liquidGlassState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_liquidGlass", defaultValue: self.liquidGlassState)
             self.historyCount = Store.shared.int(key: "\(self.title)_\(self.type.rawValue)_historyCount", defaultValue: self.historyCount)
             self.downloadColor = SColor.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_downloadColor", defaultValue: self.downloadColor.key))
             self.uploadColor = SColor.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_uploadColor", defaultValue: self.uploadColor.key))
@@ -119,6 +123,7 @@ public class NetworkChart: WidgetWrapper {
         var labelState: Bool = false
         var boxState: Bool = false
         var frameState: Bool = false
+        var liquidGlassState: Bool = false
         var scaleState: Scale = .linear
         var reverseOrderState: Bool = false
         var originWidth: CGFloat = 0
@@ -130,6 +135,7 @@ public class NetworkChart: WidgetWrapper {
             labelState = self.labelState
             boxState = self.boxState
             frameState = self.frameState
+            liquidGlassState = self.liquidGlassState
             scaleState = self.scaleState
             reverseOrderState = self.reverseOrderState
             labelString = self.NSLabelCharts
@@ -157,6 +163,23 @@ public class NetworkChart: WidgetWrapper {
             
             width += letterWidth + Constants.Widget.spacing
             x = letterWidth + Constants.Widget.spacing
+        }
+        
+        // Liquid Glass: short-circuit the line chart and draw two stacked
+        // horizontal pills — top = download, bottom = upload (or reversed).
+        // Fill grows left-to-right based on current activity vs. the running
+        // peak in the buffer.
+        if liquidGlassState {
+            self.drawLiquidGlassPills(
+                points: points,
+                downloadColor: downloadColor,
+                uploadColor: uploadColor,
+                reverseOrder: reverseOrderState,
+                x: &x,
+                width: &width
+            )
+            self.setWidth(width)
+            return
         }
         
         let box = NSBezierPath(roundedRect: NSRect(
@@ -262,6 +285,74 @@ public class NetworkChart: WidgetWrapper {
         self.setWidth(width)
     }
     
+    /// Tahoe-style: two stacked horizontal pills (top = download by default,
+    /// bottom = upload). Fill grows left-to-right based on the latest sample
+    /// normalized against the peak in the visible history buffer. Defaults to
+    /// white when no explicit accent has been chosen.
+    private func drawLiquidGlassPills(
+        points: [(Double, Double)],
+        downloadColor: SColor,
+        uploadColor: SColor,
+        reverseOrder: Bool,
+        x: inout CGFloat,
+        width: inout CGFloat
+    ) {
+        let strokeWidth: CGFloat = 1.25
+        let pillWidth: CGFloat = 22
+        let pillHeight: CGFloat = 5
+        let interRowSpacing: CGFloat = 2.0
+        
+        // Default Liquid Glass color is the system menu bar ink (white in
+        // dark menu bar, dark grey in light menu bar). Honor an explicit
+        // accent if the user has changed it from the default.
+        let topColor: NSColor = {
+            let base = reverseOrder ? uploadColor : downloadColor
+            return base == .secondBlue || base == .secondRed
+                ? Constants.liquidGlassInk
+                : (base.additional as? NSColor ?? Constants.liquidGlassInk)
+        }()
+        let bottomColor: NSColor = {
+            let base = reverseOrder ? downloadColor : uploadColor
+            return base == .secondBlue || base == .secondRed
+                ? Constants.liquidGlassInk
+                : (base.additional as? NSColor ?? Constants.liquidGlassInk)
+        }()
+        
+        let topMax = max((points.map { reverseOrder ? $0.1 : $0.0 }.max() ?? 1), 1)
+        let bottomMax = max((points.map { reverseOrder ? $0.0 : $0.1 }.max() ?? 1), 1)
+        let latest = points.last ?? (0, 0)
+        let topValue = (reverseOrder ? latest.1 : latest.0) / topMax
+        let bottomValue = (reverseOrder ? latest.0 : latest.1) / bottomMax
+        
+        let stackHeight = (pillHeight * 2) + interRowSpacing
+        let stackOriginY = (self.frame.size.height - stackHeight) / 2
+        let radius = pillHeight / 2
+        
+        let pillX = x + strokeWidth/2
+        let topY = stackOriginY + pillHeight + interRowSpacing
+        let bottomY = stackOriginY
+        
+        for (yPos, value, color) in [(topY, topValue, topColor), (bottomY, bottomValue, bottomColor)] {
+            let trackRect = NSRect(x: pillX, y: yPos, width: pillWidth - strokeWidth, height: pillHeight)
+            let track = NSBezierPath(roundedRect: trackRect, xRadius: radius, yRadius: radius)
+            
+            let fillWidth = trackRect.width * CGFloat(min(max(value, 0), 1))
+            if fillWidth > 0 {
+                NSGraphicsContext.saveGraphicsState()
+                track.addClip()
+                color.setFill()
+                NSBezierPath(rect: NSRect(x: trackRect.origin.x, y: yPos, width: fillWidth, height: pillHeight)).fill()
+                NSGraphicsContext.restoreGraphicsState()
+            }
+            
+            color.setStroke()
+            track.lineWidth = strokeWidth
+            track.stroke()
+        }
+        
+        width = x + pillWidth + Constants.Widget.margin.x
+    }
+    
     public func setValue(upload: Double, download: Double) {
         DispatchQueue.main.async(execute: {
             self.points.remove(at: 0)
@@ -288,8 +379,14 @@ public class NetworkChart: WidgetWrapper {
             state: self.frameState
         )
         self.frameSettingsView = frame
+        let liquid = switchView(
+            action: #selector(self.toggleLiquidGlass),
+            state: self.liquidGlassState
+        )
+        self.liquidGlassSettingsView = liquid
         
         view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Liquid Glass (Tahoe)"), component: liquid),
             PreferencesRow(localizedString("Label"), component: switchView(
                 action: #selector(self.toggleLabel),
                 state: self.labelState
@@ -400,6 +497,24 @@ public class NetworkChart: WidgetWrapper {
     @objc private func toggleReverseOrder(_ sender: NSControl) {
         self.reverseOrderState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_reverseOrder", value: self.reverseOrderState)
+        self.display()
+    }
+    
+    @objc private func toggleLiquidGlass(_ sender: NSControl) {
+        self.liquidGlassState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_liquidGlass", value: self.liquidGlassState)
+        if self.liquidGlassState {
+            if self.boxState {
+                self.boxState = false
+                self.boxSettingsView?.state = .off
+                Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
+            }
+            if self.frameState {
+                self.frameState = false
+                self.frameSettingsView?.state = .off
+                Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_frame", value: self.frameState)
+            }
+        }
         self.display()
     }
 }

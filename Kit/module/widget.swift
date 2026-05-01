@@ -90,12 +90,23 @@ public enum widget_t: String {
                     width = view.bounds.width + 3
                 }
             case is BarChart:
-                if module == "GPU" || module == "RAM" || module == "Disk" || module == "Battery" {
+                // Liquid Glass mode renders a pill of `liquidGlassPillWidth`
+                // (28pt by default, user-configurable). The classic mode
+                // hard-coded widths below leave too little room for the
+                // pill, so the chooser image looks cut off. When Liquid
+                // Glass is on, size the preview to the pill's footprint.
+                if let bc = view as? BarChart, bc.liquidGlassState {
+                    width = CGFloat(bc.liquidGlassPillWidth) + (Constants.Widget.margin.x*2)
+                } else if module == "GPU" || module == "RAM" || module == "Disk" || module == "Battery" {
                     width = 11 + (Constants.Widget.margin.x*2)
                 } else if module == "Sensors" {
                     width = 22 + (Constants.Widget.margin.x*2)
                 } else if module == "CPU" {
                     width = 30 + (Constants.Widget.margin.x*2)
+                }
+            case is LineChart:
+                if let lc = view as? LineChart, lc.liquidGlassState {
+                    width = CGFloat(lc.liquidGlassPillWidth) + (Constants.Widget.margin.x*2)
                 }
             case is StackWidget:
                 if module == "Sensors" {
