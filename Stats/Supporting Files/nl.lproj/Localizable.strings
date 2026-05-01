@@ -103,7 +103,7 @@
 "60 sec" = "60 seconden"; // translategemma:4b
 
 // Setup
-"Stats Setup" = "Stats Installatie"; // translategemma:4b
+"Stats Setup" = "Stats Installatie";
 "Previous" = "Vorige"; // translategemma:4b
 "Previous page" = "Vorige pagina"; // translategemma:4b
 "Next" = "Volgende"; // translategemma:4b
@@ -466,7 +466,7 @@
 "current / maximum / designed" = "huidig / maximum / ontworpen"; // translategemma:4b
 "Low power mode" = "Modues met laag stroomverbruik";
 "Percentage inside the icon" = "Percentage binnen het icoon"; // translategemma:4b
-"Colorize battery" = "Batterij kleuren"; // translategemma:4b
+"Colorize battery" = "Batterij kleuren";
 "Charging current" = "Laadstroom"; // translategemma:4b
 "Charging Voltage" = "Laadspanning"; // translategemma:4b
 "Charger state inside the battery" = "Status van de oplaadunit binnenin de batterij"; // translategemma:4b
