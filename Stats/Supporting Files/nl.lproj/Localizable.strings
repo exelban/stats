@@ -240,7 +240,7 @@
 "Module" = "Module";
 "Widgets" = "Widgets";
 "Popup" = "Pop-up";
-"Notifications" = "Meddelelser";
+"Notifications" = "Meldingen";
 "Merge widgets" = "Widgets samenvoegen";
 "No available widgets to configure" = "Geen beschikbare widgets om te configureren";
 "No options to configure for the popup in this module" = "Meervoudige configuratie voor pop-op-vinduet en deze module";
