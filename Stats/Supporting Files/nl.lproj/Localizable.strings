@@ -464,7 +464,7 @@
 "Last charge" = "Laatste oplading";
 "Capacity" = "Capaciteit"; // translategemma:4b
 "current / maximum / designed" = "huidig / maximum / ontworpen"; // translategemma:4b
-"Low power mode" = "Modues met laag stroomverbruik";
+"Low power mode" = "Modus met laag stroomverbruik";
 "Percentage inside the icon" = "Percentage binnen het icoon"; // translategemma:4b
 "Colorize battery" = "Batterij kleuren";
 "Charging current" = "Laadstroom"; // translategemma:4b
