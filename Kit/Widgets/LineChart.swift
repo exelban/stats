@@ -26,11 +26,12 @@ public class LineChart: WidgetWrapper {
     // Liquid Glass warning hues. Persisted as two int percentages.
     private var _colorZones: colorZones = (0.6, 0.8)
     // Liquid Glass cosmetic options. See BarChart for the same trio.
-    public var liquidGlassPillWidth: Int = 28
-    // Pill height. Default of 8pt matches the original hard-coded value;
-    // the slider runs 4-14pt for a slimmer or beefier indicator.
-    public var liquidGlassPillHeight: Int = 8
-    private var liquidGlassOutlineState: Bool = false
+    public var liquidGlassPillWidth: Int = 24
+    // Pill height. Default of 9pt matches BarChart so a single line/bar
+    // pill looks identical across modules; the slider runs 4-14pt for
+    // a slimmer or beefier indicator.
+    public var liquidGlassPillHeight: Int = 9
+    private var liquidGlassOutlineState: Bool = true
     private var liquidGlassOutlineColorKey: String = "same"
     private var colorState: SColor = .systemAccent
     private var historyCount: Int = 60
@@ -359,6 +360,7 @@ public class LineChart: WidgetWrapper {
     public func setValue(_ newValue: Double) {
         DispatchQueue.main.async(execute: {
             self._value = newValue
+            self.tooltipCallback?("\(Int(newValue.rounded(toPlaces: 2) * 100))%")
             self.chart.addValue(newValue)
             self.display()
         })

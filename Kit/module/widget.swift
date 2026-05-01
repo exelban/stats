@@ -162,6 +162,11 @@ extension widget_t: CaseIterable {}
 public protocol widget_p: NSView {
     var widthHandler: (() -> Void)? { get set }
     var onClick: (() -> Void)? { get set }
+    /// Called by the widget whenever its displayed value changes so the
+    /// owning `Widget` wrapper can refresh the menu bar tooltip with a
+    /// human-readable representation (e.g. "62%", "1.2 MB/s"). Pass
+    /// `nil` to clear the value and fall back to the widget type name.
+    var tooltipCallback: ((String?) -> Void)? { get set }
     
     func settings() -> NSView
 }
@@ -171,6 +176,7 @@ open class WidgetWrapper: NSView, widget_p {
     public var title: String
     public var widthHandler: (() -> Void)? = nil
     public var onClick: (() -> Void)? = nil
+    public var tooltipCallback: ((String?) -> Void)? = nil
     public var shadowSize: CGSize
     internal var queue: DispatchQueue
     
@@ -346,6 +352,19 @@ public class SWidget {
                 self.menuBarItem?.button?.addSubview(self.item)
                 self.menuBarItem?.button?.image = NSImage()
                 self.menuBarItem?.button?.toolTip = "\(localizedString(self.module)): \(self.type.name())"
+                
+                // Wire the widget -> menubar tooltip channel. The widget
+                // will push a current-value string ("62%", "1.2 MB/s",
+                // ...) whenever it updates so the hover tooltip reflects
+                // the live reading instead of the widget type name.
+                self.item.tooltipCallback = { [weak self] value in
+                    guard let s = self else { return }
+                    let head = localizedString(s.module)
+                    let body = (value?.isEmpty == false) ? value! : s.type.name()
+                    DispatchQueue.main.async {
+                        s.menuBarItem?.button?.toolTip = "\(head): \(body)"
+                    }
+                }
                 
                 if let item = self.menuBarItem, !item.isVisible {
                     self.menuBarItem?.isVisible = true

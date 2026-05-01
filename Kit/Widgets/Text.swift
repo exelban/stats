@@ -70,6 +70,7 @@ public class TextWidget: WidgetWrapper {
     public func setValue(_ newValue: String) {
         guard self.value != newValue else { return }
         self.value = newValue
+        self.tooltipCallback?(newValue)
         DispatchQueue.main.async(execute: {
             self.display()
         })

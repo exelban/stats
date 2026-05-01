@@ -249,6 +249,14 @@ public class StackWidget: WidgetWrapper {
             if tableNeedsToBeUpdated {
                 self.orderTableView.update()
             }
+            // Tooltip joins each visible value with its label so the
+            // hover reads e.g. "CPU 12% • GPU 4%" instead of the
+            // generic widget type name.
+            let tip = self.values.map { v -> String in
+                if let l = v.label, !l.isEmpty { return "\(l) \(v.value)" }
+                return v.value
+            }.joined(separator: " \u{2022} ")
+            if !tip.isEmpty { self.tooltipCallback?(tip) }
             self.display()
         })
     }

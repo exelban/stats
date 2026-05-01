@@ -30,13 +30,15 @@ public class BarChart: WidgetWrapper {
     // outline draws the stroke offset slightly from the fill (battery-style)
     // and outlineColor lets the user color-code the stroke independently of
     // the fill (e.g. orange CPU outline vs blue GPU outline).
-    public var liquidGlassPillWidth: Int = 28
-    // Per-row pill height. Default of 8pt sits between the historical
+    public var liquidGlassPillWidth: Int = 24
+    // Per-row pill height. Default of 9pt sits between the historical
     // multi-row (6pt) and single-row (10pt) caps; the slider lets the
     // user push it shorter for a slimmer indicator or taller (up to 14pt)
-    // for a beefier one.
-    public var liquidGlassPillHeight: Int = 8
-    private var liquidGlassOutlineState: Bool = false
+    // for a beefier one. Multi-row stacks (e.g. CPU per-core, network
+    // up/down) are bounded by `rawRowHeight` so this cap effectively
+    // only changes the single-row look.
+    public var liquidGlassPillHeight: Int = 9
+    private var liquidGlassOutlineState: Bool = true
     // "same" is a sentinel meaning "use the same color as the fill".
     private var liquidGlassOutlineColorKey: String = "same"
     public var colorState: SColor = .systemAccent
@@ -431,6 +433,12 @@ public class BarChart: WidgetWrapper {
             }
             guard isDifferent else { return }
             self._value = newValue
+            // Tooltip: average of the first column (most modules feed a
+            // single column so this matches what the user sees).
+            if let first = newValue.first, !first.isEmpty {
+                let avg = first.reduce(0.0) { $0 + $1.value } / Double(first.count)
+                self.tooltipCallback?("\(Int(avg.rounded(toPlaces: 2) * 100))%")
+            }
             self.redraw()
         })
     }

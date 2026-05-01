@@ -82,6 +82,9 @@ public class Tachometer: WidgetWrapper {
             }
         }
         
+        let total = list.reduce(0.0) { $0 + $1.value }
+        self.tooltipCallback?("\(Int(total.rounded(toPlaces: 2) * 100))%")
+        
         DispatchQueue.main.async(execute: {
             self.chart.setSegments(segments)
         })

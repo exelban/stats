@@ -57,6 +57,9 @@ class ApplicationSettings: NSStackView {
     private var combinedModulesView: PreferencesSection?
     private var fanHelperView: PreferencesSection?
     private var remoteView: PreferencesSection?
+    private var liquidGlassSection: PreferencesSection?
+    private var liquidGlassTintSelector: NSPopUpButton?
+    private var liquidGlassStyleSelector: NSPopUpButton?
     
     private let updateWindow: UpdateWindow = UpdateWindow()
     private let moduleSelector: ModuleSelectorView = ModuleSelectorView()
@@ -116,6 +119,30 @@ class ApplicationSettings: NSStackView {
                 state: self.systemWidgetsUpdatesState
             ))
         ]))
+        
+        if Constants.isTahoe {
+            self.liquidGlassStyleSelector = selectView(
+                action: #selector(self.toggleLiquidGlassStyle),
+                items: LiquidGlassUI.Style.allCases.map { KeyValue_t(key: $0.rawValue, value: $0.localizedName) },
+                selected: LiquidGlassUI.style.rawValue
+            )
+            self.liquidGlassTintSelector = selectView(
+                action: #selector(self.toggleLiquidGlassTint),
+                items: LiquidGlassUI.Tint.allCases.map { KeyValue_t(key: $0.rawValue, value: $0.localizedName) },
+                selected: LiquidGlassUI.tint.rawValue
+            )
+            self.liquidGlassSection = PreferencesSection(title: localizedString("Appearance"), [
+                PreferencesRow(localizedString("Liquid Glass UI"), component: switchView(
+                    action: #selector(self.toggleLiquidGlassUI),
+                    state: LiquidGlassUI.isEnabled
+                )),
+                PreferencesRow(localizedString("Glass style"), component: self.liquidGlassStyleSelector!),
+                PreferencesRow(localizedString("Glass tint"), component: self.liquidGlassTintSelector!)
+            ])
+            scrollView.stackView.addArrangedSubview(self.liquidGlassSection!)
+            self.liquidGlassSection?.setRowVisibility(1, newState: LiquidGlassUI.isEnabled)
+            self.liquidGlassSection?.setRowVisibility(2, newState: LiquidGlassUI.isEnabled)
+        }
         
         self.combinedModulesView = PreferencesSection([
             PreferencesRow(localizedString("Combined modules"), component: switchView(
@@ -501,6 +528,24 @@ class ApplicationSettings: NSStackView {
     
     @objc private func toggleSystemWidgetsUpdatesState(_ sender: NSButton) {
         self.systemWidgetsUpdatesState = sender.state == NSControl.StateValue.on
+    }
+    
+    @objc private func toggleLiquidGlassUI(_ sender: NSButton) {
+        LiquidGlassUI.isEnabled = sender.state == .on
+        self.liquidGlassSection?.setRowVisibility(1, newState: LiquidGlassUI.isEnabled)
+        self.liquidGlassSection?.setRowVisibility(2, newState: LiquidGlassUI.isEnabled)
+    }
+    
+    @objc private func toggleLiquidGlassStyle(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String,
+              let style = LiquidGlassUI.Style(rawValue: key) else { return }
+        LiquidGlassUI.style = style
+    }
+    
+    @objc private func toggleLiquidGlassTint(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String,
+              let tint = LiquidGlassUI.Tint(rawValue: key) else { return }
+        LiquidGlassUI.tint = tint
     }
 }
 

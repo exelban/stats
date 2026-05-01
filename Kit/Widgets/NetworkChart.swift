@@ -358,6 +358,11 @@ public class NetworkChart: WidgetWrapper {
             self.points.remove(at: 0)
             self.points.append((upload, download))
             
+            let base: DataSizeBase = DataSizeBase(rawValue: Store.shared.string(key: "\(self.title)_base", defaultValue: "byte")) ?? .byte
+            let down = Units(bytes: Int64(download)).getReadableSpeed(base: base)
+            let up = Units(bytes: Int64(upload)).getReadableSpeed(base: base)
+            self.tooltipCallback?("\u{2193} \(down)  \u{2191} \(up)")
+            
             if self.window?.isVisible ?? false {
                 self.display()
             }

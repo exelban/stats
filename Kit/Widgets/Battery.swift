@@ -407,6 +407,9 @@ public class BatteryWidget: WidgetWrapper {
         }
         
         if updated {
+            if let p = self._percentage {
+                self.tooltipCallback?("\(Int(p.rounded(toPlaces: 2) * 100))%")
+            }
             self.needsDisplay = true
             DispatchQueue.main.async(execute: {
                 self.display()
@@ -624,6 +627,9 @@ public class BatteryDetailsWidget: WidgetWrapper {
         }
         
         if updated {
+            if let p = self.percentage {
+                self.tooltipCallback?("\(Int(p.rounded(toPlaces: 2) * 100))%")
+            }
             self.needsDisplay = true
             DispatchQueue.main.async(execute: {
                 self.display()

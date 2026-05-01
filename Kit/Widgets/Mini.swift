@@ -150,6 +150,7 @@ public class Mini: WidgetWrapper {
     public func setValue(_ newValue: Double) {
         guard self._value != newValue else { return }
         self._value = newValue
+        self.tooltipCallback?("\(Int(newValue.rounded(toPlaces: 2) * 100))\(self._suffix)")
         DispatchQueue.main.async(execute: {
             self.display()
         })

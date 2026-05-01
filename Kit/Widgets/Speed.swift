@@ -667,6 +667,9 @@ public class SpeedWidget: WidgetWrapper {
         }
         
         if updated {
+            let down = Units(bytes: self.inputValue).getReadableSpeed(base: self.base)
+            let up = Units(bytes: self.outputValue).getReadableSpeed(base: self.base)
+            self.tooltipCallback?("\u{2193} \(down)  \u{2191} \(up)")
             DispatchQueue.main.async(execute: {
                 self.display()
             })

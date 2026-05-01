@@ -131,6 +131,7 @@ public class MemoryWidget: WidgetWrapper {
     public func setValue(_ value: (String, String), usedPercentage: Double) {
         self.value = value
         self.percentage = usedPercentage
+        self.tooltipCallback?("\(Int(usedPercentage.rounded(toPlaces: 2) * 100))%")
         
         DispatchQueue.main.async(execute: {
             self.display()

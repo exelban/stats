@@ -14,9 +14,13 @@ import Cocoa
 public struct Popup_c_s {
     public let width: CGFloat = 264
     public let height: CGFloat = 300
-    public let margins: CGFloat = 8
+    /// Outer inset between the popup window edge (the glass surface)
+    /// and its content. Applied symmetrically to header (top + sides)
+    /// and body (sides + bottom + gap above body) so the dialog has
+    /// a uniform frame matching system menus / popovers.
+    public let margins: CGFloat = 16
     public let spacing: CGFloat = 2
-    public let headerHeight: CGFloat = 42
+    public let headerHeight: CGFloat = 28
     public let separatorHeight: CGFloat = 30
     public let portalHeight: CGFloat = 120
 }

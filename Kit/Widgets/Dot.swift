@@ -53,6 +53,14 @@ public class DotWidget: WidgetWrapper {
     public func setValue(_ value: NSColor) {
         guard self.value != value else { return }
         self.value = value
+        // The dot widget is purely visual; surface a short RGB hex so
+        // the tooltip says something more useful than the widget type.
+        if let rgb = value.usingColorSpace(.deviceRGB) {
+            let r = Int(rgb.redComponent * 255)
+            let g = Int(rgb.greenComponent * 255)
+            let b = Int(rgb.blueComponent * 255)
+            self.tooltipCallback?(String(format: "#%02X%02X%02X", r, g, b))
+        }
         DispatchQueue.main.async(execute: {
             self.display()
         })

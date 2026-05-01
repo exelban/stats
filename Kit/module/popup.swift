@@ -110,7 +110,7 @@ internal class PopupViewController: NSViewController {
             x: 0,
             y: 0,
             width: Constants.Popup.width + (Constants.Popup.margins * 2),
-            height: Constants.Popup.height+Constants.Popup.headerHeight
+            height: Constants.Popup.height + Constants.Popup.headerHeight + (Constants.Popup.margins * 2)
         ), module: module)
         super.init(nibName: nil, bundle: nil)
     }
@@ -153,6 +153,7 @@ internal class PopupView: NSView {
     
     private var foreground: NSVisualEffectView
     private var background: NSView
+    private let glass: LiquidGlassBackgroundView
     
     private let header: HeaderView
     private let body: NSScrollView
@@ -164,17 +165,22 @@ internal class PopupView: NSView {
     private var containerHeight: CGFloat?
     
     init(frame: NSRect, module: ModuleType) {
+        // Header is inset by `margins/2` on all four sides (sides, top,
+        // and gap to the body) so it hugs the dialog edge. The body
+        // keeps `margins` on its sides and `margins/2` at the bottom
+        // to mirror the top inset above the header. Total popup height
+        // grows by `margins*1.5` (top + gap + bottom).
         self.header = HeaderView(frame: NSRect(
-            x: 0,
-            y: frame.height - Constants.Popup.headerHeight,
-            width: frame.width,
+            x: Constants.Popup.margins*0.75,
+            y: frame.height - Constants.Popup.headerHeight - (Constants.Popup.margins*0.75),
+            width: frame.width - Constants.Popup.margins*1.5,
             height: Constants.Popup.headerHeight
         ), module: module)
         self.body = NSScrollView(frame: NSRect(
             x: Constants.Popup.margins,
-            y: Constants.Popup.margins,
+            y: Constants.Popup.margins*0.75,
             width: frame.width - Constants.Popup.margins*2,
-            height: frame.height - self.header.frame.height - Constants.Popup.margins*2
+            height: frame.height - self.header.frame.height - (Constants.Popup.margins*2)
         ))
         self.windowHeight = NSScreen.main?.visibleFrame.height
         self.containerHeight = self.body.documentView?.frame.height
@@ -191,6 +197,9 @@ internal class PopupView: NSView {
         self.background.wantsLayer = true
         self.foreground.addSubview(self.background)
         
+        self.glass = LiquidGlassBackgroundView(frame: frame)
+        self.glass.autoresizingMask = [.width, .height]
+        
         super.init(frame: frame)
         
         self.body.drawsBackground = false
@@ -202,8 +211,19 @@ internal class PopupView: NSView {
         self.body.horizontalScrollElasticity = .none
         
         self.addSubview(self.foreground, positioned: .below, relativeTo: .none)
+        self.addSubview(self.glass, positioned: .below, relativeTo: .none)
         self.addSubview(self.header)
         self.addSubview(self.body)
+        
+        self.applyLiquidGlass()
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(self.applyLiquidGlass),
+            name: .liquidGlassUIChanged, object: nil
+        )
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .liquidGlassUIChanged, object: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -211,7 +231,40 @@ internal class PopupView: NSView {
     }
     
     override func updateLayer() {
-        self.background.layer?.backgroundColor = self.isDarkMode ? .clear : NSColor.white.cgColor
+        if LiquidGlassUI.isEnabled {
+            self.background.layer?.backgroundColor = .clear
+        } else {
+            self.background.layer?.backgroundColor = self.isDarkMode ? .clear : NSColor.white.cgColor
+        }
+    }
+    
+    /// Switches the popup between the legacy titlebar-material foreground
+    /// and the new Liquid Glass surface. Toggles visibility of the two
+    /// background layers and calls `glass.apply()` to pick up tint/radius
+    /// changes without rebuilding the view tree.
+    @objc private func applyLiquidGlass() {
+        let on = LiquidGlassUI.isEnabled
+        self.glass.isHidden = !on
+        self.foreground.isHidden = on
+        self.glass.frame = self.bounds
+        self.glass.apply()
+        if let layer = self.layer {
+            layer.cornerRadius = on ? LiquidGlassUI.cornerRadius : 6
+            if #available(macOS 11.0, *) { layer.cornerCurve = .continuous }
+            layer.masksToBounds = true
+        }
+        // Forced appearance (e.g. Dark tint) must live on the popup root
+        // so the header / body / scroll view inherit it and pick up the
+        // matching label & control colors.
+        if on {
+            self.appearance = LiquidGlassUI.tint.forcedAppearance
+            self.window?.appearance = LiquidGlassUI.tint.forcedAppearance
+        } else {
+            self.appearance = nil
+            self.window?.appearance = nil
+        }
+        self.needsDisplay = true
+        self.updateLayer()
     }
     
     fileprivate func setView(_ view: Popup_p?) {
@@ -240,7 +293,8 @@ internal class PopupView: NSView {
             width: size.width - (Constants.Popup.margins*2) + (isScrollVisible ? 20 : 0),
             height: size.height - Constants.Popup.headerHeight - (Constants.Popup.margins*2)
         ))
-        self.header.setFrameOrigin(NSPoint(x: 0, y: size.height - Constants.Popup.headerHeight))
+        self.header.setFrameSize(NSSize(width: size.width - Constants.Popup.margins*1.5, height: Constants.Popup.headerHeight))
+        self.header.setFrameOrigin(NSPoint(x: Constants.Popup.margins*0.75, y: size.height - Constants.Popup.headerHeight - (Constants.Popup.margins*0.75)))
         
         if let view = view {
             self.body.documentView = view
@@ -304,9 +358,10 @@ internal class PopupView: NSView {
             width: windowSize.width - (Constants.Popup.margins*2) + (isScrollVisible ? 20 : 0),
             height: windowSize.height - Constants.Popup.headerHeight - (Constants.Popup.margins*2)
         ))
+        self.header.setFrameSize(NSSize(width: windowSize.width - Constants.Popup.margins*1.5, height: Constants.Popup.headerHeight))
         self.header.setFrameOrigin(NSPoint(
-            x: self.header.frame.origin.x,
-            y: self.body.frame.height + (Constants.Popup.margins*2)
+            x: Constants.Popup.margins*0.75,
+            y: self.body.frame.height + (Constants.Popup.margins*1.25)
         ))
         
         if let documentView = self.body.documentView {
@@ -340,7 +395,7 @@ internal class HeaderView: NSStackView {
         
         let activity = NSButtonWithPadding()
         activity.frame = CGRect(x: 0, y: 0, width: 24, height: self.frame.height)
-        activity.horizontalPadding = activity.frame.height - 24
+        activity.horizontalPadding = 0
         activity.bezelStyle = .regularSquare
         activity.translatesAutoresizingMaskIntoConstraints = false
         activity.imageScaling = .scaleNone
@@ -374,7 +429,7 @@ internal class HeaderView: NSStackView {
         
         let settings = NSButtonWithPadding()
         settings.frame = CGRect(x: 0, y: 0, width: 24, height: self.frame.height)
-        settings.horizontalPadding = activity.frame.height - 24
+        settings.horizontalPadding = 0
         settings.bezelStyle = .regularSquare
         settings.translatesAutoresizingMaskIntoConstraints = false
         settings.imageScaling = .scaleNone

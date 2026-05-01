@@ -64,6 +64,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let startingPoint = Date()
         
+        // Shorten the menu-bar tooltip hover delay so the widget value
+        // (pushed via `tooltipCallback`) appears almost immediately on
+        // hover instead of after the system default ~1s.
+        UserDefaults.standard.set(0.15, forKey: "NSInitialToolTipDelay")
+        
         self.parseArguments()
         if self.previewMode {
             NSApp.setActivationPolicy(.regular)
