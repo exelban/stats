@@ -127,9 +127,7 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
             i += 1
             
             if self.separator && i < 2 * self.activeModules.count - 1 {
-                let separator = NSView(frame: NSRect(x: w, y: 3, width: 1, height: Constants.Widget.height-6))
-                separator.wantsLayer = true
-                separator.layer?.backgroundColor = (separator.isDarkMode ? NSColor.white : NSColor.black).cgColor
+                let separator = MenuBarSeparatorView(frame: NSRect(x: w, y: 3, width: 1, height: Constants.Widget.height-6))
                 self.view.addSubview(separator)
                 w += 3 + self.spacing
                 i += 1
@@ -229,6 +227,34 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
                     ])
                 }
             }
+        }
+    }
+}
+
+private final class MenuBarSeparatorView: NSView {
+    override init(frame frameRect: NSRect) {
+        super.init(frame: frameRect)
+        self.wantsLayer = true
+        self.updateSeparatorColor()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        self.updateSeparatorColor()
+    }
+
+    override func viewDidChangeEffectiveAppearance() {
+        super.viewDidChangeEffectiveAppearance()
+        self.updateSeparatorColor()
+    }
+
+    private func updateSeparatorColor() {
+        self.effectiveAppearance.performAsCurrentDrawingAppearance {
+            self.layer?.backgroundColor = NSColor.labelColor.cgColor
         }
     }
 }
