@@ -1559,6 +1559,7 @@ public class StepperInput: NSStackView, NSTextFieldDelegate, PreferencesSwitchWi
         self.valueView.delegate = self
         self.valueView.stringValue = "\(value)"
         self.valueView.translatesAutoresizingMaskIntoConstraints = false
+        self.valueView.widthAnchor.constraint(greaterThanOrEqualToConstant: 35).isActive = true
         
         self.stepperView.font = NSFont.systemFont(ofSize: 12, weight: .regular)
         self.stepperView.doubleValue = Double(value)/100
@@ -1574,7 +1575,7 @@ public class StepperInput: NSStackView, NSTextFieldDelegate, PreferencesSwitchWi
         
         if units == nil {
             if unit == "%" {
-                self.widthAnchor.constraint(equalToConstant: 68).isActive = true
+                self.widthAnchor.constraint(equalToConstant: 80).isActive = true
             }
             if visibileUnit {
                 let symbol: NSTextField = LabelField(unit)

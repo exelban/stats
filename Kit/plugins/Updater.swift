@@ -174,10 +174,7 @@ public class Updater {
             completion("DMG not found at \(dmg)")
             return
         }
-        if !FileManager.default.isWritableFile(atPath: pwd) {
-            completion("has no write permission on \(pwd)")
-            return
-        }
+        let needsElevation = !FileManager.default.isWritableFile(atPath: pwd)
         
         let diff = (Int(Date().timeIntervalSince1970) - self.lastInstallTS) / 60
         if diff <= 3 {
@@ -242,16 +239,28 @@ public class Updater {
         
         print("Script staged at \(scriptDst)")
         
-        let task = Process()
-        task.executableURL = URL(fileURLWithPath: "/bin/bash")
-        task.arguments = [scriptDst, "--app", pwd, "--dmg", dmg, "--mount", mountPoint]
-        do {
-            try task.run()
-        } catch {
-            completion("failed to launch updater: \(error)")
-            return
+        let scriptArgs = [scriptDst, "--app", pwd, "--dmg", dmg, "--mount", mountPoint, "--user", String(getuid())]
+
+        if needsElevation {
+            if let err = self.runElevated("/bin/bash", args: scriptArgs) {
+                _ = self.runProcess("/usr/bin/hdiutil", ["detach", mountPoint, "-force"])
+                try? FileManager.default.removeItem(atPath: scriptDst)
+                try? FileManager.default.removeItem(atPath: mountPoint)
+                completion("elevated install failed: \(err)")
+                return
+            }
+        } else {
+            let task = Process()
+            task.executableURL = URL(fileURLWithPath: "/bin/bash")
+            task.arguments = scriptArgs
+            do {
+                try task.run()
+            } catch {
+                completion("failed to launch updater: \(error)")
+                return
+            }
         }
-        
+
         print("Run updater.sh with app: \(pwd) and dmg: \(dmg)")
         
         self.lastInstallTS = Int(Date().timeIntervalSince1970)
@@ -310,6 +319,47 @@ public class Updater {
         return dict[kSecCodeInfoTeamIdentifier as String] as? String
     }
     
+    private func runElevated(_ tool: String, args: [String]) -> String? {
+        var authRef: AuthorizationRef?
+        let createStatus = AuthorizationCreate(nil, nil, [], &authRef)
+        guard createStatus == errAuthorizationSuccess, let authRef else {
+            return "AuthorizationCreate failed (\(createStatus))"
+        }
+        defer { AuthorizationFree(authRef, [.destroyRights]) }
+
+        // AuthorizationExecuteWithPrivileges is deprecated since 10.7 but still functional;
+        // resolve via dlsym to avoid the compile-time deprecation warning.
+        typealias AEWPFn = @convention(c) (
+            AuthorizationRef,
+            UnsafePointer<CChar>,
+            AuthorizationFlags,
+            UnsafePointer<UnsafeMutablePointer<CChar>?>,
+            UnsafeMutablePointer<UnsafeMutablePointer<FILE>?>?
+        ) -> OSStatus
+        guard let sym = dlsym(UnsafeMutableRawPointer(bitPattern: -2), "AuthorizationExecuteWithPrivileges") else {
+            return "AuthorizationExecuteWithPrivileges unavailable"
+        }
+        let aewp = unsafeBitCast(sym, to: AEWPFn.self)
+
+        var cArgs: [UnsafeMutablePointer<CChar>?] = args.map { strdup($0) }
+        cArgs.append(nil)
+        defer { cArgs.forEach { free($0) } }
+
+        let result: OSStatus = tool.withCString { toolPtr in
+            cArgs.withUnsafeMutableBufferPointer { buf in
+                aewp(authRef, toolPtr, [], buf.baseAddress!, nil)
+            }
+        }
+
+        if result == errAuthorizationCanceled {
+            return "user canceled"
+        }
+        if result != errAuthorizationSuccess {
+            return "AuthorizationExecuteWithPrivileges failed (\(result))"
+        }
+        return nil
+    }
+
     private func runProcess(_ launch: String, _ args: [String]) -> (output: String, error: String, exit: Int32) {
         let task = Process()
         task.executableURL = URL(fileURLWithPath: launch)
