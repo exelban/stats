@@ -49,6 +49,9 @@ public class Sensors: Module {
         self.popupView.setup(self.sensorsReader?.list.sensors)
         self.portalView.setup(self.sensorsReader?.list.sensors)
         self.notificationsView.setup(self.sensorsReader?.list.sensors)
+        self.sensorsReader?.list.sensors.compactMap({ $0 as? Fan }).forEach {
+            FanPowerManager.shared.register(fan: $0)
+        }
         
         self.settingsView.callback = { [weak self] in
             self?.sensorsReader?.read()

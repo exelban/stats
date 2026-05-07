@@ -508,7 +508,6 @@ internal class FanView: NSStackView {
             return self.fan.value
         }
     }
-    private var resetModeAfterSleep: Bool = false
     private var controlState: Bool
     private var fanValue: FanValue {
         FanValue(rawValue: Store.shared.string(key: "Sensors_popup_fanValue", defaultValue: FanValue.percentage.rawValue)) ?? .percentage
@@ -517,9 +516,6 @@ internal class FanView: NSStackView {
     private var horizontalMargin: CGFloat {
         self.edgeInsets.top + self.edgeInsets.bottom + (self.spacing*CGFloat(self.arrangedSubviews.count))
     }
-    
-    private var willSleepMode: FanMode? = nil // fan mode before sleep
-    private var willSleepSpeed: Int? = nil // fan speed before sleep
     
     public init(_ fan: Fan, width: CGFloat, callback: @escaping (() -> Void)) {
         self.fan = fan
@@ -544,8 +540,6 @@ internal class FanView: NSStackView {
         self.nameAndSpeed()
         self.setupControls()
         
-        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.wakeListener), name: NSWorkspace.didWakeNotification, object: nil)
-        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.sleepListener), name: NSWorkspace.willSleepNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.syncFanSpeed), name: .syncFansControl, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.changeHelperState), name: .fanHelperState, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.controlCallback), name: .toggleFanControl, object: nil)
@@ -567,7 +561,6 @@ internal class FanView: NSStackView {
     }
     
     deinit {
-        NSWorkspace.shared.notificationCenter.removeObserver(self)
         NotificationCenter.default.removeObserver(self, name: .syncFansControl, object: nil)
         NotificationCenter.default.removeObserver(self, name: .fanHelperState, object: nil)
         NotificationCenter.default.removeObserver(self, name: .toggleSettings, object: nil)
@@ -841,45 +834,6 @@ internal class FanView: NSStackView {
         NotificationCenter.default.post(name: .syncFansControl, object: nil, userInfo: ["speed": Int(self.fan.maxSpeed)])
     }
     
-    @objc private func wakeListener(aNotification: NSNotification) {
-        self.resetModeAfterSleep = true
-        
-        if self.speedState {
-            if let mode = self.willSleepMode, let speed = self.willSleepSpeed {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                    SMCHelper.shared.setFanMode(self.fan.id, mode: mode.rawValue)
-                    self.modeButtons?.setMode(mode)
-                    if !mode.isAutomatic {
-                        self.setSpeed(value: speed, then: {
-                            DispatchQueue.main.async {
-                                self.sliderValueField?.textColor = .systemBlue
-                            }
-                        })
-                    }
-                }
-            }
-            self.willSleepMode = nil
-            self.willSleepSpeed = nil
-        }
-        
-        if let value = self.fan.customSpeed, !self.fan.mode.isAutomatic {
-            self.setSpeed(value: value, then: {
-                DispatchQueue.main.async {
-                    self.sliderValueField?.textColor = .systemBlue
-                }
-            })
-        }
-    }
-    
-    @objc private func sleepListener(aNotification: NSNotification) {
-        guard SMCHelper.shared.isActive(), let mode = self.fan.customMode, !mode.isAutomatic else { return }
-        
-        self.willSleepMode = mode
-        self.willSleepSpeed = self.fan.customSpeed
-        SMCHelper.shared.setFanMode(fan.id, mode: FanMode.automatic.rawValue)
-        self.modeButtons?.setMode(.automatic)
-    }
-    
     @objc private func syncFanSpeed(_ notification: Notification) {
         guard self.syncState else { return }
         var speed = notification.userInfo?["speed"] as? Int
@@ -917,15 +871,6 @@ internal class FanView: NSStackView {
                 if let v = self.barView {
                     let percentage = value.percentage < 0 ? 0 : value.percentage
                     v.setValue(ColorValue(Double(percentage) / 100))
-                }
-                
-                if self.resetModeAfterSleep && !value.mode.isAutomatic {
-                    if self.sliderValueField?.stringValue != "" && self.slider?.doubleValue != value.value {
-                        self.slider?.doubleValue = value.value
-                        self.sliderValueField?.stringValue = ""
-                    }
-                    self.modeButtons?.setMode(.forced)
-                    self.resetModeAfterSleep = false
                 }
                 
                 self.ready = true
