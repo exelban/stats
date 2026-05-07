@@ -9,6 +9,10 @@ import IOKit
 import IOKit.pwr_mgt
 import Kit
 
+// IOKit/IOMessage.h constants — not Swift-bridged via IOKit.pwr_mgt umbrella.
+private let kIOMessageSystemWillSleep: UInt32 = 0xe0000280
+private let kIOMessageSystemHasPoweredOn: UInt32 = 0xe0000300
+
 // Manages fan mode/speed snapshot across sleep/wake cycles at the IOKit layer.
 // NSWorkspace.didWakeNotification arrives after SMC is ready only intermittently;
 // IORegisterForSystemPower fires earlier and is not tied to any UI lifecycle.
@@ -38,10 +42,10 @@ internal final class FanPowerManager {
         // Retain self for the C callback context; released in deinit via IODeregisterForSystemPower.
         let selfPtr = Unmanaged.passRetained(self).toOpaque()
 
-        let callback: IOPowerSourceCallbackType = { refcon, _, messageType, messageArgument in
+        let callback: IOServiceInterestCallback = { refcon, _, messageType, messageArgument in
             guard let refcon else { return }
             let manager = Unmanaged<FanPowerManager>.fromOpaque(refcon).takeUnretainedValue()
-            switch Int(messageType) {
+            switch messageType {
             case kIOMessageSystemWillSleep:
                 manager.handleWillSleep()
                 IOAllowPowerChange(manager.rootPort, Int(bitPattern: messageArgument))
