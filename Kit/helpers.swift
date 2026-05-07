@@ -912,27 +912,28 @@ public class SMCHelper {
     
     private var connection: NSXPCConnection? = nil
     
-    public func setFanSpeed(_ id: Int, speed: Int) {
-        guard let helper = self.helper(nil) else { return }
-        helper.setFanSpeed(id: id, value: speed) { result in
-            if let result, !result.isEmpty {
-                NSLog("set fan speed: \(result)")
-            }
+    public func setFanSpeed(_ id: Int, speed: Int, completion: ((String?) -> Void)? = nil) {
+        guard let helper = self.helper(nil) else {
+            completion?("Fan helper not available")
+            return
         }
+        helper.setFanSpeed(id: id, value: speed) { completion?($0) }
     }
-    
-    public func setFanMode(_ id: Int, mode: Int) {
-        guard let helper = self.helper(nil) else { return }
-        helper.setFanMode(id: id, mode: mode) { result in
-            if let result, !result.isEmpty {
-                NSLog("set fan mode: \(result)")
-            }
+
+    public func setFanMode(_ id: Int, mode: Int, completion: ((String?) -> Void)? = nil) {
+        guard let helper = self.helper(nil) else {
+            completion?("Fan helper not available")
+            return
         }
+        helper.setFanMode(id: id, mode: mode) { completion?($0) }
     }
-    
-    public func resetFanControl() {
-        guard let helper = self.helper(nil) else { return }
-        helper.resetFanControl { _ in }
+
+    public func resetFanControl(completion: ((String?) -> Void)? = nil) {
+        guard let helper = self.helper(nil) else {
+            completion?("Fan helper not available")
+            return
+        }
+        helper.resetFanControl { completion?($0) }
     }
     
     public func isActive() -> Bool {

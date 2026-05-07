@@ -85,7 +85,9 @@ internal class Popup: PopupWrapper {
         let fanViews = self.list.values.compactMap { $0 as? FanView }
         guard !fanViews.isEmpty else { return }
         guard fanViews.allSatisfy({ $0.fan.mode.isAutomatic }) else { return }
-        SMCHelper.shared.resetFanControl()
+        SMCHelper.shared.resetFanControl { error in
+            if let error { NSLog("resetFanControl error: \(error)") }
+        }
     }
     #endif
     
@@ -551,9 +553,11 @@ internal class FanView: NSStackView {
         NotificationCenter.default.addObserver(self, selector: #selector(self.controlCallback), name: .toggleFanControl, object: nil)
         
         if let fanMode = self.fan.customMode, self.speedState && fanMode != FanMode.automatic {
-            SMCHelper.shared.setFanMode(fan.id, mode: fanMode.rawValue)
+            SMCHelper.shared.setFanMode(fan.id, mode: fanMode.rawValue) { [weak self] error in
+                if let error { self?.showFanError(error) }
+            }
             self.modeButtons?.setMode(FanMode(rawValue: fanMode.rawValue) ?? .automatic)
-            
+
             self.setSpeed(value: Int(self.speed), then: {
                 DispatchQueue.main.async {
                     self.sliderValueField?.textColor = .systemBlue
@@ -651,7 +655,9 @@ internal class FanView: NSStackView {
             if let fan = self?.fan, mode == .automatic || fan.mode != mode {
                 self?.fan.mode = mode
                 self?.fan.customMode = mode
-                SMCHelper.shared.setFanMode(fan.id, mode: mode.rawValue)
+                SMCHelper.shared.setFanMode(fan.id, mode: mode.rawValue) { [weak self] error in
+                    if let error { self?.showFanError(error) }
+                }
             }
             self?.toggleControlView(mode == .forced)
         }
@@ -659,9 +665,13 @@ internal class FanView: NSStackView {
             if let fan = self?.fan {
                 if self?.fan.mode != .forced {
                     self?.fan.mode = .forced
-                    SMCHelper.shared.setFanMode(fan.id, mode: FanMode.forced.rawValue)
+                    SMCHelper.shared.setFanMode(fan.id, mode: FanMode.forced.rawValue) { [weak self] error in
+                        if let error { self?.showFanError(error) }
+                    }
                 }
-                SMCHelper.shared.setFanSpeed(fan.id, speed: 0)
+                SMCHelper.shared.setFanSpeed(fan.id, speed: 0) { [weak self] error in
+                    if let error { self?.showFanError(error) }
+                }
                 self?.fan.customSpeed = 0
             }
             self?.toggleControlView(false)
@@ -670,9 +680,13 @@ internal class FanView: NSStackView {
             if let fan = self?.fan {
                 if self?.fan.mode != .forced {
                     self?.fan.mode = .forced
-                    SMCHelper.shared.setFanMode(fan.id, mode: FanMode.forced.rawValue)
+                    SMCHelper.shared.setFanMode(fan.id, mode: FanMode.forced.rawValue) { [weak self] error in
+                        if let error { self?.showFanError(error) }
+                    }
                 }
-                SMCHelper.shared.setFanSpeed(fan.id, speed: Int(fan.maxSpeed))
+                SMCHelper.shared.setFanSpeed(fan.id, speed: Int(fan.maxSpeed)) { [weak self] error in
+                    if let error { self?.showFanError(error) }
+                }
                 self?.fan.customSpeed = Int(fan.maxSpeed)
             }
             self?.toggleControlView(false)
@@ -783,20 +797,34 @@ internal class FanView: NSStackView {
         self.sliderValueField?.stringValue = "\(value) RPM"
         self.sliderValueField?.textColor = .secondaryLabelColor
         self.fan.customSpeed = value
-        
+
         self.debouncer?.cancel()
-        
+
         let task = DispatchWorkItem { [weak self] in
-            DispatchQueue.global(qos: .userInteractive).async { [weak self] in
-                if let id = self?.fan.id {
-                    SMCHelper.shared.setFanSpeed(id, speed: value)
+            guard let self else { return }
+            SMCHelper.shared.setFanSpeed(self.fan.id, speed: value) { [weak self] error in
+                if let error {
+                    self?.showFanError(error)
+                    // TODO: revert slider to previous value on failure — requires
+                    // storing the pre-attempt speed before mutating fan.customSpeed above
                 }
                 then()
             }
         }
-        
+
         self.debouncer = task
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3, execute: task)
+    }
+
+    private func showFanError(_ message: String) {
+        DispatchQueue.main.async {
+            let alert = NSAlert()
+            alert.messageText = localizedString("Fan control failed")
+            alert.informativeText = message
+            alert.alertStyle = .warning
+            alert.addButton(withTitle: localizedString("OK"))
+            alert.runModal()
+        }
     }
     
     @objc private func sliderCallback(_ sender: NSSlider) {
@@ -847,7 +875,9 @@ internal class FanView: NSStackView {
         if self.speedState {
             if let mode = self.willSleepMode, let speed = self.willSleepSpeed {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                    SMCHelper.shared.setFanMode(self.fan.id, mode: mode.rawValue)
+                    SMCHelper.shared.setFanMode(self.fan.id, mode: mode.rawValue) { [weak self] error in
+                        if let error { self?.showFanError(error) }
+                    }
                     self.modeButtons?.setMode(mode)
                     if !mode.isAutomatic {
                         self.setSpeed(value: speed, then: {
@@ -873,9 +903,10 @@ internal class FanView: NSStackView {
     
     @objc private func sleepListener(aNotification: NSNotification) {
         guard SMCHelper.shared.isActive(), let mode = self.fan.customMode, !mode.isAutomatic else { return }
-        
+
         self.willSleepMode = mode
         self.willSleepSpeed = self.fan.customSpeed
+        // Best-effort reset on sleep; errors not surfaced as user can't act on them while sleeping
         SMCHelper.shared.setFanMode(fan.id, mode: FanMode.automatic.rawValue)
         self.modeButtons?.setMode(.automatic)
     }

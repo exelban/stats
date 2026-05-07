@@ -122,36 +122,36 @@ extension Helper {
                 return
             }
             let result = syncShell("\(smc) fan \(id) -m \(mode)")
-            
+
             if let error = result.error, !error.isEmpty {
                 NSLog("error set fan mode: \(error)")
-                completion(nil)
+                completion("Failed to set fan \(id) mode to \(mode) — SMC rejected write")
                 return
             }
-            
-            completion(result.output)
+
+            completion(nil)
         }
     }
-    
+
     func setFanSpeed(id: Int, value: Int, completion: (String?) -> Void) {
         smcQueue.sync {
             guard let smc = self.smc else {
                 completion("missing smc tool")
                 return
             }
-            
+
             let result = syncShell("\(smc) fan \(id) -v \(value)")
-            
+
             if let error = result.error, !error.isEmpty {
                 NSLog("error set fan speed: \(error)")
-                completion(nil)
+                completion("Failed to set fan \(id) speed to \(value) RPM — SMC rejected write")
                 return
             }
-            
-            completion(result.output)
+
+            completion(nil)
         }
     }
-    
+
     func resetFanControl(completion: (String?) -> Void) {
         smcQueue.sync {
             guard let smc = self.smc else {
@@ -161,10 +161,10 @@ extension Helper {
             let result = syncShell("\(smc) reset")
             if let error = result.error, !error.isEmpty {
                 NSLog("error reset fan control: \(error)")
-                completion(nil)
+                completion("Failed to reset fan control — SMC rejected write")
                 return
             }
-            completion(result.output)
+            completion(nil)
         }
     }
     
