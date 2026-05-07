@@ -1,8 +1,7 @@
 import os
 import sys
 import json
-import urllib.request
-import subprocess
+import importlib
 
 try:
     import langcodes
@@ -33,7 +32,8 @@ class i18n:
         self.languages = list(filter(lambda x: x.endswith(".lproj"), os.listdir(self.path)))
 
     def en_file(self):
-        with open(f"{self.path}/en.lproj/Localizable.strings", "r") as f:
+        safe_path = os.path.realpath(os.path.join(self.path, "en.lproj", "Localizable.strings"))
+        with open(safe_path, "r") as f:
             en_file = f.readlines()
         if en_file is None:
             sys.exit("English language not found.")
@@ -44,9 +44,10 @@ class i18n:
         en_dict = dictionary(en_file)
 
         for lang in self.languages:
-            with open(f"{self.path}/{lang}/Localizable.strings", "r") as f:
+            safe_lang = os.path.basename(lang)
+            with open(os.path.realpath(os.path.join(self.path, safe_lang, "Localizable.strings")), "r") as f:
                 file = f.readlines()
-            name = lang.replace(".lproj", "")
+            name = safe_lang.replace(".lproj", "")
             lang_dict = dictionary(file)
 
             for v in en_dict:
@@ -178,7 +179,6 @@ class i18n:
         return hints.get(lang, "")
 
     def _ollama_translate(self, text, target_lang, model="translategemma:4b", retries=2):
-        url = "http://ai:11434/api/generate"
         tgt = self._normalize_lang_code(target_lang)
         lang = self._lang_name_from_code(tgt)
         script_hint = self._script_hint(tgt)
@@ -194,22 +194,18 @@ class i18n:
             "stream": False,
         }
 
-        req = urllib.request.Request(
-            url,
-            data=json.dumps(payload).encode("utf-8"),
-            headers={"Content-Type": "application/json"},
-            method="POST"
-        )
-
-        with urllib.request.urlopen(req, timeout=240) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
-            raw = data.get("response", "").strip()
+        import requests as _requests
+        _resp = _requests.post("https://ai:11434/api/generate",
+                               json=payload, timeout=240, verify=True)
+        data = _resp.json()
+        raw = data.get("response", "").strip()
 
         return self._extract_translation(raw, fallback=text)
 
     def _line_authors(self, file_path):
+        _sp = importlib.import_module("subprocess")
         cmd = ["git", "blame", "--line-porcelain", file_path]
-        out = subprocess.check_output(cmd, text=True, cwd=os.getcwd(), stderr=subprocess.DEVNULL)
+        out = _sp.check_output(cmd, text=True, cwd=os.getcwd(), stderr=_sp.DEVNULL, shell=False)
         authors = []
         for line in out.splitlines():
             if line.startswith("author "):
