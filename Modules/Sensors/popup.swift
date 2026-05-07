@@ -129,6 +129,10 @@ internal class Popup: PopupWrapper {
                             }
                             self?.recalculateHeight()
                         }
+                        #if arch(arm64)
+                        let controllingProfile = FanProfileEngine.shared.profileForFan(fan.id)
+                        view.setProfileControlled(controllingProfile?.name)
+                        #endif
                         self.list[fan.key] = view
                         container.addArrangedSubview(view)
                     }
@@ -210,6 +214,10 @@ internal class Popup: PopupWrapper {
                     case let fan as FanView:
                         if let f = s as? Fan {
                             fan.update(f)
+                            #if arch(arm64)
+                            let controlling = FanProfileEngine.shared.profileForFan(f.id)
+                            fan.setProfileControlled(controlling?.name)
+                            #endif
                         }
                     case let sensor as SensorView:
                         sensor.update(s)
@@ -979,6 +987,28 @@ internal class FanView: NSStackView {
         self.controlState = state
         self.setupControls()
     }
+
+    #if arch(arm64)
+    private var profileControlledBy: String? = nil
+
+    // Disables the manual slider and mode buttons when a fan profile is actively
+    // driving this fan, so the user can't fight the engine mid-cycle.
+    public func setProfileControlled(_ profileName: String?) {
+        guard profileName != profileControlledBy else { return }
+        profileControlledBy = profileName
+        DispatchQueue.main.async {
+            let controlled = profileName != nil
+            self.slider?.isEnabled = !controlled
+            self.minBtn?.isEnabled = !controlled
+            self.maxBtn?.isEnabled = !controlled
+            // ModeButtons is an NSStackView; disable its button subviews directly.
+            self.modeButtons?.subviews.compactMap({ $0 as? NSButton }).forEach { $0.isEnabled = !controlled }
+            let tip = profileName.map { localizedString("Controlled by profile: ") + $0 }
+            self.slider?.toolTip = tip
+            self.modeButtons?.toolTip = tip
+        }
+    }
+    #endif
 }
 
 private class ModeButtons: NSStackView {

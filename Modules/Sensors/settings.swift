@@ -92,6 +92,14 @@ internal class Settings: NSStackView, Settings_v {
         let sensorsPrefs = PreferencesSection(sensorsRows)
         self.sensorsPrefs = sensorsPrefs
         self.addArrangedSubview(sensorsPrefs)
+
+        #if arch(arm64)
+        let profilesView = FanProfileSettingsView(frame: .zero)
+        profilesView.onChange = { [weak self] in
+            self?.callback()
+        }
+        self.addArrangedSubview(profilesView)
+        #endif
     }
     
     required init?(coder: NSCoder) {
