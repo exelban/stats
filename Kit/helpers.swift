@@ -905,9 +905,24 @@ public class SettingsContainerView: NSStackView {
 
 public class SMCHelper {
     public static let shared = SMCHelper()
-    
+
+    // On macOS 13+ the daemon is managed by SMAppService; the old
+    // PrivilegedHelperTools path is never populated by that API.
     public var isInstalled: Bool {
-        syncShell("ls /Library/PrivilegedHelperTools/").contains("eu.exelban.Stats.SMC.Helper")
+        if #available(macOS 13.0, *) {
+            let status = SMAppService.daemon(plistName: "eu.exelban.Stats.SMC.Helper.plist").status
+            return status == .enabled || status == .requiresApproval
+        } else {
+            return syncShell("ls /Library/PrivilegedHelperTools/").contains("eu.exelban.Stats.SMC.Helper")
+        }
+    }
+
+    // Returns true when the daemon is fully enabled (XPC calls will succeed).
+    // requiresApproval means registered but the user hasn't approved it yet in
+    // System Settings → Login Items & Extensions → Background Items.
+    @available(macOS 13.0, *)
+    public var requiresApproval: Bool {
+        SMAppService.daemon(plistName: "eu.exelban.Stats.SMC.Helper.plist").status == .requiresApproval
     }
     
     private var connection: NSXPCConnection? = nil
@@ -960,38 +975,60 @@ public class SMCHelper {
     }
     
     public func install(completion: @escaping (_ installed: Bool) -> Void) {
+        if #available(macOS 13.0, *) {
+            installSMAppService(completion: completion)
+        } else {
+            installSMJobBless(completion: completion)
+        }
+    }
+
+    @available(macOS 13.0, *)
+    private func installSMAppService(completion: @escaping (_ installed: Bool) -> Void) {
+        let service = SMAppService.daemon(plistName: "eu.exelban.Stats.SMC.Helper.plist")
+        do {
+            try service.register()
+            completion(true)
+        } catch let error as NSError {
+            // errAuthorizationDenied (-60006) means the user needs to approve in
+            // System Settings → Login Items & Extensions → Background Items.
+            NSLog("SMAppService daemon register failed: %@", error.localizedDescription)
+            completion(false)
+        }
+    }
+
+    private func installSMJobBless(completion: @escaping (_ installed: Bool) -> Void) {
         var authRef: AuthorizationRef?
         var authStatus = AuthorizationCreate(nil, nil, [.preAuthorize], &authRef)
-        
+
         guard authStatus == errAuthorizationSuccess else {
             print("Unable to get a valid empty authorization reference to load Helper daemon")
             completion(false)
             return
         }
-        
+
         let authItem = kSMRightBlessPrivilegedHelper.withCString { authorizationString in
             AuthorizationItem(name: authorizationString, valueLength: 0, value: nil, flags: 0)
         }
-        
+
         let pointer = UnsafeMutablePointer<AuthorizationItem>.allocate(capacity: 1)
         pointer.initialize(to: authItem)
-        
+
         defer {
             pointer.deinitialize(count: 1)
             pointer.deallocate()
         }
-        
+
         var authRights = AuthorizationRights(count: 1, items: pointer)
-        
+
         let flags: AuthorizationFlags = [.interactionAllowed, .extendRights, .preAuthorize]
         authStatus = AuthorizationCreate(&authRights, nil, flags, &authRef)
-        
+
         guard authStatus == errAuthorizationSuccess else {
             print("Unable to get a valid loading authorization reference to load Helper daemon")
             completion(false)
             return
         }
-        
+
         var error: Unmanaged<CFError>?
         if SMJobBless(kSMDomainSystemLaunchd, "eu.exelban.Stats.SMC.Helper" as CFString, authRef, &error) == false {
             let blessError = error!.takeRetainedValue() as Error
@@ -999,7 +1036,7 @@ public class SMCHelper {
             completion(false)
             return
         }
-        
+
         AuthorizationFree(authRef!, [])
         completion(true)
     }
@@ -1048,8 +1085,17 @@ public class SMCHelper {
                 self.setFanMode(i, mode: 0)
             }
         }
-        guard let helper = self.helper(nil) else { return }
-        helper.uninstall()
+        if #available(macOS 13.0, *) {
+            let service = SMAppService.daemon(plistName: "eu.exelban.Stats.SMC.Helper.plist")
+            do {
+                try service.unregister()
+            } catch {
+                NSLog("SMAppService daemon unregister failed: %@", error.localizedDescription)
+            }
+        } else {
+            guard let helper = self.helper(nil) else { return }
+            helper.uninstall()
+        }
         if !silent {
             NotificationCenter.default.post(name: .fanHelperState, object: nil, userInfo: ["state": false])
         }
