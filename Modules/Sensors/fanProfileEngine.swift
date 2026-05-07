@@ -86,21 +86,22 @@ public class FanProfileEngine {
             let enabledProfiles = self.profiles.filter { $0.enabled }
             guard !enabledProfiles.isEmpty else { return }
 
-            // Use the average of all CPU temperature sensors as the driving signal.
-            // TODO: expose sensor key selection per-profile if the maintainer wants
-            //       per-fan source selection (e.g. GPU temp for a dedicated GPU fan).
+            // Use max CPU temperature, not average. Apple Silicon parks efficiency
+            // cores under low load and parked cores report very low values (~1.5°C)
+            // that pull a naive average far below the actual hot-core temperature
+            // that drives thermals.
             let cpuTemps = sensors
-                .filter { $0.type == .temperature && $0.group == .CPU && $0.value > 0 }
+                .filter { $0.type == .temperature && $0.group == .CPU && $0.value > 5 }
                 .map { $0.value }
-            guard !cpuTemps.isEmpty else { return }
-            let avgTemp = cpuTemps.reduce(0, +) / Double(cpuTemps.count)
+            guard let driverTemp = cpuTemps.max() else { return }
 
             self.lastTickDate = now
 
-            let fans = sensors.compactMap { $0 as? Fan }
+            // Skip pseudo-fans (id < 0 represents aggregates like "fastest fan").
+            let fans = sensors.compactMap { $0 as? Fan }.filter { $0.id >= 0 }
             for fan in fans {
                 guard let profile = self.profileForFan(fan.id) else { continue }
-                let target = profile.targetRPM(forTemperature: avgTemp)
+                let target = profile.targetRPM(forTemperature: driverTemp)
                 let bounds = self.fanBounds[fan.id]
                 let minRPM = Int(bounds?.min ?? 0)
                 let maxRPM = bounds.map { Int($0.max) } ?? target
