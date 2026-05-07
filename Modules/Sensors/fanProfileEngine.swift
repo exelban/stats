@@ -12,6 +12,7 @@
 #if arch(arm64)
 
 import Foundation
+import Kit
 
 // Minimum RPM delta before we issue a new setFanSpeed call.
 // Prevents constant SMC writes when the temperature hovers around a curve knee.

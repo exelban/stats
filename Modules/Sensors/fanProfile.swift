@@ -12,6 +12,7 @@
 #if arch(arm64)
 
 import Foundation
+import Kit
 
 // A single point on the temperature→RPM curve.
 public struct CurvePoint: Codable, Equatable {

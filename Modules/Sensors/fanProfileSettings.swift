@@ -12,6 +12,7 @@
 #if arch(arm64)
 
 import Cocoa
+import Kit
 
 // Mirrors Stats' PreferencesSection/PreferencesRow patterns used elsewhere in settings.swift.
 internal class FanProfileSettingsView: NSStackView {
