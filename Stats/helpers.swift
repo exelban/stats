@@ -229,6 +229,9 @@ extension AppDelegate {
         if !Store.shared.exist(key: "setupProcess") || !Store.shared.exist(key: "runAtLoginInitialized") {
             return
         }
+        if let plan = Remote.shared.plan, plan != .free {
+            return
+        }
         
         let now = Int(Date().timeIntervalSince1970)
         if !Store.shared.exist(key: "support_ts") {
