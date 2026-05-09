@@ -204,12 +204,18 @@ internal class Popup: PopupWrapper {
                 }
             }
             
+            let cpuTemp = values.compactMap { s -> Double? in
+                guard s.type == .temperature, s.group == .CPU, s.value > 5 else { return nil }
+                return s.value
+            }.max() ?? 0
+            
             if self.window?.isVisible ?? false {
                 values.forEach { (s: Sensor_p) in
                     switch self.list[s.key] {
                     case let fan as FanView:
                         if let f = s as? Fan {
                             fan.update(f)
+                            fan.updateCPUTemp(cpuTemp)
                         }
                     case let sensor as SensorView:
                         sensor.update(s)
@@ -491,6 +497,7 @@ internal class FanView: NSStackView {
     private var slider: NSSlider? = nil
     private var acSlider: NSSlider? = nil
     private var battSlider: NSSlider? = nil
+    private var cpuTempLabel: NSTextField? = nil
     private var modeButtons: ModeButtons? = nil
     private var debouncer: DispatchWorkItem? = nil
     
@@ -779,12 +786,26 @@ internal class FanView: NSStackView {
         let w = self.frame.width
         let rowH: CGFloat = 22
         let gap: CGFloat  = 2
-        let totalH = rowH * 2 + gap
+        let hdrH: CGFloat = 16
+        let totalH = hdrH + gap + rowH * 2 + gap
         let labelW: CGFloat = 22
         let valueW: CGFloat = 44
 
         let view = NSView(frame: NSRect(x: 0, y: 0, width: w, height: totalH))
         view.heightAnchor.constraint(equalToConstant: totalH).isActive = true
+
+        // Header: "Target temp" label + current CPU temp
+        let hdrLabel = TextView(frame: NSRect(x: 0, y: totalH - hdrH, width: w * 0.55, height: hdrH))
+        hdrLabel.stringValue = "Target temp"
+        hdrLabel.font = NSFont.systemFont(ofSize: 10, weight: .medium)
+        hdrLabel.textColor = .secondaryLabelColor
+
+        let cpuLbl = TextView(frame: NSRect(x: w * 0.55, y: totalH - hdrH, width: w * 0.45, height: hdrH))
+        cpuLbl.stringValue = "CPU: --°C"
+        cpuLbl.font = NSFont.monospacedDigitSystemFont(ofSize: 10, weight: .regular)
+        cpuLbl.textColor = .tertiaryLabelColor
+        cpuLbl.alignment = .right
+        self.cpuTempLabel = cpuLbl
 
         func makeRow(emoji: String, y: CGFloat, target: Int,
                      sliderStore: inout NSSlider?,
@@ -823,7 +844,21 @@ internal class FanView: NSStackView {
         self.acSlider?.target   = self; self.acSlider?.action   = #selector(acSliderChanged)
         self.battSlider?.target = self; self.battSlider?.action = #selector(battSliderChanged)
 
+        view.addSubview(hdrLabel)
+        view.addSubview(cpuLbl)
         return view
+    }
+
+    /// Called from usageCallback to keep the CPU temp readout fresh.
+    func updateCPUTemp(_ temp: Double) {
+        guard FanTempController.shared.isTempMode(fanID: self.fan.id) else { return }
+        self.cpuTempLabel?.stringValue = temp > 0 ? "CPU: \(Int(temp))°C" : "CPU: --°C"
+        // Warn visually if CPU is below target (fans won't ramp yet)
+        let source = PowerSource.current
+        let target = source == .battery
+            ? FanTempController.shared.battTarget(fanID: self.fan.id)
+            : FanTempController.shared.acTarget(fanID: self.fan.id)
+        self.cpuTempLabel?.textColor = temp > Double(target) ? .systemOrange : .tertiaryLabelColor
     }
 
     @objc private func acSliderChanged(_ sender: NSSlider) {

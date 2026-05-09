@@ -63,7 +63,7 @@ public class FanTempController {
     }
 
     public func acTarget(fanID: Int) -> Int {
-        Store.shared.int(key: "Sensors_Fan_\(fanID)_AC_target", defaultValue: 55)
+        Store.shared.int(key: "Sensors_Fan_\(fanID)_AC_target", defaultValue: 50)
     }
 
     public func setACTarget(fanID: Int, _ temp: Int) {
@@ -71,7 +71,7 @@ public class FanTempController {
     }
 
     public func battTarget(fanID: Int) -> Int {
-        Store.shared.int(key: "Sensors_Fan_\(fanID)_Batt_target", defaultValue: 60)
+        Store.shared.int(key: "Sensors_Fan_\(fanID)_Batt_target", defaultValue: 50)
     }
 
     public func setBattTarget(fanID: Int, _ temp: Int) {
@@ -98,7 +98,7 @@ public class FanTempController {
             guard now.timeIntervalSince(self.lastTickDate) >= self.minTickInterval else { return }
             self.lastTickDate = now
 
-            guard SMCHelper.shared.isActive() else { return }
+            guard SMCHelper.shared.isInstalled else { return }
 
             let source = PowerSource.current
             let cpuTemps = sensors.compactMap { s -> Double? in
