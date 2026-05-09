@@ -3,9 +3,6 @@
 //  Sensors
 //
 //  Created by Morteza Rastgoo on 09/05/2026.
-//  Using Swift 5.0.
-//  Running on macOS 10.15.
-//
 //  Copyright © 2026 Serhiy Mytrovtsiy. All rights reserved.
 //
 
@@ -18,7 +15,6 @@ import Kit
 internal enum PowerSource {
     case ac, battery
 
-    /// Reads the current power source directly from IOKit.
     static var current: PowerSource {
         let info = IOPSCopyPowerSourcesInfo().takeRetainedValue()
         let list = IOPSCopyPowerSourcesList(info).takeRetainedValue() as [CFTypeRef]
@@ -32,67 +28,59 @@ internal enum PowerSource {
     }
 }
 
-// MARK: - Controller settings model
-
-/// Per-power-source configuration, persisted in Store.shared.
-internal struct FanTempSettings {
-    let storePrefix: String
-
-    /// Whether the controller is active for this power source.
-    var enabled: Bool {
-        get { Store.shared.bool(key: "\(storePrefix)_enabled", defaultValue: false) }
-        set { Store.shared.set(key: "\(storePrefix)_enabled", value: newValue) }
-    }
-
-    /// Target CPU temperature in °C (whole degrees, clamped to 30–85).
-    var targetTemp: Int {
-        get { Store.shared.int(key: "\(storePrefix)_targetTemp", defaultValue: 40) }
-        set { Store.shared.set(key: "\(storePrefix)_targetTemp", value: max(30, min(85, newValue))) }
-    }
-
-    /// Upper bound for the proportional ramp: above this temp fans run at max speed.
-    var maxTemp: Int {
-        get { Store.shared.int(key: "\(storePrefix)_maxTemp", defaultValue: 85) }
-        set { Store.shared.set(key: "\(storePrefix)_maxTemp", value: max(targetTemp + 5, min(95, newValue))) }
-    }
-}
-
 // MARK: - Controller
 
-/// Proportional fan speed controller driven by CPU temperature.
-///
-/// Architecture overview:
-/// - `processTick(_:)` is called from `Sensors.usageCallback` on every sensor read.
-/// - A 1 s gate prevents excessive SMC writes regardless of reader frequency.
-/// - Fan speed is determined by a simple proportional ramp:
-///     temp ≤ target  →  automatic mode (macOS controls fans)
-///     target < temp ≤ maxTemp  →  linear interpolation between minSpeed and maxSpeed
-///     temp > maxTemp  →  maxSpeed
-/// - A 100 RPM hysteresis window suppresses SMC writes when the target is stable.
-/// - Separate settings are stored for battery and AC adapter power sources.
-/// - On app termination, `releaseAll(fans:)` restores automatic fan mode.
+/// Temperature-driven fan controller. Each fan independently opts in via setTempMode().
 public class FanTempController {
     public static let shared = FanTempController()
 
-    internal var acSettings    = FanTempSettings(storePrefix: "Sensors_FanTempCtrl_AC")
-    internal var battSettings  = FanTempSettings(storePrefix: "Sensors_FanTempCtrl_Batt")
-
-    // RPM hysteresis – skip SMC write if new target is within this delta of the last write.
     private let hysteresisRPM: Int = 100
-    // Minimum interval between control actions, regardless of reader cadence.
     private let minTickInterval: TimeInterval = 1.0
 
-    private var lastSetRPM: [Int: Int] = [:]          // [fanID: lastWrittenRPM]
-    private var lastTickDate: Date = .distantPast
+    private var lastSetRPM: [Int: Int] = [:]        // fanID → last written RPM (-1 = auto)
     private var fanBounds: [Int: (min: Double, max: Double)] = [:]
     private let queue = DispatchQueue(label: "eu.exelban.Stats.FanTempController", qos: .utility)
 
     private init() {}
 
-    // MARK: - Public API
+    // MARK: - Per-fan settings (stored in UserDefaults via Store)
 
-    /// Called once from `Sensors.init` after the sensor reader is ready, so we can
-    /// clamp RPM targets to hardware min/max without re-reading sensors each tick.
+    public func isTempMode(fanID: Int) -> Bool {
+        Store.shared.bool(key: "Sensors_Fan_\(fanID)_tempMode", defaultValue: false)
+    }
+
+    public func setTempMode(fanID: Int, _ enabled: Bool) {
+        Store.shared.set(key: "Sensors_Fan_\(fanID)_tempMode", value: enabled)
+        if !enabled {
+            // Release SMC control immediately when leaving temp mode
+            queue.async {
+                if let prev = self.lastSetRPM[fanID], prev >= 0 {
+                    SMCHelper.shared.setFanMode(fanID, mode: FanMode.automatic.rawValue)
+                    self.lastSetRPM[fanID] = -1
+                }
+            }
+        }
+    }
+
+    public func acTarget(fanID: Int) -> Int {
+        Store.shared.int(key: "Sensors_Fan_\(fanID)_AC_target", defaultValue: 55)
+    }
+
+    public func setACTarget(fanID: Int, _ temp: Int) {
+        Store.shared.set(key: "Sensors_Fan_\(fanID)_AC_target", value: max(30, min(85, temp)))
+    }
+
+    public func battTarget(fanID: Int) -> Int {
+        Store.shared.int(key: "Sensors_Fan_\(fanID)_Batt_target", defaultValue: 60)
+    }
+
+    public func setBattTarget(fanID: Int, _ temp: Int) {
+        Store.shared.set(key: "Sensors_Fan_\(fanID)_Batt_target", value: max(30, min(85, temp)))
+    }
+
+    // MARK: - Lifecycle
+
+    /// Cache hardware RPM bounds so we don't re-read them every tick.
     public func registerFans(_ fans: [Fan]) {
         queue.async {
             for fan in fans where fan.id >= 0 {
@@ -101,8 +89,7 @@ public class FanTempController {
         }
     }
 
-    /// Called from `Sensors.usageCallback` on every sensor read.
-    /// `sensors` is the full Sensors_List.sensors array from the reader callback.
+    /// Called from Sensors.usageCallback on every sensor read.
     public func processTick(_ sensors: [Sensor_p]) {
         queue.async { [weak self] in
             guard let self else { return }
@@ -111,33 +98,43 @@ public class FanTempController {
             guard now.timeIntervalSince(self.lastTickDate) >= self.minTickInterval else { return }
             self.lastTickDate = now
 
-            let source = PowerSource.current
-            let settings: FanTempSettings = source == .battery ? self.battSettings : self.acSettings
-            guard settings.enabled else { return }
             guard SMCHelper.shared.isActive() else { return }
 
-            // Drive off the max CPU temp to match hardware thermal behaviour.
+            let source = PowerSource.current
             let cpuTemps = sensors.compactMap { s -> Double? in
-                guard s.type == .temperature, s.group == .CPU else { return nil }
-                return s.value > 5 ? s.value : nil   // ignore parked/offline cores near 0
+                guard s.type == .temperature, s.group == .CPU, s.value > 5 else { return nil }
+                return s.value
             }
             guard let maxCPUTemp = cpuTemps.max() else { return }
 
             let fans = sensors.compactMap { $0 as? Fan }.filter { $0.id >= 0 }
             for fan in fans {
+                guard self.isTempMode(fanID: fan.id) else {
+                    // Not in temp mode — release if we were controlling it
+                    if let prev = self.lastSetRPM[fan.id], prev >= 0 {
+                        SMCHelper.shared.setFanMode(fan.id, mode: FanMode.automatic.rawValue)
+                        self.lastSetRPM[fan.id] = -1
+                    }
+                    continue
+                }
+
+                let targetTemp = source == .battery
+                    ? self.battTarget(fanID: fan.id)
+                    : self.acTarget(fanID: fan.id)
+
                 let bounds = self.fanBounds[fan.id]
                 let minRPM = bounds?.min ?? fan.minSpeed
                 let maxRPM = bounds?.max ?? fan.maxSpeed
+                // Ramp linearly from min to max over a 25°C window above the target
                 let target = self.targetRPM(
                     temp: maxCPUTemp,
-                    targetTemp: Double(settings.targetTemp),
-                    maxTemp: Double(settings.maxTemp),
+                    targetTemp: Double(targetTemp),
+                    maxTemp: Double(targetTemp + 25),
                     minRPM: minRPM,
                     maxRPM: maxRPM
                 )
 
                 if target < 0 {
-                    // Below target temp — restore automatic control (only if we previously forced it).
                     if let prev = self.lastSetRPM[fan.id], prev >= 0 {
                         SMCHelper.shared.setFanMode(fan.id, mode: FanMode.automatic.rawValue)
                         self.lastSetRPM[fan.id] = -1
@@ -155,7 +152,7 @@ public class FanTempController {
         }
     }
 
-    /// Restores automatic fan mode for all controlled fans. Call from `willTerminate`.
+    /// Restore automatic mode for all controlled fans. Call from willTerminate.
     public func releaseAll(fans: [Fan]) {
         queue.sync {
             for fan in fans where fan.id >= 0 {
@@ -167,16 +164,14 @@ public class FanTempController {
         }
     }
 
-    /// Returns `true` if the controller is currently driving this fan.
     public func isControlling(fanID: Int) -> Bool {
-        let settings: FanTempSettings = PowerSource.current == .battery ? battSettings : acSettings
-        return settings.enabled && (lastSetRPM[fanID] ?? -1) >= 0
+        isTempMode(fanID: fanID) && (lastSetRPM[fanID] ?? -1) >= 0
     }
 
-    // MARK: - Private helpers
+    // MARK: - Private
 
-    /// Returns the target RPM for the given temperature, or -1 if temp ≤ targetTemp
-    /// (meaning automatic mode should be used).
+    private var lastTickDate: Date = .distantPast
+
     private func targetRPM(temp: Double, targetTemp: Double, maxTemp: Double,
                            minRPM: Double, maxRPM: Double) -> Int {
         guard temp > targetTemp else { return -1 }

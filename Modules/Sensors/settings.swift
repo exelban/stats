@@ -92,10 +92,6 @@ internal class Settings: NSStackView, Settings_v {
         let sensorsPrefs = PreferencesSection(sensorsRows)
         self.sensorsPrefs = sensorsPrefs
         self.addArrangedSubview(sensorsPrefs)
-
-        self.addArrangedSubview(PreferencesSection(title: localizedString("Fan Temperature Controller"), subtitle: localizedString("Control fans by target CPU temperature"), []))
-        let controllerSettings = FanTempControllerSettingsView()
-        self.addArrangedSubview(controllerSettings)
     }
     
     required init?(coder: NSCoder) {

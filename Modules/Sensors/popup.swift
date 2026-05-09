@@ -39,7 +39,6 @@ internal class Popup: PopupWrapper {
     
     private var sensors: [Sensor_p] = []
     private let settingsView: NSStackView = NSStackView()
-    private var fanTempPopupView: FanTempControllerPopupView? = nil
     
     private var fanControlState: Bool {
         get { Store.shared.bool(key: "Sensors_fanControl", defaultValue: true) }
@@ -141,12 +140,6 @@ internal class Popup: PopupWrapper {
                 container.setFrameSize(NSSize(width: container.frame.width, height: h))
             }
             self.addArrangedSubview(container)
-            
-            let ftv = FanTempControllerPopupView(width: self.frame.width) { [weak self] in
-                self?.recalculateHeight()
-            }
-            self.fanTempPopupView = ftv
-            self.addArrangedSubview(ftv)
         }
         
         var types: [SensorType] = []
@@ -211,19 +204,12 @@ internal class Popup: PopupWrapper {
                 }
             }
             
-            let cpuTemp = values.compactMap { s -> Double? in
-                guard s.type == .temperature, s.group == .CPU, s.value > 5 else { return nil }
-                return s.value
-            }.max()
-            self.fanTempPopupView?.updateCPUTemp(cpuTemp ?? 0)
-            
             if self.window?.isVisible ?? false {
                 values.forEach { (s: Sensor_p) in
                     switch self.list[s.key] {
                     case let fan as FanView:
                         if let f = s as? Fan {
                             fan.update(f)
-                            fan.setControlledByTempController(FanTempController.shared.isControlling(fanID: f.id))
                         }
                     case let sensor as SensorView:
                         sensor.update(s)
@@ -495,11 +481,16 @@ internal class FanView: NSStackView {
     private var helperView: NSView? = nil
     private var controlView: NSView? = nil
     private var buttonsView: NSView? = nil
+    private var tempControlView: NSView? = nil
     
     private var valueField: NSTextField? = nil
     private var sliderValueField: NSTextField? = nil
+    private var acValueLabel: NSTextField? = nil
+    private var battValueLabel: NSTextField? = nil
     
     private var slider: NSSlider? = nil
+    private var acSlider: NSSlider? = nil
+    private var battSlider: NSSlider? = nil
     private var modeButtons: ModeButtons? = nil
     private var debouncer: DispatchWorkItem? = nil
     
@@ -546,6 +537,7 @@ internal class FanView: NSStackView {
         self.helperView = self.noHelper()
         self.controlView = self.control()
         self.buttonsView = self.mode()
+        self.tempControlView = self.tempControl()
         
         self.orientation = .vertical
         self.alignment = .centerX
@@ -662,34 +654,50 @@ internal class FanView: NSStackView {
             height: view.frame.height - 8
         ), mode: self.fan.mode)
         buttons.callback = { [weak self] (mode: FanMode) in
-            if let fan = self?.fan, mode == .automatic || fan.mode != mode {
-                self?.fan.mode = mode
-                self?.fan.customMode = mode
-                SMCHelper.shared.setFanMode(fan.id, mode: mode.rawValue)
+            guard let self = self else { return }
+            // Leaving temp mode
+            FanTempController.shared.setTempMode(fanID: self.fan.id, false)
+            self.toggleTempMode(false)
+            if mode == .automatic || self.fan.mode != mode {
+                self.fan.mode = mode
+                self.fan.customMode = mode
+                SMCHelper.shared.setFanMode(self.fan.id, mode: mode.rawValue)
             }
-            self?.toggleControlView(mode == .forced)
+            self.toggleControlView(mode == .forced)
+        }
+        buttons.temp = { [weak self] in
+            guard let self = self else { return }
+            // Set SMC to automatic — the controller will drive it
+            self.fan.mode = .automatic
+            self.fan.customMode = .automatic
+            SMCHelper.shared.setFanMode(self.fan.id, mode: FanMode.automatic.rawValue)
+            FanTempController.shared.setTempMode(fanID: self.fan.id, true)
+            self.toggleControlView(false)
+            self.toggleTempMode(true)
         }
         buttons.off = { [weak self] in
-            if let fan = self?.fan {
-                if self?.fan.mode != .forced {
-                    self?.fan.mode = .forced
-                    SMCHelper.shared.setFanMode(fan.id, mode: FanMode.forced.rawValue)
-                }
-                SMCHelper.shared.setFanSpeed(fan.id, speed: 0)
-                self?.fan.customSpeed = 0
+            guard let self = self else { return }
+            FanTempController.shared.setTempMode(fanID: self.fan.id, false)
+            self.toggleTempMode(false)
+            if self.fan.mode != .forced {
+                self.fan.mode = .forced
+                SMCHelper.shared.setFanMode(self.fan.id, mode: FanMode.forced.rawValue)
             }
-            self?.toggleControlView(false)
+            SMCHelper.shared.setFanSpeed(self.fan.id, speed: 0)
+            self.fan.customSpeed = 0
+            self.toggleControlView(false)
         }
         buttons.turbo = { [weak self] in
-            if let fan = self?.fan {
-                if self?.fan.mode != .forced {
-                    self?.fan.mode = .forced
-                    SMCHelper.shared.setFanMode(fan.id, mode: FanMode.forced.rawValue)
-                }
-                SMCHelper.shared.setFanSpeed(fan.id, speed: Int(fan.maxSpeed))
-                self?.fan.customSpeed = Int(fan.maxSpeed)
+            guard let self = self else { return }
+            FanTempController.shared.setTempMode(fanID: self.fan.id, false)
+            self.toggleTempMode(false)
+            if self.fan.mode != .forced {
+                self.fan.mode = .forced
+                SMCHelper.shared.setFanMode(self.fan.id, mode: FanMode.forced.rawValue)
             }
-            self?.toggleControlView(false)
+            SMCHelper.shared.setFanSpeed(self.fan.id, speed: Int(self.fan.maxSpeed))
+            self.fan.customSpeed = Int(self.fan.maxSpeed)
+            self.toggleControlView(false)
         }
         
         view.addSubview(buttons)
@@ -765,6 +773,85 @@ internal class FanView: NSStackView {
         return view
     }
     
+    /// Builds the AC + Battery temperature target slider view shown in Temp mode.
+    private func tempControl() -> NSView {
+        let id = self.fan.id
+        let w = self.frame.width
+        let rowH: CGFloat = 22
+        let gap: CGFloat  = 2
+        let totalH = rowH * 2 + gap
+        let labelW: CGFloat = 22
+        let valueW: CGFloat = 44
+
+        let view = NSView(frame: NSRect(x: 0, y: 0, width: w, height: totalH))
+        view.heightAnchor.constraint(equalToConstant: totalH).isActive = true
+
+        func makeRow(emoji: String, y: CGFloat, target: Int,
+                     sliderStore: inout NSSlider?,
+                     labelStore:  inout NSTextField?) {
+            let lbl = TextView(frame: NSRect(x: 0, y: y, width: labelW, height: rowH))
+            lbl.stringValue = emoji
+            lbl.font = NSFont.systemFont(ofSize: 13)
+            lbl.alignment = .center
+
+            let sl = NSSlider(frame: NSRect(x: labelW + 2, y: y,
+                                            width: w - labelW - valueW - 4, height: rowH))
+            sl.minValue = 30; sl.maxValue = 85
+            sl.intValue = Int32(target)
+            sl.isContinuous = true
+            sliderStore = sl
+
+            let val = TextView(frame: NSRect(x: w - valueW, y: y, width: valueW, height: rowH))
+            val.stringValue = "\(target)°C"
+            val.font = NSFont.monospacedDigitSystemFont(ofSize: 11, weight: .regular)
+            val.alignment = .right
+            labelStore = val
+
+            view.addSubview(lbl)
+            view.addSubview(sl)
+            view.addSubview(val)
+        }
+
+        makeRow(emoji: "⚡", y: rowH + gap,
+                target: FanTempController.shared.acTarget(fanID: id),
+                sliderStore: &self.acSlider, labelStore: &self.acValueLabel)
+
+        makeRow(emoji: "🔋", y: 0,
+                target: FanTempController.shared.battTarget(fanID: id),
+                sliderStore: &self.battSlider, labelStore: &self.battValueLabel)
+
+        self.acSlider?.target   = self; self.acSlider?.action   = #selector(acSliderChanged)
+        self.battSlider?.target = self; self.battSlider?.action = #selector(battSliderChanged)
+
+        return view
+    }
+
+    @objc private func acSliderChanged(_ sender: NSSlider) {
+        let v = sender.integerValue
+        FanTempController.shared.setACTarget(fanID: self.fan.id, v)
+        self.acValueLabel?.stringValue = "\(v)°C"
+    }
+
+    @objc private func battSliderChanged(_ sender: NSSlider) {
+        let v = sender.integerValue
+        FanTempController.shared.setBattTarget(fanID: self.fan.id, v)
+        self.battValueLabel?.stringValue = "\(v)°C"
+    }
+
+    private func toggleTempMode(_ active: Bool) {
+        if active {
+            self.controlView?.removeFromSuperview()
+            if let v = self.tempControlView {
+                self.addArrangedSubview(v)
+            }
+        } else {
+            self.tempControlView?.removeFromSuperview()
+        }
+        let h = self.arrangedSubviews.map({ $0.bounds.height }).reduce(0, +)
+        self.setFrameSize(NSSize(width: self.frame.width, height: h + self.horizontalMargin))
+        self.sizeCallback()
+    }
+
     private func toggleControlView(_ state: Bool) {
         guard let view = self.controlView else {
             return
@@ -955,23 +1042,31 @@ internal class FanView: NSStackView {
     
     private func setupControls(_ isInstalled: Bool? = nil) {
         let helperState = isInstalled ?? SMCHelper.shared.isInstalled
+        let isTemp = FanTempController.shared.isTempMode(fanID: self.fan.id)
         
         if !self.controlState {
             self.helperView?.removeFromSuperview()
             self.controlView?.removeFromSuperview()
             self.buttonsView?.removeFromSuperview()
+            self.tempControlView?.removeFromSuperview()
         } else {
             if helperState {
                 self.helperView?.removeFromSuperview()
                 if self.fan.maxSpeed != self.fan.minSpeed, let v = self.buttonsView {
                     self.addArrangedSubview(v)
                 }
-                if self.fan.mode == .forced, let v = self.controlView {
+                if isTemp {
+                    self.modeButtons?.selectTemp()
+                    if let v = self.tempControlView {
+                        self.addArrangedSubview(v)
+                    }
+                } else if self.fan.mode == .forced, let v = self.controlView {
                     self.addArrangedSubview(v)
                 }
             } else {
                 self.buttonsView?.removeFromSuperview()
                 self.controlView?.removeFromSuperview()
+                self.tempControlView?.removeFromSuperview()
                 if let v = self.helperView {
                     self.addArrangedSubview(v)
                 }
@@ -993,23 +1088,11 @@ internal class FanView: NSStackView {
         self.controlState = state
         self.setupControls()
     }
-
-    /// Greys out manual controls when the temperature controller is driving this fan.
-    public func setControlledByTempController(_ controlled: Bool) {
-        DispatchQueue.main.async {
-            self.slider?.isEnabled = !controlled
-            self.minBtn?.isEnabled = !controlled
-            self.maxBtn?.isEnabled = !controlled
-            self.modeButtons?.subviews.compactMap({ $0 as? NSButton }).forEach { $0.isEnabled = !controlled }
-            let tip = controlled ? localizedString("Controlled by Fan Temperature Controller") : nil
-            self.slider?.toolTip = tip
-            self.modeButtons?.toolTip = tip
-        }
-    }
 }
 
 private class ModeButtons: NSStackView {
     public var callback: (FanMode) -> Void = {_ in }
+    public var temp: () -> Void = {}
     public var turbo: () -> Void = {}
     public var off: () -> Void = {}
     
@@ -1018,8 +1101,9 @@ private class ModeButtons: NSStackView {
     }
     
     private var offBtn: NSButton
-    private var autoBtn: NSButton = NSButton(title: localizedString("Automatic"), target: nil, action: #selector(autoMode))
-    private var manualBtn: NSButton = NSButton(title: localizedString("Manual"), target: nil, action: #selector(manualMode))
+    private var autoBtn: NSButton   = NSButton(title: localizedString("Automatic"), target: nil, action: #selector(autoMode))
+    private var manualBtn: NSButton = NSButton(title: localizedString("Manual"),    target: nil, action: #selector(manualMode))
+    private var tempBtn: NSButton   = NSButton(title: localizedString("Temp"),      target: nil, action: #selector(tempMode))
     private var turboBtn: NSButton
     
     public init(frame: NSRect, mode: FanMode) {
@@ -1059,8 +1143,14 @@ private class ModeButtons: NSStackView {
         self.manualBtn.target = self
         self.manualBtn.state = mode == .forced ? .on : .off
         
+        self.tempBtn.setButtonType(.toggle)
+        self.tempBtn.isBordered = false
+        self.tempBtn.target = self
+        self.tempBtn.state = .off
+        
         modes.addArrangedSubview(self.autoBtn)
         modes.addArrangedSubview(self.manualBtn)
+        modes.addArrangedSubview(self.tempBtn)
         
         self.offBtn.setButtonType(.toggle)
         self.offBtn.isBordered = false
@@ -1100,6 +1190,7 @@ private class ModeButtons: NSStackView {
         }
         
         self.manualBtn.state = .off
+        self.tempBtn.state = .off
         self.offBtn.state = .off
         self.turboBtn.state = .off
         self.callback(.automatic)
@@ -1115,11 +1206,33 @@ private class ModeButtons: NSStackView {
         }
         
         self.autoBtn.state = .off
+        self.tempBtn.state = .off
         self.offBtn.state = .off
         self.turboBtn.state = .off
         self.callback(.forced)
         
         NotificationCenter.default.post(name: .syncFansControl, object: nil, userInfo: ["mode": "forced"])
+    }
+    
+    @objc private func tempMode(_ sender: NSButton) {
+        if sender.state.rawValue == 0 {
+            self.tempBtn.state = .on
+            return
+        }
+        self.autoBtn.state = .off
+        self.manualBtn.state = .off
+        self.offBtn.state = .off
+        self.turboBtn.state = .off
+        self.temp()
+    }
+    
+    /// Visually select the Temp button (called on startup restore).
+    public func selectTemp() {
+        self.tempBtn.state   = .on
+        self.autoBtn.state   = .off
+        self.manualBtn.state = .off
+        self.offBtn.state    = .off
+        self.turboBtn.state  = .off
     }
     
     @objc private func offMode(_ sender: NSButton) {
@@ -1202,209 +1315,20 @@ private class ModeButtons: NSStackView {
     
     public func setMode(_ mode: FanMode) {
         if mode.isAutomatic {
-            self.autoBtn.state = .on
+            self.autoBtn.state   = .on
             self.manualBtn.state = .off
-            self.offBtn.state = .off
-            self.turboBtn.state = .off
+            self.tempBtn.state   = .off
+            self.offBtn.state    = .off
+            self.turboBtn.state  = .off
             self.callback(.automatic)
         } else if mode == .forced {
             self.manualBtn.state = .on
-            self.autoBtn.state = .off
-            self.offBtn.state = .off
-            self.turboBtn.state = .off
+            self.autoBtn.state   = .off
+            self.tempBtn.state   = .off
+            self.offBtn.state    = .off
+            self.turboBtn.state  = .off
             self.callback(.forced)
         }
     }
 }
 
-// MARK: - Fan Temperature Controller popup panel
-
-/// A compact inline panel that lives between the Fans and Sensors sections of the popup.
-/// Lets the user enable/disable the temperature-driven fan controller and tune target
-/// temperatures for AC adapter and battery power, without leaving the popup.
-private class FanTempControllerPopupView: NSStackView {
-    private var sizeCallback: () -> Void
-    
-    private var acEnabledBtn:   NSButton?
-    private var battEnabledBtn: NSButton?
-    private var acStepper:      NSStepper?
-    private var battStepper:    NSStepper?
-    private var acTempLabel:    NSTextField?
-    private var battTempLabel:  NSTextField?
-    private var cpuTempLabel:   NSTextField?
-    
-    private let ctrl = FanTempController.shared
-    
-    init(width: CGFloat, sizeCallback: @escaping () -> Void) {
-        self.sizeCallback = sizeCallback
-        super.init(frame: NSRect(x: 0, y: 0, width: width, height: 0))
-        self.orientation = .vertical
-        self.spacing = 0
-        self.alignment = .leading
-        self.buildUI(width: width)
-        self.recalc()
-    }
-    
-    required init?(coder: NSCoder) { fatalError() }
-    
-    // MARK: - Build
-    
-    private func buildUI(width: CGFloat) {
-        self.addArrangedSubview(self.headerRow(width: width))
-        self.addArrangedSubview(self.acRow(width: width))
-        self.addArrangedSubview(self.battRow(width: width))
-    }
-    
-    /// "🌡 Fan Temp Control   CPU: XX°C" header row
-    private func headerRow(width: CGFloat) -> NSView {
-        let h: CGFloat = 22
-        let row = NSView(frame: NSRect(x: 0, y: 0, width: width, height: h))
-        row.widthAnchor.constraint(equalToConstant: width).isActive = true
-        row.heightAnchor.constraint(equalToConstant: h).isActive = true
-        
-        let label = TextView(frame: NSRect(x: 8, y: 2, width: 160, height: h - 4))
-        label.stringValue = "🌡 Fan Temp Control"
-        label.font = NSFont.systemFont(ofSize: 11, weight: .medium)
-        label.textColor = .secondaryLabelColor
-        
-        let cpuLbl = TextView(frame: NSRect(x: width - 100, y: 2, width: 92, height: h - 4))
-        cpuLbl.font = NSFont.systemFont(ofSize: 11, weight: .light)
-        cpuLbl.textColor = .tertiaryLabelColor
-        cpuLbl.alignment = .right
-        cpuLbl.stringValue = ""
-        self.cpuTempLabel = cpuLbl
-        
-        row.addSubview(label)
-        row.addSubview(cpuLbl)
-        return row
-    }
-    
-    /// AC Adapter row: [⚡ AC adapter]  [toggle]  [stepper] [temp label]
-    private func acRow(width: CGFloat) -> NSView {
-        self.profileRow(
-            width: width,
-            labelText: "⚡ AC Adapter",
-            isEnabled: ctrl.acSettings.enabled,
-            targetTemp: ctrl.acSettings.targetTemp,
-            enabledBtnRef: &acEnabledBtn,
-            stepperRef: &acStepper,
-            tempLabelRef: &acTempLabel,
-            enableAction: #selector(toggleAC),
-            stepperAction: #selector(acStepperChanged)
-        )
-    }
-    
-    /// Battery row: [🔋 Battery]  [toggle]  [stepper] [temp label]
-    private func battRow(width: CGFloat) -> NSView {
-        self.profileRow(
-            width: width,
-            labelText: "🔋 Battery",
-            isEnabled: ctrl.battSettings.enabled,
-            targetTemp: ctrl.battSettings.targetTemp,
-            enabledBtnRef: &battEnabledBtn,
-            stepperRef: &battStepper,
-            tempLabelRef: &battTempLabel,
-            enableAction: #selector(toggleBatt),
-            stepperAction: #selector(battStepperChanged)
-        )
-    }
-    
-    private func profileRow(
-        width: CGFloat,
-        labelText: String,
-        isEnabled: Bool,
-        targetTemp: Int,
-        enabledBtnRef: inout NSButton?,
-        stepperRef: inout NSStepper?,
-        tempLabelRef: inout NSTextField?,
-        enableAction: Selector,
-        stepperAction: Selector
-    ) -> NSView {
-        let h: CGFloat = 24
-        let view = NSView(frame: NSRect(x: 0, y: 0, width: width, height: h))
-        view.widthAnchor.constraint(equalToConstant: width).isActive = true
-        view.heightAnchor.constraint(equalToConstant: h).isActive = true
-        
-        // Profile label
-        let label = TextView(frame: NSRect(x: 8, y: 3, width: 100, height: h - 6))
-        label.stringValue = labelText
-        label.font = NSFont.systemFont(ofSize: 11, weight: .regular)
-        label.textColor = .labelColor
-        
-        // Enable toggle
-        let toggle = NSButton(frame: NSRect(x: 110, y: 2, width: 40, height: h - 4))
-        toggle.setButtonType(.switch)
-        toggle.title = ""
-        toggle.state = isEnabled ? .on : .off
-        toggle.target = self
-        toggle.action = enableAction
-        enabledBtnRef = toggle
-        
-        // Stepper
-        let stepper = NSStepper(frame: NSRect(x: width - 80, y: 1, width: 22, height: h - 2))
-        stepper.minValue = 30
-        stepper.maxValue = 85
-        stepper.increment = 1
-        stepper.intValue = Int32(targetTemp)
-        stepper.target = self
-        stepper.action = stepperAction
-        stepper.isEnabled = isEnabled
-        stepperRef = stepper
-        
-        // Temp value label
-        let tempLabel = TextView(frame: NSRect(x: width - 56, y: 3, width: 50, height: h - 6))
-        tempLabel.stringValue = "\(targetTemp)°C"
-        tempLabel.font = NSFont.monospacedDigitSystemFont(ofSize: 12, weight: .regular)
-        tempLabel.textColor = isEnabled ? .labelColor : .tertiaryLabelColor
-        tempLabel.alignment = .right
-        tempLabelRef = tempLabel
-        
-        view.addSubview(label)
-        view.addSubview(toggle)
-        view.addSubview(stepper)
-        view.addSubview(tempLabel)
-        return view
-    }
-    
-    // MARK: - Actions
-    
-    @objc private func toggleAC(_ sender: NSButton) {
-        ctrl.acSettings.enabled = sender.state == .on
-        acStepper?.isEnabled = sender.state == .on
-        acTempLabel?.textColor = sender.state == .on ? .labelColor : .tertiaryLabelColor
-    }
-    
-    @objc private func toggleBatt(_ sender: NSButton) {
-        ctrl.battSettings.enabled = sender.state == .on
-        battStepper?.isEnabled = sender.state == .on
-        battTempLabel?.textColor = sender.state == .on ? .labelColor : .tertiaryLabelColor
-    }
-    
-    @objc private func acStepperChanged(_ sender: NSStepper) {
-        ctrl.acSettings.targetTemp = sender.integerValue
-        acTempLabel?.stringValue = "\(sender.integerValue)°C"
-    }
-    
-    @objc private func battStepperChanged(_ sender: NSStepper) {
-        ctrl.battSettings.targetTemp = sender.integerValue
-        battTempLabel?.stringValue = "\(sender.integerValue)°C"
-    }
-    
-    // MARK: - Update
-    
-    func updateCPUTemp(_ temp: Double) {
-        guard temp > 0 else {
-            cpuTempLabel?.stringValue = ""
-            return
-        }
-        cpuTempLabel?.stringValue = "CPU \(Int(temp))°C"
-    }
-    
-    // MARK: - Layout
-    
-    private func recalc() {
-        let h = self.arrangedSubviews.map({ $0.bounds.height }).reduce(0, +)
-        self.setFrameSize(NSSize(width: self.frame.width, height: h))
-        self.sizeCallback()
-    }
-}
