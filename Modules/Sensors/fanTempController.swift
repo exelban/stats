@@ -74,8 +74,8 @@ internal struct FanTempSettings {
 public class FanTempController {
     public static let shared = FanTempController()
 
-    internal let acSettings    = FanTempSettings(storePrefix: "Sensors_FanTempCtrl_AC")
-    internal let battSettings  = FanTempSettings(storePrefix: "Sensors_FanTempCtrl_Batt")
+    internal var acSettings    = FanTempSettings(storePrefix: "Sensors_FanTempCtrl_AC")
+    internal var battSettings  = FanTempSettings(storePrefix: "Sensors_FanTempCtrl_Batt")
 
     // RPM hysteresis – skip SMC write if new target is within this delta of the last write.
     private let hysteresisRPM: Int = 100
@@ -118,7 +118,7 @@ public class FanTempController {
 
             // Drive off the max CPU temp to match hardware thermal behaviour.
             let cpuTemps = sensors.compactMap { s -> Double? in
-                guard s.type == .temperature, s.group == .cpu else { return nil }
+                guard s.type == .temperature, s.group == .CPU else { return nil }
                 return s.value > 5 ? s.value : nil   // ignore parked/offline cores near 0
             }
             guard let maxCPUTemp = cpuTemps.max() else { return }

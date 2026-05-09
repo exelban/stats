@@ -30,7 +30,9 @@ extension CWPHYMode: @retroactive CustomStringConvertible {
         case .mode11g:  return "802.11g"
         case .mode11n:  return "802.11n"
         case .mode11ax: return "802.11ax"
+        #if swift(>=6.0)
         case .mode11be: return "802.11be"
+        #endif
         case .modeNone: return "none"
         @unknown default: return "unknown"
         }
