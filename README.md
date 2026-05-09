@@ -1,3 +1,29 @@
+# Stats (Apple Silicon thermal fork)
+
+> **This is a fork of [exelban/stats](https://github.com/exelban/stats) with one addition: thermal pressure and CPU speed limit visibility for Apple Silicon Macs.**
+> See [What's different](#whats-different) below. For everything else, refer to the original project.
+
+---
+
+## What's different
+
+On Apple Silicon (M1–M5), the upstream Stats app reads CPU speed limit data via `pmset` but never surfaces it in the UI — that code path was Intel-only. This fork re-enables it for ARM and adds macOS thermal pressure state alongside it.
+
+**New rows in the CPU popup → Details section (Apple Silicon only):**
+
+| Row | What it shows |
+|---|---|
+| Thermal pressure | `Nominal` / `Fair` / `Serious` / `Critical` with a colour-coded dot (green → yellow → orange → red), polled every 5 seconds via `ProcessInfo.thermalState` |
+| Speed limit | CPU speed limit % from `pmset -g therm` — drops below 100% when the chip is thermally throttled |
+
+**Files changed:** `Modules/CPU/readers.swift`, `Modules/CPU/main.swift`, `Modules/CPU/popup.swift`  
+**Architectures affected:** arm64 only. Intel behaviour is unchanged.  
+**APIs used:** `ProcessInfo.processInfo.thermalState` (public macOS API) and `/usr/bin/pmset -g therm` (same tool the upstream app already uses on Intel).
+
+No code was copied from any other project. This was developed and tested on a MacBook Pro M4 Max running macOS 26.
+
+---
+
 # Stats
 
 <a href="https://github.com/exelban/stats/releases"><p align="center"><img src="https://github.com/exelban/stats/raw/master/Stats/Supporting%20Files/Assets.xcassets/AppIcon.appiconset/icon_256x256.png" width="120"></p></a>
