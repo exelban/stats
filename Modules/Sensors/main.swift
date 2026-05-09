@@ -44,7 +44,10 @@ public class Sensors: Module {
         self.sensorsReader = SensorsReader { [weak self] value in
             self?.usageCallback(value)
         }
-        
+
+        let fans = self.sensorsReader?.list.sensors.compactMap { $0 as? Fan } ?? []
+        FanTempController.shared.registerFans(fans)
+
         self.settingsView.setList(self.sensorsReader?.list.sensors)
         self.popupView.setup(self.sensorsReader?.list.sensors)
         self.portalView.setup(self.sensorsReader?.list.sensors)
@@ -89,7 +92,10 @@ public class Sensors: Module {
     
     public override func willTerminate() {
         guard SMCHelper.shared.isActive(), let reader = self.sensorsReader else { return }
-        
+
+        let fans = reader.list.sensors.compactMap { $0 as? Fan }
+        FanTempController.shared.releaseAll(fans: fans)
+
         reader.list.sensors.filter({ $0 is Fan }).forEach { (s: Sensor_p) in
             if let f = s as? Fan, let mode = f.customMode {
                 if !mode.isAutomatic {
@@ -101,7 +107,9 @@ public class Sensors: Module {
     
     private func usageCallback(_ raw: Sensors_List?) {
         guard let value = raw, self.enabled else { return }
-        
+
+        FanTempController.shared.processTick(value.sensors)
+
         self.popupView.usageCallback(value.sensors)
         self.portalView.usageCallback(value.sensors)
         self.notificationsView.usageCallback(value.sensors)

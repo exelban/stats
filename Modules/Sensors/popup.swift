@@ -210,6 +210,7 @@ internal class Popup: PopupWrapper {
                     case let fan as FanView:
                         if let f = s as? Fan {
                             fan.update(f)
+                            fan.setControlledByTempController(FanTempController.shared.isControlling(fanID: f.id))
                         }
                     case let sensor as SensorView:
                         sensor.update(s)
@@ -978,6 +979,19 @@ internal class FanView: NSStackView {
         guard let state = notification.userInfo?["state"] as? Bool else { return }
         self.controlState = state
         self.setupControls()
+    }
+
+    /// Greys out manual controls when the temperature controller is driving this fan.
+    public func setControlledByTempController(_ controlled: Bool) {
+        DispatchQueue.main.async {
+            self.slider?.isEnabled = !controlled
+            self.minBtn?.isEnabled = !controlled
+            self.maxBtn?.isEnabled = !controlled
+            self.modeButtons?.subviews.compactMap({ $0 as? NSButton }).forEach { $0.isEnabled = !controlled }
+            let tip = controlled ? localizedString("Controlled by Fan Temperature Controller") : nil
+            self.slider?.toolTip = tip
+            self.modeButtons?.toolTip = tip
+        }
     }
 }
 

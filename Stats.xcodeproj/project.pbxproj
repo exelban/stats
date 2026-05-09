@@ -203,6 +203,8 @@
 		9AE29AF6249A52B00071B02D /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9AE29AF4249A52870071B02D /* config.plist */; };
 		9AE29AFB249A53DC0071B02D /* readers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE29AF9249A53780071B02D /* readers.swift */; };
 		9AE29AFC249A53DC0071B02D /* values.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE29AF7249A53420071B02D /* values.swift */; };
+		74CA2167DCD44E78A1A675AE /* fanTempController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA88DE57B7C145BC9BA3C64A /* fanTempController.swift */; };
+		A10F5E2F83BE4B23AC74384D /* fanTempControllerSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92DA9B0903734DBD8101B8C8 /* fanTempControllerSettings.swift */; };
 		9AEBBE4D28D773430082A6A1 /* Dot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBBE4C28D773430082A6A1 /* Dot.swift */; };
 		9AF9EE0924648751005D2270 /* Disk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AF9EE0224648751005D2270 /* Disk.framework */; };
 		9AF9EE0A24648751005D2270 /* Disk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AF9EE0224648751005D2270 /* Disk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -714,6 +716,8 @@
 		9AE29AF4249A52870071B02D /* config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = config.plist; path = Modules/Sensors/config.plist; sourceTree = SOURCE_ROOT; };
 		9AE29AF7249A53420071B02D /* values.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = values.swift; path = Modules/Sensors/values.swift; sourceTree = SOURCE_ROOT; };
 		9AE29AF9249A53780071B02D /* readers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = readers.swift; path = Modules/Sensors/readers.swift; sourceTree = SOURCE_ROOT; };
+		DA88DE57B7C145BC9BA3C64A /* fanTempController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = fanTempController.swift; path = Modules/Sensors/fanTempController.swift; sourceTree = SOURCE_ROOT; };
+		92DA9B0903734DBD8101B8C8 /* fanTempControllerSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = fanTempControllerSettings.swift; path = Modules/Sensors/fanTempControllerSettings.swift; sourceTree = SOURCE_ROOT; };
 		9AEBBE4C28D773430082A6A1 /* Dot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dot.swift; sourceTree = "<group>"; };
 		9AF9EE0224648751005D2270 /* Disk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Disk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AF9EE0524648751005D2270 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1285,6 +1289,8 @@
 				9A58DE9F24B363F300716A9F /* settings.swift */,
 				9AE29AF7249A53420071B02D /* values.swift */,
 				5CF2211A2B1F8CEF006C583F /* notifications.swift */,
+				DA88DE57B7C145BC9BA3C64A /* fanTempController.swift */,
+				92DA9B0903734DBD8101B8C8 /* fanTempControllerSettings.swift */,
 				9AE29AEC249A50960071B02D /* Info.plist */,
 				9AE29AF4249A52870071B02D /* config.plist */,
 				9A3616E82613C3D400D657B6 /* bridge.h */,
@@ -2246,6 +2252,8 @@
 				9AB6D03926447CAA003215A5 /* reader.m in Sources */,
 				9AE29AFB249A53DC0071B02D /* readers.swift in Sources */,
 				9AE29AFC249A53DC0071B02D /* values.swift in Sources */,
+				74CA2167DCD44E78A1A675AE /* fanTempController.swift in Sources */,
+				A10F5E2F83BE4B23AC74384D /* fanTempControllerSettings.swift in Sources */,
 				9A58DE9E24B363D800716A9F /* popup.swift in Sources */,
 				9AE29AF3249A51D70071B02D /* main.swift in Sources */,
 				9A58DEA024B363F300716A9F /* settings.swift in Sources */,
