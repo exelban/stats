@@ -34,8 +34,7 @@ internal enum PowerSource {
 public class FanTempController {
     public static let shared = FanTempController()
 
-    private let hysteresisRPM: Int = 100
-    private let minTickInterval: TimeInterval = 1.0
+    private let minTickInterval: TimeInterval = 0.5   // 500 ms — fast response
 
     private var lastSetRPM: [Int: Int] = [:]        // fanID → last written RPM (-1 = auto)
     private var fanBounds: [Int: (min: Double, max: Double)] = [:]
@@ -123,30 +122,40 @@ public class FanTempController {
                     : self.acTarget(fanID: fan.id)
 
                 let bounds = self.fanBounds[fan.id]
-                let minRPM = bounds?.min ?? fan.minSpeed
-                let maxRPM = bounds?.max ?? fan.maxSpeed
-                // Ramp linearly from min to max over a 25°C window above the target
-                let target = self.targetRPM(
-                    temp: maxCPUTemp,
-                    targetTemp: Double(targetTemp),
-                    maxTemp: Double(targetTemp + 25),
-                    minRPM: minRPM,
-                    maxRPM: maxRPM
-                )
+                let minRPM = Int(bounds?.min ?? fan.minSpeed)
+                let maxRPM = Int(bounds?.max ?? fan.maxSpeed)
+                guard maxRPM > minRPM else { continue }
 
-                if target < 0 {
-                    if let prev = self.lastSetRPM[fan.id], prev >= 0 {
-                        SMCHelper.shared.setFanMode(fan.id, mode: FanMode.automatic.rawValue)
-                        self.lastSetRPM[fan.id] = -1
+                let prev = self.lastSetRPM[fan.id] ?? -1
+
+                if maxCPUTemp > Double(targetTemp) {
+                    // --- HOT: blast fans immediately to max ---
+                    // Small linear ramp in the first 3°C above target for smoothness,
+                    // then stay at max. This gives an instant "kick" feel.
+                    let overshoot = maxCPUTemp - Double(targetTemp)
+                    let ratio = min(1.0, overshoot / 3.0)   // full blast within 3°C overshoot
+                    let newRPM = Int(Double(minRPM) + ratio * Double(maxRPM - minRPM))
+
+                    if newRPM != prev {
+                        if fan.mode.isAutomatic {
+                            SMCHelper.shared.setFanMode(fan.id, mode: FanMode.forced.rawValue)
+                        }
+                        SMCHelper.shared.setFanSpeed(fan.id, speed: newRPM)
+                        self.lastSetRPM[fan.id] = newRPM
                     }
                 } else {
-                    let prev = self.lastSetRPM[fan.id] ?? -1
-                    guard prev < 0 || abs(target - prev) >= self.hysteresisRPM else { continue }
-                    if fan.mode.isAutomatic {
-                        SMCHelper.shared.setFanMode(fan.id, mode: FanMode.forced.rawValue)
+                    // --- COOL: reduce slowly so the laptop stays comfortable ---
+                    // Max 200 RPM step per 500 ms tick → takes ~20 s to spin fully down.
+                    if prev > 0 {
+                        let stepped = max(minRPM, prev - 200)
+                        if stepped <= minRPM {
+                            SMCHelper.shared.setFanMode(fan.id, mode: FanMode.automatic.rawValue)
+                            self.lastSetRPM[fan.id] = -1
+                        } else {
+                            SMCHelper.shared.setFanSpeed(fan.id, speed: stepped)
+                            self.lastSetRPM[fan.id] = stepped
+                        }
                     }
-                    SMCHelper.shared.setFanSpeed(fan.id, speed: target)
-                    self.lastSetRPM[fan.id] = target
                 }
             }
         }
@@ -171,12 +180,4 @@ public class FanTempController {
     // MARK: - Private
 
     private var lastTickDate: Date = .distantPast
-
-    private func targetRPM(temp: Double, targetTemp: Double, maxTemp: Double,
-                           minRPM: Double, maxRPM: Double) -> Int {
-        guard temp > targetTemp else { return -1 }
-        let range = max(1, maxTemp - targetTemp)
-        let ratio = min(1.0, (temp - targetTemp) / range)
-        return Int(minRPM + ratio * (maxRPM - minRPM))
-    }
 }
