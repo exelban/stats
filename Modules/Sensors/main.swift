@@ -45,9 +45,6 @@ public class Sensors: Module {
             self?.usageCallback(value)
         }
 
-        let fans = self.sensorsReader?.list.sensors.compactMap { $0 as? Fan } ?? []
-        FanTempController.shared.registerFans(fans)
-
         self.settingsView.setList(self.sensorsReader?.list.sensors)
         self.popupView.setup(self.sensorsReader?.list.sensors)
         self.portalView.setup(self.sensorsReader?.list.sensors)

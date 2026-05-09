@@ -204,10 +204,10 @@ internal class Popup: PopupWrapper {
                 }
             }
             
-            let cpuTemp = values.compactMap { s -> Double? in
-                guard s.type == .temperature, s.group == .CPU, s.value > 5 else { return nil }
-                return s.value
-            }.max() ?? 0
+            let airflowL = values.first { $0.key == "TaLW" && $0.value > 5 }?.value
+                        ?? values.first { $0.key == "TaLP" && $0.value > 5 }?.value ?? 0
+            let airflowR = values.first { $0.key == "TaRW" && $0.value > 5 }?.value
+                        ?? values.first { $0.key == "TaRF" && $0.value > 5 }?.value ?? 0
             
             if self.window?.isVisible ?? false {
                 values.forEach { (s: Sensor_p) in
@@ -215,7 +215,7 @@ internal class Popup: PopupWrapper {
                     case let fan as FanView:
                         if let f = s as? Fan {
                             fan.update(f)
-                            fan.updateCPUTemp(cpuTemp)
+                            fan.updateAirflowTemp(left: airflowL, right: airflowR)
                         }
                     case let sensor as SensorView:
                         sensor.update(s)
@@ -497,7 +497,7 @@ internal class FanView: NSStackView {
     private var slider: NSSlider? = nil
     private var acSlider: NSSlider? = nil
     private var battSlider: NSSlider? = nil
-    private var cpuTempLabel: NSTextField? = nil
+    private var airportTempLabel: NSTextField? = nil  // shows "L: 32°C  R: 32°C"
     private var modeButtons: ModeButtons? = nil
     private var debouncer: DispatchWorkItem? = nil
     
@@ -800,12 +800,12 @@ internal class FanView: NSStackView {
         hdrLabel.font = NSFont.systemFont(ofSize: 10, weight: .medium)
         hdrLabel.textColor = .secondaryLabelColor
 
-        let cpuLbl = TextView(frame: NSRect(x: w * 0.55, y: totalH - hdrH, width: w * 0.45, height: hdrH))
-        cpuLbl.stringValue = "CPU: --°C"
-        cpuLbl.font = NSFont.monospacedDigitSystemFont(ofSize: 10, weight: .regular)
-        cpuLbl.textColor = .tertiaryLabelColor
-        cpuLbl.alignment = .right
-        self.cpuTempLabel = cpuLbl
+        let airportLbl = TextView(frame: NSRect(x: w * 0.45, y: totalH - hdrH, width: w * 0.55, height: hdrH))
+        airportLbl.stringValue = "L: --°C  R: --°C"
+        airportLbl.font = NSFont.monospacedDigitSystemFont(ofSize: 10, weight: .regular)
+        airportLbl.textColor = .tertiaryLabelColor
+        airportLbl.alignment = .right
+        self.airportTempLabel = airportLbl
 
         func makeRow(emoji: String, y: CGFloat, target: Int,
                      sliderStore: inout NSSlider?,
@@ -845,20 +845,22 @@ internal class FanView: NSStackView {
         self.battSlider?.target = self; self.battSlider?.action = #selector(battSliderChanged)
 
         view.addSubview(hdrLabel)
-        view.addSubview(cpuLbl)
+        view.addSubview(airportLbl)
         return view
     }
 
-    /// Called from usageCallback to keep the CPU temp readout fresh.
-    func updateCPUTemp(_ temp: Double) {
+    /// Called from usageCallback to keep the airflow temp readout fresh (L/R exhaust).
+    func updateAirflowTemp(left: Double, right: Double) {
         guard FanTempController.shared.isTempMode(fanID: self.fan.id) else { return }
-        self.cpuTempLabel?.stringValue = temp > 0 ? "CPU: \(Int(temp))°C" : "CPU: --°C"
-        // Warn visually if CPU is below target (fans won't ramp yet)
+        let lStr = left  > 0 ? "L: \(Int(left))°C"  : "L: --°C"
+        let rStr = right > 0 ? "R: \(Int(right))°C" : "R: --°C"
+        self.airportTempLabel?.stringValue = "\(lStr)  \(rStr)"
         let source = PowerSource.current
         let target = source == .battery
             ? FanTempController.shared.battTarget(fanID: self.fan.id)
             : FanTempController.shared.acTarget(fanID: self.fan.id)
-        self.cpuTempLabel?.textColor = temp > Double(target) ? .systemOrange : .tertiaryLabelColor
+        let hotTemp = max(left, right)
+        self.airportTempLabel?.textColor = hotTemp > Double(target) ? .systemOrange : .tertiaryLabelColor
     }
 
     @objc private func acSliderChanged(_ sender: NSSlider) {
