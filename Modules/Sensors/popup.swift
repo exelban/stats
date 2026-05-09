@@ -39,6 +39,7 @@ internal class Popup: PopupWrapper {
     
     private var sensors: [Sensor_p] = []
     private let settingsView: NSStackView = NSStackView()
+    private var fanTempPopupView: FanTempControllerPopupView? = nil
     
     private var fanControlState: Bool {
         get { Store.shared.bool(key: "Sensors_fanControl", defaultValue: true) }
@@ -140,6 +141,12 @@ internal class Popup: PopupWrapper {
                 container.setFrameSize(NSSize(width: container.frame.width, height: h))
             }
             self.addArrangedSubview(container)
+            
+            let ftv = FanTempControllerPopupView(width: self.frame.width) { [weak self] in
+                self?.recalculateHeight()
+            }
+            self.fanTempPopupView = ftv
+            self.addArrangedSubview(ftv)
         }
         
         var types: [SensorType] = []
@@ -203,6 +210,12 @@ internal class Popup: PopupWrapper {
                     sensor.addHistoryPoint(s)
                 }
             }
+            
+            let cpuTemp = values.compactMap { s -> Double? in
+                guard s.type == .temperature, s.group == .CPU, s.value > 5 else { return nil }
+                return s.value
+            }.max()
+            self.fanTempPopupView?.updateCPUTemp(cpuTemp ?? 0)
             
             if self.window?.isVisible ?? false {
                 values.forEach { (s: Sensor_p) in
@@ -1201,5 +1214,197 @@ private class ModeButtons: NSStackView {
             self.turboBtn.state = .off
             self.callback(.forced)
         }
+    }
+}
+
+// MARK: - Fan Temperature Controller popup panel
+
+/// A compact inline panel that lives between the Fans and Sensors sections of the popup.
+/// Lets the user enable/disable the temperature-driven fan controller and tune target
+/// temperatures for AC adapter and battery power, without leaving the popup.
+private class FanTempControllerPopupView: NSStackView {
+    private var sizeCallback: () -> Void
+    
+    private var acEnabledBtn:   NSButton?
+    private var battEnabledBtn: NSButton?
+    private var acStepper:      NSStepper?
+    private var battStepper:    NSStepper?
+    private var acTempLabel:    NSTextField?
+    private var battTempLabel:  NSTextField?
+    private var cpuTempLabel:   NSTextField?
+    
+    private let ctrl = FanTempController.shared
+    
+    init(width: CGFloat, sizeCallback: @escaping () -> Void) {
+        self.sizeCallback = sizeCallback
+        super.init(frame: NSRect(x: 0, y: 0, width: width, height: 0))
+        self.orientation = .vertical
+        self.spacing = 0
+        self.alignment = .leading
+        self.buildUI(width: width)
+        self.recalc()
+    }
+    
+    required init?(coder: NSCoder) { fatalError() }
+    
+    // MARK: - Build
+    
+    private func buildUI(width: CGFloat) {
+        self.addArrangedSubview(self.headerRow(width: width))
+        self.addArrangedSubview(self.acRow(width: width))
+        self.addArrangedSubview(self.battRow(width: width))
+    }
+    
+    /// "🌡 Fan Temp Control   CPU: XX°C" header row
+    private func headerRow(width: CGFloat) -> NSView {
+        let h: CGFloat = 22
+        let row = NSView(frame: NSRect(x: 0, y: 0, width: width, height: h))
+        row.widthAnchor.constraint(equalToConstant: width).isActive = true
+        row.heightAnchor.constraint(equalToConstant: h).isActive = true
+        
+        let label = TextView(frame: NSRect(x: 8, y: 2, width: 160, height: h - 4))
+        label.stringValue = "🌡 Fan Temp Control"
+        label.font = NSFont.systemFont(ofSize: 11, weight: .medium)
+        label.textColor = .secondaryLabelColor
+        
+        let cpuLbl = TextView(frame: NSRect(x: width - 100, y: 2, width: 92, height: h - 4))
+        cpuLbl.font = NSFont.systemFont(ofSize: 11, weight: .light)
+        cpuLbl.textColor = .tertiaryLabelColor
+        cpuLbl.alignment = .right
+        cpuLbl.stringValue = ""
+        self.cpuTempLabel = cpuLbl
+        
+        row.addSubview(label)
+        row.addSubview(cpuLbl)
+        return row
+    }
+    
+    /// AC Adapter row: [⚡ AC adapter]  [toggle]  [stepper] [temp label]
+    private func acRow(width: CGFloat) -> NSView {
+        self.profileRow(
+            width: width,
+            labelText: "⚡ AC Adapter",
+            isEnabled: ctrl.acSettings.enabled,
+            targetTemp: ctrl.acSettings.targetTemp,
+            enabledBtnRef: &acEnabledBtn,
+            stepperRef: &acStepper,
+            tempLabelRef: &acTempLabel,
+            enableAction: #selector(toggleAC),
+            stepperAction: #selector(acStepperChanged)
+        )
+    }
+    
+    /// Battery row: [🔋 Battery]  [toggle]  [stepper] [temp label]
+    private func battRow(width: CGFloat) -> NSView {
+        self.profileRow(
+            width: width,
+            labelText: "🔋 Battery",
+            isEnabled: ctrl.battSettings.enabled,
+            targetTemp: ctrl.battSettings.targetTemp,
+            enabledBtnRef: &battEnabledBtn,
+            stepperRef: &battStepper,
+            tempLabelRef: &battTempLabel,
+            enableAction: #selector(toggleBatt),
+            stepperAction: #selector(battStepperChanged)
+        )
+    }
+    
+    private func profileRow(
+        width: CGFloat,
+        labelText: String,
+        isEnabled: Bool,
+        targetTemp: Int,
+        enabledBtnRef: inout NSButton?,
+        stepperRef: inout NSStepper?,
+        tempLabelRef: inout NSTextField?,
+        enableAction: Selector,
+        stepperAction: Selector
+    ) -> NSView {
+        let h: CGFloat = 24
+        let view = NSView(frame: NSRect(x: 0, y: 0, width: width, height: h))
+        view.widthAnchor.constraint(equalToConstant: width).isActive = true
+        view.heightAnchor.constraint(equalToConstant: h).isActive = true
+        
+        // Profile label
+        let label = TextView(frame: NSRect(x: 8, y: 3, width: 100, height: h - 6))
+        label.stringValue = labelText
+        label.font = NSFont.systemFont(ofSize: 11, weight: .regular)
+        label.textColor = .labelColor
+        
+        // Enable toggle
+        let toggle = NSButton(frame: NSRect(x: 110, y: 2, width: 40, height: h - 4))
+        toggle.setButtonType(.switch)
+        toggle.title = ""
+        toggle.state = isEnabled ? .on : .off
+        toggle.target = self
+        toggle.action = enableAction
+        enabledBtnRef = toggle
+        
+        // Stepper
+        let stepper = NSStepper(frame: NSRect(x: width - 80, y: 1, width: 22, height: h - 2))
+        stepper.minValue = 30
+        stepper.maxValue = 85
+        stepper.increment = 1
+        stepper.intValue = Int32(targetTemp)
+        stepper.target = self
+        stepper.action = stepperAction
+        stepper.isEnabled = isEnabled
+        stepperRef = stepper
+        
+        // Temp value label
+        let tempLabel = TextView(frame: NSRect(x: width - 56, y: 3, width: 50, height: h - 6))
+        tempLabel.stringValue = "\(targetTemp)°C"
+        tempLabel.font = NSFont.monospacedDigitSystemFont(ofSize: 12, weight: .regular)
+        tempLabel.textColor = isEnabled ? .labelColor : .tertiaryLabelColor
+        tempLabel.alignment = .right
+        tempLabelRef = tempLabel
+        
+        view.addSubview(label)
+        view.addSubview(toggle)
+        view.addSubview(stepper)
+        view.addSubview(tempLabel)
+        return view
+    }
+    
+    // MARK: - Actions
+    
+    @objc private func toggleAC(_ sender: NSButton) {
+        ctrl.acSettings.enabled = sender.state == .on
+        acStepper?.isEnabled = sender.state == .on
+        acTempLabel?.textColor = sender.state == .on ? .labelColor : .tertiaryLabelColor
+    }
+    
+    @objc private func toggleBatt(_ sender: NSButton) {
+        ctrl.battSettings.enabled = sender.state == .on
+        battStepper?.isEnabled = sender.state == .on
+        battTempLabel?.textColor = sender.state == .on ? .labelColor : .tertiaryLabelColor
+    }
+    
+    @objc private func acStepperChanged(_ sender: NSStepper) {
+        ctrl.acSettings.targetTemp = sender.integerValue
+        acTempLabel?.stringValue = "\(sender.integerValue)°C"
+    }
+    
+    @objc private func battStepperChanged(_ sender: NSStepper) {
+        ctrl.battSettings.targetTemp = sender.integerValue
+        battTempLabel?.stringValue = "\(sender.integerValue)°C"
+    }
+    
+    // MARK: - Update
+    
+    func updateCPUTemp(_ temp: Double) {
+        guard temp > 0 else {
+            cpuTempLabel?.stringValue = ""
+            return
+        }
+        cpuTempLabel?.stringValue = "CPU \(Int(temp))°C"
+    }
+    
+    // MARK: - Layout
+    
+    private func recalc() {
+        let h = self.arrangedSubviews.map({ $0.bounds.height }).reduce(0, +)
+        self.setFrameSize(NSSize(width: self.frame.width, height: h))
+        self.sizeCallback()
     }
 }
