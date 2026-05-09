@@ -583,6 +583,54 @@ public class LimitReader: Reader<CPU_Limit> {
     }
 }
 
+public class ThermalStateReader: Reader<CPU_ThermalState> {
+    private var state: CPU_ThermalState = CPU_ThermalState()
+
+    public override func setup() {
+        self.popup = true
+        self.setInterval(5)
+    }
+
+    public override func read() {
+        self.state.thermalPressure = ProcessInfo.processInfo.thermalState.rawValue
+
+        let task = Process()
+        task.launchPath = "/usr/bin/pmset"
+        task.arguments = ["-g", "therm"]
+        let pipe = Pipe()
+        let errorPipe = Pipe()
+        defer {
+            pipe.fileHandleForReading.closeFile()
+            errorPipe.fileHandleForReading.closeFile()
+        }
+        task.standardOutput = pipe
+        task.standardError = errorPipe
+
+        do {
+            try task.run()
+        } catch let err {
+            error("error reading pmset for thermal state: \(err.localizedDescription)", log: self.log)
+            self.callback(self.state)
+            return
+        }
+
+        let output = String(data: pipe.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8) ?? ""
+        let allLines = output.split(separator: "\n")
+        let lines = allLines.count > 3 ? allLines.dropFirst(3) : []
+
+        self.state.schedulerLimit = 100
+        self.state.speedLimit = 100
+        lines.forEach { line in
+            guard let value = Int(line.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()) else { return }
+            if line.contains("Scheduler") { self.state.schedulerLimit = value }
+            else if line.contains("CPUs") { self.state.cpus = value }
+            else if line.contains("Speed") { self.state.speedLimit = value }
+        }
+
+        self.callback(self.state)
+    }
+}
+
 public class AverageLoadReader: Reader<CPU_AverageLoad> {
     private let title: String = "CPU"
     private var load: CPU_AverageLoad = CPU_AverageLoad()

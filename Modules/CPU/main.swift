@@ -44,6 +44,13 @@ public struct CPU_Limit: Codable {
     var speed: Int = 0
 }
 
+public struct CPU_ThermalState: Codable {
+    var thermalPressure: Int = ProcessInfo.ThermalState.nominal.rawValue
+    var schedulerLimit: Int = 100
+    var cpus: Int = 0
+    var speedLimit: Int = 100
+}
+
 public struct CPU_AverageLoad: Codable, RemoteType {
     var load1: Double = 0
     var load5: Double = 0
@@ -68,6 +75,7 @@ public class CPU: Module {
     private var frequencyReader: FrequencyReader? = nil
     private var limitReader: LimitReader? = nil
     private var averageLoadReader: AverageLoadReader? = nil
+    private var thermalStateReader: ThermalStateReader? = nil
     
     private var usagePerCoreState: Bool {
         Store.shared.bool(key: "\(self.config.name)_usagePerCore", defaultValue: false)
@@ -164,6 +172,9 @@ public class CPU: Module {
             self?.popupView.frequencyCallback(value)
             self?.previewView.frequencyCallback(value)
         }
+        self.thermalStateReader = ThermalStateReader(.CPU, popup: true) { [weak self] value in
+            self?.thermalStateCallback(value)
+        }
         #endif
         
         self.settingsView.callback = { [weak self] in
@@ -188,10 +199,16 @@ public class CPU: Module {
             self.temperatureReader,
             self.frequencyReader,
             self.limitReader,
-            self.averageLoadReader
+            self.averageLoadReader,
+            self.thermalStateReader
         ])
     }
     
+    private func thermalStateCallback(_ raw: CPU_ThermalState?) {
+        guard let value = raw, self.enabled else { return }
+        self.popupView.thermalStateCallback(value)
+    }
+
     private func loadCallback(_ raw: CPU_Load?) {
         guard let value = raw, self.enabled else { return }
         

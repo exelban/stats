@@ -17,7 +17,7 @@ internal class Popup: PopupWrapper {
     private let chartHeight: CGFloat = 120 + Constants.Popup.separatorHeight
     private var detailsHeight: CGFloat {
         get {
-            var count: CGFloat = isARM ? 4 : 6
+            var count: CGFloat = 6
             if SystemKit.shared.device.info.cpu?.eCores != nil {
                 count += 1
             }
@@ -51,6 +51,8 @@ internal class Popup: PopupWrapper {
     private var systemField: NSTextField? = nil
     private var userField: NSTextField? = nil
     private var idleField: NSTextField? = nil
+    private var thermalPressureColorView: NSView? = nil
+    private var thermalPressureField: NSTextField? = nil
     private var shedulerLimitField: NSTextField? = nil
     private var speedLimitField: NSTextField? = nil
     private var eCoresField: NSTextField? = nil
@@ -88,6 +90,7 @@ internal class Popup: PopupWrapper {
     private var initializedFrequency: Bool = false
     private var initializedProcesses: Bool = false
     private var initializedLimits: Bool = false
+    private var initializedThermal: Bool = false
     private var initializedAverage: Bool = false
     
     private var processes: ProcessesView? = nil
@@ -290,7 +293,10 @@ internal class Popup: PopupWrapper {
         (self.userColorView, _, self.userField) = popupWithColorRow(container, color: self.userColor, title: "\(localizedString("User")):", value: "")
         (self.idleColorView, _, self.idleField) = popupWithColorRow(container, color: self.idleColor.withAlphaComponent(0.5), title: "\(localizedString("Idle")):", value: "")
         
-        if !isARM {
+        if isARM {
+            (self.thermalPressureColorView, _, self.thermalPressureField) = popupWithColorRow(container, color: NSColor.systemGreen, title: "\(localizedString("Thermal pressure")):", value: "")
+            self.speedLimitField = popupRow(container, title: "\(localizedString("Speed limit")):", value: "").1
+        } else {
             self.shedulerLimitField = popupRow(container, title: "\(localizedString("Scheduler limit")):", value: "").1
             self.speedLimitField = popupRow(container, title: "\(localizedString("Speed limit")):", value: "").1
         }
@@ -518,6 +524,44 @@ internal class Popup: PopupWrapper {
         })
     }
     
+    public func thermalStateCallback(_ value: CPU_ThermalState?) {
+        guard let value else { return }
+
+        DispatchQueue.main.async(execute: {
+            if !(self.window?.isVisible ?? false) && self.initializedThermal {
+                return
+            }
+
+            let pressure = ProcessInfo.ThermalState(rawValue: value.thermalPressure) ?? .nominal
+            let label: String
+            let color: NSColor
+            switch pressure {
+            case .nominal:
+                label = localizedString("Nominal")
+                color = NSColor.systemGreen
+            case .fair:
+                label = localizedString("Fair")
+                color = NSColor.systemYellow
+            case .serious:
+                label = localizedString("Serious")
+                color = NSColor.systemOrange
+            case .critical:
+                label = localizedString("Critical")
+                color = NSColor.systemRed
+            @unknown default:
+                label = localizedString("Unknown")
+                color = NSColor.systemGray
+            }
+
+            self.thermalPressureField?.stringValue = label
+            self.thermalPressureColorView?.layer?.backgroundColor = color.cgColor
+
+            self.speedLimitField?.stringValue = "\(value.speedLimit)%"
+
+            self.initializedThermal = true
+        })
+    }
+
     public func limitCallback(_ value: CPU_Limit?) {
         guard let value else { return }
         
