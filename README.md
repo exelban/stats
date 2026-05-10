@@ -85,6 +85,8 @@ If you have concerns about these requests, you have a few options:
 - propose a PR that allows these features to work without an external server
 - block both of these servers using any network filtering app (if you're reading this, you're likely using something like Little Snitch, so you can easily do this). In this case do not expect to receive any updates or see your public IP in the network module.
 
+### How to contribute to the project?
+If you want to develop a new feature or you've found something that doesn't work, the first step is to open an issue so the feature or problem can be discussed. Pull requests should only be opened for existing issues and after discussion; otherwise, they may be closed automatically. There are a few cases where this can be skipped: for language changes, and for contributors who have already made significant contributions and whose implementations align well with the project.
 
 ## Supported languages
 - English
