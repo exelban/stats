@@ -104,6 +104,15 @@ private class GPUView: NSStackView {
         self.wantsLayer = true
         self.layer?.cornerRadius = 2
         
+        self.detailsView.sizeCallback = { [weak self] in
+            guard let self else { return }
+            self.setFrameSize(NSSize(
+                width: self.frame.width,
+                height: self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +)
+            ))
+            self.sizeCallback()
+        }
+        
         self.addArrangedSubview(self.title())
         self.addArrangedSubview(self.stats())
         self.addArrangedSubview(NSView())
@@ -336,6 +345,9 @@ private class GPUView: NSStackView {
 }
 
 private class GPUDetails: NSView {
+    public var sizeCallback: (() -> Void)?
+    
+    private var grid: NSGridView
     private var status: NSTextField? = nil
     private var fanSpeed: NSTextField? = nil
     private var coreClock: NSTextField? = nil
@@ -352,12 +364,14 @@ private class GPUDetails: NSView {
     }
     
     init(width: CGFloat, value: GPU_Info) {
+        self.grid = NSGridView(frame: NSRect(
+            x: Constants.Popup.margins, y: Constants.Popup.margins,
+            width: width - (Constants.Popup.margins*2), height: 0
+        ))
+        
         super.init(frame: NSRect(x: 0, y: 0, width: width, height: 0))
         
-        let grid: NSGridView = NSGridView(frame: NSRect(
-            x: Constants.Popup.margins, y: Constants.Popup.margins,
-            width: self.frame.width - (Constants.Popup.margins*2), height: 0
-        ))
+        let grid = self.grid
         grid.yPlacement = .center
         grid.xPlacement = .leading
         grid.rowSpacing = 0
@@ -484,7 +498,18 @@ private class GPUDetails: NSView {
             self.aneUtilization?.stringValue = "\(Int(value*100))%"
         }
         if let value = gpu.fps {
-            self.fps?.stringValue = "\(Int(value.rounded()))"
+            if let field = self.fps {
+                field.stringValue = "\(Int(value.rounded()))"
+            } else {
+                let arr = self.keyValueRow("\(localizedString("FPS")):", "\(Int(value.rounded()))")
+                self.fps = arr.last
+                self.grid.addRow(with: arr)
+                let height: CGFloat = (16 * CGFloat(self.grid.numberOfRows)) + Constants.Popup.margins
+                self.setFrameSize(NSSize(width: self.frame.width, height: height))
+                self.grid.setFrameSize(NSSize(width: self.grid.frame.width, height: height - Constants.Popup.margins))
+                self.invalidateIntrinsicContentSize()
+                self.sizeCallback?()
+            }
         }
     }
 }
