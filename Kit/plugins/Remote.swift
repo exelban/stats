@@ -518,7 +518,11 @@ public class RemoteAuth {
     }
     
     public func login(completion: @escaping (URL?) -> Void) {
-        self.registerDevice { device in
+        self.registerDevice { [weak self] device in
+            guard let self else {
+                completion(nil)
+                return
+            }
             guard let device else {
                 completion(nil)
                 return
@@ -529,8 +533,10 @@ public class RemoteAuth {
             self.userCode = device.user_code
             self.interval = device.interval ?? 5
             
-            self.repeater = Repeater(seconds: self.interval) {
-                self.pollForToken { error in
+            self.repeater = Repeater(seconds: self.interval) { [weak self] in
+                guard let self else { return }
+                self.pollForToken { [weak self] error in
+                    guard let self else { return }
                     guard error == nil else {
                         print(error?.localizedDescription ?? "error pooling for token")
                         self.repeater?.pause()
@@ -564,7 +570,11 @@ public class RemoteAuth {
         if let lastTime = self.lastValidationTime, now.timeIntervalSince(lastTime) < dynamicCooldown {
             let remainingTime = dynamicCooldown - now.timeIntervalSince(lastTime)
             self.cooldownLock.unlock()
-            DispatchQueue.main.asyncAfter(deadline: .now() + remainingTime) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + remainingTime) { [weak self] in
+                guard let self else {
+                    completion(false)
+                    return
+                }
                 self.validate(completion)
             }
             return
@@ -693,7 +703,11 @@ public class RemoteAuth {
             ("grant_type", "urn:ietf:params:oauth:grant-type:device_code")
         ])
         
-        self.session.dataTask(with: request) { data, response, error in
+        self.session.dataTask(with: request) { [weak self] data, response, error in
+            guard let self else {
+                completion(nil)
+                return
+            }
             if let error = error {
                 completion(error)
                 return
@@ -824,6 +838,11 @@ class MQTTManager: NSObject {
                 self.disconnect()
             }
         }
+    }
+    
+    deinit {
+        self.session?.invalidateAndCancel()
+        self.session = nil
     }
     
     public func connect() {

@@ -194,10 +194,11 @@ public class Network: Module {
             self?.connectivityCallback(value)
         }
         
-        self.settingsView.callbackWhenUpdateNumberOfProcesses = {
+        self.settingsView.callbackWhenUpdateNumberOfProcesses = { [weak self] in
+            guard let self else { return }
             self.popupView.numberOfProcessesUpdated()
-            DispatchQueue.global(qos: .background).async {
-                self.processReader?.read()
+            DispatchQueue.global(qos: .background).async { [weak self] in
+                self?.processReader?.read()
             }
         }
         

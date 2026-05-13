@@ -20,6 +20,13 @@ internal class UsageReader: Reader<Battery_Usage> {
     
     private var usage: Battery_Usage = Battery_Usage()
     
+    deinit {
+        if self.service != 0 {
+            IOObjectRelease(self.service)
+            self.service = 0
+        }
+    }
+    
     public override func start() {
         self.active = true
         let context = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())

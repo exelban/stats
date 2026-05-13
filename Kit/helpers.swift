@@ -1012,10 +1012,10 @@ public class SMCHelper {
         let connection = NSXPCConnection(machServiceName: "eu.exelban.Stats.SMC.Helper", options: .privileged)
         connection.exportedObject = self
         connection.remoteObjectInterface = NSXPCInterface(with: HelperProtocol.self)
-        connection.invalidationHandler = {
-            self.connection?.invalidationHandler = nil
-            OperationQueue.main.addOperation {
-                self.connection = nil
+        connection.invalidationHandler = { [weak self] in
+            self?.connection?.invalidationHandler = nil
+            OperationQueue.main.addOperation { [weak self] in
+                self?.connection = nil
             }
         }
         

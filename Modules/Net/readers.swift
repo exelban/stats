@@ -150,14 +150,16 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     private var lastDetailsReadTS: Date = .distantPast
     
     public override func setup() {
-        self.reachability.reachable = {
+        self.reachability.reachable = { [weak self] in
+            guard let self else { return }
             if self.active {
                 self.getPublicIP()
                 self.getDetails()
                 self.getWiFiDetails()
             }
         }
-        self.reachability.unreachable = {
+        self.reachability.unreachable = { [weak self] in
+            guard let self else { return }
             if self.active {
                 self.getWiFiDetails()
                 self.usage.reset()
@@ -168,7 +170,8 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(refreshPublicIP), name: .refreshPublicIP, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(resetTotalNetworkUsage), name: .resetTotalNetworkUsage, object: nil)
         
-        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 1) {
+        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 1) { [weak self] in
+            guard let self else { return }
             if self.active {
                 self.getPublicIP()
                 self.getDetails()
@@ -186,7 +189,10 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     
     public override func terminate() {
         self.reachability.stop()
+        self.reachability.reachable = {}
+        self.reachability.unreachable = {}
         self.stopListeningForWifiEvents()
+        self.wifiClient.delegate = nil
     }
     
     public override func read() {
@@ -724,6 +730,7 @@ internal class ConnectivityReader: Reader<Network_Connectivity> {
     
     private var socket: CFSocket?
     private var socketSource: CFRunLoopSource?
+    private var socketInfo: Unmanaged<ConnectivityReaderWrapper>?
     
     private var wrapper: Network_Connectivity = Network_Connectivity(status: false)
     
@@ -1002,6 +1009,7 @@ internal class ConnectivityReader: Reader<Network_Connectivity> {
     private func openConn() {
         let info = ConnectivityReaderWrapper(self)
         let unmanagedSocketInfo = Unmanaged.passRetained(info)
+        self.socketInfo = unmanagedSocketInfo
         var context = CFSocketContext(version: 0, info: unmanagedSocketInfo.toOpaque(), retain: nil, release: nil, copyDescription: nil)
         self.socket = CFSocketCreate(kCFAllocatorDefault, AF_INET, SOCK_DGRAM, IPPROTO_ICMP, CFSocketCallBackType.dataCallBack.rawValue, { _, callBackType, _, data, info in
             guard let info = info, let data = data else { return }
@@ -1028,6 +1036,8 @@ internal class ConnectivityReader: Reader<Network_Connectivity> {
             CFSocketInvalidate(socket)
             self.socket = nil
         }
+        self.socketInfo?.release()
+        self.socketInfo = nil
         self.timeoutTimer?.invalidate()
         self.timeoutTimer = nil
     }

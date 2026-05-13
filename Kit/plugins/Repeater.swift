@@ -28,8 +28,12 @@ internal class Repeater {
     }
     
     deinit {
+        self.timer.setEventHandler {}
         self.timer.cancel()
-        self.start()
+        if self.state == .paused {
+            self.timer.resume()
+            self.state = .running
+        }
     }
     
     private func setupTimer(_ interval: Int) {

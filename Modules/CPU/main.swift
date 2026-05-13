@@ -169,10 +169,11 @@ public class CPU: Module {
         self.settingsView.callback = { [weak self] in
             self?.loadReader?.read()
         }
-        self.settingsView.callbackWhenUpdateNumberOfProcesses = {
+        self.settingsView.callbackWhenUpdateNumberOfProcesses = { [weak self] in
+            guard let self else { return }
             self.popupView.numberOfProcessesUpdated()
-            DispatchQueue.global(qos: .background).async {
-                self.processReader?.read()
+            DispatchQueue.global(qos: .background).async { [weak self] in
+                self?.processReader?.read()
             }
         }
         self.settingsView.setInterval = { [weak self] value in

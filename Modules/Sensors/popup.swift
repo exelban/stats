@@ -554,9 +554,9 @@ internal class FanView: NSStackView {
             SMCHelper.shared.setFanMode(fan.id, mode: fanMode.rawValue)
             self.modeButtons?.setMode(FanMode(rawValue: fanMode.rawValue) ?? .automatic)
             
-            self.setSpeed(value: Int(self.speed), then: {
-                DispatchQueue.main.async {
-                    self.sliderValueField?.textColor = .systemBlue
+            self.setSpeed(value: Int(self.speed), then: { [weak self] in
+                DispatchQueue.main.async { [weak self] in
+                    self?.sliderValueField?.textColor = .systemBlue
                 }
             })
         }
@@ -570,7 +570,7 @@ internal class FanView: NSStackView {
         NSWorkspace.shared.notificationCenter.removeObserver(self)
         NotificationCenter.default.removeObserver(self, name: .syncFansControl, object: nil)
         NotificationCenter.default.removeObserver(self, name: .fanHelperState, object: nil)
-        NotificationCenter.default.removeObserver(self, name: .toggleSettings, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .toggleFanControl, object: nil)
     }
     
     override func updateLayer() {
@@ -846,13 +846,14 @@ internal class FanView: NSStackView {
         
         if self.speedState {
             if let mode = self.willSleepMode, let speed = self.willSleepSpeed {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+                    guard let self else { return }
                     SMCHelper.shared.setFanMode(self.fan.id, mode: mode.rawValue)
                     self.modeButtons?.setMode(mode)
                     if !mode.isAutomatic {
-                        self.setSpeed(value: speed, then: {
-                            DispatchQueue.main.async {
-                                self.sliderValueField?.textColor = .systemBlue
+                        self.setSpeed(value: speed, then: { [weak self] in
+                            DispatchQueue.main.async { [weak self] in
+                                self?.sliderValueField?.textColor = .systemBlue
                             }
                         })
                     }
@@ -863,9 +864,9 @@ internal class FanView: NSStackView {
         }
         
         if let value = self.fan.customSpeed, !self.fan.mode.isAutomatic {
-            self.setSpeed(value: value, then: {
-                DispatchQueue.main.async {
-                    self.sliderValueField?.textColor = .systemBlue
+            self.setSpeed(value: value, then: { [weak self] in
+                DispatchQueue.main.async { [weak self] in
+                    self?.sliderValueField?.textColor = .systemBlue
                 }
             })
         }
