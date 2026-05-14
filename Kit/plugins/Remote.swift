@@ -288,7 +288,7 @@ public class Remote {
             if httpResponse.statusCode == 200, let data,
                let account = try? JSONDecoder().decode(AccountResponse.self, from: data) {
                 Remote.shared.plan = account.plan
-                debug("Fetched plan: \(account.plan.rawValue)", log: self.log)
+                debug("Remote plan: \(account.plan.rawValue)", log: self.log)
             } else {
                 let bodyString = data.flatMap { String(data: $0, encoding: .utf8) } ?? ""
                 debug("Fetch account failed (\(httpResponse.statusCode)): \(bodyString)", log: self.log)

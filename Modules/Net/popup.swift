@@ -35,14 +35,14 @@ internal class Popup: PopupWrapper {
     private var totalUploadField: ValueField? = nil
     private var totalDownloadLabel: LabelField? = nil
     private var totalDownloadField: ValueField? = nil
-    private var statusField: ValueField? = nil
-    private var connectivityField: ValueField? = nil
+    private var statusField: StatusBadgeView? = nil
+    private var connectivityField: StatusBadgeView? = nil
     private var latencyField: ValueField? = nil
     private var jitterField: ValueField? = nil
     
     private var interfaceView: NSStackView? = nil
     private var interfaceField: ValueField? = nil
-    private var interfaceStatusField: ValueField? = nil
+    private var interfaceStatusField: StatusBadgeView? = nil
     private var macAddressField: ValueField? = nil
     private var ssidField: ValueField? = nil
     private var standardField: ValueField? = nil
@@ -275,8 +275,8 @@ internal class Popup: PopupWrapper {
         self.totalDownloadLabel = totalDownload.1
         self.totalDownloadField = totalDownload.2
         
-        self.statusField = popupRow(view, title: "\(localizedString("Status")):", value: localizedString("Unknown")).1
-        self.connectivityField = popupRow(view, title: "\(localizedString("Internet connection")):", value: localizedString("Unknown")).1
+        self.statusField = popupBadgeRow(view, title: "\(localizedString("Status")):").1
+        self.connectivityField = popupBadgeRow(view, title: "\(localizedString("Internet connection")):").1
         self.latencyField = popupRow(view, title: "\(localizedString("Latency")):", value: "0 ms").1
         self.jitterField = popupRow(view, title: "\(localizedString("Jitter")):", value: "0 ms").1
         
@@ -308,7 +308,7 @@ internal class Popup: PopupWrapper {
         view.addArrangedSubview(row)
         
         self.interfaceField = popupRow(view, title: "\(localizedString("Interface")):", value: localizedString("Unknown")).1
-        self.interfaceStatusField = popupRow(view, title: "\(localizedString("Status")):", value: localizedString("Unknown")).1
+        self.interfaceStatusField = popupBadgeRow(view, title: "\(localizedString("Status")):").1
         self.macAddressField = popupRow(view, title: "\(localizedString("Physical address")):", value: localizedString("Unknown")).1
         self.macAddressField?.isSelectable = true
         
@@ -447,12 +447,12 @@ internal class Popup: PopupWrapper {
                         self.interfaceField?.stringValue += ", \(cc)"
                     }
                     self.interfaceField?.stringValue += ")"
-                    self.interfaceStatusField?.stringValue = localizedString(interface.status ? "UP" : "DOWN")
+                    self.interfaceStatusField?.setStatus(interface.status)
                     self.macAddressField?.stringValue = interface.address
-                    self.interfaceSpeedField?.stringValue = "\(Int(interface.transmitRate.rounded()))baseT"
+                    self.interfaceSpeedField?.stringValue = "\(Int(interface.transmitRate.rounded()))Mbps"
                 } else {
                     self.interfaceField?.stringValue = localizedString("Unknown")
-                    self.interfaceStatusField?.stringValue = localizedString("Unknown")
+                    self.interfaceStatusField?.setStatus(nil)
                     self.macAddressField?.stringValue = localizedString("Unknown")
                     self.interfaceSpeedField?.stringValue = localizedString("Unknown")
                 }
@@ -594,7 +594,7 @@ internal class Popup: PopupWrapper {
                     }
                 }
                 
-                self.statusField?.stringValue = localizedString(value.status ? "UP" : "DOWN")
+                self.statusField?.setStatus(value.status)
                 
                 if resized {
                     self.recalculateHeight()
@@ -622,12 +622,10 @@ internal class Popup: PopupWrapper {
         
         DispatchQueue.main.async(execute: {
             if (self.window?.isVisible ?? false) || !self.connectionInitialized {
-                var text = "Unknown"
                 var latency = localizedString("Unknown")
                 var jitter = localizedString("Unknown")
-                
+
                 if let v = value {
-                    text = v.status ? "UP" : "DOWN"
                     if v.status && !self.latency.isEmpty {
                         latency = "\((self.latency.reduce(0, +) / Double(self.latency.count)).rounded(toPlaces: 2)) ms"
                     }
@@ -637,8 +635,8 @@ internal class Popup: PopupWrapper {
                 }
                 self.latencyField?.stringValue = latency
                 self.jitterField?.stringValue = jitter
-                
-                self.connectivityField?.stringValue = localizedString(text)
+
+                self.connectivityField?.setStatus(value?.status)
                 self.connectionInitialized = true
             }
             
@@ -668,7 +666,7 @@ internal class Popup: PopupWrapper {
     }
     
     public func resetConnectivityView() {
-        self.connectivityField?.stringValue = localizedString("Unknown")
+        self.connectivityField?.setStatus(nil)
     }
     
     // MARK: - Settings

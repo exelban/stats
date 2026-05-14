@@ -211,6 +211,17 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         self.usage.bandwidth.upload = max(self.usage.bandwidth.upload, 0) // prevent negative upload value
         self.usage.bandwidth.download = max(self.usage.bandwidth.download, 0) // prevent negative download value
         
+        // drop one-shot counter jumps (e.g. on reconnect) that exceed what the link can physically deliver
+        let interval = self.interval ?? 1
+        let maxDelta: Int64 = {
+            if let rate = self.usage.interface?.transmitRate, rate > 0 {
+                return Int64(rate * 1_000_000 / 8 * 1.5 * interval) // 50% headroom over negotiated link rate
+            }
+            return Int64(2_000_000_000 * interval) // 16 Gbps fallback when link rate is unknown
+        }()
+        if self.usage.bandwidth.upload > maxDelta { self.usage.bandwidth.upload = 0 }
+        if self.usage.bandwidth.download > maxDelta { self.usage.bandwidth.download = 0 }
+        
         self.usage.total.upload += self.usage.bandwidth.upload
         self.usage.total.download += self.usage.bandwidth.download
         
@@ -245,7 +256,9 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
             }
             self.usage.interface?.status = (pointer.pointee.ifa_flags & UInt32(IFF_UP)) != 0
             
-            if let raw = pointer.pointee.ifa_data {
+            if let wifiInterface = CWWiFiClient.shared().interface(withName: self.interfaceID) {
+                self.usage.interface?.transmitRate = wifiInterface.transmitRate()
+            } else if let raw = pointer.pointee.ifa_data {
                 let dataPtr = raw.assumingMemoryBound(to: if_data.self)
                 let ifData = dataPtr.pointee
                 let baud = UInt64(ifData.ifi_baudrate)

@@ -54,16 +54,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     }
     
     private var startTS: Date?
+    private var launchStart: Date?
     
     static func main() {
+        let launchStart = Date()
         let app = NSApplication.shared
         let delegate = AppDelegate()
+        delegate.launchStart = launchStart
         app.delegate = delegate
         app.run()
     }
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        let startingPoint = Date()
+        let startingPoint = self.launchStart ?? Date()
         
         self.parseArguments()
         self.parseVersion()

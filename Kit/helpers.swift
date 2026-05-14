@@ -303,6 +303,60 @@ public class ValueField: NSTextField {
     }
 }
 
+public class StatusBadgeView: NSStackView {
+    private var status: Bool?
+    private let labelField: NSTextField = LabelField("")
+    
+    public override var intrinsicContentSize: CGSize {
+        return CGSize(width: self.bounds.width, height: self.bounds.height)
+    }
+    
+    private var color: CGColor {
+        if let status {
+            return status ? NSColor.systemGreen.cgColor : NSColor.systemRed.cgColor
+        }
+        return NSColor.secondaryLabelColor.cgColor
+    }
+    private var label: String {
+        if let status {
+            return status ? localizedString("UP") : localizedString("DOWN")
+        }
+        return ""
+    }
+    
+    public init(frame: NSRect = NSRect(origin: .zero, size: NSSize(width: 50, height: 14)), _ status: Bool? = nil) {
+        self.status = status
+        
+        super.init(frame: frame)
+        
+        self.orientation = .horizontal
+        self.distribution = .fill
+        self.spacing = 0
+        self.wantsLayer = true
+        self.layer?.cornerRadius = 4
+        self.layer?.backgroundColor = self.color
+        
+        self.labelField.autoresizingMask = [.width, .height]
+        self.labelField.alignment = .center
+        self.labelField.textColor = .white
+        self.labelField.stringValue = self.label
+        self.labelField.font = NSFont.systemFont(ofSize: 11, weight: .light)
+        
+        self.addArrangedSubview(self.labelField)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func setStatus(_ value: Bool?) {
+        guard self.status != value else { return }
+        self.status = value
+        self.labelField.stringValue = self.label
+        self.layer?.backgroundColor = self.color
+    }
+}
+
 public extension NSBezierPath {
     func addArrow(start: CGPoint, end: CGPoint, pointerLineLength: CGFloat, arrowAngle: CGFloat) {
         self.move(to: start)
@@ -337,6 +391,30 @@ public func separatorView(_ title: String, origin: NSPoint = NSPoint(x: 0, y: 0)
     view.addSubview(labelView)
     
     return view
+}
+
+public func popupBadgeRow(_ view: NSView? = nil, title: String, status: Bool? = nil) -> (LabelField, StatusBadgeView, NSView) {
+    let width = view?.frame.width ?? 0
+    let height: CGFloat = 22
+    let rowView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: width, height: height))
+    
+    let labelWidth = title.widthOfString(usingFont: .systemFont(ofSize: 12, weight: .regular)) + 4
+    let labelView: LabelField = LabelField(frame: NSRect(x: 0, y: (height-16)/2, width: labelWidth, height: 16), title)
+    
+    let badgeView = StatusBadgeView(frame: NSRect(x: rowView.frame.width - 50, y: (height-14)/2, width: 50, height: 14), status)
+    badgeView.autoresizingMask = [.minXMargin]
+    
+    rowView.addSubview(labelView)
+    rowView.addSubview(badgeView)
+    
+    if let view = view as? NSStackView {
+        rowView.heightAnchor.constraint(equalToConstant: rowView.bounds.height).isActive = true
+        view.addArrangedSubview(rowView)
+    } else if let view {
+        view.addSubview(rowView)
+    }
+    
+    return (labelView, badgeView, rowView)
 }
 
 public func popupRow(_ view: NSView? = nil, title: String, value: String, multiline: Bool = false) -> (LabelField, ValueField, NSView) {
@@ -445,6 +523,29 @@ public func portalWithColorRow(_ v: NSStackView, color: NSColor, title: String) 
     view.widthAnchor.constraint(equalTo: v.widthAnchor).isActive = true
     
     return (colorView, valueView)
+}
+
+public func previewBadgeRow(_ view: NSStackView?, title: String, status: Bool? = nil) -> StatusBadgeView {
+    let row: NSStackView = NSStackView(frame: NSRect.zero)
+    row.heightAnchor.constraint(equalToConstant: 22).isActive = true
+    row.orientation = .horizontal
+    row.distribution = .fill
+    row.spacing = 1
+    
+    let labelView: LabelField = LabelField(title)
+    labelView.font = NSFont.systemFont(ofSize: 11, weight: .regular)
+    
+    let badgeView = StatusBadgeView(status)
+    
+    row.addArrangedSubview(labelView)
+    row.addArrangedSubview(NSView())
+    row.addArrangedSubview(badgeView)
+    
+    if let view {
+        view.addArrangedSubview(row)
+    }
+    
+    return badgeView
 }
 
 public func previewRow(_ view: NSStackView?, space: Bool = true, color: NSColor? = nil, title: String = "", value: String = "") -> ValueField {
