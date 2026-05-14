@@ -148,10 +148,10 @@ internal class WidgetPreviewWindow: NSWindow {
         gpu.setValue([[ColorValue(0.55, color: nil)]])
         self.menubarRow.addArrangedSubview(labeled("BarChart (GPU)", gpu))
         
-        // LineChart — RAM.
-        let line = LineChart(title: "RAM", config: nil, preview: false)
+        // RoundedBarChart — RAM.
+            let line = RoundedBarChart(title: "RAM", config: nil, preview: false)
         for v in stride(from: 0.1, through: 0.9, by: 0.07) { line.setValue(v) }
-        self.menubarRow.addArrangedSubview(labeled("LineChart (RAM)", line))
+            self.menubarRow.addArrangedSubview(labeled("RoundedBarChart (RAM)", line))
         
         // NetworkChart — Network.
         let net = NetworkChart(title: "Network", config: nil, preview: false)

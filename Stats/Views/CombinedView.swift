@@ -162,7 +162,7 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
             }
             
             popup.setFrameOrigin(NSPoint(x: x, y: y))
-            popup.setIsVisible(true)
+            popup.makeKeyAndOrderFront(nil)
         } else {
             popup.setIsVisible(false)
         }

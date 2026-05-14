@@ -11,7 +11,7 @@
 
 import Cocoa
 
-public class LineChart: WidgetWrapper {
+public class RoundedBarChart: WidgetWrapper {
     private var labelState: Bool = false
     private var boxState: Bool = true
     private var frameState: Bool = false
@@ -32,8 +32,8 @@ public class LineChart: WidgetWrapper {
     // a slimmer or beefier indicator.
     public var liquidGlassPillHeight: Int = 9
     private var liquidGlassOutlineState: Bool = true
-    private var liquidGlassOutlineColorKey: String = "same"
-    private var colorState: SColor = .systemAccent
+    private var liquidGlassOutlineColorKey: String = "utilization"
+    private var colorState: SColor = .utilization
     private var historyCount: Int = 60
     private var scaleState: Scale = .none
     
@@ -45,6 +45,8 @@ public class LineChart: WidgetWrapper {
     ), num: 60)
     private var colors: [SColor] = SColor.allCases.filter({ $0 != SColor.cluster })
     private var _value: Double = 0
+    private var _splitSegments: [ColorValue] = []
+    private var splitSegmentColorsState: Bool = true
     private var _pressureLevel: RAMPressure = .normal
     
     private var historyNumbers: [KeyValue_p] = [
@@ -170,9 +172,11 @@ public class LineChart: WidgetWrapper {
         guard let context = NSGraphicsContext.current?.cgContext else { return }
         
         var value: Double = 0
+        var splitSegments: [ColorValue] = []
         var pressureLevel: RAMPressure = .normal
         self.queue.sync {
             value = self._value
+            splitSegments = self._splitSegments
             pressureLevel = self._pressureLevel
         }
         
@@ -183,37 +187,37 @@ public class LineChart: WidgetWrapper {
         var boxSize: CGSize = CGSize(width: self.width - (Constants.Widget.margin.x*2), height: self.frame.size.height)
         
         var color: NSColor = .controlAccentColor
-        switch self.colorState {
-        case .systemAccent:
-            // Liquid Glass defaults to white to match Tahoe's monochrome glyphs.
-            color = self.liquidGlassState ? Constants.liquidGlassInk : .controlAccentColor
-        case .utilization: color = value.usageColor()
-        case .pressure: color = pressureLevel.pressureColor()
-        case .monochrome:
-            if self.boxState {
-                color = (isDarkMode ? NSColor.black : NSColor.white)
-            } else {
-                color = (isDarkMode ? NSColor.white : NSColor.black)
+        // Liquid Glass uses a unified color resolution shared with BarChart
+        // (square). The classic line-chart path keeps its own switch below
+        // so non-Liquid-Glass behavior is unchanged.
+        if self.liquidGlassState {
+            let total = splitSegments.isEmpty ? value : splitSegments.reduce(0.0) { $0 + $1.value }
+            color = self.liquidGlassRowFillColor(rowTotal: total, pressureLevel: pressureLevel)
+        } else {
+            switch self.colorState {
+            case .systemAccent:
+                color = .controlAccentColor
+            case .utilization: color = value.usageColor()
+            case .pressure: color = pressureLevel.pressureColor()
+            case .monochrome:
+                if self.boxState {
+                    color = (isDarkMode ? NSColor.black : NSColor.white)
+                } else {
+                    color = (isDarkMode ? NSColor.white : NSColor.black)
+                }
+            default: color = self.colorState.additional as? NSColor ?? .controlAccentColor
             }
-        default: color = self.colorState.additional as? NSColor ?? .controlAccentColor
         }
         
         // Liquid Glass: short-circuit the line chart and draw a single
         // horizontal pill whose fill grows left-to-right with the current
         // value. The classic line-chart code below is skipped entirely.
         if self.liquidGlassState {
-            // Apply per-widget warning thresholds when the user is on the
-            // default color, so the pill turns yellow / red as the value
-            // saturates. Any explicit accent overrides the warning hue.
-            var pillColor = color
-            if self.liquidGlassWarningState, self.colorState == .systemAccent {
-                pillColor = Constants.liquidGlassWarningColor(
-                    value: value,
-                    warning: self._colorZones.orange,
-                    critical: self._colorZones.red
-                )
+            if !splitSegments.isEmpty {
+                self.drawLiquidGlassSplitPill(segments: splitSegments, fallbackColor: color, x: &x, width: &width, lineWidth: lineWidth)
+            } else {
+                self.drawLiquidGlassPill(value: value, color: color, x: &x, width: &width, lineWidth: lineWidth)
             }
-            self.drawLiquidGlassPill(value: value, color: pillColor, x: &x, width: &width, lineWidth: lineWidth)
             self.setWidth(width)
             return
         }
@@ -339,19 +343,149 @@ public class LineChart: WidgetWrapper {
         }
         
         // Outline color override: lets the user color-code stroke vs fill.
-        let outlineColor = self.resolvedOutlineColor(fallback: color)
+        let outlineColor = self.resolvedOutlineColor(fallback: color, rowTotal: value)
         outlineColor.setStroke()
         track.lineWidth = strokeWidth
         track.stroke()
         
         width = x + pillWidth + Constants.Widget.margin.x
     }
+
+    /// Split-mode Tahoe pill: renders multiple colored segments separated by
+    /// explicit vertical gaps so RAM App/Wired/Compressed parts stay legible
+    /// in the rounded-bar style.
+    private func drawLiquidGlassSplitPill(segments: [ColorValue], fallbackColor: NSColor, x: inout CGFloat, width: inout CGFloat, lineWidth: CGFloat) {
+        let strokeWidth: CGFloat = 1.25
+        let pillWidth: CGFloat = CGFloat(self.liquidGlassPillWidth)
+        let pillHeight: CGFloat = CGFloat(self.liquidGlassPillHeight)
+
+        let pillX = x + strokeWidth/2
+        let pillY = (self.frame.size.height - pillHeight) / 2
+        let radius = pillHeight / 2
+        let trackRect = NSRect(x: pillX, y: pillY, width: pillWidth - strokeWidth, height: pillHeight)
+        let track = NSBezierPath(roundedRect: trackRect, xRadius: radius, yRadius: radius)
+
+        let useInsetFill = self.liquidGlassOutlineState
+        let fillInset: CGFloat = useInsetFill ? max(strokeWidth + 0.75, 1.5) : 0
+        let innerRect = trackRect.insetBy(dx: fillInset, dy: fillInset)
+        let fillBaseWidth = useInsetFill ? innerRect.width : trackRect.width
+        let fillBaseY = useInsetFill ? innerRect.origin.y : trackRect.origin.y
+        let fillBaseHeight = useInsetFill ? innerRect.height : trackRect.height
+
+        let clampedSegments = segments.map { min(max($0.value, 0), 1) }
+        let separatorWidth: CGFloat = clampedSegments.count > 1 ? max(1.25, strokeWidth) : 0
+        let totalSeparatorWidth = separatorWidth * CGFloat(max(clampedSegments.count - 1, 0))
+        let drawableFillWidth = max(fillBaseWidth - totalSeparatorWidth, 0)
+
+        NSGraphicsContext.saveGraphicsState()
+        if useInsetFill {
+            NSBezierPath(roundedRect: innerRect, xRadius: max(radius - fillInset, 0), yRadius: max(radius - fillInset, 0)).addClip()
+        } else {
+            track.addClip()
+        }
+
+        var segX = useInsetFill ? innerRect.origin.x : trackRect.origin.x
+        let nonZeroSegmentIndices = clampedSegments.enumerated()
+            .filter { $0.element > 0 }
+            .map { $0.offset }
+        let lastVisibleSegmentIndex = nonZeroSegmentIndices.last
+
+        for (idx, seg) in segments.enumerated() {
+            let segWidth = drawableFillWidth * CGFloat(clampedSegments[idx])
+            guard segWidth > 0 else { continue }
+
+            let fillRect = NSRect(x: segX, y: fillBaseY, width: segWidth, height: fillBaseHeight)
+            // Same color rules as BarChart:
+            //   - colorState == .systemAccent : ALWAYS liquidGlassInk
+            //     (overrides any per-segment color the module supplied).
+            //   - split colors ON + per-seg color present : use seg.color
+            //   - otherwise : the row's fallback color (already encodes the
+            //     utilization threshold hue when colorState=.utilization).
+            let segColor: NSColor
+            if self.colorState == .systemAccent {
+                segColor = Constants.liquidGlassInk
+            } else if self.splitSegmentColorsState, let c = seg.color {
+                segColor = c
+            } else {
+                segColor = fallbackColor
+            }
+            segColor.setFill()
+
+            if idx == lastVisibleSegmentIndex {
+                // Only the far-right edge should be rounded; the split edge
+                // on the left stays flat so segment boundaries remain crisp.
+                let tailRadius = min(fillRect.height / 2, fillRect.width / 2)
+                if tailRadius > 0 {
+                    let minX = fillRect.minX
+                    let maxX = fillRect.maxX
+                    let minY = fillRect.minY
+                    let maxY = fillRect.maxY
+
+                    let path = NSBezierPath()
+                    path.move(to: NSPoint(x: minX, y: minY))
+                    path.line(to: NSPoint(x: maxX - tailRadius, y: minY))
+                    path.appendArc(withCenter: NSPoint(x: maxX - tailRadius, y: minY + tailRadius), radius: tailRadius, startAngle: 270, endAngle: 0)
+                    path.line(to: NSPoint(x: maxX, y: maxY - tailRadius))
+                    path.appendArc(withCenter: NSPoint(x: maxX - tailRadius, y: maxY - tailRadius), radius: tailRadius, startAngle: 0, endAngle: 90)
+                    path.line(to: NSPoint(x: minX, y: maxY))
+                    path.close()
+                    path.fill()
+                } else {
+                    NSBezierPath(rect: fillRect).fill()
+                }
+            } else {
+                NSBezierPath(rect: fillRect).fill()
+            }
+
+            segX += segWidth
+            if idx < segments.count - 1 {
+                segX += separatorWidth
+            }
+        }
+        NSGraphicsContext.restoreGraphicsState()
+
+        let outlineColor = self.resolvedOutlineColor(fallback: fallbackColor, rowTotal: segments.reduce(0.0) { $0 + $1.value })
+        outlineColor.setStroke()
+        track.lineWidth = strokeWidth
+        track.stroke()
+
+        width = x + pillWidth + Constants.Widget.margin.x
+    }
     
-    /// Resolve the outline color override; returns the chosen `SColor` value
-    /// when the user has picked one, otherwise falls back to the fill color.
-    private func resolvedOutlineColor(fallback: NSColor) -> NSColor {
-        guard self.liquidGlassOutlineColorKey != "same",
-              let picked = self.colors.first(where: { $0.key == self.liquidGlassOutlineColorKey }),
+    /// Resolve the base "row color" for the Liquid Glass pill, given the
+    /// user's color preference and the row total (used for utilization
+    /// thresholds). Mirrors `BarChart.liquidGlassRowFillColor` so square
+    /// and rounded widgets behave identically.
+    private func liquidGlassRowFillColor(rowTotal: Double, pressureLevel: RAMPressure) -> NSColor {
+        switch self.colorState {
+        case .systemAccent: return Constants.liquidGlassInk
+        case .utilization:
+            return Constants.liquidGlassWarningColor(
+                value: rowTotal,
+                warning: self._colorZones.orange,
+                critical: self._colorZones.red
+            )
+        case .pressure:     return pressureLevel.pressureColor()
+        case .monochrome:   return Constants.liquidGlassInk
+        default:            return self.colorState.additional as? NSColor ?? Constants.liquidGlassInk
+        }
+    }
+    
+    /// Resolve the outline color override; "same" reuses the fill,
+    /// "utilization" uses the threshold-driven warning color (system
+    /// accent / yellow / red), otherwise the user's picked SColor.
+    private func resolvedOutlineColor(fallback: NSColor, rowTotal: Double) -> NSColor {
+        if self.liquidGlassOutlineColorKey == "same" {
+            return fallback
+        }
+        if self.liquidGlassOutlineColorKey == "utilization" {
+            return Constants.liquidGlassWarningColor(
+                value: rowTotal,
+                warning: self._colorZones.orange,
+                critical: self._colorZones.red
+            )
+        }
+        guard let picked = self.colors.first(where: { $0.key == self.liquidGlassOutlineColorKey }),
               let color = picked.additional as? NSColor
         else { return fallback }
         return color.withAlphaComponent(0.85)
@@ -360,8 +494,27 @@ public class LineChart: WidgetWrapper {
     public func setValue(_ newValue: Double) {
         DispatchQueue.main.async(execute: {
             self._value = newValue
+            self._splitSegments = []
             self.tooltipCallback?("\(Int(newValue.rounded(toPlaces: 2) * 100))%")
             self.chart.addValue(newValue)
+            self.display()
+        })
+    }
+
+    public func setSegments(_ newSegments: [ColorValue]) {
+        DispatchQueue.main.async(execute: {
+            self._splitSegments = newSegments
+            self._value = newSegments.reduce(0) { $0 + $1.value }
+            self.tooltipCallback?("\(Int(self._value.rounded(toPlaces: 2) * 100))%")
+            self.chart.addValue(self._value)
+            self.display()
+        })
+    }
+
+    public func setSplitColorized(_ state: Bool) {
+        DispatchQueue.main.async(execute: {
+            guard self.splitSegmentColorsState != state else { return }
+            self.splitSegmentColorsState = state
             self.display()
         })
     }
@@ -396,9 +549,13 @@ public class LineChart: WidgetWrapper {
         self.liquidGlassSettingsView = liquid
         
         // Outline color picker: only real hues (semantic SColors like
-        // Utilization / Pressure / System accent / Monochrome are filtered).
+        // Pressure / System accent / Monochrome are filtered).
+        // "Same as fill" and "Based on utilization" are explicit sentinel options.
         let outlineExcluded: Set<String> = ["system", "monochrome", "utilization", "pressure", "cluster", "clear"]
-        var outlineColors: [KeyValue_t] = [KeyValue_t(key: "same", value: "Same as fill")]
+        var outlineColors: [KeyValue_t] = [
+            KeyValue_t(key: "same", value: "Same as fill"),
+            KeyValue_t(key: "utilization", value: "Based on utilization")
+        ]
         for c in self.colors where !outlineExcluded.contains(c.key) && !c.key.contains("separator") {
             outlineColors.append(KeyValue_t(key: c.key, value: c.value))
         }

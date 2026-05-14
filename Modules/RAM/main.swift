@@ -66,6 +66,9 @@ public class RAM: Module {
     private var splitValueState: Bool {
         return Store.shared.bool(key: "\(self.config.name)_splitValue", defaultValue: false)
     }
+    private var splitValueColorsState: Bool {
+        return Store.shared.bool(key: "\(self.config.name)_splitValueColors", defaultValue: true)
+    }
     private var appColor: NSColor {
         let color = SColor.secondBlue
         let key = Store.shared.string(key: "\(self.config.name)_appColor", defaultValue: color.key)
@@ -160,20 +163,52 @@ public class RAM: Module {
             case let widget as Mini:
                 widget.setValue(value.usage)
                 widget.setPressure(value.pressure.value)
-            case let widget as LineChart:
-                widget.setValue(value.usage)
+            case let widget as RoundedBarChart:
                 widget.setPressure(value.pressure.value)
-            case let widget as BarChart:
                 if self.splitValueState {
-                    widget.setValue([[
-                        ColorValue(value.app/total, color: self.appColor),
-                        ColorValue(value.wired/total, color: self.wiredColor),
-                        ColorValue(value.compressed/total, color: self.compressedColor)
-                    ]])
+                    widget.setSplitColorized(self.splitValueColorsState)
+                    let splitSegments: [ColorValue]
+                    if self.splitValueColorsState {
+                        splitSegments = [
+                            ColorValue(value.app/total, color: self.appColor),
+                            ColorValue(value.wired/total, color: self.wiredColor),
+                            ColorValue(value.compressed/total, color: self.compressedColor)
+                        ]
+                    } else {
+                        splitSegments = [
+                            ColorValue(value.app/total),
+                            ColorValue(value.wired/total),
+                            ColorValue(value.compressed/total)
+                        ]
+                    }
+                    widget.setSegments(splitSegments)
                 } else {
+                    widget.setSplitColorized(true)
+                    widget.setValue(value.usage)
+                }
+            case let widget as BarChart:
+                widget.setPressure(value.pressure.value)
+                widget.setColorZones((0.8, 0.95))
+                if self.splitValueState {
+                    widget.setSplitColorized(self.splitValueColorsState)
+                    let splitSegments: [ColorValue]
+                    if self.splitValueColorsState {
+                        splitSegments = [
+                            ColorValue(value.app/total, color: self.appColor),
+                            ColorValue(value.wired/total, color: self.wiredColor),
+                            ColorValue(value.compressed/total, color: self.compressedColor)
+                        ]
+                    } else {
+                        splitSegments = [
+                            ColorValue(value.app/total),
+                            ColorValue(value.wired/total),
+                            ColorValue(value.compressed/total)
+                        ]
+                    }
+                    widget.setValue([splitSegments])
+                } else {
+                    widget.setSplitColorized(true)
                     widget.setValue([[ColorValue(value.usage)]])
-                    widget.setColorZones((0.8, 0.95))
-                    widget.setPressure(value.pressure.value)
                 }
             case let widget as PieChart:
                 widget.setValue([

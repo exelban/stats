@@ -50,7 +50,7 @@
 			<key>Box</key>
 			<true/>
 			<key>Color</key>
-			<string>systemAccent</string>
+			<string>utilization</string>
 			<key>Preview</key>
 			<dict>
 				<key>Label</key>

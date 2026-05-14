@@ -82,6 +82,7 @@ public class PopupWindow: NSWindow, NSWindowDelegate {
         self.collectionBehavior = .moveToActiveSpace
         self.backgroundColor = .clear
         self.hasShadow = true
+        self.hidesOnDeactivate = true
         self.setIsVisible(false)
         self.delegate = self
     }

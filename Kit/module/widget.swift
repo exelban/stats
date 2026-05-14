@@ -40,8 +40,8 @@ public enum widget_t: String {
             preview = Mini(title: module, config: widgetConfig, preview: true)
             item = Mini(title: module, config: widgetConfig, preview: false)
         case .lineChart:
-            preview = LineChart(title: module, config: widgetConfig, preview: true)
-            item = LineChart(title: module, config: widgetConfig, preview: false)
+            preview = RoundedBarChart(title: module, config: widgetConfig, preview: true)
+            item = RoundedBarChart(title: module, config: widgetConfig, preview: false)
         case .barChart:
             preview = BarChart(title: module, config: widgetConfig, preview: true)
             item = BarChart(title: module, config: widgetConfig, preview: false)
@@ -104,8 +104,8 @@ public enum widget_t: String {
                 } else if module == "CPU" {
                     width = 30 + (Constants.Widget.margin.x*2)
                 }
-            case is LineChart:
-                if let lc = view as? LineChart, lc.liquidGlassState {
+            case is RoundedBarChart:
+                if let lc = view as? RoundedBarChart, lc.liquidGlassState {
                     width = CGFloat(lc.liquidGlassPillWidth) + (Constants.Widget.margin.x*2)
                 }
             case is StackWidget:
@@ -140,8 +140,8 @@ public enum widget_t: String {
     public func name() -> String {
         switch self {
         case .mini: return localizedString("Mini widget")
-        case .lineChart: return localizedString("Line chart widget")
-        case .barChart: return localizedString("Bar chart widget")
+        case .lineChart: return localizedString("Bar (rounded)")
+        case .barChart: return localizedString("Bar (square)")
         case .pieChart: return localizedString("Pie chart widget")
         case .networkChart: return localizedString("Network chart widget")
         case .speed: return localizedString("Speed widget")

@@ -40,7 +40,7 @@
 			<key>Default</key>
 			<false/>
 			<key>Color</key>
-			<string>systemAccent</string>
+			<string>utilization</string>
 			<key>Unsupported colors</key>
 			<array>
 				<string>pressure</string>

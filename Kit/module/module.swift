@@ -321,7 +321,7 @@ open class Module {
             }
             
             popup.setFrameOrigin(NSPoint(x: x, y: y))
-            popup.setIsVisible(true)
+            popup.makeKeyAndOrderFront(nil)
         } else {
             popup.locked = false
             popup.openedBy = nil

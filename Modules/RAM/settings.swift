@@ -47,6 +47,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     private var updateTopIntervalValue: Int = 1
     private var numberOfProcesses: Int = 8
     private var splitValueState: Bool = false
+    private var splitValueColorsState: Bool = true
     private var notificationLevel: String = "Disabled"
     private var textValue: String = "$mem.used/$mem.total ($pressure.value)"
     private var combinedProcessesState: Bool = false
@@ -66,6 +67,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         self.updateTopIntervalValue = Store.shared.int(key: "\(self.title)_updateTopInterval", defaultValue: self.updateTopIntervalValue)
         self.numberOfProcesses = Store.shared.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
         self.splitValueState = Store.shared.bool(key: "\(self.title)_splitValue", defaultValue: self.splitValueState)
+        self.splitValueColorsState = Store.shared.bool(key: "\(self.title)_splitValueColors", defaultValue: self.splitValueColorsState)
         self.notificationLevel = Store.shared.string(key: "\(self.title)_notificationLevel", defaultValue: self.notificationLevel)
         self.textValue = Store.shared.string(key: "\(self.title)_textWidgetValue", defaultValue: self.textValue)
         self.combinedProcessesState = Store.shared.bool(key: "\(self.title)_combinedProcesses", defaultValue: self.combinedProcessesState)
@@ -109,13 +111,24 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
             ))
         ]))
         
-        if !widgets.filter({ $0 == .barChart }).isEmpty {
-            self.addArrangedSubview(PreferencesSection([
+        if widgets.contains(where: { $0 == .barChart || $0 == .lineChart }) {
+            var splitRows: [PreferencesRow] = [
                 PreferencesRow(localizedString("Split the value (App/Wired/Compressed)"), component: switchView(
                     action: #selector(toggleSplitValue),
                     state: self.splitValueState
                 ))
-            ]))
+            ]
+
+            if self.splitValueState {
+                splitRows.append(
+                    PreferencesRow(localizedString("Split segment colors"), component: switchView(
+                        action: #selector(toggleSplitValueColors),
+                        state: self.splitValueColorsState
+                    ))
+                )
+            }
+
+            self.addArrangedSubview(PreferencesSection(splitRows))
         }
         
         if widgets.contains(where: { $0 == .text }) {
@@ -167,6 +180,11 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     @objc private func toggleSplitValue(_ sender: NSControl) {
         self.splitValueState = controlState(sender)
         Store.shared.set(key: "\(self.title)_splitValue", value: self.splitValueState)
+        self.callback()
+    }
+    @objc private func toggleSplitValueColors(_ sender: NSControl) {
+        self.splitValueColorsState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_splitValueColors", value: self.splitValueColorsState)
         self.callback()
     }
     @objc private func toggleCombinedProcesses(_ sender: NSControl) {

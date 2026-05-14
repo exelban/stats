@@ -98,7 +98,7 @@
 		9A11AB67266FDB69000C1C05 /* Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2846F72666A9CC00EC1F6D /* Kit.framework */; };
 		9A2846FE2666A9CC00EC1F6D /* Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2846F72666A9CC00EC1F6D /* Kit.framework */; };
 		9A2846FF2666A9CC00EC1F6D /* Kit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2846F72666A9CC00EC1F6D /* Kit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9A28475F2666AA2700EC1F6D /* LineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2847552666AA2700EC1F6D /* LineChart.swift */; };
+		9A28475F2666AA2700EC1F6D /* RoundedBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2847552666AA2700EC1F6D /* RoundedBarChart.swift */; };
 		9A2847602666AA2700EC1F6D /* NetworkChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2847562666AA2700EC1F6D /* NetworkChart.swift */; };
 		9A2847612666AA2700EC1F6D /* PieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2847572666AA2700EC1F6D /* PieChart.swift */; };
 		9A2847622666AA2700EC1F6D /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2847582666AA2700EC1F6D /* Label.swift */; };
@@ -605,7 +605,7 @@
 		9A141101229E721200D29793 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9A27D4A925389EFD001BB651 /* Stats.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Stats.entitlements; sourceTree = "<group>"; };
 		9A2846F72666A9CC00EC1F6D /* Kit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Kit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9A2847552666AA2700EC1F6D /* LineChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChart.swift; sourceTree = "<group>"; };
+		9A2847552666AA2700EC1F6D /* RoundedBarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedBarChart.swift; sourceTree = "<group>"; };
 		9A2847562666AA2700EC1F6D /* NetworkChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkChart.swift; sourceTree = "<group>"; };
 		9A2847572666AA2700EC1F6D /* PieChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChart.swift; sourceTree = "<group>"; };
 		9A2847582666AA2700EC1F6D /* Label.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
@@ -1046,7 +1046,7 @@
 				9A2847592666AA2700EC1F6D /* Mini.swift */,
 				9A2847582666AA2700EC1F6D /* Label.swift */,
 				9A28475D2666AA2700EC1F6D /* BarChart.swift */,
-				9A2847552666AA2700EC1F6D /* LineChart.swift */,
+				9A2847552666AA2700EC1F6D /* RoundedBarChart.swift */,
 				9A2847572666AA2700EC1F6D /* PieChart.swift */,
 				9A2847562666AA2700EC1F6D /* NetworkChart.swift */,
 				9A28475A2666AA2700EC1F6D /* Battery.swift */,
@@ -2122,7 +2122,7 @@
 				9A2848212666AB3600EC1F6D /* helpers.swift in Sources */,
 				5CAA50722C8E417700B13E13 /* Text.swift in Sources */,
 				9A28477A2666AA5000EC1F6D /* window.swift in Sources */,
-				9A28475F2666AA2700EC1F6D /* LineChart.swift in Sources */,
+				9A28475F2666AA2700EC1F6D /* RoundedBarChart.swift in Sources */,
 				9A302614286A2A3B00B41D57 /* Repeater.swift in Sources */,
 				5C4E8BA12B6EEE8E00F148B6 /* lldb.m in Sources */,
 				9A28480E2666AB3000EC1F6D /* Updater.swift in Sources */,

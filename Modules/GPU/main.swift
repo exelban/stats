@@ -189,7 +189,7 @@ public class GPU: Module {
             case let widget as Mini:
                 widget.setValue(utilization)
                 widget.setTitle(self.showType ? "\(selectedGPU.type)GPU" : nil)
-            case let widget as LineChart: widget.setValue(utilization)
+            case let widget as RoundedBarChart: widget.setValue(utilization)
             case let widget as BarChart: widget.setValue([[ColorValue(utilization)]])
             case let widget as Tachometer:
                 widget.setValue([

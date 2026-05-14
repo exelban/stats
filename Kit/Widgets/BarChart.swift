@@ -40,9 +40,10 @@ public class BarChart: WidgetWrapper {
     public var liquidGlassPillHeight: Int = 9
     private var liquidGlassOutlineState: Bool = true
     // "same" is a sentinel meaning "use the same color as the fill".
-    private var liquidGlassOutlineColorKey: String = "same"
-    public var colorState: SColor = .systemAccent
+    private var liquidGlassOutlineColorKey: String = "utilization"
+    public var colorState: SColor = .utilization
     private var colors: [SColor] = SColor.allCases
+    private var splitSegmentColorsState: Bool = true
     
     private var _value: [[ColorValue]] = [[]]
     private var _pressureLevel: RAMPressure = .normal
@@ -225,13 +226,20 @@ public class BarChart: WidgetWrapper {
         
         x += offset
         for i in 0..<value.count {
+            let rowTotal = value[i].reduce(0.0) { $0 + $1.value }
+            let useUniformSplitColor = !self.splitSegmentColorsState && value[i].count > 1
+            let uniformColor = useUniformSplitColor
+                ? self.classicColorForValue(rowTotal, pressureLevel: pressureLevel, colorZones: colorZones)
+                : nil
             var y = offset
             for a in 0..<value[i].count {
                 let partitionValue = value[i][a]
                 let partitionHeight = maxPartitionHeight * CGFloat(partitionValue.value)
                 let partition = NSBezierPath(rect: NSRect(x: x, y: y, width: partitionWidth, height: partitionHeight))
                 
-                if partitionValue.color == nil {
+                if let uniformColor {
+                    uniformColor.set()
+                } else if partitionValue.color == nil {
                     switch self.colorState {
                     case .systemAccent: NSColor.controlAccentColor.set()
                     case .utilization: partitionValue.value.usageColor(zones: colorZones, reversed: self.title == "Battery").set()
@@ -268,43 +276,59 @@ public class BarChart: WidgetWrapper {
     
     // MARK: - Liquid Glass (macOS Tahoe) draw path
     
-    /// Resolves the color to use for an individual bar segment when the
-    /// pill style is enabled. If a per-value color is specified it is used
-    /// verbatim; otherwise the user's color preference is honored.
-    /// Liquid Glass defaults to white when no explicit accent has been chosen,
-    /// matching the monochrome glyphs in the Tahoe menu bar.
-    private func liquidGlassColor(_ partition: ColorValue, pressureLevel: RAMPressure, colorZones: colorZones) -> NSColor {
-        if let c = partition.color { return c }
+    /// Resolve the base "row color" for a Liquid Glass row, given the user's
+    /// color preference and the row total (used for utilization thresholds).
+    /// This is what fills a row when no per-segment override is in effect.
+    /// Note: `.systemAccent` always resolves to `liquidGlassInk` — that mode
+    /// is documented to override any per-segment coloring.
+    private func liquidGlassRowFillColor(rowTotal: Double, pressureLevel: RAMPressure, colorZones: colorZones) -> NSColor {
         switch self.colorState {
         case .systemAccent: return Constants.liquidGlassInk
-        case .utilization:  return partition.value.usageColor(zones: colorZones, reversed: self.title == "Battery")
+        case .utilization:
+            return Constants.liquidGlassWarningColor(
+                value: rowTotal,
+                warning: colorZones.orange,
+                critical: colorZones.red
+            )
         case .pressure:     return pressureLevel.pressureColor()
         case .monochrome:   return Constants.liquidGlassInk
         default:            return self.colorState.additional as? NSColor ?? Constants.liquidGlassInk
         }
     }
-    
-    /// Resolve the ink color for a single Liquid Glass row, applying the
-    /// per-widget warning / critical thresholds when the user has enabled
-    /// them and is using the default (system accent) color. The row's total
-    /// fill is what's evaluated against the thresholds, so multi-segment
-    /// stacks light up based on the combined utilization.
-    private func liquidGlassRowColor(rowTotal: Double) -> NSColor? {
-        guard self.liquidGlassWarningState, self.colorState == .systemAccent else { return nil }
-        return Constants.liquidGlassWarningColor(
-            value: rowTotal,
-            warning: self._colorZones.orange,
-            critical: self._colorZones.red
-        )
+
+    /// Classic (non-liquid) fill color resolver for an unsplit row value.
+    private func classicColorForValue(_ value: Double, pressureLevel: RAMPressure, colorZones: colorZones) -> NSColor {
+        switch self.colorState {
+        case .systemAccent:
+            return .controlAccentColor
+        case .utilization:
+            return value.usageColor(zones: colorZones, reversed: self.title == "Battery")
+        case .pressure:
+            return pressureLevel.pressureColor()
+        case .monochrome:
+            return self.boxState ? (isDarkMode ? .black : .white) : (isDarkMode ? .white : .black)
+        default:
+            return self.colorState.additional as? NSColor ?? .controlAccentColor
+        }
     }
     
-    /// Resolve the outline color for a Liquid Glass row. Returns the user's
-    /// chosen `liquidGlassOutlineColorKey` (if it maps to a real `SColor`),
-    /// otherwise falls back to the same color as the fill so the legacy
-    /// look is preserved by default.
-    private func resolvedOutlineColor(fallback: NSColor) -> NSColor {
-        guard self.liquidGlassOutlineColorKey != "same",
-              let picked = self.colors.first(where: { $0.key == self.liquidGlassOutlineColorKey }),
+    /// Resolve the outline color for a Liquid Glass row. "same" reuses the
+    /// fill color, "utilization" uses the threshold-driven warning color
+    /// (system-accent / yellow / red), otherwise the user's picked SColor.
+    private func resolvedOutlineColor(fallback: NSColor, rowTotal: Double, colorZones: colorZones) -> NSColor {
+        if self.liquidGlassOutlineColorKey == "same" {
+            return fallback
+        }
+        if self.liquidGlassOutlineColorKey == "utilization" {
+            // Below warning -> liquidGlassInk (system accent in Liquid Glass);
+            // between -> warning hue; above critical -> error hue.
+            return Constants.liquidGlassWarningColor(
+                value: rowTotal,
+                warning: colorZones.orange,
+                critical: colorZones.red
+            )
+        }
+        guard let picked = self.colors.first(where: { $0.key == self.liquidGlassOutlineColorKey }),
               let color = picked.additional as? NSColor
         else { return fallback }
         return color.withAlphaComponent(0.85)
@@ -363,17 +387,15 @@ public class BarChart: WidgetWrapper {
             let rowY = stackOriginY + CGFloat(count - 1 - i) * (rowHeight + interRowSpacing)
             
             let rowTotal = segments.reduce(0.0) { $0 + $1.value }
-            // When the warning thresholds are active, the row's fill flips
-            // to the warning / critical hue. The outline color picker takes
-            // priority for the outline itself so user-assigned color codes
-            // stay stable across alert states.
-            let warningColor = self.liquidGlassRowColor(rowTotal: rowTotal)
-            let baseColor = self.liquidGlassColor(
-                segments.last ?? ColorValue(0),
+            // The base row color: systemAccent -> liquidGlassInk (always),
+            // utilization -> threshold color (ink/yellow/red) of the row
+            // total, otherwise the user-picked SColor.
+            let rowColor = self.liquidGlassRowFillColor(
+                rowTotal: rowTotal,
                 pressureLevel: pressureLevel,
                 colorZones: colorZones
             )
-            let outlineColor = self.resolvedOutlineColor(fallback: warningColor ?? baseColor)
+            let outlineColor = self.resolvedOutlineColor(fallback: rowColor, rowTotal: rowTotal, colorZones: colorZones)
             
             let trackRect = NSRect(x: x + strokeWidth/2, y: rowY, width: pillWidth - strokeWidth, height: rowHeight)
             let track = NSBezierPath(roundedRect: trackRect, xRadius: radius, yRadius: radius)
@@ -403,14 +425,35 @@ public class BarChart: WidgetWrapper {
             let fillBaseWidth = useInsetFill ? innerRect.width : trackRect.width
             let fillBaseY = useInsetFill ? innerRect.origin.y : rowY
             let fillBaseHeight = useInsetFill ? innerRect.height : rowHeight
-            for seg in segments {
-                let segWidth = fillBaseWidth * CGFloat(min(max(seg.value, 0), 1))
+            let clampedSegments = segments.map { min(max($0.value, 0), 1) }
+            let separatorWidth: CGFloat = clampedSegments.count > 1 ? max(1.25, strokeWidth) : 0
+            let totalSeparatorWidth = separatorWidth * CGFloat(max(clampedSegments.count - 1, 0))
+            let drawableFillWidth = max(fillBaseWidth - totalSeparatorWidth, 0)
+
+            for (idx, seg) in segments.enumerated() {
+                let segWidth = drawableFillWidth * CGFloat(clampedSegments[idx])
                 guard segWidth > 0 else { continue }
                 let fillRect = NSRect(x: segX, y: fillBaseY, width: segWidth, height: fillBaseHeight)
-                let color = warningColor ?? self.liquidGlassColor(seg, pressureLevel: pressureLevel, colorZones: colorZones)
+                // Color rules for the inner bar segments:
+                //   - colorState == .systemAccent : ALWAYS liquidGlassInk
+                //     (overrides any per-segment color the module supplied).
+                //   - split colors ON + per-seg color present : use seg.color
+                //   - otherwise : the row color (which already encodes the
+                //     utilization threshold hue when colorState=.utilization).
+                let color: NSColor
+                if self.colorState == .systemAccent {
+                    color = Constants.liquidGlassInk
+                } else if self.splitSegmentColorsState, let segColor = seg.color {
+                    color = segColor
+                } else {
+                    color = rowColor
+                }
                 color.setFill()
                 NSBezierPath(rect: fillRect).fill()
                 segX += segWidth
+                if idx < segments.count - 1 {
+                    segX += separatorWidth
+                }
             }
             NSGraphicsContext.restoreGraphicsState()
             
@@ -433,10 +476,12 @@ public class BarChart: WidgetWrapper {
             }
             guard isDifferent else { return }
             self._value = newValue
-            // Tooltip: average of the first column (most modules feed a
-            // single column so this matches what the user sees).
-            if let first = newValue.first, !first.isEmpty {
-                let avg = first.reduce(0.0) { $0 + $1.value } / Double(first.count)
+            // Tooltip: total utilization — sum each column's segments, then
+            // average across columns. Matches what RoundedBarChart and Mini
+            // display so users get the same number across widget styles.
+            if !newValue.isEmpty {
+                let columnTotals = newValue.map { $0.reduce(0.0) { $0 + $1.value } }
+                let avg = columnTotals.reduce(0.0, +) / Double(columnTotals.count)
                 self.tooltipCallback?("\(Int(avg.rounded(toPlaces: 2) * 100))%")
             }
             self.redraw()
@@ -467,6 +512,14 @@ public class BarChart: WidgetWrapper {
             self.redraw()
         })
     }
+
+    public func setSplitColorized(_ state: Bool) {
+        DispatchQueue.main.async(execute: {
+            guard self.splitSegmentColorsState != state else { return }
+            self.splitSegmentColorsState = state
+            self.redraw()
+        })
+    }
     
     // MARK: - Settings
     
@@ -490,11 +543,15 @@ public class BarChart: WidgetWrapper {
         self.liquidGlassSettingsView = liquid
         
         // Build the outline color picker: only real hues are exposed, so
-        // semantic SColors like "Utilization", "Pressure", "System accent"
+        // semantic SColors like "Pressure", "System accent"
         // and "Monochrome" (which only make sense as a fill mode) are
-        // filtered out. A "Same as fill" sentinel is the default.
+        // filtered out. "Same as fill" and "Based on utilization" are
+        // explicit sentinel options.
         let outlineExcluded: Set<String> = ["system", "monochrome", "utilization", "pressure", "cluster", "clear"]
-        var outlineColors: [KeyValue_t] = [KeyValue_t(key: "same", value: "Same as fill")]
+        var outlineColors: [KeyValue_t] = [
+            KeyValue_t(key: "same", value: "Same as fill"),
+            KeyValue_t(key: "utilization", value: "Based on utilization")
+        ]
         for c in self.colors where !outlineExcluded.contains(c.key) && !c.key.contains("separator") {
             outlineColors.append(KeyValue_t(key: c.key, value: c.value))
         }
