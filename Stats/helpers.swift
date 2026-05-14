@@ -158,8 +158,9 @@ extension AppDelegate {
         
         debug("showing the setup window")
         
-        self.setupWindow.show()
-        self.setupWindow.finishHandler = {
+        let window = self.ensureSetupWindow()
+        window.show()
+        window.finishHandler = {
             debug("setup is finished, starting the app")
             completion()
         }
@@ -236,7 +237,7 @@ extension AppDelegate {
         let now = Int(Date().timeIntervalSince1970)
         if !Store.shared.exist(key: "support_ts") {
             Store.shared.set(key: "support_ts", value: now)
-            self.supportWindow.show()
+            self.ensureSupportWindow().show()
             return
         }
         
@@ -248,7 +249,7 @@ extension AppDelegate {
         }
         
         Store.shared.set(key: "support_ts", value: now)
-        self.supportWindow.show()
+        self.ensureSupportWindow().show()
     }
     
     private func showUpdateNotification(version: version_s) {
@@ -265,7 +266,7 @@ extension AppDelegate {
         debug("show update window")
         
         DispatchQueue.main.async(execute: {
-            self.updateWindow.open(version)
+            self.ensureUpdateWindow().open(version)
         })
     }
     

@@ -13,6 +13,8 @@ import Cocoa
 import Kit
 
 internal class SupportWindow: NSWindow, NSWindowDelegate {
+    internal var onClose: (() -> Void)?
+    
     private let viewController: SupportViewController = SupportViewController()
     
     init() {
@@ -32,12 +34,21 @@ internal class SupportWindow: NSWindow, NSWindowDelegate {
         self.titleVisibility = .hidden
         self.contentViewController = self.viewController
         self.titlebarAppearsTransparent = true
+        self.isReleasedWhenClosed = false
+        self.delegate = self
         self.positionCenter()
         self.setIsVisible(false)
         
         let windowController = NSWindowController()
         windowController.window = self
         windowController.loadWindow()
+    }
+    
+    func windowWillClose(_ notification: Notification) {
+        let onClose = self.onClose
+        DispatchQueue.main.async {
+            onClose?()
+        }
     }
     
     private func positionCenter() {

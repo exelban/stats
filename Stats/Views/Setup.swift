@@ -16,6 +16,7 @@ private let setupSize: CGSize = CGSize(width: 600, height: 400)
 
 internal class SetupWindow: NSWindow, NSWindowDelegate {
     internal var finishHandler: () -> Void = {}
+    internal var onClose: (() -> Void)?
     
     private let view: SetupContainer = SetupContainer()
     private let vc: NSViewController = NSViewController(nibName: nil, bundle: nil)
@@ -33,6 +34,7 @@ internal class SetupWindow: NSWindow, NSWindowDelegate {
         self.contentViewController = self.vc
         self.animationBehavior = .default
         self.titlebarAppearsTransparent = true
+        self.isReleasedWhenClosed = false
         self.delegate = self
         self.title = localizedString("Stats Setup")
         
@@ -55,6 +57,10 @@ internal class SetupWindow: NSWindow, NSWindowDelegate {
     
     func windowWillClose(_ notification: Notification) {
         self.finishHandler()
+        let onClose = self.onClose
+        DispatchQueue.main.async {
+            onClose?()
+        }
     }
     
     private func positionCenter() {

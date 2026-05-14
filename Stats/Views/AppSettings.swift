@@ -58,7 +58,7 @@ class ApplicationSettings: NSStackView {
     private var fanHelperView: PreferencesSection?
     private var remoteView: PreferencesSection?
     
-    private let updateWindow: UpdateWindow = UpdateWindow()
+    private var updateWindow: UpdateWindow?
     private let moduleSelector: ModuleSelectorView = ModuleSelectorView()
     
     private var CPUeButton: NSButton?
@@ -304,7 +304,12 @@ class ApplicationSettings: NSStackView {
             }
             
             DispatchQueue.main.async(execute: {
-                self.updateWindow.open(version, settingButton: true)
+                if self.updateWindow == nil {
+                    let w = UpdateWindow()
+                    w.onClose = { [weak self] in self?.updateWindow = nil }
+                    self.updateWindow = w
+                }
+                self.updateWindow?.open(version, settingButton: true)
                 return
             })
         })

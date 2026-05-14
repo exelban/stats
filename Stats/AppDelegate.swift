@@ -36,15 +36,18 @@ var modules: [Module] = [
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDelegate {
-    internal let settingsWindow: SettingsWindow = SettingsWindow()
-    internal let updateWindow: UpdateWindow = UpdateWindow()
-    internal let setupWindow: SetupWindow = SetupWindow()
-    internal let supportWindow: SupportWindow = SupportWindow()
-    internal let updateActivity = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.updateCheck")
-    internal let supportActivity = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.support")
-    internal var clickInNotification: Bool = false
+    internal var settingsWindow: SettingsWindow?
+    internal var updateWindow: UpdateWindow?
+    internal var setupWindow: SetupWindow?
+    internal var supportWindow: SupportWindow?
+    
     internal var menuBarItem: NSStatusItem? = nil
     internal var combinedView: CombinedView = CombinedView()
+    
+    internal let updateActivity = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.updateCheck")
+    internal let supportActivity = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.support")
+    
+    internal var clickInNotification: Bool = false
     
     internal var pauseState: Bool {
         Store.shared.bool(key: "pause", defaultValue: false)
@@ -67,12 +70,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         SMCHelper.shared.checkForUpdate()
         self.setup {
             modules.reversed().forEach{ $0.mount() }
-            self.settingsWindow.setModules()
+            self.showSettingsIfNoActiveWidgets()
         }
         self.defaultValues()
         self.icon()
         
         NotificationCenter.default.addObserver(self, selector: #selector(listenForAppPause), name: .pause, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleToggleSettings(_:)), name: .toggleSettings, object: nil)
         NSEvent.addGlobalMonitorForEvents(matching: [.keyDown, .flagsChanged]) { [weak self] event in
             self?.handleKeyEvent(event)
         }
@@ -101,13 +105,58 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         }
         guard let startTS = self.startTS, Date().timeIntervalSince(startTS) > 2 else { return false }
         
+        let window = self.ensureSettingsWindow()
         if flag {
-            self.settingsWindow.makeKeyAndOrderFront(self)
+            window.makeKeyAndOrderFront(self)
         } else {
-            self.settingsWindow.setIsVisible(true)
+            window.setIsVisible(true)
         }
         
         return true
+    }
+    
+    @objc private func handleToggleSettings(_ notification: Notification) {
+        let module = notification.userInfo?["module"] as? String
+        self.ensureSettingsWindow().open(module: module)
+    }
+    
+    private func showSettingsIfNoActiveWidgets() {
+        if self.pauseState { return }
+        let hasActive = modules.contains(where: { $0.enabled != false && $0.available != false && !$0.menuBar.widgets.filter({ $0.isActive }).isEmpty })
+        if hasActive { return }
+        self.ensureSettingsWindow().setIsVisible(true)
+    }
+    
+    internal func ensureSettingsWindow() -> SettingsWindow {
+        if let w = self.settingsWindow { return w }
+        let w = SettingsWindow()
+        w.onClose = { [weak self] in self?.settingsWindow = nil }
+        self.settingsWindow = w
+        return w
+    }
+    
+    internal func ensureUpdateWindow() -> UpdateWindow {
+        if let w = self.updateWindow { return w }
+        let w = UpdateWindow()
+        w.onClose = { [weak self] in self?.updateWindow = nil }
+        self.updateWindow = w
+        return w
+    }
+    
+    internal func ensureSetupWindow() -> SetupWindow {
+        if let w = self.setupWindow { return w }
+        let w = SetupWindow()
+        w.onClose = { [weak self] in self?.setupWindow = nil }
+        self.setupWindow = w
+        return w
+    }
+    
+    internal func ensureSupportWindow() -> SupportWindow {
+        if let w = self.supportWindow { return w }
+        let w = SupportWindow()
+        w.onClose = { [weak self] in self?.supportWindow = nil }
+        self.supportWindow = w
+        return w
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter,

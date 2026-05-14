@@ -21,6 +21,8 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
     private static let size: CGSize = CGSize(width: 720, height: 480)
     private static let frameAutosaveName = "eu.exelban.Stats.Settings.WindowFrame"
     
+    internal var onClose: (() -> Void)?
+    
     private let mainView: MainView = MainView(frame: NSRect(x: 0, y: 0, width: 540, height: 480))
     private let sidebarView: SidebarView = SidebarView(frame: NSRect(x: 0, y: 0, width: 180, height: 480))
     
@@ -30,8 +32,6 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
     private var toggleButton: NSControl? = nil
     private var activeModuleName: String? = nil
     private var settingsPreviewButton: NSView? = nil
-    
-    private var pauseState: Bool { Store.shared.bool(key: "pause", defaultValue: false) }
     
     init() {
         super.init(
@@ -78,6 +78,8 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
             self.backgroundColor = .clear
         }
         self.isRestorable = true
+        self.isReleasedWhenClosed = false
+        self.delegate = self
         self.setFrameAutosaveName(SettingsWindow.frameAutosaveName)
         if !self.setFrameUsingName(SettingsWindow.frameAutosaveName) {
             self.positionCenter()
@@ -90,16 +92,22 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
         windowController.loadWindow()
         
         NotificationCenter.default.addObserver(self, selector: #selector(menuCallback), name: .openModuleSettings, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(toggleSettingsHandler), name: .toggleSettings, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(externalModuleToggle), name: .toggleModule, object: nil)
         
+        self.sidebarView.setModules(modules)
         self.sidebarView.openMenu("Dashboard")
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self, name: .toggleSettings, object: nil)
         NotificationCenter.default.removeObserver(self, name: .openModuleSettings, object: nil)
         NotificationCenter.default.removeObserver(self, name: .toggleModule, object: nil)
+    }
+    
+    func windowWillClose(_ notification: Notification) {
+        let onClose = self.onClose
+        DispatchQueue.main.async {
+            onClose?()
+        }
     }
     
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
@@ -159,7 +167,7 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
         return [.flexibleSpace, .previewButton, .toggleButton]
     }
     
-    @objc private func toggleSettingsHandler(_ notification: Notification) {
+    internal func open(module: String? = nil) {
         if !self.isVisible {
             self.setIsVisible(true)
             self.makeKeyAndOrderFront(nil)
@@ -168,7 +176,7 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
             self.orderFrontRegardless()
         }
         
-        if var name = notification.userInfo?["module"] as? String {
+        if var name = module {
             if name == "Combined modules" { name = "Dashboard" }
             self.sidebarView.openMenu(name)
         }
@@ -216,13 +224,6 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
             if let state = notification.userInfo?["state"] as? Bool {
                 toggleNSControlState(self.toggleButton, state: state ? .on : .off)
             }
-        }
-    }
-    
-    internal func setModules() {
-        self.sidebarView.setModules(modules)
-        if !self.pauseState && modules.filter({ $0.enabled != false && $0.available != false && !$0.menuBar.widgets.filter({ $0.isActive }).isEmpty }).isEmpty {
-            self.setIsVisible(true)
         }
     }
     
