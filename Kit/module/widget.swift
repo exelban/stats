@@ -162,6 +162,12 @@ open class WidgetWrapper: NSView, widget_p {
     public var onClick: (() -> Void)? = nil
     public var shadowSize: CGSize
     internal var queue: DispatchQueue
+
+    private var hasUsableHost: Bool {
+        guard self.superview != nil else { return false }
+        guard let window = self.window else { return false }
+        return window.windowNumber != -1
+    }
     
     public init(_ type: widget_t, title: String, frame: NSRect) {
         self.type = type
@@ -186,6 +192,7 @@ open class WidgetWrapper: NSView, widget_p {
         self.shadowSize.width = newWidth
         
         DispatchQueue.main.async {
+            guard self.hasUsableHost else { return }
             self.setFrameSize(NSSize(width: newWidth, height: self.frame.size.height))
             self.widthHandler?()
         }
@@ -215,7 +222,8 @@ open class WidgetWrapper: NSView, widget_p {
     
     public func redraw() {
         DispatchQueue.main.async { [weak self] in
-            self?.display()
+            guard let self, self.hasUsableHost else { return }
+            self.display()
         }
     }
     
@@ -279,10 +287,12 @@ public class SWidget {
         self.originX = item.frame.origin.x
         
         self.item.widthHandler = { [weak self] in
-            self?.sizeCallback?()
-            if let s = self, let item = s.menuBarItem, let width: CGFloat = self?.item.frame.width, item.length != width {
-                item.length = width
-            }
+            guard let s = self else { return }
+            s.sizeCallback?()
+            guard let item = s.menuBarItem,
+                  item.button?.window != nil,
+                  item.length != s.item.frame.width else { return }
+            item.length = s.item.frame.width
         }
         self.item.identifier = NSUserInterfaceItemIdentifier(self.type.rawValue)
     }
@@ -332,17 +342,21 @@ public class SWidget {
                 if self.item.frame.origin.x != self.originX {
                     self.item.setFrameOrigin(NSPoint(x: self.originX, y: self.item.frame.origin.y))
                 }
-                self.menuBarItem?.button?.addSubview(self.item)
-                self.menuBarItem?.button?.image = NSImage()
-                self.menuBarItem?.button?.toolTip = "\(localizedString(self.module)): \(self.type.name())"
+                guard let button = self.menuBarItem?.button else { return }
+                if self.item.superview !== button {
+                    self.item.removeFromSuperview()
+                    button.addSubview(self.item)
+                }
+                button.image = NSImage()
+                button.toolTip = "\(localizedString(self.module)): \(self.type.name())"
                 
                 if let item = self.menuBarItem, !item.isVisible {
                     self.menuBarItem?.isVisible = true
                 }
                 
-                self.menuBarItem?.button?.target = self
-                self.menuBarItem?.button?.action = #selector(self.togglePopup)
-                self.menuBarItem?.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
+                button.target = self
+                button.action = #selector(self.togglePopup)
+                button.sendAction(on: [.leftMouseDown, .rightMouseDown])
             })
         } else if let item = self.menuBarItem {
             NSStatusBar.system.removeStatusItem(item)
@@ -492,11 +506,12 @@ public class MenuBar {
     
     private func recalculateWidth() {
         guard self.oneView, self.active else { return }
-        
+        guard let item = self.menuBarItem, item.button?.window != nil else { return }
+
         let w = self.activeWidgets.map({ $0.item.frame.width }).reduce(0, +) +
             (CGFloat(self.activeWidgets.count - 1) * Constants.Widget.spacing) +
             Constants.Widget.spacing * 2
-        self.menuBarItem?.length = w
+        item.length = w
         self.view.setFrameOrigin(NSPoint(x: 0, y: 0))
         self.view.setFrameSize(NSSize(width: w, height: Constants.Widget.height))
         
@@ -558,7 +573,10 @@ public class MenuBarView: NSView {
     }
     
     public func addWidget(_ view: NSView) {
-        self.addSubview(view)
+        if view.superview !== self {
+            view.removeFromSuperview()
+            self.addSubview(view)
+        }
     }
     
     public func removeWidget(type: widget_t) {
