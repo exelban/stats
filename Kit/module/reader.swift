@@ -148,9 +148,6 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
                 self.repeatTask?.start()
             }
             self.initlizalized = true
-        } else if (self.popup || self.sleep) && !self.active {
-            DispatchQueue.global(qos: .background).async { self.read() }
-            self.repeatTask?.start()
         } else {
             self.repeatTask?.start()
         }

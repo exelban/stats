@@ -83,12 +83,13 @@ internal class Popup: PopupWrapper {
     private var circle: PieChartView? = nil
     private var temperatureCircle: PieChartView? = nil
     private var frequencyCircle: PieChartView? = nil
-    private var initialized: Bool = false
-    private var initializedTemperature: Bool = false
-    private var initializedFrequency: Bool = false
     private var initializedProcesses: Bool = false
-    private var initializedLimits: Bool = false
-    private var initializedAverage: Bool = false
+    
+    private let loadCache = PopupCache<CPU_Load>()
+    private let temperatureCache = PopupCache<Double>()
+    private let frequencyCache = PopupCache<CPU_Frequency>()
+    private let limitCache = PopupCache<CPU_Limit>()
+    private let averageCache = PopupCache<CPU_AverageLoad>()
     
     private var processes: ProcessesView? = nil
     private var maxFreq: Double = 0
@@ -170,6 +171,11 @@ internal class Popup: PopupWrapper {
     
     public override func appear() {
         self.uptimeField?.stringValue = self.uptimeValue
+        self.replay(self.loadCache, render: self.renderLoad)
+        self.replay(self.temperatureCache, render: self.renderTemperature)
+        self.replay(self.frequencyCache, render: self.renderFrequency)
+        self.replay(self.limitCache, render: self.renderLimit)
+        self.replay(self.averageCache, render: self.renderAverage)
     }
     
     public override func disappear() {
@@ -384,106 +390,104 @@ internal class Popup: PopupWrapper {
     }
     
     public func loadCallback(_ value: CPU_Load) {
-        DispatchQueue.main.async(execute: {
-            if (self.window?.isVisible ?? false) || !self.initialized {
-                self.systemField?.stringValue = "\(Int(value.systemLoad.rounded(toPlaces: 2) * 100))%"
-                self.userField?.stringValue = "\(Int(value.userLoad.rounded(toPlaces: 2) * 100))%"
-                self.idleField?.stringValue = "\(Int(value.idleLoad.rounded(toPlaces: 2) * 100))%"
-                
-                self.circle?.toolTip = "\(localizedString("CPU usage")): \(Int(value.totalUsage.rounded(toPlaces: 2) * 100))%"
-                self.circle?.setValue(value.totalUsage)
-                self.circle?.setSegments([
-                    ColorValue(value.systemLoad, color: self.systemColor),
-                    ColorValue(value.userLoad, color: self.userColor)
-                ])
-                self.circle?.setNonActiveSegmentColor(self.idleColor)
-                
-                if let field = self.eCoresField, let usage = value.usageECores {
-                    field.stringValue = "\(Int(usage * 100))%"
-                }
-                if let field = self.pCoresField, let usage = value.usagePCores {
-                    field.stringValue = "\(Int(usage * 100))%"
-                }
-                if let field = self.sCoresField, let usage = value.usageSCores {
-                    field.stringValue = "\(Int(usage * 100))%"
-                }
-                
-                var usagePerCore: [ColorValue] = []
-                if let cores = SystemKit.shared.device.info.cpu?.cores, cores.count == value.usagePerCore.count {
-                    for i in 0..<value.usagePerCore.count {
-                        let color = cores[i].type == .efficiency ? self.eCoresColor : cores[i].type == .super ? self.sCoresColor : self.pCoresColor
-                        usagePerCore.append(ColorValue(value.usagePerCore[i], color: color))
-                    }
-                } else {
-                    for i in 0..<value.usagePerCore.count {
-                        usagePerCore.append(ColorValue(value.usagePerCore[i], color: NSColor.systemBlue))
-                    }
-                }
-                self.columnChart?.setValues(usagePerCore)
-                
-                self.initialized = true
+        self.apply(value, to: self.loadCache, render: self.renderLoad)
+        self.lineChart?.addValue(value.totalUsage)
+    }
+    
+    private func renderLoad(_ value: CPU_Load) {
+        self.systemField?.stringValue = "\(Int(value.systemLoad.rounded(toPlaces: 2) * 100))%"
+        self.userField?.stringValue = "\(Int(value.userLoad.rounded(toPlaces: 2) * 100))%"
+        self.idleField?.stringValue = "\(Int(value.idleLoad.rounded(toPlaces: 2) * 100))%"
+        
+        self.circle?.toolTip = "\(localizedString("CPU usage")): \(Int(value.totalUsage.rounded(toPlaces: 2) * 100))%"
+        self.circle?.setValue(value.totalUsage)
+        self.circle?.setSegments([
+            ColorValue(value.systemLoad, color: self.systemColor),
+            ColorValue(value.userLoad, color: self.userColor)
+        ])
+        self.circle?.setNonActiveSegmentColor(self.idleColor)
+        self.circle?.display()
+        
+        if let field = self.eCoresField, let usage = value.usageECores {
+            field.stringValue = "\(Int(usage * 100))%"
+        }
+        if let field = self.pCoresField, let usage = value.usagePCores {
+            field.stringValue = "\(Int(usage * 100))%"
+        }
+        if let field = self.sCoresField, let usage = value.usageSCores {
+            field.stringValue = "\(Int(usage * 100))%"
+        }
+        
+        var usagePerCore: [ColorValue] = []
+        if let cores = SystemKit.shared.device.info.cpu?.cores, cores.count == value.usagePerCore.count {
+            for i in 0..<value.usagePerCore.count {
+                let color = cores[i].type == .efficiency ? self.eCoresColor : cores[i].type == .super ? self.sCoresColor : self.pCoresColor
+                usagePerCore.append(ColorValue(value.usagePerCore[i], color: color))
             }
-            self.lineChart?.addValue(value.totalUsage)
-        })
+        } else {
+            for i in 0..<value.usagePerCore.count {
+                usagePerCore.append(ColorValue(value.usagePerCore[i], color: NSColor.systemBlue))
+            }
+        }
+        self.columnChart?.setValues(usagePerCore)
+        self.columnChart?.display()
+        
+        self.lineChart?.display()
     }
     
     public func temperatureCallback(_ value: Double?) {
         guard let value else { return }
+        self.apply(value, to: self.temperatureCache, render: self.renderTemperature)
+    }
+    
+    private func renderTemperature(_ value: Double) {
+        if let view = self.temperatureCircle, (view as NSView).isHidden {
+            view.isHidden = false
+        }
         
-        DispatchQueue.main.async(execute: {
-            if (self.window?.isVisible ?? false) || !self.initializedTemperature {
-                if let view = self.temperatureCircle, (view as NSView).isHidden {
-                    view.isHidden = false
-                }
-                
-                self.temperatureCircle?.toolTip = "\(localizedString("CPU temperature")): \(temperature(value))"
-                self.temperatureCircle?.setValue(value)
-                self.temperatureCircle?.setText(temperature(value))
-                self.initializedTemperature = true
-            }
-        })
+        self.temperatureCircle?.toolTip = "\(localizedString("CPU temperature")): \(temperature(value))"
+        self.temperatureCircle?.setValue(value)
+        self.temperatureCircle?.setText(temperature(value))
+        self.temperatureCircle?.display()
     }
     
     public func frequencyCallback(_ value: CPU_Frequency?) {
         guard let value else { return }
+        self.apply(value, to: self.frequencyCache, render: self.renderFrequency)
+    }
+    
+    private func renderFrequency(_ value: CPU_Frequency) {
+        if !self.frequencyCache.initialized {
+            self.insertArrangedSubview(self.initFrequency(), at: 4)
+            self.recalculateHeight()
+        }
+        if let view = self.frequencyCircle, (view as NSView).isHidden {
+            view.isHidden = false
+        }
         
-        DispatchQueue.main.async(execute: {
-            if !self.initializedFrequency {
-                self.insertArrangedSubview(self.initFrequency(), at: 4)
-                self.recalculateHeight()
+        if let v = value.value {
+            if v > self.maxFreq {
+                self.maxFreq = v
             }
             
-            if let view = self.frequencyCircle, (view as NSView).isHidden {
-                view.isHidden = false
+            self.coresFreqField?.stringValue = "\(Int(v)) MHz"
+            if let circle = self.frequencyCircle {
+                circle.setValue((100*v)/self.maxFreq)
+                circle.setText("\((v/1000).rounded(toPlaces: 2))")
+                circle.toolTip = "\(localizedString("CPU frequency")): \(Int(v)) MHz - \(((100*v)/self.maxFreq).rounded(toPlaces: 2))%"
+                circle.display()
             }
-            
-            if (self.window?.isVisible ?? false) || !self.initializedFrequency {
-                if let v = value.value {
-                    if v > self.maxFreq {
-                        self.maxFreq = v
-                    }
-                    
-                    self.coresFreqField?.stringValue = "\(Int(v)) MHz"
-                    if let circle = self.frequencyCircle {
-                        circle.setValue((100*v)/self.maxFreq)
-                        circle.setText("\((v/1000).rounded(toPlaces: 2))")
-                        circle.toolTip = "\(localizedString("CPU frequency")): \(Int(v)) MHz - \(((100*v)/self.maxFreq).rounded(toPlaces: 2))%"
-                    }
-                }
-                
-                if let v = value.eCore {
-                    self.eCoresFreqField?.stringValue = "\(Int(v)) MHz"
-                }
-                if let v = value.pCore {
-                    self.pCoresFreqField?.stringValue = "\(Int(v)) MHz"
-                }
-                if let v = value.sCore {
-                    self.sCoresFreqField?.stringValue = "\(Int(v)) MHz"
-                }
-                
-                self.initializedFrequency = true
-            }
-        })
+        }
+        
+        if let v = value.eCore {
+            self.eCoresFreqField?.stringValue = "\(Int(v)) MHz"
+        }
+        if let v = value.pCore {
+            self.pCoresFreqField?.stringValue = "\(Int(v)) MHz"
+        }
+        if let v = value.sCore {
+            self.sCoresFreqField?.stringValue = "\(Int(v)) MHz"
+        }
     }
     
     public func processCallback(_ list: [TopProcess]?) {
@@ -520,33 +524,23 @@ internal class Popup: PopupWrapper {
     
     public func limitCallback(_ value: CPU_Limit?) {
         guard let value else { return }
-        
-        DispatchQueue.main.async(execute: {
-            if !(self.window?.isVisible ?? false) && self.initializedLimits {
-                return
-            }
-            
-            self.shedulerLimitField?.stringValue = "\(value.scheduler)%"
-            self.speedLimitField?.stringValue = "\(value.speed)%"
-            
-            self.initializedLimits = true
-        })
+        self.apply(value, to: self.limitCache, render: self.renderLimit)
+    }
+    
+    private func renderLimit(_ value: CPU_Limit) {
+        self.shedulerLimitField?.stringValue = "\(value.scheduler)%"
+        self.speedLimitField?.stringValue = "\(value.speed)%"
     }
     
     public func averageCallback(_ value: CPU_AverageLoad?) {
         guard let value else { return }
-        
-        DispatchQueue.main.async(execute: {
-            if !(self.window?.isVisible ?? false) && self.initializedAverage {
-                return
-            }
-            
-            self.average1Field?.stringValue = "\(value.load1)"
-            self.average5Field?.stringValue = "\(value.load5)"
-            self.average15Field?.stringValue = "\(value.load15)"
-            
-            self.initializedAverage = true
-        })
+        self.apply(value, to: self.averageCache, render: self.renderAverage)
+    }
+    
+    private func renderAverage(_ value: CPU_AverageLoad) {
+        self.average1Field?.stringValue = "\(value.load1)"
+        self.average5Field?.stringValue = "\(value.load5)"
+        self.average15Field?.stringValue = "\(value.load15)"
     }
     
     // MARK: - Settings

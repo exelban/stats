@@ -11,6 +11,13 @@
 
 import Cocoa
 
+public final class PopupCache<T> {
+    public var value: T?
+    public var initialized: Bool = false
+    
+    public init() {}
+}
+
 public protocol Popup_p: NSView {
     var keyboardShortcut: [UInt16] { get }
     var sizeCallback: ((NSSize) -> Void)? { get set }
@@ -45,6 +52,20 @@ open class PopupWrapper: NSStackView, Popup_p {
     open func setKeyboardShortcut(_ binding: [UInt16]) {
         self.keyboardShortcut = binding
         Store.shared.set(key: "\(self.title)_popup_keyboardShortcut", value: binding)
+    }
+    
+    public func apply<T>(_ value: T, to cache: PopupCache<T>, render: @escaping (T) -> Void) {
+        DispatchQueue.main.async {
+            cache.value = value
+            if (self.window?.isVisible ?? false) || !cache.initialized {
+                render(value)
+                cache.initialized = true
+            }
+        }
+    }
+    
+    public func replay<T>(_ cache: PopupCache<T>, render: (T) -> Void) {
+        if let v = cache.value { render(v) }
     }
 }
 
@@ -259,6 +280,8 @@ internal class PopupView: NSView {
     }
     
     internal func appear() {
+        self.view?.appear()
+        
         self.display()
         self.body.subviews.first?.display()
         
@@ -271,8 +294,6 @@ internal class PopupView: NSView {
         if let documentView = self.body.documentView {
             documentView.scroll(NSPoint(x: 0, y: documentView.bounds.size.height))
         }
-        
-        self.view?.appear()
     }
     internal func disappear() {
         self.header.setCloseButton(false)
