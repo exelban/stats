@@ -1127,14 +1127,25 @@ public class GridChartView: ChartView {
     private let notOkColor: NSColor = .systemRed
     private let inactiveColor: NSColor = .underPageBackgroundColor.withAlphaComponent(0.4)
     
-    private var values: [NSColor] = []
+    private var values: [ColorValue?] = []
     private let grid: (rows: Int, columns: Int)
     
-    public init(frame: NSRect, grid: (rows: Int, columns: Int)) {
+    private let dateFormatter = DateFormatter()
+    private var cursor: NSPoint? = nil
+    
+    public init(frame: NSRect = .zero, grid: (rows: Int, columns: Int)) {
         self.grid = grid
         super.init(frame: frame, queueLabel: "eu.exelban.Stats.Charts.Grid")
         let totalCells = max(grid.rows * grid.columns, 1)
-        self.values = Array(repeating: self.inactiveColor, count: totalCells)
+        self.values = Array(repeating: nil, count: totalCells)
+        
+        self.dateFormatter.dateFormat = "HH:mm:ss"
+        
+        self.addTrackingArea(NSTrackingArea(
+            rect: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height),
+            options: [.activeAlways, .mouseEnteredAndExited, .mouseMoved, .inVisibleRect],
+            owner: self, userInfo: nil
+        ))
     }
     
     required init?(coder: NSCoder) {
@@ -1143,7 +1154,7 @@ public class GridChartView: ChartView {
     
     public override func draw(_ dirtyRect: NSRect) {
         var grid: (rows: Int, columns: Int) = (0, 0)
-        var values: [NSColor] = []
+        var values: [ColorValue?] = []
         self.read {
             grid = self.grid
             values = self.values
@@ -1156,27 +1167,71 @@ public class GridChartView: ChartView {
         )
         var origin: CGPoint = CGPoint(x: 0, y: (size.height + spacing) * CGFloat(grid.columns - 1))
         
+        let cursor = self.cursor
+        var hovered: ColorValue? = nil
+        
         var i: Int = 0
         for _ in 0..<grid.columns {
             for _ in 0..<grid.rows {
-                let box = NSBezierPath(roundedRect: NSRect(origin: origin, size: size), xRadius: 1, yRadius: 1)
-                values[i].setFill()
+                let rect = NSRect(origin: origin, size: size)
+                let box = NSBezierPath(roundedRect: rect, xRadius: 1, yRadius: 1)
+                (values[i]?.color ?? self.inactiveColor).setFill()
                 box.fill()
                 box.close()
+                if let c = cursor, rect.contains(c), let v = values[i] {
+                    hovered = v
+                }
                 i += 1
                 origin.x += size.width + spacing
             }
             origin.x = 0
             origin.y -= size.height + spacing
         }
+        
+        if let v = hovered, let c = cursor {
+            let text = self.dateFormatter.string(from: v.ts)
+            let font = NSFont.systemFont(ofSize: 12, weight: .regular)
+            let tooltipWidth = text.widthOfString(usingFont: font).rounded(.up) + 6
+            let tooltipHeight: CGFloat = 12
+            let tooltipX = c.x + 6 + tooltipWidth > self.frame.size.width
+                ? c.x - tooltipWidth - 6
+                : c.x + 6
+            let tooltipY = c.y + 6
+            drawToolTip(self.frame, CGPoint(x: tooltipX, y: tooltipY), CGSize(width: tooltipWidth, height: tooltipHeight), value: text)
+        }
     }
     
     public func addValue(_ value: Bool) {
         self.write {
             self.values.remove(at: 0)
-            self.values.append(value ? self.okColor : self.notOkColor)
+            self.values.append(ColorValue(value ? 1 : 0, color: value ? self.okColor : self.notOkColor))
         }
         self.displayIfVisible()
+    }
+    
+    public override func mouseEntered(with event: NSEvent) {
+        self.cursor = convert(event.locationInWindow, from: nil)
+        self.needsDisplay = true
+    }
+    
+    public override func mouseMoved(with event: NSEvent) {
+        self.cursor = convert(event.locationInWindow, from: nil)
+        self.needsDisplay = true
+    }
+    
+    public override func mouseExited(with event: NSEvent) {
+        self.cursor = nil
+        self.needsDisplay = true
+    }
+    
+    public override func updateTrackingAreas() {
+        self.trackingAreas.forEach({ self.removeTrackingArea($0) })
+        self.addTrackingArea(NSTrackingArea(
+            rect: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height),
+            options: [.activeAlways, .mouseEnteredAndExited, .mouseMoved, .inVisibleRect],
+            owner: self, userInfo: nil
+        ))
+        super.updateTrackingAreas()
     }
 }
 

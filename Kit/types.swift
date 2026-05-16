@@ -24,6 +24,7 @@ extension [DoubleValue] {
 }
 
 public struct ColorValue: Equatable {
+    public var ts: Date = Date()
     public let value: Double
     public var color: NSColor?
     
@@ -410,7 +411,7 @@ public enum RAMPressure: String, Codable {
         case .normal:
             return NSColor.systemGreen
         case .warning:
-            return NSColor.systemYellow
+            return NSColor.systemOrange
         case .critical:
             return NSColor.systemRed
         }
