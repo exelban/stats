@@ -178,7 +178,7 @@
 "Number of threads" = "%0 Threads";
 "Number of e-cores" = "%0 Effizienzkerne";
 "Number of p-cores" = "%0 Leistungskerne";
-"Number of s-cores" = "%0 Super-Prozessoren"; // translategemma:4b
+"Number of s-cores" = "%0 S-Kerne";
 "Disks" = "Festplatten";
 "Display" = "Bildschirm";
 
@@ -191,7 +191,7 @@
 // Widgets
 "Color" = "Farbe";
 "Label" = "Beschriftung";
-"Box" = "Karton"; // translategemma:4b
+"Box" = "Box";
 "Frame" = "Rahmen";
 "Value" = "Wert";
 "Colorize" = "Einfärben";
@@ -212,7 +212,7 @@
 "Stack widget" = "Stapel";
 "Memory widget" = "Speicher";
 "Static width" = "Feste Breite";
-"Tachometer widget" = "Drehzahlmesser"; // translategemma:4b
+"Tachometer widget" = "Tachometer";
 "State widget" = "Status-Widget";
 "Text widget" = "Text-Widget";
 "Battery details widget" = "Batteriedetails-Widget";
@@ -227,6 +227,7 @@
 "Default color" = "Standard";
 "Transparent when no activity" = "Transparent bei Inaktivität";
 "Constant color" = "Konstant";
+"Custom..." = "Benutzerdefiniert...";
 
 // Module Kit
 "Open module settings" = "Modul-Einstellungen öffnen";
@@ -291,10 +292,10 @@
 "Efficiency cores load" = "Effizienzkerne-Last";
 "Performance cores load" = "Leistungskerne-Last";
 "All cores" = "Alle Kerne";
-"Load per core" = "Laden pro Kern"; // translategemma:4b
-"Efficiency core" = "Kern der Effizienz"; // translategemma:4b
-"Performance core" = "Leistungszentrum"; // translategemma:4b
-"Super core" = "Hervorragende Kernfunktion"; // translategemma:4b
+"Load per core" = "Last pro Kern";
+"Efficiency core" = "Effizienzkern";
+"Performance core" = "Leistungskern";
+"Super core" = "Superkern";
 
 // GPU
 "GPU to show" = "Anzuzeigende GPU";
@@ -419,8 +420,8 @@
 "Network activity" = "Netzwerkaktivität";
 "Last reset" = "Letzte Zurücksetzung vor %0";
 "Latency" = "Latenz";
-"Upload speed" = "Hochladen"; // translategemma:4b
-"Download speed" = "Herunterladen"; // translategemma:4b
+"Upload speed" = "Uploadgeschwindigkeit";
+"Download speed" = "Downloadgeschwindigkeit";
 "Address" = "Adresse";
 "WiFi network" = "WLAN-Netzwerk";
 "Local IP changed" = "Lokale IP hat sich geändert";

@@ -304,6 +304,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         guard let key = sender.representedObject as? String else { return }
         self.usageReset = key
         Store.shared.set(key: "\(self.title)_usageReset", value: key)
+        Store.shared.remove("\(self.title)_usageReset_next")
         self.usageResetCallback()
     }
     @objc func toggleVPNMode(_ sender: NSControl) {
