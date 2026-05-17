@@ -146,6 +146,9 @@ public class CPU: Module {
         }
         self.processReader = ProcessReader(.CPU) { [weak self] value in
             self?.popupView.processCallback(value)
+            if let list = value {
+                NotificationCenter.default.post(name: .monitorCPUProcesses, object: list)
+            }
         }
         self.averageLoadReader = AverageLoadReader(.CPU, popup: true) { [weak self] value in
             self?.popupView.averageCallback(value)

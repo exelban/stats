@@ -10,6 +10,7 @@ import Kit
 import CPU
 import RAM
 import Net
+import Battery
 
 // MARK: - Design tokens
 
@@ -39,7 +40,7 @@ internal class MonitorView: NSView, Popup_p {
     private let gap: CGFloat = 8
     private let tabH: CGFloat = 44
 
-    private enum Tab: Int { case cpu = 0, memory = 1, network = 2, storage = 3 }
+    private enum Tab: Int { case cpu = 0, memory = 1, network = 2, storage = 3, battery = 4 }
     private var activeTab: Tab = .memory
 
     // UI structure
@@ -53,10 +54,15 @@ internal class MonitorView: NSView, Popup_p {
     private var memContent:  NSView!
     private var netContent:  NSView!
     private var storContent: NSView!
+    private var batContent:  NSView!
 
     // CPU outlets
     private var cpuChart: LineChartView?
     private var cpuUserF, cpuSysF, cpuIdleF, cpuCoresF: NSTextField?
+    private var cpuSearch:  NSSearchField?
+    private var cpuProcBox: FlippedView?
+    private var cpuProcs:   [TopProcess] = []
+    private var cpuFilter:  String = ""
 
     // Memory outlets
     private var memChart:   LineChartView?
@@ -76,10 +82,16 @@ internal class MonitorView: NSView, Popup_p {
     private var storTotF, storUsedF, storFreeF, storPurgeF: NSTextField?
     private var storTimer: Timer?
 
+    // Battery outlets
+    private var batBar:   BarChartView?
+    private var batLevelF, batSourceF, batHealthF, batCyclesF: NSTextField?
+    private var batTimeF, batTempF, batVoltF, batWattsF: NSTextField?
+
     // Cached latest values
     private var lastCPU: CPU_Load?
     private var lastRAM: RAM_Usage?
     private var lastNet: Network_Usage?
+    private var lastBat: Battery_Usage?
 
     // MARK: Init
 
@@ -109,6 +121,7 @@ internal class MonitorView: NSView, Popup_p {
         if let v = lastCPU { renderCPU(v) }
         if let v = lastRAM { renderRAM(v) }
         if let v = lastNet { renderNet(v) }
+        if let v = lastBat { renderBattery(v) }
     }
 
     func disappear() {
@@ -125,16 +138,26 @@ internal class MonitorView: NSView, Popup_p {
 
     private func subscribeNotifications() {
         let nc = NotificationCenter.default
-        nc.addObserver(self, selector: #selector(onCPU),      name: .monitorCPULoad,      object: nil)
-        nc.addObserver(self, selector: #selector(onRAM),      name: .monitorRAMUsage,     object: nil)
-        nc.addObserver(self, selector: #selector(onRAMProcs), name: .monitorRAMProcesses, object: nil)
-        nc.addObserver(self, selector: #selector(onNet),      name: .monitorNetUsage,     object: nil)
+        nc.addObserver(self, selector: #selector(onCPU),      name: .monitorCPULoad,       object: nil)
+        nc.addObserver(self, selector: #selector(onCPUProcs), name: .monitorCPUProcesses,  object: nil)
+        nc.addObserver(self, selector: #selector(onRAM),      name: .monitorRAMUsage,      object: nil)
+        nc.addObserver(self, selector: #selector(onRAMProcs), name: .monitorRAMProcesses,  object: nil)
+        nc.addObserver(self, selector: #selector(onNet),      name: .monitorNetUsage,      object: nil)
+        nc.addObserver(self, selector: #selector(onBat),      name: .monitorBatteryUsage,  object: nil)
     }
 
     @objc private func onCPU(_ n: Notification) {
         guard let v = n.object as? CPU_Load else { return }
         lastCPU = v
         DispatchQueue.main.async { self.renderCPU(v) }
+    }
+
+    @objc private func onCPUProcs(_ n: Notification) {
+        guard let list = n.object as? [TopProcess] else { return }
+        DispatchQueue.main.async {
+            self.cpuProcs = list
+            self.refreshCPUProcList()
+        }
     }
 
     @objc private func onRAM(_ n: Notification) {
@@ -157,6 +180,12 @@ internal class MonitorView: NSView, Popup_p {
         DispatchQueue.main.async { self.renderNet(v) }
     }
 
+    @objc private func onBat(_ n: Notification) {
+        guard let v = n.object as? Battery_Usage else { return }
+        lastBat = v
+        DispatchQueue.main.async { self.renderBattery(v) }
+    }
+
     // MARK: Build UI
 
     private func buildUI() {
@@ -168,6 +197,7 @@ internal class MonitorView: NSView, Popup_p {
         memContent  = buildMemContent()
         netContent  = buildNetContent()
         storContent = buildStorContent()
+        batContent  = buildBatContent()
 
         addSubview(tabBar)
         addSubview(contentBox)
@@ -186,7 +216,7 @@ internal class MonitorView: NSView, Popup_p {
         self.tabPill = pill
         bar.addSubview(pill)
 
-        let titles = ["CPU", "Memory", "Network", "Storage"]
+        let titles = ["CPU", "Memory", "Network", "Storage", "Battery"]
         let tabW = W / CGFloat(titles.count)
         for (i, title) in titles.enumerated() {
             let btn = NSButton(frame: NSRect(x: CGFloat(i) * tabW, y: 6, width: tabW, height: 32))
@@ -235,6 +265,7 @@ internal class MonitorView: NSView, Popup_p {
         case .memory:  content = memContent
         case .network: content = netContent
         case .storage: content = storContent
+        case .battery: content = batContent
         }
         contentBox.addSubview(content)
         recalculate()
@@ -248,6 +279,7 @@ internal class MonitorView: NSView, Popup_p {
         case .memory:  contentH = memContent.frame.height
         case .network: contentH = netContent.frame.height
         case .storage: contentH = storContent.frame.height
+        case .battery: contentH = batContent.frame.height
         }
         tabBar.frame     = NSRect(x: 0, y: 0,    width: W, height: tabH)
         contentBox.frame = NSRect(x: 0, y: tabH, width: W, height: contentH)
@@ -284,10 +316,85 @@ internal class MonitorView: NSView, Popup_p {
                            values: ["—", "—", "—", "—"])
         cpuUserF = fs[0]; cpuSysF = fs[1]; cpuIdleF = fs[2]; cpuCoresF = fs[3]
         v.addSubview(statsCard)
-        y += 68 + pad
+        y += 68 + gap
+
+        // Search field
+        let search = NSSearchField(frame: NSRect(x: pad, y: y, width: w, height: 34))
+        search.placeholderString = "Search process"
+        search.font = NSFont.systemFont(ofSize: 13)
+        search.target = self
+        search.action = #selector(cpuSearchChanged(_:))
+        cpuSearch = search
+        v.addSubview(search)
+        y += 34 + gap
+
+        // Process list
+        let rows = 8
+        let procBox = FlippedView(frame: NSRect(x: pad, y: y, width: w, height: CGFloat(rows) * 44))
+        cpuProcBox = procBox
+        v.addSubview(procBox)
+        y += CGFloat(rows) * 44 + pad
 
         v.frame = NSRect(x: 0, y: 0, width: W, height: y)
         return v
+    }
+
+    @objc private func cpuSearchChanged(_ sender: NSSearchField) {
+        cpuFilter = sender.stringValue.lowercased()
+        refreshCPUProcList()
+    }
+
+    private func refreshCPUProcList() {
+        guard let box = cpuProcBox else { return }
+        box.subviews.forEach { $0.removeFromSuperview() }
+
+        let list: [TopProcess] = cpuFilter.isEmpty
+            ? Array(cpuProcs.prefix(8))
+            : Array(cpuProcs.filter { $0.name.lowercased().contains(cpuFilter) }.prefix(8))
+
+        for (i, proc) in list.enumerated() {
+            box.addSubview(cpuProcRow(proc, i))
+        }
+    }
+
+    private func cpuProcRow(_ proc: TopProcess, _ idx: Int) -> NSView {
+        let w = W - pad * 2
+        let rowH: CGFloat = 44
+        let row = NSView(frame: NSRect(x: 0, y: CGFloat(idx) * rowH, width: w, height: rowH))
+
+        if idx > 0 {
+            let sep = NSView(frame: NSRect(x: 34, y: 0, width: w - 34, height: 0.5))
+            sep.wantsLayer = true
+            sep.layer?.backgroundColor = rowSep.cgColor
+            row.addSubview(sep)
+        }
+
+        var icon = Constants.defaultProcessIcon
+        if let app = NSRunningApplication(processIdentifier: pid_t(proc.pid)),
+           let appIcon = app.icon {
+            icon = appIcon
+        }
+        let imgV = NSImageView(frame: NSRect(x: 0, y: (rowH - 28) / 2, width: 28, height: 28))
+        imgV.image = icon
+        imgV.imageScaling = .scaleProportionallyUpOrDown
+        imgV.wantsLayer = true
+        imgV.layer?.cornerRadius = 6
+        imgV.layer?.masksToBounds = true
+        row.addSubview(imgV)
+
+        let nameF = lbl(proc.name, size: 13, color: bodyText)
+        nameF.font = NSFont.systemFont(ofSize: 13, weight: .medium)
+        nameF.frame = NSRect(x: 36, y: (rowH - 16) / 2, width: w - 36 - 92, height: 16)
+        nameF.lineBreakMode = .byTruncatingTail
+        row.addSubview(nameF)
+
+        let valF = lbl(String(format: "%.1f%%", proc.usage), size: 13, color: bodyText)
+        valF.font = NSFont.systemFont(ofSize: 13, weight: .medium)
+        valF.frame = NSRect(x: w - 90, y: (rowH - 16) / 2, width: 90, height: 16)
+        valF.alignment = .right
+        row.addSubview(valF)
+
+        return row
     }
 
     // MARK: Memory content
@@ -392,6 +499,82 @@ internal class MonitorView: NSView, Popup_p {
         row.addSubview(valF)
 
         return row
+    }
+
+    // MARK: Battery content
+
+    private func buildBatContent() -> NSView {
+        let w = W - pad * 2
+        var y: CGFloat = gap
+        let v = FlippedView()
+
+        // Level bar
+        let barCard = card(w: w, h: 48, at: NSPoint(x: pad, y: y))
+        let bar = BarChartView(frame: NSRect(x: 8, y: 10, width: w - 16, height: 28), horizontal: true)
+        barCard.addSubview(bar)
+        batBar = bar
+        v.addSubview(barCard)
+        y += 48 + gap
+
+        // Stats card 1: Level, Source, Health, Cycles
+        let card1 = card(w: w, h: 68, at: NSPoint(x: pad, y: y))
+        let fs1 = statsGrid(in: card1,
+                            labels: ["Level", "Source", "Health", "Cycles"],
+                            values: ["—", "—", "—", "—"])
+        batLevelF = fs1[0]; batSourceF = fs1[1]; batHealthF = fs1[2]; batCyclesF = fs1[3]
+        v.addSubview(card1)
+        y += 68 + gap
+
+        // Stats card 2: Time, Temperature, Voltage, Watts
+        let card2 = card(w: w, h: 68, at: NSPoint(x: pad, y: y))
+        let fs2 = statsGrid(in: card2,
+                            labels: ["Time", "Temperature", "Voltage", "AC Watts"],
+                            values: ["—", "—", "—", "—"])
+        batTimeF = fs2[0]; batTempF = fs2[1]; batVoltF = fs2[2]; batWattsF = fs2[3]
+        v.addSubview(card2)
+        y += 68 + pad
+
+        v.frame = NSRect(x: 0, y: 0, width: W, height: y)
+        return v
+    }
+
+    private func renderBattery(_ b: Battery_Usage) {
+        batBar?.setValue(ColorValue(b.level, color: batteryColor(b.level)))
+
+        batLevelF?.stringValue  = "\(Int((b.level * 100).rounded()))%"
+        if b.isCharging {
+            batSourceF?.stringValue = "Charging"
+        } else if b.isCharged {
+            batSourceF?.stringValue = "Charged"
+        } else {
+            batSourceF?.stringValue = b.isBatteryPowered ? "Battery" : "AC Power"
+        }
+        batHealthF?.stringValue  = "\(b.health)%"
+        batCyclesF?.stringValue  = "\(b.cycles)"
+
+        if b.isCharging && b.timeToCharge > 0 {
+            batTimeF?.stringValue = formatBatTime(b.timeToCharge) + " left"
+        } else if b.timeToEmpty > 0 {
+            batTimeF?.stringValue = formatBatTime(b.timeToEmpty) + " left"
+        } else {
+            batTimeF?.stringValue = "—"
+        }
+
+        batTempF?.stringValue = b.temperature > 0 ? String(format: "%.1f °C", b.temperature) : "—"
+        batVoltF?.stringValue = b.voltage > 0 ? String(format: "%.2f V", b.voltage) : "—"
+        batWattsF?.stringValue = b.ACwatts > 0 ? "\(b.ACwatts) W" : "—"
+    }
+
+    private func batteryColor(_ level: Double) -> NSColor {
+        if level < 0.15 { return NSColor(red: 1, green: 0.23, blue: 0.19, alpha: 1) }
+        if level < 0.30 { return accentOrange }
+        return accentBlue
+    }
+
+    private func formatBatTime(_ minutes: Int) -> String {
+        let h = minutes / 60
+        let m = minutes % 60
+        return h > 0 ? "\(h)h \(m)m" : "\(m)m"
     }
 
     // MARK: Network content

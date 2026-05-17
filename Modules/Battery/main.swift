@@ -13,32 +13,32 @@ import Cocoa
 import Kit
 import IOKit.ps
 
-struct Battery_Usage: Codable {
-    var powerSource: String = ""
-    var state: String? = nil
-    var isCharged: Bool = false
-    var isCharging: Bool = false
-    var isBatteryPowered: Bool = false
-    var optimizedChargingEngaged: Bool = false
-    var level: Double = 0
-    var cycles: Int = 0
-    var health: Int = 0
-    
-    var designedCapacity: Int = 0
-    var maxCapacity: Int = 0
-    var currentCapacity: Int = 0
-    
-    var amperage: Int = 0
-    var voltage: Double = 0
-    var temperature: Double = 0
-    
-    var ACwatts: Int = 0
-    var chargingCurrent: Int = 0
-    var chargingVoltage: Int = 0
-    
-    var timeToEmpty: Int = 0
-    var timeToCharge: Int = 0
-    var timeOnACPower: Date? = nil
+public struct Battery_Usage: Codable {
+    public var powerSource: String = ""
+    public var state: String? = nil
+    public var isCharged: Bool = false
+    public var isCharging: Bool = false
+    public var isBatteryPowered: Bool = false
+    public var optimizedChargingEngaged: Bool = false
+    public var level: Double = 0
+    public var cycles: Int = 0
+    public var health: Int = 0
+
+    public var designedCapacity: Int = 0
+    public var maxCapacity: Int = 0
+    public var currentCapacity: Int = 0
+
+    public var amperage: Int = 0
+    public var voltage: Double = 0
+    public var temperature: Double = 0
+
+    public var ACwatts: Int = 0
+    public var chargingCurrent: Int = 0
+    public var chargingVoltage: Int = 0
+
+    public var timeToEmpty: Int = 0
+    public var timeToCharge: Int = 0
+    public var timeOnACPower: Date? = nil
 }
 
 public class Battery: Module {
@@ -110,6 +110,7 @@ public class Battery: Module {
         self.popupView.usageCallback(value)
         self.portalView.loadCallback(value)
         self.notificationsView.usageCallback(value)
+        NotificationCenter.default.post(name: .monitorBatteryUsage, object: value)
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: SWidget) in
             switch w.item {

@@ -285,6 +285,8 @@ public extension Notification.Name {
     static let remoteState = Notification.Name("remoteState")
     static let openWindow = Notification.Name("openWindow")
     static let monitorCPULoad = Notification.Name("monitorCPULoad")
+    static let monitorCPUProcesses = Notification.Name("monitorCPUProcesses")
+    static let monitorBatteryUsage = Notification.Name("monitorBatteryUsage")
     static let monitorRAMUsage = Notification.Name("monitorRAMUsage")
     static let monitorRAMProcesses = Notification.Name("monitorRAMProcesses")
     static let monitorNetUsage = Notification.Name("monitorNetUsage")
