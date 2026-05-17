@@ -151,7 +151,7 @@ public class Mini: WidgetWrapper {
         guard self._value != newValue else { return }
         self._value = newValue
         DispatchQueue.main.async(execute: {
-            self.display()
+            self.renderToLayer()
         })
     }
     
@@ -159,10 +159,10 @@ public class Mini: WidgetWrapper {
         guard self._pressureLevel != newPressureLevel else { return }
         self._pressureLevel = newPressureLevel
         DispatchQueue.main.async(execute: {
-            self.needsDisplay = true
+            self.renderToLayer()
         })
     }
-    
+
     public func setTitle(_ newTitle: String?) {
         var title = self.defaultLabel
         if let new = newTitle {
@@ -171,23 +171,23 @@ public class Mini: WidgetWrapper {
         guard self._label != title else { return }
         self._label = title
         DispatchQueue.main.async(execute: {
-            self.needsDisplay = true
+            self.renderToLayer()
         })
     }
-    
+
     public func setColorZones(_ newColorZones: colorZones) {
         guard self._colorZones != newColorZones else { return }
         self._colorZones = newColorZones
         DispatchQueue.main.async(execute: {
-            self.display()
+            self.renderToLayer()
         })
     }
-    
+
     public func setSuffix(_ newSuffix: String) {
         guard self._suffix != newSuffix else { return }
         self._suffix = newSuffix
         DispatchQueue.main.async(execute: {
-            self.display()
+            self.renderToLayer()
         })
     }
     
@@ -222,13 +222,13 @@ public class Mini: WidgetWrapper {
             self.colorState = newColor
         }
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_color", value: key)
-        self.display()
+        self.renderToLayer()
     }
     
     @objc private func toggleLabel(_ sender: NSControl) {
         self.labelState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_label", value: self.labelState)
-        self.display()
+        self.renderToLayer()
     }
     
     @objc private func toggleAlignment(_ sender: NSMenuItem) {
@@ -237,6 +237,6 @@ public class Mini: WidgetWrapper {
             self.alignmentState = newAlignment.key
         }
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_alignment", value: key)
-        self.display()
+        self.renderToLayer()
     }
 }

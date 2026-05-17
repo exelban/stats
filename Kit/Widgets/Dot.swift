@@ -54,7 +54,7 @@ public class DotWidget: WidgetWrapper {
         guard self.value != value else { return }
         self.value = value
         DispatchQueue.main.async(execute: {
-            self.display()
+            self.renderToLayer()
         })
     }
 }

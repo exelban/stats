@@ -266,9 +266,9 @@ public class NetworkChart: WidgetWrapper {
         DispatchQueue.main.async(execute: {
             self.points.remove(at: 0)
             self.points.append((upload, download))
-            
+
             if self.window?.isVisible ?? false {
-                self.display()
+                self.renderToLayer()
             }
         })
     }
@@ -328,7 +328,7 @@ public class NetworkChart: WidgetWrapper {
     @objc private func toggleLabel(_ sender: NSControl) {
         self.labelState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_label", value: self.labelState)
-        self.display()
+        self.renderToLayer()
     }
     
     @objc private func toggleBox(_ sender: NSControl) {
@@ -341,7 +341,7 @@ public class NetworkChart: WidgetWrapper {
             Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_frame", value: self.frameState)
         }
         
-        self.display()
+        self.renderToLayer()
     }
     
     @objc private func toggleFrame(_ sender: NSControl) {
@@ -354,7 +354,7 @@ public class NetworkChart: WidgetWrapper {
             Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
         }
         
-        self.display()
+        self.renderToLayer()
     }
     
     @objc private func toggleHistoryCount(_ sender: NSMenuItem) {
@@ -368,7 +368,7 @@ public class NetworkChart: WidgetWrapper {
             self.points = Array(repeating: (0, 0), count: num - self.points.count) + self.points
         }
         
-        self.display()
+        self.renderToLayer()
     }
     
     @objc private func toggleDownloadColor(_ sender: NSMenuItem) {
@@ -377,7 +377,7 @@ public class NetworkChart: WidgetWrapper {
             self.downloadColor = newColor
             Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_downloadColor", value: newColor.key)
         }
-        self.display()
+        self.renderToLayer()
     }
     
     @objc private func toggleUploadColor(_ sender: NSMenuItem) {
@@ -386,7 +386,7 @@ public class NetworkChart: WidgetWrapper {
             self.uploadColor = newColor
             Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_uploadColor", value: newColor.key)
         }
-        self.display()
+        self.renderToLayer()
     }
     
     @objc private func toggleScale(_ sender: NSMenuItem) {
@@ -394,12 +394,12 @@ public class NetworkChart: WidgetWrapper {
               let value = Scale.allCases.first(where: { $0.key == key }) else { return }
         self.scaleState = value
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_scale", value: key)
-        self.display()
+        self.renderToLayer()
     }
     
     @objc private func toggleReverseOrder(_ sender: NSControl) {
         self.reverseOrderState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_reverseOrder", value: self.reverseOrderState)
-        self.display()
+        self.renderToLayer()
     }
 }

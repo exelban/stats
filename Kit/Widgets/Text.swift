@@ -71,7 +71,7 @@ public class TextWidget: WidgetWrapper {
         guard self.value != newValue else { return }
         self.value = newValue
         DispatchQueue.main.async(execute: {
-            self.display()
+            self.renderToLayer()
         })
     }
     
