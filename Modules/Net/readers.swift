@@ -145,6 +145,23 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         get { Store.shared.bool(key: "Network_publicIP", defaultValue: true) }
     }
     
+    private var usageResetInterval: AppUpdateInterval? {
+        AppUpdateInterval(rawValue: Store.shared.string(key: "Network_usageReset", defaultValue: AppUpdateInterval.never.rawValue))
+    }
+    private var nextUsageResetDate: Date? {
+        get {
+            let ts = Store.shared.int(key: "Network_usageReset_next", defaultValue: 0)
+            return ts == 0 ? nil : Date(timeIntervalSince1970: TimeInterval(ts))
+        }
+        set {
+            if let newValue {
+                Store.shared.set(key: "Network_usageReset_next", value: Int(newValue.timeIntervalSince1970))
+            } else {
+                Store.shared.remove("Network_usageReset_next")
+            }
+        }
+    }
+    
     private let wifiClient = CWWiFiClient.shared()
     
     private var lastDetailsReadTS: Date = .distantPast
@@ -183,6 +200,8 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
             self.usage.bandwidth = Bandwidth()
         }
         
+        self.checkUsageReset()
+        
         self.wifiClient.delegate = self
         self.startListeningForWifiEvents()
     }
@@ -196,6 +215,7 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     }
     
     public override func read() {
+        self.checkUsageReset()
         self.getDetails()
         
         let current: Bandwidth = self.reader == "interface" ? self.readInterfaceBandwidth() : self.readProcessBandwidth()
@@ -521,9 +541,42 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         }
     }
     
+    private func nextUsageReset(after date: Date) -> Date? {
+        let cal = Calendar.current
+        switch self.usageResetInterval {
+        case .oncePerDay:
+            return cal.date(byAdding: .day, value: 1, to: cal.startOfDay(for: date))
+        case .oncePerWeek:
+            guard let start = cal.dateInterval(of: .weekOfYear, for: date)?.start else { return nil }
+            return cal.date(byAdding: .weekOfYear, value: 1, to: start)
+        case .oncePerMonth:
+            guard let start = cal.dateInterval(of: .month, for: date)?.start else { return nil }
+            return cal.date(byAdding: .month, value: 1, to: start)
+        default:
+            return nil
+        }
+    }
+    
+    private func checkUsageReset() {
+        switch self.usageResetInterval {
+        case .oncePerDay, .oncePerWeek, .oncePerMonth: break
+        default: return
+        }
+        
+        guard let next = self.nextUsageResetDate else {
+            self.nextUsageResetDate = self.nextUsageReset(after: Date())
+            return
+        }
+        
+        if Date() >= next {
+            self.resetTotalNetworkUsage()
+        }
+    }
+    
     @objc func resetTotalNetworkUsage() {
         self.usage.total = Bandwidth()
         self.save(self.usage)
+        self.nextUsageResetDate = self.nextUsageReset(after: Date())
     }
     
     private func startListeningForWifiEvents() {

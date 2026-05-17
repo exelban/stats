@@ -146,7 +146,6 @@ public class Network: Module {
     private var connectivityReader: ConnectivityReader? = nil
     
     private let ipUpdater = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.Network.IP")
-    private let usageReseter = NSBackgroundActivityScheduler(identifier: "eu.exelban.Stats.Network.Usage")
     
     private var widgetActivationThresholdState: Bool {
         Store.shared.bool(key: "\(self.config.name)_widgetActivationThresholdState", defaultValue: false)
@@ -389,26 +388,8 @@ public class Network: Module {
     }
     
     private func setUsageReset() {
-        self.usageReseter.invalidate()
-        
-        switch AppUpdateInterval(rawValue: Store.shared.string(key: "\(self.config.name)_usageReset", defaultValue: AppUpdateInterval.never.rawValue)) {
-        case .oncePerDay: self.usageReseter.interval = 60 * 60 * 24
-        case .oncePerWeek: self.usageReseter.interval = 60 * 60 * 24 * 7
-        case .oncePerMonth: self.usageReseter.interval = 60 * 60 * 24 * 30
-        case .atStart: NotificationCenter.default.post(name: .resetTotalNetworkUsage, object: nil, userInfo: nil)
-        case .never: return
-        default: return
-        }
-        
-        self.usageReseter.repeats = true
-        self.usageReseter.schedule { (completion: @escaping NSBackgroundActivityScheduler.CompletionHandler) in
-            guard self.enabled && self.isAvailable() else {
-                return
-            }
-            
-            debug("going to reset the usage...")
+        if AppUpdateInterval(rawValue: Store.shared.string(key: "\(self.config.name)_usageReset", defaultValue: AppUpdateInterval.never.rawValue)) == .atStart {
             NotificationCenter.default.post(name: .resetTotalNetworkUsage, object: nil, userInfo: nil)
-            completion(NSBackgroundActivityScheduler.Result.finished)
         }
     }
 }
