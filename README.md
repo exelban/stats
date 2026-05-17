@@ -2,10 +2,60 @@
 
 <a href="https://github.com/exelban/stats/releases"><p align="center"><img src="https://github.com/exelban/stats/raw/master/Stats/Supporting%20Files/Assets.xcassets/AppIcon.appiconset/icon_256x256.png" width="120"></p></a>
 
-[![Stats](https://serhiy.s3.eu-central-1.amazonaws.com/Github_repo/stats/menus%3Fv2.3.2.png?v1)](https://github.com/exelban/stats/releases)
-[![Stats](https://serhiy.s3.eu-central-1.amazonaws.com/Github_repo/stats/popups%3Fv2.3.2.png?v3)](https://github.com/exelban/stats/releases)
-
 macOS system monitor in your menu bar
+
+---
+
+## Fork customizations
+
+This is a personal fork of [exelban/stats](https://github.com/exelban/stats) with a redesigned unified popup and dark UI.
+
+### What's different
+
+**Single menu bar icon**
+All active modules are combined into one icon by default (`CombinedModules = true`). Clicking it opens a single unified popup instead of per-module popovers.
+
+**Unified dark popup — `MonitorView`**
+Replaces the original per-module popups with a single dark-themed panel (340 pt wide) containing four tabs:
+
+| Tab | Contents |
+|-----|----------|
+| **CPU** | Line chart (60 samples) + stats grid (User / System / Idle / Cores) |
+| **Memory** | Line chart with GB Y-axis labels + process search + app-icon process list (8 rows) |
+| **Network** | Dual-line chart (upload orange, download blue) + stats grid |
+| **Storage** | Horizontal usage bar + stats grid (Total / Used / Free / Purgeable) |
+
+**Design language**
+- Near-black navy background (`#0A0A14`) with dark card surfaces (`#141423`)
+- Text-only pill tab bar — white pill animates to the active tab
+- App icons in the Memory process list loaded live from running processes
+- Y-axis GB gridlines on the memory chart (25 / 50 / 75 % of total RAM)
+
+**Data routing**
+Module readers post their data via `NotificationCenter` (`.monitorCPULoad`, `.monitorRAMUsage`, `.monitorRAMProcesses`, `.monitorNetUsage`) so `MonitorView` can consume them without touching any reader code.
+
+### Building locally
+
+A `run.sh` script at the repo root kills any running instance, builds with ad-hoc signing (no Developer ID certificate required), and launches the app:
+
+```bash
+chmod +x run.sh
+./run.sh
+```
+
+To see full compiler output on a failed build:
+
+```bash
+xcodebuild -project Stats.xcodeproj -scheme Stats -configuration Debug \
+  -derivedDataPath build \
+  CODE_SIGN_IDENTITY="-" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+```
+
+### Branch
+
+All customizations live on the `feature/monitor-view` branch. `master` tracks upstream.
+
+---
 
 ## Installation
 ### Manual
