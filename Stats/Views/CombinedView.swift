@@ -18,7 +18,7 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
     private var popup: PopupWindow? = nil
     
     private var status: Bool {
-        Store.shared.bool(key: "CombinedModules", defaultValue: false)
+        Store.shared.bool(key: "CombinedModules", defaultValue: true)
     }
     private var spacing: CGFloat {
         CGFloat(Int(Store.shared.string(key: "CombinedModules_spacing", defaultValue: "")) ?? 0)
@@ -49,7 +49,7 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
             }
         }
         
-        self.popup = PopupWindow(title: "Combined modules", module: .combined, view: Popup()) { _ in }
+        self.popup = PopupWindow(title: "Combined modules", module: .combined, view: MonitorView()) { _ in }
         
         if self.status {
             self.enable()

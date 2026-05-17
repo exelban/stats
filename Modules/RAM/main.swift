@@ -14,23 +14,23 @@ import Kit
 import WidgetKit
 
 public struct RAM_Usage: Codable, RemoteType {
-    var total: Double
-    var used: Double
-    var free: Double
-    
-    var active: Double
-    var inactive: Double
-    var wired: Double
-    var compressed: Double
-    
-    var app: Double
-    var cache: Double
-    
-    var swap: Swap
-    var pressure: Pressure
-    
-    var swapins: Int64
-    var swapouts: Int64
+    public var total: Double
+    public var used: Double
+    public var free: Double
+
+    public var active: Double
+    public var inactive: Double
+    public var wired: Double
+    public var compressed: Double
+
+    public var app: Double
+    public var cache: Double
+
+    public var swap: Swap
+    public var pressure: Pressure
+
+    public var swapins: Int64
+    public var swapouts: Int64
     
     public var usage: Double {
         get { Double((self.total - self.free) / self.total) }
@@ -43,14 +43,14 @@ public struct RAM_Usage: Codable, RemoteType {
 }
 
 public struct Swap: Codable {
-    var total: Double
-    var used: Double
-    var free: Double
+    public var total: Double
+    public var used: Double
+    public var free: Double
 }
 
 public struct Pressure: Codable {
-    let level: Int
-    let value: RAMPressure
+    public let level: Int
+    public let value: RAMPressure
 }
 
 public class RAM: Module {
@@ -133,6 +133,7 @@ public class RAM: Module {
         self.processReader = ProcessReader(.RAM) { [weak self] value in
             if let list = value {
                 self?.popupView.processCallback(list)
+                NotificationCenter.default.post(name: .monitorRAMProcesses, object: list)
             }
         }
         
@@ -153,7 +154,8 @@ public class RAM: Module {
         self.portalView.callback(value)
         self.notificationsView.loadCallback(value)
         self.previewView.loadCallback(value)
-        
+        NotificationCenter.default.post(name: .monitorRAMUsage, object: value)
+
         let total: Double = value.total == 0 ? 1 : value.total
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: SWidget) in
             switch w.item {

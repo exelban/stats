@@ -210,6 +210,7 @@
 		9AF9EE0F2464875F005D2270 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EE0E2464875F005D2270 /* main.swift */; };
 		9AF9EE1124648ADC005D2270 /* readers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EE1024648ADC005D2270 /* readers.swift */; };
 		AA00000000000000000000A1 /* libIOReport.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C1E45552D11D66200525864 /* libIOReport.tbd */; };
+		AAF670572FB9B44B009E669C /* MonitorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF670562FB9B44B009E669C /* MonitorView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -723,6 +724,7 @@
 		9AF9EE1024648ADC005D2270 /* readers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = readers.swift; sourceTree = "<group>"; };
 		9AF9EE12246492E8005D2270 /* config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
 		9AF9EE192464A7B3005D2270 /* config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
+		AAF670562FB9B44B009E669C /* MonitorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorView.swift; sourceTree = "<group>"; };
 		B8F0D4F1259D19B100AAFAAF /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		BB9E59E725BB5F5E004AED95 /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C904AECF255939DB004A9EBC /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1141,6 +1143,7 @@
 				9A83526E2889A03100791BAC /* Setup.swift */,
 				5C2016422D36D0EF0049C788 /* Support.swift */,
 				5C21D80A296C7B81005BA16D /* CombinedView.swift */,
+				AAF670562FB9B44B009E669C /* MonitorView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2088,6 +2091,7 @@
 				9AABEB7A243FD26200668CB0 /* AppDelegate.swift in Sources */,
 				9A9EA9452476D34500E3B883 /* Update.swift in Sources */,
 				9A045EB72594F8D100ED58F2 /* Dashboard.swift in Sources */,
+				AAF670572FB9B44B009E669C /* MonitorView.swift in Sources */,
 				9A81C74E24499C7000825D92 /* Settings.swift in Sources */,
 				9A81C74D24499C7000825D92 /* AppSettings.swift in Sources */,
 				5C21D80B296C7B81005BA16D /* CombinedView.swift in Sources */,

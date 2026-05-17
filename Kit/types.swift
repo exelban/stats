@@ -284,6 +284,11 @@ public extension Notification.Name {
     static let remoteLoginSuccess = Notification.Name("remoteLoginSuccess")
     static let remoteState = Notification.Name("remoteState")
     static let openWindow = Notification.Name("openWindow")
+    static let monitorCPULoad = Notification.Name("monitorCPULoad")
+    static let monitorRAMUsage = Notification.Name("monitorRAMUsage")
+    static let monitorRAMProcesses = Notification.Name("monitorRAMProcesses")
+    static let monitorNetUsage = Notification.Name("monitorNetUsage")
+    static let monitorDiskCapacity = Notification.Name("monitorDiskCapacity")
 }
 
 public var isARM: Bool {

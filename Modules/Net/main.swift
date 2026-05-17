@@ -64,13 +64,13 @@ public struct Network_wifi: Codable {
 }
 
 public struct Bandwidth: Codable {
-    var upload: Int64 = 0
-    var download: Int64 = 0
+    public var upload: Int64 = 0
+    public var download: Int64 = 0
 }
 
 public struct Network_Usage: Codable, RemoteType {
-    var bandwidth: Bandwidth = Bandwidth()
-    var total: Bandwidth = Bandwidth()
+    public var bandwidth: Bandwidth = Bandwidth()
+    public var total: Bandwidth = Bandwidth()
     
     var laddr: Network_addr = Network_addr() // local ip
     var raddr: Network_addr = Network_addr() // remote ip
@@ -248,7 +248,8 @@ public class Network: Module {
         self.portalView.usageCallback(value)
         self.notificationsView.usageCallback(value)
         self.previewView.usageCallback(value)
-        
+        NotificationCenter.default.post(name: .monitorNetUsage, object: value)
+
         var upload: Int64 = value.bandwidth.upload
         var download: Int64 = value.bandwidth.download
         if self.widgetActivationThresholdState {

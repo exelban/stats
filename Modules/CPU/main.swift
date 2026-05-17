@@ -17,9 +17,9 @@ public struct CPU_Load: Codable, RemoteType {
     var usagePCores: Double? = nil
     var usageSCores: Double? = nil
     
-    var systemLoad: Double = 0
-    var userLoad: Double = 0
-    var idleLoad: Double = 0
+    public var systemLoad: Double = 0
+    public var userLoad: Double = 0
+    public var idleLoad: Double = 0
     
     public func remote() -> Data? {
         var string = "1,1,\(self.totalUsage),\(self.usagePerCore.count),"
@@ -200,6 +200,7 @@ public class CPU: Module {
         self.portalView.callback(value)
         self.notificationsView.loadCallback(value)
         self.previewView.loadCallback(value)
+        NotificationCenter.default.post(name: .monitorCPULoad, object: value)
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { [self] (w: SWidget) in
             switch w.item {

@@ -293,6 +293,7 @@ public class Disk: Module {
             self.popupView.capacityCallback(value)
             self.previewView.capacityCallback(value)
         })
+        NotificationCenter.default.post(name: .monitorDiskCapacity, object: value)
         self.settingsView.setList(value)
         
         guard let d = value.first(where: { $0.mediaName == self.selectedDisk }) ?? value.first(where: { $0.root }) else {
