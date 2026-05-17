@@ -203,12 +203,12 @@ internal class Popup: PopupWrapper {
         ]))
         
         view.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Write color"), component: selectView(
+            PreferencesRow(localizedString("Write color"), component: colorSelectView(
                 action: #selector(self.toggleWriteColor),
                 items: SColor.allColors,
                 selected: self.writeColorState.key
             )),
-            PreferencesRow(localizedString("Read color"), component: selectView(
+            PreferencesRow(localizedString("Read color"), component: colorSelectView(
                 action: #selector(self.toggleReadColor),
                 items: SColor.allColors,
                 selected: self.readColorState.key
@@ -231,13 +231,10 @@ internal class Popup: PopupWrapper {
     }
     
     @objc private func toggleWriteColor(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String,
-              let newValue = SColor.allColors.first(where: { $0.key == key }) else {
-            return
-        }
-        self.writeColorState = newValue
-        Store.shared.set(key: "\(self.title)_writeColor", value: key)
-        if let color = newValue.additional as? NSColor {
+        guard let key = sender.representedObject as? String else { return }
+        self.writeColorState = SColor.fromString(key, defaultValue: self.writeColorState)
+        Store.shared.set(key: "\(self.title)_writeColor", value: self.writeColorState.key)
+        if let color = self.writeColorState.additional as? NSColor {
             self.processes?.setColor(1, color)
             for view in self.disks.subviews.filter({ $0 is DiskView }).map({ $0 as! DiskView }) {
                 view.setChartColor(write: color)
@@ -245,13 +242,10 @@ internal class Popup: PopupWrapper {
         }
     }
     @objc private func toggleReadColor(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String,
-              let newValue = SColor.allColors.first(where: { $0.key == key }) else {
-            return
-        }
-        self.readColorState = newValue
-        Store.shared.set(key: "\(self.title)_readColor", value: key)
-        if let color = newValue.additional as? NSColor {
+        guard let key = sender.representedObject as? String else { return }
+        self.readColorState = SColor.fromString(key, defaultValue: self.readColorState)
+        Store.shared.set(key: "\(self.title)_readColor", value: self.readColorState.key)
+        if let color = self.readColorState.additional as? NSColor {
             self.processes?.setColor(0, color)
             for view in self.disks.subviews.filter({ $0 is DiskView }).map({ $0 as! DiskView }) {
                 view.setChartColor(read: color)

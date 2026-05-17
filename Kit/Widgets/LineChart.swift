@@ -290,7 +290,7 @@ public class LineChart: WidgetWrapper {
             )),
             PreferencesRow(localizedString("Box"), component: box),
             PreferencesRow(localizedString("Frame"), component: frame),
-            PreferencesRow(localizedString("Color"), component: selectView(
+            PreferencesRow(localizedString("Color"), component: colorSelectView(
                 action: #selector(self.toggleColor),
                 items: self.colors,
                 selected: self.colorState.key
@@ -354,10 +354,8 @@ public class LineChart: WidgetWrapper {
     
     @objc private func toggleColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
-        if let newColor = SColor.allCases.first(where: { $0.key == key }) {
-            self.colorState = newColor
-        }
-        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_color", value: key)
+        self.colorState = SColor.fromString(key, defaultValue: self.colorState)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState.key)
         self.display()
     }
     
