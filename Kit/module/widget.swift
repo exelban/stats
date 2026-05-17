@@ -185,7 +185,8 @@ open class WidgetWrapper: NSView, widget_p {
         super.init(frame: frame)
 
         self.wantsLayer = true
-        self.layer?.contentsGravity = .resize
+        self.layerContentsRedrawPolicy = .never
+        self.layer?.contentsGravity = .center
     }
 
     required public init?(coder: NSCoder) {
@@ -201,6 +202,11 @@ open class WidgetWrapper: NSView, widget_p {
 
     open override func viewDidChangeEffectiveAppearance() {
         super.viewDidChangeEffectiveAppearance()
+        self.renderToLayer()
+    }
+
+    open override func viewDidChangeBackingProperties() {
+        super.viewDidChangeBackingProperties()
         self.renderToLayer()
     }
 
@@ -224,7 +230,7 @@ open class WidgetWrapper: NSView, widget_p {
             bitsPerComponent: 8,
             bytesPerRow: 0,
             space: CGColorSpaceCreateDeviceRGB(),
-            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+            bitmapInfo: CGBitmapInfo.byteOrder32Little.rawValue | CGImageAlphaInfo.premultipliedFirst.rawValue
         ) else { return }
 
         ctx.scaleBy(x: scale, y: scale)
