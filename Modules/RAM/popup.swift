@@ -38,8 +38,9 @@ internal class Popup: PopupWrapper {
     private var chart: LineChartView? = nil
     private var circle: PieChartView? = nil
     private var level: PieChartView? = nil
-    private var initialized: Bool = false
     private var processesInitialized: Bool = false
+    
+    private let loadCache = PopupCache<RAM_Usage>()
     
     private var processes: ProcessesView? = nil
     
@@ -107,6 +108,10 @@ internal class Popup: PopupWrapper {
     
     public override func updateLayer() {
         self.chart?.display()
+    }
+    
+    public override func appear() {
+        self.replay(self.loadCache, render: self.renderLoad)
     }
     
     public override func disappear() {
@@ -239,33 +244,35 @@ internal class Popup: PopupWrapper {
     }
     
     public func loadCallback(_ value: RAM_Usage) {
-        DispatchQueue.main.async(execute: {
-            if (self.window?.isVisible ?? false) || !self.initialized {
-                self.appField?.stringValue = Units(bytes: Int64(value.app)).getReadableMemory(style: .memory)
-                self.inactiveField?.stringValue = Units(bytes: Int64(value.inactive)).getReadableMemory(style: .memory)
-                self.wiredField?.stringValue = Units(bytes: Int64(value.wired)).getReadableMemory(style: .memory)
-                self.compressedField?.stringValue = Units(bytes: Int64(value.compressed)).getReadableMemory(style: .memory)
-                self.swapField?.stringValue = Units(bytes: Int64(value.swap.used)).getReadableMemory(style: .memory)
-                
-                self.usedField?.stringValue = Units(bytes: Int64(value.used)).getReadableMemory(style: .memory)
-                self.freeField?.stringValue = Units(bytes: Int64(value.free)).getReadableMemory(style: .memory)
-                
-                self.circle?.toolTip = "\(localizedString("Memory usage")): \(Int(value.usage*100))%"
-                self.circle?.setValue(value.usage)
-                self.circle?.setSegments([
-                    ColorValue(value.app/value.total, color: self.appColor),
-                    ColorValue(value.wired/value.total, color: self.wiredColor),
-                    ColorValue(value.compressed/value.total, color: self.compressedColor)
-                ])
-                self.circle?.setNonActiveSegmentColor(self.freeColor)
-                
-                self.level?.setActiveSegment(value.pressure.value.number())
-                self.level?.toolTip = "\(localizedString("Memory pressure")): \(value.pressure.value.rawValue)"
-                
-                self.initialized = true
-            }
-            self.chart?.addValue(value.usage)
-        })
+        self.apply(value, to: self.loadCache, render: self.renderLoad)
+        self.chart?.addValue(value.usage)
+    }
+    
+    private func renderLoad(_ value: RAM_Usage) {
+        self.appField?.stringValue = Units(bytes: Int64(value.app)).getReadableMemory(style: .memory)
+        self.inactiveField?.stringValue = Units(bytes: Int64(value.inactive)).getReadableMemory(style: .memory)
+        self.wiredField?.stringValue = Units(bytes: Int64(value.wired)).getReadableMemory(style: .memory)
+        self.compressedField?.stringValue = Units(bytes: Int64(value.compressed)).getReadableMemory(style: .memory)
+        self.swapField?.stringValue = Units(bytes: Int64(value.swap.used)).getReadableMemory(style: .memory)
+        
+        self.usedField?.stringValue = Units(bytes: Int64(value.used)).getReadableMemory(style: .memory)
+        self.freeField?.stringValue = Units(bytes: Int64(value.free)).getReadableMemory(style: .memory)
+        
+        self.circle?.toolTip = "\(localizedString("Memory usage")): \(Int(value.usage*100))%"
+        self.circle?.setValue(value.usage)
+        self.circle?.setSegments([
+            ColorValue(value.app/value.total, color: self.appColor),
+            ColorValue(value.wired/value.total, color: self.wiredColor),
+            ColorValue(value.compressed/value.total, color: self.compressedColor)
+        ])
+        self.circle?.setNonActiveSegmentColor(self.freeColor)
+        self.circle?.display()
+        
+        self.level?.setActiveSegment(value.pressure.value.number())
+        self.level?.toolTip = "\(localizedString("Memory pressure")): \(value.pressure.value.rawValue)"
+        self.level?.display()
+        
+        self.chart?.display()
     }
     
     public func processCallback(_ list: [TopProcess]) {

@@ -16,6 +16,18 @@ public final class PopupCache<T> {
     public var initialized: Bool = false
     
     public init() {}
+    
+    public func apply(_ value: T, visible: Bool, render: (T) -> Void) {
+        self.value = value
+        if visible || !self.initialized {
+            render(value)
+            self.initialized = true
+        }
+    }
+    
+    public func replay(render: (T) -> Void) {
+        if let v = self.value { render(v) }
+    }
 }
 
 public protocol Popup_p: NSView {
@@ -56,16 +68,12 @@ open class PopupWrapper: NSStackView, Popup_p {
     
     public func apply<T>(_ value: T, to cache: PopupCache<T>, render: @escaping (T) -> Void) {
         DispatchQueue.main.async {
-            cache.value = value
-            if (self.window?.isVisible ?? false) || !cache.initialized {
-                render(value)
-                cache.initialized = true
-            }
+            cache.apply(value, visible: self.window?.isVisible ?? false, render: render)
         }
     }
     
     public func replay<T>(_ cache: PopupCache<T>, render: (T) -> Void) {
-        if let v = cache.value { render(v) }
+        cache.replay(render: render)
     }
 }
 

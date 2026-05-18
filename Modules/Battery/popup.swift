@@ -48,6 +48,8 @@ internal class Popup: PopupWrapper {
     private var processes: ProcessesView? = nil
     private var processesInitialized: Bool = false
     
+    private let usageCache = PopupCache<Battery_Usage>()
+    
     private var colorState: Bool = false
     
     private var numberOfProcesses: Int {
@@ -78,6 +80,10 @@ internal class Popup: PopupWrapper {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func appear() {
+        self.replay(self.usageCache, render: self.renderUsage)
     }
     
     public override func disappear() {
@@ -222,89 +228,91 @@ internal class Popup: PopupWrapper {
     }
     
     public func usageCallback(_ value: Battery_Usage) {
-        DispatchQueue.main.async(execute: {
-            self.dashboardBatteryView?.setValue(abs(value.level))
-            
-            self.levelField?.stringValue = "\(Int(abs(value.level) * 100))%"
-            self.levelField?.toolTip = "\(value.currentCapacity) mAh"
-            self.sourceField?.stringValue = localizedString(value.powerSource)
-            self.timeField?.stringValue = ""
-            
-            if value.isBatteryPowered {
-                self.timeLabelField?.stringValue = "\(localizedString("Time to discharge")):"
-                if value.timeToEmpty != -1 && value.timeToEmpty != 0 {
-                    self.timeField?.stringValue = Double(value.timeToEmpty*60).printSecondsToHoursMinutesSeconds(short: self.timeFormat == "short")
-                } else {
-                    self.timeField?.stringValue = localizedString("Unknown")
-                }
-                
-                if self.adapterView != nil {
-                    self.adapterView?.removeFromSuperview()
-                    self.adapterView = nil
-                    self.recalculateHeight()
-                }
+        self.apply(value, to: self.usageCache, render: self.renderUsage)
+    }
+    
+    private func renderUsage(_ value: Battery_Usage) {
+        self.dashboardBatteryView?.setValue(abs(value.level))
+        
+        self.levelField?.stringValue = "\(Int(abs(value.level) * 100))%"
+        self.levelField?.toolTip = "\(value.currentCapacity) mAh"
+        self.sourceField?.stringValue = localizedString(value.powerSource)
+        self.timeField?.stringValue = ""
+        
+        if value.isBatteryPowered {
+            self.timeLabelField?.stringValue = "\(localizedString("Time to discharge")):"
+            if value.timeToEmpty != -1 && value.timeToEmpty != 0 {
+                self.timeField?.stringValue = Double(value.timeToEmpty*60).printSecondsToHoursMinutesSeconds(short: self.timeFormat == "short")
             } else {
-                self.timeLabelField?.stringValue = "\(localizedString("Time to charge")):"
-                if value.timeToCharge != -1 && value.timeToCharge != 0 {
-                    self.timeField?.stringValue = Double(value.timeToCharge*60).printSecondsToHoursMinutesSeconds(short: self.timeFormat == "short")
-                } else {
-                    self.timeField?.stringValue = localizedString("Unknown")
-                }
+                self.timeField?.stringValue = localizedString("Unknown")
+            }
+            
+            if self.adapterView != nil {
+                self.adapterView?.removeFromSuperview()
+                self.adapterView = nil
+                self.recalculateHeight()
+            }
+        } else {
+            self.timeLabelField?.stringValue = "\(localizedString("Time to charge")):"
+            if value.timeToCharge != -1 && value.timeToCharge != 0 {
+                self.timeField?.stringValue = Double(value.timeToCharge*60).printSecondsToHoursMinutesSeconds(short: self.timeFormat == "short")
+            } else {
+                self.timeField?.stringValue = localizedString("Unknown")
+            }
+            
+            if self.adapterView == nil {
+                self.insertArrangedSubview(self.initAdapter(), at: 3)
+                self.recalculateHeight()
+            }
+        }
+        
+        if value.timeToEmpty == -1 || value.timeToCharge == -1 {
+            self.timeField?.stringValue = localizedString("Calculating")
+        }
+        
+        if value.isCharged {
+            self.timeField?.stringValue = localizedString("Fully charged")
+        }
+        
+        self.healthField?.stringValue = "\(value.health)%"
+        self.capacityField?.stringValue = "\(value.currentCapacity) / \(value.maxCapacity) / \(value.designedCapacity) mAh"
+        
+        if let state = value.state {
+            self.healthField?.stringValue += " (\(state))"
+        }
+        self.cyclesField?.stringValue = "\(value.cycles)"
+        
+        let form = DateComponentsFormatter()
+        form.maximumUnitCount = 2
+        form.unitsStyle = .full
+        form.allowedUnits = [.day, .hour, .minute]
+        if let timestamp = value.timeOnACPower {
+            if let duration = form.string(from: timestamp, to: Date()) {
+                let formatter = DateFormatter()
+                formatter.timeStyle = .short
+                formatter.dateStyle = .medium
                 
-                if self.adapterView == nil {
-                    self.insertArrangedSubview(self.initAdapter(), at: 3)
-                    self.recalculateHeight()
-                }
-            }
-            
-            if value.timeToEmpty == -1 || value.timeToCharge == -1 {
-                self.timeField?.stringValue = localizedString("Calculating")
-            }
-            
-            if value.isCharged {
-                self.timeField?.stringValue = localizedString("Fully charged")
-            }
-            
-            self.healthField?.stringValue = "\(value.health)%"
-            self.capacityField?.stringValue = "\(value.currentCapacity) / \(value.maxCapacity) / \(value.designedCapacity) mAh"
-            
-            if let state = value.state {
-                self.healthField?.stringValue += " (\(state))"
-            }
-            self.cyclesField?.stringValue = "\(value.cycles)"
-            
-            let form = DateComponentsFormatter()
-            form.maximumUnitCount = 2
-            form.unitsStyle = .full
-            form.allowedUnits = [.day, .hour, .minute]
-            if let timestamp = value.timeOnACPower {
-                if let duration = form.string(from: timestamp, to: Date()) {
-                    let formatter = DateFormatter()
-                    formatter.timeStyle = .short
-                    formatter.dateStyle = .medium
-                    
-                    self.lastChargeField?.stringValue = duration
-                    self.lastChargeField?.toolTip = formatter.string(from: timestamp)
-                } else {
-                    self.lastChargeField?.stringValue = localizedString("Unknown")
-                    self.lastChargeField?.toolTip = localizedString("Unknown")
-                }
+                self.lastChargeField?.stringValue = duration
+                self.lastChargeField?.toolTip = formatter.string(from: timestamp)
             } else {
                 self.lastChargeField?.stringValue = localizedString("Unknown")
                 self.lastChargeField?.toolTip = localizedString("Unknown")
             }
-            
-            self.amperageField?.stringValue = "\(abs(value.amperage)) mA"
-            self.voltageField?.stringValue = "\(value.voltage.roundTo(decimalPlaces: 2)) V"
-            let batteryPower = value.voltage * (Double(abs(value.amperage))/1000)
-            self.batteryPowerField?.stringValue = "\(batteryPower.roundTo(decimalPlaces: 2)) W"
-            self.temperatureField?.stringValue = temperature(value.temperature)
-            
-            self.powerField?.stringValue = value.isBatteryPowered ? localizedString("Not connected") : "\(value.ACwatts) W"
-            self.chargingStateField?.stringValue = value.isCharging ? localizedString("Yes") : localizedString("No")
-            self.chargingCurrentField?.stringValue = value.isBatteryPowered ? localizedString("Not connected") : "\(value.chargingCurrent) mA"
-            self.chargingVoltageField?.stringValue = value.isBatteryPowered ? localizedString("Not connected") : "\(value.chargingVoltage) mV"
-        })
+        } else {
+            self.lastChargeField?.stringValue = localizedString("Unknown")
+            self.lastChargeField?.toolTip = localizedString("Unknown")
+        }
+        
+        self.amperageField?.stringValue = "\(abs(value.amperage)) mA"
+        self.voltageField?.stringValue = "\(value.voltage.roundTo(decimalPlaces: 2)) V"
+        let batteryPower = value.voltage * (Double(abs(value.amperage))/1000)
+        self.batteryPowerField?.stringValue = "\(batteryPower.roundTo(decimalPlaces: 2)) W"
+        self.temperatureField?.stringValue = temperature(value.temperature)
+        
+        self.powerField?.stringValue = value.isBatteryPowered ? localizedString("Not connected") : "\(value.ACwatts) W"
+        self.chargingStateField?.stringValue = value.isCharging ? localizedString("Yes") : localizedString("No")
+        self.chargingCurrentField?.stringValue = value.isBatteryPowered ? localizedString("Not connected") : "\(value.chargingCurrent) mA"
+        self.chargingVoltageField?.stringValue = value.isBatteryPowered ? localizedString("Not connected") : "\(value.chargingVoltage) mV"
     }
     
     public func processCallback(_ list: [TopProcess]) {

@@ -39,6 +39,7 @@ internal class Popup: PopupWrapper {
     
     private var sensors: [Sensor_p] = []
     private let settingsView: NSStackView = NSStackView()
+    private let sensorsCache = PopupCache<[Sensor_p]>()
     
     private var fanControlState: Bool {
         get { Store.shared.bool(key: "Sensors_fanControl", defaultValue: true) }
@@ -204,21 +205,27 @@ internal class Popup: PopupWrapper {
                 }
             }
             
-            if self.window?.isVisible ?? false {
-                values.forEach { (s: Sensor_p) in
-                    switch self.list[s.key] {
-                    case let fan as FanView:
-                        if let f = s as? Fan {
-                            fan.update(f)
-                        }
-                    case let sensor as SensorView:
-                        sensor.update(s)
-                    case .none, .some:
-                        break
-                    }
-                }
-            }
+            self.sensorsCache.apply(values, visible: self.window?.isVisible ?? false, render: self.renderSensors)
         })
+    }
+    
+    private func renderSensors(_ values: [Sensor_p]) {
+        values.forEach { (s: Sensor_p) in
+            switch self.list[s.key] {
+            case let fan as FanView:
+                if let f = s as? Fan {
+                    fan.update(f)
+                }
+            case let sensor as SensorView:
+                sensor.update(s)
+            case .none, .some:
+                break
+            }
+        }
+    }
+    
+    public override func appear() {
+        self.replay(self.sensorsCache, render: self.renderSensors)
     }
     
     private func recalculateHeight() {

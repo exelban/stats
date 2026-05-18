@@ -52,6 +52,10 @@ internal class Popup: PopupWrapper {
         }
     }
     
+    public override func appear() {
+        self.arrangedSubviews.compactMap { $0 as? GPUView }.forEach { $0.appear() }
+    }
+    
     // MARK: - Settings
     
     public override func settings() -> NSView? {
@@ -83,6 +87,7 @@ private class GPUView: NSStackView {
     private var renderUtilizationChart: LineChartView? = nil
     private var tilerUtilizationChart: LineChartView? = nil
     private var aneUtilizationChart: LineChartView? = nil
+    private let cache = PopupCache<GPU_Info>()
     
     public var sizeCallback: (() -> Void)
     
@@ -297,16 +302,7 @@ private class GPUView: NSStackView {
     public func update(_ gpu: GPU_Info) {
         self.detailsView.update(gpu)
         
-        if self.window?.isVisible ?? false {
-            self.stateView?.layer?.backgroundColor = (gpu.state ? NSColor.systemGreen : NSColor.systemRed).cgColor
-            self.stateView?.toolTip = localizedString("GPU \(gpu.state ? "enabled" : "disabled")")
-            
-            self.addStats(id: "GPU temperature", gpu.temperature)
-            self.addStats(id: "GPU utilization", gpu.utilization)
-            self.addStats(id: "Render utilization", gpu.renderUtilization)
-            self.addStats(id: "Tiler utilization", gpu.tilerUtilization)
-            self.addStats(id: "ANE utilization", gpu.aneUtilization)
-        }
+        self.cache.apply(gpu, visible: self.window?.isVisible ?? false, render: self.renderGPU)
         
         if let value = gpu.temperature {
             if let temp = Double(temperature(value).replacingOccurrences(of: "C", with: "").replacingOccurrences(of: "F", with: "").digits) {
@@ -327,6 +323,21 @@ private class GPUView: NSStackView {
         if let value = gpu.aneUtilization {
             self.aneUtilizationChart?.addValue(value)
         }
+    }
+    
+    private func renderGPU(_ gpu: GPU_Info) {
+        self.stateView?.layer?.backgroundColor = (gpu.state ? NSColor.systemGreen : NSColor.systemRed).cgColor
+        self.stateView?.toolTip = localizedString("GPU \(gpu.state ? "enabled" : "disabled")")
+        
+        self.addStats(id: "GPU temperature", gpu.temperature)
+        self.addStats(id: "GPU utilization", gpu.utilization)
+        self.addStats(id: "Render utilization", gpu.renderUtilization)
+        self.addStats(id: "Tiler utilization", gpu.tilerUtilization)
+        self.addStats(id: "ANE utilization", gpu.aneUtilization)
+    }
+    
+    public func appear() {
+        self.cache.replay(render: self.renderGPU)
     }
     
     @objc private func showDetails() {

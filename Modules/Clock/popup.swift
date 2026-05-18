@@ -112,6 +112,7 @@ internal class Popup: PopupWrapper {
         if self.calendarState {
             self.calendarView?.checkCurrentDay()
         }
+        self.subviews.compactMap { $0 as? ClockView }.forEach { $0.appear() }
     }
     
     private func rearrange() {
@@ -514,7 +515,7 @@ internal class ClockView: NSStackView {
         return CGSize(width: self.bounds.width, height: self.bounds.height)
     }
     
-    private var ready: Bool = false
+    private let cache = PopupCache<Clock_t>()
     
     private let clockView: ClockChart = ClockChart(frame: CGRect(x: 0, y: 0, width: 34, height: 34))
     private let nameField: NSTextField = TextView()
@@ -584,13 +585,19 @@ internal class ClockView: NSStackView {
             self.setTZ()
         }
         
-        if (self.window?.isVisible ?? false) || !self.ready {
-            self.timeField.stringValue = newClock.formatted()
-            if let value = newClock.value {
-                self.clockView.setValue(value.convertToTimeZone(TimeZone(from: newClock.tz)))
-            }
-            self.ready = true
+        self.cache.apply(newClock, visible: self.window?.isVisible ?? false, render: self.renderClock)
+    }
+    
+    private func renderClock(_ newClock: Clock_t) {
+        self.timeField.stringValue = newClock.formatted()
+        if let value = newClock.value {
+            self.clockView.setValue(value.convertToTimeZone(TimeZone(from: newClock.tz)))
         }
+        self.clockView.display()
+    }
+    
+    public func appear() {
+        self.cache.replay(render: self.renderClock)
     }
 }
 
