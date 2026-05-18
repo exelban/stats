@@ -30,9 +30,13 @@ launch_app() {
     fi
 }
 
-if [[ "$STEP" == "2" ]]; then
+install_app() {
     rm -rf "$APP_DST"
-    cp -rf "$APP_SRC" "$APP_DST"
+    /usr/bin/ditto "$APP_SRC" "$APP_DST"
+}
+
+if [[ "$STEP" == "2" ]]; then
+    install_app
 
     launch_app "$APP_DST/Contents/MacOS/Stats" --dmg "$DMG_PATH"
 
@@ -44,8 +48,7 @@ elif [[ "$STEP" == "3" ]]; then
 
     echo "Done"
 else
-    rm -rf "$APP_DST"
-    cp -rf "$APP_SRC" "$APP_DST"
+    install_app
 
     launch_app "$APP_DST/Contents/MacOS/Stats" --dmg-path "$DMG_PATH" --mount-path "$MOUNT_PATH"
 
