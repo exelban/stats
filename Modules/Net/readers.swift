@@ -104,6 +104,53 @@ extension CWChannel {
     }
 }
 
+// Runs a single `nettop` sample with a hard timeout so a hanging child cannot become a
+// long-lived orphan. macOS sometimes leaves `nettop -L 1` stuck (sandbox/sleep-wake/IPC),
+// and Swift's `Process` deinit does not kill the child — without a watchdog the timer
+// keeps spawning new instances and they pile up at high CPU. See exelban/stats#3224.
+private func runNettopSample(timeout: TimeInterval, log: NextLog) -> String? {
+    let task = Process()
+    task.launchPath = "/usr/bin/nettop"
+    task.arguments = ["-P", "-L", "1", "-n", "-k", "time,interface,state,rx_dupe,rx_ooo,re-tx,rtt_avg,rcvsize,tx_win,tc_class,tc_mgt,cc_algo,P,C,R,W,arch"]
+    task.environment = [
+        "NSUnbufferedIO": "YES",
+        "LC_ALL": "en_US.UTF-8"
+    ]
+
+    let inputPipe = Pipe()
+    let outputPipe = Pipe()
+    let errorPipe = Pipe()
+
+    task.standardInput = inputPipe
+    task.standardOutput = outputPipe
+    task.standardError = errorPipe
+
+    do {
+        try task.run()
+    } catch let err {
+        error("nettop launch failed: \(err)", log: log)
+        return nil
+    }
+
+    let watchdog = DispatchWorkItem { [weak task] in
+        guard let task, task.isRunning else { return }
+        error("nettop did not exit within \(timeout)s, terminating to prevent orphan", log: log)
+        task.terminate()
+    }
+    DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + timeout, execute: watchdog)
+
+    let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
+    _ = errorPipe.fileHandleForReading.readDataToEndOfFile()
+    task.waitUntilExit()
+    watchdog.cancel()
+
+    inputPipe.fileHandleForWriting.closeFile()
+    outputPipe.fileHandleForReading.closeFile()
+    errorPipe.fileHandleForReading.closeFile()
+
+    return String(data: outputData, encoding: .utf8)
+}
+
 internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     private var reachability: Reachability = Reachability(start: true)
     private let variablesQueue = DispatchQueue(label: "eu.exelban.NetworkUsageReader")
@@ -300,40 +347,9 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     }
     
     private func readProcessBandwidth() -> Bandwidth {
-        let task = Process()
-        task.launchPath = "/usr/bin/nettop"
-        task.arguments = ["-P", "-L", "1", "-n", "-k", "time,interface,state,rx_dupe,rx_ooo,re-tx,rtt_avg,rcvsize,tx_win,tc_class,tc_mgt,cc_algo,P,C,R,W,arch"]
-        task.environment = [
-            "NSUnbufferedIO": "YES",
-            "LC_ALL": "en_US.UTF-8"
-        ]
-        
-        let inputPipe = Pipe()
-        let outputPipe = Pipe()
-        let errorPipe = Pipe()
-        
-        defer {
-            inputPipe.fileHandleForWriting.closeFile()
-            outputPipe.fileHandleForReading.closeFile()
-            errorPipe.fileHandleForReading.closeFile()
-        }
-        
-        task.standardInput = inputPipe
-        task.standardOutput = outputPipe
-        task.standardError = errorPipe
-        
-        do {
-            try task.run()
-        } catch let err {
-            error("read bandwidth from processes: \(err)", log: self.log)
+        guard let output = runNettopSample(timeout: 5, log: self.log), !output.isEmpty else {
             return Bandwidth()
         }
-        
-        let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
-        let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
-        let output = String(data: outputData, encoding: .utf8)
-        _ = String(data: errorData, encoding: .utf8)
-        guard let output, !output.isEmpty else { return Bandwidth() }
 
         var totalUpload: Int64 = 0
         var totalDownload: Int64 = 0
@@ -638,41 +654,10 @@ public class ProcessReader: Reader<[Network_Process]> {
         if self.numberOfProcesses == 0 {
             return
         }
-        
-        let task = Process()
-        task.launchPath = "/usr/bin/nettop"
-        task.arguments = ["-P", "-L", "1", "-n", "-k", "time,interface,state,rx_dupe,rx_ooo,re-tx,rtt_avg,rcvsize,tx_win,tc_class,tc_mgt,cc_algo,P,C,R,W,arch"]
-        task.environment = [
-            "NSUnbufferedIO": "YES",
-            "LC_ALL": "en_US.UTF-8"
-        ]
-        
-        let inputPipe = Pipe()
-        let outputPipe = Pipe()
-        let errorPipe = Pipe()
-        
-        defer {
-            inputPipe.fileHandleForWriting.closeFile()
-            outputPipe.fileHandleForReading.closeFile()
-            errorPipe.fileHandleForReading.closeFile()
-        }
-        
-        task.standardInput = inputPipe
-        task.standardOutput = outputPipe
-        task.standardError = errorPipe
-        
-        do {
-            try task.run()
-        } catch let error {
-            print(error)
+
+        guard let output = runNettopSample(timeout: 5, log: self.log), !output.isEmpty else {
             return
         }
-        
-        let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
-        let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
-        let output = String(data: outputData, encoding: .utf8)
-        _ = String(data: errorData, encoding: .utf8)
-        guard let output, !output.isEmpty else { return }
         
         var list: [Network_Process] = []
         var firstLine = false
