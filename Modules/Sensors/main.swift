@@ -85,6 +85,9 @@ public class Sensors: Module {
         }
         
         self.setReaders([self.sensorsReader])
+        // Always start reading so MonitorView's Fans tab gets data even when this module is disabled in the menu bar
+        self.sensorsReader?.initStoreValues(title: self.config.name)
+        self.sensorsReader?.start()
     }
     
     public override func willTerminate() {
@@ -100,8 +103,10 @@ public class Sensors: Module {
     }
     
     private func usageCallback(_ raw: Sensors_List?) {
-        guard let value = raw, self.enabled else { return }
-        
+        guard let value = raw else { return }
+        // Post before enabled check so MonitorView always receives sensor data
+        NotificationCenter.default.post(name: .monitorSensorsData, object: value)
+        guard self.enabled else { return }
         self.popupView.usageCallback(value.sensors)
         self.portalView.usageCallback(value.sensors)
         self.notificationsView.usageCallback(value.sensors)

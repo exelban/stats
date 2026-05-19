@@ -291,6 +291,7 @@ public extension Notification.Name {
     static let monitorRAMProcesses = Notification.Name("monitorRAMProcesses")
     static let monitorNetUsage = Notification.Name("monitorNetUsage")
     static let monitorDiskCapacity = Notification.Name("monitorDiskCapacity")
+    static let monitorSensorsData = Notification.Name("monitorSensorsData")
 }
 
 public var isARM: Bool {
