@@ -125,6 +125,12 @@ private func runNettopSample(timeout: TimeInterval, log: NextLog) -> String? {
     task.standardOutput = outputPipe
     task.standardError = errorPipe
 
+    defer {
+        inputPipe.fileHandleForWriting.closeFile()
+        outputPipe.fileHandleForReading.closeFile()
+        errorPipe.fileHandleForReading.closeFile()
+    }
+
     do {
         try task.run()
     } catch let err {
@@ -143,10 +149,6 @@ private func runNettopSample(timeout: TimeInterval, log: NextLog) -> String? {
     _ = errorPipe.fileHandleForReading.readDataToEndOfFile()
     task.waitUntilExit()
     watchdog.cancel()
-
-    inputPipe.fileHandleForWriting.closeFile()
-    outputPipe.fileHandleForReading.closeFile()
-    errorPipe.fileHandleForReading.closeFile()
 
     return String(data: outputData, encoding: .utf8)
 }
