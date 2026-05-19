@@ -13,6 +13,7 @@ import Cocoa
 
 public class TextWidget: WidgetWrapper {
     private var value: String = ""
+    private static let variableRegex = try? NSRegularExpression(pattern: "(\\$[a-zA-Z0-9_]+)(?:\\.([a-zA-Z0-9_]+))?")
     
     public init(title: String, config: NSDictionary?, preview: Bool = false) {
         super.init(.text, title: title, frame: CGRect(
@@ -77,23 +78,19 @@ public class TextWidget: WidgetWrapper {
     
     static public func parseText(_ raw: String) -> [KeyValue_t] {
         var pairs: [KeyValue_t] = []
-        do {
-            let regex = try NSRegularExpression(pattern: "(\\$[a-zA-Z0-9_]+)(?:\\.([a-zA-Z0-9_]+))?")
-            let matches = regex.matches(in: raw, range: NSRange(raw.startIndex..., in: raw))
-            for match in matches {
-                if let keyRange = Range(match.range(at: 1), in: raw) {
-                    let key = String(raw[keyRange])
-                    let value: String?
-                    if match.range(at: 2).location != NSNotFound, let valueRange = Range(match.range(at: 2), in: raw) {
-                        value = String(raw[valueRange])
-                    } else {
-                        value = nil
-                    }
-                    pairs.append(KeyValue_t(key: key, value: value ?? ""))
+        guard let regex = TextWidget.variableRegex else { return pairs }
+        let matches = regex.matches(in: raw, range: NSRange(raw.startIndex..., in: raw))
+        for match in matches {
+            if let keyRange = Range(match.range(at: 1), in: raw) {
+                let key = String(raw[keyRange])
+                let value: String?
+                if match.range(at: 2).location != NSNotFound, let valueRange = Range(match.range(at: 2), in: raw) {
+                    value = String(raw[valueRange])
+                } else {
+                    value = nil
                 }
+                pairs.append(KeyValue_t(key: key, value: value ?? ""))
             }
-        } catch {
-            print("Error creating regex: \(error.localizedDescription)")
         }
         return pairs
     }

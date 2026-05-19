@@ -12,6 +12,30 @@
 import Cocoa
 import Carbon
 
+internal final class RegexCache {
+    static let shared = RegexCache()
+
+    private var cache: [String: NSRegularExpression] = [:]
+    private let lock = NSLock()
+
+    func regex(_ pattern: String, options: NSRegularExpression.Options = []) -> NSRegularExpression? {
+        let key = "\(options.rawValue):\(pattern)"
+
+        self.lock.lock()
+        defer { self.lock.unlock() }
+
+        if let cached = self.cache[key] {
+            return cached
+        }
+
+        guard let regex = try? NSRegularExpression(pattern: pattern, options: options) else {
+            return nil
+        }
+        self.cache[key] = regex
+        return regex
+    }
+}
+
 extension String: @retroactive LocalizedError {
     public var errorDescription: String? { return self }
     
@@ -33,37 +57,35 @@ extension String: @retroactive LocalizedError {
     }
     
     public func findAndCrop(pattern: String) -> (cropped: String, remain: String) {
-        do {
-            let regex = try NSRegularExpression(pattern: pattern)
-            let range = NSRange(self.startIndex..., in: self)
-            
-            if let match = regex.firstMatch(in: self, options: [], range: range) {
-                if let range = Range(match.range, in: self) {
-                    let cropped = String(self[range]).trimmingCharacters(in: .whitespaces)
-                    let remaining = self.replacingOccurrences(of: cropped, with: "", options: .regularExpression).trimmingCharacters(in: .whitespaces)
-                    return (cropped, remaining)
-                }
-            }
-        } catch {
-            print("Error creating regex: \(error.localizedDescription)")
+        guard let regex = RegexCache.shared.regex(pattern) else {
+            return ("", self)
         }
-        
+        let range = NSRange(self.startIndex..., in: self)
+
+        if let match = regex.firstMatch(in: self, options: [], range: range) {
+            if let range = Range(match.range, in: self) {
+                let cropped = String(self[range]).trimmingCharacters(in: .whitespaces)
+                let remaining = self.replacingOccurrences(of: cropped, with: "", options: .regularExpression).trimmingCharacters(in: .whitespaces)
+                return (cropped, remaining)
+            }
+        }
+
         return ("", self)
     }
-    
+
     public func find(pattern: String) -> String {
-        do {
-            let regex = try NSRegularExpression(pattern: pattern)
-            let stringRange = NSRange(location: 0, length: self.utf16.count)
-            
-            if let searchRange = regex.firstMatch(in: self, options: [], range: stringRange) {
-                let start = self.index(self.startIndex, offsetBy: searchRange.range.lowerBound)
-                let end = self.index(self.startIndex, offsetBy: searchRange.range.upperBound)
-                let value  = String(self[start..<end]).trimmingCharacters(in: .whitespaces)
-                return value.trimmingCharacters(in: .whitespaces)
-            }
-        } catch {}
-        
+        guard let regex = RegexCache.shared.regex(pattern) else {
+            return ""
+        }
+        let stringRange = NSRange(location: 0, length: self.utf16.count)
+
+        if let searchRange = regex.firstMatch(in: self, options: [], range: stringRange) {
+            let start = self.index(self.startIndex, offsetBy: searchRange.range.lowerBound)
+            let end = self.index(self.startIndex, offsetBy: searchRange.range.upperBound)
+            let value  = String(self[start..<end]).trimmingCharacters(in: .whitespaces)
+            return value.trimmingCharacters(in: .whitespaces)
+        }
+
         return ""
     }
     
@@ -89,13 +111,11 @@ extension String: @retroactive LocalizedError {
     }
     
     public func removedRegexMatches(pattern: String, replaceWith: String = "") -> String {
-        do {
-            let regex = try NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options.caseInsensitive)
-            let range = NSRange(location: 0, length: self.count)
-            return regex.stringByReplacingMatches(in: self, options: [], range: range, withTemplate: replaceWith)
-        } catch {
+        guard let regex = RegexCache.shared.regex(pattern, options: .caseInsensitive) else {
             return self
         }
+        let range = NSRange(location: 0, length: self.count)
+        return regex.stringByReplacingMatches(in: self, options: [], range: range, withTemplate: replaceWith)
     }
     
     func removingWhitespaces() -> String {
