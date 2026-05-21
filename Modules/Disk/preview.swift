@@ -42,6 +42,12 @@ internal class Preview: PreviewWrapper {
     private var writeColorState: SColor = .secondRed
     private var writeColor: NSColor { self.writeColorState.additional as? NSColor ?? NSColor.systemBlue }
     private var reverseOrderState: Bool = false
+    private var base: DataSizeBase {
+        DataSizeBase(rawValue: Store.shared.string(key: "\(self.module.stringValue)_base", defaultValue: DataSizeBase.byte.rawValue)) ?? .byte
+    }
+    private var speedUnit: String {
+        networkSpeedUnit(from: Store.shared.string(key: "\(self.module.stringValue)_speedUnit", defaultValue: NetworkSpeedUnitAuto)).key
+    }
     
     private var uri: URL? = nil
     private let finder: URL?
@@ -380,14 +386,14 @@ internal class Preview: PreviewWrapper {
         
         self.chart?.addValue(upload: Double(write), download: Double(read))
         
-        self.readState?.toolTip = "Read: \(Units(bytes: read).getReadableSpeed())"
+        self.readState?.toolTip = "Read: \(Units(bytes: read).getReadableSpeed(base: self.base, unit: self.speedUnit))"
         self.readState?.layer?.backgroundColor = read != 0 ? self.readColor.cgColor : NSColor.lightGray.withAlphaComponent(0.75).cgColor
         
-        self.writeState?.toolTip = "Write: \(Units(bytes: write).getReadableSpeed())"
+        self.writeState?.toolTip = "Write: \(Units(bytes: write).getReadableSpeed(base: self.base, unit: self.speedUnit))"
         self.writeState?.layer?.backgroundColor = write != 0 ? self.writeColor.cgColor : NSColor.lightGray.withAlphaComponent(0.75).cgColor
         
-        self.readSpeedValueField?.stringValue = Units(bytes: read).getReadableSpeed()
-        self.writeSpeedValueField?.stringValue = Units(bytes: write).getReadableSpeed()
+        self.readSpeedValueField?.stringValue = Units(bytes: read).getReadableSpeed(base: self.base, unit: self.speedUnit)
+        self.writeSpeedValueField?.stringValue = Units(bytes: write).getReadableSpeed(base: self.base, unit: self.speedUnit)
         
         let stats = update.activity
         self.totalReadValueField?.stringValue = Units(bytes: stats.readBytes).getReadableMemory()
