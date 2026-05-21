@@ -166,7 +166,7 @@ internal class InfoReader: Reader<GPUs> {
                     }
                 }
             } else if ioClass.contains("agx") { // apple
-                predictModel = stats["model"] as? String ?? "Apple Graphics"
+                predictModel = accelerator["model"] as? String ?? stats["model"] as? String ?? "Apple Graphics"
                 if let display = self.displays.first(where: { $0.vendor == "sppci_vendor_Apple" }) {
                     if let name = display.name {
                         predictModel = name
@@ -175,6 +175,7 @@ internal class InfoReader: Reader<GPUs> {
                         cores = num
                     }
                 }
+                model = predictModel
                 type = .integrated
             } else {
                 predictModel = "Unknown"
@@ -201,6 +202,11 @@ internal class InfoReader: Reader<GPUs> {
             guard let idx = self.gpus.list.firstIndex(where: { $0.id == id }) else {
                 return
             }
+            self.gpus.list[idx].type = type.rawValue
+            self.gpus.list[idx].IOClass = IOClass
+            self.gpus.list[idx].vendor = vendor
+            self.gpus.list[idx].model = model
+            self.gpus.list[idx].cores = cores
             
             if let agcInfo = accelerator["AGCInfo"] as? [String: Int], let state = agcInfo["poweredOffByAGC"] {
                 self.gpus.list[idx].state = state == 0

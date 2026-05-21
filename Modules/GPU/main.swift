@@ -24,11 +24,11 @@ public enum GPU_types: GPU_type {
 
 public struct GPU_Info: Codable {
     public let id: String
-    public let type: GPU_type
+    public var type: GPU_type
     
-    public let IOClass: String
+    public var IOClass: String
     public var vendor: String? = nil
-    public let model: String
+    public var model: String
     public var cores: Int? = nil
     
     public var state: Bool = true
