@@ -19,8 +19,35 @@ public struct Clock_t: Codable {
     public var name: String
     public var format: String
     public var tz: String
+    public var calendar: String
     
     public var value: Date? = nil
+    
+    private enum CodingKeys: String, CodingKey {
+        case id, enabled, name, format, tz, calendar, value
+    }
+    
+    public init(id: String = UUID().uuidString, enabled: Bool = true, name: String, format: String, tz: String, calendar: String = "gregorian", value: Date? = nil) {
+        self.id = id
+        self.enabled = enabled
+        self.name = name
+        self.format = format
+        self.tz = tz
+        self.calendar = calendar
+        self.value = value
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.id = try container.decodeIfPresent(String.self, forKey: .id) ?? UUID().uuidString
+        self.enabled = try container.decodeIfPresent(Bool.self, forKey: .enabled) ?? true
+        self.name = try container.decode(String.self, forKey: .name)
+        self.format = try container.decode(String.self, forKey: .format)
+        self.tz = try container.decode(String.self, forKey: .tz)
+        self.calendar = try container.decodeIfPresent(String.self, forKey: .calendar) ?? Clock.defaultCalendar
+        self.value = try container.decodeIfPresent(Date.self, forKey: .value)
+    }
     
     var popupIndex: Int {
         get { Store.shared.int(key: "clock_\(self.id)_popupIndex", defaultValue: -1) }
@@ -33,6 +60,9 @@ public struct Clock_t: Codable {
     
     public func formatted() -> String {
         let formatter = DateFormatter()
+        var calendar = Clock.calendar(from: self.calendar)
+        calendar.timeZone = TimeZone(from: self.tz)
+        formatter.calendar = calendar
         formatter.dateFormat = self.format
         formatter.timeZone = TimeZone(from: self.tz)
         return formatter.string(from: self.value ?? Date())
@@ -108,9 +138,59 @@ public class Clock: Module {
 }
 
 extension Clock {
+    static let defaultCalendar = "gregorian"
     static let localID: String = UUID().uuidString
     static var local: Clock_t {
         Clock_t(id: Clock.localID, name: localizedString("Local time"), format: "yyyy-MM-dd HH:mm:ss", tz: "local")
+    }
+    static func calendar(from key: String) -> Calendar {
+        if let calendar = NSCalendar(calendarIdentifier: NSCalendar.Identifier(key)) {
+            return calendar as Calendar
+        }
+        return Calendar(identifier: .gregorian)
+    }
+    static var calendarIdentifiers: [String] {
+        var identifiers = [
+            "gregorian",
+            "buddhist",
+            "chinese",
+            "coptic",
+            "ethiopic",
+            "ethioaa",
+            "hebrew",
+            "iso8601",
+            "indian",
+            "islamic",
+            "islamic-civil",
+            "japanese",
+            "persian",
+            "roc",
+            "islamic-tbla",
+            "islamic-umalqura"
+        ]
+        
+        if #available(macOS 26.0, *) {
+            identifiers.append(contentsOf: [
+                "bangla",
+                "gujarati",
+                "kannada",
+                "malayalam",
+                "marathi",
+                "odia",
+                "tamil",
+                "telugu",
+                "vikram",
+                "dangi",
+                "vietnamese"
+            ])
+        }
+        
+        return identifiers.filter { NSCalendar(calendarIdentifier: NSCalendar.Identifier($0)) != nil }
+    }
+    static var calendars: [KeyValue_t] {
+        self.calendarIdentifiers.map {
+            KeyValue_t(key: $0, value: (NSLocale.current as NSLocale).localizedString(forCalendarIdentifier: $0) ?? $0)
+        }
     }
     static var zones: [KeyValue_t] {
         [
