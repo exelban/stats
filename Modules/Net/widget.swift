@@ -62,6 +62,12 @@ public struct Provider: TimelineProvider {
 public struct NetworkWidget: Widget {
     private var downloadColor: Color = Color(nsColor: NSColor.systemBlue)
     private var uploadColor: Color = Color(nsColor: NSColor.systemRed)
+    private var base: DataSizeBase {
+        DataSizeBase(rawValue: Store.shared.string(key: "\(ModuleType.network.stringValue)_base", defaultValue: DataSizeBase.byte.rawValue)) ?? .byte
+    }
+    private var speedUnit: String {
+        networkSpeedUnit(from: Store.shared.string(key: "\(ModuleType.network.stringValue)_speedUnit", defaultValue: NetworkSpeedUnitAuto)).key
+    }
     
     public init() {}
     
@@ -73,15 +79,15 @@ public struct NetworkWidget: Widget {
                         HStack {
                             VStack {
                                 VStack(spacing: 0) {
-                                    Text(Units(bytes: value.bandwidth.download).getReadableTuple().0).font(.system(size: 24, weight: .regular))
-                                    Text(Units(bytes: value.bandwidth.download).getReadableTuple().1).font(.system(size: 10, weight: .regular))
+                                    Text(Units(bytes: value.bandwidth.download).getReadableTuple(base: self.base, unit: self.speedUnit).0).font(.system(size: 24, weight: .regular))
+                                    Text(Units(bytes: value.bandwidth.download).getReadableTuple(base: self.base, unit: self.speedUnit).1).font(.system(size: 10, weight: .regular))
                                 }
                                 Text("Download").font(.system(size: 12, weight: .regular)).foregroundColor(.gray)
                             }.frame(maxWidth: .infinity)
                             VStack {
                                 VStack(spacing: 0) {
-                                    Text(Units(bytes: value.bandwidth.upload).getReadableTuple().0).font(.system(size: 24, weight: .regular))
-                                    Text(Units(bytes: value.bandwidth.upload).getReadableTuple().1).font(.system(size: 10, weight: .regular))
+                                    Text(Units(bytes: value.bandwidth.upload).getReadableTuple(base: self.base, unit: self.speedUnit).0).font(.system(size: 24, weight: .regular))
+                                    Text(Units(bytes: value.bandwidth.upload).getReadableTuple(base: self.base, unit: self.speedUnit).1).font(.system(size: 10, weight: .regular))
                                 }
                                 Text("Upload").font(.system(size: 12, weight: .regular)).foregroundColor(.gray)
                             }.frame(maxWidth: .infinity)

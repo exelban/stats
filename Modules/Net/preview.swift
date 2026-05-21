@@ -71,6 +71,9 @@ internal class Preview: PreviewWrapper {
     private var base: DataSizeBase {
         DataSizeBase(rawValue: Store.shared.string(key: "\(self.module.stringValue)_base", defaultValue: "byte")) ?? .byte
     }
+    private var speedUnit: String {
+        networkSpeedUnit(from: Store.shared.string(key: "\(self.module.stringValue)_speedUnit", defaultValue: NetworkSpeedUnitAuto)).key
+    }
     
     public init(_ module: ModuleType) {
         super.init(type: module)
@@ -230,8 +233,8 @@ internal class Preview: PreviewWrapper {
     public func usageCallback(_ value: Network_Usage) {
         DispatchQueue.main.async(execute: {
             if (self.window?.isVisible ?? false) || !self.initialized {
-                let upload = Units(bytes: value.bandwidth.upload).getReadableTuple(base: self.base)
-                let download = Units(bytes: value.bandwidth.download).getReadableTuple(base: self.base)
+                let upload = Units(bytes: value.bandwidth.upload).getReadableTuple(base: self.base, unit: self.speedUnit)
+                let download = Units(bytes: value.bandwidth.download).getReadableTuple(base: self.base, unit: self.speedUnit)
                 
                 self.uploadValueField?.stringValue = "\(upload.0)"
                 self.uploadUnitField?.stringValue = upload.1
@@ -356,6 +359,8 @@ internal class Preview: PreviewWrapper {
             }
             
             if let chart = self.chart {
+                chart.setBase(self.base)
+                chart.setSpeedUnit(self.speedUnit)
                 chart.addValue(upload: Double(value.bandwidth.upload), download: Double(value.bandwidth.download))
             }
         })

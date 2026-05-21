@@ -145,9 +145,14 @@ public struct Units {
         return gigabytes / 1_000
     }
     
-    public func getReadableTuple(base: DataSizeBase = .byte) -> (String, String) {
+    public func getReadableTuple(base: DataSizeBase = .byte, unit: String = NetworkSpeedUnitAuto) -> (String, String) {
         let stringBase = base == .byte ? "B" : "b"
         let multiplier: Double = base == .byte ? 1 : 8
+        
+        if let fixedUnit = networkSpeedSizeUnit(from: unit), let speedPrefix = networkSpeedPrefix(from: unit) {
+            let value = self.toUnit(fixedUnit) * multiplier
+            return (self.formatSpeedValue(value), "\(speedPrefix)\(stringBase)/s")
+        }
         
         switch bytes {
         case 0..<1_000:
@@ -158,37 +163,18 @@ public struct Units {
             return (String(format: "%.1f", megabytes*multiplier), "M\(stringBase)/s")
         case (1_000 * 1_000 * 100)..<(1_000 * 1_000 * 1_000):
             return (String(format: "%.0f", megabytes*multiplier), "M\(stringBase)/s")
-        case (1_000 * 1_000 * 1_000)...Int64.max:
+        case (1_000 * 1_000 * 1_000)..<(1_000 * 1_000 * 1_000 * 1_000):
             return (String(format: "%.1f", gigabytes*multiplier), "G\(stringBase)/s")
+        case (1_000 * 1_000 * 1_000 * 1_000)...Int64.max:
+            return (String(format: "%.1f", terabytes*multiplier), "T\(stringBase)/s")
         default:
             return (String(format: "%.0f", kilobytes*multiplier), "K\(stringBase)B/s")
         }
     }
     
-    public func getReadableSpeed(base: DataSizeBase = .byte, omitUnits: Bool = false) -> String {
-        let stringBase = base == .byte ? "B" : "b"
-        let multiplier: Double = base == .byte ? 1 : 8
-        
-        switch bytes*Int64(multiplier) {
-        case 0..<1_000:
-            let unit = omitUnits ? "" : " K\(stringBase)/s"
-            return "0\(unit)"
-        case 1_000..<(1_000 * 1_000):
-            let unit = omitUnits ? "" : " K\(stringBase)/s"
-            return String(format: "%.0f\(unit)", kilobytes*multiplier)
-        case 1_000..<(1_000 * 1_000 * 100):
-            let unit = omitUnits ? "" : " M\(stringBase)/s"
-            return String(format: "%.1f\(unit)", megabytes*multiplier)
-        case (1_000 * 1_000 * 100)..<(1_000 * 1_000 * 1_000):
-            let unit = omitUnits ? "" : " M\(stringBase)/s"
-            return String(format: "%.0f\(unit)", megabytes*multiplier)
-        case (1_000 * 1_000 * 1_000)...Int64.max:
-            let unit = omitUnits ? "" : " G\(stringBase)/s"
-            return String(format: "%.1f\(unit)", gigabytes*multiplier)
-        default:
-            let unit = omitUnits ? "" : " K\(stringBase)/s"
-            return String(format: "%.0f\(unit)", kilobytes*multiplier)
-        }
+    public func getReadableSpeed(base: DataSizeBase = .byte, unit: String = NetworkSpeedUnitAuto, omitUnits: Bool = false) -> String {
+        let readable = self.getReadableTuple(base: base, unit: unit)
+        return omitUnits ? readable.0 : "\(readable.0) \(readable.1)"
     }
     
     public func getReadableMemory(style: ByteCountFormatter.CountStyle = .file) -> String {
@@ -213,6 +199,25 @@ public struct Units {
         case .TB: return self.terabytes
         default: return Double(self.bytes)
         }
+    }
+    
+    private func formatSpeedValue(_ value: Double) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.minimumFractionDigits = 0
+        
+        switch value {
+        case 0:
+            formatter.maximumFractionDigits = 0
+        case ..<10:
+            formatter.maximumFractionDigits = 2
+        case ..<100:
+            formatter.maximumFractionDigits = 1
+        default:
+            formatter.maximumFractionDigits = 0
+        }
+        
+        return formatter.string(from: NSNumber(value: value)) ?? String(format: "%.2f", value)
     }
 }
 
