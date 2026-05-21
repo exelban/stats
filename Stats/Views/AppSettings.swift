@@ -145,16 +145,16 @@ class ApplicationSettings: NSStackView {
         
         self.remoteControlBtn = switchView(
             action: #selector(self.toggleRemoteControlState),
-            state: Remote.shared.control
+            state: SystemStats.shared.control
         )
-        self.planField = textView(Remote.shared.plan?.rawValue.capitalized ?? "Free")
+        self.planField = textView(SystemStats.shared.plan?.rawValue.capitalized ?? "Free")
         self.remoteView = PreferencesSection(title: localizedString("System Stats"), [
             PreferencesRow(localizedString("Authorization"), component: buttonView(#selector(self.loginToRemote), text: localizedString("Login"))),
-            PreferencesRow(localizedString("Identificator"), component: textView(Remote.shared.id.uuidString)),
+            PreferencesRow(localizedString("Identificator"), component: textView(SystemStats.shared.id.uuidString)),
             PreferencesRow(localizedString("Plan"), component: self.planField!),
             PreferencesRow(localizedString("Monitoring"), component: switchView(
                 action: #selector(self.toggleRemoteMonitoringState),
-                state: Remote.shared.monitoring
+                state: SystemStats.shared.monitoring
             )),
             PreferencesRow(localizedString("Control"), component: self.remoteControlBtn!),
             PreferencesRow(component: buttonView(#selector(self.logoutFromRemote), text: localizedString("Logout")))
@@ -222,9 +222,10 @@ class ApplicationSettings: NSStackView {
     
     internal func viewWillAppear() {
         self.startAtLoginBtn?.state = LaunchAtLogin.isEnabled ? .on : .off
-        self.remoteControlBtn?.state = Remote.shared.control ? .on : .off
+        self.remoteControlBtn?.state = SystemStats.shared.control ? .on : .off
         
-        self.planField?.stringValue = Remote.shared.plan?.rawValue.capitalized ?? "Free"
+        self.planField?.stringValue = SystemStats.shared.plan?.rawValue.capitalized ?? "Free"
+        self.setRemoteSettings(SystemStats.shared.isAuthorized)
         
         var idx = self.updateSelector?.indexOfSelectedItem ?? 0
         if let items = self.updateSelector?.menu?.items {
@@ -450,7 +451,7 @@ class ApplicationSettings: NSStackView {
     }
     
     @objc private func toggleRemoteMonitoringState(_ sender: NSButton) {
-        Remote.shared.monitoring = sender.state == NSControl.StateValue.on
+        SystemStats.shared.monitoring = sender.state == NSControl.StateValue.on
     }
     @objc private func toggleRemoteControlState(_ sender: NSButton) {
         if sender.state == .on {
@@ -462,12 +463,12 @@ class ApplicationSettings: NSStackView {
             alert.addButton(withTitle: localizedString("Cancel"))
             let response = alert.runModal()
             if response == .alertFirstButtonReturn {
-                Remote.shared.control = true
+                SystemStats.shared.control = true
             } else {
                 sender.state = .off
             }
         } else {
-            Remote.shared.control = false
+            SystemStats.shared.control = false
         }
     }
     
@@ -477,11 +478,11 @@ class ApplicationSettings: NSStackView {
     }
     
     @objc private func loginToRemote() {
-        Remote.shared.login()
+        SystemStats.shared.login()
     }
     
     @objc private func logoutFromRemote() {
-        Remote.shared.logout()
+        SystemStats.shared.logout()
     }
     
     private func setRemoteSettings(_ auth: Bool) {

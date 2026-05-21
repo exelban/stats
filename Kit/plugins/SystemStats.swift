@@ -1,5 +1,5 @@
 //
-//  Remote.swift
+//  SystemStats.swift
 //  Stats
 //
 //  Created by Serhiy Mytrovtsiy on 16/03/2025
@@ -24,11 +24,12 @@ public enum AccountPlan: String, Codable {
     case team
 }
 
-public class Remote {
-    public static let shared = Remote()
+public class SystemStats {
+    public static let shared = SystemStats()
     static public var host = URL(string: "https://api.system-stats.com")!
     static public var authHost = URL(string: "https://oauth.system-stats.com")!
     static public var brokerHost = URL(string: "wss://broker.system-stats.com:8084/mqtt")!
+    static public var appHost = URL(string: "https://app.system-stats.com")!
     
     public var monitoring: Bool {
         get { Store.shared.bool(key: "remote_monitoring", defaultValue: false) }
@@ -62,7 +63,7 @@ public class Remote {
     private let log: NextLog
     private var mqtt: MQTTManager = MQTTManager()
     private var isConnecting = false
-    private let session: URLSession = {
+    public let session: URLSession = {
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = 30
         return URLSession(configuration: config)
@@ -217,38 +218,38 @@ public class Remote {
         self.lastRegisterTime = now
         self.cooldownLock.unlock()
         
-        guard let url = URL(string: "\(Remote.host)/remote/device") else { return }
+        guard let url = URL(string: "\(SystemStats.host)/remote/device") else { return }
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("Bearer \(Remote.shared.auth.accessToken)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(SystemStats.shared.auth.accessToken)", forHTTPHeaderField: "Authorization")
         
         struct RegisterPayload: Codable {
             let id: String
-            let details: Remote.Details
+            let details: SystemStats.Details
         }
         
         let payload = RegisterPayload(
-            id: Remote.shared.id.uuidString,
-            details: Remote.Details(
+            id: SystemStats.shared.id.uuidString,
+            details: SystemStats.Details(
                 client: Client(
                     version: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown",
-                    control: Remote.shared.control
+                    control: SystemStats.shared.control
                 ),
-                system: Remote.System(
+                system: SystemStats.System(
                     platform: "macOS",
                     vendor: "Apple",
                     model: SystemKit.shared.device.model.name,
                     modelID: SystemKit.shared.device.model.id,
-                    os: Remote.OS(
+                    os: SystemStats.OS(
                         name: SystemKit.shared.device.os?.name,
                         version: SystemKit.shared.device.os?.version.getFullVersion(),
                         build: SystemKit.shared.device.os?.build
                     ),
                     arch: SystemKit.shared.device.arch
                 ),
-                hardware: Remote.Hardware(
+                hardware: SystemStats.Hardware(
                     cpu: SystemKit.shared.device.info.cpu,
                     gpu: SystemKit.shared.device.info.gpu,
                     ram: SystemKit.shared.device.info.ram?.dimms,
@@ -263,7 +264,7 @@ public class Remote {
         self.session.dataTask(with: request) { [weak self] data, response, _ in
             guard let self, let httpResponse = response as? HTTPURLResponse else { return }
             if httpResponse.statusCode == 200 {
-                debug("Registered device: \(Remote.shared.id.uuidString)", log: self.log)
+                debug("Registered device: \(SystemStats.shared.id.uuidString)", log: self.log)
                 self.fetchAccount()
             } else {
                 let bodyString = data.flatMap { String(data: $0, encoding: .utf8) } ?? ""
@@ -273,11 +274,11 @@ public class Remote {
     }
     
     private func fetchAccount() {
-        guard let url = URL(string: "\(Remote.host)/account") else { return }
+        guard let url = URL(string: "\(SystemStats.host)/account") else { return }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        request.setValue("Bearer \(Remote.shared.auth.accessToken)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(SystemStats.shared.auth.accessToken)", forHTTPHeaderField: "Authorization")
         
         struct AccountResponse: Codable {
             let plan: AccountPlan
@@ -287,7 +288,7 @@ public class Remote {
             guard let self, let httpResponse = response as? HTTPURLResponse else { return }
             if httpResponse.statusCode == 200, let data,
                let account = try? JSONDecoder().decode(AccountResponse.self, from: data) {
-                Remote.shared.plan = account.plan
+                SystemStats.shared.plan = account.plan
                 debug("Remote plan: \(account.plan.rawValue)", log: self.log)
             } else {
                 let bodyString = data.flatMap { String(data: $0, encoding: .utf8) } ?? ""
@@ -342,7 +343,7 @@ public class Remote {
 
 // MARK: - Audio helpers
 
-extension Remote {
+extension SystemStats {
     func disableControl() {
         self.control = false
     }
@@ -559,7 +560,7 @@ public class RemoteAuth {
     }
     
     private func validate(_ completion: @escaping (Bool) -> Void) {
-        guard !self.accessToken.isEmpty && !self.refreshToken.isEmpty, let url = URL(string: "\(Remote.authHost)/me") else {
+        guard !self.accessToken.isEmpty && !self.refreshToken.isEmpty, let url = URL(string: "\(SystemStats.authHost)/me") else {
             completion(false)
             return
         }
@@ -625,7 +626,7 @@ public class RemoteAuth {
         self.isRefreshing = true
         self.refreshLock.unlock()
         
-        guard let url = URL(string: "\(Remote.authHost)/token") else {
+        guard let url = URL(string: "\(SystemStats.authHost)/token") else {
             self.completeRefresh(nil)
             return
         }
@@ -636,7 +637,8 @@ public class RemoteAuth {
         
         request.httpBody = RemoteAuth.formBody([
             ("grant_type", "refresh_token"),
-            ("refresh_token", self.refreshToken)
+            ("refresh_token", self.refreshToken),
+            ("device_id", SystemStats.shared.id.uuidString)
         ])
         
         self.session.dataTask(with: request) { [weak self] data, response, error in
@@ -664,7 +666,7 @@ public class RemoteAuth {
     }
     
     private func registerDevice(completion: @escaping (DeviceResponse?) -> Void) {
-        guard let url = URL(string: "\(Remote.authHost)/device") else {
+        guard let url = URL(string: "\(SystemStats.authHost)/device") else {
             completion(nil)
             return
         }
@@ -674,7 +676,8 @@ public class RemoteAuth {
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         
         request.httpBody = RemoteAuth.formBody([
-            ("client_id", self.clientID)
+            ("client_id", self.clientID),
+            ("device_id", SystemStats.shared.id.uuidString)
         ])
         
         self.session.dataTask(with: request) { data, response, error in
@@ -688,7 +691,7 @@ public class RemoteAuth {
     }
     
     private func pollForToken(completion: @escaping (Error?) -> Void) {
-        guard let url = URL(string: "\(Remote.authHost)/token") else {
+        guard let url = URL(string: "\(SystemStats.authHost)/token") else {
             completion(nil)
             return
         }
@@ -828,7 +831,7 @@ class MQTTManager: NSObject {
         self.session = URLSession(configuration: .default, delegate: self, delegateQueue: .main)
         
         self.reachability.reachable = { [weak self] in
-            if Remote.shared.isAuthorized {
+            if SystemStats.shared.isAuthorized {
                 self?.connect()
             }
         }
@@ -849,20 +852,20 @@ class MQTTManager: NSObject {
         guard !self.isConnected && !self.isConnecting else { return }
         self.isConnecting = true
         
-        Remote.shared.auth.isAuthorized { [weak self] status in
+        SystemStats.shared.auth.isAuthorized { [weak self] status in
             guard let self else { return }
             
             if status {
                 self.webSocket?.cancel(with: .normalClosure, reason: nil)
-                self.webSocket = self.session?.webSocketTask(with: Remote.brokerHost, protocols: ["mqtt"])
+                self.webSocket = self.session?.webSocketTask(with: SystemStats.brokerHost, protocols: ["mqtt"])
                 self.webSocket?.resume()
                 self.receiveMessage()
                 self.isDisconnected = false
                 debug("MQTT WebSocket connecting...", log: self.log)
             } else {
                 self.isConnecting = false
-                if Remote.shared.isAuthorized {
-                    Remote.shared.isAuthorized = false
+                if SystemStats.shared.isAuthorized {
+                    SystemStats.shared.isAuthorized = false
                     NotificationCenter.default.post(name: .remoteState, object: nil, userInfo: ["auth": false])
                 }
                 debug("Authorization failed, retrying connection...", log: self.log)
@@ -915,14 +918,14 @@ class MQTTManager: NSObject {
     
     public func sendStatus(_ value: Bool) {
         let status = value ? "online" : "offline"
-        let topic = "stats/\(Remote.shared.id.uuidString)/status"
+        let topic = "stats/\(SystemStats.shared.id.uuidString)/status"
         if let payload = status.data(using: .utf8) {
             self.publish(topic: topic, data: payload)
         }
     }
     
     private func sendConnect() {
-        let connectPacket = createConnectPacket(username: Remote.shared.id.uuidString, password: Remote.shared.auth.accessToken)
+        let connectPacket = createConnectPacket(username: SystemStats.shared.id.uuidString, password: SystemStats.shared.auth.accessToken)
         self.webSocket?.send(.data(connectPacket)) { error in
             if let error = error {
                 print("Error sending MQTT CONNECT: \(error)")
@@ -945,7 +948,7 @@ class MQTTManager: NSObject {
     }
     
     public func controlAck(_ cmd: String) {
-        let topic = "stats/\(Remote.shared.id.uuidString)/control-ack"
+        let topic = "stats/\(SystemStats.shared.id.uuidString)/control-ack"
         if let payload = cmd.data(using: .utf8) {
             self.publish(topic: topic, data: payload)
         }
@@ -1114,8 +1117,8 @@ class MQTTManager: NSObject {
     }
     
     private func subscribeToTopics() {
-        self.subscribe(to: "stats/\(Remote.shared.id.uuidString)/control/+")
-        self.subscribe(to: "stats/\(Remote.shared.id.uuidString)/unregister")
+        self.subscribe(to: "stats/\(SystemStats.shared.id.uuidString)/control/+")
+        self.subscribe(to: "stats/\(SystemStats.shared.id.uuidString)/unregister")
     }
     
     private func receiveMessage() {
@@ -1157,7 +1160,7 @@ class MQTTManager: NSObject {
     
     private func handleWebSocketError(_ error: Error) {
         if let urlError = error as? URLError, urlError.code.rawValue == 401 {
-            Remote.shared.start()
+            SystemStats.shared.start()
         } else {
             self.reconnect()
         }
@@ -1178,7 +1181,7 @@ class MQTTManager: NSObject {
         guard let topic = String(data: topicData, encoding: .utf8) else { return }
         offset += topicLength
         
-        let base = "stats/\(Remote.shared.id.uuidString)/"
+        let base = "stats/\(SystemStats.shared.id.uuidString)/"
         if topic == base + "unregister" {
             self.publish(topic: topic, data: Data(), retain: true)
             self.unregisterHandler?()
