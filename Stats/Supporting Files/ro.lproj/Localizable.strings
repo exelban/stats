@@ -284,6 +284,7 @@
 "User color" = "Culoarea utilizatorului"; // translategemma:4b
 "Idle color" = "Culoarea în repaus"; // translategemma:4b
 "Cluster grouping" = "Gruparea în clustere"; // translategemma:4b
+"Color cores by type (E/P)" = "Color cores by type (E/P)";
 "Efficiency cores color" = "Cores cu eficiență, culori"; // translategemma:4b
 "Performance cores color" = "Culorile nucleelor de performanță"; // translategemma:4b
 "Total load" = "Suma totală"; // translategemma:4b

@@ -284,6 +284,7 @@
 "User color" = "Колір користувача";
 "Idle color" = "Колір простою";
 "Cluster grouping" = "Кластерне групування";
+"Color cores by type (E/P)" = "Розфарбувати за типом ядер (E/P)";
 "Efficiency cores color" = "Колір енергоефективних ядер";
 "Performance cores color" = "Колір високопродуктивних ядер";
 "Total load" = "Загальне використання";

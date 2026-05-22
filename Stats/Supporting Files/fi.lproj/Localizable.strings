@@ -284,6 +284,7 @@
 "User color" = "Käyttäjän väri";
 "Idle color" = "Lepotilan väri";
 "Cluster grouping" = "Ryhmien klusterointi";
+"Color cores by type (E/P)" = "Color cores by type (E/P)";
 "Efficiency cores color" = "E-ytimien väri";
 "Performance cores color" = "P-ytimien väri";
 "Total load" = "Kokonaiskuorma";

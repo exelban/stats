@@ -284,6 +284,7 @@
 "User color" = "Χρώμα χρήστη"; // translategemma:4b
 "Idle color" = "Χρώμα σε κατάσταση αναμονής"; // translategemma:4b
 "Cluster grouping" = "Ομαδοποίηση"; // translategemma:4b
+"Color cores by type (E/P)" = "Color cores by type (E/P)";
 "Efficiency cores color" = "Χρώμα πυρήνων απόδοσης"; // translategemma:4b
 "Performance cores color" = "Χρώμα των πυρήνων απόδοσης"; // translategemma:4b
 "Total load" = "Συνολική χωρητικότητα"; // translategemma:4b

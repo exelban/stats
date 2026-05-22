@@ -78,6 +78,9 @@ public class CPU: Module {
     private var groupByClustersState: Bool {
         Store.shared.bool(key: "\(self.config.name)_clustersGroup", defaultValue: false)
     }
+    private var coresColorState: Bool {
+        Store.shared.bool(key: "\(self.config.name)_coresColor", defaultValue: false)
+    }
     private var systemColor: NSColor {
         let color = SColor.secondRed
         let key = Store.shared.string(key: "\(self.config.name)_systemColor", defaultValue: color.key)
@@ -219,6 +222,27 @@ public class CPU: Module {
                         }
                     } else {
                         val = value.usagePerCore.map({ [ColorValue($0)] })
+                    }
+                } else if self.coresColorState {
+                    // Single thin column, stacked by core type. Each segment is
+                    // weighted by that cluster's share of all cores so the total
+                    // fill equals weighted overall usage.
+                    let total = max(cores.count, 1)
+                    let eCount = cores.filter({ $0.type == .efficiency }).count
+                    let pCount = cores.filter({ $0.type == .performance }).count
+                    let sCount = cores.filter({ $0.type == .super }).count
+                    var segments: [ColorValue] = []
+                    if eCount > 0, let e = value.usageECores {
+                        segments.append(ColorValue(e * Double(eCount)/Double(total), color: self.eCoresColor))
+                    }
+                    if pCount > 0, let p = value.usagePCores {
+                        segments.append(ColorValue(p * Double(pCount)/Double(total), color: self.pCoresColor))
+                    }
+                    if sCount > 0, let s = value.usageSCores {
+                        segments.append(ColorValue(s * Double(sCount)/Double(total), color: self.sCoresColor))
+                    }
+                    if !segments.isEmpty {
+                        val = [segments]
                     }
                 } else if self.splitValueState {
                     val = [[

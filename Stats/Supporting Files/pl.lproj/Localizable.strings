@@ -284,6 +284,7 @@
 "User color" = "Kolor użytkownika";
 "Idle color" = "Nieaktywny kolor";
 "Cluster grouping" = "Grupowanie klastrów";
+"Color cores by type (E/P)" = "Color cores by type (E/P)";
 "Efficiency cores color" = "Kolor rdzeni energooszczędnych";
 "Performance cores color" = "Kolor rdzeni wydajnościowych";
 "Total load" = "Całkowite obciążenie";

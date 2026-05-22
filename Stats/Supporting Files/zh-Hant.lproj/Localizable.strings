@@ -284,6 +284,7 @@
 "User color" = "使用者占用色彩";
 "Idle color" = "閒置色彩";
 "Cluster grouping" = "依群集分組";
+"Color cores by type (E/P)" = "Color cores by type (E/P)";
 "Efficiency cores color" = "節能核心色彩";
 "Performance cores color" = "效能核心色彩";
 "Total load" = "總占用";

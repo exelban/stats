@@ -20,7 +20,8 @@ internal class Settings: NSStackView, Settings_v {
     private var updateTopIntervalValue: Int = 1
     private var numberOfProcesses: Int = 8
     private var clustersGroupState: Bool = false
-    
+    private var coresColorState: Bool = false
+
     private let title: String
     private var hasHyperthreadingCores = false
     
@@ -47,6 +48,7 @@ internal class Settings: NSStackView, Settings_v {
         }
         self.hasHyperthreadingCores = sysctlByName("hw.physicalcpu") != sysctlByName("hw.logicalcpu")
         self.clustersGroupState = Store.shared.bool(key: "\(self.title)_clustersGroup", defaultValue: self.clustersGroupState)
+        self.coresColorState = Store.shared.bool(key: "\(self.title)_coresColor", defaultValue: self.coresColorState)
         
         super.init(frame: NSRect(x: 0, y: 0, width: 0, height: 0))
         
@@ -108,6 +110,10 @@ internal class Settings: NSStackView, Settings_v {
                 state: self.clustersGroupState
             )
             rows.append(PreferencesRow(localizedString("Cluster grouping"), component: self.groupByClustersView!))
+            rows.append(PreferencesRow(localizedString("Color cores by type (E/P)"), component: switchView(
+                action: #selector(self.toggleCoresColor),
+                state: self.coresColorState
+            )))
             #endif
             
             if self.hasHyperthreadingCores {
@@ -186,6 +192,12 @@ internal class Settings: NSStackView, Settings_v {
         self.callback()
     }
     
+    @objc func toggleCoresColor(_ sender: NSControl) {
+        self.coresColorState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_coresColor", value: self.coresColorState)
+        self.callback()
+    }
+
     @objc func toggleClustersGroup(_ sender: NSControl) {
         self.clustersGroupState = controlState(sender)
         Store.shared.set(key: "\(self.title)_clustersGroup", value: self.clustersGroupState)

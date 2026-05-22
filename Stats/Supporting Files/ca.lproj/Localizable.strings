@@ -284,6 +284,7 @@
 "User color" = "Color de l'usuari";
 "Idle color" = "Sense color";
 "Cluster grouping" = "Agrupament en cluster";
+"Color cores by type (E/P)" = "Color cores by type (E/P)";
 "Efficiency cores color" = "Color dels nuclis d'eficiència";
 "Performance cores color" = "Color dels nuclis de rendiment";
 "Total load" = "Càrrega total";

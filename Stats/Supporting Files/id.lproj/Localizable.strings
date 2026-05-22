@@ -284,6 +284,7 @@
 "User color" = "Warna pengguna"; // translategemma:4b
 "Idle color" = "Warna saat tidak digunakan"; // translategemma:4b
 "Cluster grouping" = "Pengelompokan klaster"; // translategemma:4b
+"Color cores by type (E/P)" = "Color cores by type (E/P)";
 "Efficiency cores color" = "Inti warna"; // translategemma:4b
 "Performance cores color" = "Warna inti kinerja"; // translategemma:4b
 "Total load" = "Total beban"; // translategemma:4b

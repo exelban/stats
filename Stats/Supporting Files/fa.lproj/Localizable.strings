@@ -284,6 +284,7 @@
 "User color" = "رنگ کاربر";
 "Idle color" = "رنگ بیکار";
 "Cluster grouping" = "گروه‌بندی کلاستر";
+"Color cores by type (E/P)" = "Color cores by type (E/P)";
 "Efficiency cores color" = "رنگ هسته‌های بهینه‌سازی"; // translategemma:4b
 "Performance cores color" = "رنگ هسته‌های عملکرد"; // translategemma:4b
 "Total load" = "مجموع بار"; // translategemma:4b

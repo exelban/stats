@@ -284,6 +284,7 @@
 "User color" = "उपयोगकर्ता रंग";
 "Idle color" = "निष्क्रिय रंग";
 "Cluster grouping" = "क्लस्टर समूहीकरण";
+"Color cores by type (E/P)" = "Color cores by type (E/P)";
 "Efficiency cores color" = "दक्षता कोर रंग";
 "Performance cores color" = "प्रदर्शन कोर रंग";
 "Total load" = "कुल भार"; // translategemma:4b

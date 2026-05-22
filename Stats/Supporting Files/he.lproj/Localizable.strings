@@ -284,6 +284,7 @@
 "User color" = "צבע המשתמש"; // translategemma:4b
 "Idle color" = "צבע כשאין פעילות"; // translategemma:4b
 "Cluster grouping" = "קיבוץ"; // translategemma:4b
+"Color cores by type (E/P)" = "Color cores by type (E/P)";
 "Efficiency cores color" = "ליבות יעילות בצבע"; // translategemma:4b
 "Performance cores color" = "צבע ליבות הביצועים"; // translategemma:4b
 "Total load" = "סה\"כ עומס"; // translategemma:4b

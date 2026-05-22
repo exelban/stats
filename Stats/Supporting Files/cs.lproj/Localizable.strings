@@ -284,6 +284,7 @@
 "User color" = "Barva uživatele";
 "Idle color" = "Barva nečinnosti";
 "Cluster grouping" = "Seskupení klastrů";
+"Color cores by type (E/P)" = "Color cores by type (E/P)";
 "Efficiency cores color" = "Efektivní jádra – barva"; // translategemma:4b
 "Performance cores color" = "Barva výkonových jader"; // translategemma:4b
 "Total load" = "Celková zátěž"; // translategemma:4b

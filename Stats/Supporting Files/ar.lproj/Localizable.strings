@@ -284,6 +284,7 @@
 "User color" = "لون المستخدم";
 "Idle color" = "لون الخمول";
 "Cluster grouping" = "تجميع المجموعات";
+"Color cores by type (E/P)" = "Color cores by type (E/P)";
 "Efficiency cores color" = "لون نوى الكفاءة";
 "Performance cores color" = "لون نوى الأداء";
 "Total load" = "إجمالي الحمل";

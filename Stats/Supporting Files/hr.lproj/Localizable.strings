@@ -284,6 +284,7 @@
 "User color" = "Boja korisnika"; // translategemma:4b
 "Idle color" = "Boja u stanju mirovanja"; // translategemma:4b
 "Cluster grouping" = "Grupiranje"; // translategemma:4b
+"Color cores by type (E/P)" = "Color cores by type (E/P)";
 "Efficiency cores color" = "Cores za učinkovitost, boje"; // translategemma:4b
 "Performance cores color" = "Boja jezgara za performanse"; // translategemma:4b
 "Total load" = "Ukupna optereženost"; // translategemma:4b

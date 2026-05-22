@@ -284,6 +284,7 @@
 "User color" = "用户占用颜色";
 "Idle color" = "闲置颜色";
 "Cluster grouping" = "按集群分组";
+"Color cores by type (E/P)" = "Color cores by type (E/P)";
 "Efficiency cores color" = "能效核心颜色";
 "Performance cores color" = "性能核心颜色";
 "Total load" = "总占用";

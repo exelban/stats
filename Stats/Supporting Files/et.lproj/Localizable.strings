@@ -284,6 +284,7 @@
 "User color" = "Kasutaja värv";
 "Idle color" = "Ooteloleku värv";
 "Cluster grouping" = "Klastrite rühmitamine";
+"Color cores by type (E/P)" = "Color cores by type (E/P)";
 "Efficiency cores color" = "Tõhusustuumade värv";
 "Performance cores color" = "Jõudlustuumade värv";
 "Total load" = "Kokku koormus";

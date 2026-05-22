@@ -284,6 +284,7 @@
 "User color" = "Uporabniška barva";
 "Idle color" = "Barva mirovanja";
 "Cluster grouping" = "Združevanje v gruče";
+"Color cores by type (E/P)" = "Color cores by type (E/P)";
 "Efficiency cores color" = "Barva učinkovitih jeder";
 "Performance cores color" = "Barva performančnih jeder";
 "Total load" = "Skupna obremenitev";

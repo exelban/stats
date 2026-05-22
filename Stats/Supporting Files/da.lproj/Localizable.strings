@@ -284,6 +284,7 @@
 "User color" = "Bruger farve";
 "Idle color" = "'Ikke i brug' farve";
 "Cluster grouping" = "Grupper efter type";
+"Color cores by type (E/P)" = "Color cores by type (E/P)";
 "Efficiency cores color" = "Efficiency kerner farve";
 "Performance cores color" = "Performance kerner farve";
 "Total load" = "Samlet belastning"; // translategemma:4b

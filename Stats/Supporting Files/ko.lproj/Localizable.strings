@@ -284,6 +284,7 @@
 "User color" = "사용자 색상";
 "Idle color" = "대기 색상";
 "Cluster grouping" = "클러스터 묶기";
+"Color cores by type (E/P)" = "Color cores by type (E/P)";
 "Efficiency cores color" = "효율 코어 색상";
 "Performance cores color" = "성능 코어 색상";
 "Total load" = "총 부하";

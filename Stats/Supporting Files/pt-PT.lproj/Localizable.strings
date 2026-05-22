@@ -284,6 +284,7 @@
 "User color" = "Cor do user";
 "Idle color" = "Cor em idle";
 "Cluster grouping" = "Agrupamento de cluster";
+"Color cores by type (E/P)" = "Color cores by type (E/P)";
 "Efficiency cores color" = "Núcleos de eficiência, cores"; // translategemma:4b
 "Performance cores color" = "Cores dos núcleos de desempenho"; // translategemma:4b
 "Total load" = "Carga total"; // translategemma:4b

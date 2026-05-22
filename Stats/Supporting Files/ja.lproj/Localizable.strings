@@ -284,6 +284,7 @@
 "User color" = "ユーザーの色"; // translategemma:4b
 "Idle color" = "アイドルの色"; // translategemma:4b
 "Cluster grouping" = "クラスタリング"; // translategemma:4b
+"Color cores by type (E/P)" = "Color cores by type (E/P)";
 "Efficiency cores color" = "高効率コアの色";
 "Performance cores color" = "高性能コアの色";
 "Total load" = "合計負荷"; // translategemma:4b
