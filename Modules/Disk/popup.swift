@@ -13,8 +13,6 @@ import Cocoa
 import Kit
 
 internal class Popup: PopupWrapper {
-    public var refreshCallback: ((String) -> Void) = {_ in }
-    
     private var readColorState: SColor = .secondBlue
     private var readColor: NSColor { self.readColorState.additional as? NSColor ?? NSColor.systemRed }
     private var writeColorState: SColor = .secondRed
@@ -146,8 +144,7 @@ internal class Popup: PopupWrapper {
                     free: drive.free,
                     path: drive.path,
                     smart: drive.smart,
-                    resize: self.recalculateHeight,
-                    refresh: self.refreshCallback
+                    resize: self.recalculateHeight
                 ))
             }
         }
@@ -272,7 +269,6 @@ internal class Popup: PopupWrapper {
 
 internal class DiskView: NSStackView {
     internal var sizeCallback: (() -> Void) = {}
-    internal var refreshCallback: ((String) -> Void) = {_ in }
     
     public var name: String
     public var uuid: String
@@ -290,9 +286,8 @@ internal class DiskView: NSStackView {
         set { Store.shared.set(key: "\(self.uuid)_details", value: newValue) }
     }
     
-    init(width: CGFloat, uuid: String, name: String, size: Int64 = 1, free: Int64 = 1, path: URL? = nil, smart: smart_t? = nil, resize: @escaping () -> Void, refresh: @escaping (String) -> Void) {
+    init(width: CGFloat, uuid: String, name: String, size: Int64 = 1, free: Int64 = 1, path: URL? = nil, smart: smart_t? = nil, resize: @escaping () -> Void) {
         self.sizeCallback = resize
-        self.refreshCallback = refresh
         self.uuid = uuid
         self.name = name
         self.width = width
@@ -323,10 +318,6 @@ internal class DiskView: NSStackView {
             guard let s = self else { return }
             s.detailsState = !s.detailsState
             s.toggleDetails()
-        }
-        self.nameView.refreshCallback = { [weak self] in
-            guard let uuid = self?.uuid else { return }
-            self?.refreshCallback(uuid)
         }
         
         self.addArrangedSubview(self.nameView)
@@ -388,7 +379,6 @@ internal class DiskView: NSStackView {
 
 internal class NameView: NSStackView {
     internal var detailsCallback: (() -> Void) = {}
-    internal var refreshCallback: (() -> Void) = {}
     
     private let size: Int64
     private let uri: URL?
@@ -452,17 +442,6 @@ internal class NameView: NSStackView {
         activity.addArrangedSubview(readState)
         activity.addArrangedSubview(writeState)
         
-        let refreshButton = NSButton()
-        refreshButton.frame = CGRect(x: (self.frame.width/3)-40, y: 10, width: 15, height: 15)
-        refreshButton.bezelStyle = .regularSquare
-        refreshButton.isBordered = false
-        refreshButton.imageScaling = NSImageScaling.scaleAxesIndependently
-        refreshButton.contentTintColor = .lightGray
-        refreshButton.action = #selector(self.refreshDisk)
-        refreshButton.target = self
-        refreshButton.toolTip = localizedString("Refresh disk information")
-        refreshButton.image = Bundle(for: Module.self).image(forResource: "refresh")!
-        
         let detailsButton = NSButton()
         detailsButton.frame = CGRect(x: (self.frame.width/3)-20, y: 10, width: 15, height: 15)
         detailsButton.bezelStyle = .regularSquare
@@ -477,7 +456,6 @@ internal class NameView: NSStackView {
         self.addArrangedSubview(nameField)
         self.addArrangedSubview(activity)
         self.addArrangedSubview(NSView())
-        self.addArrangedSubview(refreshButton)
         self.addArrangedSubview(detailsButton)
         
         self.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
@@ -516,10 +494,6 @@ internal class NameView: NSStackView {
     
     @objc private func toggleDetails() {
         self.detailsCallback()
-    }
-    
-    @objc private func refreshDisk() {
-        self.refreshCallback()
     }
 }
 
