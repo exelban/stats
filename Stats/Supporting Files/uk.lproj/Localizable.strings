@@ -334,6 +334,10 @@
 "App color" = "Колір програми";
 "Wired color" = "Колір постійної пам’яті";
 "Compressed color" = "Колір стисненої пам’яті";
+"Memory pressure indicator" = "Індикатор навантаження пам'яті";
+"Memory pressure normal color" = "Колір нормального навантаження";
+"Memory pressure warning color" = "Колір попередження";
+"Memory pressure critical color" = "Колір критичного навантаження";
 "Free color" = "Колір вільної пам’яті";
 "Free memory (less than)" = "Вільна пам'ять (менше ніж)";
 "Swap size" = "Розмір swap";

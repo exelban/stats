@@ -334,6 +334,10 @@
 "App color" = "Rakenduse värv";
 "Wired color" = "Juhtmega värv";
 "Compressed color" = "Tihendatud värv";
+"Memory pressure indicator" = "Memory pressure indicator";
+"Memory pressure normal color" = "Memory pressure normal color";
+"Memory pressure warning color" = "Memory pressure warning color";
+"Memory pressure critical color" = "Memory pressure critical color";
 "Free color" = "Vaba värv";
 "Free memory (less than)" = "Vaba mälu (vähem kui)";
 "Swap size" = "Saalemälu suurus";

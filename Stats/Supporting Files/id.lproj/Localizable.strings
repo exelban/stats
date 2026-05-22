@@ -334,6 +334,10 @@
 "App color" = "Warna aplikasi"; // translategemma:4b
 "Wired color" = "Warna kabel"; // translategemma:4b
 "Compressed color" = "Warna yang dikompres"; // translategemma:4b
+"Memory pressure indicator" = "Memory pressure indicator";
+"Memory pressure normal color" = "Memory pressure normal color";
+"Memory pressure warning color" = "Memory pressure warning color";
+"Memory pressure critical color" = "Memory pressure critical color";
 "Free color" = "Warna gratis"; // translategemma:4b
 "Free memory (less than)" = "Memori gratis (kurang dari)"; // translategemma:4b
 "Swap size" = "Ukuran pertukaran"; // translategemma:4b

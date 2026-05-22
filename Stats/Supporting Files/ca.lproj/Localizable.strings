@@ -334,6 +334,10 @@
 "App color" = "Color de l'aplicació";
 "Wired color" = "Color del Wired";
 "Compressed color" = "Color de la comprimida";
+"Memory pressure indicator" = "Memory pressure indicator";
+"Memory pressure normal color" = "Memory pressure normal color";
+"Memory pressure warning color" = "Memory pressure warning color";
+"Memory pressure critical color" = "Memory pressure critical color";
 "Free color" = "Color de la lliure";
 "Free memory (less than)" = "Memòria lliure (menys de)";
 "Swap size" = "Tamany del Swap";

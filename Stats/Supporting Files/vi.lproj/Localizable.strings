@@ -334,6 +334,10 @@
 "App color" = "Màu ứng dụng";
 "Wired color" = "Màu có dây";
 "Compressed color" = "Màu đã nén";
+"Memory pressure indicator" = "Memory pressure indicator";
+"Memory pressure normal color" = "Memory pressure normal color";
+"Memory pressure warning color" = "Memory pressure warning color";
+"Memory pressure critical color" = "Memory pressure critical color";
 "Free color" = "Màu trống";
 "Free memory (less than)" = "Bộ nhớ trống (nhỏ hơn)";
 "Swap size" = "Dung lượng bộ nhớ ảo";

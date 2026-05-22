@@ -334,6 +334,10 @@
 "App color" = "Цвят на приложението"; // translategemma:4b
 "Wired color" = "Цвят с проводник"; // translategemma:4b
 "Compressed color" = "Цвят на компресираната памет";
+"Memory pressure indicator" = "Memory pressure indicator";
+"Memory pressure normal color" = "Memory pressure normal color";
+"Memory pressure warning color" = "Memory pressure warning color";
+"Memory pressure critical color" = "Memory pressure critical color";
 "Free color" = "Цвят на свободната памет";
 "Free memory (less than)" = "Безплатно памет (по-малко от)"; // translategemma:4b
 "Swap size" = "Размер на размяната памет"; // translategemma:4b

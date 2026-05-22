@@ -334,6 +334,10 @@
 "App color" = "アプリメモリの色";
 "Wired color" = "確保されているメモリの色";
 "Compressed color" = "圧縮メモリの色";
+"Memory pressure indicator" = "Memory pressure indicator";
+"Memory pressure normal color" = "Memory pressure normal color";
+"Memory pressure warning color" = "Memory pressure warning color";
+"Memory pressure critical color" = "Memory pressure critical color";
 "Free color" = "空きメモリの色";
 "Free memory (less than)" = "空いているメモリ (以下参照)"; // translategemma:4b
 "Swap size" = "スワップサイズ"; // translategemma:4b

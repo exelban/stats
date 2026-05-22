@@ -334,6 +334,10 @@
 "App color" = "ऐप रंग";
 "Wired color" = "वायर्ड रंग";
 "Compressed color" = "संपीड़ित रंग";
+"Memory pressure indicator" = "Memory pressure indicator";
+"Memory pressure normal color" = "Memory pressure normal color";
+"Memory pressure warning color" = "Memory pressure warning color";
+"Memory pressure critical color" = "Memory pressure critical color";
 "Free color" = "मुक्त रंग";
 "Free memory (less than)" = "मुफ्त मेमोरी (कम से कम)"; // translategemma:4b
 "Swap size" = "स्wap का आकार"; // translategemma:4b

@@ -334,6 +334,10 @@
 "App color" = "Alkalmazás színe";
 "Wired color" = "Nem lapozható színe";
 "Compressed color" = "Tömörített színe";
+"Memory pressure indicator" = "Memory pressure indicator";
+"Memory pressure normal color" = "Memory pressure normal color";
+"Memory pressure warning color" = "Memory pressure warning color";
+"Memory pressure critical color" = "Memory pressure critical color";
 "Free color" = "Szabad színe";
 "Free memory (less than)" = "Szabad memória (kevesebb mint)";
 "Swap size" = "Swap mérete";

@@ -334,6 +334,10 @@
 "App color" = "App-farge";
 "Wired color" = "Bundet farge";
 "Compressed color" = "Komprimert farge";
+"Memory pressure indicator" = "Memory pressure indicator";
+"Memory pressure normal color" = "Memory pressure normal color";
+"Memory pressure warning color" = "Memory pressure warning color";
+"Memory pressure critical color" = "Memory pressure critical color";
 "Free color" = "Ledig farge";
 "Free memory (less than)" = "Gratis minne (mindre enn)"; // translategemma:4b
 "Swap size" = "Byttes størrelse"; // translategemma:4b

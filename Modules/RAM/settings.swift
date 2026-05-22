@@ -47,6 +47,10 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     private var updateTopIntervalValue: Int = 1
     private var numberOfProcesses: Int = 8
     private var splitValueState: Bool = false
+    private var pressureFillState: Bool = false
+    private var pressureNormalColorState: SColor = .secondGreen
+    private var pressureWarningColorState: SColor = .secondYellow
+    private var pressureCriticalColorState: SColor = .secondRed
     private var notificationLevel: String = "Disabled"
     private var textValue: String = "$mem.used/$mem.total ($pressure.value)"
     private var combinedProcessesState: Bool = false
@@ -66,6 +70,10 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         self.updateTopIntervalValue = Store.shared.int(key: "\(self.title)_updateTopInterval", defaultValue: self.updateTopIntervalValue)
         self.numberOfProcesses = Store.shared.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
         self.splitValueState = Store.shared.bool(key: "\(self.title)_splitValue", defaultValue: self.splitValueState)
+        self.pressureFillState = Store.shared.bool(key: "\(self.title)_pressureFill", defaultValue: self.pressureFillState)
+        self.pressureNormalColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_pressureNormalColor", defaultValue: self.pressureNormalColorState.key))
+        self.pressureWarningColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_pressureWarningColor", defaultValue: self.pressureWarningColorState.key))
+        self.pressureCriticalColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_pressureCriticalColor", defaultValue: self.pressureCriticalColorState.key))
         self.notificationLevel = Store.shared.string(key: "\(self.title)_notificationLevel", defaultValue: self.notificationLevel)
         self.textValue = Store.shared.string(key: "\(self.title)_textWidgetValue", defaultValue: self.textValue)
         self.combinedProcessesState = Store.shared.bool(key: "\(self.title)_combinedProcesses", defaultValue: self.combinedProcessesState)
@@ -114,6 +122,25 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
                 PreferencesRow(localizedString("Split the value (App/Wired/Compressed)"), component: switchView(
                     action: #selector(toggleSplitValue),
                     state: self.splitValueState
+                )),
+                PreferencesRow(localizedString("Memory pressure indicator"), component: switchView(
+                    action: #selector(togglePressureFill),
+                    state: self.pressureFillState
+                )),
+                PreferencesRow(localizedString("Memory pressure normal color"), component: colorSelectView(
+                    action: #selector(togglePressureNormalColor),
+                    items: SColor.allColors,
+                    selected: self.pressureNormalColorState.key
+                )),
+                PreferencesRow(localizedString("Memory pressure warning color"), component: colorSelectView(
+                    action: #selector(togglePressureWarningColor),
+                    items: SColor.allColors,
+                    selected: self.pressureWarningColorState.key
+                )),
+                PreferencesRow(localizedString("Memory pressure critical color"), component: colorSelectView(
+                    action: #selector(togglePressureCriticalColor),
+                    items: SColor.allColors,
+                    selected: self.pressureCriticalColorState.key
                 ))
             ]))
         }
@@ -167,6 +194,29 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     @objc private func toggleSplitValue(_ sender: NSControl) {
         self.splitValueState = controlState(sender)
         Store.shared.set(key: "\(self.title)_splitValue", value: self.splitValueState)
+        self.callback()
+    }
+    @objc private func togglePressureFill(_ sender: NSControl) {
+        self.pressureFillState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_pressureFill", value: self.pressureFillState)
+        self.callback()
+    }
+    @objc private func togglePressureNormalColor(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else { return }
+        self.pressureNormalColorState = SColor.fromString(key, defaultValue: self.pressureNormalColorState)
+        Store.shared.set(key: "\(self.title)_pressureNormalColor", value: self.pressureNormalColorState.key)
+        self.callback()
+    }
+    @objc private func togglePressureWarningColor(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else { return }
+        self.pressureWarningColorState = SColor.fromString(key, defaultValue: self.pressureWarningColorState)
+        Store.shared.set(key: "\(self.title)_pressureWarningColor", value: self.pressureWarningColorState.key)
+        self.callback()
+    }
+    @objc private func togglePressureCriticalColor(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else { return }
+        self.pressureCriticalColorState = SColor.fromString(key, defaultValue: self.pressureCriticalColorState)
+        Store.shared.set(key: "\(self.title)_pressureCriticalColor", value: self.pressureCriticalColorState.key)
         self.callback()
     }
     @objc private func toggleCombinedProcesses(_ sender: NSControl) {

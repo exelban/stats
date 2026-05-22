@@ -334,6 +334,10 @@
 "App color" = "Appfärg";
 "Wired color" = "Resident minnesfärg";
 "Compressed color" = "Komprimerat minnesfärg";
+"Memory pressure indicator" = "Memory pressure indicator";
+"Memory pressure normal color" = "Memory pressure normal color";
+"Memory pressure warning color" = "Memory pressure warning color";
+"Memory pressure critical color" = "Memory pressure critical color";
 "Free color" = "Ledigt minnesfärg";
 "Free memory (less than)" = "Ledigt minne (mindre än)";
 "Swap size" = "Växlingsstorlek";

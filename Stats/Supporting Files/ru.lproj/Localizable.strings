@@ -334,6 +334,10 @@
 "App color" = "Цвет приложения";
 "Wired color" = "Цвет зарезервированной памяти";
 "Compressed color" = "Цвет сжатой памяти";
+"Memory pressure indicator" = "Индикатор нагрузки памяти";
+"Memory pressure normal color" = "Цвет нормальной нагрузки";
+"Memory pressure warning color" = "Цвет предупреждения";
+"Memory pressure critical color" = "Цвет критической нагрузки";
 "Free color" = "Цвет свободной памяти";
 "Free memory (less than)" = "Свободная память (менее чем)";
 "Swap size" = "Размер swap";

@@ -334,6 +334,10 @@
 "App color" = "Boja aplikacije"; // translategemma:4b
 "Wired color" = "Boja s kabelom"; // translategemma:4b
 "Compressed color" = "Komprimirana boja"; // translategemma:4b
+"Memory pressure indicator" = "Memory pressure indicator";
+"Memory pressure normal color" = "Memory pressure normal color";
+"Memory pressure warning color" = "Memory pressure warning color";
+"Memory pressure critical color" = "Memory pressure critical color";
 "Free color" = "Besplatna boja"; // translategemma:4b
 "Free memory (less than)" = "Besplatna memorija (manja od)"; // translategemma:4b
 "Swap size" = "Veličina za razmjenu"; // translategemma:4b

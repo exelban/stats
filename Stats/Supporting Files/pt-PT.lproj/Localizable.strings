@@ -334,6 +334,10 @@
 "App color" = "Cor da app";
 "Wired color" = "Cor por fio";
 "Compressed color" = "Cor comprimida";
+"Memory pressure indicator" = "Memory pressure indicator";
+"Memory pressure normal color" = "Memory pressure normal color";
+"Memory pressure warning color" = "Memory pressure warning color";
+"Memory pressure critical color" = "Memory pressure critical color";
 "Free color" = "Cor grátis";
 "Free memory (less than)" = "Memória livre (menos de)"; // translategemma:4b
 "Swap size" = "Tamanho do espaço de troca"; // translategemma:4b

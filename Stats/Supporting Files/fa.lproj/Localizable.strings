@@ -334,6 +334,10 @@
 "App color" = "رنگ اپ";
 "Wired color" = "رنگ سیستم‌بندی";
 "Compressed color" = "رنگ فشرده شده";
+"Memory pressure indicator" = "Memory pressure indicator";
+"Memory pressure normal color" = "Memory pressure normal color";
+"Memory pressure warning color" = "Memory pressure warning color";
+"Memory pressure critical color" = "Memory pressure critical color";
 "Free color" = "رنگ آزاد";
 "Free memory (less than)" = "حافظه آزاد (کمتر از)"; // translategemma:4b
 "Swap size" = "حجم حافظه فرعی"; // translategemma:4b

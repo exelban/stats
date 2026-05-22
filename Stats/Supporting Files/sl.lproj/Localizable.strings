@@ -334,6 +334,10 @@
 "App color" = "Aplikacijska barva";
 "Wired color" = "Žična barva";
 "Compressed color" = "Stisnjena barva";
+"Memory pressure indicator" = "Memory pressure indicator";
+"Memory pressure normal color" = "Memory pressure normal color";
+"Memory pressure warning color" = "Memory pressure warning color";
+"Memory pressure critical color" = "Memory pressure critical color";
 "Free color" = "Prosta barva";
 "Free memory (less than)" = "Prosti pomnilnik (manj kot)";
 "Swap size" = "Swap velikost";

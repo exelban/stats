@@ -334,6 +334,10 @@
 "App color" = "Kleur voor app";
 "Wired color" = "Kleur voor bedraad";
 "Compressed color" = "Kleur voor gecomprimeerd";
+"Memory pressure indicator" = "Memory pressure indicator";
+"Memory pressure normal color" = "Memory pressure normal color";
+"Memory pressure warning color" = "Memory pressure warning color";
+"Memory pressure critical color" = "Memory pressure critical color";
 "Free color" = "Kleur voor vrij";
 "Free memory (less than)" = "Vrij geheugen (minder dan)"; // translategemma:4b
 "Swap size" = "Grootte van het swap";

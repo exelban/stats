@@ -334,6 +334,10 @@
 "App color" = "Color de app";
 "Wired color" = "Color física";
 "Compressed color" = "Color comprimida";
+"Memory pressure indicator" = "Memory pressure indicator";
+"Memory pressure normal color" = "Memory pressure normal color";
+"Memory pressure warning color" = "Memory pressure warning color";
+"Memory pressure critical color" = "Memory pressure critical color";
 "Free color" = "Color libre";
 "Free memory (less than)" = "Memoria libre (menos que)";
 "Swap size" = "Tamaño de swap";

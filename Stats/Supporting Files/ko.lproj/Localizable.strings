@@ -334,6 +334,10 @@
 "App color" = "앱 색상";
 "Wired color" = "연결됨 색상";
 "Compressed color" = "압축됨 색상";
+"Memory pressure indicator" = "Memory pressure indicator";
+"Memory pressure normal color" = "Memory pressure normal color";
+"Memory pressure warning color" = "Memory pressure warning color";
+"Memory pressure critical color" = "Memory pressure critical color";
 "Free color" = "여유 색상";
 "Free memory (less than)" = "여유 메모리 (설정값 아래로 떨어졌을 때)";
 "Swap size" = "스왑 크기"; // translategemma:4b

@@ -334,6 +334,10 @@
 "App color" = "App色彩";
 "Wired color" = "連動記憶體色彩";
 "Compressed color" = "已壓縮記憶體色彩";
+"Memory pressure indicator" = "Memory pressure indicator";
+"Memory pressure normal color" = "Memory pressure normal color";
+"Memory pressure warning color" = "Memory pressure warning color";
+"Memory pressure critical color" = "Memory pressure critical color";
 "Free color" = "閒置記憶體色彩";
 "Free memory (less than)" = "可用記憶體 (小於)";
 "Swap size" = "已使用交換";

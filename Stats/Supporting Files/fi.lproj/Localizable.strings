@@ -334,6 +334,10 @@
 "App color" = "Sovelluksen väri";
 "Wired color" = "Johdettujen väri";
 "Compressed color" = "Pakattujen väri";
+"Memory pressure indicator" = "Memory pressure indicator";
+"Memory pressure normal color" = "Memory pressure normal color";
+"Memory pressure warning color" = "Memory pressure warning color";
+"Memory pressure critical color" = "Memory pressure critical color";
 "Free color" = "Vapaan väri";
 "Free memory (less than)" = "Vapaa muisti (alle)";
 "Swap size" = "Välimuistin koko";

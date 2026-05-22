@@ -334,6 +334,10 @@
 "App color" = "สีของแอพ";
 "Wired color" = "สี Wired";
 "Compressed color" = "สีที่บีบอัด";
+"Memory pressure indicator" = "Memory pressure indicator";
+"Memory pressure normal color" = "Memory pressure normal color";
+"Memory pressure warning color" = "Memory pressure warning color";
+"Memory pressure critical color" = "Memory pressure critical color";
 "Free color" = "สีที่ว่าง";
 "Free memory (less than)" = "หน่วยความจำเหลือ (น้อยกว่า)"; // translategemma:4b
 "Swap size" = "ขนาดของการแลกเปลี่ยน"; // translategemma:4b

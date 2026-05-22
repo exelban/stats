@@ -334,6 +334,10 @@
 "App color" = "Culoarea aplicației"; // translategemma:4b
 "Wired color" = "Culori prin cablu"; // translategemma:4b
 "Compressed color" = "Culori comprimate"; // translategemma:4b
+"Memory pressure indicator" = "Memory pressure indicator";
+"Memory pressure normal color" = "Memory pressure normal color";
+"Memory pressure warning color" = "Memory pressure warning color";
+"Memory pressure critical color" = "Memory pressure critical color";
 "Free color" = "Culoare gratuită"; // translategemma:4b
 "Free memory (less than)" = "Memorie disponibilă (mai puțin de)"; // translategemma:4b
 "Swap size" = "Dimensiunea spațiului de schimb"; // translategemma:4b

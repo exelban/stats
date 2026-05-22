@@ -66,6 +66,52 @@ public class RAM: Module {
     private var splitValueState: Bool {
         return Store.shared.bool(key: "\(self.config.name)_splitValue", defaultValue: false)
     }
+    private var pressureFillState: Bool {
+        return Store.shared.bool(key: "\(self.config.name)_pressureFill", defaultValue: false)
+    }
+
+    // Mirror the Activity Monitor "Memory Pressure" indicator.
+    //   Fill height = (wired + compressed) / total — memory the system cannot
+    //   reclaim quickly. Wired pages are locked by the kernel; compressed pages
+    //   are already squeezed and can only leave via swap I/O.
+    //   Color is driven by the kernel's own pressure verdict so it matches
+    //   Activity Monitor's color transitions exactly.
+    private func pressureFill(_ value: RAM_Usage) -> (ratio: Double, color: NSColor) {
+        let total = value.total == 0 ? 1 : value.total
+        let ratio = max(0.0, min(1.0, (value.wired + value.compressed) / total))
+        let color: NSColor
+        switch value.pressure.value {
+        case .normal: color = self.pressureNormalColor
+        case .warning: color = self.pressureWarningColor
+        case .critical: color = self.pressureCriticalColor
+        }
+        return (ratio, color)
+    }
+    private var pressureNormalColor: NSColor {
+        let color = SColor.secondGreen
+        let key = Store.shared.string(key: "\(self.config.name)_pressureNormalColor", defaultValue: color.key)
+        if let c = SColor.fromString(key).additional as? NSColor {
+            return c
+        }
+        return color.additional as! NSColor
+    }
+    private var pressureWarningColor: NSColor {
+        let color = SColor.secondYellow
+        let key = Store.shared.string(key: "\(self.config.name)_pressureWarningColor", defaultValue: color.key)
+        if let c = SColor.fromString(key).additional as? NSColor {
+            return c
+        }
+        return color.additional as! NSColor
+    }
+    private var pressureCriticalColor: NSColor {
+        let color = SColor.secondRed
+        let key = Store.shared.string(key: "\(self.config.name)_pressureCriticalColor", defaultValue: color.key)
+        if let c = SColor.fromString(key).additional as? NSColor {
+            return c
+        }
+        return color.additional as! NSColor
+    }
+
     private var appColor: NSColor {
         let color = SColor.secondBlue
         let key = Store.shared.string(key: "\(self.config.name)_appColor", defaultValue: color.key)
@@ -164,7 +210,10 @@ public class RAM: Module {
                 widget.setValue(value.usage)
                 widget.setPressure(value.pressure.value)
             case let widget as BarChart:
-                if self.splitValueState {
+                if self.pressureFillState {
+                    let result = self.pressureFill(value)
+                    widget.setValue([[ColorValue(result.ratio, color: result.color)]])
+                } else if self.splitValueState {
                     widget.setValue([[
                         ColorValue(value.app/total, color: self.appColor),
                         ColorValue(value.wired/total, color: self.wiredColor),

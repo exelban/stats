@@ -334,6 +334,10 @@
 "App color" = "Χρώμα Εφαρμογής";
 "Wired color" = "Χρώμα Δεσμευμένης";
 "Compressed color" = "Χρώμα Συμπίεσης";
+"Memory pressure indicator" = "Memory pressure indicator";
+"Memory pressure normal color" = "Memory pressure normal color";
+"Memory pressure warning color" = "Memory pressure warning color";
+"Memory pressure critical color" = "Memory pressure critical color";
 "Free color" = "Χρώμα Ελεύθερου";
 "Free memory (less than)" = "Δωρεάν μνήμη (λιγότερο από)"; // translategemma:4b
 "Swap size" = "Μέγεθος εναλλαγής"; // translategemma:4b

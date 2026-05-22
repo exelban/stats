@@ -334,6 +334,10 @@
 "App color" = "Aplikačná";
 "Wired color" = "Pevná";
 "Compressed color" = "Komprimovaná";
+"Memory pressure indicator" = "Memory pressure indicator";
+"Memory pressure normal color" = "Memory pressure normal color";
+"Memory pressure warning color" = "Memory pressure warning color";
+"Memory pressure critical color" = "Memory pressure critical color";
 "Free color" = "Voľná";
 "Free memory (less than)" = "Voľná pamäť (menej ako)"; // translategemma:4b
 "Swap size" = "Veľkosť výmeny"; // translategemma:4b

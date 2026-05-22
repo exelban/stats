@@ -334,6 +334,10 @@
 "App color" = "Barva aplikační paměti";
 "Wired color" = "Barva pevné paměti";
 "Compressed color" = "Barva kompresované paměti";
+"Memory pressure indicator" = "Memory pressure indicator";
+"Memory pressure normal color" = "Memory pressure normal color";
+"Memory pressure warning color" = "Memory pressure warning color";
+"Memory pressure critical color" = "Memory pressure critical color";
 "Free color" = "Barva volné paměti";
 "Free memory (less than)" = "Volná paměť (méně než)"; // translategemma:4b
 "Swap size" = "Velikost paměti pro výměnu"; // translategemma:4b

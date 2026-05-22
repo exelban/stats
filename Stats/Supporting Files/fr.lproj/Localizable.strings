@@ -334,6 +334,10 @@
 "App color" = "Couleur des applications";
 "Wired color" = "Couleur de la mémoire câblée";
 "Compressed color" = "Couleur de la mémoire compressée";
+"Memory pressure indicator" = "Memory pressure indicator";
+"Memory pressure normal color" = "Memory pressure normal color";
+"Memory pressure warning color" = "Memory pressure warning color";
+"Memory pressure critical color" = "Memory pressure critical color";
 "Free color" = "Couleur de la mémoire inactive";
 "Free memory (less than)" = "Mémoire disponible (moins de)";
 "Swap size" = "Taille du swap";

@@ -334,6 +334,10 @@
 "App color" = "צבע האפליקציה"; // translategemma:4b
 "Wired color" = "צבע מקושר"; // translategemma:4b
 "Compressed color" = "צבע דחוס"; // translategemma:4b
+"Memory pressure indicator" = "Memory pressure indicator";
+"Memory pressure normal color" = "Memory pressure normal color";
+"Memory pressure warning color" = "Memory pressure warning color";
+"Memory pressure critical color" = "Memory pressure critical color";
 "Free color" = "צבע בחינם"; // translategemma:4b
 "Free memory (less than)" = "זיכרון פנוי (פחות מ)"; // translategemma:4b
 "Swap size" = "גודל זיכרון וירטואלי"; // translategemma:4b
