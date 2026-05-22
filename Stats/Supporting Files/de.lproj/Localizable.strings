@@ -193,6 +193,8 @@
 "Label" = "Beschriftung";
 "Box" = "Box";
 "Frame" = "Rahmen";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "Wert";
 "Colorize" = "Einfärben";
 "Colorize value" = "Wert einfärben";

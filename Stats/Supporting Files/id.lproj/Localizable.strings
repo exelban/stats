@@ -193,6 +193,8 @@
 "Label" = "Label";
 "Box" = "Kotak";
 "Frame" = "Bingkai";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "Nilai";
 "Colorize" = "Warna"; // translategemma:4b
 "Colorize value" = "Nilai pewarnaan"; // translategemma:4b

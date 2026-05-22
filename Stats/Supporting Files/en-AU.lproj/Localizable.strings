@@ -193,6 +193,8 @@
 "Label" = "Label";
 "Box" = "Box";
 "Frame" = "Frame";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "Value";
 "Colorize" = "Colourise";
 "Colorize value" = "Colourise value";

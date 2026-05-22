@@ -193,6 +193,8 @@
 "Label" = "Etiqueta";
 "Box" = "Caja";
 "Frame" = "Borde";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "Valor";
 "Colorize" = "Colorear";
 "Colorize value" = "Colorear valor";

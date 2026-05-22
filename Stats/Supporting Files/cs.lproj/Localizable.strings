@@ -193,6 +193,8 @@
 "Label" = "Popisek";
 "Box" = "Výplň";
 "Frame" = "Okraj";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "Hodnota";
 "Colorize" = "Obarvit";
 "Colorize value" = "Obarvit hodnotu";

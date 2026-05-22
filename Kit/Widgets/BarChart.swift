@@ -15,13 +15,21 @@ public class BarChart: WidgetWrapper {
     private var labelState: Bool = false
     private var boxState: Bool = true
     private var frameState: Bool = false
+    private var splitState: Bool = false
     public var colorState: SColor = .systemAccent
     private var colors: [SColor] = SColor.allCases
-    
+
     private var _value: [[ColorValue]] = [[]]
     private var _pressureLevel: RAMPressure = .normal
     private var _colorZones: colorZones = (0.6, 0.8)
-    
+
+    // Rolling session peaks — used as the 100% reference in split I/O mode so
+    // the bar self-calibrates without user configuration.
+    private var peakInput: Int64 = 1
+    private var peakOutput: Int64 = 1
+
+    public var isSplitMode: Bool { self.splitState }
+
     private var boxSettingsView: NSSwitch? = nil
     private var frameSettingsView: NSSwitch? = nil
     
@@ -74,6 +82,7 @@ public class BarChart: WidgetWrapper {
             self.boxState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_box", defaultValue: self.boxState)
             self.frameState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_frame", defaultValue: self.frameState)
             self.labelState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
+            self.splitState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_split", defaultValue: self.splitState)
             self.colorState = SColor.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.key))
         }
         
@@ -181,12 +190,39 @@ public class BarChart: WidgetWrapper {
         
         x += offset
         for i in 0..<value.count {
+            if self.splitState && value[i].count == 2 {
+                // Split I/O mode: read fills bottom-up, write stacks on top of read.
+                // Each ratio is scaled against half the bar height so both at 100%
+                // exactly fill the bar.
+                let halfHeight = maxPartitionHeight / 2
+                let lowerRatio = max(0, min(1, CGFloat(value[i][0].value)))
+                let upperRatio = max(0, min(1, CGFloat(value[i][1].value)))
+
+                let lowerColor = value[i][0].color ?? NSColor.systemBlue
+                let upperColor = value[i][1].color ?? NSColor.systemRed
+
+                let lowerFill = lowerRatio * halfHeight
+                if lowerFill > 0 {
+                    lowerColor.set()
+                    NSBezierPath(rect: NSRect(x: x, y: offset, width: partitionWidth, height: lowerFill)).fill()
+                }
+
+                let upperFill = upperRatio * halfHeight
+                if upperFill > 0 {
+                    upperColor.set()
+                    NSBezierPath(rect: NSRect(x: x, y: offset + lowerFill, width: partitionWidth, height: upperFill)).fill()
+                }
+
+                x += partitionWidth + partitionMargin
+                continue
+            }
+
             var y = offset
             for a in 0..<value[i].count {
                 let partitionValue = value[i][a]
                 let partitionHeight = maxPartitionHeight * CGFloat(partitionValue.value)
                 let partition = NSBezierPath(rect: NSRect(x: x, y: y, width: partitionWidth, height: partitionHeight))
-                
+
                 if partitionValue.color == nil {
                     switch self.colorState {
                     case .systemAccent: NSColor.controlAccentColor.set()
@@ -203,13 +239,13 @@ public class BarChart: WidgetWrapper {
                 } else {
                     partitionValue.color?.set()
                 }
-                
+
                 partition.fill()
                 partition.close()
-                
+
                 y += partitionHeight
             }
-            
+
             x += partitionWidth + partitionMargin
         }
         
@@ -222,6 +258,21 @@ public class BarChart: WidgetWrapper {
         self.setWidth(width)
     }
     
+    // Feed raw throughput in bytes/sec; the widget tracks per-session peaks and
+    // renders the two halves proportionally. Caller order is (input/read, output/write).
+    public func setSplitValue(input: Int64, output: Int64) {
+        let i = abs(input)
+        let o = abs(output)
+        if i > self.peakInput { self.peakInput = i }
+        if o > self.peakOutput { self.peakOutput = o }
+        let inputRatio = Double(i) / Double(self.peakInput)
+        let outputRatio = Double(o) / Double(self.peakOutput)
+        self.setValue([[
+            ColorValue(inputRatio, color: NSColor.systemBlue),
+            ColorValue(outputRatio, color: NSColor.systemRed)
+        ]])
+    }
+
     public func setValue(_ newValue: [[ColorValue]]) {
         DispatchQueue.main.async(execute: {
             let tolerance: CGFloat = 0.01
@@ -268,7 +319,7 @@ public class BarChart: WidgetWrapper {
         )
         self.frameSettingsView = frame
         
-        view.addArrangedSubview(PreferencesSection([
+        var rows: [PreferencesRow] = [
             PreferencesRow(localizedString("Label"), component: switchView(
                 action: #selector(self.toggleLabel),
                 state: self.labelState
@@ -280,9 +331,23 @@ public class BarChart: WidgetWrapper {
             )),
             PreferencesRow(localizedString("Box"), component: box),
             PreferencesRow(localizedString("Frame"), component: frame)
-        ]))
-        
+        ]
+        if self.title == "Disk" || self.title == "Network" {
+            let label = self.title == "Network" ? "Split download/upload" : "Split read/write"
+            rows.append(PreferencesRow(localizedString(label), component: switchView(
+                action: #selector(self.toggleSplit),
+                state: self.splitState
+            )))
+        }
+        view.addArrangedSubview(PreferencesSection(rows))
+
         return view
+    }
+
+    @objc private func toggleSplit(_ sender: NSControl) {
+        self.splitState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_split", value: self.splitState)
+        self.redraw()
     }
     
     @objc private func toggleLabel(_ sender: NSControl) {

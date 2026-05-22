@@ -193,6 +193,8 @@
 "Label" = "Címke megjelenítése";
 "Box" = "Háttér";
 "Frame" = "Keret";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "Érték megjelenítése";
 "Colorize" = "Színezés";
 "Colorize value" = "Érték színezése";

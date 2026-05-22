@@ -193,6 +193,8 @@
 "Label" = "Rótulo";
 "Box" = "Caixa";
 "Frame" = "Quadro";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "Valor";
 "Colorize" = "Colorir";
 "Colorize value" = "Valor da colorização";

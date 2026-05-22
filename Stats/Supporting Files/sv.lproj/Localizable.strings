@@ -193,6 +193,8 @@
 "Label" = "Etikett";
 "Box" = "Låda";
 "Frame" = "Ram";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "Värde";
 "Colorize" = "Färglägg";
 "Colorize value" = "Färglägg värde";

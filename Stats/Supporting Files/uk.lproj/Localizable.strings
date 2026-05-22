@@ -193,6 +193,8 @@
 "Label" = "Етикетка";
 "Box" = "Коробка"; // translategemma:4b
 "Frame" = "Рамка";
+"Split download/upload" = "Розділити завантаження/висилання";
+"Split read/write" = "Розділити читання/запис";
 "Value" = "Значення";
 "Colorize" = "Розфарбувати";
 "Colorize value" = "Розфарбувати значення";

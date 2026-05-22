@@ -193,6 +193,8 @@
 "Label" = "תווית";
 "Box" = "קופסא";
 "Frame" = "מסגרת";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "ערך";
 "Colorize" = "הוספת צבע";
 "Colorize value" = "הוספת ערך לצבע";

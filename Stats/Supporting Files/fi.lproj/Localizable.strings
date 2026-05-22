@@ -193,6 +193,8 @@
 "Label" = "Tunniste";
 "Box" = "Laatikko";
 "Frame" = "Kehys";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "Arvo";
 "Colorize" = "Värjää";
 "Colorize value" = "Värjää arvo";

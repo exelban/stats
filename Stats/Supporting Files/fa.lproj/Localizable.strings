@@ -193,6 +193,8 @@
 "Label" = "لیبل";
 "Box" = "جعبه";
 "Frame" = "فریم";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "مقدار";
 "Colorize" = "رنگی";
 "Colorize value" = "مقدار رنگ";

@@ -193,6 +193,8 @@
 "Label" = "تسمية";
 "Box" = "مربع";
 "Frame" = "إطار";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "قيمة";
 "Colorize" = "تلوين";
 "Colorize value" = "تلوين القيمة";

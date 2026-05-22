@@ -193,6 +193,8 @@
 "Label" = "Ετικέτα";
 "Box" = "Κουτί";
 "Frame" = "Περίγραμμα";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "Τιμή";
 "Colorize" = "Χρωματισμός";
 "Colorize value" = "Χρωματισμός Τιμής";

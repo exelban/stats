@@ -193,6 +193,8 @@
 "Label" = "標籤";
 "Box" = "背景";
 "Frame" = "外框";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "數值";
 "Colorize" = "以色彩顯示";
 "Colorize value" = "以色彩顯示數值";

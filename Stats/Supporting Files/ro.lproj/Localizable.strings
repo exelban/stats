@@ -193,6 +193,8 @@
 "Label" = "Etichetă";
 "Box" = "Cutie";
 "Frame" = "Cadru";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "Valoare";
 "Colorize" = "Colorează";
 "Colorize value" = "Colorează valoarea";

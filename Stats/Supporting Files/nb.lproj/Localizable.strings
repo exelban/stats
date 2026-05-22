@@ -193,6 +193,8 @@
 "Label" = "Merkelapp";
 "Box" = "Boks";
 "Frame" = "Ramme";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "Verdi";
 "Colorize" = "Fargelegg";
 "Colorize value" = "Fargelegg verdi";

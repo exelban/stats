@@ -193,6 +193,8 @@
 "Label" = "Етикет";
 "Box" = "Непрозрачен фон";
 "Frame" = "Рамка";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "Стойност";
 "Colorize" = "Оцветяване";
 "Colorize value" = "Стойност на оцветяване";

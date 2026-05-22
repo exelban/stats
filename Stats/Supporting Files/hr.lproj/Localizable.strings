@@ -193,6 +193,8 @@
 "Label" = "Oznaka";
 "Box" = "Pozadina";
 "Frame" = "Okvir";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "Vrijednost";
 "Colorize" = "Oboji";
 "Colorize value" = "Oboji vrijednost";

@@ -193,6 +193,8 @@
 "Label" = "Popis";
 "Box" = "Políčko";
 "Frame" = "Orámovanie";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "Hodnota";
 "Colorize" = "Vyfarbiť";
 "Colorize value" = "Vyfarbiť hodnotu";

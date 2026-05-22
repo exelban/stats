@@ -193,6 +193,8 @@
 "Label" = "Nhãn";
 "Box" = "Hộp";
 "Frame" = "Khung";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "Giá trị";
 "Colorize" = "Tô màu";
 "Colorize value" = "Tô màu giá trị";

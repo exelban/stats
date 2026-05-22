@@ -193,6 +193,8 @@
 "Label" = "Etiket";
 "Box" = "Kutu Görünüm";
 "Frame" = "Çerçeve";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "Değer";
 "Colorize" = "Renklendir";
 "Colorize value" = "Değeri renklendir";

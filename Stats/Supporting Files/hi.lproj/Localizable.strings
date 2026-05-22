@@ -193,6 +193,8 @@
 "Label" = "लेबल";
 "Box" = "बॉक्स";
 "Frame" = "फ्रेम";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "मूल्य";
 "Colorize" = "रंगांकित";
 "Colorize value" = "मूल्य को रंगीन करें";

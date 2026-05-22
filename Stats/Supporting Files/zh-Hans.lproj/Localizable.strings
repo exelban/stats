@@ -193,6 +193,8 @@
 "Label" = "标签";
 "Box" = "底盒";
 "Frame" = "外框";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "数值";
 "Colorize" = "彩色";
 "Colorize value" = "数值颜色";

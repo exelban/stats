@@ -263,6 +263,8 @@ public class Network: Module {
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: SWidget) in
             switch w.item {
             case let widget as SpeedWidget: widget.setValue(input: download, output: upload)
+            case let widget as BarChart where widget.isSplitMode:
+                widget.setSplitValue(input: download, output: upload)
             case let widget as NetworkChart: widget.setValue(upload: Double(upload), download: Double(download))
             case let widget as TextWidget:
                 var text = self.textValue

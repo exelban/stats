@@ -193,6 +193,8 @@
 "Label" = "Etykieta";
 "Box" = "Pudełko"; // translategemma:4b
 "Frame" = "Ramka";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "Wartość";
 "Colorize" = "Kolorowanie";
 "Colorize value" = "Kolorowanie wartości";

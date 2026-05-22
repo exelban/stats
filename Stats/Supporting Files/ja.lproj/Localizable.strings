@@ -193,6 +193,8 @@
 "Label" = "ラベル";
 "Box" = "塗りつぶし";
 "Frame" = "枠線";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "数値";
 "Colorize" = "カラーで表示";
 "Colorize value" = "数値をカラーで表示";

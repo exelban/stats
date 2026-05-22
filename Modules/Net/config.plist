@@ -51,12 +51,40 @@
 				<string>system</string>
 			</array>
 		</dict>
+		<key>bar_chart</key>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Label</key>
+			<false/>
+			<key>Box</key>
+			<true/>
+			<key>Color</key>
+			<string>systemAccent</string>
+			<key>Preview</key>
+			<dict>
+				<key>Label</key>
+				<false/>
+				<key>Box</key>
+				<true/>
+				<key>Value</key>
+				<string>0.36</string>
+			</dict>
+			<key>Unsupported colors</key>
+			<array>
+				<string>pressure</string>
+				<string>cluster</string>
+				<string>utilization</string>
+			</array>
+			<key>Order</key>
+			<integer>3</integer>
+		</dict>
 		<key>state</key>
 		<dict>
 			<key>Default</key>
 			<false/>
 			<key>Order</key>
-			<integer>3</integer>
+			<integer>4</integer>
 			<key>Preview</key>
 			<dict>
 				<key>Value</key>
@@ -68,7 +96,7 @@
 			<key>Default</key>
 			<false/>
 			<key>Order</key>
-			<integer>4</integer>
+			<integer>5</integer>
 			<key>Preview</key>
 			<dict>
 				<key>Value</key>

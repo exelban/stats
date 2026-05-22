@@ -193,6 +193,8 @@
 "Label" = "Silt";
 "Box" = "Kast";
 "Frame" = "Raam";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "Väärtus";
 "Colorize" = "Värvi";
 "Colorize value" = "Värvi väärtus";

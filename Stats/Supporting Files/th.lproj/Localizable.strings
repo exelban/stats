@@ -193,6 +193,8 @@
 "Label" = "ป้ายชื่อ";
 "Box" = "กล่อง";
 "Frame" = "เฟรม";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "ค่า";
 "Colorize" = "สีสัน";
 "Colorize value" = "สีสันค่า";

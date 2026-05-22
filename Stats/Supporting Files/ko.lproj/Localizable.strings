@@ -193,6 +193,8 @@
 "Label" = "레이블";
 "Box" = "상자";
 "Frame" = "테두리";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "값";
 "Colorize" = "색상화";
 "Colorize value" = "값 색상화";

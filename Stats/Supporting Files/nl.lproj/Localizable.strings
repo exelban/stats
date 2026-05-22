@@ -193,6 +193,8 @@
 "Label" = "Label";
 "Box" = "Doos"; // translategemma:4b
 "Frame" = "Rand";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "Waarde";
 "Colorize" = "Inkleuren";
 "Colorize value" = "Waarde inkleuren";

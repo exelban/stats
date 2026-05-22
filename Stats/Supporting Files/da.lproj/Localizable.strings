@@ -193,6 +193,8 @@
 "Label" = "Tekstmærke";
 "Box" = "Boks";
 "Frame" = "Ramme";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "Værdi";
 "Colorize" = "Farve";
 "Colorize value" = "Farve værdi";

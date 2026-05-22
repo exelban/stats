@@ -193,6 +193,8 @@
 "Label" = "Etiqueta";
 "Box" = "Caixa";
 "Frame" = "Marc";
+"Split download/upload" = "Split download/upload";
+"Split read/write" = "Split read/write";
 "Value" = "Valor";
 "Colorize" = "Acoloreix";
 "Colorize value" = "Valor de l'acoloriment";
