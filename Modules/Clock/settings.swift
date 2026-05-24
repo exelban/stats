@@ -103,7 +103,7 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
         let calendarColumn = NSTableColumn(identifier: calendarColumnID)
         calendarColumn.headerCell.title = localizedString("Calendar")
         calendarColumn.headerCell.alignment = .center
-        calendarColumn.width = 132
+        calendarColumn.width = 60
         let statusColumn = NSTableColumn(identifier: statusColumnID)
         statusColumn.headerCell.title = ""
         statusColumn.width = 16
@@ -233,7 +233,7 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
             select.sizeToFit()
             select.preferredEdge = .maxX
             select.translatesAutoresizingMaskIntoConstraints = false
-            select.widthAnchor.constraint(lessThanOrEqualToConstant: 132).isActive = true
+            select.widthAnchor.constraint(lessThanOrEqualToConstant: 60).isActive = true
             cell.addSubview(select)
         case statusColumnID:
             let button: NSButton = NSButton(frame: NSRect(x: 0, y: 8, width: 10, height: 10))
