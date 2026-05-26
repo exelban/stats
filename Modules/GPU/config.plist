@@ -83,7 +83,7 @@
 	<key>Preview</key>
 	<dict>
 		<key>available</key>
-		<false/>
+		<true/>
 	</dict>
 </dict>
 </plist>
