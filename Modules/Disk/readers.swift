@@ -40,6 +40,8 @@ internal class CapacityReader: Reader<Disks> {
         Store.shared.bool(key: "\(ModuleType.disk.stringValue)_SMART", defaultValue: true)
     }
     
+    private var purgableSpace: [URL: (Date, Int64)] = [:]
+    
     public override func read() {
         let keys: [URLResourceKey] = [.volumeNameKey]
         let removableState = Store.shared.bool(key: "Disk_removable", defaultValue: false)
@@ -94,9 +96,32 @@ internal class CapacityReader: Reader<Disks> {
         }
         
         self.callback(self.list)
+        
     }
-    
     private func freeDiskSpaceInBytes(_ path: URL) -> Int64 {
+        var path = path
+        path.removeAllCachedResourceValues()
+        
+        var stat = statfs()
+        if statfs(path.path, &stat) == 0 {
+            var purgeable: Int64 = 0
+            if self.purgableSpace[path] == nil {
+                let value = CSDiskSpaceGetRecoveryEstimate(path as NSURL)
+                purgeable = Int64(value)
+                self.purgableSpace[path] = (Date(), purgeable)
+            } else if let pair = self.purgableSpace[path] {
+                let delta = Date().timeIntervalSince(pair.0)
+                if delta > 30 {
+                    let value = CSDiskSpaceGetRecoveryEstimate(path as NSURL)
+                    purgeable = Int64(value)
+                    self.purgableSpace[path] = (Date(), purgeable)
+                } else {
+                    purgeable = pair.1
+                }
+            }
+            return (Int64(stat.f_bfree) * Int64(stat.f_bsize)) + Int64(purgeable)
+        }
+        
         do {
             let values = try path.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey])
             if let capacity = values.volumeAvailableCapacityForImportantUsage, capacity != 0 {
@@ -104,13 +129,6 @@ internal class CapacityReader: Reader<Disks> {
             }
         } catch let err {
             error("error retrieving free space #1: \(err.localizedDescription)", log: self.log)
-        }
-        
-        var stat = statfs()
-        if statfs(path.path, &stat) == 0 {
-            let value = CSDiskSpaceGetRecoveryEstimate(path as NSURL)
-            let purgeable: Int64 = Int64(value)
-            return (Int64(stat.f_bfree) * Int64(stat.f_bsize)) + Int64(purgeable)
         }
         
         do {
