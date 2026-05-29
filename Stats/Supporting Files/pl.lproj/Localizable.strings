@@ -58,7 +58,7 @@
 "Left alignment" = "Do lewej";
 "Center alignment" = "Centrum";
 "Right alignment" = "Do prawej";
-"Dashboard" = "Panel kontrolny"; // translategemma:4b
+"Dashboard" = "Panel kontrolny";
 "Enabled" = "Włączone";
 "Disabled" = "Wyłączone";
 "Silent" = "Tryb cichy";
@@ -306,7 +306,7 @@
 "GPU utilization" = "Wykorzystanie GPU";
 "Vendor" = "Producent";
 "Model" = "Model";
-"Status" = "Stan"; // translategemma:4b
+"Status" = "Stan";
 "Active" = "Aktywny";
 "Non active" = "Nieaktywny";
 "Fan speed" = "Prędkość wentylatora";
@@ -357,6 +357,8 @@
 "Read speed" = "Odczyt";
 "Drives" = "Dyski";
 "SMART data" = "Dane SMART";
+"Power cycles" = "Liczba cykli";
+"Power on hours" = "Godziny pracy";
 
 // Sensors
 "Temperature unit" = "Jednostka temperatury";
@@ -430,7 +432,7 @@
 "New IP" = "Nowy adres IP: %0";
 "Internet connection lost" = "Utracono połączenie z internetem";
 "Internet connection established" = "Połączenie z internetem zostało przywrócone";
-"Show country code instead of emoji" = "Wyświetl kod kraju zamiast emoji"; // translategemma:4b
+"Show country code instead of emoji" = "Wyświetl kod kraju zamiast emoji";
 
 // Battery
 "Level" = "Poziom naładowania";
@@ -485,7 +487,7 @@
 "Add new clock" = "Dodaj nowy zegar";
 "Delete selected clock" = "Usuń wybrany zegar";
 "Help with datetime format" = "Pomoc z formatem daty i godziny";
-"Sync with NTP server" = "Synchronizacja z serwerem NTP"; // translategemma:4b
+"Sync with NTP server" = "Synchronizacja z serwerem NTP";
 
 // Colors
 "Based on utilization" = "Na podstawie wykorzystania";

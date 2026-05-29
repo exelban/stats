@@ -69,28 +69,28 @@
 "Square" = "สี่เหลี่ยม";
 "Cube" = "ลูกบาศก์";
 "Logarithmic" = "ลอการิทึม";
-"Fixed scale" = "แก้ไขแล้ว"; // translategemma:4b
+"Fixed scale" = "คงที่"; // gemma4:31b
 "Cores" = "หน่วยความจำ";
-"Core" = "แกนหลัก"; // translategemma:4b
+"Core" = "คอร์"; // gemma4:31b
 "Settings" = "การตั้งค่า";
 "Name" = "ชื่อ"; // translategemma:4b
 "Format" = "รูปแบบ"; // translategemma:4b
 "Turn off" = "ปิด"; // translategemma:4b
 "Normal" = "ปกติ"; // translategemma:4b
 "Warning" = "คำเตือน"; // translategemma:4b
-"Critical" = "สำคัญ"; // translategemma:4b
+"Critical" = "วิกฤต"; // gemma4:31b
 "Usage" = "การใช้งาน"; // translategemma:4b
 "2 minutes" = "2 นาที"; // translategemma:4b
 "3 minutes" = "3 นาที"; // translategemma:4b
 "10 minutes" = "10 นาที"; // translategemma:4b
 "Import" = "นำเข้า"; // translategemma:4b
 "Export" = "ส่งออก"; // translategemma:4b
-"Separator" = "ตัวแบ่ง"; // translategemma:4b
+"Separator" = "ตัวคั่น"; // gemma4:31b
 "Read" = "อ่าน"; // translategemma:4b
 "Write" = "เขียน"; // translategemma:4b
 "Frequency" = "ความถี่"; // translategemma:4b
 "Save" = "บันทึก"; // translategemma:4b
-"Run" = "รัน"; // translategemma:4b
+"Run" = "เรียกใช้"; // gemma4:31b
 "Stop" = "หยุด"; // translategemma:4b
 "Uninstall" = "ถอนการติดตั้ง"; // translategemma:4b
 "1 sec" = "1 วินาที"; // translategemma:4b
@@ -120,9 +120,9 @@
 "Check for a new version every week (once a week)" = "ตรวจสอบเวอร์ชันใหม่ทุกสัปดาห์ (สัปดาห์ละครั้ง)";
 "Check for a new version every month (once a month)" = "ตรวจสอบเวอร์ชันใหม่ทุกเดือน (เดือนละครั้ง)";
 "Never check for updates (not recommended)" = "ไม่เช็คการอัปเดต (ไม่แนะนำ)";
-"Anonymous telemetry for better development decisions" = "ข้อมูล telemetry ที่ไม่ระบุชื่อ เพื่อการตัดสินใจในการพัฒนาที่ดีขึ้น"; // translategemma:4b
-"Share anonymous telemetry data" = "แบ่งปันข้อมูล telemetry ที่ไม่ระบุตัวตน"; // translategemma:4b
-"Do not share anonymous telemetry data" = "ห้ามเปิดเผยข้อมูล telemetry ที่ไม่ระบุตัวตน"; // translategemma:4b
+"Anonymous telemetry for better development decisions" = "ข้อมูล telemetry แบบไม่ระบุตัวตนเพื่อการตัดสินใจในการพัฒนาที่ดีขึ้น"; // gemma4:31b
+"Share anonymous telemetry data" = "แบ่งปันข้อมูลโทรมาตรแบบไม่ระบุตัวตน"; // gemma4:31b
+"Do not share anonymous telemetry data" = "ไม่แชร์ข้อมูลเทเลเมทรีที่ไม่ระบุตัวตน"; // gemma4:31b
 "The configuration is completed" = "การกำหนดค่าเสร็จสมบูรณ์";
 "finish_setup_message" = "ทุกอย่างถูกตั้งค่า! \n Stats เป็นเครื่องมือโอเพ่นซอร์สที่ฟรีและจะเป็นแบบนี้ตลอดไป \n ถ้าคุณชอบ คุณสามารถสนับสนุนโปรเจคนี้ เราพร้อมรับและขอบคุณเสมอ!";
 
@@ -141,9 +141,9 @@
 "Close application" = "ปิดแอปพลิเคชัน";
 "Open application settings" = "เปิดการตั้งค่าแอปพลิเคชัน";
 "Open dashboard" = "เปิดแดชบอร์ด";
-"No notifications available in this module" = "ไม่มีการแจ้งเตือนใด ๆ ในโมดูลนี้"; // translategemma:4b
+"No notifications available in this module" = "ไม่มีการแจ้งเตือนที่พร้อมใช้งานในโมดูลนี้"; // gemma4:31b
 "Open Calendar" = "เปิดปฏิทิน"; // translategemma:4b
-"Toggle the module" = "เปิด/ปิดโมดูล"; // translategemma:4b
+"Toggle the module" = "สลับโมดูล"; // gemma4:31b
 
 // Application settings
 "Update application" = "อัพเดทแอปพลิเคชัน";
@@ -158,29 +158,29 @@
 "Start at login" = "เริ่มต้นเมื่อเข้าสู่ระบบ";
 "Build number" = "หมายเลข Build";
 "Import settings" = "นำเข้าการตั้งค่า"; // translategemma:4b
-"Export settings" = "การตั้งค่าการส่งออก"; // translategemma:4b
+"Export settings" = "ส่งออกการตั้งค่า"; // gemma4:31b
 "Reset settings" = "รีเซ็ตการตั้งค่า";
 "Pause the Stats" = "หยุด Stats";
 "Resume the Stats" = "เริ่มต้น Stats";
 "Combined modules" = "โมดูลผสม";
-"Combined details" = "รายละเอียดที่รวบรวม"; // translategemma:4b
+"Combined details" = "รายละเอียดรวม"; // gemma4:31b
 "Spacing" = "ระยะห่าง"; // translategemma:4b
-"Share anonymous telemetry" = "แบ่งปันข้อมูล telemetry แบบไม่ระบุตัวตน"; // translategemma:4b
+"Share anonymous telemetry" = "แบ่งปันข้อมูลเทเลเมทรีแบบไม่ระบุตัวตน"; // gemma4:31b
 "Choose file" = "เลือกไฟล์"; // translategemma:4b
 "Stress tests" = "การทดสอบความเครียด"; // translategemma:4b
 
 // Dashboard
 "Serial number" = "หมายเลขซีเรียล";
-"Model identifier" = "รหัสรุ่น"; // translategemma:4b
+"Model identifier" = "ตัวระบุรุ่น"; // gemma4:31b
 "Production year" = "ปีที่ผลิต"; // translategemma:4b
 "Uptime" = "ระยะเวลาที่เครื่องทำงาน";
 "Number of cores" = "%0 คอร์"; // translategemma:4b
 "Number of threads" = "%0 thread";
 "Number of e-cores" = "%0 cores ประสิทธิภาพ";
 "Number of p-cores" = "%0 cores ประสิทธิผล";
-"Number of s-cores" = "%0 คอร์ประสิทธิภาพสูง"; // translategemma:4b
-"Disks" = "ฮาร์ดดิสก์"; // translategemma:4b
-"Display" = "แสดงผล"; // translategemma:4b
+"Number of s-cores" = "%0 ซูเปอร์คอร์"; // gemma4:31b
+"Disks" = "ดิสก์"; // gemma4:31b
+"Display" = "จอภาพ"; // gemma4:31b
 
 // Update
 "The latest version of Stats installed" = "เวอร์ชันล่าสุดของ Stats ได้รับการติดตั้งแล้ว";
@@ -209,13 +209,13 @@
 "Network chart widget" = "แผนภูมิเครือข่าย";
 "Speed widget" = "ความเร็ว";
 "Battery widget" = "แบตเตอรี่";
-"Stack widget" = "คอลัม"; // translategemma:4b
+"Stack widget" = "สแต็ก"; // gemma4:31b
 "Memory widget" = "หน่วยความจำ";
 "Static width" = "ความกว้างคงที่";
 "Tachometer widget" = "วัดความเร็ว";
 "State widget" = "เครื่องวัดสถานะ";
-"Text widget" = "ส่วนประกอบสำหรับแสดงข้อความ"; // translategemma:4b
-"Battery details widget" = "หน้าปัดข้อมูลแบตเตอรี่"; // translategemma:4b
+"Text widget" = "วิดเจ็ตข้อความ"; // gemma4:31b
+"Battery details widget" = "วิดเจ็ตรายละเอียดแบตเตอรี่"; // gemma4:31b
 "Show symbols" = "แสดงสัญลักษณ์";
 "Label widget" = "ป้ายชื่อ";
 "Number of reads in the chart" = "จำนวนการอ่านในแผนภูมิ";
@@ -223,9 +223,9 @@
 "Color of upload" = "สีของการอัพโหลด";
 "Monospaced font" = "แบบอักษรโมโนสเปซ";
 "Reverse order" = "ลำดับย้อนกลับ"; // translategemma:4b
-"Chart history" = "ประวัติการสร้างกราฟ"; // translategemma:4b
+"Chart history" = "ประวัติกราฟ"; // gemma4:31b
 "Default color" = "ค่าเริ่มต้น"; // translategemma:4b
-"Transparent when no activity" = "โปร่งใสเมื่อไม่มีการใช้งาน"; // translategemma:4b
+"Transparent when no activity" = "โปร่งใสเมื่อไม่มีกิจกรรม"; // gemma4:31b
 "Constant color" = "คงที่"; // translategemma:4b
 "Custom..." = "กำหนดเอง...";
 
@@ -246,8 +246,8 @@
 "No available widgets to configure" = "ไม่มีวิดเจ็ตที่สามารถกำหนดค่าได้";
 "No options to configure for the popup in this module" = "ไม่มีตัวเลือกที่สามารถกำหนดค่าสำหรับป๊อปอัปในโมดูลนี้";
 "Process" = "กระบวนการ"; // translategemma:4b
-"Kill process" = "หยุดกระบวนการ"; // translategemma:4b
-"Keyboard shortcut" = "ปุ่มลัดคีย์"; // translategemma:4b
+"Kill process" = "ยุติกระบวนการ"; // gemma4:31b
+"Keyboard shortcut" = "ปุ่มลัดแป้นพิมพ์"; // gemma4:31b
 "Listening..." = "กำลังฟัง..."; // translategemma:4b
 
 // Modules
@@ -256,9 +256,9 @@
 "Notification level" = "ระดับแจ้งเตือน";
 "Chart color" = "สีแผนภูมิ";
 "Main chart scaling" = "การปรับขนาดกราฟหลัก"; // translategemma:4b
-"Scale value" = "ค่าสเกล"; // translategemma:4b
-"Text widget value" = "ค่าสำหรับส่วนประกอบ Text"; // translategemma:4b
-"Combined processes" = "กระบวนการที่รวมกัน"; // translategemma:4b
+"Scale value" = "ค่ามาตราส่วน"; // gemma4:31b
+"Text widget value" = "ค่าของวิดเจ็ตข้อความ"; // gemma4:31b
+"Combined processes" = "รวมกระบวนการ"; // gemma4:31b
 
 // CPU
 "CPU usage" = "การใช้งาน CPU";
@@ -284,18 +284,18 @@
 "User color" = "สีของผู้ใช้";
 "Idle color" = "สีของว่างเปล่า";
 "Cluster grouping" = "การจัดกลุ่ม Cluster";
-"Efficiency cores color" = "จำนวนคอร์ประสิทธิภาพ สี"; // translategemma:4b
+"Efficiency cores color" = "สีของคอร์ประหยัดพลังงาน"; // gemma4:31b
 "Performance cores color" = "สีของคอร์ประสิทธิภาพ"; // translategemma:4b
-"Total load" = "ปริมาณการใช้งานทั้งหมด"; // translategemma:4b
-"System load" = "ภาระของระบบ"; // translategemma:4b
-"User load" = "ปริมาณการใช้งานของผู้ใช้"; // translategemma:4b
-"Efficiency cores load" = "การโหลดคอร์ประสิทธิภาพ"; // translategemma:4b
-"Performance cores load" = "การโหลดคอร์ประสิทธิภาพ"; // translategemma:4b
-"All cores" = "ทุกคอร์"; // translategemma:4b
-"Load per core" = "การโหลดต่อคอร์"; // translategemma:4b
-"Efficiency core" = "ประสิทธิภาพหลัก"; // translategemma:4b
-"Performance core" = "ส่วนประสิทธิภาพหลัก"; // translategemma:4b
-"Super core" = "ประสิทธิภาพสูงสุด"; // translategemma:4b
+"Total load" = "ภาระทั้งหมด"; // gemma4:31b
+"System load" = "ภาระระบบ"; // gemma4:31b
+"User load" = "ภาระงานของผู้ใช้"; // gemma4:31b
+"Efficiency cores load" = "ภาระงานของคอร์ประหยัดพลังงาน"; // gemma4:31b
+"Performance cores load" = "ภาระการทำงานของคอร์ประสิทธิภาพ"; // gemma4:31b
+"All cores" = "คอร์ทั้งหมด"; // gemma4:31b
+"Load per core" = "ภาระต่อคอร์"; // gemma4:31b
+"Efficiency core" = "คอร์ประหยัดพลังงาน"; // gemma4:31b
+"Performance core" = "คอร์ประสิทธิภาพ"; // gemma4:31b
+"Super core" = "ซูเปอร์คอร์"; // gemma4:31b
 
 // GPU
 "GPU to show" = "แสดง GPU";
@@ -310,8 +310,8 @@
 "Active" = "ทำงาน";
 "Non active" = "ไม่ได้ทำงาน";
 "Fan speed" = "ความเร็วพัดลม";
-"Core clock" = "ความถี่หลัก"; // translategemma:4b
-"Memory clock" = "ความถี่ของหน่วยความจำ"; // translategemma:4b
+"Core clock" = "ความถี่คอร์"; // gemma4:31b
+"Memory clock" = "ความถี่หน่วยความจำ"; // gemma4:31b
 "Utilization" = "ปริมาณการใช้งาน";
 "Render utilization" = "ปริมาณการใช้งาน Render";
 "Tiler utilization" = "ปริมาณการใช้งาน Tiler";
@@ -335,9 +335,9 @@
 "Wired color" = "สี Wired";
 "Compressed color" = "สีที่บีบอัด";
 "Free color" = "สีที่ว่าง";
-"Free memory (less than)" = "หน่วยความจำเหลือ (น้อยกว่า)"; // translategemma:4b
-"Swap size" = "ขนาดของการแลกเปลี่ยน"; // translategemma:4b
-"Free RAM is" = "RAM ที่เหลือคือ %0"; // translategemma:4b
+"Free memory (less than)" = "หน่วยความจำว่าง (น้อยกว่า)"; // gemma4:31b
+"Swap size" = "ขนาด Swap"; // gemma4:31b
+"Free RAM is" = "RAM ว่างคือ %0"; // gemma4:31b
 
 // Disk
 "Show removable disks" = "แสดงดิสก์ถอดได้";
@@ -348,15 +348,17 @@
 "Switch view" = "สลับมุมมอง";
 "Disk utilization threshold" = "เกณฑ์การใช้งานดิสก์";
 "Disk utilization is" = "ปริมาณการใช้งานดิสก์คือ %0";
-"Read color" = "อ่านสี"; // translategemma:4b
-"Write color" = "ระบุสี"; // translategemma:4b
-"Disk usage" = "การใช้พื้นที่ดิสก์"; // translategemma:4b
-"Total read" = "จำนวนที่อ่านทั้งหมด"; // translategemma:4b
-"Total written" = "ยอดที่เขียน"; // translategemma:4b
+"Read color" = "สีของการอ่าน"; // gemma4:31b
+"Write color" = "สีการเขียน"; // gemma4:31b
+"Disk usage" = "การใช้งานดิสก์"; // gemma4:31b
+"Total read" = "อ่านทั้งหมด"; // gemma4:31b
+"Total written" = "เขียนทั้งหมด"; // gemma4:31b
 "Write speed" = "เขียน"; // translategemma:4b
 "Read speed" = "อ่าน"; // translategemma:4b
-"Drives" = "อุปกรณ์"; // translategemma:4b
+"Drives" = "ไดรฟ์"; // gemma4:31b
 "SMART data" = "ข้อมูล SMART"; // translategemma:4b
+"Power cycles" = "Power cycles";
+"Power on hours" = "Power on hours";
 
 // Sensors
 "Temperature unit" = "หน่วยอุณหภูมิ";
@@ -373,12 +375,12 @@
 "Uninstall fan helper" = "ถอนการติดตั้งตัวช่วยพัดลม";
 "Fan value" = "ค่าพัดลม";
 "Turn off fan" = "ปิดพัดลม"; // translategemma:4b
-"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "คุณกำลังจะปิดพัดลม นี่เป็นการกระทำที่ไม่แนะนำ ซึ่งอาจทำให้เครื่อง Mac ของคุณเสียหาย คุณแน่ใจหรือไม่ว่าคุณต้องการทำเช่นนั้น"; // translategemma:4b
-"Sensor threshold" = "ขีดจำกัดของเซ็นเซอร์"; // translategemma:4b
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "คุณกำลังจะปิดพัดลม นี่เป็นการกระทำที่ไม่แนะนำซึ่งอาจทำให้ Mac ของคุณเสียหาย คุณแน่ใจหรือไม่ว่าต้องการทำเช่นนั้น?"; // gemma4:31b
+"Sensor threshold" = "เกณฑ์เซนเซอร์"; // gemma4:31b
 "Left fan" = "ซ้าย"; // translategemma:4b
-"Right fan" = "ถูกต้อง"; // translategemma:4b
+"Right fan" = "ขวา"; // gemma4:31b
 "Fastest fan" = "เร็วที่สุด"; // translategemma:4b
-"Sensor to show" = "เซ็นเซอร์เพื่อแสดงผล"; // translategemma:4b
+"Sensor to show" = "เซนเซอร์ที่จะแสดง"; // gemma4:31b
 
 // Network
 "Uploading" = "กำลังอัปโหลด";
@@ -413,24 +415,24 @@
 "Connectivity host" = "โฮสต์ที่เชื่อมต่อ";
 "Leave empty to disable the check" = "เว้นว่างไว้เพื่อปิดการตรวจสอบ";
 "Connectivity history" = "ประวัติการเชื่อมต่อ"; // translategemma:4b
-"Auto-refresh public IP address" = "อัปเดตที่อยู่ IP สาธารณะโดยอัตโนมัติ"; // translategemma:4b
+"Auto-refresh public IP address" = "รีเฟรชที่อยู่ IP สาธารณะอัตโนมัติ"; // gemma4:31b
 "Every hour" = "ทุกชั่วโมง"; // translategemma:4b
 "Every 12 hours" = "ทุก 12 ชั่วโมง"; // translategemma:4b
-"Every 24 hours" = "ทุก 24 ชั่วโมง"; // translategemma:4b
-"Network activity" = "กิจกรรมบนเครือข่าย"; // translategemma:4b
-"Last reset" = "การรีเซ็ตครั้งล่าสุดเมื่อ `%0` ที่แล้ว"; // translategemma:4b
+"Every 24 hours" = "ทุกๆ 24 ชั่วโมง"; // gemma4:31b
+"Network activity" = "กิจกรรมเครือข่าย"; // gemma4:31b
+"Last reset" = "รีเซ็ตครั้งล่าสุด %0 ที่แล้ว"; // gemma4:31b
 "Latency" = "ความหน่วง"; // translategemma:4b
 "Upload speed" = "อัปโหลด"; // translategemma:4b
 "Download speed" = "ดาวน์โหลด"; // translategemma:4b
 "Address" = "ที่อยู่"; // translategemma:4b
-"WiFi network" = "เครือข่าย Wi-Fi"; // translategemma:4b
-"Local IP changed" = "ที่อยู่ IP ในเครื่องเปลี่ยนไปแล้ว"; // translategemma:4b
-"Public IP changed" = "ที่อยู่ IP สาธารณะมีการเปลี่ยนแปลง"; // translategemma:4b
+"WiFi network" = "เครือข่าย WiFi"; // gemma4:31b
+"Local IP changed" = "Local IP เปลี่ยนแปลงแล้ว"; // gemma4:31b
+"Public IP changed" = "IP สาธารณะเปลี่ยนแปลงแล้ว"; // gemma4:31b
 "Previous IP" = "IP ก่อนหน้า: %0"; // translategemma:4b
 "New IP" = "IP ใหม่: %0"; // translategemma:4b
-"Internet connection lost" = "การเชื่อมต่ออินเทอร์เน็ตขาด"; // translategemma:4b
+"Internet connection lost" = "การเชื่อมต่ออินเทอร์เน็ตขาดหาย"; // gemma4:31b
 "Internet connection established" = "การเชื่อมต่ออินเทอร์เน็ตสำเร็จ"; // translategemma:4b
-"Show country code instead of emoji" = "แสดงรหัสประเทศแทนสัญลักษณ์อีโมจิ"; // translategemma:4b
+"Show country code instead of emoji" = "แสดงรหัสประเทศแทนอีโมจิ"; // gemma4:31b
 
 // Battery
 "Level" = "ระดับ";
@@ -467,10 +469,10 @@
 "current / maximum / designed" = "ปัจจุบัน / สูงสุด / ออกแบบ";
 "Low power mode" = "โหมดพลังงานต่ำ";
 "Percentage inside the icon" = "เปอร์เซ็นต์ภายในไอคอน";
-"Colorize battery" = "ระบุสีแบตเตอรี่"; // translategemma:4b
-"Charging current" = "กระแสไฟฟ้าที่ใช้ในการชาร์จ"; // translategemma:4b
-"Charging Voltage" = "แรงดันไฟฟ้าในการชาร์จ"; // translategemma:4b
-"Charger state inside the battery" = "สถานะของเครื่องชาร์จภายในแบตเตอรี่"; // translategemma:4b
+"Colorize battery" = "เปลี่ยนสีแบตเตอรี่"; // gemma4:31b
+"Charging current" = "กระแสการชาร์จ"; // gemma4:31b
+"Charging Voltage" = "แรงดันไฟฟ้าการชาร์จ"; // gemma4:31b
+"Charger state inside the battery" = "สถานะการชาร์จภายในแบตเตอรี่"; // gemma4:31b
 
 // Bluetooth
 "Battery to show" = "แบตเตอรี่ที่แสดง";
@@ -478,19 +480,19 @@
 
 // Clock
 "Time zone" = "เขตเวลา"; // translategemma:4b
-"Local" = "ในพื้นที่"; // translategemma:4b
+"Local" = "ท้องถิ่น"; // gemma4:31b
 "Calendar" = "ปฏิทิน"; // translategemma:4b
 "Show week numbers" = "แสดงหมายเลขสัปดาห์"; // translategemma:4b
 "Local time" = "เวลาท้องถิ่น"; // translategemma:4b
 "Add new clock" = "เพิ่มนาฬิกาใหม่"; // translategemma:4b
 "Delete selected clock" = "ลบนาฬิกาที่เลือก"; // translategemma:4b
-"Help with datetime format" = "ขอความช่วยเหลือเกี่ยวกับการจัดรูปแบบวันที่และเวลา"; // translategemma:4b
+"Help with datetime format" = "ความช่วยเหลือเกี่ยวกับรูปแบบวันที่และเวลา"; // gemma4:31b
 "Sync with NTP server" = "ซิงค์กับเซิร์ฟเวอร์ NTP"; // translategemma:4b
 
 // Colors
 "Based on utilization" = "อ้างอิงจากการใช้งาน";
 "Based on pressure" = "อ้างอิงจากความดัน";
-"Based on cluster" = "อ้างอิงจากกลุ่ม"; // translategemma:4b
+"Based on cluster" = "อิงตามคลัสเตอร์"; // gemma4:31b
 "System accent" = "สีโปรแกรมระบบ";
 "Monochrome accent" = "สีขาวและดำ";
 "Clear" = "ล้าง";

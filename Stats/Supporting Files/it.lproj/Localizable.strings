@@ -91,8 +91,8 @@
 "Frequency" = "Frequenza";
 "Save" = "Salva"; // translategemma:4b
 "Run" = "Esegui"; // translategemma:4b
-"Stop" = "Smetta"; // translategemma:4b
-"Uninstall" = "Disinstallare"; // translategemma:4b
+"Stop" = "Ferma"; // gemma4:31b
+"Uninstall" = "Disinstalla"; // gemma4:31b
 "1 sec" = "1 secondo"; // translategemma:4b
 "2 sec" = "2 secondi"; // translategemma:4b
 "3 sec" = "3 secondi"; // translategemma:4b
@@ -143,7 +143,7 @@
 "Open dashboard" = "Apri la dashboard";
 "No notifications available in this module" = "Notifiche non disponibili per questo modulo";
 "Open Calendar" = "Apri Calendario";
-"Toggle the module" = "Attiva/disattiva il modulo"; // translategemma:4b
+"Toggle the module" = "Commuta il modulo"; // gemma4:31b
 
 // Application settings
 "Update application" = "Aggiorna applicazione";
@@ -166,7 +166,7 @@
 "Combined details" = "Dettagli combinati";
 "Spacing" = "Spazio";
 "Share anonymous telemetry" = "Condividi telemetria anonima";
-"Choose file" = "Seleziona file"; // translategemma:4b
+"Choose file" = "Scegli file"; // gemma4:31b
 "Stress tests" = "Test di stress"; // translategemma:4b
 
 // Dashboard
@@ -178,9 +178,9 @@
 "Number of threads" = "%0 thread";
 "Number of e-cores" = "%0 efficiency core";
 "Number of p-cores" = "%0 performance core";
-"Number of s-cores" = "%0 core di ultima generazione"; // translategemma:4b
+"Number of s-cores" = "%0 super core"; // gemma4:31b
 "Disks" = "Dischi"; // translategemma:4b
-"Display" = "Schermo"; // translategemma:4b
+"Display" = "Monitor"; // gemma4:31b
 
 // Update
 "The latest version of Stats installed" = "L'ultima versione di Stats è installata";
@@ -214,8 +214,8 @@
 "Static width" = "Larghezza fissa";
 "Tachometer widget" = "Tachimetro";
 "State widget" = "Widget di stato";
-"Text widget" = "Elemento di testo"; // translategemma:4b
-"Battery details widget" = "Widget per dettagli della batteria"; // translategemma:4b
+"Text widget" = "Widget di testo"; // gemma4:31b
+"Battery details widget" = "Widget dettagli batteria"; // gemma4:31b
 "Show symbols" = "Mostra simboli";
 "Label widget" = "Etichetta widget";
 "Number of reads in the chart" = "Numero di letture nel grafico";
@@ -239,15 +239,15 @@
 "Top processes" = "Processi principali";
 "Pictogram" = "Pittogramma";
 "Module" = "Modulo";
-"Widgets" = "Componenti"; // translategemma:4b
-"Popup" = "Finestra di dialogo"; // translategemma:4b
+"Widgets" = "Widget"; // gemma4:31b
+"Popup" = "Finestra a comparsa"; // gemma4:31b
 "Notifications" = "Notifiche";
 "Merge widgets" = "Combina moduli";
 "No available widgets to configure" = "Nessun modulo disponibile";
 "No options to configure for the popup in this module" = "Nessuna opzione da configurare per le notifiche in questo modulo";
 "Process" = "Processo";
 "Kill process" = "Chiudi processo";
-"Keyboard shortcut" = "Combinazione di tasti"; // translategemma:4b
+"Keyboard shortcut" = "Scorciatoia da tastiera"; // gemma4:31b
 "Listening..." = "In ascolto..."; // translategemma:4b
 
 // Modules
@@ -257,8 +257,8 @@
 "Chart color" = "Colore grafico";
 "Main chart scaling" = "Scala del grafico principale";
 "Scale value" = "Valore scala";
-"Text widget value" = "Valore dell'elemento di testo"; // translategemma:4b
-"Combined processes" = "Processi combinati"; // translategemma:4b
+"Text widget value" = "Valore del widget di testo"; // gemma4:31b
+"Combined processes" = "Processi raggruppati"; // gemma4:31b
 
 // CPU
 "CPU usage" = "Utilizzo CPU";
@@ -292,9 +292,9 @@
 "Efficiency cores load" = "Carico efficiency core";
 "Performance cores load" = "Carico performance core";
 "All cores" = "Tutti i core";
-"Load per core" = "Carico per nucleo"; // translategemma:4b
-"Efficiency core" = "Nucleo di efficienza"; // translategemma:4b
-"Performance core" = "Nucleo di prestazioni"; // translategemma:4b
+"Load per core" = "Carico per core"; // gemma4:31b
+"Efficiency core" = "Core di efficienza"; // gemma4:31b
+"Performance core" = "Core ad alte prestazioni"; // gemma4:31b
 "Super core" = "Estremamente performante"; // translategemma:4b
 
 // GPU
@@ -323,7 +323,7 @@
 "Memory pressure" = "Compressione memoria";
 "Total" = "Totale";
 "Used" = "Usata";
-"App" = "App";
+"App" = "Applicazioni"; // gemma4:31b
 "Wired" = "Cablata";
 "Compressed" = "Compressa";
 "Free" = "Libera";
@@ -357,6 +357,8 @@
 "Read speed" = "Scrittura";
 "Drives" = "Dischi"; // translategemma:4b
 "SMART data" = "Dati SMART"; // translategemma:4b
+"Power cycles" = "Power cycles";
+"Power on hours" = "Power on hours";
 
 // Sensors
 "Temperature unit" = "Unità di temperatura";
@@ -410,7 +412,7 @@
 "Internet connection" = "Connessione internet";
 "Active state color" = "Colore attivo";
 "Nonactive state color" = "Colore disattivo";
-"Connectivity host" = "Host di connessione"; // translategemma:4b
+"Connectivity host" = "Host di connettività"; // gemma4:31b
 "Leave empty to disable the check" = "Lascia vuoto per disattivare la verifica";
 "Connectivity history" = "Cronologia connettività";
 "Auto-refresh public IP address" = "Aggiorna automaticamente indirizzo IP pubblico";
@@ -424,13 +426,13 @@
 "Download speed" = "Scarica"; // translategemma:4b
 "Address" = "Indirizzo"; // translategemma:4b
 "WiFi network" = "Rete WiFi"; // translategemma:4b
-"Local IP changed" = "L'indirizzo IP locale è stato modificato"; // translategemma:4b
-"Public IP changed" = "L'indirizzo IP pubblico è cambiato."; // translategemma:4b
-"Previous IP" = "Indirizzo IP precedente: %0"; // translategemma:4b
-"New IP" = "Nuovo indirizzo IP: %0"; // translategemma:4b
-"Internet connection lost" = "Connessione a Internet persa"; // translategemma:4b
+"Local IP changed" = "L'IP locale è cambiato"; // gemma4:31b
+"Public IP changed" = "L'IP pubblico è cambiato"; // gemma4:31b
+"Previous IP" = "IP precedente: %0"; // gemma4:31b
+"New IP" = "Nuovo IP: %0"; // gemma4:31b
+"Internet connection lost" = "Connessione Internet persa"; // gemma4:31b
 "Internet connection established" = "Connessione a Internet stabilita"; // translategemma:4b
-"Show country code instead of emoji" = "Mostrare il codice del paese invece degli emoji"; // translategemma:4b
+"Show country code instead of emoji" = "Mostra il codice paese invece dell'emoji"; // gemma4:31b
 
 // Battery
 "Level" = "Livello";
@@ -470,7 +472,7 @@
 "Colorize battery" = "Colora la batteria";
 "Charging current" = "Corrente di carica";
 "Charging Voltage" = "Tensione di carica";
-"Charger state inside the battery" = "Stato del caricatore all'interno della batteria"; // translategemma:4b
+"Charger state inside the battery" = "Stato di ricarica all'interno della batteria"; // gemma4:31b
 
 // Bluetooth
 "Battery to show" = "Batteria da mostrare";
@@ -480,12 +482,12 @@
 "Time zone" = "Fuso Orario";
 "Local" = "Locale";
 "Calendar" = "Calendario";
-"Show week numbers" = "Mostra i numeri della settimana"; // translategemma:4b
+"Show week numbers" = "Mostra numeri della settimana"; // gemma4:31b
 "Local time" = "Ora locale";
-"Add new clock" = "Aggiungi un nuovo orologio"; // translategemma:4b
+"Add new clock" = "Aggiungi nuovo orologio"; // gemma4:31b
 "Delete selected clock" = "Elimina l'orologio selezionato"; // translategemma:4b
-"Help with datetime format" = "Assistenza per la formattazione di date e orari"; // translategemma:4b
-"Sync with NTP server" = "Sincronizza con il server NTP"; // translategemma:4b
+"Help with datetime format" = "Aiuto per il formato data e ora"; // gemma4:31b
+"Sync with NTP server" = "Sincronizzazione con il server NTP"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "Basato sull'utilizzo";

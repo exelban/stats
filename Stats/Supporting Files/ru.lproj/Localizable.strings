@@ -357,6 +357,8 @@
 "Read speed" = "Чтение";
 "Drives" = "Диски";
 "SMART data" = "SMART данные";
+"Power cycles" = "Количество циклов";
+"Power on hours" = "Часы работы";
 
 // Sensors
 "Temperature unit" = "Единица измерения температуры";
@@ -430,7 +432,7 @@
 "New IP" = "Новый IP-адрес: %0";
 "Internet connection lost" = "Соединение с интернетом потеряно";
 "Internet connection established" = "Соединение с интернетом восстановлено";
-"Show country code instead of emoji" = "Отображать код страны вместо эмодзи"; // translategemma:4b
+"Show country code instead of emoji" = "Отображать код страны вместо эмодзи";
 
 // Battery
 "Level" = "Уровень заряда";
@@ -485,7 +487,7 @@
 "Add new clock" = "Добавить новые часы";
 "Delete selected clock" = "Удалить выбранные часы";
 "Help with datetime format" = "Помощь с форматом даты и времени";
-"Sync with NTP server" = "Синхронизация с сервером NTP"; // translategemma:4b
+"Sync with NTP server" = "Синхронизация с сервером NTP";
 
 // Colors
 "Based on utilization" = "На основе использования";

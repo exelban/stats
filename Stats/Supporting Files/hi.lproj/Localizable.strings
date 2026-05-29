@@ -69,30 +69,30 @@
 "Square" = "वर्ग";
 "Cube" = "क्यूब";
 "Logarithmic" = "लघुगणकीय";
-"Fixed scale" = "समाधान"; // translategemma:4b
+"Fixed scale" = "स्थिर"; // gemma4:31b
 "Cores" = "कोर";
-"Core" = "मुख्य"; // translategemma:4b
+"Core" = "कोर"; // gemma4:31b
 "Settings" = "सेटिंग्स";
 "Name" = "नाम";
 "Format" = "प्रारूप";
 "Turn off" = "बंद करें";
 "Normal" = "सामान्य"; // translategemma:4b
 "Warning" = "चेतावनी"; // translategemma:4b
-"Critical" = "महत्वपूर्ण"; // translategemma:4b
+"Critical" = "गंभीर"; // gemma4:31b
 "Usage" = "उपयोग"; // translategemma:4b
 "2 minutes" = "2 मिनट"; // translategemma:4b
 "3 minutes" = "3 मिनट"; // translategemma:4b
 "10 minutes" = "10 मिनट"; // translategemma:4b
-"Import" = "आयात"; // translategemma:4b
+"Import" = "इम्पोर्ट"; // gemma4:31b
 "Export" = "निर्यात"; // translategemma:4b
 "Separator" = "विभाजक"; // translategemma:4b
-"Read" = "पढ़ें"; // translategemma:4b
-"Write" = "लिखें"; // translategemma:4b
+"Read" = "रीड"; // gemma4:31b
+"Write" = "लिखना"; // gemma4:31b
 "Frequency" = "आवृत्ति"; // translategemma:4b
-"Save" = "जमा करें"; // translategemma:4b
+"Save" = "सहेजें"; // gemma4:31b
 "Run" = "चलाएं"; // translategemma:4b
-"Stop" = "बंद करें"; // translategemma:4b
-"Uninstall" = "अनइंस्टॉल"; // translategemma:4b
+"Stop" = "रोकें"; // gemma4:31b
+"Uninstall" = "अनइंस्टॉल करें"; // gemma4:31b
 "1 sec" = "1 सेकंड"; // translategemma:4b
 "2 sec" = "2 सेकंड"; // translategemma:4b
 "3 sec" = "3 सेकंड"; // translategemma:4b
@@ -141,9 +141,9 @@
 "Close application" = "आवेदन बंद करें";
 "Open application settings" = "ओपन एप्लिकेशन सेटिंग्स";
 "Open dashboard" = "ओपन डैशबोर्ड";
-"No notifications available in this module" = "इस मॉड्यूल में कोई सूचनाएं उपलब्ध नहीं हैं।"; // translategemma:4b
+"No notifications available in this module" = "इस मॉड्यूल में कोई नोटिफिकेशन उपलब्ध नहीं हैं"; // gemma4:31b
 "Open Calendar" = "कैलेंडर खोलें"; // translategemma:4b
-"Toggle the module" = "मॉड्यूल को चालू/बंद करें"; // translategemma:4b
+"Toggle the module" = "मॉड्यूल को टॉगल करें"; // gemma4:31b
 
 // Application settings
 "Update application" = "अद्यतन अनुप्रयोग";
@@ -157,8 +157,8 @@
 "Show icon in dock" = "डॉक में आइकन दिखाएं";
 "Start at login" = "लॉगिन पर शुरू करें";
 "Build number" = "बिल्ड नंबर";
-"Import settings" = "आयात सेटिंग्स"; // translategemma:4b
-"Export settings" = "निर्यात सेटिंग्स"; // translategemma:4b
+"Import settings" = "सेटिंग्स इम्पोर्ट करें"; // gemma4:31b
+"Export settings" = "सेटिंग्स निर्यात करें"; // gemma4:31b
 "Reset settings" = "सेटिंग्स रीसेट करें";
 "Pause the Stats" = "आँकड़ों को रोकें";
 "Resume the Stats" = "आँकड़े फिर से शुरू करें";
@@ -180,7 +180,7 @@
 "Number of p-cores" = "%0 प्रदर्शन कोर";
 "Number of s-cores" = "%0 सुपर कोर"; // translategemma:4b
 "Disks" = "डिस्क"; // translategemma:4b
-"Display" = "प्रदर्शन"; // translategemma:4b
+"Display" = "डिस्प्ले"; // gemma4:31b
 
 // Update
 "The latest version of Stats installed" = "आँकड़े का नवीनतम संस्करण स्थापित है";
@@ -222,10 +222,10 @@
 "Color of download" = "डाउनलोड का रंग";
 "Color of upload" = "अपलोड का रंग";
 "Monospaced font" = "मोनोस्पेस्ड फ़ॉन्ट";
-"Reverse order" = "उल्टे क्रम में"; // translategemma:4b
-"Chart history" = "चार्ट का इतिहास"; // translategemma:4b
-"Default color" = "डिफ़ॉल्ट"; // translategemma:4b
-"Transparent when no activity" = "जब कोई गतिविधि नहीं होती तो पारदर्शी।"; // translategemma:4b
+"Reverse order" = "विपरीत क्रम"; // gemma4:31b
+"Chart history" = "चार्ट इतिहास"; // gemma4:31b
+"Default color" = "पूर्वनिर्धारित"; // gemma4:31b
+"Transparent when no activity" = "कोई गतिविधि न होने पर पारदर्शी"; // gemma4:31b
 "Constant color" = "स्थिर"; // translategemma:4b
 "Custom..." = "कस्टम...";
 
@@ -246,17 +246,17 @@
 "No available widgets to configure" = "कॉन्फ़िगर करने के लिए कोई उपलब्ध विजेट नहीं";
 "No options to configure for the popup in this module" = "इस मॉड्यूल में पॉपअप के लिए कॉन्फ़िगर करने के लिए कोई विकल्प नहीं";
 "Process" = "प्रक्रिया"; // translategemma:4b
-"Kill process" = "प्रक्रिया को समाप्त करें"; // translategemma:4b
+"Kill process" = "प्रोसेस समाप्त करें"; // gemma4:31b
 "Keyboard shortcut" = "कीबोर्ड शॉर्टकट"; // translategemma:4b
-"Listening..." = "सुन रहे हैं..."; // translategemma:4b
+"Listening..." = "सुन रहा है..."; // gemma4:31b
 
 // Modules
 "Number of top processes" = "शीर्ष प्रक्रियाओं की संख्या";
 "Update interval for top processes" = "शीर्ष प्रक्रियाओं के लिए अंतराल अपडेट करें";
 "Notification level" = "अधिसूचना स्तर";
 "Chart color" = "चार्ट रंग";
-"Main chart scaling" = "मुख्य चार्ट स्केल"; // translategemma:4b
-"Scale value" = "माप मान"; // translategemma:4b
+"Main chart scaling" = "मुख्य चार्ट स्केलिंग"; // gemma4:31b
+"Scale value" = "स्केल मान"; // gemma4:31b
 "Text widget value" = "टेक्स्ट विजेट का मान"; // translategemma:4b
 "Combined processes" = "संयुक्त प्रक्रियाएं"; // translategemma:4b
 
@@ -286,15 +286,15 @@
 "Cluster grouping" = "क्लस्टर समूहीकरण";
 "Efficiency cores color" = "दक्षता कोर रंग";
 "Performance cores color" = "प्रदर्शन कोर रंग";
-"Total load" = "कुल भार"; // translategemma:4b
-"System load" = "सिस्टम का भार"; // translategemma:4b
-"User load" = "उपयोगकर्ता भार"; // translategemma:4b
-"Efficiency cores load" = "कार्यक्षमता कोर लोड"; // translategemma:4b
-"Performance cores load" = "परफॉर्मेंस कोर लोड"; // translategemma:4b
+"Total load" = "कुल लोड"; // gemma4:31b
+"System load" = "सिस्टम लोड"; // gemma4:31b
+"User load" = "उपयोगकर्ता लोड"; // gemma4:31b
+"Efficiency cores load" = "ऊर्जा-कुशल कोर लोड"; // gemma4:31b
+"Performance cores load" = "प्रदर्शन कोर लोड"; // gemma4:31b
 "All cores" = "सभी कोर"; // translategemma:4b
-"Load per core" = "प्रति कोर लोडिंग"; // translategemma:4b
-"Efficiency core" = "कार्यकुशलता का मूल"; // translategemma:4b
-"Performance core" = "प्रदर्शन का मुख्य भाग"; // translategemma:4b
+"Load per core" = "प्रति कोर लोड"; // gemma4:31b
+"Efficiency core" = "दक्षता कोर"; // gemma4:31b
+"Performance core" = "प्रदर्शन कोर"; // gemma4:31b
 "Super core" = "सुपर कोर"; // translategemma:4b
 
 // GPU
@@ -335,9 +335,9 @@
 "Wired color" = "वायर्ड रंग";
 "Compressed color" = "संपीड़ित रंग";
 "Free color" = "मुक्त रंग";
-"Free memory (less than)" = "मुफ्त मेमोरी (कम से कम)"; // translategemma:4b
-"Swap size" = "स्wap का आकार"; // translategemma:4b
-"Free RAM is" = "मुफ्त रैम %0 है"; // translategemma:4b
+"Free memory (less than)" = "खाली मेमोरी (से कम)"; // gemma4:31b
+"Swap size" = "Swap आकार"; // gemma4:31b
+"Free RAM is" = "खाली RAM %0 है"; // gemma4:31b
 
 // Disk
 "Show removable disks" = "हटाने योग्य डिस्क दिखाएँ";
@@ -351,12 +351,14 @@
 "Read color" = "रंग पढ़ें";
 "Write color" = "रंग लिखें";
 "Disk usage" = "डिस्क उपयोग";
-"Total read" = "कुल पढ़े गए"; // translategemma:4b
-"Total written" = "कुल लिखित"; // translategemma:4b
-"Write speed" = "लिखें"; // translategemma:4b
-"Read speed" = "पढ़ें"; // translategemma:4b
-"Drives" = "ड्राइव"; // translategemma:4b
-"SMART data" = "स्मार्ट डेटा"; // translategemma:4b
+"Total read" = "कुल पढ़ा गया"; // gemma4:31b
+"Total written" = "कुल लिखा गया"; // gemma4:31b
+"Write speed" = "लिखना"; // gemma4:31b
+"Read speed" = "रीड"; // gemma4:31b
+"Drives" = "ड्राइव्स"; // gemma4:31b
+"SMART data" = "SMART डेटा"; // gemma4:31b
+"Power cycles" = "Power cycles";
+"Power on hours" = "Power on hours";
 
 // Sensors
 "Temperature unit" = "तापमान इकाई";
@@ -374,11 +376,11 @@
 "Fan value" = "फैन वैल्यू";
 "Turn off fan" = "पंखा बंद करें";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "आप पंखे को बंद करने जा रहे हैं। यह अनुशंसित कार्रवाई नहीं है जो आपके मैक को नुकसान पहुंचा सकती है, क्या आप वाकई ऐसा करना चाहते हैं?";
-"Sensor threshold" = "सेंसर की सीमा"; // translategemma:4b
-"Left fan" = "बाएं"; // translategemma:4b
-"Right fan" = "सही"; // translategemma:4b
+"Sensor threshold" = "सेंसर सीमा"; // gemma4:31b
+"Left fan" = "बायाँ"; // gemma4:31b
+"Right fan" = "दायां"; // gemma4:31b
 "Fastest fan" = "सबसे तेज़"; // translategemma:4b
-"Sensor to show" = "सेंसर को प्रदर्शित करना"; // translategemma:4b
+"Sensor to show" = "दिखाने के लिए सेंसर"; // gemma4:31b
 
 // Network
 "Uploading" = "अपलोड";
@@ -419,18 +421,18 @@
 "Every 24 hours" = "हर 24 घंटे";
 "Network activity" = "नेटवर्क गतिविधि";
 "Last reset" = "अंतिम रीसेट %0 पहले";
-"Latency" = "विलंब"; // translategemma:4b
-"Upload speed" = "अपलोड करें"; // translategemma:4b
+"Latency" = "विलंबता"; // gemma4:31b
+"Upload speed" = "अपलोड"; // gemma4:31b
 "Download speed" = "डाउनलोड"; // translategemma:4b
 "Address" = "पता"; // translategemma:4b
-"WiFi network" = "वाईफाई नेटवर्क"; // translategemma:4b
-"Local IP changed" = "स्थानीय आईपी बदल गया है"; // translategemma:4b
-"Public IP changed" = "सार्वजनिक आईपी बदल गया है।"; // translategemma:4b
-"Previous IP" = "पिछला आईपी पता: %0"; // translategemma:4b
-"New IP" = "नया आईपी: %0"; // translategemma:4b
-"Internet connection lost" = "इंटरनेट कनेक्शन खो गया"; // translategemma:4b
-"Internet connection established" = "इंटरनेट कनेक्शन स्थापित"; // translategemma:4b
-"Show country code instead of emoji" = "इमोजी के बजाय देश कोड दिखाएं"; // translategemma:4b
+"WiFi network" = "WiFi नेटवर्क"; // gemma4:31b
+"Local IP changed" = "स्थानीय IP बदल गया है"; // gemma4:31b
+"Public IP changed" = "पब्लिक IP बदल गया है"; // gemma4:31b
+"Previous IP" = "पिछला IP: %0"; // gemma4:31b
+"New IP" = "नया IP: %0"; // gemma4:31b
+"Internet connection lost" = "इंटरनेट कनेक्शन टूट गया"; // gemma4:31b
+"Internet connection established" = "इंटरनेट कनेक्शन स्थापित हुआ"; // gemma4:31b
+"Show country code instead of emoji" = "इमोजी के बजाय देश का कोड दिखाएं"; // gemma4:31b
 
 // Battery
 "Level" = "स्तर";
@@ -480,12 +482,12 @@
 "Time zone" = "समय क्षेत्र";
 "Local" = "स्थानीय";
 "Calendar" = "कैलेंडर"; // translategemma:4b
-"Show week numbers" = "सप्ताह की संख्याएँ दिखाएँ"; // translategemma:4b
+"Show week numbers" = "सप्ताह के नंबर दिखाएं"; // gemma4:31b
 "Local time" = "स्थानीय समय"; // translategemma:4b
-"Add new clock" = "नया घड़ी जोड़ें"; // translategemma:4b
-"Delete selected clock" = "चुना हुआ घड़ी हटाएँ"; // translategemma:4b
-"Help with datetime format" = "datetime प्रारूप के साथ सहायता"; // translategemma:4b
-"Sync with NTP server" = "NTP सर्वर के साथ सिंक करें"; // translategemma:4b
+"Add new clock" = "नई घड़ी जोड़ें"; // gemma4:31b
+"Delete selected clock" = "चयनित घड़ी हटाएँ"; // gemma4:31b
+"Help with datetime format" = "दिनांक और समय प्रारूप के लिए सहायता"; // gemma4:31b
+"Sync with NTP server" = "NTP सर्वर के साथ सिंक्रनाइज़ेशन"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "उपयोग के आधार पर";

@@ -27,7 +27,7 @@
 "Bluetooth" = "Bluetooth";
 "Open Bluetooth settings" = "Otvori postavke bluetootha";
 "Clock" = "Sat"; // translategemma:4b
-"Open Clock settings" = "Otvorite postavke sata"; // translategemma:4b
+"Open Clock settings" = "Otvori postavke sata"; // gemma4:31b
 
 // Words
 "Unknown" = "Nepoznato";
@@ -59,48 +59,48 @@
 "Center alignment" = "Centrirano";
 "Right alignment" = "Desno";
 "Dashboard" = "Pregledna ploča";
-"Enabled" = "Aktivirano"; // translategemma:4b
+"Enabled" = "Omogućeno"; // gemma4:31b
 "Disabled" = "Deaktivirano";
 "Silent" = "Tiho";
 "Units" = "Jedinice";
 "Fans" = "Ventilatori";
 "Scaling" = "Skaliranje"; // translategemma:4b
-"Linear" = "Linearna"; // translategemma:4b
-"Square" = "Kvadrat"; // translategemma:4b
-"Cube" = "Kvadrat"; // translategemma:4b
-"Logarithmic" = "Logaritmistički"; // translategemma:4b
-"Fixed scale" = "Popravljeno"; // translategemma:4b
-"Cores" = "Srdci"; // translategemma:4b
-"Core" = "Osnovni"; // translategemma:4b
+"Linear" = "Linearno"; // gemma4:31b
+"Square" = "Kvadratno"; // gemma4:31b
+"Cube" = "Kocka"; // gemma4:31b
+"Logarithmic" = "Logaritamski"; // gemma4:31b
+"Fixed scale" = "Fiksno"; // gemma4:31b
+"Cores" = "Jezgre"; // gemma4:31b
+"Core" = "Jezgra"; // gemma4:31b
 "Settings" = "Postavke"; // translategemma:4b
-"Name" = "Ime"; // translategemma:4b
+"Name" = "Naziv"; // gemma4:31b
 "Format" = "Format";
-"Turn off" = "Isključite"; // translategemma:4b
+"Turn off" = "Isključi"; // gemma4:31b
 "Normal" = "Normal";
 "Warning" = "Upozorenje"; // translategemma:4b
-"Critical" = "Kritičan"; // translategemma:4b
-"Usage" = "Upotreba"; // translategemma:4b
+"Critical" = "Kritično"; // gemma4:31b
+"Usage" = "Korištenje"; // gemma4:31b
 "2 minutes" = "2 minute"; // translategemma:4b
 "3 minutes" = "3 minute"; // translategemma:4b
 "10 minutes" = "10 minuta"; // translategemma:4b
 "Import" = "Uvoz"; // translategemma:4b
-"Export" = "Eksport"; // translategemma:4b
+"Export" = "Izvoz"; // gemma4:31b
 "Separator" = "Razdjelnik"; // translategemma:4b
-"Read" = "Pročitajte"; // translategemma:4b
-"Write" = "Pišite"; // translategemma:4b
+"Read" = "Čitanje"; // gemma4:31b
+"Write" = "Zapis"; // gemma4:31b
 "Frequency" = "Frekvencija"; // translategemma:4b
 "Save" = "Spremi"; // translategemma:4b
-"Run" = "Pokrenite"; // translategemma:4b
+"Run" = "Pokreni"; // gemma4:31b
 "Stop" = "Stop";
 "Uninstall" = "Deinstaliraj"; // translategemma:4b
-"1 sec" = "1 sekunda"; // translategemma:4b
-"2 sec" = "2 sekunde"; // translategemma:4b
-"3 sec" = "3 sekunde"; // translategemma:4b
-"5 sec" = "5 sekundi"; // translategemma:4b
-"10 sec" = "10 sekundi"; // translategemma:4b
-"15 sec" = "15 sekundi"; // translategemma:4b
-"30 sec" = "30 sekundi"; // translategemma:4b
-"60 sec" = "60 sekundi"; // translategemma:4b
+"1 sec" = "1 sek"; // gemma4:31b
+"2 sec" = "2 sek"; // gemma4:31b
+"3 sec" = "3 sek"; // gemma4:31b
+"5 sec" = "5 sek"; // gemma4:31b
+"10 sec" = "10 sek"; // gemma4:31b
+"15 sec" = "15 sek"; // gemma4:31b
+"30 sec" = "30 sek"; // gemma4:31b
+"60 sec" = "60 sek"; // gemma4:31b
 
 // Setup
 "Stats Setup" = "Postavljanje programa Stats";
@@ -120,9 +120,9 @@
 "Check for a new version every week (once a week)" = "Traži nove verzije svaki tjedan (jednom tjedno)";
 "Check for a new version every month (once a month)" = "Traži nove verzije svaki mjesec (jednom mjesečno)";
 "Never check for updates (not recommended)" = "Nikada nemoj tražiti nove verzije (ne preporučuje se)";
-"Anonymous telemetry for better development decisions" = "Anonimni telemetri za bolja odluka u razvoju"; // translategemma:4b
-"Share anonymous telemetry data" = "Podijelite anonimne podatke o telemetriji"; // translategemma:4b
-"Do not share anonymous telemetry data" = "Nemojte dijeliti anonimna podatka o telemetriji."; // translategemma:4b
+"Anonymous telemetry for better development decisions" = "Anonimna telemetrija za bolje razvojne odluke"; // gemma4:31b
+"Share anonymous telemetry data" = "Dijeli anonimne telemetrijske podatke"; // gemma4:31b
+"Do not share anonymous telemetry data" = "Ne dijeli anonimne telemetrijske podatke"; // gemma4:31b
 "The configuration is completed" = "Konfiguracija je završena";
 "finish_setup_message" = "Sve je postavljeno! \n Stats je alat otvorenog koda, besplatan je i uvijek će takav biti. \n Ako ti se program sviđa, možeš podržati projekt. Zahvalni smo za svaku vrstu podrške!!";
 
@@ -141,9 +141,9 @@
 "Close application" = "Zatvori program";
 "Open application settings" = "Otvori postavke programa";
 "Open dashboard" = "Otvori preglednu ploču";
-"No notifications available in this module" = "Nema dostupnih obavještenja u ovom modulu"; // translategemma:4b
-"Open Calendar" = "Otvoriti kalendar"; // translategemma:4b
-"Toggle the module" = "Aktivirajte/deaktivirajte modul"; // translategemma:4b
+"No notifications available in this module" = "Nema dostupnih obavijesti u ovom modulu"; // gemma4:31b
+"Open Calendar" = "Otvori kalendar"; // gemma4:31b
+"Toggle the module" = "Prebaci modul"; // gemma4:31b
 
 // Application settings
 "Update application" = "Aktualiziraj program";
@@ -157,17 +157,17 @@
 "Show icon in dock" = "Prikaži ikonu u programskoj traci";
 "Start at login" = "Pokreni nakon prijave";
 "Build number" = "Broj izgradnje";
-"Import settings" = "Postavke uvoza"; // translategemma:4b
-"Export settings" = "Postavke za izvoz"; // translategemma:4b
+"Import settings" = "Uvezi postavke"; // gemma4:31b
+"Export settings" = "Izvezi postavke"; // gemma4:31b
 "Reset settings" = "Resetiraj postavke";
-"Pause the Stats" = "Zaustavite prikaz statistike"; // translategemma:4b
-"Resume the Stats" = "Nastavite sa statistikom"; // translategemma:4b
-"Combined modules" = "Kompatibilni moduli"; // translategemma:4b
-"Combined details" = "Spojeni detalji"; // translategemma:4b
+"Pause the Stats" = "Pauziraj Stats"; // gemma4:31b
+"Resume the Stats" = "Nastavi Stats"; // gemma4:31b
+"Combined modules" = "Kombinirani moduli"; // gemma4:31b
+"Combined details" = "Kombinirani detalji"; // gemma4:31b
 "Spacing" = "Razmak"; // translategemma:4b
-"Share anonymous telemetry" = "Podijelite anonimne podatke o telemetriji"; // translategemma:4b
-"Choose file" = "Odaberite datoteku"; // translategemma:4b
-"Stress tests" = "Testiranje pod opterećenjem"; // translategemma:4b
+"Share anonymous telemetry" = "Dijeli anonimnu telemetriju"; // gemma4:31b
+"Choose file" = "Odaberi datoteku"; // gemma4:31b
+"Stress tests" = "Stres-testovi"; // gemma4:31b
 
 // Dashboard
 "Serial number" = "Serijski broj";
@@ -176,11 +176,11 @@
 "Uptime" = "Vrijeme rada";
 "Number of cores" = "Broj jezgri: %0";
 "Number of threads" = "Broj komponenti procesa: %0";
-"Number of e-cores" = "%0 učinkovitost jezgara"; // translategemma:4b
-"Number of p-cores" = "%0 je broj jezgri za izvođenje."; // translategemma:4b
-"Number of s-cores" = "%0 vrhunske jezgre"; // translategemma:4b
-"Disks" = "Diskove"; // translategemma:4b
-"Display" = "Prikaz"; // translategemma:4b
+"Number of e-cores" = "%0 energetski učinkovitih jezgara"; // gemma4:31b
+"Number of p-cores" = "%0 performansne jezgre"; // gemma4:31b
+"Number of s-cores" = "%0 super jezgre"; // gemma4:31b
+"Disks" = "Diskovi"; // gemma4:31b
+"Display" = "Zaslon"; // gemma4:31b
 
 // Update
 "The latest version of Stats installed" = "Instalirana je najnovija verzija programa Stats";
@@ -209,24 +209,24 @@
 "Network chart widget" = "Dijagram mreže";
 "Speed widget" = "Brzina";
 "Battery widget" = "Baterija";
-"Stack widget" = "Struktura"; // translategemma:4b
+"Stack widget" = "Stog"; // gemma4:31b
 "Memory widget" = "Memorija";
 "Static width" = "Statična širina";
 "Tachometer widget" = "Tahometar";
-"State widget" = "Komponenta stanja"; // translategemma:4b
-"Text widget" = "Komponenta za prikaz teksta"; // translategemma:4b
-"Battery details widget" = "Widget s detaljima baterije"; // translategemma:4b
+"State widget" = "Widget stanja"; // gemma4:31b
+"Text widget" = "Tekstualni widget"; // gemma4:31b
+"Battery details widget" = "Vidžet detalja baterije"; // gemma4:31b
 "Show symbols" = "Prikaži simbole";
 "Label widget" = "Oznaka";
 "Number of reads in the chart" = "Broj čitanja u dijagramu";
 "Color of download" = "Boja primanja";
 "Color of upload" = "Boja slanja";
-"Monospaced font" = "Font s jednakim širinom znakova"; // translategemma:4b
-"Reverse order" = "U obrnutom redosljedu"; // translategemma:4b
+"Monospaced font" = "Monorastavni font"; // gemma4:31b
+"Reverse order" = "Obrnuti redoslijed"; // gemma4:31b
 "Chart history" = "Povijest grafikona"; // translategemma:4b
-"Default color" = "Predloženo"; // translategemma:4b
+"Default color" = "Zadano"; // gemma4:31b
 "Transparent when no activity" = "Prozirno kada nema aktivnosti"; // translategemma:4b
-"Constant color" = "Konstanta"; // translategemma:4b
+"Constant color" = "Stalan"; // gemma4:31b
 "Custom..." = "Prilagođeno...";
 
 // Module Kit
@@ -246,19 +246,19 @@
 "No available widgets to configure" = "Nema dostupnih widgeta za konfiguraciju";
 "No options to configure for the popup in this module" = "Nema opcija za konfiguraciju za skočni prozor u ovom modulu";
 "Process" = "Proces"; // translategemma:4b
-"Kill process" = "Ubiti proces"; // translategemma:4b
-"Keyboard shortcut" = "Kratka tipkarska naredba"; // translategemma:4b
-"Listening..." = "Slušam..."; // translategemma:4b
+"Kill process" = "Prekini proces"; // gemma4:31b
+"Keyboard shortcut" = "Prečac tipkovnice"; // gemma4:31b
+"Listening..." = "Slušanje..."; // gemma4:31b
 
 // Modules
 "Number of top processes" = "Broj glavnih procesa";
 "Update interval for top processes" = "Interval aktualiziranja za glavne procese";
 "Notification level" = "Razina obavještavanja";
 "Chart color" = "Boja karte";
-"Main chart scaling" = "Glavna skaliranje grafikona"; // translategemma:4b
-"Scale value" = "Vrijednost skaliranja"; // translategemma:4b
-"Text widget value" = "Vrijednost polja teksta"; // translategemma:4b
-"Combined processes" = "Spojeni procesi"; // translategemma:4b
+"Main chart scaling" = "Skaliranje glavnog grafikona"; // gemma4:31b
+"Scale value" = "Vrijednost skale"; // gemma4:31b
+"Text widget value" = "Vrijednost tekstualnog vidžeta"; // gemma4:31b
+"Combined processes" = "Zgrupirani procesi"; // gemma4:31b
 
 // CPU
 "CPU usage" = "Korištenje procesora";
@@ -278,24 +278,24 @@
 "15 minutes" = "15 minuta";
 "CPU usage threshold" = "Prag korištenja procesora";
 "CPU usage is" = "Korištenje procesora je %0";
-"Efficiency cores" = "Srdobne jezgre"; // translategemma:4b
-"Performance cores" = "Srdobne jezgre"; // translategemma:4b
-"System color" = "Boja sustava"; // translategemma:4b
-"User color" = "Boja korisnika"; // translategemma:4b
-"Idle color" = "Boja u stanju mirovanja"; // translategemma:4b
-"Cluster grouping" = "Grupiranje"; // translategemma:4b
-"Efficiency cores color" = "Cores za učinkovitost, boje"; // translategemma:4b
-"Performance cores color" = "Boja jezgara za performanse"; // translategemma:4b
-"Total load" = "Ukupna optereženost"; // translategemma:4b
-"System load" = "Nivo opterećenja sustava"; // translategemma:4b
-"User load" = "Nivo korisničke upotrebe"; // translategemma:4b
-"Efficiency cores load" = "Procesori za učinkovitost se iniciraju"; // translategemma:4b
-"Performance cores load" = "Optimizirani jezgre se aktiviraju"; // translategemma:4b
+"Efficiency cores" = "Energetski učinkovite jezgre"; // gemma4:31b
+"Performance cores" = "Performansne jezgre"; // gemma4:31b
+"System color" = "Sistemska boja"; // gemma4:31b
+"User color" = "Korisnička boja"; // gemma4:31b
+"Idle color" = "Boja mirovanja"; // gemma4:31b
+"Cluster grouping" = "Grupiranje klastera"; // gemma4:31b
+"Efficiency cores color" = "Boja energetski učinkovitih jezgara"; // gemma4:31b
+"Performance cores color" = "Boja jezgara performansi"; // gemma4:31b
+"Total load" = "Ukupno opterećenje"; // gemma4:31b
+"System load" = "Opterećenje sustava"; // gemma4:31b
+"User load" = "Korisničko opterećenje"; // gemma4:31b
+"Efficiency cores load" = "Opterećenje energoefikasnih jezgara"; // gemma4:31b
+"Performance cores load" = "Opterećenje jezgara performansi"; // gemma4:31b
 "All cores" = "Sve jezgre"; // translategemma:4b
-"Load per core" = "Optimizirano po jezgru"; // translategemma:4b
-"Efficiency core" = "Osnovni princip učinkovitosti"; // translategemma:4b
-"Performance core" = "Središte za performanse"; // translategemma:4b
-"Super core" = "Odlična osnova"; // translategemma:4b
+"Load per core" = "Opterećenje po jezgri"; // gemma4:31b
+"Efficiency core" = "Energetski učinkovita jezgra"; // gemma4:31b
+"Performance core" = "Jezgra performansi"; // gemma4:31b
+"Super core" = "Super jezgro"; // gemma4:31b
 
 // GPU
 "GPU to show" = "Grafički procesor";
@@ -332,12 +332,12 @@
 "RAM utilization threshold" = "Prag korištenja radne memorije";
 "RAM utilization is" = "Korištenje radne memorije je %0";
 "App color" = "Boja aplikacije"; // translategemma:4b
-"Wired color" = "Boja s kabelom"; // translategemma:4b
-"Compressed color" = "Komprimirana boja"; // translategemma:4b
-"Free color" = "Besplatna boja"; // translategemma:4b
-"Free memory (less than)" = "Besplatna memorija (manja od)"; // translategemma:4b
-"Swap size" = "Veličina za razmjenu"; // translategemma:4b
-"Free RAM is" = "Besplatna količina RAM-a je %0"; // translategemma:4b
+"Wired color" = "Boja fiksne memorije"; // gemma4:31b
+"Compressed color" = "Boja komprimirane memorije"; // gemma4:31b
+"Free color" = "Boja slobodnog prostora"; // gemma4:31b
+"Free memory (less than)" = "Slobodna memorija (manje od)"; // gemma4:31b
+"Swap size" = "Veličina swapa"; // gemma4:31b
+"Free RAM is" = "Slobodan RAM je %0"; // gemma4:31b
 
 // Disk
 "Show removable disks" = "Prikaži prijenosne diskove";
@@ -348,15 +348,17 @@
 "Switch view" = "Zamijeni prikaz";
 "Disk utilization threshold" = "Prag korištenja diska";
 "Disk utilization is" = "Korištenje diska je %0";
-"Read color" = "Pročitajte boje"; // translategemma:4b
-"Write color" = "Napišite boju"; // translategemma:4b
-"Disk usage" = "Korisna prostora"; // translategemma:4b
+"Read color" = "Boja čitanja"; // gemma4:31b
+"Write color" = "Boja zapisa"; // gemma4:31b
+"Disk usage" = "Korištenje diska"; // gemma4:31b
 "Total read" = "Ukupno pročitano"; // translategemma:4b
-"Total written" = "Ukupno pisano"; // translategemma:4b
-"Write speed" = "Napiš"; // translategemma:4b
-"Read speed" = "Pročitajte"; // translategemma:4b
-"Drives" = "Priključci"; // translategemma:4b
-"SMART data" = "Podaci u formatu SMART"; // translategemma:4b
+"Total written" = "Ukupno zapisano"; // gemma4:31b
+"Write speed" = "Zapis"; // gemma4:31b
+"Read speed" = "Čitanje"; // gemma4:31b
+"Drives" = "Diskovi"; // gemma4:31b
+"SMART data" = "SMART podaci"; // gemma4:31b
+"Power cycles" = "Power cycles";
+"Power on hours" = "Power on hours";
 
 // Sensors
 "Temperature unit" = "Jedinica temperature";
@@ -366,19 +368,19 @@
 "Fan" = "Ventilator";
 "HID sensors" = "Senzori HID uređaja";
 "Synchronize fan's control" = "Sinkroniziraj upravljanje ventilatora";
-"Current" = "Trenutna"; // translategemma:4b
+"Current" = "Struja"; // gemma4:31b
 "Energy" = "Energija"; // translategemma:4b
-"Show unknown sensors" = "Pokažite nepoznate senzore"; // translategemma:4b
-"Install fan helper" = "Instalirajte pomoćnik za ventilator"; // translategemma:4b
-"Uninstall fan helper" = "Deinstalirajte pomoćnik za upravljanje ventilatorom"; // translategemma:4b
-"Fan value" = "Vrijednost korisnika"; // translategemma:4b
-"Turn off fan" = "Isključite ventilator"; // translategemma:4b
-"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Vi ćete isključiti ventilator. Ovo nije preporučena akcija koja može oštetiti vaš Mac. Jeste li sigurni da želite to učiniti?"; // translategemma:4b
-"Sensor threshold" = "Granica senzora"; // translategemma:4b
+"Show unknown sensors" = "Prikaži nepoznate senzore"; // gemma4:31b
+"Install fan helper" = "Instaliraj pomoćnik za ventilator"; // gemma4:31b
+"Uninstall fan helper" = "Deinstaliraj pomoćnika za ventilator"; // gemma4:31b
+"Fan value" = "Vrijednost ventilatora"; // gemma4:31b
+"Turn off fan" = "Isključi ventilator"; // gemma4:31b
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Isključit ćete ventilator. Ovo nije preporučena radnja koja može oštetiti vaš Mac, jeste li sigurni da to želite učiniti?"; // gemma4:31b
+"Sensor threshold" = "Prag senzora"; // gemma4:31b
 "Left fan" = "Lijevo"; // translategemma:4b
-"Right fan" = "U redu"; // translategemma:4b
-"Fastest fan" = "Najbrže"; // translategemma:4b
-"Sensor to show" = "Senzor prikazuje"; // translategemma:4b
+"Right fan" = "Desno"; // gemma4:31b
+"Fastest fan" = "Najbrži"; // gemma4:31b
+"Sensor to show" = "Senzor za prikaz"; // gemma4:31b
 
 // Network
 "Uploading" = "Slanje";
@@ -404,33 +406,33 @@
 "Standard" = "Standard";
 "Security" = "Sigurnost";
 "Channel" = "Kanal";
-"Common scale" = "Uobičajena mjera"; // translategemma:4b
-"Autodetection" = "Automatska detekcija"; // translategemma:4b
-"Widget activation threshold" = "Granica za aktivaciju widgeta"; // translategemma:4b
-"Internet connection" = "Povezivanje s internetom"; // translategemma:4b
-"Active state color" = "Boja u aktivnom stanju"; // translategemma:4b
-"Nonactive state color" = "Boja stanja u kojem se komponenta ne koristi"; // translategemma:4b
-"Connectivity host" = "Host za konekciju"; // translategemma:4b
-"Leave empty to disable the check" = "Ostavite praznim kako biste isključili provjeru."; // translategemma:4b
-"Connectivity history" = "Historija konektivnosti"; // translategemma:4b
-"Auto-refresh public IP address" = "Automatsko ažuriranje javne IP adrese"; // translategemma:4b
+"Common scale" = "Zajednička skala"; // gemma4:31b
+"Autodetection" = "Autodetekcija"; // gemma4:31b
+"Widget activation threshold" = "Prag aktivacije vidžeta"; // gemma4:31b
+"Internet connection" = "Internet veza"; // gemma4:31b
+"Active state color" = "Boja aktivnog stanja"; // gemma4:31b
+"Nonactive state color" = "Boja neaktivnog stanja"; // gemma4:31b
+"Connectivity host" = "Host povezanosti"; // gemma4:31b
+"Leave empty to disable the check" = "Ostavite prazno kako biste onemogućili provjeru"; // gemma4:31b
+"Connectivity history" = "Povijest povezanosti"; // gemma4:31b
+"Auto-refresh public IP address" = "Automatsko osvježavanje javne IP adrese"; // gemma4:31b
 "Every hour" = "Svaki sat"; // translategemma:4b
-"Every 12 hours" = "Svaki 12 sati"; // translategemma:4b
-"Every 24 hours" = "Svaki dan"; // translategemma:4b
-"Network activity" = "Aktivnost mreže"; // translategemma:4b
-"Last reset" = "Posljednji reset prije `%0` dana"; // translategemma:4b
+"Every 12 hours" = "Svakih 12 sati"; // gemma4:31b
+"Every 24 hours" = "Svakih 24 sata"; // gemma4:31b
+"Network activity" = "Mrežna aktivnost"; // gemma4:31b
+"Last reset" = "Posljednji reset prije %0"; // gemma4:31b
 "Latency" = "Latencija"; // translategemma:4b
-"Upload speed" = "Pošalj"; // translategemma:4b
-"Download speed" = "Preuzmi"; // translategemma:4b
+"Upload speed" = "Slanje"; // gemma4:31b
+"Download speed" = "Preuzimanje"; // gemma4:31b
 "Address" = "Adresa"; // translategemma:4b
-"WiFi network" = "Wi-Fi mreža"; // translategemma:4b
+"WiFi network" = "WiFi mreža"; // gemma4:31b
 "Local IP changed" = "Lokalni IP se promijenio"; // translategemma:4b
-"Public IP changed" = "Публиčni IP se promijenio"; // translategemma:4b
+"Public IP changed" = "Javna IP adresa se promijenila"; // gemma4:31b
 "Previous IP" = "Prethodni IP: %0"; // translategemma:4b
 "New IP" = "Nova IP adresa: %0"; // translategemma:4b
-"Internet connection lost" = "Gubitak veze s internetom"; // translategemma:4b
-"Internet connection established" = "Uspostavljena je veza s internetom"; // translategemma:4b
-"Show country code instead of emoji" = "Prikažite kod zemlje umjesto emoji-a"; // translategemma:4b
+"Internet connection lost" = "Internet veza je prekinuta"; // gemma4:31b
+"Internet connection established" = "Internet veza uspostavljena"; // gemma4:31b
+"Show country code instead of emoji" = "Prikaži kod države umjesto emojija"; // gemma4:31b
 
 // Battery
 "Level" = "Stanje";
@@ -465,11 +467,11 @@
 "Last charge" = "Zadnje punjenje";
 "Capacity" = "Kapacitet";
 "current / maximum / designed" = "current / maksimalni / projektirani";
-"Low power mode" = "Mod rada s niskom potrošnjom"; // translategemma:4b
+"Low power mode" = "Način štednje energije"; // gemma4:31b
 "Percentage inside the icon" = "Postotak unutar ikone"; // translategemma:4b
-"Colorize battery" = "Boja bateriju"; // translategemma:4b
-"Charging current" = "Trenutak punjenja"; // translategemma:4b
-"Charging Voltage" = "Naponski napajanje"; // translategemma:4b
+"Colorize battery" = "Oboji bateriju"; // gemma4:31b
+"Charging current" = "Struja punjenja"; // gemma4:31b
+"Charging Voltage" = "Napon punjenja"; // gemma4:31b
 "Charger state inside the battery" = "Stanje punjenja unutar baterije"; // translategemma:4b
 
 // Bluetooth
@@ -478,14 +480,14 @@
 
 // Clock
 "Time zone" = "Vremenska zona"; // translategemma:4b
-"Local" = "Lokal"; // translategemma:4b
+"Local" = "Lokalno"; // gemma4:31b
 "Calendar" = "Kalendar"; // translategemma:4b
-"Show week numbers" = "Pokažite brojeve tjedna"; // translategemma:4b
+"Show week numbers" = "Prikaži brojeve tjedana"; // gemma4:31b
 "Local time" = "Lokalno vrijeme"; // translategemma:4b
-"Add new clock" = "Dodajte novi sat"; // translategemma:4b
-"Delete selected clock" = "Izbrisati odabranu satnu jedinicu"; // translategemma:4b
-"Help with datetime format" = "Pomoć s formatiranjem datuma i vremena"; // translategemma:4b
-"Sync with NTP server" = "Sinkronizacija s NTP serverom"; // translategemma:4b
+"Add new clock" = "Dodaj novi sat"; // gemma4:31b
+"Delete selected clock" = "Obriši odabrani sat"; // gemma4:31b
+"Help with datetime format" = "Pomoć s formatom datuma i vremena"; // gemma4:31b
+"Sync with NTP server" = "Sinkronizacija s NTP poslužiteljem"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "Na osnovi korištenja";

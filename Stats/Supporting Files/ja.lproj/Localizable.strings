@@ -65,12 +65,12 @@
 "Units" = "単位";
 "Fans" = "ファン";
 "Scaling" = "スケーリング"; // translategemma:4b
-"Linear" = "線形"; // translategemma:4b
+"Linear" = "リニア"; // gemma4:31b
 "Square" = "正方形"; // translategemma:4b
-"Cube" = "立方体"; // translategemma:4b
+"Cube" = "キューブ"; // gemma4:31b
 "Logarithmic" = "対数"; // translategemma:4b
 "Fixed scale" = "固定";
-"Cores" = "コア数"; // translategemma:4b
+"Cores" = "コア"; // gemma4:31b
 "Core" = "コア";
 "Settings" = "設定";
 "Name" = "名前";
@@ -85,20 +85,20 @@
 "10 minutes" = "10分"; // translategemma:4b
 "Import" = "インポート"; // translategemma:4b
 "Export" = "エクスポート"; // translategemma:4b
-"Separator" = "区切り"; // translategemma:4b
+"Separator" = "セパレーター"; // gemma4:31b
 "Read" = "読み込み";
 "Write" = "書き込み";
-"Frequency" = "頻度"; // translategemma:4b
+"Frequency" = "周波数"; // gemma4:31b
 "Save" = "保存"; // translategemma:4b
-"Run" = "実行する"; // translategemma:4b
+"Run" = "実行"; // gemma4:31b
 "Stop" = "停止"; // translategemma:4b
 "Uninstall" = "アンインストール"; // translategemma:4b
-"1 sec" = "1 秒"; // translategemma:4b
+"1 sec" = "1秒"; // gemma4:31b
 "2 sec" = "2秒"; // translategemma:4b
 "3 sec" = "3秒"; // translategemma:4b
-"5 sec" = "5 秒"; // translategemma:4b
-"10 sec" = "10 秒"; // translategemma:4b
-"15 sec" = "15 秒"; // translategemma:4b
+"5 sec" = "5秒"; // gemma4:31b
+"10 sec" = "10秒"; // gemma4:31b
+"15 sec" = "15秒"; // gemma4:31b
 "30 sec" = "30秒"; // translategemma:4b
 "60 sec" = "60秒"; // translategemma:4b
 
@@ -111,20 +111,20 @@
 "Finish" = "完了";
 "Finish setup" = "セットアップ完了";
 "Welcome to Stats" = "Stats へようこそ";
-"welcome_message" = "Stats をご利用いただきありがとうございます。Stats は、メニューバーで使用できる、無料のオープンソースの macOS システム監視ツールです。"; // translategemma:4b
+"welcome_message" = "メニューバー用の無料のオープンソースmacOSシステムモニターであるStatsをご利用いただきありがとうございます。"; // gemma4:31b
 "Start the application automatically when starting your Mac" = "Macの起動時にアプリを自動起動する";
 "Do not start the application automatically when starting your Mac" = "Macの起動時にアプリを自動起動しない";
-"Do everything silently in the background (recommended)" = "バックグラウンドで、すべての作業を静かに実行する（推奨）"; // translategemma:4b
+"Do everything silently in the background (recommended)" = "すべてをバックグラウンドで静かに実行する (推奨)"; // gemma4:31b
 "Check for a new version on startup" = "起動時にアップデートを確認する";
 "Check for a new version every day (once a day)" = "毎日アップデートを確認する（1日1回）";
 "Check for a new version every week (once a week)" = "毎週アップデートを確認する（週1回）";
 "Check for a new version every month (once a month)" = "毎月アップデートを確認する（月1回）";
 "Never check for updates (not recommended)" = "アップデートを確認しない（非推奨）";
-"Anonymous telemetry for better development decisions" = "匿名でのテレメトリ収集により、より良い開発判断が可能になります"; // translategemma:4b
+"Anonymous telemetry for better development decisions" = "より良い開発判断のための匿名テレメトリ"; // gemma4:31b
 "Share anonymous telemetry data" = "匿名のテレメトリデータを共有する"; // translategemma:4b
-"Do not share anonymous telemetry data" = "匿名のテレメトリデータを共有しないでください。"; // translategemma:4b
+"Do not share anonymous telemetry data" = "匿名のテレメトリデータを共有しない"; // gemma4:31b
 "The configuration is completed" = "設定が完了しました"; // translategemma:4b
-"finish_setup_message" = "すべて準備完了です！"; // translategemma:4b
+"finish_setup_message" = "すべての設定が完了しました！"; // gemma4:31b
 
 // Alerts
 "New version available" = "新しいバージョンが利用可能です";
@@ -157,16 +157,16 @@
 "Show icon in dock" = "Dock にアイコンを表示";
 "Start at login" = "ログイン時に開く";
 "Build number" = "ビルド番号";
-"Import settings" = "インポート設定"; // translategemma:4b
-"Export settings" = "エクスポート設定"; // translategemma:4b
+"Import settings" = "設定をインポート"; // gemma4:31b
+"Export settings" = "設定をエクスポート"; // gemma4:31b
 "Reset settings" = "設定をリセット";
-"Pause the Stats" = "統計の表示を一時停止"; // translategemma:4b
-"Resume the Stats" = "統計データの再開"; // translategemma:4b
+"Pause the Stats" = "Statsを一時停止"; // gemma4:31b
+"Resume the Stats" = "Statsを再開"; // gemma4:31b
 "Combined modules" = "統合モジュール"; // translategemma:4b
 "Combined details" = "統合された詳細"; // translategemma:4b
 "Spacing" = "間隔"; // translategemma:4b
-"Share anonymous telemetry" = "匿名のテレメトリを共有する"; // translategemma:4b
-"Choose file" = "ファイルを選択する"; // translategemma:4b
+"Share anonymous telemetry" = "匿名テレメトリを共有"; // gemma4:31b
+"Choose file" = "ファイルを選択"; // gemma4:31b
 "Stress tests" = "ストレステスト"; // translategemma:4b
 
 // Dashboard
@@ -178,9 +178,9 @@
 "Number of threads" = "%0 スレッド";
 "Number of e-cores" = "%0 高効率コア";
 "Number of p-cores" = "%0 高性能コア";
-"Number of s-cores" = "%0 超高性能コア"; // translategemma:4b
+"Number of s-cores" = "%0 スーパーコア"; // gemma4:31b
 "Disks" = "ディスク"; // translategemma:4b
-"Display" = "表示"; // translategemma:4b
+"Display" = "ディスプレイ"; // gemma4:31b
 
 // Update
 "The latest version of Stats installed" = "最新の Stats がインストールされています";
@@ -213,7 +213,7 @@
 "Memory widget" = "未使用/使用済み";
 "Static width" = "固定幅";
 "Tachometer widget" = "タコメーター";
-"State widget" = "ステートウィジェット"; // translategemma:4b
+"State widget" = "状態ウィジェット"; // gemma4:31b
 "Text widget" = "テキストウィジェット"; // translategemma:4b
 "Battery details widget" = "バッテリー詳細ウィジェット"; // translategemma:4b
 "Show symbols" = "シンボルを表示";
@@ -225,8 +225,8 @@
 "Reverse order" = "逆順"; // translategemma:4b
 "Chart history" = "グラフの履歴"; // translategemma:4b
 "Default color" = "デフォルト"; // translategemma:4b
-"Transparent when no activity" = "活動がないときは透明状態"; // translategemma:4b
-"Constant color" = "一定"; // translategemma:4b
+"Transparent when no activity" = "アクティビティがない時に透明"; // gemma4:31b
+"Constant color" = "固定"; // gemma4:31b
 "Custom..." = "カスタム...";
 
 // Module Kit
@@ -255,7 +255,7 @@
 "Update interval for top processes" = "上位プロセスの更新間隔";
 "Notification level" = "通知レベル";
 "Chart color" = "チャートの色";
-"Main chart scaling" = "主なグラフのスケール設定"; // translategemma:4b
+"Main chart scaling" = "メインチャートのスケーリング"; // gemma4:31b
 "Scale value" = "スケール値"; // translategemma:4b
 "Text widget value" = "テキストウィジェットの値"; // translategemma:4b
 "Combined processes" = "統合されたプロセス"; // translategemma:4b
@@ -276,14 +276,14 @@
 "1 minute" = "1 分";
 "5 minutes" = "5 分";
 "15 minutes" = "15 分";
-"CPU usage threshold" = "CPU使用率の閾値"; // translategemma:4b
-"CPU usage is" = "CPUの使用率は%0です。"; // translategemma:4b
+"CPU usage threshold" = "CPU使用率のしきい値"; // gemma4:31b
+"CPU usage is" = "CPU使用率は%0です"; // gemma4:31b
 "Efficiency cores" = "高効率コア";
 "Performance cores" = "高性能コア";
-"System color" = "システムの色"; // translategemma:4b
-"User color" = "ユーザーの色"; // translategemma:4b
-"Idle color" = "アイドルの色"; // translategemma:4b
-"Cluster grouping" = "クラスタリング"; // translategemma:4b
+"System color" = "システムカラー"; // gemma4:31b
+"User color" = "ユーザーカラー"; // gemma4:31b
+"Idle color" = "アイドル時の色"; // gemma4:31b
+"Cluster grouping" = "クラスターのグループ化"; // gemma4:31b
 "Efficiency cores color" = "高効率コアの色";
 "Performance cores color" = "高性能コアの色";
 "Total load" = "合計負荷"; // translategemma:4b
@@ -291,7 +291,7 @@
 "User load" = "ユーザー負荷"; // translategemma:4b
 "Efficiency cores load" = "高効率コアの負荷";
 "Performance cores load" = "高性能コアの負荷";
-"All cores" = "すべてのコア"; // translategemma:4b
+"All cores" = "全てのコア"; // gemma4:31b
 "Load per core" = "コアごとの負荷"; // translategemma:4b
 "Efficiency core" = "高効率コア";
 "Performance core" = "高性能コア";
@@ -315,8 +315,8 @@
 "Utilization" = "使用率";
 "Render utilization" = "レンダリング";
 "Tiler utilization" = "タイルレンダリング";
-"GPU usage threshold" = "GPU使用量の上限値"; // translategemma:4b
-"GPU usage is" = "GPUの使用率は%0です。"; // translategemma:4b
+"GPU usage threshold" = "GPU使用率のしきい値"; // gemma4:31b
+"GPU usage is" = "GPU使用率は%0です"; // gemma4:31b
 
 // RAM
 "Memory usage" = "メモリ使用率";
@@ -329,15 +329,15 @@
 "Free" = "空きメモリ";
 "Swap" = "スワップ使用領域";
 "Split the value (App/Wired/Compressed)" = "値を分割する (アプリメモリ/確保されているメモリ/圧縮メモリ)";
-"RAM utilization threshold" = "RAM使用量の閾値"; // translategemma:4b
-"RAM utilization is" = "RAMの使用率は%0です。"; // translategemma:4b
+"RAM utilization threshold" = "RAM使用率のしきい値"; // gemma4:31b
+"RAM utilization is" = "RAM使用率は%0です"; // gemma4:31b
 "App color" = "アプリメモリの色";
 "Wired color" = "確保されているメモリの色";
 "Compressed color" = "圧縮メモリの色";
 "Free color" = "空きメモリの色";
-"Free memory (less than)" = "空いているメモリ (以下参照)"; // translategemma:4b
+"Free memory (less than)" = "空きメモリ (未満)"; // gemma4:31b
 "Swap size" = "スワップサイズ"; // translategemma:4b
-"Free RAM is" = "利用可能なRAMは%0です。"; // translategemma:4b
+"Free RAM is" = "空きRAMは%0です"; // gemma4:31b
 
 // Disk
 "Show removable disks" = "リムーバブルディスクを表示";
@@ -346,17 +346,19 @@
 "Disk to show" = "表示するディスク";
 "Open disk" = "このディスクを表示";
 "Switch view" = "表示を切り替える";
-"Disk utilization threshold" = "ディスク使用率の閾値"; // translategemma:4b
-"Disk utilization is" = "ディスクの使用率は %0 です。"; // translategemma:4b
+"Disk utilization threshold" = "ディスク使用率のしきい値"; // gemma4:31b
+"Disk utilization is" = "ディスク使用率は%0です"; // gemma4:31b
 "Read color" = "読み込みの色";
 "Write color" = "書き込みの色";
 "Disk usage" = "ディスク使用量"; // translategemma:4b
-"Total read" = "合計読み込み"; // translategemma:4b
+"Total read" = "合計読み取り"; // gemma4:31b
 "Total written" = "総書き込み量";
 "Write speed" = "書き込み速度";
 "Read speed" = "読み込み速度";
-"Drives" = "ドライブ"; // translategemma:4b
+"Drives" = "ディスク"; // gemma4:31b
 "SMART data" = "SMARTデータ"; // translategemma:4b
+"Power cycles" = "Power cycles";
+"Power on hours" = "Power on hours";
 
 // Sensors
 "Temperature unit" = "温度単位";
@@ -365,20 +367,20 @@
 "Save the fan speed" = "ファンの速度を保存";
 "Fan" = "ファン";
 "HID sensors" = "HID センサー";
-"Synchronize fan's control" = "ファンを制御するタイミングを同期する"; // translategemma:4b
+"Synchronize fan's control" = "ファン制御を同期"; // gemma4:31b
 "Current" = "電流";
 "Energy" = "電力";
-"Show unknown sensors" = "未知のセンサーを表示する"; // translategemma:4b
-"Install fan helper" = "ファンヘルパーをインストールする"; // translategemma:4b
-"Uninstall fan helper" = "ファンヘルパーのアンインストール"; // translategemma:4b
+"Show unknown sensors" = "不明なセンサーを表示"; // gemma4:31b
+"Install fan helper" = "ファンヘルパーをインストール"; // gemma4:31b
+"Uninstall fan helper" = "ファンヘルパーをアンインストール"; // gemma4:31b
 "Fan value" = "ファンの表示単位";
 "Turn off fan" = "ファンの停止";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "ファンの停止はmacに大きなダメージを与える可能性がある為、推奨されません。本当に実行しますか？";
-"Sensor threshold" = "センサー閾値"; // translategemma:4b
+"Sensor threshold" = "センサーのしきい値"; // gemma4:31b
 "Left fan" = "左ファン";
 "Right fan" = "右ファン";
 "Fastest fan" = "最速ファン";
-"Sensor to show" = "センサー表示"; // translategemma:4b
+"Sensor to show" = "表示するセンサー"; // gemma4:31b
 
 // Network
 "Uploading" = "送信";
@@ -404,33 +406,33 @@
 "Standard" = "標準"; // translategemma:4b
 "Security" = "セキュリティ"; // translategemma:4b
 "Channel" = "チャンネル"; // translategemma:4b
-"Common scale" = "一般的なスケール"; // translategemma:4b
+"Common scale" = "共通スケール"; // gemma4:31b
 "Autodetection" = "自動検出"; // translategemma:4b
-"Widget activation threshold" = "ウィジェット有効化の閾値"; // translategemma:4b
+"Widget activation threshold" = "ウィジェットの有効化しきい値"; // gemma4:31b
 "Internet connection" = "インターネット接続"; // translategemma:4b
-"Active state color" = "アクティブな状態の色"; // translategemma:4b
+"Active state color" = "アクティブ状態のカラー"; // gemma4:31b
 "Nonactive state color" = "非アクティブ状態の色"; // translategemma:4b
 "Connectivity host" = "接続ホスト"; // translategemma:4b
-"Leave empty to disable the check" = "空欄にすることで、機能を無効化します。"; // translategemma:4b
+"Leave empty to disable the check" = "空欄のままにするとチェックが無効になります"; // gemma4:31b
 "Connectivity history" = "接続履歴"; // translategemma:4b
-"Auto-refresh public IP address" = "自動でパブリックなIPアドレスを更新する"; // translategemma:4b
-"Every hour" = "1時間ごとに"; // translategemma:4b
-"Every 12 hours" = "12時間ごとに"; // translategemma:4b
-"Every 24 hours" = "24時間ごとに"; // translategemma:4b
+"Auto-refresh public IP address" = "パブリックIPアドレスの自動更新"; // gemma4:31b
+"Every hour" = "1時間ごと"; // gemma4:31b
+"Every 12 hours" = "12時間ごと"; // gemma4:31b
+"Every 24 hours" = "24時間ごと"; // gemma4:31b
 "Network activity" = "ネットワークアクティビティ"; // translategemma:4b
-"Last reset" = "最後にリセットしたのは %0 以前"; // translategemma:4b
-"Latency" = "遅延"; // translategemma:4b
+"Last reset" = "最終リセット %0 前"; // gemma4:31b
+"Latency" = "レイテンシ"; // gemma4:31b
 "Upload speed" = "アップロード"; // translategemma:4b
 "Download speed" = "ダウンロード"; // translategemma:4b
 "Address" = "アドレス";
-"WiFi network" = "Wi-Fi ネットワーク"; // translategemma:4b
-"Local IP changed" = "ローカルのIPアドレスが変更されました"; // translategemma:4b
-"Public IP changed" = "公開IPアドレスが変更されました"; // translategemma:4b
-"Previous IP" = "以前のIPアドレス: %0"; // translategemma:4b
-"New IP" = "新しいIPアドレス: %0"; // translategemma:4b
-"Internet connection lost" = "インターネット接続が失われました"; // translategemma:4b
+"WiFi network" = "WiFiネットワーク"; // gemma4:31b
+"Local IP changed" = "ローカルIPが変更されました"; // gemma4:31b
+"Public IP changed" = "パブリックIPが変更されました"; // gemma4:31b
+"Previous IP" = "前のIP: %0"; // gemma4:31b
+"New IP" = "新しいIP: %0"; // gemma4:31b
+"Internet connection lost" = "インターネット接続が切断されました"; // gemma4:31b
 "Internet connection established" = "インターネット接続が確立されました"; // translategemma:4b
-"Show country code instead of emoji" = "絵文字の代わりに、国コードを表示する"; // translategemma:4b
+"Show country code instead of emoji" = "絵文字の代わりに国コードを表示"; // gemma4:31b
 
 // Battery
 "Level" = "充電残量";
@@ -467,7 +469,7 @@
 "current / maximum / designed" = "current / 最大 / 規格";
 "Low power mode" = "低電力モード";
 "Percentage inside the icon" = "アイコン内のパーセンテージ"; // translategemma:4b
-"Colorize battery" = "バッテリーの色を付ける"; // translategemma:4b
+"Colorize battery" = "バッテリーの色付け"; // gemma4:31b
 "Charging current" = "充電電流"; // translategemma:4b
 "Charging Voltage" = "充電電圧"; // translategemma:4b
 "Charger state inside the battery" = "バッテリー内部の充電状態"; // translategemma:4b
@@ -480,17 +482,17 @@
 "Time zone" = "タイムゾーン"; // translategemma:4b
 "Local" = "ローカル";
 "Calendar" = "カレンダー"; // translategemma:4b
-"Show week numbers" = "週番号を表示する"; // translategemma:4b
-"Local time" = "現地の時間"; // translategemma:4b
-"Add new clock" = "新しい時計を追加する"; // translategemma:4b
+"Show week numbers" = "週番号を表示"; // gemma4:31b
+"Local time" = "現地時刻"; // gemma4:31b
+"Add new clock" = "新しい時計を追加"; // gemma4:31b
 "Delete selected clock" = "選択した時計を削除する";
-"Help with datetime format" = "日付と時刻の形式に関するサポート"; // translategemma:4b
-"Sync with NTP server" = "NTP サーバーとの同期"; // translategemma:4b
+"Help with datetime format" = "日時フォーマットのヘルプ"; // gemma4:31b
+"Sync with NTP server" = "NTPサーバーと同期"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "使用率に基づいたカラー";
 "Based on pressure" = "負荷に基づいたカラー";
-"Based on cluster" = "クラスタに基づいて"; // translategemma:4b
+"Based on cluster" = "クラスターに基づく"; // gemma4:31b
 "System accent" = "システムアクセント";
 "Monochrome accent" = "モノクロ";
 "Clear" = "クリア";

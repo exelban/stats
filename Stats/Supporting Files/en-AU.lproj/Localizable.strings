@@ -357,6 +357,8 @@
 "Read speed" = "Read";
 "Drives" = "Drives";
 "SMART data" = "SMART data";
+"Power cycles" = "Power cycles";
+"Power on hours" = "Power on hours";
 
 // Sensors
 "Temperature unit" = "Temperature unit";

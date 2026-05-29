@@ -212,7 +212,7 @@
 "Stack widget" = "Stapel";
 "Memory widget" = "Speicher";
 "Static width" = "Feste Breite";
-"Tachometer widget" = "Tachometer";
+"Tachometer widget" = "Drehzahlmesser"; // gemma4:31b
 "State widget" = "Status-Widget";
 "Text widget" = "Text-Widget";
 "Battery details widget" = "Batteriedetails-Widget";
@@ -357,6 +357,8 @@
 "Read speed" = "Lesen";
 "Drives" = "Laufwerke";
 "SMART data" = "SMART-Daten";
+"Power cycles" = "Power cycles";
+"Power on hours" = "Power on hours";
 
 // Sensors
 "Temperature unit" = "Temperatureinheit";
@@ -430,7 +432,7 @@
 "New IP" = "Neue IP: %0";
 "Internet connection lost" = "Internetverbindung unterbrochen";
 "Internet connection established" = "Internetverbindung hergestellt";
-"Show country code instead of emoji" = "Zeige den Landescode anstelle des Emojis"; // translategemma:4b
+"Show country code instead of emoji" = "Ländercode statt Emoji anzeigen"; // gemma4:31b
 
 // Battery
 "Level" = "Ladezustand";
@@ -480,12 +482,12 @@
 "Time zone" = "Zeitzone";
 "Local" = "Lokal";
 "Calendar" = "Kalender";
-"Show week numbers" = "Zeige die Wochennummern"; // translategemma:4b
+"Show week numbers" = "Kalenderwochen anzeigen"; // gemma4:31b
 "Local time" = "Ortszeit";
 "Add new clock" = "Neue Uhr hinzufügen";
 "Delete selected clock" = "Ausgewählte Uhr löschen";
 "Help with datetime format" = "Hilfe zum Datums-/Zeitformat";
-"Sync with NTP server" = "Synchronisieren mit NTP-Server"; // translategemma:4b
+"Sync with NTP server" = "Synchronisation mit NTP-Server"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "Nach Auslastung";

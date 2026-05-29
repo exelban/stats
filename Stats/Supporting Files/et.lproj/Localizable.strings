@@ -357,6 +357,8 @@
 "Read speed" = "Lugemise kiirus";
 "Drives" = "Kettad";
 "SMART data" = "SMART-andmed";
+"Power cycles" = "Power cycles";
+"Power on hours" = "Power on hours";
 
 // Sensors
 "Temperature unit" = "Temperatuuriühik";
@@ -517,5 +519,5 @@
 "Cyan" = "Tsüaan";
 "Magenta" = "Magenta";
 "Pink" = "Roosa";
-"Teal" = "Sinakasroheline"; // ehk rohekassinine
+"Teal" = "Türkiis"; // gemma4:31b
 "Indigo" = "Indigo";

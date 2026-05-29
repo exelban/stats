@@ -27,7 +27,7 @@
 "Bluetooth" = "בלוטות׳";
 "Open Bluetooth settings" = "פתח/י הגדרות בלוטות׳";
 "Clock" = "שעון"; // translategemma:4b
-"Open Clock settings" = "פתח הגדרות שעון"; // translategemma:4b
+"Open Clock settings" = "פתח את הגדרות השעון"; // gemma4:31b
 
 // Words
 "Unknown" = "לא ידוע";
@@ -59,24 +59,24 @@
 "Center alignment" = "מרכז";
 "Right alignment" = "ימין";
 "Dashboard" = "דאשבורד";
-"Enabled" = "הופעל"; // translategemma:4b
+"Enabled" = "מופעל"; // gemma4:31b
 "Disabled" = "חסימה";
 "Silent" = "שקט";
 "Units" = "יחידות";
 "Fans" = "מאווררים";
-"Scaling" = "הגדלה"; // translategemma:4b
+"Scaling" = "שינוי קנה מידה"; // gemma4:31b
 "Linear" = "ליניארי"; // translategemma:4b
-"Square" = "ריבוע"; // translategemma:4b
+"Square" = "ריבועי"; // gemma4:31b
 "Cube" = "קוביה"; // translategemma:4b
 "Logarithmic" = "לוגריתמי"; // translategemma:4b
-"Fixed scale" = "תוקן"; // translategemma:4b
+"Fixed scale" = "קבוע"; // gemma4:31b
 "Cores" = "ליבות"; // translategemma:4b
 "Core" = "ליבה"; // translategemma:4b
 "Settings" = "הגדרות"; // translategemma:4b
 "Name" = "שם"; // translategemma:4b
 "Format" = "פורמט"; // translategemma:4b
-"Turn off" = "כבה"; // translategemma:4b
-"Normal" = "נורמלי"; // translategemma:4b
+"Turn off" = "כיבוי"; // gemma4:31b
+"Normal" = "רגיל"; // gemma4:31b
 "Warning" = "אזהרה"; // translategemma:4b
 "Critical" = "קריטי"; // translategemma:4b
 "Usage" = "שימוש"; // translategemma:4b
@@ -86,14 +86,14 @@
 "Import" = "ייבוא"; // translategemma:4b
 "Export" = "ייצוא"; // translategemma:4b
 "Separator" = "מפריד"; // translategemma:4b
-"Read" = "קרא"; // translategemma:4b
-"Write" = "כתוב"; // translategemma:4b
-"Frequency" = "תדירות"; // translategemma:4b
+"Read" = "קריאה"; // gemma4:31b
+"Write" = "כתיבה"; // gemma4:31b
+"Frequency" = "תדר"; // gemma4:31b
 "Save" = "שמור"; // translategemma:4b
 "Run" = "הפעל"; // translategemma:4b
 "Stop" = "עצור"; // translategemma:4b
 "Uninstall" = "הסר התקנה"; // translategemma:4b
-"1 sec" = "1 שניה"; // translategemma:4b
+"1 sec" = "1 שנייה"; // gemma4:31b
 "2 sec" = "2 שניות"; // translategemma:4b
 "3 sec" = "3 שניות"; // translategemma:4b
 "5 sec" = "5 שניות"; // translategemma:4b
@@ -103,28 +103,28 @@
 "60 sec" = "60 שניות"; // translategemma:4b
 
 // Setup
-"Stats Setup" = "הגדרת סטטיסטיקות"; // translategemma:4b
-"Previous" = "הקודם"; // translategemma:4b
+"Stats Setup" = "הגדרות Stats"; // gemma4:31b
+"Previous" = "קודם"; // gemma4:31b
 "Previous page" = "עמוד קודם"; // translategemma:4b
 "Next" = "הבא"; // translategemma:4b
-"Next page" = "עמוד הבא"; // translategemma:4b
+"Next page" = "העמוד הבא"; // gemma4:31b
 "Finish" = "סיום"; // translategemma:4b
-"Finish setup" = "לסיים את ההגדרה"; // translategemma:4b
+"Finish setup" = "סיום ההגדרה"; // gemma4:31b
 "Welcome to Stats" = "ברוכים הבאים ל-Stats"; // translategemma:4b
-"welcome_message" = "תודה על השימוש ב-Stats, תוכנת ניטור מערכת macOS חינמית וקוד פתוח, עבור שורת המשימות שלכם."; // translategemma:4b
-"Start the application automatically when starting your Mac" = "הפעל את האפליקציה באופן אוטומטי בעת הפעלת ה-Mac שלך."; // translategemma:4b
-"Do not start the application automatically when starting your Mac" = "אל תפעילו את היישום באופן אוטומטי בעת הפעלת המחשב."; // translategemma:4b
-"Do everything silently in the background (recommended)" = "בצעו את כל הפעולות בצורה שקטה ברקע (מומלץ)"; // translategemma:4b
-"Check for a new version on startup" = "בדוק אם יש גרסה חדשה בעת ההפעלה."; // translategemma:4b
-"Check for a new version every day (once a day)" = "בדוק אם יש גרסה חדשה מדי יום (פעם ביום)"; // translategemma:4b
-"Check for a new version every week (once a week)" = "בדקו גרסה חדשה מדי שבוע (פעם בשבוע)"; // translategemma:4b
-"Check for a new version every month (once a month)" = "בדקו גרסה חדשה מדי חודש (פעם בחודש)"; // translategemma:4b
-"Never check for updates (not recommended)" = "לעולם אל לבד עדכונים (לא מומלץ)"; // translategemma:4b
-"Anonymous telemetry for better development decisions" = "נתונים אנונימיים לניתוח, לקבלת החלטות פיתוח טובות יותר"; // translategemma:4b
-"Share anonymous telemetry data" = "לשתף נתונים אנונימיים של ניטור"; // translategemma:4b
-"Do not share anonymous telemetry data" = "אין לשתף נתונים אנונימיים של ניטור"; // translategemma:4b
+"welcome_message" = "תודה על השימוש ב-Stats, מנטר מערכת macOS חינמי ובקוד פתוח עבור סרגל התפריטים שלך."; // gemma4:31b
+"Start the application automatically when starting your Mac" = "הפעל את האפליקציה באופן אוטומטי בעת הפעלת ה-Mac שלך"; // gemma4:31b
+"Do not start the application automatically when starting your Mac" = "אל תפעיל את האפליקציה באופן אוטומטי בעת הפעלת ה-Mac שלך"; // gemma4:31b
+"Do everything silently in the background (recommended)" = "לבצע הכל בשקט ברקע (מומלץ)"; // gemma4:31b
+"Check for a new version on startup" = "בדוק אם קיימת גרסה חדשה בעת ההפעלה"; // gemma4:31b
+"Check for a new version every day (once a day)" = "בדוק אם קיימת גרסה חדשה מדי יום (פעם ביום)"; // gemma4:31b
+"Check for a new version every week (once a week)" = "בדוק אם קיימת גרסה חדשה בכל שבוע (פעם בשבוע)"; // gemma4:31b
+"Check for a new version every month (once a month)" = "בדוק אם קיימת גרסה חדשה בכל חודש (פעם בחודש)"; // gemma4:31b
+"Never check for updates (not recommended)" = "לעולם לא לבדוק עדכונים (לא מומלץ)"; // gemma4:31b
+"Anonymous telemetry for better development decisions" = "טלמטריה אנונימית לקבלת החלטות פיתוח טובות יותר"; // gemma4:31b
+"Share anonymous telemetry data" = "שיתוף נתוני טלמטריה אנונימיים"; // gemma4:31b
+"Do not share anonymous telemetry data" = "אל תשתף נתוני טלמטריה אנונימיים"; // gemma4:31b
 "The configuration is completed" = "ההגדרה הושלמה"; // translategemma:4b
-"finish_setup_message" = "הכל מוכן!"; // translategemma:4b
+"finish_setup_message" = "הכל מוכן! \\n Stats הוא כלי קוד פתוח, הוא בחינם ותמיד יישאר כך. \\n אם אתם נהנים ממנו, תוכלו לתמוך בפרויקט, זה תמיד מוערך!"; // gemma4:31b
 
 // Alerts
 "New version available" = "גרסא חדשה זמינה";
@@ -142,8 +142,8 @@
 "Open application settings" = "פתיחת הגדרות האפליקציה";
 "Open dashboard" = "פתיחת דאשבורד";
 "No notifications available in this module" = "אין התראות זמינות במודול זה"; // translategemma:4b
-"Open Calendar" = "פתח קלנדר"; // translategemma:4b
-"Toggle the module" = "הפעל/השבת את המודול"; // translategemma:4b
+"Open Calendar" = "פתח את לוח השנה"; // gemma4:31b
+"Toggle the module" = "החלף את המודול"; // gemma4:31b
 
 // Application settings
 "Update application" = "עדכון אפליקציה";
@@ -157,29 +157,29 @@
 "Show icon in dock" = "הצג סמל בשורת התפריטים";
 "Start at login" = "התחל בעלייה";
 "Build number" = "מספר בילד";
-"Import settings" = "הגדרות ייבוא"; // translategemma:4b
-"Export settings" = "הגדרות ייצוא"; // translategemma:4b
+"Import settings" = "ייבוא הגדרות"; // gemma4:31b
+"Export settings" = "ייצוא הגדרות"; // gemma4:31b
 "Reset settings" = "איפוס הגדרות";
-"Pause the Stats" = "השהייה של הסטטיסטיקות"; // translategemma:4b
-"Resume the Stats" = "חזור לנתונים"; // translategemma:4b
+"Pause the Stats" = "השהה את Stats"; // gemma4:31b
+"Resume the Stats" = "המשך את Stats"; // gemma4:31b
 "Combined modules" = "מודולים משולבים"; // translategemma:4b
 "Combined details" = "פרטים משולבים"; // translategemma:4b
-"Spacing" = "הפרדה"; // translategemma:4b
-"Share anonymous telemetry" = "שיתוף נתונים אנונימיים"; // translategemma:4b
+"Spacing" = "רווח"; // gemma4:31b
+"Share anonymous telemetry" = "שיתוף טלמטריה אנונימית"; // gemma4:31b
 "Choose file" = "בחר קובץ"; // translategemma:4b
-"Stress tests" = "בדיקות עומס"; // translategemma:4b
+"Stress tests" = "בדיקות מאמץ"; // gemma4:31b
 
 // Dashboard
 "Serial number" = "מספר סריאלי";
-"Model identifier" = "מזהה המודל"; // translategemma:4b
+"Model identifier" = "מזהה דגם"; // gemma4:31b
 "Production year" = "שנת ייצור"; // translategemma:4b
 "Uptime" = "משך הזמן ללא השבתה";
 "Number of cores" = "%0 ליבות";
 "Number of threads" = "%0 טרדים";
-"Number of e-cores" = "%0 ליבות ביצוע"; // translategemma:4b
-"Number of p-cores" = "%0 ליבות ביצוע"; // translategemma:4b
-"Number of s-cores" = "%0 ליבות עיקריות"; // translategemma:4b
-"Disks" = "כוננים"; // translategemma:4b
+"Number of e-cores" = "%0 ליבות יעילות"; // gemma4:31b
+"Number of p-cores" = "%0 ליבות ביצועים"; // gemma4:31b
+"Number of s-cores" = "%0 ליבות סופר"; // gemma4:31b
+"Disks" = "דיסקים"; // gemma4:31b
 "Display" = "תצוגה"; // translategemma:4b
 
 // Update
@@ -209,23 +209,23 @@
 "Network chart widget" = "טבלת רשת";
 "Speed widget" = "מהירות";
 "Battery widget" = "בטרייה";
-"Stack widget" = "מחסן"; // translategemma:4b
+"Stack widget" = "מחסנית"; // gemma4:31b
 "Memory widget" = "זכרון";
 "Static width" = "אורך סטאטי";
 "Tachometer widget" = "טכומטר";
-"State widget" = "רכיב ממשלתי"; // translategemma:4b
-"Text widget" = "רכיב טקסט"; // translategemma:4b
-"Battery details widget" = "מדד פרטי סוללה"; // translategemma:4b
+"State widget" = "ווידג'ט מצב"; // gemma4:31b
+"Text widget" = "ווידג'ט טקסט"; // gemma4:31b
+"Battery details widget" = "ווידג'ט פרטי סוללה"; // gemma4:31b
 "Show symbols" = "הראה סמלים";
 "Label widget" = "תווית";
 "Number of reads in the chart" = "מספר קריאות במגמה";
 "Color of download" = "צבע של הורדה";
 "Color of upload" = "צבע של העלאה";
-"Monospaced font" = "גופן בעל רווחים אחידים"; // translategemma:4b
+"Monospaced font" = "גופן ברוחב קבוע"; // gemma4:31b
 "Reverse order" = "סדר הפוך"; // translategemma:4b
-"Chart history" = "היסטוריית גרפים"; // translategemma:4b
+"Chart history" = "היסטוריית הגרף"; // gemma4:31b
 "Default color" = "ברירת מחדל"; // translategemma:4b
-"Transparent when no activity" = "שקוף כאשר אין פעילות"; // translategemma:4b
+"Transparent when no activity" = "שקוף כשאין פעילות"; // gemma4:31b
 "Constant color" = "קבוע"; // translategemma:4b
 "Custom..." = "מותאם אישית...";
 
@@ -246,19 +246,19 @@
 "No available widgets to configure" = "אין ווידג'טים זמינים להגדרה";
 "No options to configure for the popup in this module" = "אין אפשרויות להגדיר עבור החלון הקופץ במודול זה";
 "Process" = "תהליך"; // translategemma:4b
-"Kill process" = "הרס תהליך"; // translategemma:4b
+"Kill process" = "סייים תהליך"; // gemma4:31b
 "Keyboard shortcut" = "קיצור מקלדת"; // translategemma:4b
-"Listening..." = "האזנה..."; // translategemma:4b
+"Listening..." = "מאזין..."; // gemma4:31b
 
 // Modules
 "Number of top processes" = "מספר התהליכים המובילים";
 "Update interval for top processes" = "מרווח עדכון עבור תהליכים מובילים";
 "Notification level" = "רמת התראה";
 "Chart color" = "צבע תרשים";
-"Main chart scaling" = "הגדרת סולם הגרף הראשי"; // translategemma:4b
-"Scale value" = "ערך סולם"; // translategemma:4b
-"Text widget value" = "ערך של רכיב טקסט"; // translategemma:4b
-"Combined processes" = "תהליכים משולבים"; // translategemma:4b
+"Main chart scaling" = "קנה מידה של הגרף הראשי"; // gemma4:31b
+"Scale value" = "ערך קנה מידה"; // gemma4:31b
+"Text widget value" = "ערך ווידג'ט טקסט"; // gemma4:31b
+"Combined processes" = "תהליכים מאוחדים"; // gemma4:31b
 
 // CPU
 "CPU usage" = "שימוש המעבד";
@@ -276,26 +276,26 @@
 "1 minute" = "דקה";
 "5 minutes" = "5 דקות";
 "15 minutes" = "דקות 15";
-"CPU usage threshold" = "סף השימוש במעבד"; // translategemma:4b
-"CPU usage is" = "שימוש במעבד הוא `%0"; // translategemma:4b
-"Efficiency cores" = "ליבות ביצועים"; // translategemma:4b
-"Performance cores" = "ליבות ביצוע"; // translategemma:4b
+"CPU usage threshold" = "סף שימוש ב-CPU"; // gemma4:31b
+"CPU usage is" = "שימוש ב-CPU הוא %0"; // gemma4:31b
+"Efficiency cores" = "ליבות יעילות"; // gemma4:31b
+"Performance cores" = "ליבות ביצועים"; // gemma4:31b
 "System color" = "צבע מערכת"; // translategemma:4b
-"User color" = "צבע המשתמש"; // translategemma:4b
-"Idle color" = "צבע כשאין פעילות"; // translategemma:4b
-"Cluster grouping" = "קיבוץ"; // translategemma:4b
-"Efficiency cores color" = "ליבות יעילות בצבע"; // translategemma:4b
-"Performance cores color" = "צבע ליבות הביצועים"; // translategemma:4b
-"Total load" = "סה\"כ עומס"; // translategemma:4b
+"User color" = "צבע משתמש"; // gemma4:31b
+"Idle color" = "צבע סרק"; // gemma4:31b
+"Cluster grouping" = "קיבוץ צבירים"; // gemma4:31b
+"Efficiency cores color" = "צבע ליבות היעילות"; // gemma4:31b
+"Performance cores color" = "צבע ליבות ביצועים"; // gemma4:31b
+"Total load" = "עומס כולל"; // gemma4:31b
 "System load" = "עומס מערכת"; // translategemma:4b
 "User load" = "עומס משתמש"; // translategemma:4b
-"Efficiency cores load" = "טעינת ליבות ביצוע"; // translategemma:4b
-"Performance cores load" = "ליבות הביצוע מתחילות לעבוד"; // translategemma:4b
+"Efficiency cores load" = "עומס ליבות יעילות"; // gemma4:31b
+"Performance cores load" = "עומס ליבות ביצועים"; // gemma4:31b
 "All cores" = "כל הליבות"; // translategemma:4b
-"Load per core" = "טעינה לפי ליבה"; // translategemma:4b
+"Load per core" = "עומס לליבה"; // gemma4:31b
 "Efficiency core" = "ליבת יעילות"; // translategemma:4b
 "Performance core" = "ליבת ביצועים"; // translategemma:4b
-"Super core" = "ליבה חזקה במיוחד"; // translategemma:4b
+"Super core" = "ליבת על"; // gemma4:31b
 
 // GPU
 "GPU to show" = "להראות GPU";
@@ -315,8 +315,8 @@
 "Utilization" = "ניצול";
 "Render utilization" = "ניצול רנדור";
 "Tiler utilization" = "ניצול ריצוף";
-"GPU usage threshold" = "סף השימוש בכרטיס הגרפי"; // translategemma:4b
-"GPU usage is" = "שימוש בכרטיס גרפי: %0"; // translategemma:4b
+"GPU usage threshold" = "סף שימוש ב-GPU"; // gemma4:31b
+"GPU usage is" = "שימוש ב-GPU הוא %0"; // gemma4:31b
 
 // RAM
 "Memory usage" = "שימוש בזכרון";
@@ -329,15 +329,15 @@
 "Free" = "משוחרר";
 "Swap" = "החלפה";
 "Split the value (App/Wired/Compressed)" = "(אפליקציה/חוטי/מכווץ) פצל/י את הערך";
-"RAM utilization threshold" = "סף השימוש בזיכרון RAM"; // translategemma:4b
-"RAM utilization is" = "שימוש בזיכרון RAM הוא `%0"; // translategemma:4b
+"RAM utilization threshold" = "סף ניצול RAM"; // gemma4:31b
+"RAM utilization is" = "ניצול RAM הוא %0"; // gemma4:31b
 "App color" = "צבע האפליקציה"; // translategemma:4b
-"Wired color" = "צבע מקושר"; // translategemma:4b
-"Compressed color" = "צבע דחוס"; // translategemma:4b
-"Free color" = "צבע בחינם"; // translategemma:4b
-"Free memory (less than)" = "זיכרון פנוי (פחות מ)"; // translategemma:4b
-"Swap size" = "גודל זיכרון וירטואלי"; // translategemma:4b
-"Free RAM is" = "זיכרון RAM פנוי הוא %0"; // translategemma:4b
+"Wired color" = "צבע זיכרון מקובע"; // gemma4:31b
+"Compressed color" = "צבע זיכרון דחוס"; // gemma4:31b
+"Free color" = "צבע פנוי"; // gemma4:31b
+"Free memory (less than)" = "זיכרון פנוי (פחות מ-)"; // gemma4:31b
+"Swap size" = "גודל Swap"; // gemma4:31b
+"Free RAM is" = "RAM פנוי %0"; // gemma4:31b
 
 // Disk
 "Show removable disks" = "הראה דיסקים הניתנים להסרה";
@@ -346,37 +346,39 @@
 "Disk to show" = "דיסק להראות";
 "Open disk" = "פתח/י דיסק";
 "Switch view" = "החלף תצוגה";
-"Disk utilization threshold" = "סף השימוש בדיסק"; // translategemma:4b
-"Disk utilization is" = "שימוש בדיסק הוא %0"; // translategemma:4b
-"Read color" = "קרא צבע"; // translategemma:4b
-"Write color" = "כתוב בצבע"; // translategemma:4b
+"Disk utilization threshold" = "סף ניצול דיסק"; // gemma4:31b
+"Disk utilization is" = "ניצול הדיסק הוא %0"; // gemma4:31b
+"Read color" = "צבע קריאה"; // gemma4:31b
+"Write color" = "צבע כתיבה"; // gemma4:31b
 "Disk usage" = "שימוש בדיסק"; // translategemma:4b
-"Total read" = "סך הכל קראו"; // translategemma:4b
-"Total written" = "סה\"כ כתוב"; // translategemma:4b
-"Write speed" = "כתוב"; // translategemma:4b
-"Read speed" = "קרא"; // translategemma:4b
-"Drives" = "דיסקים"; // translategemma:4b
-"SMART data" = "נתונים חכמים"; // translategemma:4b
+"Total read" = "סך הקריאה"; // gemma4:31b
+"Total written" = "סה\"כ נכתב"; // gemma4:31b
+"Write speed" = "כתיבה"; // gemma4:31b
+"Read speed" = "קריאה"; // gemma4:31b
+"Drives" = "כוננים"; // gemma4:31b
+"SMART data" = "נתוני SMART"; // gemma4:31b
+"Power cycles" = "Power cycles";
+"Power on hours" = "Power on hours";
 
 // Sensors
 "Temperature unit" = "יחידת טמפרטורה";
 "Celsius" = "צלסיוס";
 "Fahrenheit" = "פרנהייט";
 "Save the fan speed" = "שמירת מהירות המאורר";
-"Fan" = "מאור"; // translategemma:4b
+"Fan" = "מאוורר"; // gemma4:31b
 "HID sensors" = "HID חיישני";
-"Synchronize fan's control" = "סנכרון שליטה במאוורר"; // translategemma:4b
-"Current" = "הזמין הנוכחי"; // translategemma:4b
+"Synchronize fan's control" = "סנכרן את בקרת המאוורר"; // gemma4:31b
+"Current" = "זרם"; // gemma4:31b
 "Energy" = "אנרגיה"; // translategemma:4b
-"Show unknown sensors" = "הצגת חיישנים לא ידועים"; // translategemma:4b
-"Install fan helper" = "התקן את תוכנת העזרה לפעולת המאוורר"; // translategemma:4b
-"Uninstall fan helper" = "הסר התקנה של תוכנת עזר למאוורר"; // translategemma:4b
-"Fan value" = "ערך הצריכה"; // translategemma:4b
+"Show unknown sensors" = "הצג חיישנים לא ידועים"; // gemma4:31b
+"Install fan helper" = "התקן כלי עזר למאוורר"; // gemma4:31b
+"Uninstall fan helper" = "הסר את עוזר המאוורר"; // gemma4:31b
+"Fan value" = "ערך המאוורר"; // gemma4:31b
 "Turn off fan" = "כבה את המאוורר"; // translategemma:4b
-"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "אתם עומדים לכבות את המאוורר. פעולה זו אינה מומלצת ויכולה לגרום נזק למחשב שלכם. האם אתם בטוחים שאתם רוצים לעשות זאת?"; // translategemma:4b
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "אתה עומד לכבות את המאוורר. זוהי פעולה שאינה מומלצת שעלולה לגרום נזק למחשב ה-Mac שלך, האם אתה בטוח שברצונך לעשות זאת?"; // gemma4:31b
 "Sensor threshold" = "סף חיישן"; // translategemma:4b
 "Left fan" = "שמאל"; // translategemma:4b
-"Right fan" = "נכון"; // translategemma:4b
+"Right fan" = "ימין"; // gemma4:31b
 "Fastest fan" = "המהיר ביותר"; // translategemma:4b
 "Sensor to show" = "חיישן להצגה"; // translategemma:4b
 
@@ -401,36 +403,36 @@
 "Processes based" = "מבוסס מעבד";
 "Reset data usage" = "אפס את השימוש בנתונים";
 "VPN mode" = "VPN מצב";
-"Standard" = "סטנדרטי"; // translategemma:4b
-"Security" = "אבטחה"; // translategemma:4b
+"Standard" = "סטנדרט"; // gemma4:31b
+"Security" = "הצפנה"; // gemma4:31b
 "Channel" = "ערוץ"; // translategemma:4b
-"Common scale" = "סולם סטנדרטי"; // translategemma:4b
+"Common scale" = "קנה מידה משותף"; // gemma4:31b
 "Autodetection" = "זיהוי אוטומטי"; // translategemma:4b
-"Widget activation threshold" = "סף הפעלה של ווידג"; // translategemma:4b
+"Widget activation threshold" = "סף הפעלת הווידג'ט"; // gemma4:31b
 "Internet connection" = "חיבור לאינטרנט"; // translategemma:4b
-"Active state color" = "צבע המצב הפעיל"; // translategemma:4b
-"Nonactive state color" = "צבע למצב לא פעיל"; // translategemma:4b
-"Connectivity host" = "שרת קישוריות"; // translategemma:4b
-"Leave empty to disable the check" = "השאירו ריק כדי לבטל את הבדיקה"; // translategemma:4b
-"Connectivity history" = "היסטוריית חיבורים"; // translategemma:4b
-"Auto-refresh public IP address" = "עדכון אוטומטי של כתובת ה-IP הציבורית"; // translategemma:4b
-"Every hour" = "בכל שעה"; // translategemma:4b
+"Active state color" = "צבע מצב פעיל"; // gemma4:31b
+"Nonactive state color" = "צבע מצב לא פעיל"; // gemma4:31b
+"Connectivity host" = "מארח קישוריות"; // gemma4:31b
+"Leave empty to disable the check" = "השאר ריק כדי לבטל את הבדיקה"; // gemma4:31b
+"Connectivity history" = "היסטוריית קישוריות"; // gemma4:31b
+"Auto-refresh public IP address" = "רענון אוטומטי של כתובת IP ציבורית"; // gemma4:31b
+"Every hour" = "כל שעה"; // gemma4:31b
 "Every 12 hours" = "כל 12 שעות"; // translategemma:4b
-"Every 24 hours" = "בכל 24 שעות"; // translategemma:4b
+"Every 24 hours" = "כל 24 שעות"; // gemma4:31b
 "Network activity" = "פעילות רשת"; // translategemma:4b
-"Last reset" = "האיחוד האחרון בוצע לפני %0 ימים"; // translategemma:4b
-"Latency" = "עיכוב"; // translategemma:4b
-"Upload speed" = "העלה"; // translategemma:4b
+"Last reset" = "איפוס אחרון לפני %0"; // gemma4:31b
+"Latency" = "שיהוי"; // gemma4:31b
+"Upload speed" = "העלאה"; // gemma4:31b
 "Download speed" = "הורדה"; // translategemma:4b
 "Address" = "כתובת"; // translategemma:4b
-"WiFi network" = "רשת Wi-Fi"; // translategemma:4b
+"WiFi network" = "רשת WiFi"; // gemma4:31b
 "Local IP changed" = "כתובת ה-IP המקומית השתנתה"; // translategemma:4b
 "Public IP changed" = "כתובת ה-IP הציבורית השתנתה"; // translategemma:4b
-"Previous IP" = "כתובת IP קודמת: %0"; // translategemma:4b
+"Previous IP" = "IP קודם: %0"; // gemma4:31b
 "New IP" = "כתובת IP חדשה: %0"; // translategemma:4b
-"Internet connection lost" = "ניתק התחברות לאינטרנט"; // translategemma:4b
-"Internet connection established" = "חיבור לאינטרנט הושלם"; // translategemma:4b
-"Show country code instead of emoji" = "הצג קידוד מדינה במקום סמל רגש"; // translategemma:4b
+"Internet connection lost" = "החיבור לאינטרנט אבד"; // gemma4:31b
+"Internet connection established" = "חיבור לאינטרנט נוצר"; // gemma4:31b
+"Show country code instead of emoji" = "להציג קוד מדינה במקום אימוג'י"; // gemma4:31b
 
 // Battery
 "Level" = "רמה";
@@ -465,9 +467,9 @@
 "Last charge" = "טעינה אחרונה";
 "Capacity" = "קיבולת";
 "current / maximum / designed" = "current / מקסימום / עיצוב";
-"Low power mode" = "מצב צריכת חשמל נמוכה"; // translategemma:4b
+"Low power mode" = "מצב חיסכון באנרגיה"; // gemma4:31b
 "Percentage inside the icon" = "אחוז בתוך הסמל"; // translategemma:4b
-"Colorize battery" = "צבע את הסוללה"; // translategemma:4b
+"Colorize battery" = "צביעת הסוללה"; // gemma4:31b
 "Charging current" = "זרם טעינה"; // translategemma:4b
 "Charging Voltage" = "מתח טעינה"; // translategemma:4b
 "Charger state inside the battery" = "מצב טעינה בתוך הסוללה"; // translategemma:4b
@@ -478,8 +480,8 @@
 
 // Clock
 "Time zone" = "אזור זמן"; // translategemma:4b
-"Local" = "מקומית"; // translategemma:4b
-"Calendar" = "יומן"; // translategemma:4b
+"Local" = "מקומי"; // gemma4:31b
+"Calendar" = "לוח שנה"; // gemma4:31b
 "Show week numbers" = "הצג מספרי שבועות"; // translategemma:4b
 "Local time" = "זמן מקומי"; // translategemma:4b
 "Add new clock" = "הוסף שעון חדש"; // translategemma:4b
@@ -490,7 +492,7 @@
 // Colors
 "Based on utilization" = "מבוסס על ניצול";
 "Based on pressure" = "מבוסס על לחץ";
-"Based on cluster" = "בהתבסס על קבוצה"; // translategemma:4b
+"Based on cluster" = "מבוסס על צבר"; // gemma4:31b
 "System accent" = "הדגשת מערכת";
 "Monochrome accent" = "הדגשת מונוכרום";
 "Clear" = "נקה";

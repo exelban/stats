@@ -26,7 +26,7 @@
 "Open Battery settings" = "Άνοιγμα ρυθμίσεων Μπαταρίας";
 "Bluetooth" = "Bluetooth";
 "Open Bluetooth settings" = "Άνοιγμα ρυθμίσεων Bluetooth";
-"Clock" = "Ωρά"; // translategemma:4b
+"Clock" = "Ρολόι"; // gemma4:31b
 "Open Clock settings" = "Άνοιγμα ρυθμίσεων ρολογιού"; // translategemma:4b
 
 // Words
@@ -69,14 +69,14 @@
 "Square" = "Τετραγωνικό";
 "Cube" = "Κυβικό";
 "Logarithmic" = "Λογαριθμικό";
-"Fixed scale" = "Διορθώθηκε"; // translategemma:4b
+"Fixed scale" = "Σταθερό"; // gemma4:31b
 "Cores" = "Πυρήνες";
-"Core" = "Κεντρικό"; // translategemma:4b
+"Core" = "Πύρήνας"; // gemma4:31b
 "Settings" = "Ρυθμίσεις";
 "Name" = "Όνομα"; // translategemma:4b
 "Format" = "Μορφή"; // translategemma:4b
 "Turn off" = "Απενεργοποίηση"; // translategemma:4b
-"Normal" = "Κανονικό"; // translategemma:4b
+"Normal" = "Κανονικός"; // gemma4:31b
 "Warning" = "Προειδοποίηση"; // translategemma:4b
 "Critical" = "Κρίσιμο"; // translategemma:4b
 "Usage" = "Χρήση"; // translategemma:4b
@@ -86,21 +86,21 @@
 "Import" = "Εισαγωγή"; // translategemma:4b
 "Export" = "Εξαγωγή"; // translategemma:4b
 "Separator" = "Διαχωριστής"; // translategemma:4b
-"Read" = "Διαβάστε"; // translategemma:4b
-"Write" = "Γράψτε"; // translategemma:4b
+"Read" = "Ανάγνωση"; // gemma4:31b
+"Write" = "Εγγραφή"; // gemma4:31b
 "Frequency" = "Συχνότητα"; // translategemma:4b
 "Save" = "Αποθήκευση"; // translategemma:4b
-"Run" = "Εκτελέστε"; // translategemma:4b
-"Stop" = "Σταματήστε"; // translategemma:4b
-"Uninstall" = "Ακύρωση εγκατάστασης"; // translategemma:4b
-"1 sec" = "1 δευτερόλεπτο"; // translategemma:4b
-"2 sec" = "2 δευτερόλεπτα"; // translategemma:4b
-"3 sec" = "3 δευτερόλεπτα"; // translategemma:4b
-"5 sec" = "5 δευτερόλεπτα"; // translategemma:4b
-"10 sec" = "10 δευτερόλεπτα"; // translategemma:4b
-"15 sec" = "15 δευτερόλεπτα"; // translategemma:4b
-"30 sec" = "30 δευτερόλεπτα"; // translategemma:4b
-"60 sec" = "60 δευτερόλεπτα"; // translategemma:4b
+"Run" = "Εκτέλεση"; // gemma4:31b
+"Stop" = "Διακοπή"; // gemma4:31b
+"Uninstall" = "Απεγκατάσταση"; // gemma4:31b
+"1 sec" = "1 δευτ"; // gemma4:31b
+"2 sec" = "2 δευτ"; // gemma4:31b
+"3 sec" = "3 δευτ"; // gemma4:31b
+"5 sec" = "5 δευτ"; // gemma4:31b
+"10 sec" = "10 δευτ"; // gemma4:31b
+"15 sec" = "15 δευτ"; // gemma4:31b
+"30 sec" = "30 δευτ"; // gemma4:31b
+"60 sec" = "60 δευτ"; // gemma4:31b
 
 // Setup
 "Stats Setup" = "Εγκατάσταση Stats";
@@ -111,20 +111,20 @@
 "Finish" = "Τέλος";
 "Finish setup" = "Τέλος εγκαταστασης";
 "Welcome to Stats" = "Καλώς ήρθες στο Stats";
-"welcome_message" = "Σας ευχαριστούμε που χρησιμοποιείτε το Stats, ένα δωρεάν, ανοιχτού κώδικα πρόγραμμα παρακολούθησης συστήματος για το macOS, το οποίο μπορείτε να χρησιμοποιήσετε στην γραμμή εργασιών σας."; // translategemma:4b
-"Start the application automatically when starting your Mac" = "Ξεκινήστε την εφαρμογή αυτόματα κατά την εκκίνηση του Mac σας."; // translategemma:4b
-"Do not start the application automatically when starting your Mac" = "Μην ξεκινάτε την εφαρμογή αυτόματα όταν ξεκινάτε τον Mac σας."; // translategemma:4b
+"welcome_message" = "Ευχαριστούμε που χρησιμοποιείτε το Stats, ένα δωρεάν εργαλείο παρακολούθησης συστήματος macOS ανοιχτού κώδικα για τη γραμμή μενού σας."; // gemma4:31b
+"Start the application automatically when starting your Mac" = "Εκκίνηση της εφαρμογής αυτόματα κατά την εκκίνηση του Mac σας"; // gemma4:31b
+"Do not start the application automatically when starting your Mac" = "Μην εκκινείτε την εφαρμογή αυτόματα κατά την εκκίνηση του Mac σας"; // gemma4:31b
 "Do everything silently in the background (recommended)" = "Κάντε τα πάντα αθόρυβα στο παρασκήνιο (συνιστάται)"; // translategemma:4b
-"Check for a new version on startup" = "Ελέγξτε για μια νέα έκδοση κατά την εκκίνηση."; // translategemma:4b
-"Check for a new version every day (once a day)" = "Ελέγξτε για μια νέα έκδοση καθημερινά (μία φορά την ημέρα)"; // translategemma:4b
-"Check for a new version every week (once a week)" = "Ελέγξτε για μια νέα έκδοση κάθε εβδομάδα (μία φορά την εβδομάδα)"; // translategemma:4b
-"Check for a new version every month (once a month)" = "Ελέγξτε για μια νέα έκδοση κάθε μήνα (μία φορά το μήνα)"; // translategemma:4b
-"Never check for updates (not recommended)" = "Μην ελέγχετε για ενημερώσεις (δεν συνιστάται)"; // translategemma:4b
-"Anonymous telemetry for better development decisions" = "Ανωνυμοποιημένη συλλογή δεδομένων για καλύτερες αποφάσεις ανάπτυξης"; // translategemma:4b
-"Share anonymous telemetry data" = "Μοιραστείτε ανώνυμα δεδομένα τηλεμετρίας"; // translategemma:4b
-"Do not share anonymous telemetry data" = "Μην μοιράζεστε δεδομένα τηλεμετρίας που έχουν παραχωρηθεί ανώνυμα."; // translategemma:4b
-"The configuration is completed" = "Η διαμόρφωση έχει ολοκληρωθεί"; // translategemma:4b
-"finish_setup_message" = "Όλα είναι έτοιμα!"; // translategemma:4b
+"Check for a new version on startup" = "Έλεγχος για νέα έκδοση κατά την εκκίνηση"; // gemma4:31b
+"Check for a new version every day (once a day)" = "Έλεγχος για νέα έκδοση κάθε μέρα (μία φορά την ημέρα)"; // gemma4:31b
+"Check for a new version every week (once a week)" = "Έλεγχος για νέα έκδοση κάθε εβδομάδα (μία φορά την εβδομάδα)"; // gemma4:31b
+"Check for a new version every month (once a month)" = "Έλεγχος για νέα έκδοση κάθε μήνα (μία φορά τον μήνα)"; // gemma4:31b
+"Never check for updates (not recommended)" = "Ποτέ μην ελέγχετε για ενημερώσεις (δεν συνιστάται)"; // gemma4:31b
+"Anonymous telemetry for better development decisions" = "Ανώνυμη τηλεμετρία για καλύτερες αποφάσεις ανάπτυξης"; // gemma4:31b
+"Share anonymous telemetry data" = "Κοινοποίηση ανώνυμων τηλεμετρικών δεδομένων"; // gemma4:31b
+"Do not share anonymous telemetry data" = "Μην κοινοποιείτε ανώνυμα δεδομένα τηλεμετρίας"; // gemma4:31b
+"The configuration is completed" = "Η διαμόρφωση ολοκληρώθηκε"; // gemma4:31b
+"finish_setup_message" = "Όλα είναι έτοιμα! \\n Το Stats είναι ένα εργαλείο ανοιχτού κώδικα, είναι δωρεάν και θα παραμείνει έτσι. \\n Αν σας αρέσει, μπορείτε να υποστηρίξετε το έργο, εκτιμάται πάντα!"; // gemma4:31b
 
 // Alerts
 "New version available" = "Νέα έκδοση διαθέσιμη";
@@ -141,9 +141,9 @@
 "Close application" = "Κλείσιμο εφαρμογής";
 "Open application settings" = "Άνοιγμα ρυθμίσεων εφαρμογής";
 "Open dashboard" = "Άνοιγμα ταμπλό";
-"No notifications available in this module" = "Δεν υπάρχουν διαθέσιμες ειδοποιήσεις σε αυτό το τμήμα."; // translategemma:4b
+"No notifications available in this module" = "Δεν υπάρχουν διαθέσιμες ειδοποιήσεις σε αυτό το μοδούλο"; // gemma4:31b
 "Open Calendar" = "Άνοιγμα Ημερολογίου"; // translategemma:4b
-"Toggle the module" = "Ενεργοποιήστε/Απενεργοποιήστε το module"; // translategemma:4b
+"Toggle the module" = "Εναλλαγή του μοδούλου"; // gemma4:31b
 
 // Application settings
 "Update application" = "Ενημέρωση Εφαρμογής";
@@ -158,27 +158,27 @@
 "Start at login" = "Εκκίνηση κατά τη σύνδεση";
 "Build number" = "Αριθμός έκδοσης";
 "Import settings" = "Εισαγωγή ρυθμίσεων"; // translategemma:4b
-"Export settings" = "Ρυθμίσεις εξαγωγής"; // translategemma:4b
+"Export settings" = "Εξαγωγή ρυθμίσεων"; // gemma4:31b
 "Reset settings" = "Επαναφορά ρυθμίσεων";
 "Pause the Stats" = "Παύση του Stats";
 "Resume the Stats" = "Ξαναρχίζω το Stats";
 "Combined modules" = "Συνένωση ενοτήτων";
-"Combined details" = "Συνοπτικές πληροφορίες"; // translategemma:4b
+"Combined details" = "Συνδυασμένες λεπτομέρειες"; // gemma4:31b
 "Spacing" = "Κενό";
-"Share anonymous telemetry" = "Μοιραστείτε ανώνυμα δεδομένα τηλεμετρίας"; // translategemma:4b
-"Choose file" = "Επιλέξτε αρχείο"; // translategemma:4b
-"Stress tests" = "Έλεγχοι αντοχής"; // translategemma:4b
+"Share anonymous telemetry" = "Κοινοποίηση ανώνυμης τηλεμετρίας"; // gemma4:31b
+"Choose file" = "Επιλογή αρχείου"; // gemma4:31b
+"Stress tests" = "Δοκιμές καταπόνησης"; // gemma4:31b
 
 // Dashboard
 "Serial number" = "Σειριακός αριθμός";
-"Model identifier" = "Αναγνώρισμα μοντέλου"; // translategemma:4b
+"Model identifier" = "Αναγνωριστικό μοντέλου"; // gemma4:31b
 "Production year" = "Έτος παραγωγής"; // translategemma:4b
 "Uptime" = "Χρόνος Δραστηριότητας";
 "Number of cores" = "%0 πυρήνες";
-"Number of threads" = "%0 θέματα"; // translategemma:4b
+"Number of threads" = "%0 νήματα"; // gemma4:31b
 "Number of e-cores" = "%0 πυρήνες απόδοσης";
 "Number of p-cores" = "%0 πυρήνες επίδοσης";
-"Number of s-cores" = "%0 υπερ-πρωτεύοντα"; // translategemma:4b
+"Number of s-cores" = "%0 υπερπύρηνες"; // gemma4:31b
 "Disks" = "Δίσκοι"; // translategemma:4b
 "Display" = "Οθόνη"; // translategemma:4b
 
@@ -213,9 +213,9 @@
 "Memory widget" = "Μνήμη";
 "Static width" = "Σταθερό πλάτος";
 "Tachometer widget" = "Ταχύμετρο";
-"State widget" = "Στικ του κράτους"; // translategemma:4b
+"State widget" = "Στοιχείο κατάστασης"; // gemma4:31b
 "Text widget" = "Widget κειμένου"; // translategemma:4b
-"Battery details widget" = "Widget με πληροφορίες για την μπαταρία"; // translategemma:4b
+"Battery details widget" = "Στοιχείο λεπτομερειών μπαταρίας"; // gemma4:31b
 "Show symbols" = "Εμφάνιση συμβόλων";
 "Label widget" = "Ετικέτα";
 "Number of reads in the chart" = "Αριθμός αναγνώσεων του διαγράμματος";
@@ -223,9 +223,9 @@
 "Color of upload" = "Χρώμα της μεταφόρτωσης";
 "Monospaced font" = "Μονόχωρη γραμματοσειρά";
 "Reverse order" = "Αντίστροφη σειρά"; // translategemma:4b
-"Chart history" = "Ιστορικό γραφήματος"; // translategemma:4b
+"Chart history" = "Ιστορικό διαγράμματος"; // gemma4:31b
 "Default color" = "Προεπιλεγμένο"; // translategemma:4b
-"Transparent when no activity" = "Διαφανές όταν δεν υπάρχει κάποια δραστηριότητα"; // translategemma:4b
+"Transparent when no activity" = "Διαφανής όταν δεν υπάρχει δραστηριότητα"; // gemma4:31b
 "Constant color" = "Σταθερός"; // translategemma:4b
 "Custom..." = "Προσαρμοσμένο...";
 
@@ -239,15 +239,15 @@
 "Top processes" = "Κορυφαίες διεργασίες";
 "Pictogram" = "Εικονόγραμμα";
 "Module" = "Μονάδα μέτρησης";
-"Widgets" = "Widget"; // translategemma:4b
+"Widgets" = "Βιτζετ"; // gemma4:31b
 "Popup" = "Αναδυόμενο παράθυρο";
 "Notifications" = "Ειδοποιήσεις";
 "Merge widgets" = "Συγχώνευση γραφικών στοιχείων";
 "No available widgets to configure" = "Δεν υπάρχουν διαθέσιμα γραφικά στοιχεία για διαμόρφωση";
 "No options to configure for the popup in this module" = "Δεν υπάρχουν επιλογές για διαμόρφωση για το αναδυόμενο παράθυρο σε αυτήν την ενότητα";
 "Process" = "Διαδικασία"; // translategemma:4b
-"Kill process" = "Τερματισμός διεργασίας"; // translategemma:4b
-"Keyboard shortcut" = "Σύντομο συνδυασμό πληκτρολογίου"; // translategemma:4b
+"Kill process" = "Τερματισμός διαδικασίας"; // gemma4:31b
+"Keyboard shortcut" = "Συντόμευση πλήκτρων"; // gemma4:31b
 "Listening..." = "Ακούω..."; // translategemma:4b
 
 // Modules
@@ -255,10 +255,10 @@
 "Update interval for top processes" = "Ενημέρωση μεσοδιαστήματος για τις κορυφαίες διεργασίες";
 "Notification level" = "Επίπεδο Ειδοποίησης";
 "Chart color" = "Χρώμα γραφήματος";
-"Main chart scaling" = "Κύρια κλίμακα γραφήματος"; // translategemma:4b
+"Main chart scaling" = "Κλιμάκωση κύριου διαγράμματος"; // gemma4:31b
 "Scale value" = "Τιμή κλίμακας"; // translategemma:4b
-"Text widget value" = "Τιμή στο πεδίο κειμένου"; // translategemma:4b
-"Combined processes" = "Συνδυασμένες διαδικασίες"; // translategemma:4b
+"Text widget value" = "Τιμή του ουίντζετ κειμένου"; // gemma4:31b
+"Combined processes" = "Ομαδοποιημένες διαδικασίες"; // gemma4:31b
 
 // CPU
 "CPU usage" = "Χρήση CPU";
@@ -277,25 +277,25 @@
 "5 minutes" = "5 λεπτά";
 "15 minutes" = "15 λεπτά";
 "CPU usage threshold" = "Όριο χρήσης CPU"; // translategemma:4b
-"CPU usage is" = "Η χρήση της CPU είναι στο `%0"; // translategemma:4b
-"Efficiency cores" = "Κύρια επεξεργαστικά κέντρα"; // translategemma:4b
-"Performance cores" = "Επεξεργαστικές μονάδες"; // translategemma:4b
+"CPU usage is" = "Η χρήση της CPU είναι %0"; // gemma4:31b
+"Efficiency cores" = "Ενεργειακά αποδοτικοί πύρηνες"; // gemma4:31b
+"Performance cores" = "Πύρηνες απόδοσης"; // gemma4:31b
 "System color" = "Χρώμα συστήματος"; // translategemma:4b
 "User color" = "Χρώμα χρήστη"; // translategemma:4b
-"Idle color" = "Χρώμα σε κατάσταση αναμονής"; // translategemma:4b
-"Cluster grouping" = "Ομαδοποίηση"; // translategemma:4b
-"Efficiency cores color" = "Χρώμα πυρήνων απόδοσης"; // translategemma:4b
-"Performance cores color" = "Χρώμα των πυρήνων απόδοσης"; // translategemma:4b
-"Total load" = "Συνολική χωρητικότητα"; // translategemma:4b
+"Idle color" = "Χρώμα ανεργίας"; // gemma4:31b
+"Cluster grouping" = "Ομαδοποίηση συστοιχίων"; // gemma4:31b
+"Efficiency cores color" = "Χρώμα ενεργειακά αποδοτικών πυρήνων"; // gemma4:31b
+"Performance cores color" = "Χρώμα πυρήνων απόδοσης"; // gemma4:31b
+"Total load" = "Συνολικός φόρτος"; // gemma4:31b
 "System load" = "Φόρτος συστήματος"; // translategemma:4b
-"User load" = "Φόρτος χρηστών"; // translategemma:4b
-"Efficiency cores load" = "Ενα λειτουργικά κέντρα φορτώνουν"; // translategemma:4b
-"Performance cores load" = "Φόρτωση των βασικών πυρήνων"; // translategemma:4b
-"All cores" = "Όλα τα πυρήνες"; // translategemma:4b
-"Load per core" = "Φόρτωση ανά πυρήνα"; // translategemma:4b
-"Efficiency core" = "Βασική λειτουργικότητα"; // translategemma:4b
-"Performance core" = "Κεντρικό στοιχείο απόδοσης"; // translategemma:4b
-"Super core" = "Εξαιρετικά ισχυρό"; // translategemma:4b
+"User load" = "Φόρτος χρήστη"; // gemma4:31b
+"Efficiency cores load" = "Φόρτος πυρήνων αποδοτικότητας"; // gemma4:31b
+"Performance cores load" = "Φόρτος πυρήνων απόδοσης"; // gemma4:31b
+"All cores" = "Όλοι οι πύρηνες"; // gemma4:31b
+"Load per core" = "Φόρτος ανά πυρήνα"; // gemma4:31b
+"Efficiency core" = "Πυρήνας αποδοτικότητας"; // gemma4:31b
+"Performance core" = "Πυρήνας απόδοσης"; // gemma4:31b
+"Super core" = "Σούπερ πυρήνας"; // gemma4:31b
 
 // GPU
 "GPU to show" = "GPU προς εμφάνιση";
@@ -313,10 +313,10 @@
 "Core clock" = "Ρολόι επεξεργαστή";
 "Memory clock" = "Ρολόι μνήμης";
 "Utilization" = "Χρήση";
-"Render utilization" = "Χρήση επεξεργαστικής ισχύος"; // translategemma:4b
-"Tiler utilization" = "Χρήση πλακιδίων"; // translategemma:4b
-"GPU usage threshold" = "Όριο χρήσης της GPU"; // translategemma:4b
-"GPU usage is" = "Η χρήση της κάρτας γραφικών είναι στο `%0"; // translategemma:4b
+"Render utilization" = "Χρήση Render"; // gemma4:31b
+"Tiler utilization" = "Χρήση Tiler"; // gemma4:31b
+"GPU usage threshold" = "Όριο χρήσης GPU"; // gemma4:31b
+"GPU usage is" = "Η χρήση της GPU είναι %0"; // gemma4:31b
 
 // RAM
 "Memory usage" = "Χρήση μνήμης";
@@ -329,15 +329,15 @@
 "Free" = "Ελεύθερη";
 "Swap" = "Ανταλλαγή";
 "Split the value (App/Wired/Compressed)" = "Χωρισμός της τιμής (Εφαρμογή/Δεσμευμένη/Συμπιεσμένη)";
-"RAM utilization threshold" = "Όριο χρήσης μνήμης RAM"; // translategemma:4b
-"RAM utilization is" = "Η χρήση της μνήμης RAM είναι στο `%0"; // translategemma:4b
+"RAM utilization threshold" = "Όριο χρήσης RAM"; // gemma4:31b
+"RAM utilization is" = "Η χρήση της RAM είναι %0"; // gemma4:31b
 "App color" = "Χρώμα Εφαρμογής";
 "Wired color" = "Χρώμα Δεσμευμένης";
 "Compressed color" = "Χρώμα Συμπίεσης";
 "Free color" = "Χρώμα Ελεύθερου";
-"Free memory (less than)" = "Δωρεάν μνήμη (λιγότερο από)"; // translategemma:4b
-"Swap size" = "Μέγεθος εναλλαγής"; // translategemma:4b
-"Free RAM is" = "Η διαθέσιμη μνήμη RAM είναι %0"; // translategemma:4b
+"Free memory (less than)" = "Ελεύθερη μνήμη (λιγότερο από)"; // gemma4:31b
+"Swap size" = "Μέγεθος swap"; // gemma4:31b
+"Free RAM is" = "Ελεύθερη RAM είναι %0"; // gemma4:31b
 
 // Disk
 "Show removable disks" = "Εμφάνιση αφαιρούμενων δίσκων";
@@ -347,16 +347,18 @@
 "Open disk" = "Άνοιγμα δίσκου";
 "Switch view" = "Αλλαγή προβολής";
 "Disk utilization threshold" = "Όριο χρήσης δίσκου"; // translategemma:4b
-"Disk utilization is" = "Ο χρόνος που χρησιμοποιείται στο δίσκο είναι το `%0"; // translategemma:4b
+"Disk utilization is" = "Η χρήση του δίσκου είναι %0"; // gemma4:31b
 "Read color" = "Χρώμα ανάγνωσης";
 "Write color" = "Χρώμα εγγραφής";
 "Disk usage" = "Χρήση δίσκου"; // translategemma:4b
 "Total read" = "Συνολική ανάγνωση"; // translategemma:4b
-"Total written" = "Συνολική γραπτή"; // translategemma:4b
-"Write speed" = "Γράψτε"; // translategemma:4b
-"Read speed" = "Διαβάστε"; // translategemma:4b
+"Total written" = "Συνολικά γραμμένα"; // gemma4:31b
+"Write speed" = "Εγγραφή"; // gemma4:31b
+"Read speed" = "Ανάγνωση"; // gemma4:31b
 "Drives" = "Δίσκοι"; // translategemma:4b
-"SMART data" = "Δεδομένα SMART"; // translategemma:4b
+"SMART data" = "SMART δεδομένα"; // gemma4:31b
+"Power cycles" = "Power cycles";
+"Power on hours" = "Power on hours";
 
 // Sensors
 "Temperature unit" = "Μονάδα θερμοκρασίας";
@@ -365,20 +367,20 @@
 "Save the fan speed" = "Αποθήκευση ταχύτητας του ανεμιστήρα";
 "Fan" = "Ανεμιστήρας";
 "HID sensors" = "HID αισθητήρας";
-"Synchronize fan's control" = "Συγχρονίστε τον έλεγχο του ανεμιστήρα"; // translategemma:4b
+"Synchronize fan's control" = "Συγχρονισμός ελέγχου ανεμιστήρα"; // gemma4:31b
 "Current" = "Τρέχουσα";
 "Energy" = "Ενέργεια";
 "Show unknown sensors" = "Εμφάνιση άγνωστους αισθητήρες";
 "Install fan helper" = "Εγκατάσταση fan helper";
 "Uninstall fan helper" = "Απεγκατάσταση fan helper";
-"Fan value" = "Αξία ανεμιστήρα"; // translategemma:4b
-"Turn off fan" = "Απενεργοποιήστε τον ανεμιστήρα"; // translategemma:4b
-"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Θα απενεργοποιήσετε τον ανεμιστήρα. Αυτή δεν είναι η συνιστώμενη ενέργεια και μπορεί να προκαλέσει ζημιά στον Mac σας. Είστε σίγουροι ότι θέλετε να το κάνετε;"; // translategemma:4b
-"Sensor threshold" = "Όριο ανίχνευσης"; // translategemma:4b
+"Fan value" = "Τιμή ανεμιστήρα"; // gemma4:31b
+"Turn off fan" = "Απενεργοποίηση ανεμιστήρα"; // gemma4:31b
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Πρόκειται να απενεργοποιήσετε τον ανεμιστήρα. Αυτή είναι μια μη προτεινόμενη ενέργεια που μπορεί να προκαλέσει βλάβη στον Mac σας, είστε σίγουροι ότι θέλετε να το κάνετε αυτό;"; // gemma4:31b
+"Sensor threshold" = "Όριο αισθητήρα"; // gemma4:31b
 "Left fan" = "Αριστερά"; // translategemma:4b
-"Right fan" = "Σωστά"; // translategemma:4b
+"Right fan" = "Δεξιά"; // gemma4:31b
 "Fastest fan" = "Ταχύτερος"; // translategemma:4b
-"Sensor to show" = "Αισθητήρας για την εμφάνιση"; // translategemma:4b
+"Sensor to show" = "Αισθητήρας προς εμφάνιση"; // gemma4:31b
 
 // Network
 "Uploading" = "Μεταφόρτωση";
@@ -404,33 +406,33 @@
 "Standard" = "Κανονικός";
 "Security" = "Ασφάλεια";
 "Channel" = "Κανάλι";
-"Common scale" = "Συνήθη κλίμακα"; // translategemma:4b
-"Autodetection" = "Αυτόματη ανίχνευση"; // translategemma:4b
-"Widget activation threshold" = "Όριο ενεργοποίησης widget"; // translategemma:4b
-"Internet connection" = "Σύνδεση στο διαδίκτυο"; // translategemma:4b
-"Active state color" = "Χρώμα κατά την ενεργή κατάσταση"; // translategemma:4b
-"Nonactive state color" = "Χρώμα κατά την κατάσταση μη λειτουργίας"; // translategemma:4b
-"Connectivity host" = "Υπολογιστής διασύνδεσης"; // translategemma:4b
-"Leave empty to disable the check" = "Αφήστε το κενό για να απενεργοποιήσετε τον έλεγχο."; // translategemma:4b
-"Connectivity history" = "Ιστορικό σύνδεσης"; // translategemma:4b
-"Auto-refresh public IP address" = "Αυτόματη ανανέωση της δημόσιας διεύθυνσης IP"; // translategemma:4b
+"Common scale" = "Κοινή κλίμακα"; // gemma4:31b
+"Autodetection" = "Αυτοανίχνευση"; // gemma4:31b
+"Widget activation threshold" = "Κατώφλι ενεργοποίησης βίντζετ"; // gemma4:31b
+"Internet connection" = "Σύνδεση στο Διαδίκτυο"; // gemma4:31b
+"Active state color" = "Χρώμα ενεργής κατάστασης"; // gemma4:31b
+"Nonactive state color" = "Χρώμα ανενεργής κατάστασης"; // gemma4:31b
+"Connectivity host" = "Φιλοξεγαστής συνδεσιμότητας"; // gemma4:31b
+"Leave empty to disable the check" = "Αφήστε κενό για να απενεργοποιήσετε τον έλεγχο"; // gemma4:31b
+"Connectivity history" = "Ιστορικό συνδεσιμότητας"; // gemma4:31b
+"Auto-refresh public IP address" = "Αυτόματη ανανέωση δημόσιας διεύθυνσης IP"; // gemma4:31b
 "Every hour" = "Κάθε ώρα"; // translategemma:4b
 "Every 12 hours" = "Κάθε 12 ώρες"; // translategemma:4b
 "Every 24 hours" = "Κάθε 24 ώρες"; // translategemma:4b
 "Network activity" = "Δραστηριότητα δικτύου"; // translategemma:4b
-"Last reset" = "Η τελευταία επαναφορά έγινε πριν %0 ημέρες"; // translategemma:4b
+"Last reset" = "Τελευταία επαναφορά πριν από %0"; // gemma4:31b
 "Latency" = "Καθυστέρηση"; // translategemma:4b
-"Upload speed" = "Ανέβασμα"; // translategemma:4b
+"Upload speed" = "Μεταφόρτωση"; // gemma4:31b
 "Download speed" = "Λήψη"; // translategemma:4b
 "Address" = "Διεύθυνση"; // translategemma:4b
-"WiFi network" = "Δίκτυο Wi-Fi"; // translategemma:4b
-"Local IP changed" = "Η τοπική διεύθυνση IP έχει αλλάξει"; // translategemma:4b
-"Public IP changed" = "Η δημόσια διεύθυνση IP έχει αλλάξει."; // translategemma:4b
+"WiFi network" = "Δίκτυο WiFi"; // gemma4:31b
+"Local IP changed" = "Η τοπική IP έχει αλλάξει"; // gemma4:31b
+"Public IP changed" = "Η δημόσια IP άλλαξε"; // gemma4:31b
 "Previous IP" = "Προηγούμενη διεύθυνση IP: %0"; // translategemma:4b
 "New IP" = "Νέα διεύθυνση IP: %0"; // translategemma:4b
-"Internet connection lost" = "Απώλεια σύνδεσης στο διαδίκτυο"; // translategemma:4b
-"Internet connection established" = "Εγκαταστάθηκε σύνδεση στο διαδίκτυο"; // translategemma:4b
-"Show country code instead of emoji" = "Εμφάνιση του κωδικού χώρας αντί για εικονίδια"; // translategemma:4b
+"Internet connection lost" = "Χάθηκε η σύνδεση στο Διαδίκτυο"; // gemma4:31b
+"Internet connection established" = "Η σύνδεση στο Internet αποκαταστάθηκε"; // gemma4:31b
+"Show country code instead of emoji" = "Εμφάνιση κώδικα χώρας αντί για emoji"; // gemma4:31b
 
 // Battery
 "Level" = "Επίπεδο";
@@ -443,7 +445,7 @@
 "Voltage" = "Τάση";
 "Cycles" = "Κύκλοι";
 "Temperature" = "Θερμοκρασία";
-"Power adapter" = "Τροφοδοτικό"; // translategemma:4b
+"Power adapter" = "Προσαρμογέας τροφοδοσίας"; // gemma4:31b
 "Power" = "Ισχύς";
 "Is charging" = "Σε φόρτιση";
 "Time to discharge" = "Χρόνος αποφόρτισης";
@@ -467,10 +469,10 @@
 "current / maximum / designed" = "τρέχουσα / μέγιστη / σχεδιασμένη";
 "Low power mode" = "Κατάστασης χαμηλής ενέργειας";
 "Percentage inside the icon" = "Ποσοστό μέσα στο εικονίδιο";
-"Colorize battery" = "Χρωματίστε την μπαταρία"; // translategemma:4b
+"Colorize battery" = "Χρωματισμός μπαταρίας"; // gemma4:31b
 "Charging current" = "Ρεύμα φόρτισης"; // translategemma:4b
 "Charging Voltage" = "Τάση φόρτισης"; // translategemma:4b
-"Charger state inside the battery" = "Κατάσταση φόρτισης μέσα στην μπαταρία"; // translategemma:4b
+"Charger state inside the battery" = "Κατάσταση φόρτισης εντός της μπαταρίας"; // gemma4:31b
 
 // Bluetooth
 "Battery to show" = "Μπαταρία προς εμφάνιση";
@@ -482,15 +484,15 @@
 "Calendar" = "Ημερολόγιο"; // translategemma:4b
 "Show week numbers" = "Εμφάνιση αριθμών εβδομάδων"; // translategemma:4b
 "Local time" = "Τοπική ώρα"; // translategemma:4b
-"Add new clock" = "Προσθέστε ένα νέο ρολόι"; // translategemma:4b
-"Delete selected clock" = "Διαγραφή επιλεγμένου χρονοδιαγράμματος"; // translategemma:4b
-"Help with datetime format" = "Βοήθεια με τη μορφοποίηση ημερομηνίας και ώρας"; // translategemma:4b
-"Sync with NTP server" = "Συγχρονισμός με τον διακομιστή NTP"; // translategemma:4b
+"Add new clock" = "Προσθήκη νέου ρολογιού"; // gemma4:31b
+"Delete selected clock" = "Διαγραφή επιλεγμένου ρολογιού"; // gemma4:31b
+"Help with datetime format" = "Βοήθεια για τη μορφή ημερομηνίας και ώρας"; // gemma4:31b
+"Sync with NTP server" = "Συγχρονισμός με διακομιστή NTP"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "Βάσει της χρήσης";
 "Based on pressure" = "Βάσει πίεσης";
-"Based on cluster" = "Βασισμένο σε ομαδοποίηση"; // translategemma:4b
+"Based on cluster" = "Με βάση το κλάστερ"; // gemma4:31b
 "System accent" = "Τόνος συστήματος";
 "Monochrome accent" = "Ασπρόμαυρος τόνος";
 "Clear" = "Διάφανο";

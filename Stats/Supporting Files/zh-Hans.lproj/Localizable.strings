@@ -34,7 +34,7 @@
 "Version" = "版本";
 "Processor" = "处理器";
 "Memory" = "内存";
-"Graphics" = "图形卡"; // Use the same translation as the "about this mac"
+"Graphics" = "图形"; // gemma4:31b
 "Close" = "关闭";
 "Download" = "下载";
 "Install" = "安装";
@@ -178,9 +178,9 @@
 "Number of threads" = "%0 线程";
 "Number of e-cores" = "%0 能效核心";
 "Number of p-cores" = "%0 性能核心";
-"Number of s-cores" = "%0 超级核心"; // translategemma:4b
+"Number of s-cores" = "%0 个超级核心"; // gemma4:31b
 "Disks" = "磁盘"; // translategemma:4b
-"Display" = "显示"; // translategemma:4b
+"Display" = "显示器"; // gemma4:31b
 
 // Update
 "The latest version of Stats installed" = "已安装最新版Stats";
@@ -258,7 +258,7 @@
 "Main chart scaling" = "主图表缩放";
 "Scale value" = "缩放值";
 "Text widget value" = "文本小组件值";
-"Combined processes" = "组合流程"; // translategemma:4b
+"Combined processes" = "合并进程"; // gemma4:31b
 
 // CPU
 "CPU usage" = "CPU占用";
@@ -293,9 +293,9 @@
 "Performance cores load" = "性能核心占用";
 "All cores" = "所有核心";
 "Load per core" = "每核心负载"; // translategemma:4b
-"Efficiency core" = "核心效率"; // translategemma:4b
+"Efficiency core" = "能效核心"; // gemma4:31b
 "Performance core" = "性能核心"; // translategemma:4b
-"Super core" = "超核心"; // translategemma:4b
+"Super core" = "超级核心"; // gemma4:31b
 
 // GPU
 "GPU to show" = "显示的GPU";
@@ -357,6 +357,8 @@
 "Read speed" = "读取速度";
 "Drives" = "驱动器";
 "SMART data" = "SMART数据";
+"Power cycles" = "Power cycles";
+"Power on hours" = "Power on hours";
 
 // Sensors
 "Temperature unit" = "温度单位";
@@ -430,7 +432,7 @@
 "New IP" = "新IP：%0";
 "Internet connection lost" = "互联网连接丢失";
 "Internet connection established" = "互联网连接已建立";
-"Show country code instead of emoji" = "显示国家代码，而不是表情符号"; // translategemma:4b
+"Show country code instead of emoji" = "显示国家代码而不是 emoji"; // gemma4:31b
 
 // Battery
 "Level" = "电量";

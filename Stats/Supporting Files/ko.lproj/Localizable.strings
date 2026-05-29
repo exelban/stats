@@ -85,10 +85,10 @@
 "10 minutes" = "10분";
 "Import" = "불러오기";
 "Export" = "내보내기";
-"Separator" = "분리"; // translategemma:4b
+"Separator" = "구분선"; // gemma4:31b
 "Read" = "읽기"; // translategemma:4b
 "Write" = "쓰기";
-"Frequency" = "빈도"; // translategemma:4b
+"Frequency" = "주파수"; // gemma4:31b
 "Save" = "저장"; // translategemma:4b
 "Run" = "실행"; // translategemma:4b
 "Stop" = "중지"; // translategemma:4b
@@ -224,9 +224,9 @@
 "Monospaced font" = "고정폭 서체";
 "Reverse order" = "역순"; // translategemma:4b
 "Chart history" = "차트 기록"; // translategemma:4b
-"Default color" = "기본값"; // translategemma:4b
-"Transparent when no activity" = "활동이 없을 때 투명하게 표시"; // translategemma:4b
-"Constant color" = "상수"; // translategemma:4b
+"Default color" = "기본"; // gemma4:31b
+"Transparent when no activity" = "활동이 없을 때 투명하게"; // gemma4:31b
+"Constant color" = "고정"; // gemma4:31b
 "Custom..." = "사용자 지정...";
 
 // Module Kit
@@ -357,6 +357,8 @@
 "Read speed" = "읽기 속도";
 "Drives" = "드라이브"; // translategemma:4b
 "SMART data" = "SMART 데이터"; // translategemma:4b
+"Power cycles" = "Power cycles";
+"Power on hours" = "Power on hours";
 
 // Sensors
 "Temperature unit" = "온도 단위";
@@ -424,12 +426,12 @@
 "Download speed" = "다운로드 속도";
 "Address" = "주소"; // translategemma:4b
 "WiFi network" = "WiFi 네트워크";
-"Local IP changed" = "로컬 IP 주소가 변경되었습니다."; // translategemma:4b
-"Public IP changed" = "공개 IP 주소가 변경되었습니다."; // translategemma:4b
+"Local IP changed" = "로컬 IP가 변경되었습니다"; // gemma4:31b
+"Public IP changed" = "공인 IP가 변경되었습니다"; // gemma4:31b
 "Previous IP" = "이전 IP: %0"; // translategemma:4b
-"New IP" = "새 IP: %0"; // translategemma:4b
-"Internet connection lost" = "인터넷 연결이 끊김"; // translategemma:4b
-"Internet connection established" = "인터넷 연결 완료"; // translategemma:4b
+"New IP" = "새로운 IP: %0"; // gemma4:31b
+"Internet connection lost" = "인터넷 연결 끊김"; // gemma4:31b
+"Internet connection established" = "인터넷 연결이 설정되었습니다"; // gemma4:31b
 "Show country code instead of emoji" = "이모티콘 대신 국가 코드 표시하기";
 
 // Battery
@@ -470,7 +472,7 @@
 "Colorize battery" = "배터리 색상 표시";
 "Charging current" = "충전 전류"; // translategemma:4b
 "Charging Voltage" = "충전 전압"; // translategemma:4b
-"Charger state inside the battery" = "배터리 내부 충전 상태"; // translategemma:4b
+"Charger state inside the battery" = "배터리 내부의 충전 상태"; // gemma4:31b
 
 // Bluetooth
 "Battery to show" = "표시할 배터리";
@@ -479,12 +481,12 @@
 // Clock
 "Time zone" = "시간대";
 "Local" = "현지 시각";
-"Calendar" = "달력"; // translategemma:4b
-"Show week numbers" = "주차 번호 표시"; // translategemma:4b
+"Calendar" = "캘린더"; // gemma4:31b
+"Show week numbers" = "주 번호 표시"; // gemma4:31b
 "Local time" = "현지 시간"; // translategemma:4b
-"Add new clock" = "새로운 시계 추가"; // translategemma:4b
-"Delete selected clock" = "선택된 시계 삭제"; // translategemma:4b
-"Help with datetime format" = "datetime 형식에 대한 도움"; // translategemma:4b
+"Add new clock" = "새 시계 추가"; // gemma4:31b
+"Delete selected clock" = "선택한 시계 삭제"; // gemma4:31b
+"Help with datetime format" = "날짜 및 시간 형식 도움말"; // gemma4:31b
 "Sync with NTP server" = "NTP 서버와 동기화"; // translategemma:4b
 
 // Colors

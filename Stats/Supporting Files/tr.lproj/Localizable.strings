@@ -71,7 +71,7 @@
 "Logarithmic" = "Logaritmik";
 "Fixed scale" = "Belirli ölçek";
 "Cores" = "Çekirdekler";
-"Core" = "Temel"; // translategemma:4b
+"Core" = "Çekirdek"; // gemma4:31b
 "Settings" = "Ayarlar";
 "Name" = "Ad";
 "Format" = "Biçim";
@@ -178,7 +178,7 @@
 "Number of threads" = "%0 iş parçacığı";
 "Number of e-cores" = "%0 verimlilik çekirdeği";
 "Number of p-cores" = "%0 performans çekirdeği";
-"Number of s-cores" = "%0 üst seviye çekirdekler"; // translategemma:4b
+"Number of s-cores" = "%0 süper çekirdek"; // gemma4:31b
 "Disks" = "Diskler";
 "Display" = "Ekran";
 
@@ -258,7 +258,7 @@
 "Main chart scaling" = "Ana çizelge ölçeklendirmesi";
 "Scale value" = "Ölçekleme değeri";
 "Text widget value" = "Metin widget'ı değeri";
-"Combined processes" = "Birleştirilmiş süreçler"; // translategemma:4b
+"Combined processes" = "Birleştirilmiş işlemler"; // gemma4:31b
 
 // CPU
 "CPU usage" = "CPU kullanımı";
@@ -292,10 +292,10 @@
 "Efficiency cores load" = "Verimlilik çekirdekleri yükü";
 "Performance cores load" = "Performans çekirdekleri yükü";
 "All cores" = "Tüm çekirdekler";
-"Load per core" = "Her çekirdeğe göre yüklenme"; // translategemma:4b
-"Efficiency core" = "Temel performans"; // translategemma:4b
+"Load per core" = "Çekirdek başına yük"; // gemma4:31b
+"Efficiency core" = "Verimlilik çekirdeği"; // gemma4:31b
 "Performance core" = "Performans çekirdeği"; // translategemma:4b
-"Super core" = "Olağanüstü performans"; // translategemma:4b
+"Super core" = "Süper çekirdek"; // gemma4:31b
 
 // GPU
 "GPU to show" = "Gösterilecek GPU";
@@ -357,6 +357,8 @@
 "Read speed" = "Okuma hızı";
 "Drives" = "Sürücüler";
 "SMART data" = "SMART verisi";
+"Power cycles" = "Power cycles";
+"Power on hours" = "Power on hours";
 
 // Sensors
 "Temperature unit" = "Sıcaklık birimi";
@@ -430,7 +432,7 @@
 "New IP" = "Yeni IP: %0";
 "Internet connection lost" = "İnternet bağlantısı kesildi";
 "Internet connection established" = "İnternet bağlantısı kuruldu";
-"Show country code instead of emoji" = "Emoji yerine ülke kodunu gösterin"; // translategemma:4b
+"Show country code instead of emoji" = "Emoji yerine ülke kodu göster"; // gemma4:31b
 
 // Battery
 "Level" = "Doluluk";
@@ -485,7 +487,7 @@
 "Add new clock" = "Yeni saat ekle";
 "Delete selected clock" = "Seçili saati sil";
 "Help with datetime format" = "Tarih-saat biçimiyle ilgili yardım";
-"Sync with NTP server" = "NTP sunucusuyla senkronize ol"; // translategemma:4b
+"Sync with NTP server" = "NTP sunucusu ile senkronize et"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "Kullanıma dayalı";

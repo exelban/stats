@@ -71,7 +71,7 @@
 "Logarithmic" = "Logarit";
 "Fixed scale" = "Tỷ lệ cố định";
 "Cores" = "Nhân";
-"Core" = "Trục cơ bản"; // translategemma:4b
+"Core" = "Nhân"; // gemma4:31b
 "Settings" = "Cài đặt";
 "Name" = "Tên";
 "Format" = "Định dạng";
@@ -178,9 +178,9 @@
 "Number of threads" = "%0 luồng";
 "Number of e-cores" = "%0 nhân tiết kiệm";
 "Number of p-cores" = "%0 nhân hiệu năng";
-"Number of s-cores" = "%0 các nhân xử lý chính"; // translategemma:4b
-"Disks" = "Ổ cứng"; // translategemma:4b
-"Display" = "Hiển thị"; // translategemma:4b
+"Number of s-cores" = "%0 nhân siêu"; // gemma4:31b
+"Disks" = "Ổ đĩa"; // gemma4:31b
+"Display" = "Màn hình"; // gemma4:31b
 
 // Update
 "The latest version of Stats installed" = "Phiên bản Stats mới nhất đã được cài đặt";
@@ -214,8 +214,8 @@
 "Static width" = "Chiều rộng cố định";
 "Tachometer widget" = "Widget đo tốc độ";
 "State widget" = "Widget trạng thái";
-"Text widget" = "Bộ điều khiển văn bản"; // translategemma:4b
-"Battery details widget" = "Widget hiển thị thông tin pin"; // translategemma:4b
+"Text widget" = "Widget văn bản"; // gemma4:31b
+"Battery details widget" = "Widget chi tiết pin"; // gemma4:31b
 "Show symbols" = "Hiển thị ký hiệu";
 "Label widget" = "Widget nhãn";
 "Number of reads in the chart" = "Số lần đọc trong biểu đồ";
@@ -239,8 +239,8 @@
 "Top processes" = "Các tiến trình hàng đầu";
 "Pictogram" = "Biểu tượng";
 "Module" = "Mô-đun"; // translategemma:4b
-"Widgets" = "Widget"; // translategemma:4b
-"Popup" = "Hiển thị cửa sổ"; // translategemma:4b
+"Widgets" = "Tiện ích"; // gemma4:31b
+"Popup" = "Cửa sổ bật lên"; // gemma4:31b
 "Notifications" = "Thông báo";
 "Merge widgets" = "Gộp các widget";
 "No available widgets to configure" = "Không có widget nào để cấu hình";
@@ -257,8 +257,8 @@
 "Chart color" = "Màu biểu đồ";
 "Main chart scaling" = "Tỷ lệ biểu đồ chính";
 "Scale value" = "Giá trị tỷ lệ";
-"Text widget value" = "Giá trị của widget văn bản"; // translategemma:4b
-"Combined processes" = "Quy trình kết hợp"; // translategemma:4b
+"Text widget value" = "Giá trị widget văn bản"; // gemma4:31b
+"Combined processes" = "Gộp các tiến trình"; // gemma4:31b
 
 // CPU
 "CPU usage" = "Sử dụng CPU";
@@ -292,10 +292,10 @@
 "Efficiency cores load" = "Tải nhân tiết kiệm";
 "Performance cores load" = "Tải nhân hiệu năng";
 "All cores" = "Tất cả các nhân";
-"Load per core" = "Tải theo mỗi nhân xử lý"; // translategemma:4b
-"Efficiency core" = "Trọng tâm về hiệu quả"; // translategemma:4b
-"Performance core" = "Trục hiệu năng"; // translategemma:4b
-"Super core" = "Vô cùng mạnh mẽ"; // translategemma:4b
+"Load per core" = "Tải trên mỗi nhân"; // gemma4:31b
+"Efficiency core" = "Nhân hiệu quả"; // gemma4:31b
+"Performance core" = "Nhân hiệu năng"; // gemma4:31b
+"Super core" = "Siêu lõi"; // gemma4:31b
 
 // GPU
 "GPU to show" = "GPU hiển thị";
@@ -357,6 +357,8 @@
 "Read speed" = "Tốc độ đọc";
 "Drives" = "Ổ đĩa";
 "SMART data" = "Dữ liệu SMART";
+"Power cycles" = "Power cycles";
+"Power on hours" = "Power on hours";
 
 // Sensors
 "Temperature unit" = "Đơn vị nhiệt độ";
@@ -430,7 +432,7 @@
 "New IP" = "IP mới: %0";
 "Internet connection lost" = "Mất kết nối internet";
 "Internet connection established" = "Kết nối internet được thiết lập";
-"Show country code instead of emoji" = "Hiển thị mã quốc gia thay vì biểu tượng cảm xúc"; // translategemma:4b
+"Show country code instead of emoji" = "Hiển thị mã quốc gia thay vì emoji"; // gemma4:31b
 
 // Battery
 "Level" = "Mức";
@@ -480,12 +482,12 @@
 "Time zone" = "Múi giờ";
 "Local" = "Địa phương";
 "Calendar" = "Lịch";
-"Show week numbers" = "Hiển thị số thứ tự tuần"; // translategemma:4b
+"Show week numbers" = "Hiển thị số tuần"; // gemma4:31b
 "Local time" = "Giờ địa phương";
 "Add new clock" = "Thêm đồng hồ mới";
 "Delete selected clock" = "Xóa đồng hồ đã chọn";
 "Help with datetime format" = "Trợ giúp về định dạng ngày giờ";
-"Sync with NTP server" = "Đồng bộ với máy chủ NTP"; // translategemma:4b
+"Sync with NTP server" = "Đồng bộ hóa với máy chủ NTP"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "Dựa trên mức sử dụng";

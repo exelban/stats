@@ -54,22 +54,22 @@
 "Max" = "Maks";
 "Min" = "Minimal"; // translategemma:4b
 "Reset" = "Atur ulang";
-"Alignment" = "Penyelarasan"; // translategemma:4b
+"Alignment" = "Perataan"; // gemma4:31b
 "Left alignment" = "Alignment Kiri";
 "Center alignment" = "Alignment tengah";
 "Right alignment" = "Alignment kanan";
 "Dashboard" = "Dasbor";
-"Enabled" = "Diaktifkan"; // translategemma:4b
+"Enabled" = "Aktif"; // gemma4:31b
 "Disabled" = "Dinonaktifkan";
 "Silent" = "Hening";
 "Units" = "Unit";
 "Fans" = "Kipas";
-"Scaling" = "Skala"; // translategemma:4b
+"Scaling" = "Penskalaan"; // gemma4:31b
 "Linear" = "Linear";
-"Square" = "Perusahaan"; // translategemma:4b
+"Square" = "Kotak"; // gemma4:31b
 "Cube" = "Kubus"; // translategemma:4b
 "Logarithmic" = "Logaritmik"; // translategemma:4b
-"Fixed scale" = "Sudah diperbaiki"; // translategemma:4b
+"Fixed scale" = "Tetap"; // gemma4:31b
 "Cores" = "Inti"; // translategemma:4b
 "Core" = "Inti"; // translategemma:4b
 "Settings" = "Pengaturan"; // translategemma:4b
@@ -78,7 +78,7 @@
 "Turn off" = "Matikan"; // translategemma:4b
 "Normal" = "Normal";
 "Warning" = "Peringatan"; // translategemma:4b
-"Critical" = "Penting"; // translategemma:4b
+"Critical" = "Kritis"; // gemma4:31b
 "Usage" = "Penggunaan"; // translategemma:4b
 "2 minutes" = "2 menit"; // translategemma:4b
 "3 minutes" = "3 menit"; // translategemma:4b
@@ -91,8 +91,8 @@
 "Frequency" = "Frekuensi"; // translategemma:4b
 "Save" = "Simpan"; // translategemma:4b
 "Run" = "Jalankan"; // translategemma:4b
-"Stop" = "Berhenti"; // translategemma:4b
-"Uninstall" = "Hapus"; // translategemma:4b
+"Stop" = "Hentikan"; // gemma4:31b
+"Uninstall" = "Copot pemasangan"; // gemma4:31b
 "1 sec" = "1 detik"; // translategemma:4b
 "2 sec" = "2 detik"; // translategemma:4b
 "3 sec" = "3 detik"; // translategemma:4b
@@ -103,28 +103,28 @@
 "60 sec" = "60 detik"; // translategemma:4b
 
 // Setup
-"Stats Setup" = "Pengaturan Statistik"; // translategemma:4b
+"Stats Setup" = "Pengaturan Stats"; // gemma4:31b
 "Previous" = "Sebelumnya"; // translategemma:4b
 "Previous page" = "Halaman sebelumnya"; // translategemma:4b
-"Next" = "Selanjutnya"; // translategemma:4b
+"Next" = "Berikutnya"; // gemma4:31b
 "Next page" = "Halaman berikutnya"; // translategemma:4b
 "Finish" = "Selesai"; // translategemma:4b
-"Finish setup" = "Selesaikan pengaturan"; // translategemma:4b
+"Finish setup" = "Selesaikan penyiapan"; // gemma4:31b
 "Welcome to Stats" = "Selamat datang di Stats"; // translategemma:4b
-"welcome_message" = "Terima kasih telah menggunakan Stats, sebuah pemantau sistem macOS sumber terbuka dan gratis untuk bilah menu Anda."; // translategemma:4b
-"Start the application automatically when starting your Mac" = "Mulai aplikasi secara otomatis saat memulai Mac Anda"; // translategemma:4b
-"Do not start the application automatically when starting your Mac" = "Jangan memulai aplikasi secara otomatis saat Anda menyalakan Mac Anda."; // translategemma:4b
-"Do everything silently in the background (recommended)" = "Lakukan semuanya secara diam-diam di latar belakang (disarankan)"; // translategemma:4b
-"Check for a new version on startup" = "Periksa versi terbaru saat memulai aplikasi."; // translategemma:4b
-"Check for a new version every day (once a day)" = "Periksa versi terbaru setiap hari (sekali sehari)"; // translategemma:4b
-"Check for a new version every week (once a week)" = "Periksa versi terbaru setiap minggu (sekali seminggu)"; // translategemma:4b
-"Check for a new version every month (once a month)" = "Periksa versi terbaru setiap bulan (sekali dalam sebulan)"; // translategemma:4b
-"Never check for updates (not recommended)" = "Jangan pernah memeriksa pembaruan (tidak disarankan)"; // translategemma:4b
-"Anonymous telemetry for better development decisions" = "Data telemetry anonim untuk pengambilan keputusan pengembangan yang lebih baik"; // translategemma:4b
+"welcome_message" = "Terima kasih telah menggunakan Stats, monitor sistem macOS sumber terbuka gratis untuk bilah menu Anda."; // gemma4:31b
+"Start the application automatically when starting your Mac" = "Jalankan aplikasi secara otomatis saat memulai Mac Anda"; // gemma4:31b
+"Do not start the application automatically when starting your Mac" = "Jangan jalankan aplikasi secara otomatis saat memulai Mac Anda"; // gemma4:31b
+"Do everything silently in the background (recommended)" = "Lakukan semuanya secara senyap di latar belakang (direkomendasikan)"; // gemma4:31b
+"Check for a new version on startup" = "Periksa versi baru saat startup"; // gemma4:31b
+"Check for a new version every day (once a day)" = "Periksa versi baru setiap hari (sekali sehari)"; // gemma4:31b
+"Check for a new version every week (once a week)" = "Periksa versi baru setiap minggu (sekali seminggu)"; // gemma4:31b
+"Check for a new version every month (once a month)" = "Periksa versi baru setiap bulan (sekali sebulan)"; // gemma4:31b
+"Never check for updates (not recommended)" = "Jangan pernah periksa pembaruan (tidak direkomendasikan)"; // gemma4:31b
+"Anonymous telemetry for better development decisions" = "Telemetri anonim untuk keputusan pengembangan yang lebih baik"; // gemma4:31b
 "Share anonymous telemetry data" = "Bagikan data telemetri anonim"; // translategemma:4b
-"Do not share anonymous telemetry data" = "Jangan membagikan data telemetri tanpa identitas."; // translategemma:4b
-"The configuration is completed" = "Konfigurasi telah selesai."; // translategemma:4b
-"finish_setup_message" = "Semuanya sudah siap!"; // translategemma:4b
+"Do not share anonymous telemetry data" = "Jangan bagikan data telemetri anonim"; // gemma4:31b
+"The configuration is completed" = "Konfigurasi telah selesai"; // gemma4:31b
+"finish_setup_message" = "Semuanya sudah siap! \\n Stats adalah alat open source, gratis dan akan selalu gratis. \\n Jika Anda menyukainya, Anda dapat mendukung proyek ini, hal ini selalu dihargai!"; // gemma4:31b
 
 // Alerts
 "New version available" = "Versi baru tersedia";
@@ -141,9 +141,9 @@
 "Close application" = "Tutup aplikasi";
 "Open application settings" = "Buka pengaturan aplikasi";
 "Open dashboard" = "Buka dasbor";
-"No notifications available in this module" = "Tidak ada notifikasi yang tersedia dalam modul ini"; // translategemma:4b
+"No notifications available in this module" = "Tidak ada notifikasi yang tersedia di modul ini"; // gemma4:31b
 "Open Calendar" = "Buka Kalender"; // translategemma:4b
-"Toggle the module" = "Aktifkan/nonaktifkan modul"; // translategemma:4b
+"Toggle the module" = "Alihkan modul"; // gemma4:31b
 
 // Application settings
 "Update application" = "Perbarui aplikasi";
@@ -156,18 +156,18 @@
 "Check for update" = "Periksa pembaruan";
 "Show icon in dock" = "Tampilkan ikon pada dok";
 "Start at login" = "Mulai saat login";
-"Build number" = "Nomor versi"; // translategemma:4b
+"Build number" = "Nomor build"; // gemma4:31b
 "Import settings" = "Impor pengaturan"; // translategemma:4b
-"Export settings" = "Pengaturan ekspor"; // translategemma:4b
+"Export settings" = "Ekspor pengaturan"; // gemma4:31b
 "Reset settings" = "Atur ulang pengaturan";
-"Pause the Stats" = "Jeda Statistik"; // translategemma:4b
-"Resume the Stats" = "Kembalikan Statistik"; // translategemma:4b
-"Combined modules" = "Modul yang digabungkan"; // translategemma:4b
-"Combined details" = "Rincian gabungan"; // translategemma:4b
+"Pause the Stats" = "Jeda Stats"; // gemma4:31b
+"Resume the Stats" = "Lanjutkan Stats"; // gemma4:31b
+"Combined modules" = "Modul gabungan"; // gemma4:31b
+"Combined details" = "Detail gabungan"; // gemma4:31b
 "Spacing" = "Jarak"; // translategemma:4b
-"Share anonymous telemetry" = "Bagikan data telemetry tanpa mengungkapkan identitas"; // translategemma:4b
+"Share anonymous telemetry" = "Bagikan telemetri anonim"; // gemma4:31b
 "Choose file" = "Pilih file"; // translategemma:4b
-"Stress tests" = "Uji ketahanan"; // translategemma:4b
+"Stress tests" = "Uji stres"; // gemma4:31b
 
 // Dashboard
 "Serial number" = "Nomor serial";
@@ -177,10 +177,10 @@
 "Number of cores" = "%0 core";
 "Number of threads" = "%0 thread";
 "Number of e-cores" = "%0 inti efisiensi"; // translategemma:4b
-"Number of p-cores" = "%0 inti kinerja"; // translategemma:4b
+"Number of p-cores" = "%0 inti performa"; // gemma4:31b
 "Number of s-cores" = "%0 inti super"; // translategemma:4b
 "Disks" = "Disk"; // translategemma:4b
-"Display" = "Tampilan"; // translategemma:4b
+"Display" = "Layar"; // gemma4:31b
 
 // Update
 "The latest version of Stats installed" = "Versi terbaru dari Stats telah dipasang";
@@ -194,8 +194,8 @@
 "Box" = "Kotak";
 "Frame" = "Bingkai";
 "Value" = "Nilai";
-"Colorize" = "Warna"; // translategemma:4b
-"Colorize value" = "Nilai pewarnaan"; // translategemma:4b
+"Colorize" = "Warnai"; // gemma4:31b
+"Colorize value" = "Warnai nilai"; // gemma4:31b
 "Additional information" = "Informasi tambahan";
 "Reverse values order" = "Balikkan posisi nilai";
 "Base" = "Basis";
@@ -213,8 +213,8 @@
 "Memory widget" = "Memori";
 "Static width" = "Lebar statis";
 "Tachometer widget" = "Takometer";
-"State widget" = "Widget negara"; // translategemma:4b
-"Text widget" = "Elemen widget teks"; // translategemma:4b
+"State widget" = "Widget status"; // gemma4:31b
+"Text widget" = "Widget teks"; // gemma4:31b
 "Battery details widget" = "Widget detail baterai"; // translategemma:4b
 "Show symbols" = "Tampilkan simbol";
 "Label widget" = "Label";
@@ -223,7 +223,7 @@
 "Color of upload" = "Warna pada unggahan";
 "Monospaced font" = "Fon monospasi";
 "Reverse order" = "Urutan terbalik"; // translategemma:4b
-"Chart history" = "Sejarah grafik"; // translategemma:4b
+"Chart history" = "Riwayat grafik"; // gemma4:31b
 "Default color" = "Nilai default"; // translategemma:4b
 "Transparent when no activity" = "Transparan saat tidak ada aktivitas"; // translategemma:4b
 "Constant color" = "Konstan"; // translategemma:4b
@@ -246,19 +246,19 @@
 "No available widgets to configure" = "Tidak ada widget yang tersedia untuk dikonfigurasi";
 "No options to configure for the popup in this module" = "Tidak ada opsi untuk mengonfigurasi popup di modul ini";
 "Process" = "Proses"; // translategemma:4b
-"Kill process" = "Hentikan proses"; // translategemma:4b
-"Keyboard shortcut" = "Singkatan tombol"; // translategemma:4b
-"Listening..." = "Sedang mendengarkan..."; // translategemma:4b
+"Kill process" = "Akhiri proses"; // gemma4:31b
+"Keyboard shortcut" = "Pintasan keyboard"; // gemma4:31b
+"Listening..." = "Mendengarkan..."; // gemma4:31b
 
 // Modules
 "Number of top processes" = "Jumlah dari proses teratas";
 "Update interval for top processes" = "Pembaruan waktu jeda dari proses teratas";
 "Notification level" = "Tingkat pemberitahuan";
 "Chart color" = "Warna bagan";
-"Main chart scaling" = "Skala grafik utama"; // translategemma:4b
+"Main chart scaling" = "Penskalaan grafik utama"; // gemma4:31b
 "Scale value" = "Nilai skala"; // translategemma:4b
 "Text widget value" = "Nilai widget teks"; // translategemma:4b
-"Combined processes" = "Proses yang digabungkan"; // translategemma:4b
+"Combined processes" = "Proses gabungan"; // gemma4:31b
 
 // CPU
 "CPU usage" = "Penggunaan CPU";
@@ -276,26 +276,26 @@
 "1 minute" = "1 menit";
 "5 minutes" = "5 menit";
 "15 minutes" = "15 menit";
-"CPU usage threshold" = "Batas penggunaan CPU"; // translategemma:4b
+"CPU usage threshold" = "Ambang batas penggunaan CPU"; // gemma4:31b
 "CPU usage is" = "Penggunaan CPU adalah %0"; // translategemma:4b
 "Efficiency cores" = "Inti efisiensi"; // translategemma:4b
-"Performance cores" = "Inti kinerja"; // translategemma:4b
+"Performance cores" = "Inti performa"; // gemma4:31b
 "System color" = "Warna sistem"; // translategemma:4b
 "User color" = "Warna pengguna"; // translategemma:4b
-"Idle color" = "Warna saat tidak digunakan"; // translategemma:4b
+"Idle color" = "Warna idle"; // gemma4:31b
 "Cluster grouping" = "Pengelompokan klaster"; // translategemma:4b
-"Efficiency cores color" = "Inti warna"; // translategemma:4b
-"Performance cores color" = "Warna inti kinerja"; // translategemma:4b
-"Total load" = "Total beban"; // translategemma:4b
+"Efficiency cores color" = "Warna inti efisiensi"; // gemma4:31b
+"Performance cores color" = "Warna inti performa"; // gemma4:31b
+"Total load" = "Beban total"; // gemma4:31b
 "System load" = "Beban sistem"; // translategemma:4b
 "User load" = "Beban pengguna"; // translategemma:4b
-"Efficiency cores load" = "Prosesor inti mulai bekerja"; // translategemma:4b
-"Performance cores load" = "Prosesor inti memuat"; // translategemma:4b
+"Efficiency cores load" = "Beban inti efisiensi"; // gemma4:31b
+"Performance cores load" = "Beban inti kinerja"; // gemma4:31b
 "All cores" = "Semua inti"; // translategemma:4b
 "Load per core" = "Beban per inti"; // translategemma:4b
-"Efficiency core" = "Fokus utama pada efisiensi"; // translategemma:4b
+"Efficiency core" = "Inti efisiensi"; // gemma4:31b
 "Performance core" = "Inti kinerja"; // translategemma:4b
-"Super core" = "Inti utama"; // translategemma:4b
+"Super core" = "Inti super"; // gemma4:31b
 
 // GPU
 "GPU to show" = "GPU yang ditampilkan";
@@ -304,18 +304,18 @@
 "GPU disabled" = "GPU dinonaktifkan";
 "GPU temperature" = "Suhu GPU";
 "GPU utilization" = "Pemanfaatan GPU";
-"Vendor" = "Pemasok"; // translategemma:4b
+"Vendor" = "Produsen"; // gemma4:31b
 "Model" = "Model";
 "Status" = "Status";
 "Active" = "Aktif";
 "Non active" = "Tidak aktif";
 "Fan speed" = "Kecepatan kipas";
-"Core clock" = "Frekuensi inti"; // translategemma:4b
+"Core clock" = "Clock inti"; // gemma4:31b
 "Memory clock" = "Memori clock";
 "Utilization" = "Pemanfaatan";
 "Render utilization" = "Pemanfaatan render";
 "Tiler utilization" = "Pemanfaatan tiler";
-"GPU usage threshold" = "Batas penggunaan GPU"; // translategemma:4b
+"GPU usage threshold" = "Ambang batas penggunaan GPU"; // gemma4:31b
 "GPU usage is" = "Penggunaan GPU adalah %0"; // translategemma:4b
 
 // RAM
@@ -324,20 +324,20 @@
 "Total" = "Total";
 "Used" = "Digunakan";
 "App" = "Aplikasi"; // translategemma:4b
-"Wired" = "Berkelanjutan"; // translategemma:4b
+"Wired" = "Terkunci"; // gemma4:31b
 "Compressed" = "Dikompres";
 "Free" = "Kosong";
 "Swap" = "Swap";
 "Split the value (App/Wired/Compressed)" = "Pisahkan nilai (App/Wired/Compressed)";
-"RAM utilization threshold" = "Batas penggunaan RAM"; // translategemma:4b
+"RAM utilization threshold" = "Ambang batas penggunaan RAM"; // gemma4:31b
 "RAM utilization is" = "Penggunaan RAM adalah %0"; // translategemma:4b
 "App color" = "Warna aplikasi"; // translategemma:4b
-"Wired color" = "Warna kabel"; // translategemma:4b
-"Compressed color" = "Warna yang dikompres"; // translategemma:4b
-"Free color" = "Warna gratis"; // translategemma:4b
-"Free memory (less than)" = "Memori gratis (kurang dari)"; // translategemma:4b
-"Swap size" = "Ukuran pertukaran"; // translategemma:4b
-"Free RAM is" = "RAM gratis adalah %0"; // translategemma:4b
+"Wired color" = "Warna wired"; // gemma4:31b
+"Compressed color" = "Warna memori terkompresi"; // gemma4:31b
+"Free color" = "Warna tersedia"; // gemma4:31b
+"Free memory (less than)" = "Memori bebas (kurang dari)"; // gemma4:31b
+"Swap size" = "Ukuran swap"; // gemma4:31b
+"Free RAM is" = "RAM bebas adalah %0"; // gemma4:31b
 
 // Disk
 "Show removable disks" = "Tampilkan disk yang dapat dilepas";
@@ -346,17 +346,19 @@
 "Disk to show" = "Disk yang ditampilkan";
 "Open disk" = "Buka disk";
 "Switch view" = "Alihkan tampilan";
-"Disk utilization threshold" = "Batas penggunaan disk"; // translategemma:4b
+"Disk utilization threshold" = "Ambang batas penggunaan disk"; // gemma4:31b
 "Disk utilization is" = "Penggunaan disk adalah %0"; // translategemma:4b
-"Read color" = "Baca warna"; // translategemma:4b
-"Write color" = "Tulis warna"; // translategemma:4b
+"Read color" = "Warna pembacaan"; // gemma4:31b
+"Write color" = "Warna penulisan"; // gemma4:31b
 "Disk usage" = "Penggunaan disk"; // translategemma:4b
 "Total read" = "Total dibaca"; // translategemma:4b
-"Total written" = "Total yang ditulis"; // translategemma:4b
+"Total written" = "Total ditulis"; // gemma4:31b
 "Write speed" = "Tulis"; // translategemma:4b
 "Read speed" = "Baca"; // translategemma:4b
 "Drives" = "Drive"; // translategemma:4b
 "SMART data" = "Data SMART"; // translategemma:4b
+"Power cycles" = "Power cycles";
+"Power on hours" = "Power on hours";
 
 // Sensors
 "Temperature unit" = "Unit suhu";
@@ -365,20 +367,20 @@
 "Save the fan speed" = "Simpan kecepatan kipas";
 "Fan" = "Kipas";
 "HID sensors" = "Sensor HID";
-"Synchronize fan's control" = "Sinkronkan kontrol kipas"; // translategemma:4b
-"Current" = "Saat ini"; // translategemma:4b
+"Synchronize fan's control" = "Sinkronisasi kontrol kipas"; // gemma4:31b
+"Current" = "Arus"; // gemma4:31b
 "Energy" = "Energi"; // translategemma:4b
-"Show unknown sensors" = "Tampilkan sensor yang tidak dikenal"; // translategemma:4b
-"Install fan helper" = "Instal aplikasi pembantu kipas"; // translategemma:4b
-"Uninstall fan helper" = "Hapus aplikasi pembantu kipas"; // translategemma:4b
-"Fan value" = "Nilai penggemar"; // translategemma:4b
+"Show unknown sensors" = "Tampilkan sensor tidak dikenal"; // gemma4:31b
+"Install fan helper" = "Instal pembantu kipas"; // gemma4:31b
+"Uninstall fan helper" = "Hapus instalasi pembantu kipas"; // gemma4:31b
+"Fan value" = "Nilai kipas"; // gemma4:31b
 "Turn off fan" = "Matikan kipas"; // translategemma:4b
-"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Anda akan mematikan kipas. Tindakan ini tidak disarankan dan dapat merusak MacBook Anda. Apakah Anda yakin ingin melakukannya?"; // translategemma:4b
-"Sensor threshold" = "Batas sensor"; // translategemma:4b
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Anda akan mematikan kipas. Ini adalah tindakan yang tidak direkomendasikan yang dapat merusak Mac Anda, apakah Anda yakin ingin melakukannya?"; // gemma4:31b
+"Sensor threshold" = "Ambang batas sensor"; // gemma4:31b
 "Left fan" = "Kiri"; // translategemma:4b
-"Right fan" = "Tepat"; // translategemma:4b
+"Right fan" = "Kanan"; // gemma4:31b
 "Fastest fan" = "Tercepat"; // translategemma:4b
-"Sensor to show" = "Sensor untuk menampilkan"; // translategemma:4b
+"Sensor to show" = "Sensor yang ditampilkan"; // gemma4:31b
 
 // Network
 "Uploading" = "Unggah";
@@ -406,31 +408,31 @@
 "Channel" = "Saluran"; // translategemma:4b
 "Common scale" = "Skala umum"; // translategemma:4b
 "Autodetection" = "Deteksi otomatis"; // translategemma:4b
-"Widget activation threshold" = "Batas ambang aktivasi widget"; // translategemma:4b
+"Widget activation threshold" = "Ambang batas aktivasi widget"; // gemma4:31b
 "Internet connection" = "Koneksi internet"; // translategemma:4b
-"Active state color" = "Warna pada keadaan aktif"; // translategemma:4b
-"Nonactive state color" = "Warna untuk keadaan tidak aktif"; // translategemma:4b
-"Connectivity host" = "Host koneksi"; // translategemma:4b
-"Leave empty to disable the check" = "Kosongkan untuk menonaktifkan pemeriksaan"; // translategemma:4b
-"Connectivity history" = "Riwayat koneksi"; // translategemma:4b
+"Active state color" = "Warna status aktif"; // gemma4:31b
+"Nonactive state color" = "Warna status tidak aktif"; // gemma4:31b
+"Connectivity host" = "Host konektivitas"; // gemma4:31b
+"Leave empty to disable the check" = "Biarkan kosong untuk menonaktifkan pemeriksaan"; // gemma4:31b
+"Connectivity history" = "Riwayat konektivitas"; // gemma4:31b
 "Auto-refresh public IP address" = "Perbarui otomatis alamat IP publik"; // translategemma:4b
 "Every hour" = "Setiap jam"; // translategemma:4b
 "Every 12 hours" = "Setiap 12 jam"; // translategemma:4b
 "Every 24 hours" = "Setiap 24 jam"; // translategemma:4b
 "Network activity" = "Aktivitas jaringan"; // translategemma:4b
-"Last reset" = "Terakhir di-reset %0 lalu"; // translategemma:4b
+"Last reset" = "Reset terakhir %0 yang lalu"; // gemma4:31b
 "Latency" = "Latensi"; // translategemma:4b
 "Upload speed" = "Unggah"; // translategemma:4b
 "Download speed" = "Unduh"; // translategemma:4b
 "Address" = "Alamat"; // translategemma:4b
 "WiFi network" = "Jaringan WiFi"; // translategemma:4b
-"Local IP changed" = "Alamat IP lokal telah berubah"; // translategemma:4b
-"Public IP changed" = "Alamat IP publik telah berubah"; // translategemma:4b
-"Previous IP" = "Alamat IP sebelumnya: %0"; // translategemma:4b
-"New IP" = "Alamat IP baru: %0"; // translategemma:4b
+"Local IP changed" = "IP lokal telah berubah"; // gemma4:31b
+"Public IP changed" = "IP Publik telah berubah"; // gemma4:31b
+"Previous IP" = "IP Sebelumnya: %0"; // gemma4:31b
+"New IP" = "IP Baru: %0"; // gemma4:31b
 "Internet connection lost" = "Koneksi internet terputus"; // translategemma:4b
-"Internet connection established" = "Koneksi internet telah terhubung"; // translategemma:4b
-"Show country code instead of emoji" = "Tampilkan kode negara sebagai gantinya daripada emoji"; // translategemma:4b
+"Internet connection established" = "Koneksi internet terhubung"; // gemma4:31b
+"Show country code instead of emoji" = "Tampilkan kode negara alih-alih emoji"; // gemma4:31b
 
 // Battery
 "Level" = "Tingkat"; // translategemma:4b
@@ -465,9 +467,9 @@
 "Last charge" = "Terakhir diisi";
 "Capacity" = "Kapasitas";
 "current / maximum / designed" = "current / maksimal / dirancang";
-"Low power mode" = "Mode hemat daya"; // translategemma:4b
+"Low power mode" = "Mode daya rendah"; // gemma4:31b
 "Percentage inside the icon" = "Persentase di dalam ikon"; // translategemma:4b
-"Colorize battery" = "Warna-warnai baterai"; // translategemma:4b
+"Colorize battery" = "Warnai baterai"; // gemma4:31b
 "Charging current" = "Arus pengisian"; // translategemma:4b
 "Charging Voltage" = "Tegangan pengisian"; // translategemma:4b
 "Charger state inside the battery" = "Status pengisian daya di dalam baterai"; // translategemma:4b
@@ -481,16 +483,16 @@
 "Local" = "Lokal"; // translategemma:4b
 "Calendar" = "Kalender"; // translategemma:4b
 "Show week numbers" = "Tampilkan nomor minggu"; // translategemma:4b
-"Local time" = "Waktu setempat"; // translategemma:4b
-"Add new clock" = "Tambahkan jam baru"; // translategemma:4b
+"Local time" = "Waktu lokal"; // gemma4:31b
+"Add new clock" = "Tambah jam baru"; // gemma4:31b
 "Delete selected clock" = "Hapus jam yang dipilih"; // translategemma:4b
-"Help with datetime format" = "Bantuan dalam memformat tanggal dan waktu"; // translategemma:4b
-"Sync with NTP server" = "Sinkronkan dengan server NTP"; // translategemma:4b
+"Help with datetime format" = "Bantuan untuk format tanggal dan waktu"; // gemma4:31b
+"Sync with NTP server" = "Sinkronisasi dengan server NTP"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "Berdasarkan pemanfaatan";
 "Based on pressure" = "Berdasarkan tekanan";
-"Based on cluster" = "Berdasarkan kelompok"; // translategemma:4b
+"Based on cluster" = "Berdasarkan klaster"; // gemma4:31b
 "System accent" = "Aksen berdasarkan sistem";
 "Monochrome accent" = "Akses monokrom";
 "Clear" = "Bening";
@@ -514,8 +516,8 @@
 "Second purple" = "Ungu kedua";
 "Brown" = "Coklat";
 "Second brown" = "Coklat kedua";
-"Cyan" = "Biru kehijauan"; // translategemma:4b
+"Cyan" = "Sian"; // gemma4:31b
 "Magenta" = "Magenta";
 "Pink" = "Merah muda"; // translategemma:4b
-"Teal" = "Teal";
+"Teal" = "Toska"; // gemma4:31b
 "Indigo" = "Indigo";
