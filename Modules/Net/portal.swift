@@ -56,8 +56,6 @@ public class Portal: PortalWrapper {
         return value
     }
     
-    private var initialized: Bool = false
-    
     public override func load() {
         let view = NSStackView()
         view.orientation = .vertical

@@ -1301,7 +1301,6 @@ public class GridChartView: ChartView {
 
 public class BarChartView: ChartView {
     private var values: [ColorValue] = []
-    private var cursor: CGPoint? = nil
     
     private var size: CGFloat?
     private var horizontal: Bool

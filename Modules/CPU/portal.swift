@@ -21,14 +21,9 @@ public class Portal: PortalWrapper {
     private var systemField: NSTextField? = nil
     private var userField: NSTextField? = nil
     private var idleField: NSTextField? = nil
-    private var shedulerLimitField: NSTextField? = nil
-    private var speedLimitField: NSTextField? = nil
     private var eCoresField: NSTextField? = nil
     private var pCoresField: NSTextField? = nil
     private var sCoresField: NSTextField? = nil
-    private var average1Field: NSTextField? = nil
-    private var average5Field: NSTextField? = nil
-    private var average15Field: NSTextField? = nil
     
     private var systemColorView: NSView? = nil
     private var userColorView: NSView? = nil

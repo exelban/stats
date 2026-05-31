@@ -101,12 +101,6 @@ public class Disks: Codable, RemoteType {
         self.queue.sync { self._array.count }
     }
     
-    // swiftlint:disable empty_count
-    public var isEmpty: Bool {
-        self.count == 0
-    }
-    // swiftlint:enable empty_count
-    
     public func first(where predicate: (drive) -> Bool) -> drive? {
         return self.array.first(where: predicate)
     }

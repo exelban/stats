@@ -12,25 +12,6 @@
 import Cocoa
 import Kit
 
-private struct Sensor_t: KeyValue_p {
-    let key: String
-    let name: String?
-    
-    var value: String
-    var additional: Any?
-    
-    var index: Int {
-        get { Store.shared.int(key: "sensors_\(self.key)_index", defaultValue: -1) }
-        set { Store.shared.set(key: "sensors_\(self.key)_index", value: newValue) }
-    }
-    
-    init(key: String, value: String, name: String? = nil) {
-        self.key = key
-        self.value = value
-        self.name = name
-    }
-}
-
 internal class Popup: PopupWrapper {
     private var list: [String: NSView] = [:]
     

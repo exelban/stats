@@ -19,9 +19,6 @@ public struct DoubleValue {
         self.value = value
     }
 }
-extension [DoubleValue] {
-    public func max() -> Double? { self.max(by: { $0.value < $1.value })?.value }
-}
 
 public struct ColorValue: Equatable {
     public var ts: Date = Date()

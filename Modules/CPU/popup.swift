@@ -113,7 +113,6 @@ internal class Popup: PopupWrapper {
     private var sCoresColor: NSColor { self.sCoresColorState.additional as? NSColor ?? NSColor.systemOrange }
     
     private var processesView: NSView? = nil
-    private var frequenciesView: NSView? = nil
     
     private var numberOfProcesses: Int {
         Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)

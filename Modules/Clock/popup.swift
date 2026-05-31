@@ -602,8 +602,6 @@ internal class ClockView: NSStackView {
 }
 
 internal class ClockChart: NSView {
-    private var color: NSColor = SColor.systemAccent.additional as! NSColor
-    
     private let calendar = Calendar.current
     private var hour: Int = 0
     private var minute: Int = 0

@@ -82,7 +82,6 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     public var publicIPRefreshIntervalCallback: (() -> Void) = {}
     
     private let title: String
-    private var sliderView: NSView? = nil
     private var section: PreferencesSection? = nil
     private var widgetThresholdSection: PreferencesSection? = nil
     private let textWidgetHelpPanel: HelpHUD = HelpHUD(textWidgetHelp)

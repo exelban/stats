@@ -62,7 +62,6 @@ public class SystemStats {
     
     private let log: NextLog
     private var mqtt: MQTTManager = MQTTManager()
-    private var isConnecting = false
     public let session: URLSession = {
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = 30
@@ -785,13 +784,6 @@ public class RemoteAuth {
 }
 
 // MARK: - MQTT
-
-struct MQTTMessage {
-    let topic: String
-    let payload: Data
-    let qos: UInt8
-    let retain: Bool
-}
 
 enum MQTTPacketType: UInt8 {
     case connect = 1

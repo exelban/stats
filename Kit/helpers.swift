@@ -604,15 +604,6 @@ public func toggleNSControlState(_ control: NSControl?, state: NSControl.StateVa
     }
 }
 
-public func asyncShell(_ args: String) {
-    let task = Process()
-    task.launchPath = "/bin/sh"
-    task.arguments = ["-c", args]
-    let pipe = Pipe()
-    task.standardOutput = pipe
-    task.launch()
-}
-
 public func syncShell(_ args: String) -> String {
     let task = Process()
     task.launchPath = "/bin/sh"

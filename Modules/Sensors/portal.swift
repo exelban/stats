@@ -15,7 +15,6 @@ import Kit
 public class Portal: NSStackView, Portal_p {
     public var name: String
     
-    private var initialized: Bool = false
     private var container: ScrollableStackView = ScrollableStackView()
     
     private var list: [String: NSView] = [:]

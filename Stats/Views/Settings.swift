@@ -348,9 +348,6 @@ private class SidebarView: NSStackView {
         additionalButtons.addArrangedSubview(pauseButton)
         additionalButtons.addArrangedSubview(self.makeButton(title: localizedString("Close application"), image: self.closeIcon, action: #selector(closeApp)))
         
-        let emptySpace = NSView()
-        emptySpace.heightAnchor.constraint(equalToConstant: 28).isActive = true
-        
         self.addArrangedSubview(self.scrollView)
         self.addArrangedSubview(additionalButtons)
         

@@ -60,9 +60,6 @@ public struct Provider: TimelineProvider {
 
 @available(macOS 14.0, *)
 public struct NetworkWidget: Widget {
-    private var downloadColor: Color = Color(nsColor: NSColor.systemBlue)
-    private var uploadColor: Color = Color(nsColor: NSColor.systemRed)
-    
     public init() {}
     
     public var body: some WidgetConfiguration {

@@ -116,8 +116,6 @@ public class GPU: Module {
     private var infoReader: InfoReader? = nil
     
     private var selectedGPU: String = ""
-    private var notificationLevelState: Bool = false
-    private var notificationID: String? = nil
     
     private var showType: Bool {
         Store.shared.bool(key: "\(self.config.name)_showType", defaultValue: false)

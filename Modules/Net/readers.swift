@@ -14,12 +14,6 @@ import Kit
 import SystemConfiguration
 import CoreWLAN
 
-struct ipResponse: Decodable {
-    var ip: String
-    var country: String
-    var cc: String
-}
-
 // swiftlint:disable control_statement
 extension CWPHYMode: @retroactive CustomStringConvertible {
     public var description: String {
@@ -597,26 +591,6 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     
     public func ssidDidChangeForWiFiInterface(withName interfaceName: String) {
         self.getWiFiDetails()
-    }
-    
-    private func isInterfaceUp(_ ifName: String) -> Bool {
-        var addrs: UnsafeMutablePointer<ifaddrs>? = nil
-        guard getifaddrs(&addrs) == 0, let first = addrs else { return false }
-        defer { freeifaddrs(addrs) }
-        
-        var ptr = first
-        while true {
-            let name = String(cString: ptr.pointee.ifa_name)
-            if name == ifName {
-                return (ptr.pointee.ifa_flags & UInt32(IFF_UP)) != 0
-            }
-            if let next = ptr.pointee.ifa_next {
-                ptr = next
-            } else {
-                break
-            }
-        }
-        return false
     }
 }
 

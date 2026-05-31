@@ -222,27 +222,6 @@ internal class Popup: PopupWrapper {
         return view
     }
     
-    private func addFirstRow(mView: NSView, y: CGFloat, title: String, value: String) -> NSTextField {
-        let rowView: NSView = NSView(frame: NSRect(x: 0, y: y, width: mView.frame.width, height: 16))
-        
-        let labelWidth = title.widthOfString(usingFont: .systemFont(ofSize: 10, weight: .light)) + 4
-        let labelView: NSTextField = TextView(frame: NSRect(x: 0, y: 1.5, width: labelWidth, height: 13))
-        labelView.stringValue = title
-        labelView.alignment = .natural
-        labelView.font = NSFont.systemFont(ofSize: 10, weight: .light)
-        
-        let valueView: NSTextField = TextView(frame: NSRect(x: labelWidth, y: 1, width: mView.frame.width - labelWidth, height: 14))
-        valueView.stringValue = value
-        valueView.alignment = .right
-        valueView.font = NSFont.systemFont(ofSize: 11, weight: .medium)
-        
-        rowView.addSubview(labelView)
-        rowView.addSubview(valueView)
-        mView.addSubview(rowView)
-        
-        return valueView
-    }
-    
     public func loadCallback(_ value: RAM_Usage) {
         self.apply(value, to: self.loadCache, render: self.renderLoad)
         self.chart?.addValue(value.usage)

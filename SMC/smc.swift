@@ -533,16 +533,6 @@ public class SMC {
         #endif
     }
     
-    public func resetFans() {
-        var value = SMCVal_t("FS! ")
-        value.dataSize = 2
-        
-        let result = write(value)
-        if result != kIOReturnSuccess {
-            print("Error write: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
-        }
-    }
-    
     // MARK: - Apple Silicon Fan Control
     
     #if arch(arm64)

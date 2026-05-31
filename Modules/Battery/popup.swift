@@ -19,10 +19,7 @@ internal class Popup: PopupWrapper {
     private let adapterHeight: CGFloat = (22 * 4) + Constants.Popup.separatorHeight
     private let processHeight: CGFloat = 22
     
-    private var dashboardView: NSView? = nil
     private var dashboardBatteryView: BatteryView? = nil
-    private var detailsView: NSView? = nil
-    private var batteryView: NSView? = nil
     private var adapterView: NSView? = nil
     private var processesView: NSView? = nil
     

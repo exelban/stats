@@ -39,7 +39,6 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
     }
     
     private var title: String
-    private var selectedRow: Int = -1
     
     private let scrollView = NSScrollView()
     private let tableView = NSTableView()

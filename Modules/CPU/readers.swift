@@ -584,7 +584,6 @@ public class LimitReader: Reader<CPU_Limit> {
 }
 
 public class AverageLoadReader: Reader<CPU_AverageLoad> {
-    private let title: String = "CPU"
     private var load: CPU_AverageLoad = CPU_AverageLoad()
     
     public override func setup() {

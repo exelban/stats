@@ -50,10 +50,6 @@ public class Battery: Module {
     private var usageReader: UsageReader? = nil
     private var processReader: ProcessReader? = nil
     
-    private var lowLevelNotificationState: Bool = false
-    private var highLevelNotificationState: Bool = false
-    private var notificationID: String? = nil
-    
     public init() {
         self.settingsView = Settings(.battery)
         self.popupView = Popup(.battery)

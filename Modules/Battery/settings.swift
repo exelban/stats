@@ -18,7 +18,6 @@ internal class Settings: NSStackView, Settings_v {
     public var callbackWhenUpdateNumberOfProcesses: (() -> Void) = {}
     
     private let title: String
-    private var button: NSPopUpButton?
     
     private var numberOfProcesses: Int = 8
     private var timeFormat: String = "short"

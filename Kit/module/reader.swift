@@ -55,7 +55,6 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
     
     public var interval: Double? = nil
     public var defaultInterval: Int = 1
-    public var optional: Bool = false
     public var popup: Bool = false
     public var preview: Bool = false
     public var sleep: Bool = false

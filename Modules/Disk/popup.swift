@@ -499,7 +499,6 @@ internal class NameView: NSStackView {
 
 internal class ChartView: NSStackView {
     private var chart: NetworkChartView? = nil
-    private var ready: Bool = false
     
     private var readColor: NSColor {
         SColor.fromString(Store.shared.string(key: "\(ModuleType.disk.stringValue)_readColor", defaultValue: SColor.secondBlue.key)).additional as! NSColor
