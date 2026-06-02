@@ -306,15 +306,19 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         let outputPipe = Pipe()
         let errorPipe = Pipe()
         
+        task.standardInput = inputPipe
+        task.standardOutput = outputPipe
+        task.standardError = errorPipe
+        
         defer {
+            if task.isRunning {
+                task.terminate()
+            }
+            task.waitUntilExit()
             inputPipe.fileHandleForWriting.closeFile()
             outputPipe.fileHandleForReading.closeFile()
             errorPipe.fileHandleForReading.closeFile()
         }
-        
-        task.standardInput = inputPipe
-        task.standardOutput = outputPipe
-        task.standardError = errorPipe
         
         do {
             try task.run()
@@ -625,15 +629,19 @@ public class ProcessReader: Reader<[Network_Process]> {
         let outputPipe = Pipe()
         let errorPipe = Pipe()
         
+        task.standardInput = inputPipe
+        task.standardOutput = outputPipe
+        task.standardError = errorPipe
+        
         defer {
+            if task.isRunning {
+                task.terminate()
+            }
+            task.waitUntilExit()
             inputPipe.fileHandleForWriting.closeFile()
             outputPipe.fileHandleForReading.closeFile()
             errorPipe.fileHandleForReading.closeFile()
         }
-        
-        task.standardInput = inputPipe
-        task.standardOutput = outputPipe
-        task.standardError = errorPipe
         
         do {
             try task.run()
