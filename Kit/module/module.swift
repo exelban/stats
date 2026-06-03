@@ -20,7 +20,7 @@ public struct module_c {
     internal var settingsConfig: NSDictionary = NSDictionary()
     internal var previewConfig: NSDictionary = NSDictionary()
     
-    public var hasPreview: Bool { self.previewConfig["enabled"] as? Bool ?? false }
+    public var hasPreview: Bool { self.previewConfig["available"] as? Bool ?? false }
     
     init(in path: String) {
         let dict: NSDictionary = NSDictionary(contentsOfFile: path)!
