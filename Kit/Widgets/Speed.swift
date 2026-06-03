@@ -588,14 +588,14 @@ public class SpeedWidget: WidgetWrapper {
         self.displayModeView?.isEnabled = key.count > 1
         
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_displayValue", value: key)
-        self.display()
+        self.renderToLayer()
     }
     
     @objc private func changeDisplayMode(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
         self.modeState = key
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_mode", value: key)
-        self.display()
+        self.renderToLayer()
     }
     
     @objc private func toggleValue(_ sender: NSControl) {
@@ -604,13 +604,13 @@ public class SpeedWidget: WidgetWrapper {
         self.valueColorView?.isEnabled = self.valueState
         self.valueAlignmentView?.isEnabled = self.valueState
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_value", value: self.valueState)
-        self.display()
+        self.renderToLayer()
     }
     
     @objc private func toggleUnits(_ sender: NSControl) {
         self.unitsState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_units", value: self.unitsState)
-        self.display()
+        self.renderToLayer()
     }
     
     @objc private func toggleIcon(_ sender: NSMenuItem) {
@@ -619,13 +619,13 @@ public class SpeedWidget: WidgetWrapper {
         self.iconColorView?.isEnabled = self.icon != "none"
         self.iconAlignmentView?.isEnabled = self.icon != "none"
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_icon", value: key)
-        self.display()
+        self.renderToLayer()
     }
     
     @objc private func toggleMonochrome(_ sender: NSControl) {
         self.monochromeState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_monochrome", value: self.monochromeState)
-        self.display()
+        self.renderToLayer()
     }
     
     @objc private func toggleValueColor(_ sender: NSMenuItem) {
@@ -634,7 +634,7 @@ public class SpeedWidget: WidgetWrapper {
             self.valueColorState = newColor.key
         }
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_valueColor", value: key)
-        self.display()
+        self.renderToLayer()
     }
     
     @objc private func toggleOutputColor(_ sender: NSMenuItem) {
@@ -664,18 +664,18 @@ public class SpeedWidget: WidgetWrapper {
         
         if updated {
             DispatchQueue.main.async(execute: {
-                self.display()
+                self.renderToLayer()
             })
         }
     }
-    
+
     @objc private func toggleValueAlignment(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
         if let newAlignment = Alignments.first(where: { $0.key == key }) {
             self.valueAlignmentState = newAlignment.key
         }
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_valueAlignment", value: key)
-        self.display()
+        self.renderToLayer()
     }
     
     @objc private func toggleIconAlignment(_ sender: NSMenuItem) {
@@ -684,7 +684,7 @@ public class SpeedWidget: WidgetWrapper {
             self.iconAlignmentState = newAlignment.key
         }
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_iconAlignment", value: key)
-        self.display()
+        self.renderToLayer()
     }
     
     @objc private func toggleIconColor(_ sender: NSMenuItem) {
@@ -693,6 +693,6 @@ public class SpeedWidget: WidgetWrapper {
             self.iconColorState = newColor.key
         }
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_iconColor", value: key)
-        self.display()
+        self.renderToLayer()
     }
 }

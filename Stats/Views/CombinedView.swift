@@ -73,10 +73,25 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
         DispatchQueue.main.async(execute: {
             self.menuBarItem?.autosaveName = "CombinedModules"
         })
-        self.menuBarItem?.button?.addSubview(self.view)
-        self.menuBarItem?.button?.image = NSImage()
-        self.menuBarItem?.button?.toolTip = localizedString("Combined modules")
-        
+        self.configureMenuBarButton(retries: 30)
+    }
+
+    private func configureMenuBarButton(retries: Int) {
+        guard let item = self.menuBarItem, let button = item.button else { return }
+        if !item.hasValidBackingWindow {
+            guard retries > 0 else { return }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { [weak self] in
+                self?.configureMenuBarButton(retries: retries - 1)
+            }
+            return
+        }
+        if self.view.superview !== button {
+            self.view.removeFromSuperview()
+            button.addSubview(self.view)
+        }
+        button.image = NSImage()
+        button.toolTip = localizedString("Combined modules")
+
         if !self.combinedModulesPopup {
             self.activeModules.forEach { (m: Module) in
                 m.menuBar.widgets.forEach { w in
@@ -93,11 +108,11 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
                 }
             }
         } else {
-            self.menuBarItem?.button?.target = self
-            self.menuBarItem?.button?.action = #selector(self.togglePopup)
-            self.menuBarItem?.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
+            button.target = self
+            button.action = #selector(self.togglePopup)
+            button.sendAction(on: [.leftMouseDown, .rightMouseDown])
         }
-        
+
         DispatchQueue.main.async(execute: {
             self.recalculate()
         })
@@ -136,7 +151,9 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
             }
         }
         self.view.setFrameSize(NSSize(width: w, height: self.view.frame.height))
-        self.menuBarItem?.length = w
+        if let item = self.menuBarItem, item.hasValidBackingWindow, item.length != w {
+            item.length = w
+        }
     }
     
     // call when popup appear/disappear

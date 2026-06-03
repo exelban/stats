@@ -407,18 +407,17 @@ public class BatteryWidget: WidgetWrapper {
         }
         
         if updated {
-            self.needsDisplay = true
             DispatchQueue.main.async(execute: {
-                self.display()
+                self.renderToLayer()
             })
         }
     }
-    
+
     // MARK: - Settings
-    
+
     public override func settings() -> NSView {
         let view = SettingsContainerView()
-        
+
         var additionalOptions = BatteryAdditionals
         if self.title == "Bluetooth" {
             additionalOptions = additionalOptions.filter({ $0.key == "none" || $0.key == "percentage" })
@@ -455,31 +454,31 @@ public class BatteryWidget: WidgetWrapper {
         guard let key = sender.representedObject as? String else { return }
         self.additional = key
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_additional", value: key)
-        self.display()
+        self.renderToLayer()
     }
     
     @objc private func toggleHideAdditionalWhenFull(_ sender: NSControl) {
         self.hideAdditionalWhenFull = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_hideAdditionalWhenFull", value: self.hideAdditionalWhenFull)
-        self.display()
+        self.renderToLayer()
     }
     
     @objc private func toggleColor(_ sender: NSControl) {
         self.colorState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState)
-        self.display()
+        self.renderToLayer()
     }
     
     @objc private func toggleXLSize(_ sender: NSControl) {
         self.xlSizeState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_xlSize", value: self.xlSizeState)
-        self.display()
+        self.renderToLayer()
     }
     
     @objc private func toggleChargerIconInside(_ sender: NSControl) {
         self.chargerIconInside = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_chargerInside", value: self.chargerIconInside)
-        self.display()
+        self.renderToLayer()
     }
 }
 
@@ -624,15 +623,15 @@ public class BatteryDetailsWidget: WidgetWrapper {
         }
         
         if updated {
-            self.needsDisplay = true
             DispatchQueue.main.async(execute: {
-                self.display()
+                self.renderToLayer()
             })
         }
     }
-    
+
     // MARK: - Settings
-    
+
+
     public override func settings() -> NSView {
         let view = SettingsContainerView()
         
@@ -651,6 +650,6 @@ public class BatteryDetailsWidget: WidgetWrapper {
         guard let key = sender.representedObject as? String else { return }
         self.mode = key
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_mode", value: key)
-        self.display()
+        self.renderToLayer()
     }
 }

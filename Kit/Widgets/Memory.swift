@@ -131,17 +131,17 @@ public class MemoryWidget: WidgetWrapper {
     public func setValue(_ value: (String, String), usedPercentage: Double) {
         self.value = value
         self.percentage = usedPercentage
-        
+
         DispatchQueue.main.async(execute: {
-            self.display()
+            self.renderToLayer()
         })
     }
-    
+
     public func setPressure(_ newPressureLevel: RAMPressure) {
         guard self.pressureLevel != newPressureLevel else { return }
         self.pressureLevel = newPressureLevel
         DispatchQueue.main.async(execute: {
-            self.display()
+            self.renderToLayer()
         })
     }
     
@@ -170,19 +170,19 @@ public class MemoryWidget: WidgetWrapper {
     @objc private func toggleOrder(_ sender: NSControl) {
         self.orderReversedState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_orderReversed", value: self.orderReversedState)
-        self.display()
+        self.renderToLayer()
     }
     
     @objc private func toggleSymbols(_ sender: NSControl) {
         self.symbolsState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_symbols", value: self.symbolsState)
-        self.display()
+        self.renderToLayer()
     }
     
     @objc private func toggleColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
         self.colorState = SColor.fromString(key, defaultValue: self.colorState)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_color", value: self.colorState.key)
-        self.display()
+        self.renderToLayer()
     }
 }

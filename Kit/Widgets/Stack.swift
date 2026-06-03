@@ -249,7 +249,7 @@ public class StackWidget: WidgetWrapper {
             if tableNeedsToBeUpdated {
                 self.orderTableView.update()
             }
-            self.display()
+            self.renderToLayer()
         })
     }
     
@@ -291,19 +291,19 @@ public class StackWidget: WidgetWrapper {
         guard let key = sender.representedObject as? String else { return }
         self.modeState = StackMode(rawValue: key) ?? .auto
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_mode", value: key)
-        self.display()
+        self.renderToLayer()
     }
     
     @objc private func toggleSize(_ sender: NSControl) {
         self.fixedSizeState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_size", value: self.fixedSizeState)
-        self.display()
+        self.renderToLayer()
     }
     
     @objc private func toggleMonospacedFont(_ sender: NSControl) {
         self.monospacedFontState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_monospacedFont", value: self.monospacedFontState)
-        self.display()
+        self.renderToLayer()
     }
     
     @objc private func toggleAlignment(_ sender: NSMenuItem) {
@@ -312,7 +312,7 @@ public class StackWidget: WidgetWrapper {
             self.alignmentState = newAlignment.key
         }
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_alignment", value: key)
-        self.display()
+        self.renderToLayer()
     }
 }
 
