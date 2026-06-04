@@ -8,8 +8,10 @@
 //
 //  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
 //
+// swiftlint:disable file_length
 
 import Cocoa
+import QuartzCore
 
 internal func scaleValue(scale: Scale = .linear, value: Double, maxValue: Double, zeroValue: Double, maxHeight: CGFloat, limit: Double) -> CGFloat {
     var value = value
@@ -113,9 +115,14 @@ public class ChartView: NSView {
     public var id: String = UUID().uuidString
     fileprivate let stateQueue: DispatchQueue
     
+    fileprivate var animationEnabled: Bool = false
+    fileprivate let animationDuration: CFTimeInterval = 0.25
+    
     fileprivate init(frame: NSRect, queueLabel: String) {
         self.stateQueue = DispatchQueue(label: queueLabel, attributes: .concurrent)
         super.init(frame: frame)
+        self.wantsLayer = true
+        self.layerContentsRedrawPolicy = .onSetNeedsDisplay
     }
     
     required init?(coder: NSCoder) {
@@ -138,6 +145,46 @@ public class ChartView: NSView {
                 guard let self else { return }
                 if self.window?.isVisible ?? false { self.display() }
             }
+        }
+    }
+    
+    public func setAnimation(_ enabled: Bool) {
+        self.write { self.animationEnabled = enabled }
+    }
+    
+    fileprivate func onMain(_ block: @escaping () -> Void) {
+        if Thread.isMainThread {
+            block()
+        } else {
+            DispatchQueue.main.async(execute: block)
+        }
+    }
+    
+    fileprivate func fadeTransition() {
+        let transition = CATransition()
+        transition.type = .fade
+        transition.duration = self.animationDuration
+        transition.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+        self.layer?.add(transition, forKey: kCATransition)
+    }
+    
+    fileprivate func slideTransition(_ dx: CGFloat, duration: CFTimeInterval) {
+        guard dx != 0 else { return }
+        let animation = CABasicAnimation(keyPath: "transform.translation.x")
+        animation.fromValue = dx
+        animation.toValue = 0
+        animation.duration = duration
+        animation.timingFunction = CAMediaTimingFunction(name: .linear)
+        self.layer?.add(animation, forKey: "slide")
+    }
+    
+    fileprivate func fadeOrDisplay() {
+        self.onMain { [weak self] in
+            guard let self, self.window?.isVisible ?? false else { return }
+            if self.read({ self.animationEnabled }) {
+                self.fadeTransition()
+            }
+            self.needsDisplay = true
         }
     }
 }
@@ -168,12 +215,22 @@ public class LineChartView: ChartView {
     
     private var cursor: NSPoint? = nil
     private var stop: Bool = false
+    private var lastSlideAt: CFTimeInterval = 0
     
     private var tooltipEnabledSnapshot: Bool {
         self.read { self.isTooltipEnabled }
     }
     
-    public init(frame: NSRect = .zero, num: Int, suffix: String = "%", color: NSColor = .controlAccentColor, scale: Scale = .none, fixedScale: Double = 1, zeroValue: Double = 0.01) {
+    public init(
+        frame: NSRect = .zero,
+        num: Int,
+        suffix: String = "%",
+        color: NSColor = .controlAccentColor,
+        scale: Scale = .none,
+        fixedScale: Double = 1,
+        zeroValue: Double = 0.01,
+        animation: Bool = true
+    ) {
         self.points = Array(repeating: nil, count: max(num, 1))
         self.suffix = suffix
         self.color = color
@@ -182,6 +239,7 @@ public class LineChartView: ChartView {
         self.zeroValue = zeroValue
         
         super.init(frame: frame, queueLabel: "eu.exelban.Stats.Charts.Line")
+        self.animationEnabled = animation
         
         self.dateFormatter.dateFormat = "dd/MM HH:mm:ss"
         self.legendDateFormatter.dateFormat = "HH:mm:ss"
@@ -265,6 +323,7 @@ public class LineChartView: ChartView {
         var lines: [[CGPoint]] = []
         var line: [CGPoint] = []
         var list: [(value: DoubleValue, point: CGPoint)] = []
+        let needList = xLegend || (isTooltipEnabled && self.cursor != nil)
         
         for (i, v) in points.enumerated() {
             guard let v else {
@@ -285,7 +344,9 @@ public class LineChartView: ChartView {
                 y: y + xLegendHeight
             )
             line.append(point)
-            list.append((value: v, point: point))
+            if needList {
+                list.append((value: v, point: point))
+            }
         }
         if !line.isEmpty {
             lines.append(line)
@@ -467,17 +528,24 @@ public class LineChartView: ChartView {
     
     public override func updateTrackingAreas() {
         self.trackingAreas.forEach({ self.removeTrackingArea($0) })
-        self.addTrackingArea(NSTrackingArea(
-            rect: .zero,
-            options: [
-                .activeAlways,
-                .mouseEnteredAndExited,
-                .mouseMoved,
-                .inVisibleRect
-            ],
-            owner: self, userInfo: nil
-        ))
+        if self.tooltipEnabledSnapshot {
+            self.addTrackingArea(NSTrackingArea(
+                rect: .zero,
+                options: [
+                    .activeAlways,
+                    .mouseEnteredAndExited,
+                    .mouseMoved,
+                    .inVisibleRect
+                ],
+                owner: self, userInfo: nil
+            ))
+        }
         super.updateTrackingAreas()
+    }
+    
+    public override func hitTest(_ point: NSPoint) -> NSView? {
+        guard self.tooltipEnabledSnapshot else { return nil }
+        return super.hitTest(point)
     }
     
     public func addValue(_ value: DoubleValue) {
@@ -499,7 +567,23 @@ public class LineChartView: ChartView {
             self.points[self.head] = value
             self.head = (self.head + 1) % n
         }
-        self.displayIfVisible()
+        self.onMain { [weak self] in
+            guard let self, self.window?.isVisible ?? false else { return }
+            let state = self.read { (n: self.points.count, animate: self.animationEnabled, yLegend: self.yLegend) }
+            if state.animate, !self.stop, state.n > 1 {
+                let now = CACurrentMediaTime()
+                let dt = self.lastSlideAt == 0 ? self.animationDuration : now - self.lastSlideAt
+                self.lastSlideAt = now
+                let chartWidth = self.bounds.width - (state.yLegend ? 30 : 0)
+                CATransaction.begin()
+                CATransaction.setDisableActions(true)
+                self.slideTransition(chartWidth / CGFloat(state.n - 1), duration: min(max(dt, 0.1), 3.0))
+                self.display()
+                CATransaction.commit()
+            } else {
+                self.display()
+            }
+        }
     }
     
     private func orderedPointsLocked() -> [DoubleValue?] {
@@ -553,10 +637,14 @@ public class LineChartView: ChartView {
             }
             self.head = 0
         }
-        self.displayIfVisible()
+        self.onMain { [weak self] in
+            self?.layer?.removeAnimation(forKey: "slide")
+            self?.displayIfVisible()
+        }
     }
     
     public func setScale(_ newScale: Scale, fixedScale: Double = 1) {
+        guard self.read({ self.scale != newScale || self.fixedScale != fixedScale }) else { return }
         self.write {
             self.scale = newScale
             self.fixedScale = fixedScale
@@ -569,30 +657,38 @@ public class LineChartView: ChartView {
             self.points = newPoints.map { Optional($0) }
             self.head = 0
         }
-        self.displayIfVisible()
+        self.onMain { [weak self] in
+            self?.layer?.removeAnimation(forKey: "slide")
+            self?.displayIfVisible()
+        }
     }
     
     public func setColor(_ newColor: NSColor) {
+        guard self.read({ self.color }) != newColor else { return }
         self.write { self.color = newColor }
         self.displayIfVisible()
     }
     
     public func setSuffix(_ newSuffix: String) {
+        guard self.read({ self.suffix }) != newSuffix else { return }
         self.write { self.suffix = newSuffix }
         self.displayIfVisible()
     }
     
     public func setTransparent(_ newValue: Bool) {
+        guard self.read({ self.transparent }) != newValue else { return }
         self.write { self.transparent = newValue }
         self.displayIfVisible()
     }
     
     public func setFlipY(_ newValue: Bool) {
+        guard self.read({ self.flipY }) != newValue else { return }
         self.write { self.flipY = newValue }
         self.displayIfVisible()
     }
     
     public func setMinMax(_ newValue: Bool) {
+        guard self.read({ self.minMax }) != newValue else { return }
         self.write { self.minMax = newValue }
         self.displayIfVisible()
     }
@@ -603,6 +699,7 @@ public class LineChartView: ChartView {
     
     public func setTooltipEnabled(_ newValue: Bool) {
         self.write { self.isTooltipEnabled = newValue }
+        self.updateTrackingAreas()
     }
     
     public func setLegend(x: Bool, y: Bool) {
@@ -657,8 +754,17 @@ public class NetworkChartView: ChartView {
     private var inChart: LineChartView
     private var outChart: LineChartView
     
-    public init(frame: NSRect = .zero, num: Int, minMax: Bool = true, reversedOrder: Bool = false,
-                outColor: NSColor = .systemRed, inColor: NSColor = .systemBlue, scale: Scale = .none, fixedScale: Double = 1) {
+    public init(
+        frame: NSRect = .zero,
+        num: Int,
+        minMax: Bool = true,
+        reversedOrder: Bool = false,
+        outColor: NSColor = .systemRed,
+        inColor: NSColor = .systemBlue,
+        scale: Scale = .none,
+        fixedScale: Double = 1,
+        animation: Bool = true
+    ) {
         self.reversedOrder = reversedOrder
         
         let safeHeight = max(frame.height, 2)
@@ -666,8 +772,8 @@ public class NetworkChartView: ChartView {
         let bottomFrame = NSRect(x: frame.origin.x, y: 0, width: frame.width, height: safeHeight/2)
         let inFrame = self.reversedOrder ? topFrame : bottomFrame
         let outFrame = self.reversedOrder ? bottomFrame : topFrame
-        self.inChart = LineChartView(frame: inFrame, num: num, color: inColor, scale: scale, fixedScale: fixedScale, zeroValue: 256.0)
-        self.outChart = LineChartView(frame: outFrame, num: num, color: outColor, scale: scale, fixedScale: fixedScale, zeroValue: 256.0)
+        self.inChart = LineChartView(frame: inFrame, num: num, color: inColor, scale: scale, fixedScale: fixedScale, zeroValue: 256.0, animation: animation)
+        self.outChart = LineChartView(frame: outFrame, num: num, color: outColor, scale: scale, fixedScale: fixedScale, zeroValue: 256.0, animation: animation)
         
         super.init(frame: frame, queueLabel: "eu.exelban.Stats.Charts.Network")
         
@@ -709,6 +815,11 @@ public class NetworkChartView: ChartView {
     public func setScale(_ newScale: Scale, _ fixedScale: Double = 1) {
         self.inChart.setScale(newScale, fixedScale: fixedScale)
         self.outChart.setScale(newScale, fixedScale: fixedScale)
+    }
+    
+    public override func setAnimation(_ enabled: Bool) {
+        self.inChart.setAnimation(enabled)
+        self.outChart.setAnimation(enabled)
     }
     
     public func setReverseOrder(_ newValue: Bool) {
@@ -772,7 +883,7 @@ public class PieChartView: ChartView {
     private var segments: [ColorValue] = []
     private var color: NSColor = NSColor.systemBlue
     
-    public init(frame: NSRect = .zero, segments: [ColorValue] = [], filled: Bool = false, drawValue: Bool = false, drawNeedle: Bool = false, openCircle: Bool = false) {
+    public init(frame: NSRect = .zero, segments: [ColorValue] = [], filled: Bool = false, drawValue: Bool = false, drawNeedle: Bool = false, openCircle: Bool = false, animation: Bool = true) {
         self.filled = filled
         self.drawValue = drawValue
         self.drawNeedle = drawNeedle
@@ -780,6 +891,7 @@ public class PieChartView: ChartView {
         self.segments = segments
         
         super.init(frame: frame, queueLabel: "eu.exelban.Stats.Charts.Pie")
+        self.animationEnabled = animation
         
         self.setAccessibilityElement(true)
     }
@@ -964,7 +1076,7 @@ public class PieChartView: ChartView {
     public func setValue(_ value: Double) {
         let sanitized = value.isFinite ? value : 0
         self.write { self.value = self.openCircle ? (sanitized > 1 ? sanitized/100 : sanitized) : sanitized }
-        self.displayIfVisible()
+        self.fadeOrDisplay()
     }
     
     public func setActiveSegment(_ index: Int) {
@@ -979,7 +1091,7 @@ public class PieChartView: ChartView {
     
     public func setSegments(_ segments: [ColorValue]) {
         self.write { self.segments = segments }
-        self.displayIfVisible()
+        self.fadeOrDisplay()
     }
     
     public func setNonActiveSegmentColor(_ newColor: NSColor) {
@@ -995,11 +1107,12 @@ public class TachometerGraphView: ChartView {
     private var filled: Bool
     private var segments: [ColorValue]
     
-    public init(frame: NSRect = .zero, segments: [ColorValue], filled: Bool = true) {
+    public init(frame: NSRect = .zero, segments: [ColorValue], filled: Bool = true, animation: Bool = true) {
         self.filled = filled
         self.segments = segments
         
         super.init(frame: frame, queueLabel: "eu.exelban.Stats.Charts.Tachometer")
+        self.animationEnabled = animation
     }
     
     required init?(coder: NSCoder) {
@@ -1050,7 +1163,7 @@ public class TachometerGraphView: ChartView {
     
     internal func setSegments(_ segments: [ColorValue]) {
         self.write { self.segments = segments }
-        self.displayIfVisible()
+        self.fadeOrDisplay()
     }
 }
 
@@ -1058,8 +1171,9 @@ public class ColumnChartView: ChartView {
     private var values: [ColorValue] = []
     private var cursor: CGPoint? = nil
     
-    public init(frame: NSRect = NSRect.zero, num: Int) {
+    public init(frame: NSRect = NSRect.zero, num: Int, animation: Bool = true) {
         super.init(frame: frame, queueLabel: "eu.exelban.Stats.Charts.Column")
+        self.animationEnabled = animation
         self.values = Array(repeating: ColorValue(0, color: .controlAccentColor), count: num)
         
         self.addTrackingArea(NSTrackingArea(
@@ -1150,7 +1264,7 @@ public class ColumnChartView: ChartView {
     
     public func setValues(_ values: [ColorValue]) {
         self.write { self.values = values }
-        self.displayIfVisible()
+        self.fadeOrDisplay()
     }
     
     public override func mouseEntered(with event: NSEvent) {
@@ -1305,11 +1419,12 @@ public class BarChartView: ChartView {
     private var size: CGFloat?
     private var horizontal: Bool
     
-    public init(frame: NSRect = NSRect.zero, size: CGFloat? = nil, horizontal: Bool = false) {
+    public init(frame: NSRect = NSRect.zero, size: CGFloat? = nil, horizontal: Bool = false, animation: Bool = true) {
         self.size = size
         self.horizontal = horizontal
         
         super.init(frame: frame, queueLabel: "eu.exelban.Stats.Charts.Bar")
+        self.animationEnabled = animation
     }
     
     required init?(coder: NSCoder) {
@@ -1369,11 +1484,11 @@ public class BarChartView: ChartView {
     
     public func setValue(_ values: ColorValue) {
         self.write { self.values = [values] }
-        self.displayIfVisible()
+        self.fadeOrDisplay()
     }
     
     public func setValues(_ values: [ColorValue]) {
         self.write { self.values = values }
-        self.displayIfVisible()
+        self.fadeOrDisplay()
     }
 }
