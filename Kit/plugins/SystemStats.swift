@@ -289,6 +289,7 @@ public class SystemStats {
                let account = try? JSONDecoder().decode(AccountResponse.self, from: data) {
                 SystemStats.shared.plan = account.plan
                 debug("Remote plan: \(account.plan.rawValue)", log: self.log)
+                NotificationCenter.default.post(name: .remoteAuthenticated, object: nil)
             } else {
                 let bodyString = data.flatMap { String(data: $0, encoding: .utf8) } ?? ""
                 debug("Fetch account failed (\(httpResponse.statusCode)): \(bodyString)", log: self.log)

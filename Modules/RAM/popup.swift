@@ -17,7 +17,7 @@ internal class Popup: PopupWrapper {
     
     private let dashboardHeight: CGFloat = 90
     private let chartHeight: CGFloat = 90 + Constants.Popup.separatorHeight
-    private let detailsHeight: CGFloat = (22*6) + Constants.Popup.separatorHeight
+    private let detailsHeight: CGFloat = (22*6) + Constants.Popup.separatorHeight + 16
     private let processHeight: CGFloat = 22
     
     private var usedField: NSTextField? = nil
@@ -36,8 +36,9 @@ internal class Popup: PopupWrapper {
     private var sliderView: NSView? = nil
     
     private var chart: LineChartView? = nil
+    private var bar: BarChartView = BarChartView(size: 10, horizontal: true)
     private var circle: PieChartView? = nil
-    private var level: PieChartView? = nil
+    private var level: GaugeChartView? = nil
     private var processesInitialized: Bool = false
     
     private let loadCache = PopupCache<RAM_Usage>()
@@ -138,29 +139,45 @@ internal class Popup: PopupWrapper {
     }
     
     private func initDashboard() -> NSView {
-        let view: NSView = NSView(frame: NSRect(x: 0, y: self.frame.height - self.dashboardHeight, width: self.frame.width, height: self.dashboardHeight))
+        let view = NSStackView()
+        view.heightAnchor.constraint(equalToConstant: self.dashboardHeight).isActive = true
+        view.orientation = .horizontal
+        view.distribution = .fillEqually
         
-        let container: NSView = NSView(frame: NSRect(x: 0, y: 10, width: view.frame.width, height: self.dashboardHeight-20))
-        self.circle = PieChartView(frame: NSRect(
-            x: (container.frame.width - container.frame.height)/2,
-            y: 0,
-            width: container.frame.height,
-            height: container.frame.height
-        ), segments: [], drawValue: true)
-        self.circle!.toolTip = localizedString("Memory usage")
-        container.addSubview(self.circle!)
+        let circle = PieChartView(drawValue: true)
+        circle.translatesAutoresizingMaskIntoConstraints = false
+        circle.toolTip = localizedString("Memory usage")
+        self.circle = circle
         
-        let centralWidth: CGFloat = self.dashboardHeight-20
-        let sideWidth: CGFloat = (view.frame.width - centralWidth - (Constants.Popup.margins*2))/2
-        self.level = PieChartView(frame: NSRect(x: (sideWidth - 60)/2, y: 10, width: 60, height: 50), segments: [
+        let circleContainer = NSView()
+        circleContainer.addSubview(circle)
+        
+        let gauge = GaugeChartView(segments: [
             ColorValue(1/3, color: NSColor.systemGreen),
             ColorValue(1/3, color: NSColor.systemYellow),
             ColorValue(1/3, color: NSColor.systemRed)
-        ], drawValue: true, drawNeedle: true, openCircle: true)
-        self.level!.toolTip = localizedString("Memory pressure")
+        ], title: localizedString("Normal"))
+        gauge.translatesAutoresizingMaskIntoConstraints = false
+        gauge.toolTip = localizedString("Memory pressure")
+        self.level = gauge
         
-        view.addSubview(self.level!)
-        view.addSubview(container)
+        let gaugeContainer = NSView()
+        gaugeContainer.addSubview(gauge)
+        
+        NSLayoutConstraint.activate([
+            circle.widthAnchor.constraint(equalToConstant: 70),
+            circle.heightAnchor.constraint(equalToConstant: 70),
+            circle.centerXAnchor.constraint(equalTo: circleContainer.centerXAnchor, constant: -15),
+            circle.centerYAnchor.constraint(equalTo: circleContainer.centerYAnchor),
+            
+            gauge.widthAnchor.constraint(equalToConstant: 70),
+            gauge.heightAnchor.constraint(equalToConstant: 60),
+            gauge.centerXAnchor.constraint(equalTo: gaugeContainer.centerXAnchor, constant: 15),
+            gauge.centerYAnchor.constraint(equalTo: gaugeContainer.centerYAnchor)
+        ])
+        
+        view.addArrangedSubview(gaugeContainer)
+        view.addArrangedSubview(circleContainer)
         
         return view
     }
@@ -171,7 +188,7 @@ internal class Popup: PopupWrapper {
         let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
         container.wantsLayer = true
         container.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
-        container.layer?.cornerRadius = 3
+        container.layer?.cornerRadius = Constants.Popup.radius
         
         let chartFrame = NSRect(x: 1, y: 0, width: view.frame.width - 2, height: container.frame.height)
         self.chart = LineChartView(frame: chartFrame, num: self.lineChartHistory, scale: self.lineChartScale, fixedScale: self.lineChartFixedScale)
@@ -192,6 +209,7 @@ internal class Popup: PopupWrapper {
         container.spacing = 0
         
         self.usedField = popupRow(container, title: "\(localizedString("Used")):", value: "").1
+        container.addArrangedSubview(self.bar)
         (self.appColorView, _, self.appField) = popupWithColorRow(container, color: self.appColor, title: "\(localizedString("App")):", value: "")
         (self.wiredColorView, _, self.wiredField) = popupWithColorRow(container, color: self.wiredColor, title: "\(localizedString("Wired")):", value: "")
         (self.compressedColorView, _, self.compressedField) = popupWithColorRow(container, color: self.compressedColor, title: "\(localizedString("Compressed")):", value: "")
@@ -237,19 +255,24 @@ internal class Popup: PopupWrapper {
         self.usedField?.stringValue = Units(bytes: Int64(value.used)).getReadableMemory(style: .memory)
         self.freeField?.stringValue = Units(bytes: Int64(value.free)).getReadableMemory(style: .memory)
         
-        self.circle?.toolTip = "\(localizedString("Memory usage")): \(Int(value.usage*100))%"
-        self.circle?.setValue(value.usage)
-        self.circle?.setSegments([
+        let values = [
             ColorValue(value.app/value.total, color: self.appColor),
             ColorValue(value.wired/value.total, color: self.wiredColor),
             ColorValue(value.compressed/value.total, color: self.compressedColor)
-        ])
+        ]
+        
+        self.circle?.toolTip = "\(localizedString("Memory usage")): \(Int(value.usage*100))%"
+        self.circle?.setValue(value.usage)
+        self.circle?.setSegments(values)
         self.circle?.setNonActiveSegmentColor(self.freeColor)
         self.circle?.display()
         
         self.level?.setActiveSegment(value.pressure.value.number())
+        self.level?.setTitle(localizedString(value.pressure.value.rawValue.capitalized))
         self.level?.toolTip = "\(localizedString("Memory pressure")): \(value.pressure.value.rawValue)"
         self.level?.display()
+        
+        self.bar.setValues(values)
         
         self.chart?.display()
     }

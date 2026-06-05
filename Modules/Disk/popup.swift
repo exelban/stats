@@ -312,7 +312,7 @@ internal class DiskView: NSStackView {
         self.spacing = 5
         self.edgeInsets = NSEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
         self.wantsLayer = true
-        self.layer?.cornerRadius = 2
+        self.layer?.cornerRadius = Constants.Popup.radius
         
         self.nameView.detailsCallback = { [weak self] in
             guard let s = self else { return }
@@ -446,12 +446,12 @@ internal class NameView: NSStackView {
         detailsButton.frame = CGRect(x: (self.frame.width/3)-20, y: 10, width: 15, height: 15)
         detailsButton.bezelStyle = .regularSquare
         detailsButton.isBordered = false
-        detailsButton.imageScaling = NSImageScaling.scaleAxesIndependently
+        detailsButton.imageScaling = NSImageScaling.scaleProportionallyDown
         detailsButton.contentTintColor = .lightGray
         detailsButton.action = #selector(self.toggleDetails)
         detailsButton.target = self
         detailsButton.toolTip = localizedString("Disk details")
-        detailsButton.image = Bundle(for: Module.self).image(forResource: "tune")!
+        detailsButton.image = iconFromSymbol(name: "slider.horizontal.3", scale: .medium)
         
         self.addArrangedSubview(nameField)
         self.addArrangedSubview(activity)

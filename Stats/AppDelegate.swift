@@ -79,7 +79,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         self.icon()
         
         NotificationCenter.default.addObserver(self, selector: #selector(listenForAppPause), name: .pause, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleToggleSettings(_:)), name: .toggleSettings, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleToggleSettings), name: .toggleSettings, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleRemoteAuthenticated), name: .remoteAuthenticated, object: nil)
+        
         NSEvent.addGlobalMonitorForEvents(matching: [.keyDown, .flagsChanged]) { [weak self] event in
             self?.handleKeyEvent(event)
         }
@@ -121,6 +123,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     @objc private func handleToggleSettings(_ notification: Notification) {
         let module = notification.userInfo?["module"] as? String
         self.ensureSettingsWindow().open(module: module)
+    }
+    
+    @objc private func handleRemoteAuthenticated() {
+        DispatchQueue.main.async {
+            self.checkIfShouldShowSupportWindow()
+        }
     }
     
     private func showSettingsIfNoActiveWidgets() {

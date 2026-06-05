@@ -19,6 +19,7 @@ public struct Popup_c_s {
     public let headerHeight: CGFloat = 42
     public let separatorHeight: CGFloat = 30
     public let portalHeight: CGFloat = 120
+    public let radius: CGFloat = 6
 }
 
 public struct Settings_c_s {

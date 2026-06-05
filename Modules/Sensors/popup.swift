@@ -233,40 +233,25 @@ internal class Popup: PopupWrapper {
     // MARK: helpers
     
     private func fansSeparatorView() -> NSView {
-        let view: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 26))
-        view.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
-        view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
-        view.orientation = .horizontal
-        view.spacing = 0
-        view.distribution = .fillEqually
-        view.alignment = .top
+        let row: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: Constants.Popup.separatorHeight))
+        row.widthAnchor.constraint(equalToConstant: row.frame.width).isActive = true
+        row.heightAnchor.constraint(equalToConstant: row.bounds.height).isActive = true
         
-        let labelView: NSTextField = TextView()
-        labelView.stringValue = localizedString("Fans")
-        labelView.alignment = .center
-        labelView.textColor = .secondaryLabelColor
-        labelView.font = NSFont.systemFont(ofSize: 12, weight: .medium)
-        
-        let btnContainer = NSView()
-        
-        let button = NSButton()
-        button.frame = CGRect(x: (self.frame.width/3)-20, y: 10, width: 15, height: 15)
+        let button = NSButtonWithPadding()
+        button.frame = CGRect(x: row.frame.width - 18, y: 6, width: 18, height: 18)
         button.bezelStyle = .regularSquare
         button.isBordered = false
-        button.imageScaling = NSImageScaling.scaleAxesIndependently
+        button.imageScaling = NSImageScaling.scaleProportionallyDown
         button.contentTintColor = .lightGray
         button.action = #selector(self.toggleFanControl)
         button.target = self
         button.toolTip = localizedString("Control")
-        button.image = Bundle(for: Module.self).image(forResource: "tune")!
+        button.image = iconFromSymbol(name: "slider.horizontal.3", scale: .medium)
         
-        btnContainer.addSubview(button)
+        row.addSubview(separatorView(localizedString("Fans"), width: self.frame.width, rightInset: 24))
+        row.addSubview(button)
         
-        view.addArrangedSubview(NSView())
-        view.addArrangedSubview(labelView)
-        view.addArrangedSubview(btnContainer)
-        
-        return view
+        return row
     }
     
     @objc private func toggleSensor(_ sender: NSControl) {
@@ -527,7 +512,7 @@ internal class FanView: NSStackView {
         self.spacing = 1
         self.edgeInsets = NSEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
         self.wantsLayer = true
-        self.layer?.cornerRadius = 2
+        self.layer?.cornerRadius = Constants.Popup.radius
         
         self.nameAndSpeed()
         self.setupControls()
@@ -985,12 +970,8 @@ private class ModeButtons: NSStackView {
     private var turboBtn: NSButton
     
     public init(frame: NSRect, mode: FanMode) {
-        var turboIcon: NSImage = NSImage(named: NSImage.Name("ac_unit"))!
-        var offIcon: NSImage = NSImage(named: NSImage.Name("ac_unit"))!
-        if #available(macOS 12.0, *) {
-            turboIcon = iconFromSymbol(name: "snowflake", scale: .large)
-            offIcon = iconFromSymbol(name: "fanblades.slash", scale: .medium)
-        }
+        let turboIcon: NSImage = iconFromSymbol(name: "snowflake", scale: .large)
+        let offIcon: NSImage = iconFromSymbol(name: "fanblades.slash", scale: .medium)
         
         self.offBtn = NSButton(image: offIcon, target: nil, action: #selector(offMode))
         self.turboBtn = NSButton(image: turboIcon, target: nil, action: #selector(turboMode))

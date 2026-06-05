@@ -378,17 +378,53 @@ public extension NSBezierPath {
     }
 }
 
-public func separatorView(_ title: String, origin: NSPoint = NSPoint(x: 0, y: 0), width: CGFloat = 0) -> NSView {
+public func separatorView(_ title: String, origin: NSPoint = NSPoint(x: 0, y: 0), width: CGFloat = 0, rightInset: CGFloat = 0) -> NSView {
     let view: NSView = NSView(frame: NSRect(x: origin.x, y: origin.y, width: width, height: 30))
     view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
     
-    let labelView: NSTextField = TextView(frame: NSRect(x: 0, y: (view.frame.height-15)/2, width: view.frame.width, height: 15))
-    labelView.stringValue = title
+    let labelView: NSTextField = NSTextField(labelWithString: "")
+    labelView.translatesAutoresizingMaskIntoConstraints = false
     labelView.alignment = .center
-    labelView.textColor = .secondaryLabelColor
-    labelView.font = NSFont.systemFont(ofSize: 12, weight: .medium)
+    labelView.isBezeled = false
+    labelView.isEditable = false
+    labelView.drawsBackground = false
+    labelView.attributedStringValue = NSAttributedString(string: title.uppercased(), attributes: [
+        .font: NSFont.systemFont(ofSize: 10, weight: .semibold),
+        .foregroundColor: NSColor.tertiaryLabelColor,
+        .kern: 1.0
+    ])
+    labelView.setContentHuggingPriority(.required, for: .horizontal)
+    labelView.setContentCompressionResistancePriority(.required, for: .horizontal)
     
+    let leftLine: NSView = NSView()
+    leftLine.translatesAutoresizingMaskIntoConstraints = false
+    leftLine.wantsLayer = true
+    leftLine.layer?.backgroundColor = NSColor.separatorColor.cgColor
+    
+    let rightLine: NSView = NSView()
+    rightLine.translatesAutoresizingMaskIntoConstraints = false
+    rightLine.wantsLayer = true
+    rightLine.layer?.backgroundColor = NSColor.separatorColor.cgColor
+    
+    view.addSubview(leftLine)
     view.addSubview(labelView)
+    view.addSubview(rightLine)
+    
+    let gap: CGFloat = 8
+    NSLayoutConstraint.activate([
+        labelView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+        labelView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        
+        leftLine.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+        leftLine.trailingAnchor.constraint(equalTo: labelView.leadingAnchor, constant: -gap),
+        leftLine.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        leftLine.heightAnchor.constraint(equalToConstant: 1),
+        
+        rightLine.leadingAnchor.constraint(equalTo: labelView.trailingAnchor, constant: gap),
+        rightLine.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -rightInset),
+        rightLine.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        rightLine.heightAnchor.constraint(equalToConstant: 1)
+    ])
     
     return view
 }
@@ -757,7 +793,7 @@ public func fetchIOService(_ name: String) -> [NSDictionary]? {
     var obj: io_registry_entry_t = 1
     var list: [NSDictionary] = []
     
-    let result = IOServiceGetMatchingServices(kIOMasterPortDefault, IOServiceMatching(name), &iterator)
+    let result = IOServiceGetMatchingServices(kIOMainPortDefault, IOServiceMatching(name), &iterator)
     if result != kIOReturnSuccess {
         print("Error IOServiceGetMatchingServices(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
         return nil
@@ -1339,8 +1375,22 @@ public func controlState(_ sender: NSControl) -> Bool {
     return state == .on
 }
 
-public func iconFromSymbol(name: String, scale: NSImage.SymbolScale) -> NSImage {
-    let config = NSImage.SymbolConfiguration(textStyle: .body, scale: scale)
+public enum IconScale {
+    case small, medium, large, xlarge
+}
+
+public func iconFromSymbol(name: String, scale: IconScale) -> NSImage {
+    let config: NSImage.SymbolConfiguration
+    switch scale {
+    case .small:
+        config = NSImage.SymbolConfiguration(textStyle: .body, scale: .small)
+    case .medium:
+        config = NSImage.SymbolConfiguration(textStyle: .body, scale: .medium)
+    case .large:
+        config = NSImage.SymbolConfiguration(textStyle: .body, scale: .large)
+    case .xlarge:
+        config = NSImage.SymbolConfiguration(pointSize: 14, weight: .regular, scale: .large)
+    }
     if let symbol = NSImage(systemSymbolName: name, accessibilityDescription: nil), let icon = symbol.withSymbolConfiguration(config) {
         return icon
     }
@@ -1366,7 +1416,7 @@ public func showAlert(_ message: String, _ information: String? = nil, _ style: 
 }
 
 var isDarkMode: Bool {
-    switch NSAppearance.current.name {
+    switch NSAppearance.currentDrawing().name {
     case .darkAqua, .vibrantDark, .accessibilityHighContrastDarkAqua, .accessibilityHighContrastVibrantDark:
         return true
     default:

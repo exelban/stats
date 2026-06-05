@@ -873,21 +873,23 @@ public class NetworkChartView: ChartView {
 public class PieChartView: ChartView {
     private var filled: Bool = false
     private var drawValue: Bool = false
-    private var drawNeedle: Bool = false
-    private var openCircle: Bool = false
     private var nonActiveSegmentColor: NSColor = NSColor.lightGray
     
     private var value: Double? = nil
+    private var maxValue: Double = 1
     private var text: String? = nil
-    private var activeSegment: Int? = nil
     private var segments: [ColorValue] = []
     private var color: NSColor = NSColor.systemBlue
     
-    public init(frame: NSRect = .zero, segments: [ColorValue] = [], filled: Bool = false, drawValue: Bool = false, drawNeedle: Bool = false, openCircle: Bool = false, animation: Bool = true) {
+    public init(
+        frame: NSRect = .zero,
+        segments: [ColorValue] = [],
+        filled: Bool = false,
+        drawValue: Bool = false,
+        animation: Bool = true
+    ) {
         self.filled = filled
         self.drawValue = drawValue
-        self.drawNeedle = drawNeedle
-        self.openCircle = openCircle
         self.segments = segments
         
         super.init(frame: frame, queueLabel: "eu.exelban.Stats.Charts.Pie")
@@ -903,44 +905,30 @@ public class PieChartView: ChartView {
     public override func draw(_ rect: CGRect) {
         var filled: Bool = false
         var drawValue: Bool = false
-        var drawNeedle: Bool = false
-        var openCircle: Bool = false
         var nonActiveSegmentColor: NSColor = NSColor.lightGray
         var value: Double? = nil
         var text: String? = nil
-        var activeSegment: Int? = nil
         var segments: [ColorValue] = []
         var color: NSColor = NSColor.systemBlue
         self.read {
             filled = self.filled
             drawValue = self.drawValue
-            drawNeedle = self.drawNeedle
-            openCircle = self.openCircle
             nonActiveSegmentColor = self.nonActiveSegmentColor
             value = self.value
             text = self.text
-            activeSegment = self.activeSegment
             segments = self.segments
             color = self.color
         }
         
         let arcWidth: CGFloat = filled ? min(self.frame.width, self.frame.height) / 2 : 7
         let fullCircle: CGFloat = 2 * CGFloat.pi
-        let arcSpan: CGFloat = openCircle ? (3/2) * CGFloat.pi : fullCircle
         if segments.isEmpty {
             segments = [ColorValue(value ?? 0, color: color)]
         }
         
-        if openCircle {
-            let totalAmount = segments.reduce(0) { $0 + $1.value }
-            if totalAmount < 1 {
-                segments.append(ColorValue(Double(1-totalAmount), color: NSColor.lightGray.withAlphaComponent(0.5)))
-            }
-        } else {
-            let totalAmount = segments.reduce(0) { $0 + $1.value }
-            if totalAmount < 1 {
-                segments.append(ColorValue(Double(1-totalAmount), color: nonActiveSegmentColor.withAlphaComponent(0.5)))
-            }
+        let totalAmount = segments.reduce(0) { $0 + $1.value }
+        if totalAmount < 1 {
+            segments.append(ColorValue(Double(1-totalAmount), color: nonActiveSegmentColor.withAlphaComponent(0.5)))
         }
         
         let centerPoint = CGPoint(x: self.frame.width/2, y: self.frame.height/2)
@@ -950,102 +938,24 @@ public class PieChartView: ChartView {
         context.setShouldAntialias(true)
         
         context.setLineWidth(arcWidth)
-        context.setLineCap(openCircle ? .round : .butt)
+        context.setLineCap(.butt)
         
-        if openCircle {
-            let startAngle: CGFloat = CGFloat.pi + CGFloat.pi/4
-            var previousAngle = startAngle
+        let startAngle: CGFloat = CGFloat.pi/2
+        var previousAngle = startAngle
+        
+        for segment in segments.reversed() {
+            let currentAngle: CGFloat = previousAngle + (CGFloat(segment.value) * fullCircle)
             
-            for segment in segments {
-                let currentAngle: CGFloat = previousAngle - (CGFloat(segment.value) * arcSpan)
-                
-                if let color = segment.color {
-                    context.setStrokeColor(color.cgColor)
-                }
-                context.addArc(center: centerPoint, radius: radius, startAngle: previousAngle, endAngle: currentAngle, clockwise: true)
-                context.strokePath()
-                
-                previousAngle = currentAngle
+            if let color = segment.color {
+                context.setStrokeColor(color.cgColor)
             }
-        } else {
-            let startAngle: CGFloat = CGFloat.pi/2
-            var previousAngle = startAngle
+            context.addArc(center: centerPoint, radius: radius, startAngle: previousAngle, endAngle: currentAngle, clockwise: false)
+            context.strokePath()
             
-            for segment in segments.reversed() {
-                let currentAngle: CGFloat = previousAngle + (CGFloat(segment.value) * fullCircle)
-                
-                if let color = segment.color {
-                    context.setStrokeColor(color.cgColor)
-                }
-                context.addArc(center: centerPoint, radius: radius, startAngle: previousAngle, endAngle: currentAngle, clockwise: false)
-                context.strokePath()
-                
-                previousAngle = currentAngle
-            }
+            previousAngle = currentAngle
         }
         
-        if drawNeedle, let activeSegment = activeSegment, !segments.isEmpty {
-            let needleEndSize: CGFloat = 2
-            let startAngle: CGFloat = CGFloat.pi + CGFloat.pi/4
-            let idx = min(activeSegment, segments.count - 1)
-            var needleValue: CGFloat = 0
-            for i in 0..<idx {
-                needleValue += CGFloat(segments[i].value)
-            }
-            needleValue += CGFloat(segments[idx].value) / 2
-            let needleAngle = startAngle - needleValue * arcSpan
-            let needleLength = radius - arcWidth/2
-            
-            let tip = CGPoint(
-                x: centerPoint.x + needleLength * cos(needleAngle),
-                y: centerPoint.y + needleLength * sin(needleAngle)
-            )
-            let perpAngle = needleAngle + CGFloat.pi/2
-            let base1 = CGPoint(
-                x: centerPoint.x + needleEndSize * cos(perpAngle),
-                y: centerPoint.y + needleEndSize * sin(perpAngle)
-            )
-            let base2 = CGPoint(
-                x: centerPoint.x - needleEndSize * cos(perpAngle),
-                y: centerPoint.y - needleEndSize * sin(perpAngle)
-            )
-            
-            let needlePath = NSBezierPath()
-            needlePath.move(to: tip)
-            needlePath.line(to: base1)
-            needlePath.line(to: base2)
-            needlePath.close()
-            
-            let needleCirclePath = NSBezierPath(
-                roundedRect: NSRect(
-                    x: centerPoint.x - needleEndSize,
-                    y: centerPoint.y - needleEndSize,
-                    width: needleEndSize * 2,
-                    height: needleEndSize * 2
-                ),
-                xRadius: needleEndSize * 2,
-                yRadius: needleEndSize * 2
-            )
-            needleCirclePath.close()
-            
-            NSColor.systemBlue.setFill()
-            needlePath.fill()
-            needleCirclePath.fill()
-        }
-        
-        if drawNeedle, let activeSegment = activeSegment {
-            let stringAttributes = [
-                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .regular),
-                NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
-                NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
-            ]
-            
-            let text = "\(activeSegment+1)"
-            let width: CGFloat = text.widthOfString(usingFont: NSFont.systemFont(ofSize: 9))
-            let rect = CGRect(x: (self.frame.width-width)/2, y: (self.frame.height-26)/2, width: width, height: 12)
-            let str = NSAttributedString.init(string: text, attributes: stringAttributes)
-            str.draw(with: rect)
-        } else if let text = text {
+        if let text = text {
             let style = NSMutableParagraphStyle()
             style.alignment = .center
             let stringAttributes = [
@@ -1059,15 +969,17 @@ public class PieChartView: ChartView {
             let str = NSAttributedString.init(string: text, attributes: stringAttributes)
             str.draw(with: rect)
         } else if let value = value, drawValue {
+            let fontSize: CGFloat = min(15, 15 * pow(min(self.frame.width, self.frame.height) / 60, 1.7))
+            let font = NSFont.systemFont(ofSize: fontSize, weight: .regular)
             let stringAttributes = [
-                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 15, weight: .regular),
+                NSAttributedString.Key.font: font,
                 NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
                 NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
             ]
             
             let percentage = "\(Int(value.rounded(toPlaces: 2) * 100))%"
-            let width: CGFloat = percentage.widthOfString(usingFont: NSFont.systemFont(ofSize: 15))
-            let rect = CGRect(x: (self.frame.width-width)/2, y: (self.frame.height-11)/2, width: width, height: 12)
+            let width: CGFloat = percentage.widthOfString(usingFont: font)
+            let rect = CGRect(x: (self.frame.width-width)/2, y: (self.frame.height-fontSize*11/15)/2, width: width, height: fontSize*12/15)
             let str = NSAttributedString.init(string: percentage, attributes: stringAttributes)
             str.draw(with: rect)
         }
@@ -1075,13 +987,17 @@ public class PieChartView: ChartView {
     
     public func setValue(_ value: Double) {
         let sanitized = value.isFinite ? value : 0
-        self.write { self.value = self.openCircle ? (sanitized > 1 ? sanitized/100 : sanitized) : sanitized }
+        self.write {
+            if sanitized > 1 {
+                if sanitized > self.maxValue {
+                    self.maxValue = sanitized
+                }
+                self.value = sanitized / self.maxValue
+            } else {
+                self.value = sanitized
+            }
+        }
         self.fadeOrDisplay()
-    }
-    
-    public func setActiveSegment(_ index: Int) {
-        self.write { self.activeSegment = index }
-        self.displayIfVisible()
     }
     
     public func setText(_ value: String) {
@@ -1167,6 +1083,144 @@ public class TachometerGraphView: ChartView {
     }
 }
 
+public class GaugeChartView: ChartView {
+    private var segments: [ColorValue]
+    private var activeSegment: Int? = nil
+    private var title: String? = nil
+    
+    public init(frame: NSRect = .zero, segments: [ColorValue], title: String? = nil, animation: Bool = true) {
+        self.segments = segments
+        self.title = title
+        
+        super.init(frame: frame, queueLabel: "eu.exelban.Stats.Charts.Gauge")
+        self.animationEnabled = animation
+        
+        self.setAccessibilityElement(true)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func draw(_ rect: CGRect) {
+        var segments: [ColorValue] = []
+        var activeSegment: Int? = nil
+        var title: String? = nil
+        self.read {
+            segments = self.segments
+            activeSegment = self.activeSegment
+            title = self.title
+        }
+        guard let context = NSGraphicsContext.current?.cgContext, !segments.isEmpty else { return }
+        context.setShouldAntialias(true)
+        
+        let labelHeight: CGFloat = title != nil ? 13 : 0
+        let arcWidth: CGFloat = 6
+        let bottomPadding: CGFloat = labelHeight + 1
+        let centerPoint = CGPoint(x: self.frame.width/2, y: bottomPadding)
+        let availableHeight = self.frame.height - bottomPadding
+        let radius = min(self.frame.width/2, availableHeight) - arcWidth/2 - 1
+        
+        let total = segments.reduce(0) { $0 + $1.value }
+        let count = segments.count
+        let gap: CGFloat = count > 1 ? 0.025 * CGFloat.pi : 0
+        let drawSpan = CGFloat.pi - gap * CGFloat(count - 1)
+        
+        var ranges: [(start: CGFloat, end: CGFloat)] = []
+        var previousAngle = CGFloat.pi
+        for segment in segments {
+            let frac: CGFloat = total > 0 ? CGFloat(segment.value)/CGFloat(total) : 0
+            let currentAngle = previousAngle - frac * drawSpan
+            ranges.append((previousAngle, currentAngle))
+            previousAngle = currentAngle - gap
+        }
+        
+        context.setLineWidth(arcWidth)
+        context.setLineCap(.butt)
+        for i in 0..<segments.count {
+            if let color = segments[i].color {
+                context.setStrokeColor(color.cgColor)
+            }
+            context.addArc(center: centerPoint, radius: radius, startAngle: ranges[i].start, endAngle: ranges[i].end, clockwise: true)
+            context.strokePath()
+        }
+        
+        if let activeSegment, activeSegment >= 0, activeSegment < ranges.count {
+            let range = ranges[activeSegment]
+            let needleAngle = (range.start + range.end) / 2
+            let needleEndSize: CGFloat = 2
+            let needleLength = radius - arcWidth/2 - 1
+
+            let tip = CGPoint(
+                x: centerPoint.x + needleLength * cos(needleAngle),
+                y: centerPoint.y + needleLength * sin(needleAngle)
+            )
+            let perpAngle = needleAngle + CGFloat.pi/2
+            let base1 = CGPoint(
+                x: centerPoint.x + needleEndSize * cos(perpAngle),
+                y: centerPoint.y + needleEndSize * sin(perpAngle)
+            )
+            let base2 = CGPoint(
+                x: centerPoint.x - needleEndSize * cos(perpAngle),
+                y: centerPoint.y - needleEndSize * sin(perpAngle)
+            )
+
+            let needlePath = NSBezierPath()
+            needlePath.move(to: tip)
+            needlePath.line(to: base1)
+            needlePath.line(to: base2)
+            needlePath.close()
+
+            let needleCirclePath = NSBezierPath(
+                roundedRect: NSRect(
+                    x: centerPoint.x - needleEndSize,
+                    y: centerPoint.y - needleEndSize,
+                    width: needleEndSize * 2,
+                    height: needleEndSize * 2
+                ),
+                xRadius: needleEndSize * 2,
+                yRadius: needleEndSize * 2
+            )
+            needleCirclePath.close()
+
+            NSColor.systemBlue.setFill()
+            needlePath.fill()
+            needleCirclePath.fill()
+        }
+        
+        if let title {
+            let style = NSMutableParagraphStyle()
+            style.alignment = .center
+            let stringAttributes = [
+                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 10, weight: .medium),
+                NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
+                NSAttributedString.Key.paragraphStyle: style
+            ]
+            let str = NSAttributedString(string: title, attributes: stringAttributes)
+            let size = str.size()
+            str.draw(with: CGRect(x: 0, y: 0, width: self.frame.width, height: size.height))
+        }
+    }
+    
+    public func setActiveSegment(_ index: Int) {
+        self.write { self.activeSegment = index }
+        self.fadeOrDisplay()
+    }
+    
+    public func setTitle(_ value: String) {
+        self.write {
+            guard self.title != value else { return }
+            self.title = value
+        }
+        self.displayIfVisible()
+    }
+    
+    public func setSegments(_ segments: [ColorValue]) {
+        self.write { self.segments = segments }
+        self.fadeOrDisplay()
+    }
+}
+
 public class ColumnChartView: ChartView {
     private var values: [ColorValue] = []
     private var cursor: CGPoint? = nil
@@ -1200,54 +1254,47 @@ public class ColumnChartView: ChartView {
         
         guard !values.isEmpty else { return }
         
-        let blocks: Int = 16
         let spacing: CGFloat = 2
         let count: CGFloat = CGFloat(values.count)
         guard count > 0, self.frame.width > 0, self.frame.height > 0 else { return }
         
         let partitionSize: CGSize = CGSize(width: (self.frame.width - (count*spacing)) / count, height: self.frame.height)
-        let blockSize = CGSize(width: partitionSize.width-(spacing*2), height: ((partitionSize.height - spacing - 1)/CGFloat(blocks))-1)
+        let radius: CGFloat = min(3, partitionSize.width/2)
         
         var list: [(value: Double, path: NSBezierPath)] = []
         var x: CGFloat = 0
         for i in 0..<values.count {
-            let partition = NSBezierPath(
+            let track = NSBezierPath(
                 roundedRect: NSRect(x: x, y: 0, width: partitionSize.width, height: partitionSize.height),
-                xRadius: 3, yRadius: 3
+                xRadius: radius, yRadius: radius
             )
-            NSColor.underPageBackgroundColor.withAlphaComponent(0.5).setFill()
-            partition.fill()
-            partition.close()
+            NSColor.underPageBackgroundColor.withAlphaComponent(0.25).setFill()
+            track.fill()
+            track.close()
             
             let value = values[i]
             let color = value.color ?? .controlAccentColor
-            let activeBlockNum = Int(round(value.value*Double(blocks)))
-            let h = value.value*(partitionSize.height-spacing)
+            let h = min(max(0, CGFloat(value.value) * partitionSize.height), partitionSize.height)
             
-            if dirtyRect.height < 30 && h != 0 {
-                let block = NSBezierPath(
-                    roundedRect: NSRect(x: x+spacing, y: 1, width: partitionSize.width-(spacing*2), height: h),
-                    xRadius: 1, yRadius: 1
+            if h > 0 {
+                let fill = NSBezierPath(
+                    roundedRect: NSRect(x: x, y: 0, width: partitionSize.width, height: h),
+                    xRadius: radius, yRadius: radius
                 )
-                color.setFill()
-                block.fill()
-                block.close()
-            } else {
-                var y: CGFloat = spacing
-                for b in 0..<blocks {
-                    let block = NSBezierPath(
-                        roundedRect: NSRect(x: x+spacing, y: y, width: blockSize.width, height: blockSize.height),
-                        xRadius: 1, yRadius: 1
-                    )
-                    (activeBlockNum <= b ? NSColor.controlBackgroundColor.withAlphaComponent(0.4) : color).setFill()
-                    block.fill()
-                    block.close()
-                    y += blockSize.height + 1
+                if let gradient = NSGradient(colors: [
+                    color.withAlphaComponent(0.5),
+                    color.withAlphaComponent(1.0)
+                ]) {
+                    gradient.draw(in: fill, angle: 90)
+                } else {
+                    color.setFill()
+                    fill.fill()
                 }
+                fill.close()
             }
             
             x += partitionSize.width + spacing
-            list.append((value: value.value, path: partition))
+            list.append((value: value.value, path: track))
         }
         
         if let p = self.cursor {
@@ -1255,9 +1302,11 @@ public class ColumnChartView: ChartView {
             if let block = matchingBlock {
                 let value = "\(Int(block.value.rounded(toPlaces: 2) * 100))%"
                 let width: CGFloat = block.value == 1 ? 38 : block.value > 0.1 ? 32 : 24
-                let tooltipX = min(p.x+4, self.frame.width - width)
-                let tooltipY = min(p.y+4, self.frame.height - partitionSize.height)
-                drawToolTip(self.frame, CGPoint(x: tooltipX, y: tooltipY), CGSize(width: width, height: min(partitionSize.height, self.frame.height)), value: value)
+                let tooltipHeight: CGFloat = 12
+                let gap: CGFloat = 4
+                let tooltipX = min(p.x + gap, self.bounds.width - width)
+                let tooltipY = (self.bounds.height - p.y) < (tooltipHeight + gap) ? (p.y - tooltipHeight - gap - 10) : (p.y + gap)
+                drawToolTip(self.bounds, CGPoint(x: tooltipX, y: tooltipY), CGSize(width: width, height: self.bounds.height), value: value)
             }
         }
     }

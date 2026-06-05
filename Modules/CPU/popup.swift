@@ -14,7 +14,7 @@ import Kit
 
 internal class Popup: PopupWrapper {
     private let dashboardHeight: CGFloat = 90
-    private let chartHeight: CGFloat = 120 + Constants.Popup.separatorHeight
+    private let chartHeight: CGFloat = 120 + Constants.Popup.separatorHeight + Constants.Popup.spacing*2
     private var detailsHeight: CGFloat {
         get {
             var count: CGFloat = isARM ? 4 : 6
@@ -185,7 +185,7 @@ internal class Popup: PopupWrapper {
         var h: CGFloat = 0
         self.arrangedSubviews.forEach { v in
             if let v = v as? NSStackView {
-                h += v.arrangedSubviews.map({ $0.bounds.height }).reduce(0, +)
+                h += v.arrangedSubviews.map({ $0.bounds.height + v.spacing }).reduce(0, +)
             } else {
                 h += v.bounds.height
             }
@@ -211,12 +211,12 @@ internal class Popup: PopupWrapper {
         self.circle!.toolTip = localizedString("CPU usage")
         usage.addSubview(self.circle!)
         
-        self.temperatureCircle = PieChartView(frame: NSRect(x: 0, y: 0, width: temperature.frame.width, height: temperature.frame.height), openCircle: true)
+        self.temperatureCircle = PieChartView(frame: NSRect(x: 0, y: 0, width: temperature.frame.width, height: temperature.frame.height))
         self.temperatureCircle!.toolTip = localizedString("CPU temperature")
         (self.temperatureCircle! as NSView).isHidden = true
         temperature.addSubview(self.temperatureCircle!)
         
-        self.frequencyCircle = PieChartView(frame: NSRect(x: 0, y: 0, width: frequency.frame.width, height: frequency.frame.height), openCircle: true)
+        self.frequencyCircle = PieChartView(frame: NSRect(x: 0, y: 0, width: frequency.frame.width, height: frequency.frame.height))
         self.frequencyCircle!.toolTip = localizedString("CPU frequency")
         (self.frequencyCircle! as NSView).isHidden = true
         frequency.addSubview(self.frequencyCircle!)
@@ -232,7 +232,7 @@ internal class Popup: PopupWrapper {
         let view: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.chartHeight))
         view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
         view.orientation = .vertical
-        view.spacing = 0
+        view.spacing = Constants.Popup.spacing
         
         let separator = separatorView(localizedString("Usage history"), origin: NSPoint(x: 0, y: 0), width: self.frame.width)
         
@@ -241,7 +241,7 @@ internal class Popup: PopupWrapper {
             box.heightAnchor.constraint(equalToConstant: box.frame.height).isActive = true
             box.wantsLayer = true
             box.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
-            box.layer?.cornerRadius = 3
+            box.layer?.cornerRadius = Constants.Popup.radius
             
             let chartFrame = NSRect(x: 1, y: 0, width: box.frame.width - 2, height: box.frame.height)
             self.lineChart = LineChartView(frame: chartFrame, num: self.lineChartHistory, scale: self.lineChartScale, fixedScale: self.lineChartFixedScale)
@@ -445,7 +445,7 @@ internal class Popup: PopupWrapper {
         }
         
         self.temperatureCircle?.toolTip = "\(localizedString("CPU temperature")): \(temperature(value))"
-        self.temperatureCircle?.setValue(value)
+        self.temperatureCircle?.setValue(value/100)
         self.temperatureCircle?.setText(temperature(value))
         self.temperatureCircle?.display()
     }

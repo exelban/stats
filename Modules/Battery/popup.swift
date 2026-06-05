@@ -13,13 +13,14 @@ import Cocoa
 import Kit
 
 internal class Popup: PopupWrapper {
-    private let dashboardHeight: CGFloat = 90
-    private var detailsHeight: CGFloat = (22 * 4) + Constants.Popup.separatorHeight
+    private let dashboardHeight: CGFloat = 160
+    private var detailsHeight: CGFloat = (22 * 3) + Constants.Popup.separatorHeight
     private let batteryHeight: CGFloat = (22 * 7) + Constants.Popup.separatorHeight
     private let adapterHeight: CGFloat = (22 * 4) + Constants.Popup.separatorHeight
     private let processHeight: CGFloat = 22
     
-    private var dashboardBatteryView: BatteryView? = nil
+    private var dashboardBatteryView: BatteryView = BatteryView()
+    private var dashboardBatteryStatus: BatteryStatus = BatteryStatus()
     private var adapterView: NSView? = nil
     private var processesView: NSView? = nil
     
@@ -47,8 +48,6 @@ internal class Popup: PopupWrapper {
     
     private let usageCache = PopupCache<Battery_Usage>()
     
-    private var colorState: Bool = false
-    
     private var numberOfProcesses: Int {
         Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)
     }
@@ -64,8 +63,6 @@ internal class Popup: PopupWrapper {
         
         self.spacing = 0
         self.orientation = .vertical
-        
-        self.colorState = Store.shared.bool(key: "\(self.title)_color", defaultValue: self.colorState)
         
         self.addArrangedSubview(self.initDashboard())
         self.addArrangedSubview(self.initDetails())
@@ -91,9 +88,9 @@ internal class Popup: PopupWrapper {
         var h: CGFloat = 0
         self.arrangedSubviews.forEach { v in
             if let v = v as? NSStackView {
-                h += v.arrangedSubviews.map({ $0.bounds.height }).reduce(0, +)
+                h += v.arrangedSubviews.map({ $0.fittingSize.height }).reduce(0, +)
             } else {
-                h += v.bounds.height
+                h += v.fittingSize.height
             }
         }
         if self.frame.size.height != h {
@@ -103,19 +100,53 @@ internal class Popup: PopupWrapper {
     }
     
     private func initDashboard() -> NSView {
-        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.dashboardHeight))
+        let view: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.dashboardHeight))
         view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
-        let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: self.dashboardHeight))
+        view.orientation = .vertical
+        view.spacing = 0
         
-        self.dashboardBatteryView = BatteryView(frame: NSRect(
-            x: Constants.Popup.margins,
-            y: Constants.Popup.margins,
-            width: view.frame.width - (Constants.Popup.margins*2),
-            height: view.frame.height - (Constants.Popup.margins*2)
-        ))
-        container.addSubview(self.dashboardBatteryView!)
+        self.dashboardBatteryView.heightAnchor.constraint(equalToConstant: 90).isActive = true
         
-        view.addSubview(container)
+        let information = NSStackView()
+        information.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        information.orientation = .vertical
+        information.spacing = 2
+        
+        var level: NSStackView {
+            let view = NSStackView()
+            view.orientation = .horizontal
+            view.alignment = .firstBaseline
+            view.spacing = -2
+            view.distribution = .fill
+            view.setHuggingPriority(.defaultLow, for: .horizontal)
+            
+            let value: NSTextField = ValueField("100")
+            value.font = .systemFont(ofSize: 28, weight: .medium)
+            value.textColor = .labelColor
+            self.levelField = value
+            
+            let percentage: NSTextField = LabelField("%")
+            percentage.font = .systemFont(ofSize: 16, weight: .medium)
+            percentage.textColor = .tertiaryLabelColor
+            
+            let leftSpacer = NSView()
+            let rightSpacer = NSView()
+            
+            view.addArrangedSubview(leftSpacer)
+            view.addArrangedSubview(value)
+            view.addArrangedSubview(percentage)
+            view.addArrangedSubview(rightSpacer)
+            
+            leftSpacer.widthAnchor.constraint(equalTo: rightSpacer.widthAnchor).isActive = true
+            
+            return view
+        }
+        
+        information.addArrangedSubview(level)
+        information.addArrangedSubview(self.dashboardBatteryStatus)
+        
+        view.addArrangedSubview(self.dashboardBatteryView)
+        view.addArrangedSubview(information)
         
         return view
     }
@@ -128,7 +159,6 @@ internal class Popup: PopupWrapper {
         container.orientation = .vertical
         container.spacing = 0
         
-        self.levelField = popupRow(container, title: "\(localizedString("Level")):", value: "").1
         self.sourceField = popupRow(container, title: "\(localizedString("Source")):", value: "").1
         let t = self.labelValue(container, title: "\(localizedString("Time")):", value: "")
         self.timeLabelField = t.0
@@ -229,9 +259,10 @@ internal class Popup: PopupWrapper {
     }
     
     private func renderUsage(_ value: Battery_Usage) {
-        self.dashboardBatteryView?.setValue(abs(value.level))
+        self.dashboardBatteryView.setValue(abs(value.level), connected: !value.isBatteryPowered, charging: value.isCharging)
+        self.dashboardBatteryStatus.set(value)
         
-        self.levelField?.stringValue = "\(Int(abs(value.level) * 100))%"
+        self.levelField?.stringValue = "\(Int(abs(value.level) * 100))"
         self.levelField?.toolTip = "\(value.currentCapacity) mAh"
         self.sourceField?.stringValue = localizedString(value.powerSource)
         self.timeField?.stringValue = ""
@@ -354,29 +385,14 @@ internal class Popup: PopupWrapper {
             ))
         ]))
         
-        view.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Colorize battery"), component: switchView(
-                action: #selector(self.toggleColor),
-                state: self.colorState
-            ))
-        ]))
-        
         return view
-    }
-    
-    @objc private func toggleColor(_ sender: NSControl) {
-        self.colorState = controlState(sender)
-        Store.shared.set(key: "\(self.title)_color", value: self.colorState)
-        self.dashboardBatteryView?.display()
     }
 }
 
 internal class BatteryView: NSView {
     private var percentage: Double = 0
-    
-    private var colorState: Bool {
-        return Store.shared.bool(key: "Battery_color", defaultValue: false)
-    }
+    private var connected: Bool = false
+    private var charging: Bool = false
     
     public override init(frame: NSRect = NSRect.zero) {
         super.init(frame: frame)
@@ -391,17 +407,17 @@ internal class BatteryView: NSView {
         
         guard let ctx = NSGraphicsContext.current?.cgContext else { return }
         
-        let w: CGFloat = min(self.frame.width, 120)
-        let h: CGFloat = min(self.frame.height, 50)
+        let w: CGFloat = min(self.frame.width, 130)
+        let h: CGFloat = min(self.frame.height, 60)
         let x: CGFloat = (self.frame.width - w)/2
         let y: CGFloat = (self.frame.size.height - h) / 2
-        let batteryFrame = NSBezierPath(roundedRect: NSRect(x: x+1, y: y+1, width: w-8, height: h-2), xRadius: 3, yRadius: 3)
+        let batteryFrame = NSBezierPath(roundedRect: NSRect(x: x+1, y: y+1, width: w-8, height: h-2), xRadius: 16, yRadius: 16)
         
-        NSColor.textColor.set()
+        NSColor.secondaryLabelColor.set()
         
         let bPX: CGFloat = batteryFrame.bounds.origin.x + batteryFrame.bounds.width
-        let bPY: CGFloat = batteryFrame.bounds.origin.y + (batteryFrame.bounds.height/2) - 4
-        let batteryPoint = NSBezierPath(roundedRect: NSRect(x: bPX-2, y: bPY, width: 8, height: 8), xRadius: 4, yRadius: 4)
+        let bPY: CGFloat = batteryFrame.bounds.origin.y + (batteryFrame.bounds.height/2) - 12
+        let batteryPoint = NSBezierPath(roundedRect: NSRect(x: bPX, y: bPY, width: 7, height: 24), xRadius: 6, yRadius: 6)
         batteryPoint.fill()
         
         let batteryPointSeparator = NSBezierPath()
@@ -410,34 +426,165 @@ internal class BatteryView: NSView {
         ctx.saveGState()
         ctx.setBlendMode(.destinationOut)
         NSColor.textColor.set()
-        batteryPointSeparator.lineWidth = 4
+        batteryPointSeparator.lineWidth = 6
         batteryPointSeparator.stroke()
         ctx.restoreGState()
         
-        batteryFrame.lineWidth = 1
+        batteryFrame.lineWidth = 2
         batteryFrame.stroke()
         
+        if self.percentage == 0 {
+            return
+        }
+        
+        let innerHeight: CGFloat = h-14
+        let minWidth: CGFloat = 8
+        let track: CGFloat = w-20
+        var fillWidth: CGFloat = 0
+        if self.percentage > 0 {
+            fillWidth = minWidth + (track - minWidth) * CGFloat(self.percentage)
+        }
+        let fillRadius: CGFloat = Swift.min(10, fillWidth/2, innerHeight/2)
         let inner = NSBezierPath(roundedRect: NSRect(
-            x: x+2,
-            y: y+2,
-            width: (w-10) * CGFloat(self.percentage),
-            height: h-4
-        ), xRadius: 3, yRadius: 3)
-        self.percentage.batteryColor(color: self.colorState).set()
+            x: x+7,
+            y: y+7,
+            width: fillWidth,
+            height: innerHeight
+        ), xRadius: fillRadius, yRadius: fillRadius)
+        self.percentage.batteryColorV2().set()
         inner.lineWidth = 0
         inner.stroke()
         inner.close()
         inner.fill()
+        
+        if self.connected {
+            let center = CGPoint(
+                x: batteryFrame.bounds.origin.x + (batteryFrame.bounds.width/2),
+                y: batteryFrame.bounds.origin.y + (batteryFrame.bounds.height/2)
+            )
+            let symbolName: String = self.charging ? "bolt.fill" : "powerplug.fill"
+            
+            if self.percentage > 0.55 {
+                guard let body = self.coloredSymbol(symbolName, color: .white) else { return }
+                let size: NSSize = body.size
+                body.draw(in: NSRect(x: center.x - (size.width/2), y: center.y - (size.height/2), width: size.width, height: size.height))
+                return
+            }
+            
+            guard let outline = self.coloredSymbol(symbolName, color: .black),
+                  let body = self.coloredSymbol(symbolName, color: self.percentage.batteryColorV2()) else { return }
+            
+            let size: NSSize = body.size
+            let border: CGFloat = 2
+            let origin = CGPoint(x: center.x - (size.width/2), y: center.y - (size.height/2))
+            
+            let steps: Int = 24
+            for i in 0..<steps {
+                let angle: CGFloat = (CGFloat(i) / CGFloat(steps)) * 2 * .pi
+                outline.draw(in: NSRect(
+                    x: origin.x + (cos(angle) * border),
+                    y: origin.y + (sin(angle) * border),
+                    width: size.width,
+                    height: size.height
+                ), from: .zero, operation: .destinationOut, fraction: 1.0)
+            }
+            body.draw(in: NSRect(origin: origin, size: size))
+        }
     }
     
-    public func setValue(_ value: Double) {
-        if self.percentage == value {
-            return
-        }
+    public func setValue(_ value: Double, connected: Bool, charging: Bool) {
+        if self.percentage == value && self.connected == connected && self.charging == charging { return }
         
         self.percentage = value
+        self.connected = connected
+        self.charging = charging
+        
         DispatchQueue.main.async(execute: {
             self.display()
         })
+    }
+    
+    private func coloredSymbol(_ name: String, color: NSColor) -> NSImage? {
+        var config = NSImage.SymbolConfiguration(pointSize: 24, weight: .bold)
+        config = config.applying(NSImage.SymbolConfiguration(paletteColors: [color]))
+        let image = NSImage(systemSymbolName: name, accessibilityDescription: nil)?.withSymbolConfiguration(config)
+        image?.isTemplate = false
+        return image
+    }
+}
+
+internal class BatteryStatus: NSStackView {
+    private var view: NSView? = nil
+    private var icon: NSImageView? = nil
+    private var field: NSTextField? = nil
+    
+    public override init(frame: NSRect = NSRect.zero) {
+        super.init(frame: frame)
+        
+        self.orientation = .horizontal
+        self.alignment = .firstBaseline
+        self.spacing = 0
+        self.distribution = .fill
+        self.setHuggingPriority(.defaultLow, for: .horizontal)
+        
+        let block = NSStackView()
+        block.orientation = .horizontal
+        block.alignment = .centerY
+        block.spacing = 4
+        block.translatesAutoresizingMaskIntoConstraints = false
+        block.wantsLayer = true
+        block.layer?.backgroundColor = NSColor.systemGray.withAlphaComponent(0.18).cgColor
+        block.layer?.cornerRadius = 8
+        block.edgeInsets = NSEdgeInsets(top: 3, left: 7, bottom: 3, right: 7)
+        self.view = block
+        
+        let icon = NSImageView()
+        icon.image = NSImage(systemSymbolName: "bolt.fill", accessibilityDescription: localizedString("Unknown"))
+        icon.contentTintColor = .systemGray
+        icon.symbolConfiguration = .init(pointSize: 10, weight: .bold)
+        icon.isHidden = true
+        self.icon = icon
+        
+        let label = NSTextField(labelWithString: localizedString("Unknown"))
+        label.font = .systemFont(ofSize: 11, weight: .bold)
+        label.textColor = .systemGray
+        self.field = label
+        
+        block.addArrangedSubview(icon)
+        block.addArrangedSubview(label)
+        
+        let leftSpacer = NSView()
+        let rightSpacer = NSView()
+        
+        self.addArrangedSubview(leftSpacer)
+        self.addArrangedSubview(block)
+        self.addArrangedSubview(rightSpacer)
+        
+        leftSpacer.widthAnchor.constraint(equalTo: rightSpacer.widthAnchor).isActive = true
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func set(_ value: Battery_Usage) {
+        if value.isBatteryPowered {
+            self.icon?.isHidden = true
+            self.field?.textColor = value.level > 0.15 ? .systemGray : .systemRed
+            self.field?.stringValue = localizedString("On Battery")
+            self.view?.layer?.backgroundColor = (value.level > 0.15 ? NSColor.systemGray : NSColor.systemRed).withAlphaComponent(0.18).cgColor
+            return
+        }
+        
+        self.icon?.isHidden = false
+        self.icon?.contentTintColor = .systemGreen
+        self.field?.textColor = .systemGreen
+        self.view?.layer?.backgroundColor = NSColor.systemGreen.withAlphaComponent(0.18).cgColor
+        
+        if !value.isCharging && value.isCharged && value.level >= 1 {
+            self.field?.stringValue = localizedString("Plugged In")
+        } else {
+            self.field?.stringValue = localizedString("Charging")
+        }
     }
 }

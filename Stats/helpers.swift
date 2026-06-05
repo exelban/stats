@@ -226,12 +226,13 @@ extension AppDelegate {
         }
     }
     
-    func checkIfShouldShowSupportWindow() {
+    public func checkIfShouldShowSupportWindow() {
         if !Store.shared.exist(key: "setupProcess") || !Store.shared.exist(key: "runAtLoginInitialized") {
             return
         }
-        if let plan = SystemStats.shared.plan, plan != .free {
-            return
+        if SystemStats.shared.auth.hasCredentials() {
+            guard let plan = SystemStats.shared.plan else { return }
+            if plan != .free { return }
         }
         
         let now = Int(Date().timeIntervalSince1970)

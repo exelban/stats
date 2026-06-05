@@ -159,7 +159,7 @@ internal class CapacityReader: Reader<Disks> {
     private func getSMARTDetails(for BSDName: String) -> smart_t? {
         guard self.SMART else { return nil }
         
-        var disk = IOServiceGetMatchingService(kIOMasterPortDefault, IOBSDNameMatching(kIOMasterPortDefault, 0, BSDName.cString(using: .utf8)))
+        var disk = IOServiceGetMatchingService(kIOMainPortDefault, IOBSDNameMatching(kIOMainPortDefault, 0, BSDName.cString(using: .utf8)))
         guard disk != kIOReturnSuccess else { return nil }
         defer { IOObjectRelease(disk) }
         
@@ -298,7 +298,7 @@ internal class ActivityReader: Reader<Disks> {
     }
     
     private func driveStats(_ idx: Int, _ d: drive) {
-        let service = IOServiceGetMatchingService(kIOMasterPortDefault, IOBSDNameMatching(kIOMasterPortDefault, 0, d.BSDName))
+        let service = IOServiceGetMatchingService(kIOMainPortDefault, IOBSDNameMatching(kIOMainPortDefault, 0, d.BSDName))
         if service == 0 { return }
         IOObjectRelease(service)
         

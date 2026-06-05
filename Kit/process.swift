@@ -64,7 +64,7 @@ public class ProcessesView: NSStackView {
         titleField.toolTip = localizedString("Process")
         titleField.stringValue = localizedString("Process")
         titleField.textColor = .tertiaryLabelColor
-        titleField.font = NSFont.systemFont(ofSize: 12, weight: .medium)
+        titleField.font = NSFont.systemFont(ofSize: 11, weight: .medium)
         view.addArrangedSubview(titleField)
         
         if values.count == 1, let v = values.first {
@@ -74,7 +74,7 @@ public class ProcessesView: NSStackView {
             field.stringValue = v.title
             field.alignment = .right
             field.textColor = .tertiaryLabelColor
-            field.font = NSFont.systemFont(ofSize: 12, weight: .medium)
+            field.font = NSFont.systemFont(ofSize: 11, weight: .medium)
             view.addArrangedSubview(field)
         } else {
             for v in values {
@@ -154,7 +154,7 @@ public class ProcessView: NSStackView {
             self.killView.bezelStyle = .regularSquare
             self.killView.translatesAutoresizingMaskIntoConstraints = false
             self.killView.imageScaling = .scaleNone
-            self.killView.image = Bundle(for: type(of: self)).image(forResource: "cancel")!
+            self.killView.image = iconFromSymbol(name: "xmark", scale: .small)
             self.killView.contentTintColor = .lightGray
             self.killView.isBordered = false
             self.killView.action = #selector(self.kill)
@@ -183,6 +183,10 @@ public class ProcessView: NSStackView {
         NSLayoutConstraint.activate([
             imageBox.widthAnchor.constraint(equalToConstant: self.bounds.height),
             imageBox.heightAnchor.constraint(equalToConstant: self.bounds.height),
+            self.killView.centerXAnchor.constraint(equalTo: self.imageView.centerXAnchor),
+            self.killView.centerYAnchor.constraint(equalTo: self.imageView.centerYAnchor),
+            self.killView.widthAnchor.constraint(equalToConstant: rect.width),
+            self.killView.heightAnchor.constraint(equalToConstant: rect.height),
             self.labelView.heightAnchor.constraint(equalToConstant: 16),
             self.widthAnchor.constraint(equalToConstant: self.bounds.width),
             self.heightAnchor.constraint(equalToConstant: self.bounds.height)

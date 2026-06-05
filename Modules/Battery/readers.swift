@@ -13,7 +13,7 @@ import Cocoa
 import Kit
 
 internal class UsageReader: Reader<Battery_Usage> {
-    private var service: io_connect_t = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleSmartBattery"))
+    private var service: io_connect_t = IOServiceGetMatchingService(kIOMainPortDefault, IOServiceMatching("AppleSmartBattery"))
     
     private var source: CFRunLoopSource?
     private var loop: CFRunLoop?

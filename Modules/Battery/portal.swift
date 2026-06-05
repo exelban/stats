@@ -100,7 +100,7 @@ internal class Portal: NSStackView, Portal_p {
             }
             self.timeField.stringValue = seconds != 0 ? seconds.printSecondsToHoursMinutesSeconds(short: self.timeFormat == "short") : ""
             
-            self.batteryView.setValue(abs(value.level))
+            self.batteryView.setValue(abs(value.level), connected: !value.isBatteryPowered, charging: value.isCharging)
             
             if !value.isBatteryPowered {
                 self.chargingField.stringValue = value.isCharging ? localizedString("Charging") : localizedString("Connected")

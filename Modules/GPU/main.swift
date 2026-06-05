@@ -126,7 +126,7 @@ public class GPU: Module {
     }
     
     public init() {
-        self.popupView = Popup()
+        self.popupView = Popup(.GPU)
         self.settingsView = Settings(.GPU)
         self.portalView = Portal(.GPU)
         self.notificationsView = Notifications(.GPU)
@@ -164,9 +164,6 @@ public class GPU: Module {
     private func infoCallback(_ raw: GPUs?) {
         guard raw != nil && !raw!.list.isEmpty, let value = raw, self.enabled else { return }
         
-        DispatchQueue.main.async(execute: {
-            self.popupView.infoCallback(value)
-        })
         self.settingsView.setList(value)
         
         let activeGPUs = value.active()
@@ -178,6 +175,7 @@ public class GPU: Module {
             return
         }
         
+        self.popupView.loadCallback(selectedGPU)
         self.portalView.callback(selectedGPU)
         self.notificationsView.usageCallback(utilization)
         self.previewView.loadCallback(selectedGPU)
