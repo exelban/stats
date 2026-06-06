@@ -2053,3 +2053,67 @@ public func countryFlag(_ code: String) -> String? {
     let scalars = uppercased.unicodeScalars.compactMap { UnicodeScalar(127397 + $0.value) }
     return scalars.count == 2 ? String(String.UnicodeScalarView(scalars)) : nil
 }
+
+public class DotView: NSView {
+    private let size: CGFloat
+    
+    public init(color: NSColor, size: CGFloat = 8) {
+        self.size = size
+        super.init(frame: NSRect(x: 0, y: 0, width: size, height: size))
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.widthAnchor.constraint(equalToConstant: size).isActive = true
+        
+        let height = self.heightAnchor.constraint(equalToConstant: size)
+        height.priority = .defaultHigh
+        height.isActive = true
+        
+        self.wantsLayer = true
+        self.layer?.cornerRadius = size / 2
+        self.layer?.backgroundColor = color.cgColor
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func setColor(_ color: NSColor) {
+        self.layer?.backgroundColor = color.cgColor
+    }
+}
+
+public class LinkButton: NSButton {
+    private var url: URL
+    
+    public init(_ url: URL, size: CGFloat = 14) {
+        self.url = url
+        
+        super.init(frame: .zero)
+        self.target = self
+        self.action = #selector(self.openURL)
+        
+        self.image = NSImage(systemSymbolName: "arrow.up.right.square", accessibilityDescription: localizedString("Open in browser"))
+        self.symbolConfiguration = NSImage.SymbolConfiguration(pointSize: 11, weight: .regular)
+        self.imagePosition = .imageOnly
+        self.isBordered = false
+        self.bezelStyle = .accessoryBar
+        self.contentTintColor = .secondaryLabelColor
+        self.toolTip = url.absoluteString
+        self.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.widthAnchor.constraint(equalToConstant: size).isActive = true
+        self.heightAnchor.constraint(equalToConstant: size).isActive = true
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc private func openURL() {
+        NSWorkspace.shared.open(self.url)
+    }
+    
+    public override func resetCursorRects() {
+        self.addCursorRect(self.bounds, cursor: .pointingHand)
+    }
+}

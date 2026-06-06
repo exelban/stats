@@ -37,6 +37,7 @@ open class Window: NSStackView {
     private var config: UnsafePointer<module_c>
     private var widgets: [SWidget]
     
+    private var widgetSelector: NSView?
     private var segmentedControl: NSSegmentedControl?
     private var tabView: NSTabView?
     
@@ -113,6 +114,8 @@ open class Window: NSStackView {
         NotificationCenter.default.addObserver(self, selector: #selector(listenForToggleView), name: .togglePreview, object: nil)
         
         self.segmentedControl?.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -(Constants.Settings.margin*2)).isActive = true
+        self.widgetSelector?.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -(Constants.Settings.margin*2)).isActive = true
+        self.moduleSettings?.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -(Constants.Settings.margin*2)).isActive = true
     }
     
     deinit {
@@ -153,6 +156,20 @@ open class Window: NSStackView {
             bottom: Constants.Settings.margin,
             right: Constants.Settings.margin
         )
+        
+        if self.config.pointee.name == "Remote" {
+            let widgetSelector = WidgetSelectorView(module: self.config.pointee.name, widgets: self.widgets, stateCallback: self.loadWidget)
+            self.widgetSelector = widgetSelector
+            
+            view.addArrangedSubview(widgetSelector)
+            
+            if let settingsView = self.moduleSettings {
+                settingsView.load(widgets: self.widgets.filter { $0.isActive }.map { $0.type })
+                view.addArrangedSubview(settingsView)
+            }
+            
+            return view
+        }
         
         var labels: [String] = [
             localizedString("Module"),

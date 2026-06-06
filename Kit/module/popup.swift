@@ -444,6 +444,11 @@ internal class HeaderView: NSStackView {
             button.image = iconFromSymbol(name: "calendar", scale: .large)
             button.toolTip = localizedString("Open Calendar")
             return
+        } else if self.module == .remote {
+            button.action = #selector(self.openSystemStats)
+            button.image = iconFromSymbol(name: "globe", scale: .large)
+            button.toolTip = localizedString("Open System Stats")
+            return
         }
         
         button.action = #selector(self.openActivityMonitor)
@@ -459,6 +464,11 @@ internal class HeaderView: NSStackView {
     @objc func openCalendar() {
         guard let app = self.calendar else { return }
         NSWorkspace.shared.open([], withApplicationAt: app, configuration: NSWorkspace.OpenConfiguration())
+    }
+    
+    @objc func openSystemStats() {
+        guard let url = URL(string: "https://app.system-stats.com") else { return }
+        NSWorkspace.shared.open(url)
     }
     
     @objc func openSettings() {
