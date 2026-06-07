@@ -220,6 +220,7 @@ internal class Popup: PopupWrapper {
         if self.numberOfProcesses == 0 { return NSView() }
         
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.processesHeight))
+        view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
         let separator = separatorView(localizedString("Top processes"), origin: NSPoint(x: 0, y: self.processesHeight-Constants.Popup.separatorHeight), width: self.frame.width)
         let container: ProcessesView = ProcessesView(
             frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y),
