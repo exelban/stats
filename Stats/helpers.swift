@@ -174,8 +174,8 @@ extension AppDelegate {
                 return
             }
             
-            guard error == nil, let version: version_s = result else {
-                debug("download error(): \(error!.localizedDescription)")
+            guard let version: version_s = result else {
+                debug("download error(): no version found")
                 return
             }
             

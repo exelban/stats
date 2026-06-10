@@ -611,7 +611,7 @@ extension NSTextView {
         let commandShiftKey = NSEvent.ModifierFlags.command.rawValue | NSEvent.ModifierFlags.shift.rawValue
         if event.type == NSEvent.EventType.keyDown {
             if (event.modifierFlags.rawValue & NSEvent.ModifierFlags.deviceIndependentFlagsMask.rawValue) == commandKey {
-                switch event.charactersIgnoringModifiers! {
+                switch event.charactersIgnoringModifiers ?? "" {
                 case "x":
                     if NSApp.sendAction(#selector(NSText.cut(_:)), to: nil, from: self) { return true }
                 case "c":

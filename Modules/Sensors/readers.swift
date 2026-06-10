@@ -501,7 +501,7 @@ extension SensorsReader {
             channels.append(channel)
         }
         
-        let chan = channels[0]
+        guard let chan = channels.first else { return nil }
         for i in 1..<channels.count {
             IOReportMergeChannels(chan, channels[i], nil)
         }
@@ -533,10 +533,11 @@ extension SensorsReader {
 
     private func IOSensors() -> (Double, Double, Double, Double, Double)? {
         guard let reportSample = IOReportCreateSamples(self.subscription, self.channels, nil)?.takeRetainedValue(),
-              let dict = reportSample as? [String: Any] else {
+              let dict = reportSample as? [String: Any],
+              let channelsList = dict["IOReportChannels"] as? NSArray else {
             return nil
         }
-        let items = dict["IOReportChannels"] as! CFArray
+        let items = channelsList as CFArray
         let now = Date()
         
         let prevCPU = self.powers.CPU

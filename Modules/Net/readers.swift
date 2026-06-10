@@ -332,7 +332,7 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         let output = String(data: outputData, encoding: .utf8)
         _ = String(data: errorData, encoding: .utf8)
         guard let output, !output.isEmpty else { return Bandwidth() }
-
+        
         var totalUpload: Int64 = 0
         var totalDownload: Int64 = 0
         var firstLine = false
@@ -467,7 +467,8 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     }
     
     private func getLocalIP(_ pointer: UnsafeMutablePointer<ifaddrs>) {
-        var addr = pointer.pointee.ifa_addr.pointee
+        guard let ifaAddr = pointer.pointee.ifa_addr else { return }
+        var addr = ifaAddr.pointee
         guard addr.sa_family == UInt8(AF_INET) || addr.sa_family == UInt8(AF_INET6) else { return}
         
         var ip = [CChar](repeating: 0, count: Int(NI_MAXHOST))

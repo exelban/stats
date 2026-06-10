@@ -657,7 +657,7 @@ public class SMC {
             return result
         }
         
-        memcpy(&value.pointee.bytes, &output.bytes, Int(value.pointee.dataSize))
+        memcpy(&value.pointee.bytes, &output.bytes, min(Int(value.pointee.dataSize), value.pointee.bytes.count))
         
         return kIOReturnSuccess
     }

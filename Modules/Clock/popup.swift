@@ -425,8 +425,8 @@ private class CalendarView: NSStackView {
         let calendar = Calendar.current
         let dateComponents = DateComponents(year: year, month: month)
         
-        guard let range = calendar.range(of: .day, in: .month, for: calendar.date(from: dateComponents)!),
-              let firstDayOfMonth = calendar.date(from: dateComponents),
+        guard let firstDayOfMonth = calendar.date(from: dateComponents),
+              let range = calendar.range(of: .day, in: .month, for: firstDayOfMonth),
               let firstWeekdayOfMonth = calendar.dateComponents([.weekday], from: firstDayOfMonth).weekday else {
             return []
         }
@@ -438,8 +438,10 @@ private class CalendarView: NSStackView {
         previousMonthComponents.month = (month == 1) ? 12 : month - 1
         previousMonthComponents.year = (month == 1) ? year - 1 : year
         
-        let previousMonthDate = calendar.date(from: previousMonthComponents)!
-        let previousMonthRange = calendar.range(of: .day, in: .month, for: previousMonthDate)!
+        guard let previousMonthDate = calendar.date(from: previousMonthComponents),
+              let previousMonthRange = calendar.range(of: .day, in: .month, for: previousMonthDate) else {
+            return []
+        }
         let lastDayOfPreviousMonth = previousMonthRange.upperBound - 1
         
         var nextMonthComponents = dateComponents
@@ -812,7 +814,7 @@ private class OrderTableView: NSView, NSTableViewDelegate, NSTableViewDataSource
     func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
         var oldIndexes = [Int]()
         info.enumerateDraggingItems(options: [], for: tableView, classes: [NSPasteboardItem.self], searchOptions: [:]) { dragItem, _, _ in
-            if let str = (dragItem.item as! NSPasteboardItem).string(forType: self.dragDropType), let index = Int(str) {
+            if let item = dragItem.item as? NSPasteboardItem, let str = item.string(forType: self.dragDropType), let index = Int(str) {
                 oldIndexes.append(index)
             }
         }

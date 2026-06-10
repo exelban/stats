@@ -105,10 +105,10 @@ internal class UsageReader: Reader<Battery_Usage> {
                 var ACwatts: Int = 0
                 if let ACDetails = IOPSCopyExternalPowerAdapterDetails() {
                     if let ACList = ACDetails.takeRetainedValue() as? [String: Any] {
-                        guard let watts = ACList[kIOPSPowerAdapterWattsKey] else {
+                        guard let watts = ACList[kIOPSPowerAdapterWattsKey] as? Int else {
                             return
                         }
-                        ACwatts = Int(watts as! Int)
+                        ACwatts = watts
                     }
                 }
                 self.usage.ACwatts = ACwatts
@@ -152,8 +152,9 @@ internal class UsageReader: Reader<Battery_Usage> {
     }
     
     private func getTemperature() -> Double? {
-        if let value = IORegistryEntryCreateCFProperty(self.service, "Temperature" as CFString, kCFAllocatorDefault, 0) {
-            return value.takeRetainedValue() as! Double / 100.0
+        if let value = IORegistryEntryCreateCFProperty(self.service, "Temperature" as CFString, kCFAllocatorDefault, 0),
+           let temperature = value.takeRetainedValue() as? Double {
+            return temperature / 100.0
         }
         return nil
     }

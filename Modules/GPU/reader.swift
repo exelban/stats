@@ -279,10 +279,11 @@ internal class InfoReader: Reader<GPUs> {
         guard let subscription = self.framesSubscription,
               let channels = self.framesChannels,
               let sample = IOReportCreateSamples(subscription, channels, nil)?.takeRetainedValue(),
-              let dict = sample as? [String: Any] else {
+              let dict = sample as? [String: Any],
+              let channelsList = dict["IOReportChannels"] as? NSArray else {
             return nil
         }
-        let items = dict["IOReportChannels"] as! CFArray
+        let items = channelsList as CFArray
         
         var total: Int64 = 0
         for i in 0..<CFArrayGetCount(items) {
@@ -327,10 +328,11 @@ internal class InfoReader: Reader<GPUs> {
         guard let subscription = self.aneSubscription,
               let channels = self.aneChannels,
               let reportSample = IOReportCreateSamples(subscription, channels, nil)?.takeRetainedValue(),
-              let dict = reportSample as? [String: Any] else {
+              let dict = reportSample as? [String: Any],
+              let channelsList = dict["IOReportChannels"] as? NSArray else {
             return nil
         }
-        let items = dict["IOReportChannels"] as! CFArray
+        let items = channelsList as CFArray
         
         var currentEnergy: Double = 0
         var found = false

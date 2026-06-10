@@ -125,7 +125,7 @@ public class Updater {
                 guard let jsonArray = jsonResponse as? [String: Any],
                       let lastVersion = jsonArray["tag_name"] as? String,
                       let assets = jsonArray["assets"] as? [[String: Any]],
-                      let asset = assets.first(where: {$0["name"] as! String == "\(self.appName).dmg"}),
+                      let asset = assets.first(where: {$0["name"] as? String == "\(self.appName).dmg"}),
                       let downloadURL = asset["browser_download_url"] as? String else {
                     completion(nil, "parse json")
                     return

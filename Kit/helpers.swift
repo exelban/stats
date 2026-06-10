@@ -651,7 +651,7 @@ public func syncShell(_ args: String) -> String {
     task.waitUntilExit()
     
     let data = pipe.fileHandleForReading.readDataToEndOfFile()
-    let output = String(data: data, encoding: .utf8)!
+    let output = String(data: data, encoding: .utf8) ?? ""
     
     return output
 }
