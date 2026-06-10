@@ -26,7 +26,7 @@ public class LineChart: WidgetWrapper {
         y: 0,
         width: 32,
         height: Constants.Widget.height - (2*Constants.Widget.margin.y)
-    ), num: 60)
+    ), num: 60, animation: false)
     private var colors: [SColor] = SColor.allCases.filter({ $0 != SColor.cluster })
     private var _value: Double = 0
     private var _pressureLevel: RAMPressure = .normal
@@ -107,8 +107,6 @@ public class LineChart: WidgetWrapper {
             self.chart.reinit(self.historyCount)
         }
         
-        self.addSubview(self.chart)
-        
         if self.labelState {
             self.setFrameSize(NSSize(width: Constants.Widget.width + 6 + (Constants.Widget.margin.x*2), height: self.frame.size.height))
         }
@@ -134,8 +132,6 @@ public class LineChart: WidgetWrapper {
             let str = NSAttributedString.init(string: "\(char)", attributes: stringAttributes)
             self.NSLabelCharts.append(str)
         }
-        
-        self.chart.setTooltipEnabled(false)
     }
     
     required init?(coder: NSCoder) {
@@ -145,7 +141,7 @@ public class LineChart: WidgetWrapper {
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
-        guard NSGraphicsContext.current != nil else { return }
+        guard let context = NSGraphicsContext.current?.cgContext else { return }
         
         var value: Double = 0
         var pressureLevel: RAMPressure = .normal
@@ -228,16 +224,18 @@ public class LineChart: WidgetWrapper {
         } else {
             self.chart.setTransparent(true)
         }
-        
+        context.saveGState()
+        context.translateBy(x: x+offset+lineWidth, y: offset)
+
         let chartSize = NSSize(
             width: box.bounds.width - (offset*2+lineWidth),
             height: box.bounds.height - offset
         )
         self.chart.setColor(color)
-        let chartFrame = NSRect(x: x+offset+lineWidth, y: offset, width: chartSize.width, height: chartSize.height)
-        if self.chart.frame != chartFrame {
-            self.chart.frame = chartFrame
-        }
+        self.chart.setFrameSize(chartSize)
+        self.chart.draw(NSRect(origin: .zero, size: chartSize))
+
+        context.restoreGState()
         
         if self.boxState || self.frameState {
             (isDarkMode ? NSColor.white : NSColor.black).set()

@@ -21,7 +21,7 @@ public class Tachometer: WidgetWrapper {
             y: Constants.Widget.margin.y,
             width: Constants.Widget.height,
             height: Constants.Widget.height
-        ), segments: []
+        ), segments: [], animation: false
     )
     private var labelView: NSView? = nil
     
