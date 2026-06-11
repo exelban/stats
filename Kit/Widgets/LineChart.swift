@@ -26,7 +26,7 @@ public class LineChart: WidgetWrapper {
         y: 0,
         width: 32,
         height: Constants.Widget.height - (2*Constants.Widget.margin.y)
-    ), num: 60)
+    ), num: 60, animation: false)
     private var colors: [SColor] = SColor.allCases.filter({ $0 != SColor.cluster })
     private var _value: Double = 0
     private var _pressureLevel: RAMPressure = .normal
@@ -252,7 +252,7 @@ public class LineChart: WidgetWrapper {
         DispatchQueue.main.async(execute: {
             self._value = newValue
             self.chart.addValue(newValue)
-            self.display()
+            self.needsDisplay = true
         })
     }
     
@@ -260,7 +260,7 @@ public class LineChart: WidgetWrapper {
         DispatchQueue.main.async(execute: {
             guard self._pressureLevel != newPressureLevel else { return }
             self._pressureLevel = newPressureLevel
-            self.display()
+            self.needsDisplay = true
         })
     }
     

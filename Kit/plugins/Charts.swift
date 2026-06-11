@@ -138,18 +138,18 @@ public class ChartView: NSView {
     }
     
     fileprivate func displayIfVisible() {
-        if Thread.isMainThread {
-            if self.window?.isVisible ?? false { self.display() }
-        } else {
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-                if self.window?.isVisible ?? false { self.display() }
-            }
+        self.onMain { [weak self] in
+            guard let self, self.window?.isVisible ?? false else { return }
+            self.needsDisplay = true
         }
     }
     
     public func setAnimation(_ enabled: Bool) {
         self.write { self.animationEnabled = enabled }
+    }
+    
+    fileprivate var animationsAllowed: Bool {
+        self.read { self.animationEnabled } && !NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
     }
     
     fileprivate func onMain(_ block: @escaping () -> Void) {
@@ -181,7 +181,7 @@ public class ChartView: NSView {
     fileprivate func fadeOrDisplay() {
         self.onMain { [weak self] in
             guard let self, self.window?.isVisible ?? false else { return }
-            if self.read({ self.animationEnabled }) {
+            if self.animationsAllowed {
                 self.fadeTransition()
             }
             self.needsDisplay = true
@@ -569,20 +569,20 @@ public class LineChartView: ChartView {
         }
         self.onMain { [weak self] in
             guard let self, self.window?.isVisible ?? false else { return }
-            let state = self.read { (n: self.points.count, animate: self.animationEnabled, yLegend: self.yLegend) }
-            if state.animate, !self.stop, state.n > 1 {
-                let now = CACurrentMediaTime()
-                let dt = self.lastSlideAt == 0 ? self.animationDuration : now - self.lastSlideAt
-                self.lastSlideAt = now
-                let chartWidth = self.bounds.width - (state.yLegend ? 30 : 0)
-                CATransaction.begin()
-                CATransaction.setDisableActions(true)
-                self.slideTransition(chartWidth / CGFloat(state.n - 1), duration: min(max(dt, 0.1), 3.0))
-                self.display()
-                CATransaction.commit()
-            } else {
-                self.display()
+            let state = self.read { (n: self.points.count, yLegend: self.yLegend) }
+            let dx = state.n > 1 ? (self.bounds.width - (state.yLegend ? 30 : 0)) / CGFloat(state.n - 1) : 0
+            guard dx >= 1, !self.stop, self.animationsAllowed else {
+                self.needsDisplay = true
+                return
             }
+            let now = CACurrentMediaTime()
+            let dt = self.lastSlideAt == 0 ? self.animationDuration : now - self.lastSlideAt
+            self.lastSlideAt = now
+            CATransaction.begin()
+            CATransaction.setDisableActions(true)
+            self.slideTransition(dx, duration: min(max(dt, 0.1), 1.0))
+            self.display()
+            CATransaction.commit()
         }
     }
     
