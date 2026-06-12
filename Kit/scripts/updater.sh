@@ -30,9 +30,17 @@ launch_app() {
     fi
 }
 
+copy_app() {
+    if command -v ditto >/dev/null 2>&1; then
+        ditto "$APP_SRC" "$APP_DST"
+    else
+        cp -Rf "$APP_SRC" "$APP_DST"
+    fi
+}
+
 if [[ "$STEP" == "2" ]]; then
     rm -rf "$APP_DST"
-    cp -rf "$APP_SRC" "$APP_DST"
+    copy_app
 
     launch_app "$APP_DST/Contents/MacOS/Stats" --dmg "$DMG_PATH"
 
@@ -45,7 +53,7 @@ elif [[ "$STEP" == "3" ]]; then
     echo "Done"
 else
     rm -rf "$APP_DST"
-    cp -rf "$APP_SRC" "$APP_DST"
+    copy_app
 
     launch_app "$APP_DST/Contents/MacOS/Stats" --dmg-path "$DMG_PATH" --mount-path "$MOUNT_PATH"
 
