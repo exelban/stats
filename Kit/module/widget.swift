@@ -259,6 +259,10 @@ public class SWidget {
         set { Store.shared.set(key: "\(self.module)_\(self.type)_position", value: newValue) }
     }
     
+    private var keepMenuBarPosition: Bool {
+       Store.shared.bool(key: "keep_menubar_positions", defaultValue: false)
+    }
+    
     private var list: [widget_t] {
         get {
             let string = Store.shared.string(key: "\(self.module)_widget", defaultValue: self.defaultWidget.rawValue)
@@ -324,6 +328,9 @@ public class SWidget {
     
     public func setMenuBarItem(state: Bool) {
         if state {
+            if self.keepMenuBarPosition {
+                restoreNSStatusItemPosition(id: "\(self.module)_\(self.type.rawValue)")
+            }
             DispatchQueue.main.async(execute: {
                 self.menuBarItem = NSStatusBar.system.statusItem(withLength: self.item.frame.width)
                 DispatchQueue.main.async(execute: {
@@ -345,6 +352,9 @@ public class SWidget {
                 self.menuBarItem?.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
             })
         } else if let item = self.menuBarItem {
+            if self.keepMenuBarPosition {
+                saveNSStatusItemPosition(id: "\(self.module)_\(self.type.rawValue)")
+            }
             NSStatusBar.system.removeStatusItem(item)
             self.menuBarItem = nil
         }

@@ -50,6 +50,11 @@ class ApplicationSettings: NSStackView {
         }
     }
     
+    private var keepMenuBarPosition: Bool {
+        get { Store.shared.bool(key: "keep_menubar_positions", defaultValue: false) }
+        set { Store.shared.set(key: "keep_menubar_positions", value: newValue) }
+    }
+    
     private var updateSelector: NSPopUpButton?
     private var startAtLoginBtn: NSSwitch?
     private var remoteControlBtn: NSSwitch?
@@ -107,10 +112,11 @@ class ApplicationSettings: NSStackView {
                 action: #selector(self.toggleDock),
                 state: Store.shared.bool(key: "dockIcon", defaultValue: false)
             )),
-            PreferencesRow(localizedString("Start at login"), component: self.startAtLoginBtn!)
-        ]))
-        
-        scrollView.stackView.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Start at login"), component: self.startAtLoginBtn!),
+            PreferencesRow(localizedString("Keep the menubar items position"), component: switchView(
+                action: #selector(self.toggleMenuBarPosition),
+                state: self.keepMenuBarPosition
+            )),
             PreferencesRow(localizedString("macOS widgets"), component: switchView(
                 action: #selector(self.toggleSystemWidgetsUpdatesState),
                 state: self.systemWidgetsUpdatesState
@@ -367,6 +373,10 @@ class ApplicationSettings: NSStackView {
     @objc private func toggleCombinedModulesPopup(_ sender: NSButton) {
         self.combinedModulesPopup = sender.state == NSControl.StateValue.on
         NotificationCenter.default.post(name: .combinedModulesPopup, object: nil, userInfo: nil)
+    }
+    
+    @objc private func toggleMenuBarPosition(_ sender: NSButton) {
+        self.keepMenuBarPosition = sender.state == NSControl.StateValue.on
     }
     
     @objc private func importSettings() {
