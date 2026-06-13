@@ -116,6 +116,11 @@ internal class UsageReader: Reader<Battery_Usage> {
                 if let chargerData = self.getChargerData() {
                     self.usage.chargingCurrent = chargerData["ChargingCurrent"] as? Int ?? 0
                     self.usage.chargingVoltage = chargerData["ChargingVoltage"] as? Int ?? 0
+                    
+                    if !self.usage.optimizedChargingEngaged && !self.usage.isBatteryPowered && !self.usage.isCharging && self.usage.level < 1,
+                       let notChargingReason = chargerData["NotChargingReason"] as? Int, notChargingReason != 0 {
+                        self.usage.optimizedChargingEngaged = true
+                    }
                 }
                 
                 self.callback(self.usage)

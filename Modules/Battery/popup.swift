@@ -569,23 +569,29 @@ internal class BatteryStatus: NSStackView {
     }
     
     public func set(_ value: Battery_Usage) {
+        var text: String = localizedString("Charging")
+        var color: NSColor = .systemGreen
+        var symbol: String = "bolt.fill"
+        
         if value.isBatteryPowered {
-            self.icon?.isHidden = true
-            self.field?.textColor = value.level > 0.15 ? .systemGray : .systemRed
-            self.field?.stringValue = localizedString("On Battery")
-            self.view?.layer?.backgroundColor = (value.level > 0.15 ? NSColor.systemGray : NSColor.systemRed).withAlphaComponent(0.18).cgColor
-            return
+            text = localizedString("On Battery")
+            color = value.level > 0.15 ? .systemGray : .systemRed
+        } else if !value.isCharging {
+            if value.isCharged && value.level >= 1 {
+                text = localizedString("Plugged In")
+                symbol = "powerplug.fill"
+            } else if value.optimizedChargingEngaged {
+                text = localizedString("On Hold")
+                color = .systemGray
+                symbol = "powerplug.fill"
+            }
         }
         
-        self.icon?.isHidden = false
-        self.icon?.contentTintColor = .systemGreen
-        self.field?.textColor = .systemGreen
-        self.view?.layer?.backgroundColor = NSColor.systemGreen.withAlphaComponent(0.18).cgColor
-        
-        if !value.isCharging && value.isCharged && value.level >= 1 {
-            self.field?.stringValue = localizedString("Plugged In")
-        } else {
-            self.field?.stringValue = localizedString("Charging")
-        }
+        self.icon?.isHidden = value.isBatteryPowered
+        self.icon?.image = NSImage(systemSymbolName: symbol, accessibilityDescription: text)
+        self.icon?.contentTintColor = color
+        self.field?.textColor = color
+        self.field?.stringValue = text
+        self.view?.layer?.backgroundColor = color.withAlphaComponent(0.18).cgColor
     }
 }
