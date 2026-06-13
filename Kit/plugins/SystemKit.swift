@@ -370,7 +370,7 @@ public class SystemKit {
         var pCores: Int32? = nil
         var eCores: Int32? = nil
         var sCores: Int32? = nil
-        let isM5ProMaxOrNewer = platform == .m5Pro || platform == .m5Max || (platform?.isNewerThan(.m5) ?? false)
+        let isM5GenOrNewer = platform?.isNewerThanOrEqual(.m5) ?? false
         
         while service != 0 {
             service = IOIteratorNext(iterator)
@@ -393,8 +393,10 @@ public class SystemKit {
                     var type: coreType = .unknown
                     if let rawType = props.object(forKey: "cluster-type") as? Data,
                        let typ = String(data: rawType, encoding: .utf8)?.trimmed {
-                        if isM5ProMaxOrNewer {
+                        if isM5GenOrNewer {
                             switch typ {
+                            case "E":
+                                type = .efficiency
                             case "M":
                                 type = .performance
                             case "P":
@@ -421,7 +423,10 @@ public class SystemKit {
                     
                     list.append(core_s(id: id ?? -1, type: type))
                 } else if name.trimmed == "cpus" {
-                    if isM5ProMaxOrNewer {
+                    if isM5GenOrNewer {
+                        eCores = (props.object(forKey: "e-core-count") as? Data)?.withUnsafeBytes { pointer in
+                            return pointer.load(as: Int32.self)
+                        }
                         pCores = (props.object(forKey: "m-core-count") as? Data)?.withUnsafeBytes { pointer in
                             return pointer.load(as: Int32.self)
                         }
@@ -498,13 +503,16 @@ public class SystemKit {
         var sFreq: [Int32] = []
         
         let isCpuStartFromM4 = platform?.isNewerThanOrEqual(.m4) ?? false
-        let isM5ProMaxOrNewer = platform == .m5Pro || platform == .m5Max || (platform?.isNewerThan(.m5) ?? false)
+        let isM5GenOrNewer = platform?.isNewerThanOrEqual(.m5) ?? false
         
         while case let child = IOIteratorNext(iterator), child != 0 {
             defer { IOObjectRelease(child) }
             guard let name = getIOName(child), name == "pmgr", let props = getIOProperties(child) else { continue }
             
-            if isM5ProMaxOrNewer {
+            if isM5GenOrNewer {
+                if let data = props.value(forKey: "voltage-states1-sram") {
+                    eFreq = convertCFDataToArr(data as! CFData, isCpuStartFromM4)
+                }
                 if let data = props.value(forKey: "voltage-states22-sram") {
                     pFreq = convertCFDataToArr(data as! CFData, isCpuStartFromM4)
                 }
