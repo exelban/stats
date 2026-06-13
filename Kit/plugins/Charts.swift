@@ -938,7 +938,7 @@ public class PieChartView: ChartView {
         context.setShouldAntialias(true)
         
         context.setLineWidth(arcWidth)
-        context.setLineCap(.butt)
+        context.setLineCap(.round)
         
         let startAngle: CGFloat = CGFloat.pi/2
         var previousAngle = startAngle

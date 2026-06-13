@@ -508,10 +508,10 @@ public func portalRow(_ v: NSStackView, title: String, value: String = "", isSel
 public func popupWithColorRow(_ view: NSView, color: NSColor, title: String, value: String) -> (NSView, LabelField, ValueField) {
     let rowView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 22))
     
-    let colorView: NSView = NSView(frame: NSRect(x: 2, y: 5, width: 12, height: 12))
+    let colorView: NSView = NSView(frame: NSRect(x: 3, y: 6, width: 10, height: 10))
     colorView.wantsLayer = true
     colorView.layer?.backgroundColor = color.cgColor
-    colorView.layer?.cornerRadius = 2
+    colorView.layer?.cornerRadius = 3
     let labelWidth = min(180, title.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .regular)) + 5)
     let labelView: LabelField = LabelField(frame: NSRect(x: 18, y: (22-16)/2, width: labelWidth, height: 16), title)
     let valueView: ValueField = ValueField(frame: NSRect(x: 18 + labelWidth, y: (22-16)/2, width: rowView.frame.width - labelWidth - 18, height: 16), value)
