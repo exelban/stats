@@ -1034,8 +1034,18 @@ public class SettingsContainerView: NSStackView {
 public class SMCHelper {
     public static let shared = SMCHelper()
     
+    private let id: String = "eu.exelban.Stats.SMC.Helper"
+    private let plistName: String = "eu.exelban.Stats.SMC.Helper.plist"
+    
     public var isInstalled: Bool {
-        syncShell("ls /Library/PrivilegedHelperTools/").contains("eu.exelban.Stats.SMC.Helper")
+        if #available(macOS 13, *) {
+            return SMAppService.daemon(plistName: self.plistName).status == .enabled
+        }
+        return self.legacyIsInstalled
+    }
+    
+    private var legacyIsInstalled: Bool {
+        syncShell("ls /Library/PrivilegedHelperTools/").contains(self.id)
     }
     
     private var connection: NSXPCConnection? = nil
@@ -1068,6 +1078,11 @@ public class SMCHelper {
     }
     
     public func checkForUpdate() {
+        if #available(macOS 13, *) {
+            self.cleanupLegacyInstall()
+            return
+        }
+        
         let helperURL = Bundle.main.bundleURL.appendingPathComponent("Contents/Library/LaunchServices/eu.exelban.Stats.SMC.Helper")
         guard let helperBundleInfo = CFBundleCopyInfoDictionaryForURL(helperURL as CFURL) as? [String: Any],
               let helperVersion = helperBundleInfo["CFBundleShortVersionString"] as? String,
@@ -1088,6 +1103,48 @@ public class SMCHelper {
     }
     
     public func install(completion: @escaping (_ installed: Bool) -> Void) {
+        if #available(macOS 13, *) {
+            self.cleanupLegacyInstall()
+            let service = SMAppService.daemon(plistName: self.plistName)
+            if service.status == .enabled {
+                completion(true)
+                return
+            }
+            
+            do {
+                try service.register()
+            } catch {
+                print("failed to register SMC helper daemon: \(error.localizedDescription), resetting and retrying")
+                try? service.unregister()
+                do {
+                    try service.register()
+                } catch {
+                    print("failed to register SMC helper daemon after reset: \(error.localizedDescription)")
+                }
+            }
+            
+            if service.status == .requiresApproval {
+                print("SMC helper requires approval in System Settings > Login Items")
+                SMAppService.openSystemSettingsLoginItems()
+            }
+            completion(service.status == .enabled)
+            
+            return
+        }
+        
+        self.installLegacy(completion: completion)
+    }
+    
+    @available(macOS 13, *)
+    private func cleanupLegacyInstall() {
+        guard self.legacyIsInstalled, let helper = self.helper(nil) else { return }
+        print("legacy SMC helper detected, removing it before registering the SMAppService daemon")
+        helper.uninstall()
+        self.connection?.invalidate()
+        self.connection = nil
+    }
+    
+    private func installLegacy(completion: @escaping (_ installed: Bool) -> Void) {
         var authRef: AuthorizationRef?
         var authStatus = AuthorizationCreate(nil, nil, [.preAuthorize], &authRef)
         
@@ -1175,6 +1232,19 @@ public class SMCHelper {
             for i in 0..<Int(count) {
                 self.setFanMode(i, mode: 0)
             }
+        }
+        if #available(macOS 13, *) {
+            do {
+                try SMAppService.daemon(plistName: self.plistName).unregister()
+            } catch {
+                print("failed to unregister SMC helper daemon: \(error.localizedDescription)")
+            }
+            self.connection?.invalidate()
+            self.connection = nil
+            if !silent {
+                NotificationCenter.default.post(name: .fanHelperState, object: nil, userInfo: ["state": false])
+            }
+            return
         }
         guard let helper = self.helper(nil) else { return }
         helper.uninstall()

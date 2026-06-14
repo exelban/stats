@@ -86,6 +86,7 @@
 		5CFE492A29264DF1000F2856 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE492929264DF1000F2856 /* main.swift */; };
 		5CFE493929265055000F2856 /* protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE493829265055000F2856 /* protocol.swift */; };
 		5CFE493D2926513E000F2856 /* eu.exelban.Stats.SMC.Helper in Copy Files */ = {isa = PBXBuildFile; fileRef = 5CFE492729264DF1000F2856 /* eu.exelban.Stats.SMC.Helper */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		5CD3A10229265130000F2856 /* eu.exelban.Stats.SMC.Helper.plist in Copy Files */ = {isa = PBXBuildFile; fileRef = 5CD3A10129265130000F2856 /* eu.exelban.Stats.SMC.Helper.plist */; };
 		5CFE494229265418000F2856 /* uninstall.sh in Resources */ = {isa = PBXBuildFile; fileRef = 5CFE494129265418000F2856 /* uninstall.sh */; };
 		5CFE494429265421000F2856 /* changelog.py in Resources */ = {isa = PBXBuildFile; fileRef = 5CFE494329265421000F2856 /* changelog.py */; };
 		5E0C634F2FBDB7DE00D9BA3E /* Remote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E0C63472FBDB7DE00D9BA3E /* Remote.framework */; };
@@ -461,6 +462,17 @@
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5CD3A10329265130000F2856 /* Copy LaunchDaemons */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/LaunchDaemons;
+			dstSubfolderSpec = 1;
+			files = (
+				5CD3A10229265130000F2856 /* eu.exelban.Stats.SMC.Helper.plist in Copy Files */,
+			);
+			name = "Copy LaunchDaemons";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9A46BF89266D7CFA001A1117 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -604,6 +616,7 @@
 		5CFE493829265055000F2856 /* protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = protocol.swift; sourceTree = "<group>"; };
 		5CFE493A292650BD000F2856 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5CFE493B292650F8000F2856 /* Launchd.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Launchd.plist; sourceTree = "<group>"; };
+		5CD3A10129265130000F2856 /* eu.exelban.Stats.SMC.Helper.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = eu.exelban.Stats.SMC.Helper.plist; sourceTree = "<group>"; };
 		5CFE494129265418000F2856 /* uninstall.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = uninstall.sh; sourceTree = "<group>"; };
 		5CFE494329265421000F2856 /* changelog.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = changelog.py; sourceTree = "<group>"; };
 		5E0C63472FBDB7DE00D9BA3E /* Remote.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Remote.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -988,6 +1001,7 @@
 				5CFE493829265055000F2856 /* protocol.swift */,
 				5CFE493A292650BD000F2856 /* Info.plist */,
 				5CFE493B292650F8000F2856 /* Launchd.plist */,
+				5CD3A10129265130000F2856 /* eu.exelban.Stats.SMC.Helper.plist */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -1577,6 +1591,7 @@
 				9A88E2672659002E00E2B7B0 /* ShellScript */,
 				9A46BF89266D7CFA001A1117 /* CopyFiles */,
 				5CFE493C29265130000F2856 /* Copy Files */,
+				5CD3A10329265130000F2856 /* Copy LaunchDaemons */,
 				5CE7E79D2C318513006BC92C /* Embed Foundation Extensions */,
 			);
 			buildRules = (

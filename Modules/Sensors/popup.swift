@@ -483,6 +483,7 @@ internal class FanView: NSStackView {
     }
     private var resetModeAfterSleep: Bool = false
     private var controlState: Bool
+    private var helperInstalled: Bool = false
     private var fanValue: FanValue {
         FanValue(rawValue: Store.shared.string(key: "Sensors_popup_fanValue", defaultValue: FanValue.percentage.rawValue)) ?? .percentage
     }
@@ -522,6 +523,7 @@ internal class FanView: NSStackView {
         NotificationCenter.default.addObserver(self, selector: #selector(self.syncFanSpeed), name: .syncFansControl, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.changeHelperState), name: .fanHelperState, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.controlCallback), name: .toggleFanControl, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.recheckHelperState), name: NSApplication.didBecomeActiveNotification, object: nil)
         
         if let fanMode = self.fan.customMode, self.speedState && fanMode != FanMode.automatic {
             SMCHelper.shared.setFanMode(fan.id, mode: fanMode.rawValue)
@@ -544,6 +546,7 @@ internal class FanView: NSStackView {
         NotificationCenter.default.removeObserver(self, name: .syncFansControl, object: nil)
         NotificationCenter.default.removeObserver(self, name: .fanHelperState, object: nil)
         NotificationCenter.default.removeObserver(self, name: .toggleFanControl, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSApplication.didBecomeActiveNotification, object: nil)
     }
     
     override func updateLayer() {
@@ -915,6 +918,7 @@ internal class FanView: NSStackView {
     
     private func setupControls(_ isInstalled: Bool? = nil) {
         let helperState = isInstalled ?? SMCHelper.shared.isInstalled
+        self.helperInstalled = helperState
         
         if !self.controlState {
             self.helperView?.removeFromSuperview()
@@ -946,6 +950,11 @@ internal class FanView: NSStackView {
     @objc private func changeHelperState(_ notification: Notification) {
         guard let state = notification.userInfo?["state"] as? Bool else { return }
         self.setupControls(state)
+    }
+    
+    @objc private func recheckHelperState() {
+        guard SMCHelper.shared.isInstalled != self.helperInstalled else { return }
+        self.setupControls()
     }
     
     @objc private func controlCallback(_ notification: Notification) {
