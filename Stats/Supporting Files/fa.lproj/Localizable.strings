@@ -59,7 +59,6 @@
 "Center alignment" = "وسط";
 "Right alignment" = "راست";
 "Dashboard" = "داشبورد";
-"Enabled" = "فعال";
 "Disabled" = "غیرفعال";
 "Silent" = "حالت سکوت";
 "Units" = "واحد ها";
@@ -83,8 +82,6 @@
 "2 minutes" = "۲ دقیقه"; // translategemma:4b
 "3 minutes" = "۳ دقیقه"; // gemma4:31b
 "10 minutes" = "۱۰ دقیقه"; // gemma4:31b
-"Import" = "وارد کردن"; // translategemma:4b
-"Export" = "صادر کردن"; // gemma4:31b
 "Separator" = "جداکننده"; // gemma4:31b
 "Read" = "خواندن"; // translategemma:4b
 "Write" = "نوشتن"; // translategemma:4b
@@ -120,9 +117,6 @@
 "Check for a new version every week (once a week)" = "بررسی هفتگی برای نسخه جدید (هفته‌ای یک بار)";
 "Check for a new version every month (once a month)" = "بررسی ماهانه برای نسخه جدید (ماهی یک بار)";
 "Never check for updates (not recommended)" = "هیچ وقت نسخه‌ی جدید بررسی نشود (پیشنهاد نمی‌شود)";
-"Anonymous telemetry for better development decisions" = "تلمتری ناشناس برای تصمیمات بهتر در توسعه"; // gemma4:31b
-"Share anonymous telemetry data" = "اشتراک‌گذاری داده‌های تله‌متری ناشناس"; // gemma4:31b
-"Do not share anonymous telemetry data" = "داده‌های تله‌متری ناشناس را به اشتراک نگذارید"; // gemma4:31b
 "The configuration is completed" = "پیکربندی کامل شد";
 "finish_setup_message" = "همه چیز آماده است! \n Stats یک ابزار متن باز رایگان است و همیشه رایگان خواهد بود \n اگر از این پروژه راضی بودید می‌توانید از ما حمایت کنید";
 
@@ -146,7 +140,6 @@
 "Toggle the module" = "تغییر وضعیت ماژول"; // gemma4:31b
 
 // Application settings
-"Update application" = "بروزرسانی اپلیکیشن";
 "Check for updates" = "بررسی برای نسخه‌های جدید";
 "At start" = "در زمان شروع";
 "Once per day" = "یک بار در روز";
@@ -165,7 +158,6 @@
 "Combined modules" = "ماژول‌های ترکیبی"; // translategemma:4b
 "Combined details" = "جزئیات ترکیبی"; // translategemma:4b
 "Spacing" = "فاصله"; // translategemma:4b
-"Share anonymous telemetry" = "اشتراک‌گذاری تله‌متری ناشناس"; // gemma4:31b
 "Choose file" = "انتخاب فایل"; // gemma4:31b
 "Stress tests" = "تست‌های استرس"; // gemma4:31b
 
@@ -197,7 +189,6 @@
 "Colorize" = "رنگی";
 "Colorize value" = "مقدار رنگ";
 "Additional information" = "اطلاعات بیشتر";
-"Reverse values order" = "ترتیب برعکس";
 "Base" = "پایه";
 "Display mode" = "حالت نمایش";
 "One row" = "یک ردیف";
@@ -231,7 +222,6 @@
 
 // Module Kit
 "Open module settings" = "باز کردن تنظیمات ماژول‌ها";
-"Select widget" = "انتخاب %0 ویجت";
 "Open widget settings" = "باز کردن تنظیمات ویجت‌ها";
 "Update interval" = "بروزرسانی زمان‌بندی";
 "Usage history" = "تاریخچه مصرف";
@@ -253,7 +243,6 @@
 // Modules
 "Number of top processes" = "تعداد بالاترین پردازش‌ها";
 "Update interval for top processes" = " بروزرسانی زمان‌بندی برای بالاترین پردازش‌ها";
-"Notification level" = "سطح نوتیفیکیشن";
 "Chart color" = "رنگ نمودار";
 "Main chart scaling" = "مقیاس‌بندی نمودار اصلی"; // translategemma:4b
 "Scale value" = "مقدار مقیاس"; // gemma4:31b
@@ -277,7 +266,6 @@
 "5 minutes" = "۵ دقیقه";
 "15 minutes" = "۱۵ دقیقه";
 "CPU usage threshold" = "آستانه مصرف سی پی یو";
-"CPU usage is" = "مصرف سی پی یو %0";
 "Efficiency cores" = "هسته‌های کم‌مصرف";
 "Performance cores" = "هسته‌های پرقدرت";
 "System color" = "رنگ سیستم";
@@ -300,18 +288,9 @@
 // GPU
 "GPU to show" = "نمایش جی پی یو";
 "Show GPU type" = "نمایش نوع جی پی یو";
-"GPU enabled" = "جی پی یو فعال";
-"GPU disabled" = "جی پی یو غیرفعال";
-"GPU temperature" = "دمای جی پی یو ";
 "GPU utilization" = "مصرف جی پی یو";
-"Vendor" = "وندر";
 "Model" = "مدل";
 "Status" = "وضعیت";
-"Active" = "فعال";
-"Non active" = "غیر فعال";
-"Fan speed" = "سرعت فن";
-"Core clock" = "کلاک هسته";
-"Memory clock" = "کلاک حافظه";
 "Utilization" = "استفاده";
 "Render utilization" = "استفاده از رندر";
 "Tiler utilization" = "استفاده از تایلر";
@@ -353,15 +332,12 @@
 "Disk usage" = "استفاده از دیسک"; // gemma4:31b
 "Total read" = "مجموع خوانده شده"; // gemma4:31b
 "Total written" = "کل نوشته شده"; // gemma4:31b
-"Write speed" = "نوشتن"; // translategemma:4b
-"Read speed" = "خواندن"; // translategemma:4b
 "Drives" = "درایوها"; // translategemma:4b
 "SMART data" = "داده‌های SMART"; // gemma4:31b
 "Power cycles" = "Power cycles";
 "Power on hours" = "Power on hours";
 
 // Sensors
-"Temperature unit" = "واحد دما";
 "Celsius" = "سلسیوس";
 "Fahrenheit" = "فارنهایت";
 "Save the fan speed" = "ذخیره سرعت فن";
@@ -390,11 +366,6 @@
 "Interface" = "نوع اتصال";
 "Physical address" = "آدرس فیزیکی";
 "Refresh" = "بروزرسانی";
-"Click to copy public IP address" = "برای کپی آدرس آی پی عمومی کلیک کنید";
-"Click to copy local IP address" = "برای کپی آدرس آی پی محلی کلیک کنید";
-"Click to copy wifi name" = "برای کپی نام وایفای کلیک کنید";
-"Click to copy mac address" = "برای کپی مک آدرس کلیک کنید";
-"No connection" = "اتصال قطع است";
 "Network interface" = "نوع اتصال شبکه";
 "Total download" = "کل دانلود‌ها";
 "Total upload" = "کل آپلود‌ها";
@@ -406,12 +377,9 @@
 "Standard" = "استاندارد";
 "Security" = "امنیت";
 "Channel" = "کانال";
-"Common scale" = "مقیاس عادی";
 "Autodetection" = "تشخیص خودکار";
 "Widget activation threshold" = "آستانه فعالسازی ویجت";
 "Internet connection" = "اتصال اینترنت";
-"Active state color" = "رنگ حالت فعال";
-"Nonactive state color" = "رنگ حالت غیر فعال";
 "Connectivity host" = "میزبان اتصال";
 "Leave empty to disable the check" = "خالی بگذارید تا بررسی غیرفعال شود";
 "Connectivity history" = "تاریخچه اتصال"; // translategemma:4b
@@ -419,11 +387,8 @@
 "Every hour" = "هر ساعت"; // translategemma:4b
 "Every 12 hours" = "هر ۱۲ ساعت"; // translategemma:4b
 "Every 24 hours" = "هر ۲۴ ساعت"; // gemma4:31b
-"Network activity" = "فعالیت شبکه"; // translategemma:4b
 "Last reset" = "آخرین بازنشانی %0 پیش"; // gemma4:31b
 "Latency" = "تأخیر"; // gemma4:31b
-"Upload speed" = "آپلود"; // gemma4:31b
-"Download speed" = "دانلود"; // translategemma:4b
 "Address" = "آدرس"; // translategemma:4b
 "WiFi network" = "شبکه WiFi"; // gemma4:31b
 "Local IP changed" = "IP محلی تغییر کرده است"; // gemma4:31b
@@ -435,7 +400,6 @@
 "Show country code instead of emoji" = "نمایش کد کشور به جای ایموجی"; // gemma4:31b
 
 // Battery
-"Level" = "سطح";
 "Source" = "منبع";
 "AC Power" = "برق شهر";
 "Battery Power" = "نیروی باتری";
@@ -467,15 +431,10 @@
 "Last charge" = "آخرین شارژ";
 "Capacity" = "ظرفیت";
 "current / maximum / designed" = "current / حداکثر / طراحی شده";
-"Low power mode" = "حالت کم مصرف";
 "Percentage inside the icon" = "درصد داخل آیکون";
-"Colorize battery" = "رنگی کردن باتری"; // gemma4:31b
-"Charging current" = "جریان شارژ"; // translategemma:4b
-"Charging Voltage" = "ولتاژ شارژ"; // translategemma:4b
 "Charger state inside the battery" = "وضعیت شارژ در داخل باتری"; // translategemma:4b
 
 // Bluetooth
-"Battery to show" = "نشان دادن باتری";
 "No Bluetooth devices are available" = "هیچ دیوایس بلوتوثی در دسترس نیست";
 
 // Clock

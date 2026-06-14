@@ -59,7 +59,6 @@
 "Center alignment" = "จัดแนวกึ่งกลาง";
 "Right alignment" = "จัดแนวขวา";
 "Dashboard" = "แดชบอร์ด";
-"Enabled" = "เปิดใช้งาน";
 "Disabled" = "ปิดใช้งาน";
 "Silent" = "ไม่เสียง";
 "Units" = "หน่วย";
@@ -83,8 +82,6 @@
 "2 minutes" = "2 นาที"; // translategemma:4b
 "3 minutes" = "3 นาที"; // translategemma:4b
 "10 minutes" = "10 นาที"; // translategemma:4b
-"Import" = "นำเข้า"; // translategemma:4b
-"Export" = "ส่งออก"; // translategemma:4b
 "Separator" = "ตัวคั่น"; // gemma4:31b
 "Read" = "อ่าน"; // translategemma:4b
 "Write" = "เขียน"; // translategemma:4b
@@ -120,9 +117,6 @@
 "Check for a new version every week (once a week)" = "ตรวจสอบเวอร์ชันใหม่ทุกสัปดาห์ (สัปดาห์ละครั้ง)";
 "Check for a new version every month (once a month)" = "ตรวจสอบเวอร์ชันใหม่ทุกเดือน (เดือนละครั้ง)";
 "Never check for updates (not recommended)" = "ไม่เช็คการอัปเดต (ไม่แนะนำ)";
-"Anonymous telemetry for better development decisions" = "ข้อมูล telemetry แบบไม่ระบุตัวตนเพื่อการตัดสินใจในการพัฒนาที่ดีขึ้น"; // gemma4:31b
-"Share anonymous telemetry data" = "แบ่งปันข้อมูลโทรมาตรแบบไม่ระบุตัวตน"; // gemma4:31b
-"Do not share anonymous telemetry data" = "ไม่แชร์ข้อมูลเทเลเมทรีที่ไม่ระบุตัวตน"; // gemma4:31b
 "The configuration is completed" = "การกำหนดค่าเสร็จสมบูรณ์";
 "finish_setup_message" = "ทุกอย่างถูกตั้งค่า! \n Stats เป็นเครื่องมือโอเพ่นซอร์สที่ฟรีและจะเป็นแบบนี้ตลอดไป \n ถ้าคุณชอบ คุณสามารถสนับสนุนโปรเจคนี้ เราพร้อมรับและขอบคุณเสมอ!";
 
@@ -146,7 +140,6 @@
 "Toggle the module" = "สลับโมดูล"; // gemma4:31b
 
 // Application settings
-"Update application" = "อัพเดทแอปพลิเคชัน";
 "Check for updates" = "ตรวจสอบการอัพเดท";
 "At start" = "เริ่มต้น";
 "Once per day" = "ครั้งละ 1 วัน";
@@ -165,7 +158,6 @@
 "Combined modules" = "โมดูลผสม";
 "Combined details" = "รายละเอียดรวม"; // gemma4:31b
 "Spacing" = "ระยะห่าง"; // translategemma:4b
-"Share anonymous telemetry" = "แบ่งปันข้อมูลเทเลเมทรีแบบไม่ระบุตัวตน"; // gemma4:31b
 "Choose file" = "เลือกไฟล์"; // translategemma:4b
 "Stress tests" = "การทดสอบความเครียด"; // translategemma:4b
 
@@ -197,7 +189,6 @@
 "Colorize" = "สีสัน";
 "Colorize value" = "สีสันค่า";
 "Additional information" = "ข้อมูลเพิ่มเติม";
-"Reverse values order" = "ย้อนกลับลำดับค่า";
 "Base" = "ฐาน";
 "Display mode" = "แสดงโหมด";
 "One row" = "หนึ่งแถว";
@@ -231,7 +222,6 @@
 
 // Module Kit
 "Open module settings" = "เปิดการตั้งค่าโมดูล";
-"Select widget" = "เลือก widget %0";
 "Open widget settings" = "เปิดการตั้งค่าวิดเจ็ต";
 "Update interval" = "ช่วงเวลาปรับปรุง";
 "Usage history" = "ประวัติการใช้งาน";
@@ -253,7 +243,6 @@
 // Modules
 "Number of top processes" = "จำนวนของกระบวนการสูงสุด";
 "Update interval for top processes" = "ช่วงเวลาปรับปรุงสำหรับกระบวนการสูงสุด";
-"Notification level" = "ระดับแจ้งเตือน";
 "Chart color" = "สีแผนภูมิ";
 "Main chart scaling" = "การปรับขนาดกราฟหลัก"; // translategemma:4b
 "Scale value" = "ค่ามาตราส่วน"; // gemma4:31b
@@ -277,7 +266,6 @@
 "5 minutes" = "5 นาที";
 "15 minutes" = "15 นาที";
 "CPU usage threshold" = "เกณฑ์การใช้งาน CPU";
-"CPU usage is" = "การใช้งาน CPU คือ %0";
 "Efficiency cores" = "cores ประสิทธิผล";
 "Performance cores" = "cores ประสิทธิภาพ";
 "System color" = "สีของระบบ";
@@ -300,18 +288,9 @@
 // GPU
 "GPU to show" = "แสดง GPU";
 "Show GPU type" = "แสดงประเภท GPU";
-"GPU enabled" = "GPU เปิดการใช้งาน";
-"GPU disabled" = "GPU ปิดการใช้งาน";
-"GPU temperature" = "อุณหภูมิ GPU";
 "GPU utilization" = "ปริมาณการใช้งาน GPU";
-"Vendor" = "ผู้ผลิต";
 "Model" = "โมเดล";
 "Status" = "สถานะ";
-"Active" = "ทำงาน";
-"Non active" = "ไม่ได้ทำงาน";
-"Fan speed" = "ความเร็วพัดลม";
-"Core clock" = "ความถี่คอร์"; // gemma4:31b
-"Memory clock" = "ความถี่หน่วยความจำ"; // gemma4:31b
 "Utilization" = "ปริมาณการใช้งาน";
 "Render utilization" = "ปริมาณการใช้งาน Render";
 "Tiler utilization" = "ปริมาณการใช้งาน Tiler";
@@ -353,15 +332,12 @@
 "Disk usage" = "การใช้งานดิสก์"; // gemma4:31b
 "Total read" = "อ่านทั้งหมด"; // gemma4:31b
 "Total written" = "เขียนทั้งหมด"; // gemma4:31b
-"Write speed" = "เขียน"; // translategemma:4b
-"Read speed" = "อ่าน"; // translategemma:4b
 "Drives" = "ไดรฟ์"; // gemma4:31b
 "SMART data" = "ข้อมูล SMART"; // translategemma:4b
 "Power cycles" = "Power cycles";
 "Power on hours" = "Power on hours";
 
 // Sensors
-"Temperature unit" = "หน่วยอุณหภูมิ";
 "Celsius" = "เซลเซียส";
 "Fahrenheit" = "ฟาเรนไฮต์";
 "Save the fan speed" = "บันทึกความเร็วพัดลม";
@@ -390,11 +366,6 @@
 "Interface" = "อินเตอร์เฟส";
 "Physical address" = "ที่อยู่ทางกายภาพ";
 "Refresh" = "รีเฟรช";
-"Click to copy public IP address" = "คลิกเพื่อคัดลอก IP สาธารณะ";
-"Click to copy local IP address" = "คลิกเพื่อคัดลอก IP ในเครือข่าย";
-"Click to copy wifi name" = "คลิกเพื่อคัดลอกชื่อ WIFI";
-"Click to copy mac address" = "คลิกเพื่อคัดลอกที่อยู่ MAC";
-"No connection" = "ไม่มีการเชื่อมต่อ";
 "Network interface" = "อินเตอร์เฟสเครือข่าย";
 "Total download" = "ดาวน์โหลดทั้งหมด";
 "Total upload" = "อัปโหลดทั้งหมด";
@@ -406,12 +377,9 @@
 "Standard" = "มาตรฐาน";
 "Security" = "ความปลอดภัย";
 "Channel" = "ช่อง";
-"Common scale" = "มาตรฐานทั่วไป";
 "Autodetection" = "ตรวจหาอัตโนมัติ";
 "Widget activation threshold" = "ขีดจำกัดของการเปิดใช้งานวิดเจ็ต";
 "Internet connection" = "การเชื่อมต่ออินเทอร์เน็ต";
-"Active state color" = "สีของสถานะที่ใช้งาน";
-"Nonactive state color" = "สีของสถานะที่ไม่ใช้งาน";
 "Connectivity host" = "โฮสต์ที่เชื่อมต่อ";
 "Leave empty to disable the check" = "เว้นว่างไว้เพื่อปิดการตรวจสอบ";
 "Connectivity history" = "ประวัติการเชื่อมต่อ"; // translategemma:4b
@@ -419,11 +387,8 @@
 "Every hour" = "ทุกชั่วโมง"; // translategemma:4b
 "Every 12 hours" = "ทุก 12 ชั่วโมง"; // translategemma:4b
 "Every 24 hours" = "ทุกๆ 24 ชั่วโมง"; // gemma4:31b
-"Network activity" = "กิจกรรมเครือข่าย"; // gemma4:31b
 "Last reset" = "รีเซ็ตครั้งล่าสุด %0 ที่แล้ว"; // gemma4:31b
 "Latency" = "ความหน่วง"; // translategemma:4b
-"Upload speed" = "อัปโหลด"; // translategemma:4b
-"Download speed" = "ดาวน์โหลด"; // translategemma:4b
 "Address" = "ที่อยู่"; // translategemma:4b
 "WiFi network" = "เครือข่าย WiFi"; // gemma4:31b
 "Local IP changed" = "Local IP เปลี่ยนแปลงแล้ว"; // gemma4:31b
@@ -435,7 +400,6 @@
 "Show country code instead of emoji" = "แสดงรหัสประเทศแทนอีโมจิ"; // gemma4:31b
 
 // Battery
-"Level" = "ระดับ";
 "Source" = "แหล่งที่มา";
 "AC Power" = "พลังงาน AC";
 "Battery Power" = "พลังงานแบตเตอรี่";
@@ -467,15 +431,10 @@
 "Last charge" = "ชาร์จครั้งสุดท้าย";
 "Capacity" = "ความจุ";
 "current / maximum / designed" = "ปัจจุบัน / สูงสุด / ออกแบบ";
-"Low power mode" = "โหมดพลังงานต่ำ";
 "Percentage inside the icon" = "เปอร์เซ็นต์ภายในไอคอน";
-"Colorize battery" = "เปลี่ยนสีแบตเตอรี่"; // gemma4:31b
-"Charging current" = "กระแสการชาร์จ"; // gemma4:31b
-"Charging Voltage" = "แรงดันไฟฟ้าการชาร์จ"; // gemma4:31b
 "Charger state inside the battery" = "สถานะการชาร์จภายในแบตเตอรี่"; // gemma4:31b
 
 // Bluetooth
-"Battery to show" = "แบตเตอรี่ที่แสดง";
 "No Bluetooth devices are available" = "ไม่มีอุปกรณ์ Bluetooth ที่ใช้งานได้";
 
 // Clock

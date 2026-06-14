@@ -59,7 +59,6 @@
 "Center alignment" = "Midden";
 "Right alignment" = "Rechts";
 "Dashboard" = "Dashboard";
-"Enabled" = "Ingeschakeld"; // gemma4:31b
 "Disabled" = "Uitgeschakeld";
 "Silent" = "Stil"; // translategemma:4b
 "Units" = "Eenheden"; // translategemma:4b
@@ -83,8 +82,6 @@
 "2 minutes" = "2 minuten"; // translategemma:4b
 "3 minutes" = "3 minuten"; // translategemma:4b
 "10 minutes" = "10 minuten"; // translategemma:4b
-"Import" = "Importeren"; // translategemma:4b
-"Export" = "Exporteren";
 "Separator" = "Scheider"; // gemma4:31b
 "Read" = "Lezen"; // gemma4:31b
 "Write" = "Schrijven"; // gemma4:31b
@@ -120,9 +117,6 @@
 "Check for a new version every week (once a week)" = "Controleer elke week op een nieuwe versie (één keer per week)"; // gemma4:31b
 "Check for a new version every month (once a month)" = "Controleer elke maand op een nieuwe versie (één keer per maand)"; // gemma4:31b
 "Never check for updates (not recommended)" = "Nooit controleren op updates (niet aanbevolen)"; // gemma4:31b
-"Anonymous telemetry for better development decisions" = "Anonieme telemetrie voor betere ontwikkelingsbeslissingen"; // gemma4:31b
-"Share anonymous telemetry data" = "Deel anonieme telemetriegegevens"; // translategemma:4b
-"Do not share anonymous telemetry data" = "Deel geen anonieme telemetriegegevens"; // gemma4:31b
 "The configuration is completed" = "De configuratie is voltooid"; // gemma4:31b
 "finish_setup_message" = "Alles is ingesteld! \\n Stats is een open source-tool, het is gratis en dat zal het altijd blijven. \\n Als je het leuk vindt, kun je het project ondersteunen, dat wordt altijd gewaardeerd!"; // gemma4:31b
 
@@ -146,7 +140,6 @@
 "Toggle the module" = "Activeer/deactiveer de module";
 
 // Application settings
-"Update application" = "Applicatie bijwerken";
 "Check for updates" = "Controleer op updates";
 "At start" = "Bij het opstarten";
 "Once per day" = "Eenmaal per dag";
@@ -165,7 +158,6 @@
 "Combined modules" = "Gecombineerde modules"; // translategemma:4b
 "Combined details" = "Gecombineerde details";
 "Spacing" = "Afstand"; // gemma4:31b
-"Share anonymous telemetry" = "Anonieme telemetrie delen"; // gemma4:31b
 "Choose file" = "Kies bestand"; // translategemma:4b
 "Stress tests" = "Stresstests"; // gemma4:26b
 
@@ -197,7 +189,6 @@
 "Colorize" = "Inkleuren";
 "Colorize value" = "Waarde inkleuren";
 "Additional information" = "Extra informatie";
-"Reverse values order" = "Waarden in omgekeerde volgorde";
 "Base" = "Basis";
 "Display mode" = "Weergavemodus";
 "One row" = "Een rij";
@@ -231,7 +222,6 @@
 
 // Module Kit
 "Open module settings" = "Open module-instellingen";
-"Select widget" = "Selecteer %0 widget";
 "Open widget settings" = "Open widget-instellingen";
 "Update interval" = "Bijwerkings-interval";
 "Usage history" = "Gebruiksgeschiedenis";
@@ -253,7 +243,6 @@
 // Modules
 "Number of top processes" = "Aantal topprocessen";
 "Update interval for top processes" = "Bewerk interval voor top processen";
-"Notification level" = "Meldingsniveau";
 "Chart color" = "Grafiekkleur";
 "Main chart scaling" = "Schaal van algemene grafiek";
 "Scale value" = "Schaalwaarde"; // gemma4:31b
@@ -277,7 +266,6 @@
 "5 minutes" = "5 minuten";
 "15 minutes" = "15 minuten";
 "CPU usage threshold" = "Drempelwaarde CPU-gebruik"; // gemma4:31b
-"CPU usage is" = "CPU-gebruik is %0"; // gemma4:31b
 "Efficiency cores" = "Efficiëntiecores";
 "Performance cores" = "Prestatiecores";
 "System color" = "Kleur voor systeembelasting";
@@ -300,18 +288,9 @@
 // GPU
 "GPU to show" = "GPU om te laten zien";
 "Show GPU type" = "GPU-type weergeven";
-"GPU enabled" = "GPU ingeschakeld";
-"GPU disabled" = "GPU uitgeschakeld";
-"GPU temperature" = "GPU-temperatuur";
 "GPU utilization" = "GPU-gebruik";
-"Vendor" = "Fabrikant";
 "Model" = "Model";
 "Status" = "Status";
-"Active" = "Actief";
-"Non active" = "Niet actief";
-"Fan speed" = "Ventilatorsneelheid";
-"Core clock" = "Core klok";
-"Memory clock" = "Geheugen klok";
 "Utilization" = "Gebruik";
 "Render utilization" = "Render-gebruik"; // gemma4:31b
 "Tiler utilization" = "Gebruik van tegelrenderer";
@@ -353,15 +332,12 @@
 "Disk usage" = "Schijfgebruik"; // gemma4:31b
 "Total read" = "Totaal gelezen"; // translategemma:4b
 "Total written" = "Totaal geschreven";
-"Write speed" = "Schrijfsnelheid";
-"Read speed" = "Leessnelheid";
 "Drives" = "Schijven"; // translategemma:4b
 "SMART data" = "SMART-gegevens"; // translategemma:4b
 "Power cycles" = "Power cycles";
 "Power on hours" = "Power on hours";
 
 // Sensors
-"Temperature unit" = "Temperature unit";
 "Celsius" = "Celsius";
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Save the fan speed";
@@ -381,7 +357,6 @@
 "Right fan" = "Right";
 "Fastest fan" = "Fastest";
 "Sensor to show" = "Sensor to show";
-"Temperature unit" = "Temperatuureenheid";
 "Celsius" = "Celsius";
 "Uploading" = "Upload";
 "Downloading" = "Download";
@@ -390,11 +365,6 @@
 "Interface" = "Interface";
 "Physical address" = "Physical address";
 "Refresh" = "Refresh";
-"Click to copy public IP address" = "Click to copy public IP address";
-"Click to copy local IP address" = "Click to copy local IP address";
-"Click to copy wifi name" = "Click to copy wifi name";
-"Click to copy mac address" = "Click to copy mac address";
-"No connection" = "No connection";
 "Network interface" = "Network interface";
 "Total download" = "Total download";
 "Total upload" = "Total upload";
@@ -406,12 +376,9 @@
 "Standard" = "Standard";
 "Security" = "Security";
 "Channel" = "Channel";
-"Common scale" = "Common scale";
 "Autodetection" = "Autodetection";
 "Widget activation threshold" = "Widget activation threshold";
 "Internet connection" = "Internet connection";
-"Active state color" = "Active state color";
-"Nonactive state color" = "Nonactive state color";
 "Connectivity host" = "Connectivity host";
 "Leave empty to disable the check" = "Leave empty to disable the check";
 "Connectivity history" = "Connectivity history";
@@ -419,11 +386,8 @@
 "Every hour" = "Every hour";
 "Every 12 hours" = "Every 12 hours";
 "Every 24 hours" = "Every 24 hours";
-"Network activity" = "Network activity";
 "Last reset" = "Last reset %0 ago";
 "Latency" = "Latency";
-"Upload speed" = "Upload";
-"Download speed" = "Download";
 "Address" = "Address";
 "WiFi network" = "WiFi network";
 "Local IP changed" = "Local IP has changed";
@@ -435,7 +399,6 @@
 "Show country code instead of emoji" = "Show country code instead of emoji";
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Ventilatorsnelheid opslaan";
-"Level" = "Level";
 "Source" = "Source";
 "AC Power" = "AC Power";
 "Battery Power" = "Battery Power";
@@ -467,15 +430,10 @@
 "Last charge" = "Last charge";
 "Capacity" = "Capacity";
 "current / maximum / designed" = "current / maximum / designed";
-"Low power mode" = "Low power mode";
 "Percentage inside the icon" = "Percentage inside the icon";
-"Colorize battery" = "Colorize battery";
-"Charging current" = "Charging current";
-"Charging Voltage" = "Charging voltage";
 "Charger state inside the battery" = "Charger state inside the battery";
 "Fan" = "Ventilator";
 "HID sensors" = "HID-Sensoren";
-"Battery to show" = "Battery to show";
 "No Bluetooth devices are available" = "No Bluetooth devices are available";
 "Synchronize fan's control" = "Synchroniseer de bediening van de ventilatoren"; // translategemma:4b
 "Current" = "Huidig";
@@ -540,11 +498,6 @@
 "Interface" = "Interface";
 "Physical address" = "Fysiek adres";
 "Refresh" = "Ververs";
-"Click to copy public IP address" = "Klik om openbaar IP-adres te kopiëren";
-"Click to copy local IP address" = "Klik om lokaal IP-adres te kopiëren";
-"Click to copy wifi name" = "Klik om wifi-naam te kopiëren";
-"Click to copy mac address" = "Klik om mac-adres te kopiëren";
-"No connection" = "Geen verbinding";
 "Network interface" = "Netwerk interface";
 "Total download" = "Totaal download";
 "Total upload" = "Totaal upload";
@@ -556,12 +509,9 @@
 "Standard" = "Standaard"; // translategemma:4b
 "Security" = "Beveiliging"; // translategemma:4b
 "Channel" = "Kanaal"; // translategemma:4b
-"Common scale" = "Algemene schaal";
 "Autodetection" = "Automatische detectie"; // translategemma:4b
 "Widget activation threshold" = "Drempelwaarde voor het activeren van een widget"; // translategemma:4b
 "Internet connection" = "Internetverbinding"; // translategemma:4b
-"Active state color" = "Kleur voor de actieve toestand";
-"Nonactive state color" = "Kleur voor de niet-actieve toestand"; // translategemma:4b
 "Connectivity host" = "Host voor verbinding"; // translategemma:4b
 "Leave empty to disable the check" = "Laat dit veld leeg, om de controle uit te schakelen.";
 "Connectivity history" = "Verbindingshistorie";
@@ -569,11 +519,8 @@
 "Every hour" = "Elk uur";
 "Every 12 hours" = "Elke 12 uur"; // translategemma:4b
 "Every 24 hours" = "Elke 24 uur"; // translategemma:4b
-"Network activity" = "Netwerkactiviteit"; // translategemma:4b
 "Last reset" = "Laatste reset %0 geleden"; // translategemma:4b
 "Latency" = "Vertraging"; // translategemma:4b
-"Upload speed" = "Uploadsnelheid";
-"Download speed" = "Downloadsnelheid";
 "Address" = "Adres"; // translategemma:4b
 "WiFi network" = "WiFi-netwerk"; // translategemma:4b
 "Local IP changed" = "Het lokale IP-adres is veranderd"; // translategemma:4b
@@ -585,7 +532,6 @@
 "Show country code instead of emoji" = "Toon landencode in plaats van een emoji";
 
 // Battery
-"Level" = "Niveau";
 "Source" = "Bron";
 "AC Power" = "Wisselstroom";
 "Battery Power" = "Batterijvermogen";
@@ -617,15 +563,10 @@
 "Last charge" = "Laatste oplading";
 "Capacity" = "Capaciteit"; // translategemma:4b
 "current / maximum / designed" = "huidig / maximum / ontworpen"; // translategemma:4b
-"Low power mode" = "Modus met laag stroomverbruik";
 "Percentage inside the icon" = "Percentage binnen het icoon"; // translategemma:4b
-"Colorize battery" = "Batterij kleuren";
-"Charging current" = "Laadstroom"; // translategemma:4b
-"Charging Voltage" = "Laadspanning"; // translategemma:4b
 "Charger state inside the battery" = "Status van de oplaadunit binnenin de batterij"; // translategemma:4b
 
 // Bluetooth
-"Battery to show" = "Laadstatus weergeven"; // translategemma:4b
 "No Bluetooth devices are available" = "Er zijn geen Bluetooth-apparaten beschikbaar."; // translategemma:4b
 
 // Clock

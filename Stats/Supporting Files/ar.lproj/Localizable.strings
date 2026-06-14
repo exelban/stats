@@ -59,7 +59,6 @@
 "Center alignment" = "وسط";
 "Right alignment" = "يمين";
 "Dashboard" = "لوحة التحكم";
-"Enabled" = "مفعّل";
 "Disabled" = "معطل";
 "Silent" = "صامت";
 "Units" = "وحدات";
@@ -83,8 +82,6 @@
 "2 minutes" = "2 دقائق";
 "3 minutes" = "3 دقائق";
 "10 minutes" = "10 دقائق";
-"Import" = "استيراد";
-"Export" = "تصدير";
 "Separator" = "فاصل"; // translategemma:4b
 "Read" = "قراءة"; // gemma4:31b
 "Write" = "كتابة"; // gemma4:31b
@@ -120,9 +117,6 @@
 "Check for a new version every week (once a week)" = "التحقق من وجود إصدار جديد كل أسبوع (مرة واحدة في الأسبوع)";
 "Check for a new version every month (once a month)" = "التحقق من وجود إصدار جديد كل شهر (مرة واحدة في الشهر)";
 "Never check for updates (not recommended)" = "عدم التحقق من وجود تحديثات (غير موصى به)";
-"Anonymous telemetry for better development decisions" = "معلومات تشخيصية مجهولة لاتخاذ قرارات تطوير أفضل";
-"Share anonymous telemetry data" = "مشاركة بيانات التشخيص المجهولة";
-"Do not share anonymous telemetry data" = "عدم مشاركة بيانات التشخيص المجهولة";
 "The configuration is completed" = "تم الانتهاء من التكوين";
 "finish_setup_message" = "كل شيء مُعدّ، الإحصاءات هي أداة مفتوحة المصدر، مجانية وستظل دائمًا كذلك. إذا كنت تستمتع بها يمكنك دعم المشروع، دائمًا محل تقدير!";
 
@@ -146,7 +140,6 @@
 "Toggle the module" = "تبديل الوحدة"; // gemma4:31b
 
 // Application settings
-"Update application" = "تحديث التطبيق";
 "Check for updates" = "التحقق من وجود تحديثات";
 "At start" = "عند البدء";
 "Once per day" = "مرة يوميًا";
@@ -165,7 +158,6 @@
 "Combined modules" = "الوحدات المجتمعة";
 "Combined details" = "تفاصيل مجمعة"; // translategemma:4b
 "Spacing" = "التباعد";
-"Share anonymous telemetry" = "مشاركة بيانات التشخيص المجهولة";
 "Choose file" = "اختيار ملف"; // gemma4:31b
 "Stress tests" = "اختبارات الإجهاد"; // gemma4:31b
 
@@ -197,7 +189,6 @@
 "Colorize" = "تلوين";
 "Colorize value" = "تلوين القيمة";
 "Additional information" = "معلومات إضافية";
-"Reverse values order" = "عكس ترتيب القيم";
 "Base" = "قاعدة";
 "Display mode" = "وضع العرض";
 "One row" = "صف واحد";
@@ -231,7 +222,6 @@
 
 // Module Kit
 "Open module settings" = "فتح إعدادات الوحدة";
-"Select widget" = "اختيار %0 عنصر";
 "Open widget settings" = "فتح إعدادات العنصر";
 "Update interval" = "فاصل التحديث";
 "Usage history" = "سجل الاستخدام";
@@ -253,7 +243,6 @@
 // Modules
 "Number of top processes" = "عدد أعلى العمليات";
 "Update interval for top processes" = "فاصل التحديث لأعلى العمليات";
-"Notification level" = "مستوى الإشعار";
 "Chart color" = "لون المخطط";
 "Main chart scaling" = "تحجيم المخطط الرئيسي";
 "Scale value" = "قيمة المقياس";
@@ -277,7 +266,6 @@
 "5 minutes" = "5 دقائق";
 "15 minutes" = "15 دقيقة";
 "CPU usage threshold" = "عتبة استخدام المعالج";
-"CPU usage is" = "استخدام المعالج %0";
 "Efficiency cores" = "نوى كفاءة";
 "Performance cores" = "نوى أداء";
 "System color" = "لون النظام";
@@ -300,18 +288,9 @@
 // GPU
 "GPU to show" = "عرض GPU";
 "Show GPU type" = "عرض نوع GPU";
-"GPU enabled" = "GPU مُمكّن";
-"GPU disabled" = "GPU معطل";
-"GPU temperature" = "حرارة GPU";
 "GPU utilization" = "استخدام GPU";
-"Vendor" = "البائع";
 "Model" = "النموذج";
 "Status" = "الحالة";
-"Active" = "نشط";
-"Non active" = "غير نشط";
-"Fan speed" = "سرعة المروحة";
-"Core clock" = "تردد النواة";
-"Memory clock" = "تردد الذاكرة";
 "Utilization" = "استخدام";
 "Render utilization" = "استخدام الرندر";
 "Tiler utilization" = "استخدام اللوح";
@@ -353,15 +332,12 @@
 "Disk usage" = "استخدام القرص";
 "Total read" = "إجمالي القراءة";
 "Total written" = "إجمالي الكتابة";
-"Write speed" = "كتابة"; // gemma4:31b
-"Read speed" = "قراءة"; // gemma4:31b
 "Drives" = "محركات الأقراص"; // gemma4:31b
 "SMART data" = "بيانات SMART"; // gemma4:31b
 "Power cycles" = "Power cycles";
 "Power on hours" = "Power on hours";
 
 // Sensors
-"Temperature unit" = "وحدة الحرارة";
 "Celsius" = "درجة مئوية";
 "Fahrenheit" = "فهرنهايت";
 "Save the fan speed" = "حفظ سرعة المروحة";
@@ -390,11 +366,6 @@
 "Interface" = "واجهة";
 "Physical address" = "العنوان الفيزيائي";
 "Refresh" = "تحديث";
-"Click to copy public IP address" = "انقر لنسخ عنوان IP العام";
-"Click to copy local IP address" = "انقر لنسخ عنوان IP المحلي";
-"Click to copy wifi name" = "انقر لنسخ اسم الواي فاي";
-"Click to copy mac address" = "انقر لنسخ عنوان MAC";
-"No connection" = "لا يوجد اتصال";
 "Network interface" = "واجهة الشبكة";
 "Total download" = "إجمالي التنزيل";
 "Total upload" = "إجمالي الرفع";
@@ -406,12 +377,9 @@
 "Standard" = "قياسي";
 "Security" = "أمان";
 "Channel" = "قناة";
-"Common scale" = "مقياس شائع";
 "Autodetection" = "الكشف التلقائي";
 "Widget activation threshold" = "عتبة تنشيط الودجة";
 "Internet connection" = "اتصال بالإنترنت";
-"Active state color" = "لون الحالة النشطة";
-"Nonactive state color" = "لون الحالة غير النشطة";
 "Connectivity host" = "مضيف الاتصال";
 "Leave empty to disable the check" = "اتركه فارغًا لتعطيل الفحص";
 "Connectivity history" = "سجل الاتصال";
@@ -419,11 +387,8 @@
 "Every hour" = "كل ساعة";
 "Every 12 hours" = "كل 12 ساعة";
 "Every 24 hours" = "كل 24 ساعة";
-"Network activity" = "نشاط الشبكة";
 "Last reset" = "آخر إعادة تعيين منذ %0";
 "Latency" = "تأخير";
-"Upload speed" = "رفع"; // gemma4:31b
-"Download speed" = "تنزيل"; // translategemma:4b
 "Address" = "العنوان"; // translategemma:4b
 "WiFi network" = "شبكة WiFi"; // gemma4:31b
 "Local IP changed" = "تغير عنوان IP المحلي"; // translategemma:4b
@@ -435,7 +400,6 @@
 "Show country code instead of emoji" = "إظهار رمز الدولة بدلاً من الرموز التعبيرية"; // gemma4:31b
 
 // Battery
-"Level" = "المستوى";
 "Source" = "المصدر";
 "AC Power" = "تيار متردد";
 "Battery Power" = "بطارية";
@@ -467,15 +431,10 @@
 "Last charge" = "آخر شحن";
 "Capacity" = "السعة";
 "current / maximum / designed" = "الحالي / الأقصى / المصمم";
-"Low power mode" = "وضع الطاقة المنخفضة";
 "Percentage inside the icon" = "النسبة المئوية داخل الرمز";
-"Colorize battery" = "تلوين البطارية";
-"Charging current" = "تيار الشحن"; // translategemma:4b
-"Charging Voltage" = "جهد الشحن"; // translategemma:4b
 "Charger state inside the battery" = "حالة الشحن داخل البطارية"; // gemma4:31b
 
 // Bluetooth
-"Battery to show" = "البطارية المراد عرضها";
 "No Bluetooth devices are available" = "لا توجد أجهزة بلوتوث متاحة";
 
 // Clock

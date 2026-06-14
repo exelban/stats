@@ -59,7 +59,6 @@
 "Center alignment" = "居中";
 "Right alignment" = "右对齐";
 "Dashboard" = "仪表盘";
-"Enabled" = "已启用";
 "Disabled" = "已停用";
 "Silent" = "运行时静默";
 "Units" = "单位";
@@ -83,8 +82,6 @@
 "2 minutes" = "2 分钟";
 "3 minutes" = "3 分钟";
 "10 minutes" = "10 分钟";
-"Import" = "导入";
-"Export" = "导出";
 "Separator" = "分隔符";
 "Read" = "读取";
 "Write" = "写入";
@@ -120,9 +117,6 @@
 "Check for a new version every week (once a week)" = "每周检查一次新版本（一周一次）";
 "Check for a new version every month (once a month)" = "每月检查一次新版本（一月一次）";
 "Never check for updates (not recommended)" = "不要检查更新（不推荐）";
-"Anonymous telemetry for better development decisions" = "匿名诊断数据将用于改善开发决策";
-"Share anonymous telemetry data" = "分享匿名诊断数据";
-"Do not share anonymous telemetry data" = "不分享匿名诊断数据";
 "The configuration is completed" = "配置完成";
 "finish_setup_message" = "设置完成！Stats是一个开源且永远免费的工具。如果你喜欢它，你可以支持这个项目，非常感谢!";
 
@@ -146,7 +140,6 @@
 "Toggle the module" = "切换模块显示";
 
 // Application settings
-"Update application" = "更新应用";
 "Check for updates" = "检查更新";
 "At start" = "启动时";
 "Once per day" = "每日一次";
@@ -165,7 +158,6 @@
 "Combined modules" = "合并模块";
 "Combined details" = "合并详情";
 "Spacing" = "间距";
-"Share anonymous telemetry" = "分享匿名诊断数据";
 "Choose file" = "选择文件";
 "Stress tests" = "压力测试";
 
@@ -197,7 +189,6 @@
 "Colorize" = "彩色";
 "Colorize value" = "数值颜色";
 "Additional information" = "附加信息";
-"Reverse values order" = "数值反序";
 "Base" = "单位";
 "Display mode" = "显示模式";
 "One row" = "单行";
@@ -231,7 +222,6 @@
 
 // Module Kit
 "Open module settings" = "打开模块设置";
-"Select widget" = "选择%0小组件";
 "Open widget settings" = "打开小组件设置";
 "Update interval" = "更新间隔";
 "Usage history" = "负载历史";
@@ -253,7 +243,6 @@
 // Modules
 "Number of top processes" = "高占用进程数";
 "Update interval for top processes" = "高占用进程的更新间隔";
-"Notification level" = "通知级别";
 "Chart color" = "图表颜色";
 "Main chart scaling" = "主图表缩放";
 "Scale value" = "缩放值";
@@ -277,7 +266,6 @@
 "5 minutes" = "5 分钟";
 "15 minutes" = "15 分钟";
 "CPU usage threshold" = "CPU占用阈值";
-"CPU usage is" = "CPU利用率是 %0";
 "Efficiency cores" = "能效核心";
 "Performance cores" = "性能核心";
 "System color" = "系统占用颜色";
@@ -300,18 +288,9 @@
 // GPU
 "GPU to show" = "显示的GPU";
 "Show GPU type" = "显示GPU类型";
-"GPU enabled" = "GPU启用";
-"GPU disabled" = "GPU禁用";
-"GPU temperature" = "GPU温度";
 "GPU utilization" = "GPU利用率";
-"Vendor" = "厂商";
 "Model" = "型号";
 "Status" = "状态";
-"Active" = "活跃";
-"Non active" = "非活跃";
-"Fan speed" = "风扇速度";
-"Core clock" = "核心频率";
-"Memory clock" = "显存频率";
 "Utilization" = "利用率";
 "Render utilization" = "渲染利用率";
 "Tiler utilization" = "Tiler利用率";
@@ -353,15 +332,12 @@
 "Disk usage" = "磁盘使用";
 "Total read" = "总读取量";
 "Total written" = "总写入量";
-"Write speed" = "写入速度";
-"Read speed" = "读取速度";
 "Drives" = "驱动器";
 "SMART data" = "SMART数据";
 "Power cycles" = "Power cycles";
 "Power on hours" = "Power on hours";
 
 // Sensors
-"Temperature unit" = "温度单位";
 "Celsius" = "摄氏度";
 "Fahrenheit" = "华氏度";
 "Save the fan speed" = "保存风扇转速";
@@ -390,11 +366,6 @@
 "Interface" = "接口";
 "Physical address" = "物理地址";
 "Refresh" = "刷新";
-"Click to copy public IP address" = "点击拷贝公网IP";
-"Click to copy local IP address" = "点击拷贝本地IP";
-"Click to copy wifi name" = "点击拷贝Wi-Fi名称";
-"Click to copy mac address" = "点击拷贝MAC地址";
-"No connection" = "无网络连接";
 "Network interface" = "网络接口";
 "Total download" = "总下载";
 "Total upload" = "总上传";
@@ -406,12 +377,9 @@
 "Standard" = "标准";
 "Security" = "安全";
 "Channel" = "频道";
-"Common scale" = "统一比例";
 "Autodetection" = "自动检测";
 "Widget activation threshold" = "小组件激活阈值";
 "Internet connection" = "网络连接状态";
-"Active state color" = "活跃状态颜色";
-"Nonactive state color" = "非活跃状态颜色";
 "Connectivity host" = "连接 Host";
 "Leave empty to disable the check" = "不在该选项内输入以禁用检查";
 "Connectivity history" = "连接历史";
@@ -419,11 +387,8 @@
 "Every hour" = "每小时";
 "Every 12 hours" = "每12小时";
 "Every 24 hours" = "每24小时";
-"Network activity" = "网络活动";
 "Last reset" = "上次重置于 %0 之前";
 "Latency" = "延迟";
-"Upload speed" = "上传速度";
-"Download speed" = "下载速度";
 "Address" = "地址";
 "WiFi network" = "WiFi网络";
 "Local IP changed" = "本地IP已变更";
@@ -435,7 +400,6 @@
 "Show country code instead of emoji" = "显示国家代码而不是 emoji"; // gemma4:31b
 
 // Battery
-"Level" = "电量";
 "Source" = "电源";
 "AC Power" = "交流电";
 "Battery Power" = "电池";
@@ -467,15 +431,10 @@
 "Last charge" = "最后一次充电";
 "Capacity" = "容量";
 "current / maximum / designed" = "当前容量 / 最大容量 / 设计容量";
-"Low power mode" = "低电量模式";
 "Percentage inside the icon" = "图标内百分比";
-"Colorize battery" = "启用彩色电池图标";
-"Charging current" = "充电电流";
-"Charging Voltage" = "充电电压";
 "Charger state inside the battery" = "在电池图标内显示充电器状态";
 
 // Bluetooth
-"Battery to show" = "显示的设备";
 "No Bluetooth devices are available" = "没有可用的蓝牙设备";
 
 // Clock

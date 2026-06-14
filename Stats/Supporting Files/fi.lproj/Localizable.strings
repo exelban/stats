@@ -59,7 +59,6 @@
 "Center alignment" = "Keskellä";
 "Right alignment" = "Oikea";
 "Dashboard" = "Kojelauta";
-"Enabled" = "Käytössä";
 "Disabled" = "Pois käytöstä";
 "Silent" = "Hiljainen";
 "Units" = "Yksiköt";
@@ -83,8 +82,6 @@
 "2 minutes" = "2 minuuttia";
 "3 minutes" = "3 minuuttia";
 "10 minutes" = "10 minuuttia";
-"Import" = "Tuo";
-"Export" = "Vie";
 "Separator" = "Erotin"; // translategemma:4b
 "Read" = "Luku"; // gemma4:31b
 "Write" = "Kirjoitus"; // gemma4:31b
@@ -120,9 +117,6 @@
 "Check for a new version every week (once a week)" = "Tarkista uusi versio viikoittain (kerran viikossa)";
 "Check for a new version every month (once a month)" = "Tarkista uusi versio kuukausittain (kerran kuukaudessa)";
 "Never check for updates (not recommended)" = "Älä koskaan tarkista päivityksiä (ei suositeltu)";
-"Anonymous telemetry for better development decisions" = "Anonyymi telemetria parempaa tuotekehitystä varten";
-"Share anonymous telemetry data" = "Jaa anonyymit telemetriatiedot";
-"Do not share anonymous telemetry data" = "Älä jaa anonyymejä telemetriatietoja";
 "The configuration is completed" = "Määritys on valmis";
 "finish_setup_message" = "Kaikki on valmista! \n Stats on avoimen lähdekoodin työkalu, se on ilmainen ja tulee aina olemaan. \n Jos pidät siitä, voit tukea projektia, mikä on aina arvostettua!";
 
@@ -146,7 +140,6 @@
 "Toggle the module" = "Kytke moduuli"; // gemma4:31b
 
 // Application settings
-"Update application" = "Päivitä sovellus";
 "Check for updates" = "Tarkista päivitykset";
 "At start" = "Käynnistyksessä";
 "Once per day" = "Kerran päivässä";
@@ -165,7 +158,6 @@
 "Combined modules" = "Yhdistetyt moduulit";
 "Combined details" = "Yhdistetyt tiedot";
 "Spacing" = "Välistys"; // gemma4:31b
-"Share anonymous telemetry" = "Jaa anonyymi telemetria";
 "Choose file" = "Valitse tiedosto"; // translategemma:4b
 "Stress tests" = "Stressitestit"; // translategemma:4b
 
@@ -197,7 +189,6 @@
 "Colorize" = "Värjää";
 "Colorize value" = "Värjää arvo";
 "Additional information" = "Lisätiedot";
-"Reverse values order" = "Käänteinen arvojärjestys";
 "Base" = "Perusta";
 "Display mode" = "Näyttötila";
 "One row" = "Yksi rivi";
@@ -231,7 +222,6 @@
 
 // Module Kit
 "Open module settings" = "Avaa moduulin asetukset";
-"Select widget" = "Valitse %0 widget";
 "Open widget settings" = "Avaa widgetin asetukset";
 "Update interval" = "Päivitysväli";
 "Usage history" = "Käytön historia";
@@ -253,7 +243,6 @@
 // Modules
 "Number of top processes" = "Suosittujen prosessien määrä";
 "Update interval for top processes" = "Suosittujen prosessien päivitysväli";
-"Notification level" = "Ilmoitustaso";
 "Chart color" = "Kaavion väri";
 "Main chart scaling" = "Pääkaavion skaalaus";
 "Scale value" = "Skaalausarvo";
@@ -277,7 +266,6 @@
 "5 minutes" = "5 minuuttia";
 "15 minutes" = "15 minuuttia";
 "CPU usage threshold" = "Suorittimen käytön raja";
-"CPU usage is" = "Suorittimen käyttö on %0";
 "Efficiency cores" = "Tehokkuusytimet";
 "Performance cores" = "Suorituskykyytimet";
 "System color" = "Järjestelmän väri";
@@ -300,18 +288,9 @@
 // GPU
 "GPU to show" = "Näytettävä GPU";
 "Show GPU type" = "Näytä GPU-tyyppi";
-"GPU enabled" = "GPU käytössä";
-"GPU disabled" = "GPU pois käytöstä";
-"GPU temperature" = "GPU:n lämpötila";
 "GPU utilization" = "GPU:n käyttö";
-"Vendor" = "Valmistaja";
 "Model" = "Malli";
 "Status" = "Tila";
-"Active" = "Aktiivinen";
-"Non active" = "Ei aktiivinen";
-"Fan speed" = "Tuuletinnopeus";
-"Core clock" = "Ytimen kellotaajuus";
-"Memory clock" = "Muistin kellotaajuus";
 "Utilization" = "Käyttöaste";
 "Render utilization" = "Renderöinnin käyttöaste";
 "Tiler utilization" = "Tilerin käyttöaste";
@@ -353,15 +332,12 @@
 "Disk usage" = "Levyn käyttö";
 "Total read" = "Luettu yhteensä";
 "Total written" = "Kirjoitettu yhteensä";
-"Write speed" = "Kirjoitusnopeus";
-"Read speed" = "Lukunopeus";
 "Drives" = "Levyt"; // gemma4:31b
 "SMART data" = "SMART-tiedot"; // gemma4:31b
 "Power cycles" = "Power cycles";
 "Power on hours" = "Power on hours";
 
 // Sensors
-"Temperature unit" = "Lämpötilan yksikkö";
 "Celsius" = "Celsius";
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Tallenna tuulettimen nopeus";
@@ -390,11 +366,6 @@
 "Interface" = "Liitäntä";
 "Physical address" = "Fyysinen osoite";
 "Refresh" = "Päivitä";
-"Click to copy public IP address" = "Kopioi julkinen IP-osoite napsauttamalla";
-"Click to copy local IP address" = "Kopioi paikallinen IP-osoite napsauttamalla";
-"Click to copy wifi name" = "Kopioi Wi-Fi-nimi napsauttamalla";
-"Click to copy mac address" = "Kopioi MAC-osoite napsauttamalla";
-"No connection" = "Ei yhteyttä";
 "Network interface" = "Verkkoliitäntä";
 "Total download" = "Ladattu yhteensä";
 "Total upload" = "Lähetetty yhteensä";
@@ -406,12 +377,9 @@
 "Standard" = "Standardi";
 "Security" = "Turvallisuus";
 "Channel" = "Kanava";
-"Common scale" = "Yleinen skaala";
 "Autodetection" = "Automaattinen tunnistus";
 "Widget activation threshold" = "Widgetin aktivoinnin raja";
 "Internet connection" = "Internet-yhteys";
-"Active state color" = "Aktiivitilan väri";
-"Nonactive state color" = "Ei-aktiivitilan väri";
 "Connectivity host" = "Yhteyden isäntä";
 "Leave empty to disable the check" = "Jätä tyhjäksi poistaaksesi tarkistuksen käytöstä";
 "Connectivity history" = "Yhteyshistoria";
@@ -419,11 +387,8 @@
 "Every hour" = "Joka tunti";
 "Every 12 hours" = "Joka 12. tunti";
 "Every 24 hours" = "Joka 24. tunti";
-"Network activity" = "Verkkoaktiivisuus";
 "Last reset" = "Viimeksi nollattu %0 sitten";
 "Latency" = "Viive";
-"Upload speed" = "Lähetysnopeus";
-"Download speed" = "Latausnopeus";
 "Address" = "Osoite"; // translategemma:4b
 "WiFi network" = "WiFi-verkko"; // gemma4:31b
 "Local IP changed" = "Paikallinen IP-osoite on muuttunut"; // translategemma:4b
@@ -435,7 +400,6 @@
 "Show country code instead of emoji" = "Näytä maakoodi emojin sijaan"; // gemma4:31b
 
 // Battery
-"Level" = "Taso";
 "Source" = "Lähde";
 "AC Power" = "Verkkovirta";
 "Battery Power" = "Akkuvirta";
@@ -467,15 +431,10 @@
 "Last charge" = "Viimeinen lataus";
 "Capacity" = "Kapasiteetti";
 "current / maximum / designed" = "nykyinen / maksimi / suunniteltu";
-"Low power mode" = "Virransäästötila";
 "Percentage inside the icon" = "Prosentti kuvakkeen sisällä";
-"Colorize battery" = "Värjää akku";
-"Charging current" = "Latausvirta";
-"Charging Voltage" = "Latausjännite";
 "Charger state inside the battery" = "Lataustila akun sisällä"; // gemma4:31b
 
 // Bluetooth
-"Battery to show" = "Näytettävä akku";
 "No Bluetooth devices are available" = "Bluetooth-laitteita ei ole saatavilla";
 
 // Clock

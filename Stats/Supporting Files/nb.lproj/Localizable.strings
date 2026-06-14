@@ -59,7 +59,6 @@
 "Center alignment" = "Sentrum";
 "Right alignment" = "Høyre";
 "Dashboard" = "Dashboard";
-"Enabled" = "Aktivert";
 "Disabled" = "Deaktivert";
 "Silent" = "Stille";
 "Units" = "Enheter";
@@ -83,8 +82,6 @@
 "2 minutes" = "2 minutter"; // translategemma:4b
 "3 minutes" = "3 minutter"; // translategemma:4b
 "10 minutes" = "10 minutter"; // translategemma:4b
-"Import" = "Import";
-"Export" = "Eksport"; // translategemma:4b
 "Separator" = "Skillelinje"; // translategemma:4b
 "Read" = "Lesing"; // gemma4:31b
 "Write" = "Skriving"; // gemma4:31b
@@ -120,9 +117,6 @@
 "Check for a new version every week (once a week)" = "Se etter ny versjon én gang hver uke";
 "Check for a new version every month (once a month)" = "Se etter ny versjon én gang hver måned";
 "Never check for updates (not recommended)" = "Aldri se etter ny versjon (ikke anbefalt)";
-"Anonymous telemetry for better development decisions" = "Anonym telemetri for bedre utviklingsbeslutninger";
-"Share anonymous telemetry data" = "Del anonyme telemetridata";
-"Do not share anonymous telemetry data" = "Ikke del anonyme telemetridata";
 "The configuration is completed" = "Konfigurasjonen er fullført";
 "finish_setup_message" = "Alt er satt opp! \n Stats er et fritt tilgjengelig verktøy, det er gratis og vil alltid være det. \n Hvis du liker Stats, kan du støtte prosjektet, det settes veldig pris på!";
 
@@ -146,7 +140,6 @@
 "Toggle the module" = "Veksle modulen"; // gemma4:31b
 
 // Application settings
-"Update application" = "Oppdater programmet";
 "Check for updates" = "Se etter oppdateringer";
 "At start" = "Ved oppstart";
 "Once per day" = "Daglig";
@@ -165,7 +158,6 @@
 "Combined modules" = "Kombinerte moduler";
 "Combined details" = "Kombinerte detaljer"; // gemma4:31b
 "Spacing" = "Mellomrom";
-"Share anonymous telemetry" = "Del anonyme telemetridata";
 "Choose file" = "Velg fil"; // translategemma:4b
 "Stress tests" = "Stresstester"; // gemma4:31b
 
@@ -197,7 +189,6 @@
 "Colorize" = "Fargelegg";
 "Colorize value" = "Fargelegg verdi";
 "Additional information" = "Tilleggsinformasjon";
-"Reverse values order" = "Reverser rekkefølge på verdier";
 "Base" = "Basis"; // gemma4:31b
 "Display mode" = "Visningsmodus";
 "One row" = "En rad";
@@ -231,7 +222,6 @@
 
 // Module Kit
 "Open module settings" = "Åpne modulinnstillinger";
-"Select widget" = "Velg %0-visning";
 "Open widget settings" = "Åpne widgetinnstillinger";
 "Update interval" = "Oppdateringsintervall";
 "Usage history" = "Brukshistorikk";
@@ -253,7 +243,6 @@
 // Modules
 "Number of top processes" = "Antall topp-prosesser";
 "Update interval for top processes" = "Oppdateringsintervall for topp-prosesser";
-"Notification level" = "Varslingsnivå";
 "Chart color" = "Diagramfarge";
 "Main chart scaling" = "Skalering av hovedgrafen"; // gemma4:31b
 "Scale value" = "Skalaverdi"; // translategemma:4b
@@ -277,7 +266,6 @@
 "5 minutes" = "5 minutter";
 "15 minutes" = "15 minutter";
 "CPU usage threshold" = "CPU-bruksgrense";
-"CPU usage is" = "CPU-bruk er %0";
 "Efficiency cores" = "Effektivitetskjerner";
 "Performance cores" = "Ytelseskjerner";
 "System color" = "Systemfarge";
@@ -300,18 +288,9 @@
 // GPU
 "GPU to show" = "GPU å vise";
 "Show GPU type" = "Vis GPU-type";
-"GPU enabled" = "GPU i bruk";
-"GPU disabled" = "GPU ikke i bruk";
-"GPU temperature" = "GPU-temperatur";
 "GPU utilization" = "GPU-bruk";
-"Vendor" = "Produsent";
 "Model" = "Modell";
 "Status" = "Status";
-"Active" = "Aktiv";
-"Non active" = "Inaktiv";
-"Fan speed" = "Viftehastighet";
-"Core clock" = "Kjerneklokke";
-"Memory clock" = "Minneklokke";
 "Utilization" = "Bruk";
 "Render utilization" = "Renderbruk";
 "Tiler utilization" = "Rutebruk";
@@ -353,15 +332,12 @@
 "Disk usage" = "Diskbruk";
 "Total read" = "Totalt lest"; // gemma4:31b
 "Total written" = "Totalt skrevet"; // translategemma:4b
-"Write speed" = "Skriving"; // gemma4:31b
-"Read speed" = "Lesing"; // gemma4:31b
 "Drives" = "Drives";
 "SMART data" = "SMART-data"; // translategemma:4b
 "Power cycles" = "Power cycles";
 "Power on hours" = "Power on hours";
 
 // Sensors
-"Temperature unit" = "Temperaturenhet";
 "Celsius" = "Celsius";
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Lagre viftehastighet";
@@ -390,11 +366,6 @@
 "Interface" = "Grensesnitt";
 "Physical address" = "Fysisk addresse";
 "Refresh" = "Oppfrisk";
-"Click to copy public IP address" = "Klikk for å kopiere offentlig IP-adresse";
-"Click to copy local IP address" = "Klikk for å kopiere lokal IP-adresse";
-"Click to copy wifi name" = "Klikk for å kopiere nettverksnavn";
-"Click to copy mac address" = "Klikk for å kopiere MAC-adresse";
-"No connection" = "Ingen forbindelse";
 "Network interface" = "Nettverksgrensesnitt";
 "Total download" = "Totalt lastet ned";
 "Total upload" = "Totalt lastet opp";
@@ -406,12 +377,9 @@
 "Standard" = "Standard";
 "Security" = "Sikkerhet";
 "Channel" = "Kanal";
-"Common scale" = "Vanlig skala";
 "Autodetection" = "Automatisk deteksjon";
 "Widget activation threshold" = "Statistikkaktiveringsgrense";
 "Internet connection" = "Internett-tilkobling";
-"Active state color" = "Aktiv statusfarge";
-"Nonactive state color" = "Inaktiv statusfarge";
 "Connectivity host" = "Tilkoblingsvert";
 "Leave empty to disable the check" = "La stå tom for å deaktivere sjekken";
 "Connectivity history" = "Tilkoblingshistorikk";
@@ -419,11 +387,8 @@
 "Every hour" = "Hver time";
 "Every 12 hours" = "Hver 12. time";
 "Every 24 hours" = "Hver 24. time";
-"Network activity" = "Nettverksaktivitet";
 "Last reset" = "Sist nullstilt %0 siden";
 "Latency" = "Forsinkelse"; // translategemma:4b
-"Upload speed" = "Opplasting"; // gemma4:31b
-"Download speed" = "Nedlasting"; // gemma4:31b
 "Address" = "Adresse"; // translategemma:4b
 "WiFi network" = "WiFi-nettverk"; // translategemma:4b
 "Local IP changed" = "Lokal IP har endret seg"; // gemma4:31b
@@ -435,7 +400,6 @@
 "Show country code instead of emoji" = "Vis landskode i stedet for emoji"; // gemma4:31b
 
 // Battery
-"Level" = "Nivå";
 "Source" = "Kilde";
 "AC Power" = "Strømforsyning";
 "Battery Power" = "Batteri";
@@ -467,15 +431,10 @@
 "Last charge" = "Siste lading";
 "Capacity" = "Kapasitet";
 "current / maximum / designed" = "current / maksimum / tiltenkt";
-"Low power mode" = "Lav energi-modus";
 "Percentage inside the icon" = "Prosent inne i ikonet";
-"Colorize battery" = "Fargelegg batteri";
-"Charging current" = "Ladestrøm"; // gemma4:31b
-"Charging Voltage" = "Ladespenning"; // gemma4:31b
 "Charger state inside the battery" = "Ladestatus inne i batteriet"; // gemma4:31b
 
 // Bluetooth
-"Battery to show" = "Batteri å vise";
 "No Bluetooth devices are available" = "Ingen Bluetooth-enheter er tilgjengelige";
 
 // Clock

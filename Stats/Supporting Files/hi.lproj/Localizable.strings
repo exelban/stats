@@ -59,7 +59,6 @@
 "Center alignment" = "केंद्र";
 "Right alignment" = "सही";
 "Dashboard" = "डैशबोर्ड";
-"Enabled" = "सक्षम";
 "Disabled" = "अक्षम";
 "Silent" = "मौन";
 "Units" = "इकाइयाँ";
@@ -83,8 +82,6 @@
 "2 minutes" = "2 मिनट"; // translategemma:4b
 "3 minutes" = "3 मिनट"; // translategemma:4b
 "10 minutes" = "10 मिनट"; // translategemma:4b
-"Import" = "इम्पोर्ट"; // gemma4:31b
-"Export" = "निर्यात"; // translategemma:4b
 "Separator" = "विभाजक"; // translategemma:4b
 "Read" = "रीड"; // gemma4:31b
 "Write" = "लिखना"; // gemma4:31b
@@ -120,9 +117,6 @@
 "Check for a new version every week (once a week)" = "हर हफ्ते (सप्ताह में एक बार) एक नए संस्करण की जांच करें";
 "Check for a new version every month (once a month)" = "हर महीने (महीने में एक बार) एक नए संस्करण की जांच करें";
 "Never check for updates (not recommended)" = "अपडेट की जांच कभी न करें (अनुशंसित नहीं)";
-"Anonymous telemetry for better development decisions" = "बेहतर विकास निर्णयों के लिए अनाम टेलीमेट्री";
-"Share anonymous telemetry data" = "अनाम टेलीमेट्री डेटा साझा करें";
-"Do not share anonymous telemetry data" = "अनाम टेलीमेट्री डेटा साझा न करें";
 "The configuration is completed" = "कॉन्फ़िगरेशन पूरा हो गया है";
 "finish_setup_message" = "सब कुछ सेट किया गया है! \n आँकड़े एक खुला स्रोत उपकरण है, यह मुफ़्त है और हमेशा रहेगा। \n यदि आप इसका आनंद लेते हैं तो आप एक परियोजना का समर्थन कर सकते हैं, यह हमेशा सराहना की जाती है!";
 
@@ -146,7 +140,6 @@
 "Toggle the module" = "मॉड्यूल को टॉगल करें"; // gemma4:31b
 
 // Application settings
-"Update application" = "अद्यतन अनुप्रयोग";
 "Check for updates" = "अपडेट की जाँच करें";
 "At start" = "शुरुआत में";
 "Once per day" = "प्रति दिन एक बार";
@@ -165,7 +158,6 @@
 "Combined modules" = "संयुक्त मॉड्यूल";
 "Combined details" = "संयुक्त विवरण"; // translategemma:4b
 "Spacing" = "स्पेसिंग";
-"Share anonymous telemetry" = "अनाम टेलीमेट्री साझा करें";
 "Choose file" = "फ़ाइल चुनें"; // translategemma:4b
 "Stress tests" = "तनाव परीक्षण"; // translategemma:4b
 
@@ -197,7 +189,6 @@
 "Colorize" = "रंगांकित";
 "Colorize value" = "मूल्य को रंगीन करें";
 "Additional information" = "अतिरिक्त जानकारी";
-"Reverse values order" = "रिवर्स मान क्रम";
 "Base" = "आधार";
 "Display mode" = "दृश्य मोड";
 "One row" = "एक पंक्ति";
@@ -231,7 +222,6 @@
 
 // Module Kit
 "Open module settings" = "ओपन मॉड्यूल सेटिंग्स";
-"Select widget" = "%0 विजेट का चयन करें";
 "Open widget settings" = "विजेट सेटिंग्स खोलें";
 "Update interval" = "अद्यतन अंतराल";
 "Usage history" = "उपयोग इतिहास";
@@ -253,7 +243,6 @@
 // Modules
 "Number of top processes" = "शीर्ष प्रक्रियाओं की संख्या";
 "Update interval for top processes" = "शीर्ष प्रक्रियाओं के लिए अंतराल अपडेट करें";
-"Notification level" = "अधिसूचना स्तर";
 "Chart color" = "चार्ट रंग";
 "Main chart scaling" = "मुख्य चार्ट स्केलिंग"; // gemma4:31b
 "Scale value" = "स्केल मान"; // gemma4:31b
@@ -277,7 +266,6 @@
 "5 minutes" = "5 मिनट";
 "15 minutes" = "15 मिनट";
 "CPU usage threshold" = "सीपीयू उपयोग सीमा";
-"CPU usage is" = "सीपीयू उपयोग %0 है";
 "Efficiency cores" = "दक्षता कोर";
 "Performance cores" = "प्रदर्शन कोर";
 "System color" = "सिस्टम रंग";
@@ -300,18 +288,9 @@
 // GPU
 "GPU to show" = "दिखाने के लिए जीपीयू";
 "Show GPU type" = "जीपीयू प्रकार दिखाएँ";
-"GPU enabled" = "जीपीयू सक्षम";
-"GPU disabled" = "जीपीयू अक्षम";
-"GPU temperature" = "जीपीयू तापमान";
 "GPU utilization" = "जीपीयू उपयोग";
-"Vendor" = "विक्रेता";
 "Model" = "मॉडल";
 "Status" = "स्थिति";
-"Active" = "सक्रिय";
-"Non active" = "गैर सक्रिय";
-"Fan speed" = "फैन स्पीड";
-"Core clock" = "कोर घड़ी";
-"Memory clock" = "मेमोरी क्लॉक";
 "Utilization" = "उपयोग";
 "Render utilization" = "उपयोग प्रस्तुत करें";
 "Tiler utilization" = "टाइलर उपयोग";
@@ -353,15 +332,12 @@
 "Disk usage" = "डिस्क उपयोग";
 "Total read" = "कुल पढ़ा गया"; // gemma4:31b
 "Total written" = "कुल लिखा गया"; // gemma4:31b
-"Write speed" = "लिखना"; // gemma4:31b
-"Read speed" = "रीड"; // gemma4:31b
 "Drives" = "ड्राइव्स"; // gemma4:31b
 "SMART data" = "SMART डेटा"; // gemma4:31b
 "Power cycles" = "Power cycles";
 "Power on hours" = "Power on hours";
 
 // Sensors
-"Temperature unit" = "तापमान इकाई";
 "Celsius" = "सेल्सियस";
 "Fahrenheit" = "सेल्सियस";
 "Save the fan speed" = "पंखे की गति बचाएं";
@@ -390,11 +366,6 @@
 "Interface" = "इंटरफ़ेस";
 "Physical address" = "भौतिक पता";
 "Refresh" = "ताज़ा करें";
-"Click to copy public IP address" = "सार्वजनिक आईपी पते की प्रतिलिपि बनाने के लिए क्लिक करें";
-"Click to copy local IP address" = "स्थानीय आईपी पते की प्रतिलिपि बनाने के लिए क्लिक करें";
-"Click to copy wifi name" = "वाईफ़ाई नाम कॉपी करने के लिए क्लिक करें";
-"Click to copy mac address" = "मैक पते की प्रतिलिपि बनाने के लिए क्लिक करें";
-"No connection" = "कोई कनेक्शन नहीं";
 "Network interface" = "नेटवर्क इंटरफ़ेस";
 "Total download" = "कुल डाउनलोड";
 "Total upload" = "कुल अपलोड";
@@ -406,12 +377,9 @@
 "Standard" = "मानक";
 "Security" = "सुरक्षा";
 "Channel" = "चैनल";
-"Common scale" = "सामान्य पैमाने";
 "Autodetection" = "ऑटोडिटेक्शन";
 "Widget activation threshold" = "विजेट सक्रियण सीमा";
 "Internet connection" = "इंटरनेट कनेक्शन";
-"Active state color" = "सक्रिय राज्य रंग";
-"Nonactive state color" = "नॉनएक्टिव स्टेट कलर";
 "Connectivity host" = "कनेक्टिविटी होस्ट (आईसीएमपी)";
 "Leave empty to disable the check" = "चेक को अक्षम करने के लिए खाली छोड़ दें";
 "Connectivity history" = "कनेक्टिविटी इतिहास";
@@ -419,11 +387,8 @@
 "Every hour" = "हर घंटे";
 "Every 12 hours" = "हर 12 घंटे";
 "Every 24 hours" = "हर 24 घंटे";
-"Network activity" = "नेटवर्क गतिविधि";
 "Last reset" = "अंतिम रीसेट %0 पहले";
 "Latency" = "विलंबता"; // gemma4:31b
-"Upload speed" = "अपलोड"; // gemma4:31b
-"Download speed" = "डाउनलोड"; // translategemma:4b
 "Address" = "पता"; // translategemma:4b
 "WiFi network" = "WiFi नेटवर्क"; // gemma4:31b
 "Local IP changed" = "स्थानीय IP बदल गया है"; // gemma4:31b
@@ -435,7 +400,6 @@
 "Show country code instead of emoji" = "इमोजी के बजाय देश का कोड दिखाएं"; // gemma4:31b
 
 // Battery
-"Level" = "स्तर";
 "Source" = "स्रोत";
 "AC Power" = "एसी पावर";
 "Battery Power" = "बैटरी पावर";
@@ -467,15 +431,10 @@
 "Last charge" = "अंतिम शुल्क";
 "Capacity" = "क्षमता";
 "current / maximum / designed" = "वर्तमान / अधिकतम / डिजाइन";
-"Low power mode" = "कम शक्ति मोड";
 "Percentage inside the icon" = "आइकन के अंदर प्रतिशत";
-"Colorize battery" = "रंगीन बैटरी";
-"Charging current" = "चार्जिंग करंट"; // translategemma:4b
-"Charging Voltage" = "चार्जिंग वोल्टेज"; // translategemma:4b
 "Charger state inside the battery" = "बैटरी के अंदर चार्जर की स्थिति"; // translategemma:4b
 
 // Bluetooth
-"Battery to show" = "दिखाने के लिए बैटरी";
 "No Bluetooth devices are available" = "कोई ब्लूटूथ डिवाइस उपलब्ध नहीं हैं";
 
 // Clock

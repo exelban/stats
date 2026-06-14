@@ -125,9 +125,9 @@ public class Portal: PortalWrapper {
                     view.stringValue = localizedString("Unknown")
                 }
                 if let addr = value.raddr.v6 {
-                    view.toolTip = "\("\(localizedString("v6")):") \(addr)"
+                    view.toolTip = "v6: \(addr)"
                 } else {
-                    view.toolTip = "\("\(localizedString("v6")):") \(localizedString("Unknown"))"
+                    view.toolTip = "v6: \(localizedString("Unknown"))"
                 }
             }
             

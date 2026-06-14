@@ -59,7 +59,6 @@
 "Center alignment" = "中央揃え";
 "Right alignment" = "右揃え";
 "Dashboard" = "ダッシュボード";
-"Enabled" = "有効";
 "Disabled" = "無効";
 "Silent" = "自動（サイレント）";
 "Units" = "単位";
@@ -83,8 +82,6 @@
 "2 minutes" = "2分"; // translategemma:4b
 "3 minutes" = "3分"; // translategemma:4b
 "10 minutes" = "10分"; // translategemma:4b
-"Import" = "インポート"; // translategemma:4b
-"Export" = "エクスポート"; // translategemma:4b
 "Separator" = "セパレーター"; // gemma4:31b
 "Read" = "読み込み";
 "Write" = "書き込み";
@@ -120,9 +117,6 @@
 "Check for a new version every week (once a week)" = "毎週アップデートを確認する（週1回）";
 "Check for a new version every month (once a month)" = "毎月アップデートを確認する（月1回）";
 "Never check for updates (not recommended)" = "アップデートを確認しない（非推奨）";
-"Anonymous telemetry for better development decisions" = "より良い開発判断のための匿名テレメトリ"; // gemma4:31b
-"Share anonymous telemetry data" = "匿名のテレメトリデータを共有する"; // translategemma:4b
-"Do not share anonymous telemetry data" = "匿名のテレメトリデータを共有しない"; // gemma4:31b
 "The configuration is completed" = "設定が完了しました"; // translategemma:4b
 "finish_setup_message" = "すべての設定が完了しました！"; // gemma4:31b
 
@@ -146,7 +140,6 @@
 "Toggle the module" = "モジュールの切り替え";
 
 // Application settings
-"Update application" = "アプリをアップデートする";
 "Check for updates" = "アップデートの確認頻度";
 "At start" = "起動時";
 "Once per day" = "1日ごと";
@@ -165,7 +158,6 @@
 "Combined modules" = "統合モジュール"; // translategemma:4b
 "Combined details" = "統合された詳細"; // translategemma:4b
 "Spacing" = "間隔"; // translategemma:4b
-"Share anonymous telemetry" = "匿名テレメトリを共有"; // gemma4:31b
 "Choose file" = "ファイルを選択"; // gemma4:31b
 "Stress tests" = "ストレステスト"; // translategemma:4b
 
@@ -197,7 +189,6 @@
 "Colorize" = "カラーで表示";
 "Colorize value" = "数値をカラーで表示";
 "Additional information" = "表示する情報";
-"Reverse values order" = "使用済みを上段に表示";
 "Base" = "単位";
 "Display mode" = "表示形式";
 "One row" = "1行";
@@ -231,7 +222,6 @@
 
 // Module Kit
 "Open module settings" = "このモジュールの設定を開く";
-"Select widget" = "%0ウィジェットを選択";
 "Open widget settings" = "このウィジェットの設定を開く";
 "Update interval" = "更新間隔";
 "Usage history" = "履歴";
@@ -253,7 +243,6 @@
 // Modules
 "Number of top processes" = "表示する上位プロセスの数";
 "Update interval for top processes" = "上位プロセスの更新間隔";
-"Notification level" = "通知レベル";
 "Chart color" = "チャートの色";
 "Main chart scaling" = "メインチャートのスケーリング"; // gemma4:31b
 "Scale value" = "スケール値"; // translategemma:4b
@@ -277,7 +266,6 @@
 "5 minutes" = "5 分";
 "15 minutes" = "15 分";
 "CPU usage threshold" = "CPU使用率のしきい値"; // gemma4:31b
-"CPU usage is" = "CPU使用率は%0です"; // gemma4:31b
 "Efficiency cores" = "高効率コア";
 "Performance cores" = "高性能コア";
 "System color" = "システムカラー"; // gemma4:31b
@@ -300,18 +288,9 @@
 // GPU
 "GPU to show" = "表示する GPU";
 "Show GPU type" = "GPU の種類を表示";
-"GPU enabled" = "GPU 有効";
-"GPU disabled" = "GPU 無効";
-"GPU temperature" = "GPU 温度";
 "GPU utilization" = "GPU 使用率";
-"Vendor" = "製造元";
 "Model" = "モデル";
 "Status" = "状態";
-"Active" = "アクティブ";
-"Non active" = "非アクティブ";
-"Fan speed" = "ファン速度";
-"Core clock" = "コアクロック";
-"Memory clock" = "メモリクロック";
 "Utilization" = "使用率";
 "Render utilization" = "レンダリング";
 "Tiler utilization" = "タイルレンダリング";
@@ -353,15 +332,12 @@
 "Disk usage" = "ディスク使用量"; // translategemma:4b
 "Total read" = "合計読み取り"; // gemma4:31b
 "Total written" = "総書き込み量";
-"Write speed" = "書き込み速度";
-"Read speed" = "読み込み速度";
 "Drives" = "ディスク"; // gemma4:31b
 "SMART data" = "SMARTデータ"; // translategemma:4b
 "Power cycles" = "Power cycles";
 "Power on hours" = "Power on hours";
 
 // Sensors
-"Temperature unit" = "温度単位";
 "Celsius" = "摂氏（℃）";
 "Fahrenheit" = "華氏（℉）";
 "Save the fan speed" = "ファンの速度を保存";
@@ -390,11 +366,6 @@
 "Interface" = "インターフェイス";
 "Physical address" = "MAC アドレス";
 "Refresh" = "更新";
-"Click to copy public IP address" = "クリックしてパブリック IP アドレスをコピー";
-"Click to copy local IP address" = "クリックしてローカル IP アドレスをコピー";
-"Click to copy wifi name" = "クリックして Wi-Fi ネットワーク名をコピー";
-"Click to copy mac address" = "クリックして MAC アドレスをコピー";
-"No connection" = "未接続";
 "Network interface" = "インターフェイス";
 "Total download" = "受信の合計";
 "Total upload" = "送信の合計";
@@ -406,12 +377,9 @@
 "Standard" = "標準"; // translategemma:4b
 "Security" = "セキュリティ"; // translategemma:4b
 "Channel" = "チャンネル"; // translategemma:4b
-"Common scale" = "共通スケール"; // gemma4:31b
 "Autodetection" = "自動検出"; // translategemma:4b
 "Widget activation threshold" = "ウィジェットの有効化しきい値"; // gemma4:31b
 "Internet connection" = "インターネット接続"; // translategemma:4b
-"Active state color" = "アクティブ状態のカラー"; // gemma4:31b
-"Nonactive state color" = "非アクティブ状態の色"; // translategemma:4b
 "Connectivity host" = "接続ホスト"; // translategemma:4b
 "Leave empty to disable the check" = "空欄のままにするとチェックが無効になります"; // gemma4:31b
 "Connectivity history" = "接続履歴"; // translategemma:4b
@@ -419,11 +387,8 @@
 "Every hour" = "1時間ごと"; // gemma4:31b
 "Every 12 hours" = "12時間ごと"; // gemma4:31b
 "Every 24 hours" = "24時間ごと"; // gemma4:31b
-"Network activity" = "ネットワークアクティビティ"; // translategemma:4b
 "Last reset" = "最終リセット %0 前"; // gemma4:31b
 "Latency" = "レイテンシ"; // gemma4:31b
-"Upload speed" = "アップロード"; // translategemma:4b
-"Download speed" = "ダウンロード"; // translategemma:4b
 "Address" = "アドレス";
 "WiFi network" = "WiFiネットワーク"; // gemma4:31b
 "Local IP changed" = "ローカルIPが変更されました"; // gemma4:31b
@@ -435,7 +400,6 @@
 "Show country code instead of emoji" = "絵文字の代わりに国コードを表示"; // gemma4:31b
 
 // Battery
-"Level" = "充電残量";
 "Source" = "電源";
 "AC Power" = "電源アダプタ";
 "Battery Power" = "バッテリー";
@@ -467,15 +431,10 @@
 "Last charge" = "最後の充電から";
 "Capacity" = "容量";
 "current / maximum / designed" = "current / 最大 / 規格";
-"Low power mode" = "低電力モード";
 "Percentage inside the icon" = "アイコン内のパーセンテージ"; // translategemma:4b
-"Colorize battery" = "バッテリーの色付け"; // gemma4:31b
-"Charging current" = "充電電流"; // translategemma:4b
-"Charging Voltage" = "充電電圧"; // translategemma:4b
 "Charger state inside the battery" = "バッテリー内部の充電状態"; // translategemma:4b
 
 // Bluetooth
-"Battery to show" = "バッテリー残量を表示するデバイス";
 "No Bluetooth devices are available" = "利用可能な Bluetooth デバイスがありません";
 
 // Clock

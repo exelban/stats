@@ -59,7 +59,6 @@
 "Center alignment" = "Ortaya hizalı";
 "Right alignment" = "Sağa hizalı";
 "Dashboard" = "Gösterge paneli";
-"Enabled" = "Aktif";
 "Disabled" = "Devre dışı";
 "Silent" = "Sessiz";
 "Units" = "Birimler";
@@ -83,8 +82,6 @@
 "2 minutes" = "2 dakika";
 "3 minutes" = "3 dakika";
 "10 minutes" = "10 dakika";
-"Import" = "İçe aktar";
-"Export" = "Dışa aktar";
 "Separator" = "Ayraç";
 "Read" = "Oku";
 "Write" = "Yaz";
@@ -120,9 +117,6 @@
 "Check for a new version every week (once a week)" = "Güncellemeleri haftada bir defa denetle";
 "Check for a new version every month (once a month)" = "Güncellemeleri ayda bir defa denetle";
 "Never check for updates (not recommended)" = "Güncellemeleri denetleme (önerilmez)";
-"Anonymous telemetry for better development decisions" = "Daha iyi geliştirme kararları için anonim telemetri";
-"Share anonymous telemetry data" = "Anonim telemetri verisi paylaş";
-"Do not share anonymous telemetry data" = "Anonim telemetri verisi paylaşma";
 "The configuration is completed" = "Konfigürasyon tamamlandı";
 "finish_setup_message" = "Her şey hazır! \n Stats açık kaynaklı bir araçtır, Ücretsiz ve hep öyle kalacak. \n Beğendiyseniz projeyi destekleyebilirsiniz, Teşekkürler!";
 
@@ -146,7 +140,6 @@
 "Toggle the module" = "Modülü aç/kapa";
 
 // Application settings
-"Update application" = "Uygulamayı güncelle";
 "Check for updates" = "Güncellemeleri denetle";
 "At start" = "Başlangıçta";
 "Once per day" = "Günlük";
@@ -165,7 +158,6 @@
 "Combined modules" = "Kombine modüller";
 "Combined details" = "Kombine ayrıntılar";
 "Spacing" = "Aralıklı dizme";
-"Share anonymous telemetry" = "Anonim telemetri paylaş";
 "Choose file" = "Dosya seç";
 "Stress tests" = "Stres testleri";
 
@@ -197,7 +189,6 @@
 "Colorize" = "Renklendir";
 "Colorize value" = "Değeri renklendir";
 "Additional information" = "Ek bilgi";
-"Reverse values order" = "Değerler sırasını tersine çevir";
 "Base" = "Temel";
 "Display mode" = "Ekran modu";
 "One row" = "Tek sıra";
@@ -231,7 +222,6 @@
 
 // Module Kit
 "Open module settings" = "Modül ayarlarını aç";
-"Select widget" = "%0 widgetını seç";
 "Open widget settings" = "Widget ayarlarını aç";
 "Update interval" = "Güncelleme aralığı";
 "Usage history" = "Kullanım geçmişi";
@@ -253,7 +243,6 @@
 // Modules
 "Number of top processes" = "Zirve işlemlerin sayısı";
 "Update interval for top processes" = "Zirve işlemler için güncelleme aralığı";
-"Notification level" = "Bildirim düzeyi";
 "Chart color" = "Çizelge rengi";
 "Main chart scaling" = "Ana çizelge ölçeklendirmesi";
 "Scale value" = "Ölçekleme değeri";
@@ -277,7 +266,6 @@
 "5 minutes" = "5 dakika";
 "15 minutes" = "15 dakika";
 "CPU usage threshold" = "CPU kullanım eşiği";
-"CPU usage is" = "CPU kullanımı %0";
 "Efficiency cores" = "Verimlilik Çekirdeği";
 "Performance cores" = "Performans Çekirdeği";
 "System color" = "Sistem rengi";
@@ -300,18 +288,9 @@
 // GPU
 "GPU to show" = "Gösterilecek GPU";
 "Show GPU type" = "GPU türünü göster";
-"GPU enabled" = "GPU devrede";
-"GPU disabled" = "GPU devre dışı";
-"GPU temperature" = "GPU sıcaklığı";
 "GPU utilization" = "GPU kullanımı";
-"Vendor" = "Üretici";
 "Model" = "Model";
 "Status" = "Durum";
-"Active" = "Aktif";
-"Non active" = "Aktif değil";
-"Fan speed" = "Fan hızı";
-"Core clock" = "Çekirdek frekansı";
-"Memory clock" = "Bellek frekansı";
 "Utilization" = "Kullanım";
 "Render utilization" = "İşleme kullanımı";
 "Tiler utilization" = "Tiler kullanımı";
@@ -353,15 +332,12 @@
 "Disk usage" = "Disk kullanımı";
 "Total read" = "Toplam okuma";
 "Total written" = "Toplam yazılan";
-"Write speed" = "Yazma hızı";
-"Read speed" = "Okuma hızı";
 "Drives" = "Sürücüler";
 "SMART data" = "SMART verisi";
 "Power cycles" = "Power cycles";
 "Power on hours" = "Power on hours";
 
 // Sensors
-"Temperature unit" = "Sıcaklık birimi";
 "Celsius" = "Santigrat";
 "Fahrenheit" = "Fahrenhayt";
 "Save the fan speed" = "Fan hızını kaydet";
@@ -390,11 +366,6 @@
 "Interface" = "Arayüz";
 "Physical address" = "Fiziksel adres";
 "Refresh" = "Yenile";
-"Click to copy public IP address" = "Açık IP adresini kopyalamak için tıklayın";
-"Click to copy local IP address" = "Yerel IP adresini kopyalamak için tıklayın";
-"Click to copy wifi name" = "Wifi adını kopyalamak için tıklayın";
-"Click to copy mac address" = "Mac adresini kopyalamak için tıklayın";
-"No connection" = "Bağlantı yok";
 "Network interface" = "Ağ arayüzü";
 "Total download" = "Toplam indirme";
 "Total upload" = "Toplam yükleme";
@@ -406,12 +377,9 @@
 "Standard" = "Standart";
 "Security" = "Güvenlik";
 "Channel" = "Kanal";
-"Common scale" = "Ortak ölçek";
 "Autodetection" = "Otomatik algılama";
 "Widget activation threshold" = "Widget aktivasyon eşiği";
 "Internet connection" = "Internet bağlantısı";
-"Active state color" = "Etkin durum rengi";
-"Nonactive state color" = "Etkin olmayan durum rengi";
 "Connectivity host" = "Bağlantı sunucusu";
 "Leave empty to disable the check" = "Kontrolü devre dışı bırakmak için boş bırakın";
 "Connectivity history" = "Bağlantı geçmişi";
@@ -419,11 +387,8 @@
 "Every hour" = "Her saat";
 "Every 12 hours" = "Her 12 saat";
 "Every 24 hours" = "Her 24 saat";
-"Network activity" = "Ağ aktivitesi";
 "Last reset" = "Son sıfırlama %0 önce";
 "Latency" = "Gecikme";
-"Upload speed" = "Yükleme hızı";
-"Download speed" = "İndirme hızı";
 "Address" = "Adres";
 "WiFi network" = "WiFi ağı";
 "Local IP changed" = "Yerel IP değişti";
@@ -435,7 +400,6 @@
 "Show country code instead of emoji" = "Emoji yerine ülke kodu göster"; // gemma4:31b
 
 // Battery
-"Level" = "Doluluk";
 "Source" = "Kaynak";
 "AC Power" = "Fişe takılı";
 "Battery Power" = "Batarya gücü";
@@ -467,15 +431,10 @@
 "Last charge" = "Son şarj";
 "Capacity" = "Kapasite";
 "current / maximum / designed" = "mevcut / maksimum / tasarlanmış";
-"Low power mode" = "Düşük güç modu";
 "Percentage inside the icon" = "Simgenin içinde yüzde";
-"Colorize battery" = "Pili renklendir";
-"Charging current" = "Şarj akımı";
-"Charging Voltage" = "Şarj Voltajı";
 "Charger state inside the battery" = "Pil içindeki şarj cihazının durumu";
 
 // Bluetooth
-"Battery to show" = "Gösterilecek pil";
 "No Bluetooth devices are available" = "Herhangi bir Bluetooth cihazı mevcut değil";
 
 // Clock

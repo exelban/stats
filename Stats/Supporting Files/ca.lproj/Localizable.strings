@@ -59,7 +59,6 @@
 "Center alignment" = "Centre";
 "Right alignment" = "Dreta";
 "Dashboard" = "Panell";
-"Enabled" = "Activat";
 "Disabled" = "Desactivat";
 "Silent" = "Silenci";
 "Units" = "Unitats";
@@ -83,8 +82,6 @@
 "2 minutes" = "2 minuts";
 "3 minutes" = "3 minuts";
 "10 minutes" = "10 minuts";
-"Import" = "Importar";
-"Export" = "Exportar";
 "Separator" = "Separador"; // translategemma:4b
 "Read" = "Lectura"; // gemma4:31b
 "Write" = "Escritura"; // gemma4:31b
@@ -120,9 +117,6 @@
 "Check for a new version every week (once a week)" = "Comprovar noves versions cada setmana (una vegada a la setmana)";
 "Check for a new version every month (once a month)" = "Comprovar noves versions cada mes (una vegada al mes)";
 "Never check for updates (not recommended)" = "No comprovar mai noves versions (no recomanat)";
-"Anonymous telemetry for better development decisions" = "Telemetria anònima per proporcionar millors decisions pels desenvolupadors";
-"Share anonymous telemetry data" = "Compartir telemetria anònima";
-"Do not share anonymous telemetry data" = "No compartir telemetria anònima";
 "The configuration is completed" = "La configuració s'ha completat"; // gemma4:31b
 "finish_setup_message" = "Tot està configurat! \n Stats és una eina de codi lliure, és gratuït i sempre ho serà. \n Si el gaudeixes pots contribuir al projecte, sempre és benvingut!";
 
@@ -146,7 +140,6 @@
 "Toggle the module" = "Alternar el mòdul"; // gemma4:31b
 
 // Application settings
-"Update application" = "Actualitza l'aplicació";
 "Check for updates" = "Busca actualitzacions";
 "At start" = "A l'inici";
 "Once per day" = "Un cop al dia";
@@ -165,7 +158,6 @@
 "Combined modules" = "Mòduls combinats";
 "Combined details" = "Detalls combinats";
 "Spacing" = "Espaiat";
-"Share anonymous telemetry" = "Comparteix telemetria anònima";
 "Choose file" = "Tria el fitxer"; // gemma4:31b
 "Stress tests" = "Proves d'estress"; // gemma4:31b
 
@@ -197,7 +189,6 @@
 "Colorize" = "Acoloreix";
 "Colorize value" = "Valor de l'acoloriment";
 "Additional information" = "Informació addicional";
-"Reverse values order" = "Invertir l'ordre dels valors";
 "Base" = "Base";
 "Display mode" = "Mode de visualització";
 "One row" = "Una fila";
@@ -231,7 +222,6 @@
 
 // Module Kit
 "Open module settings" = "Obre la configuració del mòdul";
-"Select widget" = "Selecciona el widget %0";
 "Open widget settings" = "Obre la configuració del widget";
 "Update interval" = "Freqüència de refresc";
 "Usage history" = "Historial d'ús";
@@ -253,7 +243,6 @@
 // Modules
 "Number of top processes" = "Nombre de processos principals";
 "Update interval for top processes" = "Freqüència de refresc per als processos principals";
-"Notification level" = "Nivell de notificació";
 "Chart color" = "Color del gràfic";
 "Main chart scaling" = "Escala del gràfic principal";
 "Scale value" = "Valor d'escala";
@@ -277,7 +266,6 @@
 "5 minutes" = "5 minuts";
 "15 minutes" = "15 minuts";
 "CPU usage threshold" = "Límit d'ús de la CPU";
-"CPU usage is" = "L'ús de la CPU és %0";
 "Efficiency cores" = "Nuclis d'eficiència";
 "Performance cores" = "Nuclis de rendiment";
 "System color" = "Color del sistema";
@@ -300,18 +288,9 @@
 // GPU
 "GPU to show" = "GPU a mostrar";
 "Show GPU type" = "Mostra el tipus de GPU";
-"GPU enabled" = "GPU activada";
-"GPU disabled" = "GPU desactivada";
-"GPU temperature" = "Temperatura de la GPU";
 "GPU utilization" = "Ús de la GPU";
-"Vendor" = "Fabricant";
 "Model" = "Model";
 "Status" = "Estat";
-"Active" = "Activa";
-"Non active" = "Inactiva";
-"Fan speed" = "Velocitat del ventilador";
-"Core clock" = "Rellotge del nucli";
-"Memory clock" = "Rellotge de la memòria";
 "Utilization" = "Ús";
 "Render utilization" = "Utilització del Render";
 "Tiler utilization" = "Utilització del Tiler";
@@ -353,15 +332,12 @@
 "Disk usage" = "Ús del disc";
 "Total read" = "Total llegit";
 "Total written" = "Total escrit";
-"Write speed" = "Velocitat de escriptura";
-"Read speed" = "Velocitat de lectura";
 "Drives" = "Discos"; // translategemma:4b
 "SMART data" = "Dades SMART"; // translategemma:4b
 "Power cycles" = "Power cycles";
 "Power on hours" = "Power on hours";
 
 // Sensors
-"Temperature unit" = "Unitat de temperatura";
 "Celsius" = "Celsius";
 "Fahrenheit" = "Gra Celsius"; // translategemma:4b
 "Save the fan speed" = "Guarda la velocitat del ventilador";
@@ -390,11 +366,6 @@
 "Interface" = "Interfície";
 "Physical address" = "Direcció física";
 "Refresh" = "Actualitza";
-"Click to copy public IP address" = "Clica per a copiar la direcció IP pública";
-"Click to copy local IP address" = "Clica per a copiar la direcció IP local";
-"Click to copy wifi name" = "Clica per a copiar el nom de la xarxa WiFi";
-"Click to copy mac address" = "Clica per a copiar la direcció MAC";
-"No connection" = "Sense connexió";
 "Network interface" = "Interfície de xarxa";
 "Total download" = "Baixada total";
 "Total upload" = "Càrrega total";
@@ -406,12 +377,9 @@
 "Standard" = "Estàndar";
 "Security" = "Seguretat";
 "Channel" = "Canal";
-"Common scale" = "Escala comuna";
 "Autodetection" = "Autodetecció";
 "Widget activation threshold" = "Límit d'activació del giny";
 "Internet connection" = "Connexió a internet";
-"Active state color" = "Color per l'estat actiu";
-"Nonactive state color" = "Color per l'estat inactiu";
 "Connectivity host" = "Connectivitat host";
 "Leave empty to disable the check" = "Deixa en blanc per desactivar el check";
 "Connectivity history" = "Historial de connectivitat";
@@ -419,11 +387,8 @@
 "Every hour" = "Cada hora";
 "Every 12 hours" = "Cada 12 hores";
 "Every 24 hours" = "Cada 24 hores";
-"Network activity" = "Activitat de la xarxa";
 "Last reset" = "L'últim reinici va ser fa %0";
 "Latency" = "Latència";
-"Upload speed" = "Velocitat de pujada";
-"Download speed" = "Velocitat de baixada";
 "Address" = "Adreça"; // translategemma:4b
 "WiFi network" = "Xarxa WiFi"; // gemma4:31b
 "Local IP changed" = "L'IP local ha canviat"; // gemma4:31b
@@ -435,7 +400,6 @@
 "Show country code instead of emoji" = "Mostrar el codi de país en lloc de l'emoji"; // gemma4:31b
 
 // Battery
-"Level" = "Nivell";
 "Source" = "Font";
 "AC Power" = "Alimentació";
 "Battery Power" = "Alimentat per bateria";
@@ -467,15 +431,10 @@
 "Last charge" = "Última càrrega";
 "Capacity" = "Capacitat";
 "current / maximum / designed" = "actual / màxima / dissenyada";
-"Low power mode" = "Mode de baix consum";
 "Percentage inside the icon" = "Percentatge dins de la icona";
-"Colorize battery" = "Acoloreix la bateria";
-"Charging current" = "Corrent de càrrega";
-"Charging Voltage" = "Voltatge de càrrega";
 "Charger state inside the battery" = "Estat de càrrega dins de la bateria"; // gemma4:31b
 
 // Bluetooth
-"Battery to show" = "Bateria a mostrar";
 "No Bluetooth devices are available" = "No hi han dispositius Bluetooth disponibles";
 
 // Clock

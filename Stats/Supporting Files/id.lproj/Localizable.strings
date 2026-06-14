@@ -59,7 +59,6 @@
 "Center alignment" = "Alignment tengah";
 "Right alignment" = "Alignment kanan";
 "Dashboard" = "Dasbor";
-"Enabled" = "Aktif"; // gemma4:31b
 "Disabled" = "Dinonaktifkan";
 "Silent" = "Hening";
 "Units" = "Unit";
@@ -83,8 +82,6 @@
 "2 minutes" = "2 menit"; // translategemma:4b
 "3 minutes" = "3 menit"; // translategemma:4b
 "10 minutes" = "10 menit"; // translategemma:4b
-"Import" = "Impor"; // translategemma:4b
-"Export" = "Ekspor"; // translategemma:4b
 "Separator" = "Pemisah"; // translategemma:4b
 "Read" = "Baca"; // translategemma:4b
 "Write" = "Tulis"; // translategemma:4b
@@ -120,9 +117,6 @@
 "Check for a new version every week (once a week)" = "Periksa versi baru setiap minggu (sekali seminggu)"; // gemma4:31b
 "Check for a new version every month (once a month)" = "Periksa versi baru setiap bulan (sekali sebulan)"; // gemma4:31b
 "Never check for updates (not recommended)" = "Jangan pernah periksa pembaruan (tidak direkomendasikan)"; // gemma4:31b
-"Anonymous telemetry for better development decisions" = "Telemetri anonim untuk keputusan pengembangan yang lebih baik"; // gemma4:31b
-"Share anonymous telemetry data" = "Bagikan data telemetri anonim"; // translategemma:4b
-"Do not share anonymous telemetry data" = "Jangan bagikan data telemetri anonim"; // gemma4:31b
 "The configuration is completed" = "Konfigurasi telah selesai"; // gemma4:31b
 "finish_setup_message" = "Semuanya sudah siap! \\n Stats adalah alat open source, gratis dan akan selalu gratis. \\n Jika Anda menyukainya, Anda dapat mendukung proyek ini, hal ini selalu dihargai!"; // gemma4:31b
 
@@ -146,7 +140,6 @@
 "Toggle the module" = "Alihkan modul"; // gemma4:31b
 
 // Application settings
-"Update application" = "Perbarui aplikasi";
 "Check for updates" = "Periksa pembaruan";
 "At start" = "Saat memulai";
 "Once per day" = "Sekali setiap hari";
@@ -165,7 +158,6 @@
 "Combined modules" = "Modul gabungan"; // gemma4:31b
 "Combined details" = "Detail gabungan"; // gemma4:31b
 "Spacing" = "Jarak"; // translategemma:4b
-"Share anonymous telemetry" = "Bagikan telemetri anonim"; // gemma4:31b
 "Choose file" = "Pilih file"; // translategemma:4b
 "Stress tests" = "Uji stres"; // gemma4:31b
 
@@ -197,7 +189,6 @@
 "Colorize" = "Warnai"; // gemma4:31b
 "Colorize value" = "Warnai nilai"; // gemma4:31b
 "Additional information" = "Informasi tambahan";
-"Reverse values order" = "Balikkan posisi nilai";
 "Base" = "Basis";
 "Display mode" = "Mode tampilan";
 "One row" = "Satu baris";
@@ -231,7 +222,6 @@
 
 // Module Kit
 "Open module settings" = "Buka pengaturan modul";
-"Select widget" = "%0 widget dipilih";
 "Open widget settings" = "Buka pengaturan widget";
 "Update interval" = "Perbarui waktu jeda";
 "Usage history" = "Riwayat penggunaan";
@@ -253,7 +243,6 @@
 // Modules
 "Number of top processes" = "Jumlah dari proses teratas";
 "Update interval for top processes" = "Pembaruan waktu jeda dari proses teratas";
-"Notification level" = "Tingkat pemberitahuan";
 "Chart color" = "Warna bagan";
 "Main chart scaling" = "Penskalaan grafik utama"; // gemma4:31b
 "Scale value" = "Nilai skala"; // translategemma:4b
@@ -277,7 +266,6 @@
 "5 minutes" = "5 menit";
 "15 minutes" = "15 menit";
 "CPU usage threshold" = "Ambang batas penggunaan CPU"; // gemma4:31b
-"CPU usage is" = "Penggunaan CPU adalah %0"; // translategemma:4b
 "Efficiency cores" = "Inti efisiensi"; // translategemma:4b
 "Performance cores" = "Inti performa"; // gemma4:31b
 "System color" = "Warna sistem"; // translategemma:4b
@@ -300,18 +288,9 @@
 // GPU
 "GPU to show" = "GPU yang ditampilkan";
 "Show GPU type" = "Tampilkan jenis GPU";
-"GPU enabled" = "GPU dinyalakan";
-"GPU disabled" = "GPU dinonaktifkan";
-"GPU temperature" = "Suhu GPU";
 "GPU utilization" = "Pemanfaatan GPU";
-"Vendor" = "Produsen"; // gemma4:31b
 "Model" = "Model";
 "Status" = "Status";
-"Active" = "Aktif";
-"Non active" = "Tidak aktif";
-"Fan speed" = "Kecepatan kipas";
-"Core clock" = "Clock inti"; // gemma4:31b
-"Memory clock" = "Memori clock";
 "Utilization" = "Pemanfaatan";
 "Render utilization" = "Pemanfaatan render";
 "Tiler utilization" = "Pemanfaatan tiler";
@@ -353,15 +332,12 @@
 "Disk usage" = "Penggunaan disk"; // translategemma:4b
 "Total read" = "Total dibaca"; // translategemma:4b
 "Total written" = "Total ditulis"; // gemma4:31b
-"Write speed" = "Tulis"; // translategemma:4b
-"Read speed" = "Baca"; // translategemma:4b
 "Drives" = "Drive"; // translategemma:4b
 "SMART data" = "Data SMART"; // translategemma:4b
 "Power cycles" = "Power cycles";
 "Power on hours" = "Power on hours";
 
 // Sensors
-"Temperature unit" = "Unit suhu";
 "Celsius" = "Celsius";
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Simpan kecepatan kipas";
@@ -390,11 +366,6 @@
 "Interface" = "Antarmuka";
 "Physical address" = "Alamat fisik";
 "Refresh" = "Segarkan";
-"Click to copy public IP address" = "Klik untuk menyalin alamat IP publik";
-"Click to copy local IP address" = "Klik untuk menyalin alamat IP lokal";
-"Click to copy wifi name" = "Klik untuk menyalin nama wifi";
-"Click to copy mac address" = "Klik untuk menyalin alamat mac";
-"No connection" = "Tidak ada koneksi";
 "Network interface" = "Antarmuka jaringan";
 "Total download" = "Total diunduh";
 "Total upload" = "Total diunggah";
@@ -406,12 +377,9 @@
 "Standard" = "Standar"; // translategemma:4b
 "Security" = "Keamanan"; // translategemma:4b
 "Channel" = "Saluran"; // translategemma:4b
-"Common scale" = "Skala umum"; // translategemma:4b
 "Autodetection" = "Deteksi otomatis"; // translategemma:4b
 "Widget activation threshold" = "Ambang batas aktivasi widget"; // gemma4:31b
 "Internet connection" = "Koneksi internet"; // translategemma:4b
-"Active state color" = "Warna status aktif"; // gemma4:31b
-"Nonactive state color" = "Warna status tidak aktif"; // gemma4:31b
 "Connectivity host" = "Host konektivitas"; // gemma4:31b
 "Leave empty to disable the check" = "Biarkan kosong untuk menonaktifkan pemeriksaan"; // gemma4:31b
 "Connectivity history" = "Riwayat konektivitas"; // gemma4:31b
@@ -419,11 +387,8 @@
 "Every hour" = "Setiap jam"; // translategemma:4b
 "Every 12 hours" = "Setiap 12 jam"; // translategemma:4b
 "Every 24 hours" = "Setiap 24 jam"; // translategemma:4b
-"Network activity" = "Aktivitas jaringan"; // translategemma:4b
 "Last reset" = "Reset terakhir %0 yang lalu"; // gemma4:31b
 "Latency" = "Latensi"; // translategemma:4b
-"Upload speed" = "Unggah"; // translategemma:4b
-"Download speed" = "Unduh"; // translategemma:4b
 "Address" = "Alamat"; // translategemma:4b
 "WiFi network" = "Jaringan WiFi"; // translategemma:4b
 "Local IP changed" = "IP lokal telah berubah"; // gemma4:31b
@@ -435,7 +400,6 @@
 "Show country code instead of emoji" = "Tampilkan kode negara alih-alih emoji"; // gemma4:31b
 
 // Battery
-"Level" = "Tingkat"; // translategemma:4b
 "Source" = "Sumber";
 "AC Power" = "Daya AC";
 "Battery Power" = "Daya baterai";
@@ -467,15 +431,10 @@
 "Last charge" = "Terakhir diisi";
 "Capacity" = "Kapasitas";
 "current / maximum / designed" = "current / maksimal / dirancang";
-"Low power mode" = "Mode daya rendah"; // gemma4:31b
 "Percentage inside the icon" = "Persentase di dalam ikon"; // translategemma:4b
-"Colorize battery" = "Warnai baterai"; // gemma4:31b
-"Charging current" = "Arus pengisian"; // translategemma:4b
-"Charging Voltage" = "Tegangan pengisian"; // translategemma:4b
 "Charger state inside the battery" = "Status pengisian daya di dalam baterai"; // translategemma:4b
 
 // Bluetooth
-"Battery to show" = "Baterai untuk ditampilkan";
 "No Bluetooth devices are available" = "Tidak ada perangkat bluetooth yang tersedia";
 
 // Clock

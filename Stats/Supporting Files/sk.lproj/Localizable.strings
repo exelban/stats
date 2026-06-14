@@ -59,7 +59,6 @@
 "Center alignment" = "Zarovnať na stred";
 "Right alignment" = "Zarovnať doprava";
 "Dashboard" = "Ovládací panel";
-"Enabled" = "Povolené";
 "Disabled" = "Zakázané";
 "Silent" = "Tichý";
 "Units" = "Jednotky";
@@ -83,8 +82,6 @@
 "2 minutes" = "2 minúty"; // translategemma:4b
 "3 minutes" = "3 minúty"; // translategemma:4b
 "10 minutes" = "10 minút"; // translategemma:4b
-"Import" = "Import";
-"Export" = "Export";
 "Separator" = "Oddelovač"; // gemma4:31b
 "Read" = "Čítanie"; // gemma4:31b
 "Write" = "Zápis"; // gemma4:31b
@@ -120,9 +117,6 @@
 "Check for a new version every week (once a week)" = "Kontrola novej verzie každý týždeň (raz týždenne)";
 "Check for a new version every month (once a month)" = "Kontrola novej verzie každý mesiac (raz mesačne)";
 "Never check for updates (not recommended)" = "Nikdy nekontrolovať aktualizácie (neodporúča sa)";
-"Anonymous telemetry for better development decisions" = "Anonymná telemetria pre lepšie rozhodnutia pri vývoji"; // gemma4:31b
-"Share anonymous telemetry data" = "Zdieľať anonymné telemetrické údaje"; // gemma4:31b
-"Do not share anonymous telemetry data" = "Nezdieľať anonymné telemetrické údaje"; // gemma4:31b
 "The configuration is completed" = "Konfigurácia je dokončená";
 "finish_setup_message" = "Všetko je pripravené! \n Stats je open source nástroj, který je zadarmo a vždy bude. \n Ak sa vám páči, môžete projekt podporiť, ceníme si to!";
 
@@ -146,7 +140,6 @@
 "Toggle the module" = "Prepnúť modul"; // gemma4:31b
 
 // Application settings
-"Update application" = "Aktualizovať aplikáciu";
 "Check for updates" = "Skontrolovať aktualizácie";
 "At start" = "Pri štarte";
 "Once per day" = "Raz denne";
@@ -165,7 +158,6 @@
 "Combined modules" = "Kombinovať moduly";
 "Combined details" = "Kombinované detaily"; // gemma4:31b
 "Spacing" = "Rozostup"; // translategemma:4b
-"Share anonymous telemetry" = "Zdieľať anonymnú telemetriu"; // gemma4:31b
 "Choose file" = "Vybrať súbor"; // gemma4:31b
 "Stress tests" = "Stresové testy"; // gemma4:31b
 
@@ -197,7 +189,6 @@
 "Colorize" = "Vyfarbiť";
 "Colorize value" = "Vyfarbiť hodnotu";
 "Additional information" = "Ďalšie informácie";
-"Reverse values order" = "Obrátené poradie hodnôt";
 "Base" = "Základ";
 "Display mode" = "Režim zobrazenia";
 "One row" = "Jeden riadok";
@@ -231,7 +222,6 @@
 
 // Module Kit
 "Open module settings" = "Otvoriť nastavenia modulu";
-"Select widget" = "Vyber widget %0";
 "Open widget settings" = "Otvoriť nastavenie widgetu";
 "Update interval" = "Interval aktualizácie";
 "Usage history" = "História využitia";
@@ -253,7 +243,6 @@
 // Modules
 "Number of top processes" = "Počet top procesov";
 "Update interval for top processes" = "Interval aktualizácie pre top procesy";
-"Notification level" = "Úroveň upozornenia";
 "Chart color" = "Farba grafu";
 "Main chart scaling" = "Škálovanie hlavného grafu"; // gemma4:31b
 "Scale value" = "Hodnota škály"; // gemma4:31b
@@ -277,7 +266,6 @@
 "5 minutes" = "5 minút";
 "15 minutes" = "15 minút";
 "CPU usage threshold" = "Prahová hodnota využitia CPU";
-"CPU usage is" = "Využitie procesoru je %0";
 "Efficiency cores" = "Efektívne jadrá";
 "Performance cores" = "Výkonné jadrá";
 "System color" = "Systém";
@@ -300,18 +288,9 @@
 // GPU
 "GPU to show" = "Zobraziť GPU";
 "Show GPU type" = "Zobraziť typ GPU";
-"GPU enabled" = "GPU aktivované";
-"GPU disabled" = "GPU deaktivované";
-"GPU temperature" = "Teplota GPU";
 "GPU utilization" = "Využitie GPU";
-"Vendor" = "Dodávateľ";
 "Model" = "Štýl"; // translategemma:4b
 "Status" = "Stav"; // gemma4:31b
-"Active" = "Aktívne";
-"Non active" = "Neaktívne";
-"Fan speed" = "Rýchlosť ventilátora";
-"Core clock" = "Takt jadra";
-"Memory clock" = "Takt pamäte";
 "Utilization" = "Využitie";
 "Render utilization" = "Využitie renderovania";
 "Tiler utilization" = "Využitie tilingu";
@@ -353,15 +332,12 @@
 "Disk usage" = "Využitie disku"; // gemma4:31b
 "Total read" = "Celkom prečítané"; // gemma4:31b
 "Total written" = "Celkový zápis"; // gemma4:31b
-"Write speed" = "Zápis"; // gemma4:31b
-"Read speed" = "Čítanie"; // gemma4:31b
 "Drives" = "Disky"; // gemma4:31b
 "SMART data" = "SMART údaje"; // gemma4:31b
 "Power cycles" = "Power cycles";
 "Power on hours" = "Power on hours";
 
 // Sensors
-"Temperature unit" = "Temperature unit";
 "Celsius" = "Celsius";
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Save the fan speed";
@@ -381,7 +357,6 @@
 "Right fan" = "Right";
 "Fastest fan" = "Fastest";
 "Sensor to show" = "Sensor to show";
-"Temperature unit" = "Jednotka teploty";
 "Celsius" = "Celcius"; // translategemma:4b
 "Uploading" = "Upload";
 "Downloading" = "Download";
@@ -390,11 +365,6 @@
 "Interface" = "Interface";
 "Physical address" = "Physical address";
 "Refresh" = "Refresh";
-"Click to copy public IP address" = "Click to copy public IP address";
-"Click to copy local IP address" = "Click to copy local IP address";
-"Click to copy wifi name" = "Click to copy wifi name";
-"Click to copy mac address" = "Click to copy mac address";
-"No connection" = "No connection";
 "Network interface" = "Network interface";
 "Total download" = "Total download";
 "Total upload" = "Total upload";
@@ -406,12 +376,9 @@
 "Standard" = "Standard";
 "Security" = "Security";
 "Channel" = "Channel";
-"Common scale" = "Common scale";
 "Autodetection" = "Autodetection";
 "Widget activation threshold" = "Widget activation threshold";
 "Internet connection" = "Internet connection";
-"Active state color" = "Active state color";
-"Nonactive state color" = "Nonactive state color";
 "Connectivity host" = "Connectivity host";
 "Leave empty to disable the check" = "Leave empty to disable the check";
 "Connectivity history" = "Connectivity history";
@@ -419,11 +386,8 @@
 "Every hour" = "Every hour";
 "Every 12 hours" = "Every 12 hours";
 "Every 24 hours" = "Every 24 hours";
-"Network activity" = "Network activity";
 "Last reset" = "Last reset %0 ago";
 "Latency" = "Latency";
-"Upload speed" = "Upload";
-"Download speed" = "Download";
 "Address" = "Address";
 "WiFi network" = "WiFi network";
 "Local IP changed" = "Local IP has changed";
@@ -435,7 +399,6 @@
 "Show country code instead of emoji" = "Show country code instead of emoji";
 "Fahrenheit" = "Farenhajm"; // translategemma:4b
 "Save the fan speed" = "Uložiť rýchlosť ventilátora";
-"Level" = "Level";
 "Source" = "Source";
 "AC Power" = "AC Power";
 "Battery Power" = "Battery Power";
@@ -467,15 +430,10 @@
 "Last charge" = "Last charge";
 "Capacity" = "Capacity";
 "current / maximum / designed" = "current / maximum / designed";
-"Low power mode" = "Low power mode";
 "Percentage inside the icon" = "Percentage inside the icon";
-"Colorize battery" = "Colorize battery";
-"Charging current" = "Charging current";
-"Charging Voltage" = "Charging voltage";
 "Charger state inside the battery" = "Charger state inside the battery";
 "Fan" = "Ventilátor";
 "HID sensors" = "HID senzory";
-"Battery to show" = "Battery to show";
 "No Bluetooth devices are available" = "No Bluetooth devices are available";
 "Synchronize fan's control" = "Synchronizácia ovládania ventilátora";
 "Current" = "Prúd";
@@ -540,11 +498,6 @@
 "Interface" = "Rozhranie";
 "Physical address" = "Fyzická adresa";
 "Refresh" = "Obnoviť";
-"Click to copy public IP address" = "Kliknutím skopírujete verejnú IP adresu";
-"Click to copy local IP address" = "Kliknutím skopírujete lokálnu IP adresu";
-"Click to copy wifi name" = "Kliknutím skopírujete názov WIFI";
-"Click to copy mac address" = "Kliknutím skopírujete adresu MAC";
-"No connection" = "Žiadne pripojenie";
 "Network interface" = "Sieťové rozhranie";
 "Total download" = "Celkom stiahnuté";
 "Total upload" = "Celkom odoslané";
@@ -556,12 +509,9 @@
 "Standard" = "Štandard";
 "Security" = "Zabezpečenie";
 "Channel" = "Kanál";
-"Common scale" = "Spoločná stupnice";
 "Autodetection" = "Automatická detekcia";
 "Widget activation threshold" = "Prah aktivácie widgetu";
 "Internet connection" = "Pripojenie k internetu";
-"Active state color" = "Farba aktívneho stavu";
-"Nonactive state color" = "Farba neaktívneho stavu";
 "Connectivity host" = "Hostiteľ pripojenia";
 "Leave empty to disable the check" = "Ponechajte prázdne, ak chcete vypnúť kontrolu";
 "Connectivity history" = "História pripojenosti"; // translategemma:4b
@@ -569,11 +519,8 @@
 "Every hour" = "Každú hodinu"; // translategemma:4b
 "Every 12 hours" = "Každých 12 hodín"; // translategemma:4b
 "Every 24 hours" = "Každých 24 hodín"; // translategemma:4b
-"Network activity" = "Aktivity siete"; // translategemma:4b
 "Last reset" = "Posledné zresetovanie bolo pred %0 dňami."; // translategemma:4b
 "Latency" = "Latencia"; // translategemma:4b
-"Upload speed" = "Nahrať"; // translategemma:4b
-"Download speed" = "Stiahnuť"; // translategemma:4b
 "Address" = "Adresa"; // translategemma:4b
 "WiFi network" = "WiFi sieť"; // translategemma:4b
 "Local IP changed" = "Lokálna IP adresa bola zmenená"; // translategemma:4b
@@ -585,7 +532,6 @@
 "Show country code instead of emoji" = "Zobrazte kód krajiny namiesto emoji"; // translategemma:4b
 
 // Battery
-"Level" = "Úroveň";
 "Source" = "Zdroj";
 "AC Power" = "Napájanie zo siete";
 "Battery Power" = "Napájanie z batérie";
@@ -617,15 +563,10 @@
 "Last charge" = "Posledné nabíjanie";
 "Capacity" = "Kapacita";
 "current / maximum / designed" = "aktuálne / maximálne / projektované";
-"Low power mode" = "Režim nízkej spotreby";
 "Percentage inside the icon" = "Percentá vo vnútri ikony";
-"Colorize battery" = "Farbi batériu"; // translategemma:4b
-"Charging current" = "Prúd nabíjačky"; // translategemma:4b
-"Charging Voltage" = "Napäť pri nabíjaní"; // translategemma:4b
 "Charger state inside the battery" = "Stav nabíjačky vo vnútri batérie"; // translategemma:4b
 
 // Bluetooth
-"Battery to show" = "Zobraziť batériu";
 "No Bluetooth devices are available" = "Nie sú k dispozícii žiadne zariadenia Bluetooth";
 
 // Clock

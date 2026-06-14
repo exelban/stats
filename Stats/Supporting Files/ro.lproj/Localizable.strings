@@ -59,7 +59,6 @@
 "Center alignment" = "Centru"; // translategemma:4b
 "Right alignment" = "Dreapta"; // gemma4:31b
 "Dashboard" = "Tablou de bord"; // gemma4:31b
-"Enabled" = "Activat"; // translategemma:4b
 "Disabled" = "Dezactivat"; // gemma4:31b
 "Silent" = "Silențios"; // translategemma:4b
 "Units" = "Unități"; // translategemma:4b
@@ -83,8 +82,6 @@
 "2 minutes" = "2 minute"; // translategemma:4b
 "3 minutes" = "3 minute"; // translategemma:4b
 "10 minutes" = "10 minute"; // translategemma:4b
-"Import" = "Import";
-"Export" = "Export";
 "Separator" = "Delimitor"; // translategemma:4b
 "Read" = "Citire"; // gemma4:31b
 "Write" = "Scriere"; // gemma4:31b
@@ -120,9 +117,6 @@
 "Check for a new version every week (once a week)" = "Verifică dacă există o versiune nouă în fiecare săptămână (o dată pe săptămână)"; // gemma4:31b
 "Check for a new version every month (once a month)" = "Verifică dacă există o versiune nouă în fiecare lună (o dată pe lună)"; // gemma4:31b
 "Never check for updates (not recommended)" = "Nu verifica niciodată actualizările (nu este recomandat)"; // gemma4:31b
-"Anonymous telemetry for better development decisions" = "Telemetrie anonimă pentru decizii de dezvoltare mai bune"; // gemma4:31b
-"Share anonymous telemetry data" = "Partajează date de telemetrie anonime"; // gemma4:31b
-"Do not share anonymous telemetry data" = "Nu partajați date anonime de telemetrie"; // gemma4:31b
 "The configuration is completed" = "Configurarea este finalizată"; // gemma4:31b
 "finish_setup_message" = "Totul este configurat! \\n Stats este un instrument open source, este gratuit și va rămâne așa. \\n Dacă vă place, puteți susține proiectul, este întotdeauna apreciat!"; // gemma4:31b
 
@@ -146,7 +140,6 @@
 "Toggle the module" = "Comută modulul"; // gemma4:31b
 
 // Application settings
-"Update application" = "Actualizează aplicația";
 "Check for updates" = "Verifică pentru actualizări";
 "At start" = "La pornire";
 "Once per day" = "Odată pe zi";
@@ -165,7 +158,6 @@
 "Combined modules" = "Module combinate"; // gemma4:31b
 "Combined details" = "Detalii combinate"; // translategemma:4b
 "Spacing" = "Spațiere"; // gemma4:31b
-"Share anonymous telemetry" = "Partajează telemetria anonimă"; // gemma4:31b
 "Choose file" = "Alegeți fișierul"; // gemma4:31b
 "Stress tests" = "Teste de stres"; // translategemma:4b
 
@@ -197,7 +189,6 @@
 "Colorize" = "Colorează";
 "Colorize value" = "Colorează valoarea";
 "Additional information" = "Informații suplimentare";
-"Reverse values order" = "Inversează ordinea valoriilor";
 "Base" = "Baza";
 "Display mode" = "Modul de vizualizare";
 "One row" = "Un rând";
@@ -231,7 +222,6 @@
 
 // Module Kit
 "Open module settings" = "Deschide setăriile modulului";
-"Select widget" = "Alege opțiunea %0";
 "Open widget settings" = "Deschide setările widgetului"; // gemma4:31b
 "Update interval" = "Intervalul de actualizare";
 "Usage history" = "Istoricul de folosință";
@@ -253,7 +243,6 @@
 // Modules
 "Number of top processes" = "Numărul proceselor de vârf";
 "Update interval for top processes" = "Interval de actualizare pentru procesele de top"; // gemma4:31b
-"Notification level" = "Nivel de notificare"; // translategemma:4b
 "Chart color" = "Culoarea graficului"; // translategemma:4b
 "Main chart scaling" = "Scalarea graficului principal"; // gemma4:31b
 "Scale value" = "Valoarea scalei"; // gemma4:31b
@@ -277,7 +266,6 @@
 "5 minutes" = "5 minute"; // translategemma:4b
 "15 minutes" = "15 minute"; // translategemma:4b
 "CPU usage threshold" = "Prag de utilizare CPU"; // gemma4:31b
-"CPU usage is" = "Utilizarea CPU este %0"; // gemma4:31b
 "Efficiency cores" = "Nuclee de eficiență"; // translategemma:4b
 "Performance cores" = "Nuclee de performanță"; // translategemma:4b
 "System color" = "Culoare de sistem"; // gemma4:31b
@@ -300,18 +288,9 @@
 // GPU
 "GPU to show" = "Placa video să fie arătată";
 "Show GPU type" = "Arată tipul de placă video";
-"GPU enabled" = "Placa video activată";
-"GPU disabled" = "Placa video dezactivată";
-"GPU temperature" = "Temperatura plăcii video";
 "GPU utilization" = "Utilizarea plăcii video";
-"Vendor" = "Producătorul";
 "Model" = "Modelul";
 "Status" = "Statutul";
-"Active" = "Activ";
-"Non active" = "Inactiv";
-"Fan speed" = "Viteza ventilatorului";
-"Core clock" = "Frecvența nucleului";
-"Memory clock" = "Frecvența memoriei";
 "Utilization" = "Gradul de utilizare";
 "Render utilization" = "Utilizare render"; // gemma4:31b
 "Tiler utilization" = "Utilizare tiler"; // gemma4:31b
@@ -353,15 +332,12 @@
 "Disk usage" = "Utilizarea discului"; // gemma4:31b
 "Total read" = "Total citit"; // translategemma:4b
 "Total written" = "Total scris"; // translategemma:4b
-"Write speed" = "Scriere"; // gemma4:31b
-"Read speed" = "Citire"; // gemma4:31b
 "Drives" = "Discuri"; // gemma4:31b
 "SMART data" = "Date SMART"; // translategemma:4b
 "Power cycles" = "Power cycles";
 "Power on hours" = "Power on hours";
 
 // Sensors
-"Temperature unit" = "Temperatura unității";
 "Celsius" = "Celcius"; // translategemma:4b
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Salvează viteza ventilatorului"; // gemma4:31b
@@ -390,11 +366,6 @@
 "Interface" = "Interfață";
 "Physical address" = "Adresa fizică";
 "Refresh" = "Actualizare"; // gemma4:31b
-"Click to copy public IP address" = "Click pentru a copia adresa de IP publică";
-"Click to copy local IP address" = "Click pentru a copia adresa de IP locală";
-"Click to copy wifi name" = "Click pentru a copia numele rețelei WiFi";
-"Click to copy mac address" = "Click pentru a copia adresa Mac-ului";
-"No connection" = "Fără conexiune";
 "Network interface" = "Interfața rețelei";
 "Total download" = "Totalul descărcat";
 "Total upload" = "Totalul încărcat";
@@ -406,12 +377,9 @@
 "Standard" = "Standard";
 "Security" = "Securitate"; // translategemma:4b
 "Channel" = "Canal"; // translategemma:4b
-"Common scale" = "Scală comună"; // gemma4:31b
 "Autodetection" = "Autodetectare"; // gemma4:31b
 "Widget activation threshold" = "Prag de activare widget"; // gemma4:31b
 "Internet connection" = "Conexiune la internet"; // translategemma:4b
-"Active state color" = "Culoarea stării active"; // translategemma:4b
-"Nonactive state color" = "Culoarea stării inactive"; // translategemma:4b
 "Connectivity host" = "Host de conectivitate"; // gemma4:31b
 "Leave empty to disable the check" = "Lăsați gol pentru a dezactiva verificarea"; // gemma4:31b
 "Connectivity history" = "Istoricul conectivității"; // gemma4:31b
@@ -419,11 +387,8 @@
 "Every hour" = "La fiecare oră"; // translategemma:4b
 "Every 12 hours" = "La fiecare 12 ore"; // translategemma:4b
 "Every 24 hours" = "La fiecare 24 de ore"; // translategemma:4b
-"Network activity" = "Activitate de rețea"; // gemma4:31b
 "Last reset" = "Ultima resetare acum %0"; // gemma4:31b
 "Latency" = "Latență"; // translategemma:4b
-"Upload speed" = "Încărcare"; // translategemma:4b
-"Download speed" = "Descărcare"; // gemma4:31b
 "Address" = "Adresă"; // translategemma:4b
 "WiFi network" = "Rețea WiFi"; // gemma4:31b
 "Local IP changed" = "IP-ul local s-a modificat"; // gemma4:31b
@@ -435,7 +400,6 @@
 "Show country code instead of emoji" = "Afișează codul țării în loc de emoji"; // gemma4:31b
 
 // Battery
-"Level" = "Nivel";
 "Source" = "Sursă";
 "AC Power" = "Alimentare AC"; // gemma4:31b
 "Battery Power" = "Puterea bateriei"; // gemma4:31b
@@ -467,15 +431,10 @@
 "Last charge" = "Ultima încărcare";
 "Capacity" = "Capacitate"; // translategemma:4b
 "current / maximum / designed" = "actuală / maximă / proiectată"; // gemma4:31b
-"Low power mode" = "Mod de consum redus de energie"; // gemma4:31b
 "Percentage inside the icon" = "Procentaj în interiorul pictogramei"; // gemma4:31b
-"Colorize battery" = "Colorează bateria"; // gemma4:31b
-"Charging current" = "Curent de încărcare"; // gemma4:31b
-"Charging Voltage" = "Tensiune de încărcare"; // gemma4:31b
 "Charger state inside the battery" = "Starea încărcării în interiorul bateriei"; // gemma4:31b
 
 // Bluetooth
-"Battery to show" = "Bateria de afișat"; // gemma4:31b
 "No Bluetooth devices are available" = "Nu sunt disponibile dispozitive Bluetooth"; // gemma4:31b
 
 // Clock

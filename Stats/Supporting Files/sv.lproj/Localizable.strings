@@ -59,7 +59,6 @@
 "Center alignment" = "Centrerad";
 "Right alignment" = "Höger";
 "Dashboard" = "Instrumentpanel";
-"Enabled" = "Aktiverad";
 "Disabled" = "Inaktiverad";
 "Silent" = "Tyst";
 "Units" = "Enheter";
@@ -83,8 +82,6 @@
 "2 minutes" = "2 minuter";
 "3 minutes" = "3 minuter";
 "10 minutes" = "10 minuter";
-"Import" = "Importera";
-"Export" = "Exportera";
 "Separator" = "Avgränsare";
 "Read" = "Läs";
 "Write" = "Skriv";
@@ -120,9 +117,6 @@
 "Check for a new version every week (once a week)" = "Kontrollera efter en ny version varje vecka (en gång i veckan)";
 "Check for a new version every month (once a month)" = "Kontrollera efter en ny version varje månad (en gång i månaden)";
 "Never check for updates (not recommended)" = "Kontrollera aldrig efter uppdateringar (rekommenderas inte)";
-"Anonymous telemetry for better development decisions" = "Anonym telemetri för bättre utvecklingsbeslut";
-"Share anonymous telemetry data" = "Dela anonym telemetridata";
-"Do not share anonymous telemetry data" = "Dela inte anonym telemetridata";
 "The configuration is completed" = "Konfigurationen är slutförd";
 "finish_setup_message" = "Allt är inställt! \n Stats är ett verktyg med öppen källkod, det är gratis och kommer alltid att vara det. \n Om du gillar det kan du stödja projektet, det uppskattas alltid!";
 
@@ -146,7 +140,6 @@
 "Toggle the module" = "Växla modulen"; // gemma4:31b
 
 // Application settings
-"Update application" = "Uppdatera applikationen";
 "Check for updates" = "Sök efter uppdateringar";
 "At start" = "Vid start";
 "Once per day" = "En gång per dag";
@@ -165,7 +158,6 @@
 "Combined modules" = "Kombinerade moduler";
 "Combined details" = "Kombinerade detaljer";
 "Spacing" = "Mellanrum";
-"Share anonymous telemetry" = "Dela anonym telemetri";
 "Choose file" = "Välj fil"; // translategemma:4b
 "Stress tests" = "Stresstester"; // gemma4:31b
 
@@ -197,7 +189,6 @@
 "Colorize" = "Färglägg";
 "Colorize value" = "Färglägg värde";
 "Additional information" = "Mer information";
-"Reverse values order" = "Växla ordning";
 "Base" = "Enhet";
 "Display mode" = "Visningsläge";
 "One row" = "En rad";
@@ -231,7 +222,6 @@
 
 // Module Kit
 "Open module settings" = "Öppna modulinställningar";
-"Select widget" = "Välj %0 widget";
 "Open widget settings" = "Öppna widgetinställningar";
 "Update interval" = "Uppdateringsintervall";
 "Usage history" = "Användningshistorik";
@@ -253,7 +243,6 @@
 // Modules
 "Number of top processes" = "Antal topprocesser";
 "Update interval for top processes" = "Uppdateringsintervall för topprocesser";
-"Notification level" = "Notisnivå";
 "Chart color" = "Diagramfärg";
 "Main chart scaling" = "Huvuddiagramskalning";
 "Scale value" = "Skalvärde";
@@ -277,7 +266,6 @@
 "5 minutes" = "5 minuter";
 "15 minutes" = "15 minuter";
 "CPU usage threshold" = "Tröskelvärde för CPU-användning";
-"CPU usage is" = "CPU-användningen är %0";
 "Efficiency cores" = "Effektivitetskärnor";
 "Performance cores" = "Prestandakärnor";
 "System color" = "Systemfärg";
@@ -300,18 +288,9 @@
 // GPU
 "GPU to show" = "GPU att visa";
 "Show GPU type" = "Visa GPU-typ";
-"GPU enabled" = "GPU aktiverad";
-"GPU disabled" = "GPU inaktiverad";
-"GPU temperature" = "GPU-temperatur";
 "GPU utilization" = "GPU-användning";
-"Vendor" = "Tillverkare";
 "Model" = "Modell";
 "Status" = "Status";
-"Active" = "Aktiv";
-"Non active" = "Inaktiv";
-"Fan speed" = "Fläkthastighet";
-"Core clock" = "Kärnklocka";
-"Memory clock" = "Minnesklocka";
 "Utilization" = "Användning";
 "Render utilization" = "Render-användning";
 "Tiler utilization" = "Tiler-användning";
@@ -353,15 +332,12 @@
 "Disk usage" = "Diskanvändning";
 "Total read" = "Totalt läst";
 "Total written" = "Totalt skrivet";
-"Write speed" = "Skriv";
-"Read speed" = "Läs";
 "Drives" = "Diskar"; // gemma4:31b
 "SMART data" = "SMART-data"; // translategemma:4b
 "Power cycles" = "Power cycles";
 "Power on hours" = "Power on hours";
 
 // Sensors
-"Temperature unit" = "Temperaturenhet";
 "Celsius" = "Celsius";
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Spara fläkthastighet";
@@ -390,11 +366,6 @@
 "Interface" = "Gränssnitt";
 "Physical address" = "Fysisk adress";
 "Refresh" = "Uppdatera";
-"Click to copy public IP address" = "Klicka för att kopiera publik IP-adress";
-"Click to copy local IP address" = "Klicka för att kopiera lokal IP-adress";
-"Click to copy wifi name" = "Klicka för att kopiera wifi-namn";
-"Click to copy mac address" = "Klicka för att kopiera MAC-adress";
-"No connection" = "Ingen anslutning";
 "Network interface" = "Nätverksgränssnitt";
 "Total download" = "Totalt nedladdat";
 "Total upload" = "Totalt uppladdat";
@@ -406,12 +377,9 @@
 "Standard" = "Standard";
 "Security" = "Säkerhet";
 "Channel" = "Kanal";
-"Common scale" = "Gemensam skala";
 "Autodetection" = "Autodetektering";
 "Widget activation threshold" = "Widgetaktiveringströskel";
 "Internet connection" = "Internetanslutning";
-"Active state color" = "Aktivt tillståndsfärg";
-"Nonactive state color" = "Inaktivt tillståndsfärg";
 "Connectivity host" = "Anslutningsvärd";
 "Leave empty to disable the check" = "Lämna tomt för att inaktivera kontrollen";
 "Connectivity history" = "Anslutningshistorik";
@@ -419,11 +387,8 @@
 "Every hour" = "Varje timme";
 "Every 12 hours" = "Var 12:e timme";
 "Every 24 hours" = "Var 24:e timme";
-"Network activity" = "Nätverksaktivitet";
 "Last reset" = "Senaste återställning %0 sedan";
 "Latency" = "Fördröjning";
-"Upload speed" = "Uppladdning";
-"Download speed" = "Nedladdning";
 "Address" = "Adress"; // translategemma:4b
 "WiFi network" = "WiFi-nätverk"; // translategemma:4b
 "Local IP changed" = "Lokal IP har ändrats"; // gemma4:31b
@@ -435,7 +400,6 @@
 "Show country code instead of emoji" = "Visa landskod istället för emoji"; // translategemma:4b
 
 // Battery
-"Level" = "Nivå";
 "Source" = "Källa";
 "AC Power" = "Nätström";
 "Battery Power" = "Batteri";
@@ -467,15 +431,10 @@
 "Last charge" = "Senaste laddning";
 "Capacity" = "Kapacitet";
 "current / maximum / designed" = "nuvarande / maximal / ursprunglig";
-"Low power mode" = "Lågeffektläge";
 "Percentage inside the icon" = "Procent inuti ikonen";
-"Colorize battery" = "Färglägg batteri";
-"Charging current" = "Laddningsström";
-"Charging Voltage" = "Laddningsspänning";
 "Charger state inside the battery" = "Laddningsstatus inuti batteriet"; // translategemma:4b
 
 // Bluetooth
-"Battery to show" = "Batteri att visa";
 "No Bluetooth devices are available" = "Inga Bluetooth-enheter tillgängliga";
 
 // Clock

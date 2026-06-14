@@ -59,7 +59,6 @@
 "Center alignment" = "Sredinska poravnava";
 "Right alignment" = "Desna poravnava";
 "Dashboard" = "Nadzorna plošča";
-"Enabled" = "Omogočeno";
 "Disabled" = "Onemogočeno";
 "Silent" = "Tiho";
 "Units" = "Enote";
@@ -83,8 +82,6 @@
 "2 minutes" = "2 minuti";
 "3 minutes" = "3 minute";
 "10 minutes" = "10 minut";
-"Import" = "Uvoz";
-"Export" = "Izvoz";
 "Separator" = "Ločilnik";
 "Read" = "Branje";
 "Write" = "Pisanje";
@@ -120,9 +117,6 @@
 "Check for a new version every week (once a week)" = "Za novo različico preveri vsak teden (enkrat na teden)";
 "Check for a new version every month (once a month)" = "Za novo različico preveri vsak mesec (enkrat na mesec)";
 "Never check for updates (not recommended)" = "Nikoli ne preverjaj ali so na voljo nove posodobitve (ni priporočljivo)";
-"Anonymous telemetry for better development decisions" = "Anonimna telemetrija za boljše razvojne odločitve";
-"Share anonymous telemetry data" = "Deli anonimne podatke telemetrije";
-"Do not share anonymous telemetry data" = "Ne deli anonimne podatke telemetrije";
 "The configuration is completed" = "Konfiguracija je zaključena";
 "finish_setup_message" = "Vse je pripravljeno! \n Stats je odprtokodno orodje katero je brezplačno in vedno bo. \Če vam je všeč, lahko projekt podprete, kar je vedno dobrodošlo!";
 
@@ -146,7 +140,6 @@
 "Toggle the module" = "Preklopite modul"; // gemma4:31b
 
 // Application settings
-"Update application" = "Posodobi aplikacijo";
 "Check for updates" = "Preveri za posodobitve";
 "At start" = "Ob zagonu";
 "Once per day" = "Enkrat na dan";
@@ -165,7 +158,6 @@
 "Combined modules" = "Združeni moduli";
 "Combined details" = "Kombinirane podrobnosti"; // gemma4:31b
 "Spacing" = "Razmik";
-"Share anonymous telemetry" = "Deli anonimno telemetrijo";
 "Choose file" = "Izberi datoteko"; // gemma4:31b
 "Stress tests" = "Stresni testi"; // gemma4:31b
 
@@ -197,7 +189,6 @@
 "Colorize" = "Obarvaj";
 "Colorize value" = "Obarvaj vrednost";
 "Additional information" = "Dodatne informacije";
-"Reverse values order" = "Obrnjen vrstni red vrednosti";
 "Base" = "Osnova";
 "Display mode" = "Način pogleda";
 "One row" = "Ena vrstica";
@@ -231,7 +222,6 @@
 
 // Module Kit
 "Open module settings" = "Odpri nastavitve modula";
-"Select widget" = "Izberi %0 pripomoček";
 "Open widget settings" = "Odpri nastavitve pripomočka";
 "Update interval" = "Interval posodabljanja";
 "Usage history" = "Zgodovina uporabe";
@@ -253,7 +243,6 @@
 // Modules
 "Number of top processes" = "Število glavnih procesov";
 "Update interval for top processes" = "Interval posodabljanja za glavne procese";
-"Notification level" = "Raven za obvestila";
 "Chart color" = "Barva grafa";
 "Main chart scaling" = "Skaliranje glavnega grafa";
 "Scale value" = "Vrednost skale";
@@ -277,7 +266,6 @@
 "5 minutes" = "5 minut";
 "15 minutes" = "15 minut";
 "CPU usage threshold" = "Prag uporabe CPE";
-"CPU usage is" = "Uporaba CPE je %0";
 "Efficiency cores" = "Učinkovita jedra";
 "Performance cores" = "Performančna jedra";
 "System color" = "Sistemska barva";
@@ -300,18 +288,9 @@
 // GPU
 "GPU to show" = "GPE za prikaz";
 "Show GPU type" = "Prikaži vrsto GPE";
-"GPU enabled" = "Omogočen GPE";
-"GPU disabled" = "Onemogočen GPE";
-"GPU temperature" = "GPE temperatura";
 "GPU utilization" = "GPE v uporabi";
-"Vendor" = "Proizvajalec";
 "Model" = "Model";
 "Status" = "Stanje";
-"Active" = "Aktivno";
-"Non active" = "Neaktivno";
-"Fan speed" = "Hitrost ventilatorja";
-"Core clock" = "Takt jedra";
-"Memory clock" = "Takt pomnilnika";
 "Utilization" = "Uporaba";
 "Render utilization" = "Izkoriščanje renderja";
 "Tiler utilization" = "Uporaba ploščic";
@@ -353,15 +332,12 @@
 "Disk usage" = "Uporaba diska";
 "Total read" = "Skupaj prebrano";
 "Total written" = "Skupaj zapisano";
-"Write speed" = "Zapisi";
-"Read speed" = "Branja";
 "Drives" = "Pogoni";
 "SMART data" = "SMART podatki"; // gemma4:31b
 "Power cycles" = "Power cycles";
 "Power on hours" = "Power on hours";
 
 // Sensors
-"Temperature unit" = "Enota za temperaturo";
 "Celsius" = "Celzija";
 "Fahrenheit" = "Farenhajt"; // translategemma:4b
 "Save the fan speed" = "Shrani hitrost ventilatorja";
@@ -390,11 +366,6 @@
 "Interface" = "Vmesnik";
 "Physical address" = "Fizični naslov";
 "Refresh" = "Osveži";
-"Click to copy public IP address" = "Klikni za kopiranje javnega IP naslova";
-"Click to copy local IP address" = "Klikni za kopiranje lokalnega IP naslova";
-"Click to copy wifi name" = "Klikni za kopiranje imena WiFi";
-"Click to copy mac address" = "Klikni za kopiranje MAC naslova";
-"No connection" = "Ni povezave";
 "Network interface" = "Mrežni vmesnik";
 "Total download" = "Skupno prenešeno";
 "Total upload" = "Skupno oddano";
@@ -406,12 +377,9 @@
 "Standard" = "Standard";
 "Security" = "Varnost";
 "Channel" = "Kanal";
-"Common scale" = "Splošna lestvica";
 "Autodetection" = "Samodejna zaznava";
 "Widget activation threshold" = "Prag aktiviranja pripomočka";
 "Internet connection" = "Internetna povezava";
-"Active state color" = "Barva aktivnega stanja";
-"Nonactive state color" = "Barva neaktivnega stanja";
 "Connectivity host" = "Gostitelj za preverjanje povezljivosti";
 "Leave empty to disable the check" = "Pusti prazno, če želiš onemogočiti preverjanje povezljivosti";
 "Connectivity history" = "Zgodovina povezljivosti";
@@ -419,11 +387,8 @@
 "Every hour" = "Vsako uro";
 "Every 12 hours" = "Vsakih 12 ur";
 "Every 24 hours" = "Vsakih 24 ur";
-"Network activity" = "Dejavnost v omrežju";
 "Last reset" = "Zadnja ponastavitev pred %0";
 "Latency" = "Zakasnitev";
-"Upload speed" = "Oddajanje";
-"Download speed" = "Prenos";
 "Address" = "Naslov";
 "WiFi network" = "Omrežje WiFi"; // gemma4:31b
 "Local IP changed" = "Lokalni IP se je spremenil"; // gemma4:31b
@@ -435,7 +400,6 @@
 "Show country code instead of emoji" = "Prikaži kodo države namesto emojija"; // gemma4:31b
 
 // Battery
-"Level" = "Raven";
 "Source" = "Vir";
 "AC Power" = "Napajanje z izmeničnim tokom";
 "Battery Power" = "Napajanje z baterijo";
@@ -467,15 +431,10 @@
 "Last charge" = "Zadnje polnjenje";
 "Capacity" = "Kapaciteta";
 "current / maximum / designed" = "trenutna / največja / predvidena";
-"Low power mode" = "Način nizke porabe";
 "Percentage inside the icon" = "Odstotek znotraj ikone";
-"Colorize battery" = "Obarvanje baterije";
-"Charging current" = "Tok polnjenja";
-"Charging Voltage" = "Napetost polnjenja";
 "Charger state inside the battery" = "Stanje polnjenja v bateriji"; // gemma4:31b
 
 // Bluetooth
-"Battery to show" = "Prikaz baterije";
 "No Bluetooth devices are available" = "Naprave Bluetooth niso na voljo";
 
 // Clock

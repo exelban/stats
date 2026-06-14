@@ -59,7 +59,6 @@
 "Center alignment" = "Centro";
 "Right alignment" = "Destra";
 "Dashboard" = "Pannello di controllo"; // translategemma:4b
-"Enabled" = "Abilitato";
 "Disabled" = "Disabilitato";
 "Silent" = "Silenzioso";
 "Units" = "Unità";
@@ -83,8 +82,6 @@
 "2 minutes" = "2 minuti";
 "3 minutes" = "3 minuti";
 "10 minutes" = "10 minuti";
-"Import" = "Importa";
-"Export" = "Esporta";
 "Separator" = "Separatore";
 "Read" = "Lettura";
 "Write" = "Scrittura";
@@ -120,9 +117,6 @@
 "Check for a new version every week (once a week)" = "Verifica la disponibilità di nuove versioni ogni settimana (una volta a settimana)";
 "Check for a new version every month (once a month)" = "Verifica la disponibilità di nuove versioni ogni mese (una volta al mese)";
 "Never check for updates (not recommended)" = "Non verificare mai la disponibilità di nuove versioni (sconsigliato)";
-"Anonymous telemetry for better development decisions" = "Telemetria anonima per decisioni di sviluppo migliori";
-"Share anonymous telemetry data" = "Condividi dati anonimi di telemetria";
-"Do not share anonymous telemetry data" = "Non condividere dati anonimi di telemetria";
 "The configuration is completed" = "Configurazione completata";
 "finish_setup_message" = "È tutto pronto!\nStats è un software open source gratuito, e lo rimarrà per sempre.\nSe ti piace, dacci il tuo supporto: è sempre ben accetto!";
 
@@ -146,7 +140,6 @@
 "Toggle the module" = "Commuta il modulo"; // gemma4:31b
 
 // Application settings
-"Update application" = "Aggiorna applicazione";
 "Check for updates" = "Controlla aggiornamenti";
 "At start" = "All'avvio";
 "Once per day" = "Una volta al giorno";
@@ -165,7 +158,6 @@
 "Combined modules" = "Moduli combinati";
 "Combined details" = "Dettagli combinati";
 "Spacing" = "Spazio";
-"Share anonymous telemetry" = "Condividi telemetria anonima";
 "Choose file" = "Scegli file"; // gemma4:31b
 "Stress tests" = "Test di stress"; // translategemma:4b
 
@@ -197,7 +189,6 @@
 "Colorize" = "Colora";
 "Colorize value" = "Valore colorato";
 "Additional information" = "Informazioni aggiuntive";
-"Reverse values order" = "Inverti ordine valori";
 "Base" = "Base";
 "Display mode" = "Modalità di visualizzazione";
 "One row" = "Una riga";
@@ -231,7 +222,6 @@
 
 // Module Kit
 "Open module settings" = "Apri impostazioni modulo";
-"Select widget" = "Seleziona il widget %0";
 "Open widget settings" = "Apri impostazioni widget";
 "Update interval" = "Intervallo di aggiornamento";
 "Usage history" = "Cronologia d'uso";
@@ -253,7 +243,6 @@
 // Modules
 "Number of top processes" = "Numero di processi principali";
 "Update interval for top processes" = "Intervallo d'aggiornamento per processi principali";
-"Notification level" = "Livello di notifica";
 "Chart color" = "Colore grafico";
 "Main chart scaling" = "Scala del grafico principale";
 "Scale value" = "Valore scala";
@@ -277,7 +266,6 @@
 "5 minutes" = "5 minuti";
 "15 minutes" = "15 minuti";
 "CPU usage threshold" = "Soglia di utilizzo CPU";
-"CPU usage is" = "Utilizzo CPU %0";
 "Efficiency cores" = "Efficiency core";
 "Performance cores" = "Performance core";
 "System color" = "Colore sistema";
@@ -300,18 +288,9 @@
 // GPU
 "GPU to show" = "GPU da mostrare";
 "Show GPU type" = "Mostra il tipo di GPU";
-"GPU enabled" = "GPU abilitata";
-"GPU disabled" = "GPU disabilitata";
-"GPU temperature" = "Temperatura GPU";
 "GPU utilization" = "Utilizzo GPU";
-"Vendor" = "Produttore";
 "Model" = "Modello";
 "Status" = "Stato";
-"Active" = "Attiva";
-"Non active" = "Non attiva";
-"Fan speed" = "Velocità ventole";
-"Core clock" = "Clock core";
-"Memory clock" = "Clock memoria";
 "Utilization" = "Utilizzo";
 "Render utilization" = "Utilizzo rendering";
 "Tiler utilization" = "Utilizzo tassellamento";
@@ -353,15 +332,12 @@
 "Disk usage" = "Utilizzo Disco";
 "Total read" = "Totale letto";
 "Total written" = "Totale scritto";
-"Write speed" = "Lettura";
-"Read speed" = "Scrittura";
 "Drives" = "Dischi"; // translategemma:4b
 "SMART data" = "Dati SMART"; // translategemma:4b
 "Power cycles" = "Power cycles";
 "Power on hours" = "Power on hours";
 
 // Sensors
-"Temperature unit" = "Unità di temperatura";
 "Celsius" = "Celsius";
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Salva la velocità delle ventole";
@@ -390,11 +366,6 @@
 "Interface" = "Interfaccia";
 "Physical address" = "Indirizzo fisico";
 "Refresh" = "Aggiorna";
-"Click to copy public IP address" = "Clicca per copiare l'IP pubblico";
-"Click to copy local IP address" = "Clicca per copiare l'IP locale";
-"Click to copy wifi name" = "Clicca per copiare il nome del wifi";
-"Click to copy mac address" = "Clicca per copiare l'indirizzo mac";
-"No connection" = "Nessuna connessione";
 "Network interface" = "Interfaccia di rete";
 "Total download" = "Download totale";
 "Total upload" = "Upload totale";
@@ -406,12 +377,9 @@
 "Standard" = "Standard";
 "Security" = "Sicurezza";
 "Channel" = "Canale";
-"Common scale" = "Scala comune";
 "Autodetection" = "Rilevamento automatico";
 "Widget activation threshold" = "Soglia di attivamento widget";
 "Internet connection" = "Connessione internet";
-"Active state color" = "Colore attivo";
-"Nonactive state color" = "Colore disattivo";
 "Connectivity host" = "Host di connettività"; // gemma4:31b
 "Leave empty to disable the check" = "Lascia vuoto per disattivare la verifica";
 "Connectivity history" = "Cronologia connettività";
@@ -419,11 +387,8 @@
 "Every hour" = "Ogni ora";
 "Every 12 hours" = "Ogni 12 ore";
 "Every 24 hours" = "Ogni 24 ore";
-"Network activity" = "Attività di rete";
 "Last reset" = "Ultimo reset %0 fa";
 "Latency" = "Latenza";
-"Upload speed" = "Caricamento"; // translategemma:4b
-"Download speed" = "Scarica"; // translategemma:4b
 "Address" = "Indirizzo"; // translategemma:4b
 "WiFi network" = "Rete WiFi"; // translategemma:4b
 "Local IP changed" = "L'IP locale è cambiato"; // gemma4:31b
@@ -435,7 +400,6 @@
 "Show country code instead of emoji" = "Mostra il codice paese invece dell'emoji"; // gemma4:31b
 
 // Battery
-"Level" = "Livello";
 "Source" = "Sorgente";
 "AC Power" = "Alimentazione AC";
 "Battery Power" = "Batteria";
@@ -467,15 +431,10 @@
 "Last charge" = "Ultima carica";
 "Capacity" = "Capacità";
 "current / maximum / designed" = "attuale / massima / progettata";
-"Low power mode" = "Modalità risparmio energetico";
 "Percentage inside the icon" = "Percentuale nell'icona";
-"Colorize battery" = "Colora la batteria";
-"Charging current" = "Corrente di carica";
-"Charging Voltage" = "Tensione di carica";
 "Charger state inside the battery" = "Stato di ricarica all'interno della batteria"; // gemma4:31b
 
 // Bluetooth
-"Battery to show" = "Batteria da mostrare";
 "No Bluetooth devices are available" = "Nessun dispositivo Bluetooth disponibile";
 
 // Clock

@@ -59,7 +59,6 @@
 "Center alignment" = "Középre igazítás";
 "Right alignment" = "Jobbra igazítás";
 "Dashboard" = "Irányítópult";
-"Enabled" = "Bekapcsolva";
 "Disabled" = "Kikapcsolva";
 "Silent" = "Néma";
 "Units" = "Mértékegységek";
@@ -83,8 +82,6 @@
 "2 minutes" = "2 perc"; // translategemma:4b
 "3 minutes" = "3 perc"; // translategemma:4b
 "10 minutes" = "10 perc"; // translategemma:4b
-"Import" = "Importálás"; // translategemma:4b
-"Export" = "Exportálás"; // gemma4:31b
 "Separator" = "Elválasztó"; // translategemma:4b
 "Read" = "Olvasás"; // gemma4:31b
 "Write" = "Írás"; // gemma4:31b
@@ -120,9 +117,6 @@
 "Check for a new version every week (once a week)" = "Új verzió keresése minden héten (heti egyszer)";
 "Check for a new version every month (once a month)" = "Új verzió keresése minden hónapban (havi egyszer)";
 "Never check for updates (not recommended)" = "Ne keressen frissítéseket (nem ajánlott)";
-"Anonymous telemetry for better development decisions" = "Névtelen telemetria a jobb fejlesztői döntések érdekében";
-"Share anonymous telemetry data" = "Névtelen telemetriai adatok megosztása";
-"Do not share anonymous telemetry data" = "Ne osszon meg névtelen telemetriai adatokat";
 "The configuration is completed" = "A konfiguráció befejezve";
 "finish_setup_message" = "Minden beállítva!\nA Stats egy nyílt forráskódú eszköz, ami ingyenes és az is marad.\nHa hasznosnak találod, támogathatod a fejlesztését, mindig nagyra értékeljük!";
 
@@ -146,7 +140,6 @@
 "Toggle the module" = "Kapcsolja a modult"; // gemma4:31b
 
 // Application settings
-"Update application" = "Alkalmazás frissítése";
 "Check for updates" = "Frissítések keresése";
 "At start" = "Induláskor";
 "Once per day" = "Naponta";
@@ -165,7 +158,6 @@
 "Combined modules" = "Egyesített modulok";
 "Combined details" = "Kombinált részletek"; // gemma4:31b
 "Spacing" = "Helyköz";
-"Share anonymous telemetry" = "Telemetria megosztása névtelenül";
 "Choose file" = "Fájl választása"; // gemma4:31b
 "Stress tests" = "Terhelési tesztek"; // gemma4:31b
 
@@ -197,7 +189,6 @@
 "Colorize" = "Színezés";
 "Colorize value" = "Érték színezése";
 "Additional information" = "További információk megjelenítése";
-"Reverse values order" = "Értékek sorrendjének megfordítása";
 "Base" = "Mértékegység";
 "Display mode" = "Megjelenítés mód";
 "One row" = "Egy sor";
@@ -231,7 +222,6 @@
 
 // Module Kit
 "Open module settings" = "Modul beállításainak megnyitása";
-"Select widget" = "%0 modul kiválasztása";
 "Open widget settings" = "Modul beállításainak megnyitása";
 "Update interval" = "Frissítési időköz";
 "Usage history" = "Használati előzmények";
@@ -253,7 +243,6 @@
 // Modules
 "Number of top processes" = "Top folyamatok száma";
 "Update interval for top processes" = "Top folyamatok frissítési időköze";
-"Notification level" = "Értesítési szint";
 "Chart color" = "Diagram színe";
 "Main chart scaling" = "Főgrafikon skálázása"; // gemma4:31b
 "Scale value" = "Skála értéke"; // gemma4:31b
@@ -277,7 +266,6 @@
 "5 minutes" = "5 perc";
 "15 minutes" = "15 perc";
 "CPU usage threshold" = "CPU használati küszöb";
-"CPU usage is" = "%0 a CPU használat";
 "Efficiency cores" = "Energiatakarékos magok";
 "Performance cores" = "Teljesítményre optimalizált magok";
 "System color" = "Rendszer színe";
@@ -300,18 +288,9 @@
 // GPU
 "GPU to show" = "Megjelenítendő GPU";
 "Show GPU type" = "GPU típus mutatása";
-"GPU enabled" = "GPU bekapcsolva";
-"GPU disabled" = "GPU kikapcsolva";
-"GPU temperature" = "GPU hőmérséklet";
 "GPU utilization" = "GPU terhelés";
-"Vendor" = "Gyártó";
 "Model" = "Modell";
 "Status" = "Állapot";
-"Active" = "Aktív";
-"Non active" = "Inaktív";
-"Fan speed" = "Ventilátor sebesség";
-"Core clock" = "Mag órajel";
-"Memory clock" = "Memória órajel";
 "Utilization" = "Felhasználás";
 "Render utilization" = "Render használat";
 "Tiler utilization" = "Tiler használat";
@@ -353,15 +332,12 @@
 "Disk usage" = "Lemez használat";
 "Total read" = "Összes olvasás"; // gemma4:31b
 "Total written" = "Összesen írt"; // gemma4:31b
-"Write speed" = "Írás"; // gemma4:31b
-"Read speed" = "Olvasás"; // gemma4:31b
 "Drives" = "Meghajtók"; // gemma4:31b
 "SMART data" = "SMART adatok"; // translategemma:4b
 "Power cycles" = "Power cycles";
 "Power on hours" = "Power on hours";
 
 // Sensors
-"Temperature unit" = "Hőmérséklet mértékegysége";
 "Celsius" = "Celsius";
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Ventilátor sebesség mentése";
@@ -390,11 +366,6 @@
 "Interface" = "Interfész";
 "Physical address" = "Fizikai cím";
 "Refresh" = "Frissítés";
-"Click to copy public IP address" = "Kattints a publikus IP cím másolásához";
-"Click to copy local IP address" = "Kattints a helyi IP cím másolásához";
-"Click to copy wifi name" = "Kattints a Wi-Fi nevének másolásához";
-"Click to copy mac address" = "Kattints a fizikai cím másolásához";
-"No connection" = "Nincs kapcsolat";
 "Network interface" = "Hálózati interfész kiválasztása";
 "Total download" = "Fogadott adatok";
 "Total upload" = "Küldött adatok";
@@ -406,12 +377,9 @@
 "Standard" = "Szabvány";
 "Security" = "Biztonság";
 "Channel" = "Csatorna";
-"Common scale" = "Azonos méretezés";
 "Autodetection" = "Automatikus észlelés";
 "Widget activation threshold" = "Widget aktivációs küszöbe";
 "Internet connection" = "Internet kapcsolat";
-"Active state color" = "Aktív állapot színe";
-"Nonactive state color" = "Inaktív állapot színe";
 "Connectivity host" = "Kapcsolati gazdagép";
 "Leave empty to disable the check" = "Hagyd üresen az ellenőrzés kikapcsolásához";
 "Connectivity history" = "Kapcsolati előzmények";
@@ -419,11 +387,8 @@
 "Every hour" = "Óránként";
 "Every 12 hours" = "12 óránként";
 "Every 24 hours" = "24 óránként";
-"Network activity" = "Hálózati tevékenység";
 "Last reset" = "Utolsó visszaállítás óta eltelt idő: %0";
 "Latency" = "Látencia"; // gemma4:31b
-"Upload speed" = "Feltöltés"; // translategemma:4b
-"Download speed" = "Letöltés"; // translategemma:4b
 "Address" = "Cím"; // translategemma:4b
 "WiFi network" = "WiFi hálózat"; // translategemma:4b
 "Local IP changed" = "A lokális IP megváltozott"; // gemma4:31b
@@ -435,7 +400,6 @@
 "Show country code instead of emoji" = "Mutassa az országkódot az emoji helyett"; // gemma4:31b
 
 // Battery
-"Level" = "Töltöttségi szint";
 "Source" = "Forrás";
 "AC Power" = "Hálózati tápellátás";
 "Battery Power" = "Akkumulátor tápellátás";
@@ -467,15 +431,10 @@
 "Last charge" = "Utolsó töltés";
 "Capacity" = "Kapacitás";
 "current / maximum / designed" = "jelenlegi / maximum / gyári";
-"Low power mode" = "Energia takarékos mód";
 "Percentage inside the icon" = "Százalék megjelenítése az ikonban";
-"Colorize battery" = "Akkumlátor színezése";
-"Charging current" = "Töltési áram"; // translategemma:4b
-"Charging Voltage" = "Töltési feszültség"; // translategemma:4b
 "Charger state inside the battery" = "Töltési állapot az akkumulátoron belül"; // gemma4:31b
 
 // Bluetooth
-"Battery to show" = "Akkumulátor megjelenítése";
 "No Bluetooth devices are available" = "Nincs elérhető Bluetooth eszköz";
 
 // Clock

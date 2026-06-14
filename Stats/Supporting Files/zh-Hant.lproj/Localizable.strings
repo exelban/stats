@@ -59,7 +59,6 @@
 "Center alignment" = "置中對齊";
 "Right alignment" = "靠右對齊";
 "Dashboard" = "儀表板";
-"Enabled" = "啟用";
 "Disabled" = "停用";
 "Silent" = "寧靜執行";
 "Units" = "單位";
@@ -83,8 +82,6 @@
 "2 minutes" = "2分鐘";
 "3 minutes" = "3分鐘";
 "10 minutes" = "10分鐘";
-"Import" = "匯入";
-"Export" = "匯出";
 "Separator" = "分隔符號";
 "Read" = "讀取";
 "Write" = "寫入";
@@ -120,9 +117,6 @@
 "Check for a new version every week (once a week)" = "每週檢查是否有新版本（1週1次）";
 "Check for a new version every month (once a month)" = "每月檢查是否有新版本（1個月1次）";
 "Never check for updates (not recommended)" = "不要檢查更新（不建議）";
-"Anonymous telemetry for better development decisions" = "匿名診斷資料將用於改善開發決策";
-"Share anonymous telemetry data" = "分享匿名診斷資料";
-"Do not share anonymous telemetry data" = "不同意分享診斷資料";
 "The configuration is completed" = "組態設定完成！";
 "finish_setup_message" = "所有設定均已大功告成！\n Stats是一款開源且永久免費的工具程式。\n 由衷地感謝您喜歡與愛用Stats，也歡迎您支持這個專案！";
 
@@ -146,7 +140,6 @@
 "Toggle the module" = "切換為模組顯示";
 
 // Application settings
-"Update application" = "更新應用程式";
 "Check for updates" = "檢查更新";
 "At start" = "打開時檢查";
 "Once per day" = "每天1次";
@@ -165,7 +158,6 @@
 "Combined modules" = "合併模組";
 "Combined details" = "合併詳細資訊";
 "Spacing" = "間距";
-"Share anonymous telemetry" = "分享匿名診斷資料";
 "Choose file" = "選擇檔案";
 "Stress tests" = "壓力測試";
 
@@ -197,7 +189,6 @@
 "Colorize" = "以色彩顯示";
 "Colorize value" = "以色彩顯示數值";
 "Additional information" = "附加資訊";
-"Reverse values order" = "在上方列顯示已使用數值";
 "Base" = "單位";
 "Display mode" = "顯示模式";
 "One row" = "單列";
@@ -231,7 +222,6 @@
 
 // Module Kit
 "Open module settings" = "打開模組設定";
-"Select widget" = "選擇「%0」小工具";
 "Open widget settings" = "打開小工具設定";
 "Update interval" = "更新頻率";
 "Usage history" = "負載歷程記錄";
@@ -253,7 +243,6 @@
 // Modules
 "Number of top processes" = "高能耗程序數量";
 "Update interval for top processes" = "高能耗程序更新頻率";
-"Notification level" = "觸發通知的數值";
 "Chart color" = "圖表色彩";
 "Main chart scaling" = "主圖表縮放";
 "Scale value" = "縮放值";
@@ -277,7 +266,6 @@
 "5 minutes" = "5分鐘";
 "15 minutes" = "15分鐘";
 "CPU usage threshold" = "CPU使用量臨界值";
-"CPU usage is" = "CPU使用量：%0";
 "Efficiency cores" = "節能核心";
 "Performance cores" = "效能核心";
 "System color" = "系統占用色彩";
@@ -300,18 +288,9 @@
 // GPU
 "GPU to show" = "顯示GPU";
 "Show GPU type" = "顯示GPU類型";
-"GPU enabled" = "啟用GPU";
-"GPU disabled" = "停用GPU";
-"GPU temperature" = "GPU溫度";
 "GPU utilization" = "GPU使用率";
-"Vendor" = "製造商";
 "Model" = "型號";
 "Status" = "狀態";
-"Active" = "使用中";
-"Non active" = "未在使用";
-"Fan speed" = "風扇轉速";
-"Core clock" = "核心時脈";
-"Memory clock" = "記憶體時脈";
 "Utilization" = "利用率";
 "Render utilization" = "渲染利用率";
 "Tiler utilization" = "圖塊利用率";
@@ -353,15 +332,12 @@
 "Disk usage" = "磁碟使用量";
 "Total read" = "總讀取";
 "Total written" = "總寫入";
-"Write speed" = "寫入";
-"Read speed" = "讀取";
 "Drives" = "磁碟機";
 "SMART data" = "SMART資料";
 "Power cycles" = "Power cycles";
 "Power on hours" = "Power on hours";
 
 // Sensors
-"Temperature unit" = "溫度單位";
 "Celsius" = "攝氏 (˚C)";
 "Fahrenheit" = "華氏 (˚F)";
 "Save the fan speed" = "儲存風扇速度";
@@ -390,11 +366,6 @@
 "Interface" = "介面";
 "Physical address" = "實體位址";
 "Refresh" = "重新整理";
-"Click to copy public IP address" = "點按來拷貝公用IP位址";
-"Click to copy local IP address" = "點按來拷貝區域IP位址";
-"Click to copy wifi name" = "點按來拷貝Wi-Fi名稱";
-"Click to copy mac address" = "點按來拷貝MAC位址";
-"No connection" = "沒有連線";
 "Network interface" = "網路介面卡";
 "Total download" = "共下載";
 "Total upload" = "共上傳";
@@ -406,12 +377,9 @@
 "Standard" = "標準";
 "Security" = "安全";
 "Channel" = "通道";
-"Common scale" = "統一比例";
 "Autodetection" = "自動檢測";
 "Widget activation threshold" = "小工具啟動臨界值";
 "Internet connection" = "網際網路連線裝態";
-"Active state color" = "已連線狀態色彩";
-"Nonactive state color" = "未連線狀態色彩";
 "Connectivity host" = "連線能力測試主機（ICMP）";
 "Leave empty to disable the check" = "留空來停用檢查";
 "Connectivity history" = "連線歷程紀錄";
@@ -419,11 +387,8 @@
 "Every hour" = "每小時";
 "Every 12 hours" = "每12小時";
 "Every 24 hours" = "每24小時";
-"Network activity" = "網路活動";
 "Last reset" = "上次重置於 %0 前";
 "Latency" = "延遲";
-"Upload speed" = "上傳";
-"Download speed" = "下載";
 "Address" = "位址";
 "WiFi network" = "Wi-Fi網路";
 "Local IP changed" = "區域IP已變更";
@@ -435,7 +400,6 @@
 "Show country code instead of emoji" = "顯示國家代碼而非表情符號"; // gemma4:31b
 
 // Battery
-"Level" = "電量";
 "Source" = "電源";
 "AC Power" = "交流電";
 "Battery Power" = "電池";
@@ -467,15 +431,10 @@
 "Last charge" = "最近一次充電";
 "Capacity" = "容量";
 "current / maximum / designed" = "目前容量/最大容量/設計容量";
-"Low power mode" = "低電量模式";
 "Percentage inside the icon" = "在圖示內顯示百分比";
-"Colorize battery" = "啟用彩色電池圖示";
-"Charging current" = "充電電流";
-"Charging Voltage" = "充電電壓";
 "Charger state inside the battery" = "在電池圖示中顯示充電狀態";
 
 // Bluetooth
-"Battery to show" = "顯示藍牙裝置的電池電量";
 "No Bluetooth devices are available" = "沒有可用的藍牙裝置";
 
 // Clock
