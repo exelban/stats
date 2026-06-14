@@ -138,6 +138,7 @@
 "No notifications available in this module" = "У цьому модулі немає повідомлень";
 "Open Calendar" = "Відкрити календар";
 "Toggle the module" = "Перемкніть модуль";
+"Open System Stats" = "Відкрити System Stats";
 
 // Application settings
 "Check for updates" = "Перевіряти оновленя";

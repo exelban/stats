@@ -138,6 +138,7 @@
 "No notifications available in this module" = "Không có thông báo nào trong module này";
 "Open Calendar" = "Mở Lịch";
 "Toggle the module" = "Bật/tắt module";
+"Open System Stats" = "Mở System Stats"; // gemma4:31b
 
 // Application settings
 "Check for updates" = "Kiểm tra cập nhật";
@@ -334,8 +335,8 @@
 "Total written" = "Tổng dữ liệu ghi";
 "Drives" = "Ổ đĩa";
 "SMART data" = "Dữ liệu SMART";
-"Power cycles" = "Power cycles";
-"Power on hours" = "Power on hours";
+"Power cycles" = "Số chu kỳ sạc"; // gemma4:31b
+"Power on hours" = "Số giờ bật nguồn"; // gemma4:31b
 
 // Sensors
 "Celsius" = "Độ C";

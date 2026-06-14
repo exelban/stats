@@ -138,6 +138,7 @@
 "No notifications available in this module" = "इस मॉड्यूल में कोई नोटिफिकेशन उपलब्ध नहीं हैं"; // gemma4:31b
 "Open Calendar" = "कैलेंडर खोलें"; // translategemma:4b
 "Toggle the module" = "मॉड्यूल को टॉगल करें"; // gemma4:31b
+"Open System Stats" = "System Stats खोलें"; // gemma4:31b
 
 // Application settings
 "Check for updates" = "अपडेट की जाँच करें";
@@ -334,8 +335,8 @@
 "Total written" = "कुल लिखा गया"; // gemma4:31b
 "Drives" = "ड्राइव्स"; // gemma4:31b
 "SMART data" = "SMART डेटा"; // gemma4:31b
-"Power cycles" = "Power cycles";
-"Power on hours" = "Power on hours";
+"Power cycles" = "पावर साइकल"; // gemma4:31b
+"Power on hours" = "संचालन के घंटे"; // gemma4:31b
 
 // Sensors
 "Celsius" = "सेल्सियस";

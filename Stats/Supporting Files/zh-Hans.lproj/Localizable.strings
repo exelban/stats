@@ -138,6 +138,7 @@
 "No notifications available in this module" = "该模块不支持通知";
 "Open Calendar" = "打开日历";
 "Toggle the module" = "切换模块显示";
+"Open System Stats" = "打开 System Stats"; // gemma4:31b
 
 // Application settings
 "Check for updates" = "检查更新";
@@ -334,8 +335,8 @@
 "Total written" = "总写入量";
 "Drives" = "驱动器";
 "SMART data" = "SMART数据";
-"Power cycles" = "Power cycles";
-"Power on hours" = "Power on hours";
+"Power cycles" = "电源循环次数"; // gemma4:31b
+"Power on hours" = "通电小时数"; // gemma4:31b
 
 // Sensors
 "Celsius" = "摄氏度";

@@ -138,6 +138,7 @@
 "No notifications available in this module" = "Nu sunt disponibile notificări în acest modul"; // gemma4:31b
 "Open Calendar" = "Deschide calendarul"; // translategemma:4b
 "Toggle the module" = "Comută modulul"; // gemma4:31b
+"Open System Stats" = "Deschide System Stats"; // gemma4:31b
 
 // Application settings
 "Check for updates" = "Verifică pentru actualizări";
@@ -261,7 +262,7 @@
 "Split the value (System/User)" = "Împarte valoarea (Sistem/Utilizator)";
 "Scheduler limit" = "Limita planificatorului"; // gemma4:31b
 "Speed limit" = "Limită de viteză"; // gemma4:31b
-"Average load" = "Sarcina medie"; // translategemma:4b
+"Average load" = "Încărcare medie"; // gemma4:31b
 "1 minute" = "1 minut"; // translategemma:4b
 "5 minutes" = "5 minute"; // translategemma:4b
 "15 minutes" = "15 minute"; // translategemma:4b
@@ -334,8 +335,8 @@
 "Total written" = "Total scris"; // translategemma:4b
 "Drives" = "Discuri"; // gemma4:31b
 "SMART data" = "Date SMART"; // translategemma:4b
-"Power cycles" = "Power cycles";
-"Power on hours" = "Power on hours";
+"Power cycles" = "Număr de cicluri"; // gemma4:31b
+"Power on hours" = "Ore de funcționare"; // gemma4:31b
 
 // Sensors
 "Celsius" = "Celcius"; // translategemma:4b
@@ -395,7 +396,7 @@
 "Public IP changed" = "Adresa IP publică s-a modificat"; // gemma4:31b
 "Previous IP" = "IP anterior: %0"; // gemma4:31b
 "New IP" = "Noua adresă IP: %0"; // gemma4:31b
-"Internet connection lost" = "Conexiunea la internet a fost pierdută"; // translategemma:4b
+"Internet connection lost" = "Conexiunea la internet pierdută"; // gemma4:31b
 "Internet connection established" = "Conexiunea la internet a fost stabilită"; // translategemma:4b
 "Show country code instead of emoji" = "Afișează codul țării în loc de emoji"; // gemma4:31b
 
@@ -450,7 +451,7 @@
 
 // Colors
 "Based on utilization" = "Pe baza utilizării"; // gemma4:31b
-"Based on pressure" = "Pe baza presiunii"; // translategemma:4b
+"Based on pressure" = "Bazat pe presiune"; // gemma4:31b
 "Based on cluster" = "Bazat pe cluster"; // gemma4:31b
 "System accent" = "Accent de sistem"; // gemma4:31b
 "Monochrome accent" = "Accent monocrom"; // gemma4:31b

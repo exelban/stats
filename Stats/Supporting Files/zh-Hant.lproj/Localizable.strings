@@ -138,6 +138,7 @@
 "No notifications available in this module" = "沒有可用於此模組的通知";
 "Open Calendar" = "打開「行事曆」";
 "Toggle the module" = "切換為模組顯示";
+"Open System Stats" = "開啟 System Stats"; // gemma4:31b
 
 // Application settings
 "Check for updates" = "檢查更新";
@@ -334,8 +335,8 @@
 "Total written" = "總寫入";
 "Drives" = "磁碟機";
 "SMART data" = "SMART資料";
-"Power cycles" = "Power cycles";
-"Power on hours" = "Power on hours";
+"Power cycles" = "電源週期"; // gemma4:31b
+"Power on hours" = "通電時數"; // gemma4:31b
 
 // Sensors
 "Celsius" = "攝氏 (˚C)";

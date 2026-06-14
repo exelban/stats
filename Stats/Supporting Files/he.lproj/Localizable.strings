@@ -78,7 +78,7 @@
 "Normal" = "רגיל"; // gemma4:31b
 "Warning" = "אזהרה"; // translategemma:4b
 "Critical" = "קריטי"; // translategemma:4b
-"Usage" = "שימוש"; // translategemma:4b
+"Usage" = "ניצול"; // gemma4:31b
 "2 minutes" = "2 דקות"; // translategemma:4b
 "3 minutes" = "3 דקות"; // translategemma:4b
 "10 minutes" = "10 דקות"; // translategemma:4b
@@ -138,6 +138,7 @@
 "No notifications available in this module" = "אין התראות זמינות במודול זה"; // translategemma:4b
 "Open Calendar" = "פתח את לוח השנה"; // gemma4:31b
 "Toggle the module" = "החלף את המודול"; // gemma4:31b
+"Open System Stats" = "פתח את System Stats"; // gemma4:31b
 
 // Application settings
 "Check for updates" = "בדוק עדכונים";
@@ -334,8 +335,8 @@
 "Total written" = "סה\"כ נכתב"; // gemma4:31b
 "Drives" = "כוננים"; // gemma4:31b
 "SMART data" = "נתוני SMART"; // gemma4:31b
-"Power cycles" = "Power cycles";
-"Power on hours" = "Power on hours";
+"Power cycles" = "מחזורי טעינה"; // gemma4:31b
+"Power on hours" = "שעות הפעלה"; // gemma4:31b
 
 // Sensors
 "Celsius" = "צלסיוס";

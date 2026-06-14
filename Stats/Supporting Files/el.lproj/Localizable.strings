@@ -138,6 +138,7 @@
 "No notifications available in this module" = "Δεν υπάρχουν διαθέσιμες ειδοποιήσεις σε αυτό το μοδούλο"; // gemma4:31b
 "Open Calendar" = "Άνοιγμα Ημερολογίου"; // translategemma:4b
 "Toggle the module" = "Εναλλαγή του μοδούλου"; // gemma4:31b
+"Open System Stats" = "Άνοιξε το System Stats"; // gemma4:31b
 
 // Application settings
 "Check for updates" = "Έλεγχος για ενημερώσεις";
@@ -334,8 +335,8 @@
 "Total written" = "Συνολικά γραμμένα"; // gemma4:31b
 "Drives" = "Δίσκοι"; // translategemma:4b
 "SMART data" = "SMART δεδομένα"; // gemma4:31b
-"Power cycles" = "Power cycles";
-"Power on hours" = "Power on hours";
+"Power cycles" = "Κύκλοι φόρτισης"; // gemma4:31b
+"Power on hours" = "Ώρες λειτουργίας"; // gemma4:31b
 
 // Sensors
 "Celsius" = "Κελσίου";

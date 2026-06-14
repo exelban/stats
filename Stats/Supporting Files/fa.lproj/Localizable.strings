@@ -138,6 +138,7 @@
 "No notifications available in this module" = "در این ماژول هیچ اعلانی موجود نیست"; // gemma4:31b
 "Open Calendar" = "باز کردن تقویم"; // translategemma:4b
 "Toggle the module" = "تغییر وضعیت ماژول"; // gemma4:31b
+"Open System Stats" = "باز کردن System Stats"; // gemma4:31b
 
 // Application settings
 "Check for updates" = "بررسی برای نسخه‌های جدید";
@@ -334,8 +335,8 @@
 "Total written" = "کل نوشته شده"; // gemma4:31b
 "Drives" = "درایوها"; // translategemma:4b
 "SMART data" = "داده‌های SMART"; // gemma4:31b
-"Power cycles" = "Power cycles";
-"Power on hours" = "Power on hours";
+"Power cycles" = "تعداد چرخه ها"; // gemma4:31b
+"Power on hours" = "ساعات کارکرد"; // gemma4:31b
 
 // Sensors
 "Celsius" = "سلسیوس";

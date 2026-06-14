@@ -75,7 +75,7 @@
 "Name" = "Naziv"; // gemma4:31b
 "Format" = "Format";
 "Turn off" = "Isključi"; // gemma4:31b
-"Normal" = "Normal";
+"Normal" = "Normalno"; // gemma4:31b
 "Warning" = "Upozorenje"; // translategemma:4b
 "Critical" = "Kritično"; // gemma4:31b
 "Usage" = "Korištenje"; // gemma4:31b
@@ -88,7 +88,7 @@
 "Frequency" = "Frekvencija"; // translategemma:4b
 "Save" = "Spremi"; // translategemma:4b
 "Run" = "Pokreni"; // gemma4:31b
-"Stop" = "Stop";
+"Stop" = "Zaustavi"; // gemma4:31b
 "Uninstall" = "Deinstaliraj"; // translategemma:4b
 "1 sec" = "1 sek"; // gemma4:31b
 "2 sec" = "2 sek"; // gemma4:31b
@@ -138,6 +138,7 @@
 "No notifications available in this module" = "Nema dostupnih obavijesti u ovom modulu"; // gemma4:31b
 "Open Calendar" = "Otvori kalendar"; // gemma4:31b
 "Toggle the module" = "Prebaci modul"; // gemma4:31b
+"Open System Stats" = "Otvori System Stats"; // gemma4:31b
 
 // Application settings
 "Check for updates" = "Traži nove verzije";
@@ -334,8 +335,8 @@
 "Total written" = "Ukupno zapisano"; // gemma4:31b
 "Drives" = "Diskovi"; // gemma4:31b
 "SMART data" = "SMART podaci"; // gemma4:31b
-"Power cycles" = "Power cycles";
-"Power on hours" = "Power on hours";
+"Power cycles" = "Broj ciklusa"; // gemma4:31b
+"Power on hours" = "Sati rada"; // gemma4:31b
 
 // Sensors
 "Celsius" = "Celzij";

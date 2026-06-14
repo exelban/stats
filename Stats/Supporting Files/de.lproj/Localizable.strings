@@ -138,6 +138,7 @@
 "No notifications available in this module" = "In diesem Modul sind keine Benachrichtigungen verfügbar";
 "Open Calendar" = "Kalender öffnen";
 "Toggle the module" = "Modul umschalten";
+"Open System Stats" = "System Stats öffnen"; // gemma4:31b
 
 // Application settings
 "Check for updates" = "Nach Updates suchen";
@@ -247,7 +248,7 @@
 "Main chart scaling" = "Hauptdiagramm-Skalierung";
 "Scale value" = "Skalierungswert";
 "Text widget value" = "Text-Widget-Wert";
-"Combined processes" = "Kombinierte Prozesse"; // translategemma:4b
+"Combined processes" = "Zusammengefasste Prozesse"; // gemma4:31b
 
 // CPU
 "CPU usage" = "CPU-Auslastung";
@@ -302,7 +303,7 @@
 "Memory pressure" = "Speicherdruck";
 "Total" = "Gesamt";
 "Used" = "Belegt";
-"App" = "App";
+"App" = "Apps"; // gemma4:31b
 "Wired" = "Reserviert";
 "Compressed" = "Komprimiert";
 "Free" = "Frei";
@@ -334,8 +335,8 @@
 "Total written" = "Geschrieben gesamt";
 "Drives" = "Laufwerke";
 "SMART data" = "SMART-Daten";
-"Power cycles" = "Power cycles";
-"Power on hours" = "Power on hours";
+"Power cycles" = "Ladezyklen"; // gemma4:31b
+"Power on hours" = "Betriebsstunden"; // gemma4:31b
 
 // Sensors
 "Celsius" = "Celsius";

@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 import json
 import socket
@@ -10,6 +11,16 @@ try:
     import langcodes
 except Exception:
     langcodes = None
+
+
+KEY_RE = re.compile(r'^\s*"((?:[^"\\]|\\.)*)"\s*=')
+CODE_KEY_RE = re.compile(r'(?:localizedString|NSLocalizedString)\(\s*"((?:[^"\\]|\\.)*)"')
+STRING_RE = re.compile(r'"((?:[^"\\]|\\.)*)"')
+INTERP_RE = re.compile(r'\\\([^()]*(?:\([^()]*\)[^()]*)*\)')
+
+
+def unescape(s):
+    return s.replace('\\"', '"').replace("\\n", "\n").replace("\\\\", "\\")
 
 
 def dictionary(lines):
@@ -90,6 +101,98 @@ class i18n:
                         f.write("".join(file))
 
         self.check()
+
+    def scan(self, clean=False, accept=False):
+        repo_root = os.path.dirname(os.path.dirname(self.path))
+        code_dirs = ["Stats", "Kit", "Modules", "Widgets", "SMC", "LaunchAtLogin"]
+        skip_parts = {"build", ".build", "DerivedData", "Pods", "xcloc", "xcarchive"}
+
+        en_keys = set()
+        for line in self.en_file():
+            m = KEY_RE.match(line)
+            if m:
+                en_keys.add(unescape(m.group(1)))
+
+        code_keys = {}
+        literals = set()
+        interp_patterns = []
+        for d in code_dirs:
+            base = os.path.join(repo_root, d)
+            if not os.path.isdir(base):
+                continue
+            for root, dirs, files in os.walk(base):
+                dirs[:] = [x for x in dirs if x not in skip_parts and not x.endswith(".lproj")]
+                for name in files:
+                    if not name.endswith(".swift"):
+                        continue
+                    full = os.path.join(root, name)
+                    try:
+                        with open(full, "r", encoding="utf-8") as f:
+                            text = f.read()
+                    except (UnicodeDecodeError, OSError):
+                        continue
+                    for m in STRING_RE.finditer(text):
+                        literals.add(unescape(m.group(1)))
+                    for m in CODE_KEY_RE.finditer(text):
+                        key = unescape(m.group(1))
+                        if not key:
+                            continue
+                        if "\\(" in key:
+                            segs = INTERP_RE.split(key)
+                            interp_patterns.append(re.compile("^" + ".*".join(re.escape(s) for s in segs) + "$"))
+                        else:
+                            code_keys.setdefault(key, os.path.relpath(full, repo_root))
+
+        def used(k):
+            return k in literals or k in code_keys or any(p.match(k) for p in interp_patterns)
+
+        missing = sorted(k for k in code_keys if k not in en_keys)
+        unused = sorted(k for k in en_keys if not used(k))
+
+        print(f"Found {len(code_keys)} localized string(s) in code, {len(en_keys)} key(s) in en.lproj.")
+
+        if missing:
+            print(f"\n{len(missing)} string(s) used in code but missing from en.lproj:")
+            for k in missing:
+                print(f"  \"{k}\"  ({code_keys[k]})")
+
+        if unused:
+            print(f"\n{len(unused)} key(s) in en.lproj not found as a string literal anywhere in code (possibly dead):")
+            for k in unused:
+                print(f"  \"{k}\"")
+
+        if clean and unused:
+            self._delete_keys(set(unused), accept=accept)
+            return
+
+        if missing or unused:
+            sys.exit(f"\nFound {len(missing)} string(s) missing from en.lproj and {len(unused)} unused key(s).")
+        print("\nAll localized strings in code are present in en.lproj.")
+
+    def _delete_keys(self, keys, accept=False):
+        if not accept:
+            answer = input(f"Delete {len(keys)} key(s) from all {len(self.languages)} translation file(s)? [y/N]: ").strip().lower()
+            if answer not in ("y", "yes"):
+                print("Aborted, nothing deleted.")
+                return
+
+        for lang in self.languages:
+            lang_path = f"{self.path}/{lang}/Localizable.strings"
+            with open(lang_path, "r") as f:
+                lines = f.readlines()
+            kept = []
+            removed = 0
+            for line in lines:
+                m = KEY_RE.match(line)
+                if m and unescape(m.group(1)) in keys:
+                    removed += 1
+                    continue
+                kept.append(line)
+            if removed:
+                with open(lang_path, "w") as f:
+                    f.write("".join(kept))
+                print(f"Removed {removed} key(s) from {lang.replace('.lproj', '')}")
+        print(f"Deleted {len(keys)} dead key(s) from all translations.")
 
     def _normalize_lang_code(self, code):
         code = (code or "").strip()
@@ -401,9 +504,8 @@ class i18n:
                 author_ok = not (i < len(authors) and file_author and authors[i] != file_author)
 
                 if translate_value is None or translate_value == en_value:
-                    if author_ok:
-                        candidates.append((i, en_key, en_value, None))
-                elif recheck:
+                    candidates.append((i, en_key, en_value, None))
+                elif recheck and author_ok:
                     old_value, tag_model = self._split_ai_tag(translate_value)
                     if tag_model and tag_model != model:
                         candidates.append((i, en_key, en_value, old_value))
@@ -459,6 +561,7 @@ if __name__ == "__main__":
     args = sys.argv[1:]
     accept = "--accept" in args
     recheck = "--recheck" in args
+    clean = "--clean" in args
 
     omit = 0
     filtered = []
@@ -472,13 +575,16 @@ if __name__ == "__main__":
             skip_next = True
         elif a.startswith("--omit="):
             omit = int(a.split("=", 1)[1])
-        elif a not in ("--accept", "--recheck"):
+        elif a not in ("--accept", "--recheck", "--clean"):
             filtered.append(a)
     args = filtered
 
     if len(sys.argv) >= 2 and sys.argv[1] == "fix":
         print("running fix command...")
         i18n.fix()
+    elif len(sys.argv) >= 2 and sys.argv[1] == "scan":
+        print("running scan command...")
+        i18n.scan(clean=clean, accept=accept)
     elif len(sys.argv) >= 2 and sys.argv[1] == "translate":
         print("running translate command...")
         i18n.translate(accept=accept, recheck=recheck, omit=omit)

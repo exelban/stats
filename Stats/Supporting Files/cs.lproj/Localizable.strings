@@ -53,7 +53,7 @@
 "Statistics" = "Statistiky";
 "Max" = "Max";
 "Min" = "Min";
-"Reset" = "Reset";
+"Reset" = "Resetovat"; // gemma4:31b
 "Alignment" = "Zarovnání";
 "Left alignment" = "Zarovnat doleva";
 "Center alignment" = "Zarovnat na střed";
@@ -138,6 +138,7 @@
 "No notifications available in this module" = "V tomto modulu nejsou k dispozici žádná oznámení"; // gemma4:31b
 "Open Calendar" = "Otevřít kalendář"; // translategemma:4b
 "Toggle the module" = "Přepnout modul"; // gemma4:31b
+"Open System Stats" = "Otevřít System Stats"; // gemma4:31b
 
 // Application settings
 "Check for updates" = "Zkontrolovat aktualizace";
@@ -334,8 +335,8 @@
 "Total written" = "Celkem zapsáno"; // gemma4:31b
 "Drives" = "Disky"; // gemma4:31b
 "SMART data" = "Data SMART"; // translategemma:4b
-"Power cycles" = "Power cycles";
-"Power on hours" = "Power on hours";
+"Power cycles" = "Počet cyklů"; // gemma4:31b
+"Power on hours" = "Provozní hodiny"; // gemma4:31b
 
 // Sensors
 "Celsius" = "Celsia"; // gemma4:31b

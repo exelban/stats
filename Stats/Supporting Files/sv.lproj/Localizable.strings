@@ -138,6 +138,7 @@
 "No notifications available in this module" = "Inga notifikationer tillgängliga i denna modul";
 "Open Calendar" = "Öppna Kalender";
 "Toggle the module" = "Växla modulen"; // gemma4:31b
+"Open System Stats" = "Öppna System Stats"; // gemma4:31b
 
 // Application settings
 "Check for updates" = "Sök efter uppdateringar";
@@ -334,8 +335,8 @@
 "Total written" = "Totalt skrivet";
 "Drives" = "Diskar"; // gemma4:31b
 "SMART data" = "SMART-data"; // translategemma:4b
-"Power cycles" = "Power cycles";
-"Power on hours" = "Power on hours";
+"Power cycles" = "Antal cykler"; // gemma4:31b
+"Power on hours" = "Drifttimmar"; // gemma4:31b
 
 // Sensors
 "Celsius" = "Celsius";

@@ -138,6 +138,7 @@
 "No notifications available in this module" = "Nincsenek elérhető értesítések ebben a modulban";
 "Open Calendar" = "Naptár megnyitása"; // gemma4:31b
 "Toggle the module" = "Kapcsolja a modult"; // gemma4:31b
+"Open System Stats" = "System Stats megnyitása"; // gemma4:31b
 
 // Application settings
 "Check for updates" = "Frissítések keresése";
@@ -334,11 +335,11 @@
 "Total written" = "Összesen írt"; // gemma4:31b
 "Drives" = "Meghajtók"; // gemma4:31b
 "SMART data" = "SMART adatok"; // translategemma:4b
-"Power cycles" = "Power cycles";
-"Power on hours" = "Power on hours";
+"Power cycles" = "Ciklusok száma"; // gemma4:31b
+"Power on hours" = "Működési órák"; // gemma4:31b
 
 // Sensors
-"Celsius" = "Celsius";
+"Celsius" = "Celsziusz"; // gemma4:31b
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Ventilátor sebesség mentése";
 "Fan" = "Ventilátor";

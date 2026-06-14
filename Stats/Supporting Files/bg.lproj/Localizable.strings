@@ -138,6 +138,7 @@
 "No notifications available in this module" = "В този модул няма налични известия"; // gemma4:31b
 "Open Calendar" = "Отвори календара"; // translategemma:4b
 "Toggle the module" = "Превключи модула"; // gemma4:31b
+"Open System Stats" = "Отвори System Stats"; // gemma4:31b
 
 // Application settings
 "Check for updates" = "Проверка за обновления";
@@ -334,8 +335,8 @@
 "Total written" = "Общо записано"; // gemma4:31b
 "Drives" = "Дискове"; // gemma4:31b
 "SMART data" = "SMART данни"; // gemma4:31b
-"Power cycles" = "Power cycles";
-"Power on hours" = "Power on hours";
+"Power cycles" = "Брой цикли"; // gemma4:31b
+"Power on hours" = "Часове работа"; // gemma4:31b
 
 // Sensors
 "Celsius" = "Целзиус";

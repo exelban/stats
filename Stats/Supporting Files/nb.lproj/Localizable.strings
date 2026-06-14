@@ -58,7 +58,7 @@
 "Left alignment" = "Venstre";
 "Center alignment" = "Sentrum";
 "Right alignment" = "Høyre";
-"Dashboard" = "Dashboard";
+"Dashboard" = "Dashbord"; // gemma4:31b
 "Disabled" = "Deaktivert";
 "Silent" = "Stille";
 "Units" = "Enheter";
@@ -138,6 +138,7 @@
 "No notifications available in this module" = "Ingen varsler tilgjengelige i denne modulen"; // gemma4:31b
 "Open Calendar" = "Åpne kalender"; // translategemma:4b
 "Toggle the module" = "Veksle modulen"; // gemma4:31b
+"Open System Stats" = "Åpne System Stats"; // gemma4:31b
 
 // Application settings
 "Check for updates" = "Se etter oppdateringer";
@@ -332,10 +333,10 @@
 "Disk usage" = "Diskbruk";
 "Total read" = "Totalt lest"; // gemma4:31b
 "Total written" = "Totalt skrevet"; // translategemma:4b
-"Drives" = "Drives";
+"Drives" = "Disker"; // gemma4:31b
 "SMART data" = "SMART-data"; // translategemma:4b
-"Power cycles" = "Power cycles";
-"Power on hours" = "Power on hours";
+"Power cycles" = "Ladesykluser"; // gemma4:31b
+"Power on hours" = "Driftstimer"; // gemma4:31b
 
 // Sensors
 "Celsius" = "Celsius";

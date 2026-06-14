@@ -138,6 +138,7 @@
 "No notifications available in this module" = "このモジュールには利用可能な通知がありません";
 "Open Calendar" = "カレンダーを開く";
 "Toggle the module" = "モジュールの切り替え";
+"Open System Stats" = "System Statsを開く"; // gemma4:31b
 
 // Application settings
 "Check for updates" = "アップデートの確認頻度";
@@ -334,8 +335,8 @@
 "Total written" = "総書き込み量";
 "Drives" = "ディスク"; // gemma4:31b
 "SMART data" = "SMARTデータ"; // translategemma:4b
-"Power cycles" = "Power cycles";
-"Power on hours" = "Power on hours";
+"Power cycles" = "サイクル数"; // gemma4:31b
+"Power on hours" = "通電時間"; // gemma4:31b
 
 // Sensors
 "Celsius" = "摂氏（℃）";

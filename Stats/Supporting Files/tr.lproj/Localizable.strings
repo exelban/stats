@@ -138,6 +138,7 @@
 "No notifications available in this module" = "Bu modülde kullanılabilir bildirim mevcut değil";
 "Open Calendar" = "Takvimi Aç";
 "Toggle the module" = "Modülü aç/kapa";
+"Open System Stats" = "System Stats'ı Aç"; // gemma4:31b
 
 // Application settings
 "Check for updates" = "Güncellemeleri denetle";
@@ -334,8 +335,8 @@
 "Total written" = "Toplam yazılan";
 "Drives" = "Sürücüler";
 "SMART data" = "SMART verisi";
-"Power cycles" = "Power cycles";
-"Power on hours" = "Power on hours";
+"Power cycles" = "Güç döngüleri"; // gemma4:31b
+"Power on hours" = "Çalışma saatleri"; // gemma4:31b
 
 // Sensors
 "Celsius" = "Santigrat";

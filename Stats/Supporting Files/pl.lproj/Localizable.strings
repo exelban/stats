@@ -138,6 +138,7 @@
 "No notifications available in this module" = "W tym module nie są dostępne żadne powiadomienia";
 "Open Calendar" = "Otwórz kalendarz";
 "Toggle the module" = "Przełącz moduł";
+"Open System Stats" = "Otworzyć System Stats";
 
 // Application settings
 "Check for updates" = "Sprawdzaj aktualizacje";

@@ -138,6 +138,7 @@
 "No notifications available in this module" = "Notifiche non disponibili per questo modulo";
 "Open Calendar" = "Apri Calendario";
 "Toggle the module" = "Commuta il modulo"; // gemma4:31b
+"Open System Stats" = "Apri System Stats"; // gemma4:31b
 
 // Application settings
 "Check for updates" = "Controlla aggiornamenti";
@@ -200,7 +201,7 @@
 "Network chart widget" = "Grafico rete";
 "Speed widget" = "Velocità";
 "Battery widget" = "Batteria";
-"Stack widget" = "Stack";
+"Stack widget" = "Pila"; // gemma4:31b
 "Memory widget" = "Memoria";
 "Static width" = "Larghezza fissa";
 "Tachometer widget" = "Tachimetro";
@@ -334,8 +335,8 @@
 "Total written" = "Totale scritto";
 "Drives" = "Dischi"; // translategemma:4b
 "SMART data" = "Dati SMART"; // translategemma:4b
-"Power cycles" = "Power cycles";
-"Power on hours" = "Power on hours";
+"Power cycles" = "Numero di cicli"; // gemma4:31b
+"Power on hours" = "Ore di accensione"; // gemma4:31b
 
 // Sensors
 "Celsius" = "Celsius";

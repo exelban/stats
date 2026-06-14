@@ -69,7 +69,7 @@
 "Cube" = "Cubo";
 "Logarithmic" = "Logarítmico";
 "Fixed scale" = "Fixo"; // gemma4:31b
-"Cores" = "Cores";
+"Cores" = "Núcleos"; // gemma4:31b
 "Core" = "Núcleo"; // translategemma:4b
 "Settings" = "Definições";
 "Name" = "Nome"; // translategemma:4b
@@ -138,6 +138,7 @@
 "No notifications available in this module" = "Não há notificações disponíveis neste módulo"; // gemma4:31b
 "Open Calendar" = "Abrir calendário"; // gemma4:31b
 "Toggle the module" = "Alternar o módulo"; // gemma4:31b
+"Open System Stats" = "Abrir System Stats"; // gemma4:31b
 
 // Application settings
 "Check for updates" = "Procurar por atualizações";
@@ -166,7 +167,7 @@
 "Model identifier" = "Identificador do modelo"; // translategemma:4b
 "Production year" = "Ano de produção"; // translategemma:4b
 "Uptime" = "Tempo de atividade";
-"Number of cores" = "%0 cores";
+"Number of cores" = "%0 núcleos"; // gemma4:31b
 "Number of threads" = "%0 threads";
 "Number of e-cores" = "%0 núcleos de eficiência"; // gemma4:31b
 "Number of p-cores" = "%0 núcleos de desempenho"; // translategemma:4b
@@ -334,8 +335,8 @@
 "Total written" = "Total escrito"; // translategemma:4b
 "Drives" = "Discos"; // gemma4:31b
 "SMART data" = "Dados SMART"; // translategemma:4b
-"Power cycles" = "Power cycles";
-"Power on hours" = "Power on hours";
+"Power cycles" = "Ciclos de carga"; // gemma4:31b
+"Power on hours" = "Horas de funcionamento"; // gemma4:31b
 
 // Sensors
 "Celsius" = "Celsius";
@@ -479,4 +480,4 @@
 "Magenta" = "Magenta";
 "Pink" = "Rosa";
 "Teal" = "Azul petróleo";
-"Indigo" = "Indigo";
+"Indigo" = "Índigo"; // gemma4:31b

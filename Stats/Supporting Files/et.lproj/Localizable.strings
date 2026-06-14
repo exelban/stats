@@ -138,6 +138,7 @@
 "No notifications available in this module" = "Selles moodulis pole saadaval teavitusi.";
 "Open Calendar" = "Ava kalender";
 "Toggle the module" = "Lülita moodul sisse";
+"Open System Stats" = "Ava System Stats"; // gemma4:31b
 
 // Application settings
 "Check for updates" = "Otsi värskendusi";
@@ -247,7 +248,7 @@
 "Main chart scaling" = "Peamise graafi skaala";
 "Scale value" = "Mõõtühiku väärtus";
 "Text widget value" = "Teksti atribuudi väärtus";
-"Combined processes" = "Combined processes";
+"Combined processes" = "Grupeeritud protsessid"; // gemma4:31b
 
 // CPU
 "CPU usage" = "CPU kasutus";
@@ -334,11 +335,11 @@
 "Total written" = "Kokku kirjutatud";
 "Drives" = "Kettad";
 "SMART data" = "SMART-andmed";
-"Power cycles" = "Power cycles";
-"Power on hours" = "Power on hours";
+"Power cycles" = "Toitetsüklid"; // gemma4:31b
+"Power on hours" = "Töötunnid"; // gemma4:31b
 
 // Sensors
-"Celsius" = "Celsius";
+"Celsius" = "Celsiuse"; // gemma4:31b
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Salvesta ventilaatori kiirus";
 "Fan" = "Ventilaator";

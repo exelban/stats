@@ -138,6 +138,7 @@
 "No notifications available in this module" = "Nenhuma notificação disponível neste módulo";
 "Open Calendar" = "Abrir calendário"; // gemma4:31b
 "Toggle the module" = "Alternar o módulo"; // gemma4:31b
+"Open System Stats" = "Abrir System Stats"; // gemma4:31b
 
 // Application settings
 "Check for updates" = "Verificar se há atualizações";
@@ -334,8 +335,8 @@
 "Total written" = "Total escrito";
 "Drives" = "Discos"; // gemma4:31b
 "SMART data" = "Dados SMART"; // translategemma:4b
-"Power cycles" = "Power cycles";
-"Power on hours" = "Power on hours";
+"Power cycles" = "Ciclos de carga"; // gemma4:31b
+"Power on hours" = "Horas de funcionamento"; // gemma4:31b
 
 // Sensors
 "Celsius" = "Celsius";
