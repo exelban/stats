@@ -13,6 +13,8 @@ import Cocoa
 import Kit
 
 internal class Popup: PopupWrapper {
+    private var mainColorState: SColor = .secondBlue
+    private var mainColor: NSColor { self.readColorState.additional as? NSColor ?? NSColor.systemRed }
     private var readColorState: SColor = .secondBlue
     private var readColor: NSColor { self.readColorState.additional as? NSColor ?? NSColor.systemRed }
     private var writeColorState: SColor = .secondRed
@@ -43,6 +45,7 @@ internal class Popup: PopupWrapper {
     public init(_ module: ModuleType) {
         super.init(module, frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
         
+        self.mainColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_mainColor", defaultValue: self.mainColorState.key))
         self.readColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_readColor", defaultValue: self.readColorState.key))
         self.writeColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_writeColor", defaultValue: self.writeColorState.key))
         self.reverseOrderState = Store.shared.bool(key: "\(self.title)_reverseOrder", defaultValue: self.reverseOrderState)
@@ -204,6 +207,11 @@ internal class Popup: PopupWrapper {
         ]))
         
         view.addArrangedSubview(PreferencesSection([
+            PreferencesRow(localizedString("Main color"), component: colorSelectView(
+                action: #selector(self.toggleMainColor),
+                items: SColor.allColors.filter({ $0 != .monochrome }),
+                selected: self.mainColorState.key
+            )),
             PreferencesRow(localizedString("Write color"), component: colorSelectView(
                 action: #selector(self.toggleWriteColor),
                 items: SColor.allColors,
@@ -231,6 +239,11 @@ internal class Popup: PopupWrapper {
         return view
     }
     
+    @objc private func toggleMainColor(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else { return }
+        self.mainColorState = SColor.fromString(key, defaultValue: self.mainColorState)
+        Store.shared.set(key: "\(self.title)_mainColor", value: self.mainColorState.key)
+    }
     @objc private func toggleWriteColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
         self.writeColorState = SColor.fromString(key, defaultValue: self.writeColorState)
@@ -284,6 +297,10 @@ internal class DiskView: NSStackView {
     private var detailsState: Bool {
         get { Store.shared.bool(key: "\(self.uuid)_details", defaultValue: false) }
         set { Store.shared.set(key: "\(self.uuid)_details", value: newValue) }
+    }
+    
+    private var mainColor: NSColor {
+        SColor.fromString(Store.shared.string(key: "\(ModuleType.disk.stringValue)_mainColor", defaultValue: SColor.secondBlue.key)).additional as! NSColor
     }
     
     init(width: CGFloat, uuid: String, name: String, size: Int64 = 1, free: Int64 = 1, path: URL? = nil, smart: smart_t? = nil, resize: @escaping () -> Void) {
@@ -341,7 +358,7 @@ internal class DiskView: NSStackView {
         self.nameView.update(free: free, read: nil, write: nil)
         self.legendView.update(free: free)
         if size != 0 {
-            self.barView.setValue(ColorValue(Double(self.size - free) / Double(self.size)))
+            self.barView.setValue(ColorValue(Double(self.size - free) / Double(self.size), color: self.mainColor))
         }
         self.detailsView.update(smart: smart)
     }

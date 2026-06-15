@@ -226,6 +226,10 @@ public class Disk: Module {
         self.userDefaults?.bool(forKey: "systemWidgetsUpdates_state") ?? false
     }
     
+    private var mainColor: NSColor {
+        SColor.fromString(Store.shared.string(key: "\(self.name)_mainColor", defaultValue: SColor.secondBlue.key)).additional as! NSColor
+    }
+    
     public init() {
         super.init(
             moduleType: .disk,
@@ -299,7 +303,7 @@ public class Disk: Module {
                 widget.setValue((DiskSize(d.free).getReadableMemory(), DiskSize(d.size - d.free).getReadableMemory()), usedPercentage: d.percentage)
             case let widget as PieChart:
                 widget.setValue([
-                    ColorValue(d.percentage, color: NSColor.systemBlue)
+                    ColorValue(d.percentage, color: self.mainColor)
                 ])
             case let widget as TextWidget:
                 var text = "\(self.textValue)"
