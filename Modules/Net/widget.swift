@@ -90,11 +90,6 @@ public struct NetworkWidget: Widget {
                                 Spacer()
                                 Text(value.status ? "UP" : "DOWN")
                                     .font(.system(size: 11, weight: .semibold))
-                                    .foregroundColor(.white)
-                                    .padding(.horizontal, 6)
-                                    .padding(.vertical, 1)
-                                    .background(value.status ? Color.green : Color.red)
-                                    .cornerRadius(4)
                             }
                             if let interface = value.interface {
                                 HStack {
