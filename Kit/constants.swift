@@ -20,6 +20,7 @@ public struct Popup_c_s {
     public let separatorHeight: CGFloat = 30
     public let portalHeight: CGFloat = 120
     public let radius: CGFloat = 6
+    public let processHeight: CGFloat = 22
 }
 
 public struct Settings_c_s {
