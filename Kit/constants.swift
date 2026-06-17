@@ -80,4 +80,15 @@ public enum ModuleType: Int {
         case .combined: return ""
         }
     }
+    
+    public var activityMonitorTab: Int? {
+        switch self {
+        case .CPU: return 0
+        case .RAM: return 1
+        case .disk: return 3
+        case .network: return 4
+        case .battery: return 2
+        default: return nil
+        }
+    }
 }

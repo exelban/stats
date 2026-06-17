@@ -458,6 +458,9 @@ internal class HeaderView: NSStackView {
     
     @objc func openActivityMonitor() {
         guard let app = self.activityMonitor else { return }
+        if let tab = self.module.activityMonitorTab {
+            UserDefaults(suiteName: "com.apple.ActivityMonitor")?.set(tab, forKey: "SelectedTab")
+        }
         NSWorkspace.shared.open([], withApplicationAt: app, configuration: NSWorkspace.OpenConfiguration())
     }
     
