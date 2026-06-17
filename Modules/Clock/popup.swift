@@ -75,7 +75,7 @@ internal class Popup: PopupWrapper {
     }
     
     private func recalculateHeight() {
-        let h = self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - self.spacing
+        let h = self.arrangedSubviews.map({ $0.fittingSize.height + self.spacing }).reduce(0, +) - self.spacing
         if h > 0 && self.frame.size.height != h {
             self.setFrameSize(NSSize(width: self.frame.width, height: h))
             self.sizeCallback?(self.frame.size)
@@ -183,18 +183,17 @@ private class CalendarView: NSStackView {
         
         super.init(frame: NSRect(x: 0, y: 0, width: width, height: width - 32))
         self.setAccessibilityElement(true)
-        self.toolTip = localizedString("Calendar")
         
         self.spacing = 0
         self.orientation = .vertical
         self.edgeInsets = .init(
-            top: Constants.Popup.spacing,
+            top: Constants.Popup.margins,
             left: Constants.Popup.margins,
-            bottom: Constants.Popup.spacing,
+            bottom: Constants.Popup.margins,
             right: Constants.Popup.margins
         )
         self.wantsLayer = true
-        self.layer?.cornerRadius = 2
+        self.layer?.cornerRadius = Constants.Popup.radius
         
         self.updateItemSize()
         self.addArrangedSubview(self.navigation())
@@ -263,9 +262,10 @@ private class CalendarView: NSStackView {
         self.navigationHeightConstraint = view.heightAnchor.constraint(greaterThanOrEqualToConstant: max(self.itemSize.height, 24))
         self.navigationHeightConstraint?.isActive = true
         view.orientation = .horizontal
+        view.edgeInsets = .init(top: 0, left: 6, bottom: 6, right: 6)
         
         let details = NSTextField(labelWithString: "\(Calendar.current.standaloneMonthSymbols[self.month-1]) \(self.year)")
-        details.font = .systemFont(ofSize: 16, weight: .medium)
+        details.font = .systemFont(ofSize: 15, weight: .medium)
         details.lineBreakMode = .byTruncatingTail
         details.maximumNumberOfLines = 1
         details.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
@@ -323,27 +323,15 @@ private class CalendarView: NSStackView {
         view.cell = cell
         view.alignment = .center
         view.textColor = .gray
-        view.font = .systemFont(ofSize: 12)
+        view.font = .systemFont(ofSize: 10, weight: .medium)
         view.widthAnchor.constraint(equalToConstant: self.itemSize.width).isActive = true
         view.heightAnchor.constraint(equalToConstant: self.itemSize.height).isActive = true
         return view
     }
     
     private func rowItem(_ day: DateComponents) -> NSView {
-        if day.year == self.currentYear && day.month == self.currentMonth && day.day == self.currentDay {
-            return self.todayItem()
-        }
-        let view = NSTextField()
-        let cell = VerticallyCenteredTextFieldCell(textCell: "\(day.day ?? 0)")
-        view.cell = cell
-        view.alignment = .center
-        if day.month != self.month {
-            view.textColor = .lightGray
-        }
-        
-        view.widthAnchor.constraint(equalToConstant: self.itemSize.width).isActive = true
-        view.heightAnchor.constraint(equalToConstant: self.itemSize.height).isActive = true
-        return view
+        let isToday = day.year == self.currentYear && day.month == self.currentMonth && day.day == self.currentDay
+        return CalendarItemView(day, size: self.itemSize, isToday: isToday, isOutOfMonth: day.month != self.month)
     }
     
     private func weekNumberHeaderItem() -> NSView {
@@ -352,7 +340,7 @@ private class CalendarView: NSStackView {
         view.cell = cell
         view.alignment = .center
         view.textColor = .secondaryLabelColor
-        view.font = .systemFont(ofSize: 11)
+        view.font = .systemFont(ofSize: 10, weight: .medium)
         view.widthAnchor.constraint(equalToConstant: self.itemSize.width).isActive = true
         view.heightAnchor.constraint(equalToConstant: self.itemSize.height).isActive = true
         self.addRightBorder(view)
@@ -369,7 +357,7 @@ private class CalendarView: NSStackView {
         view.cell = cell
         view.alignment = .center
         view.textColor = .secondaryLabelColor
-        view.font = .systemFont(ofSize: 11)
+        view.font = .systemFont(ofSize: 10, weight: .medium)
         view.widthAnchor.constraint(equalToConstant: self.itemSize.width).isActive = true
         view.heightAnchor.constraint(equalToConstant: self.itemSize.height).isActive = true
         self.addRightBorder(view)
@@ -393,32 +381,6 @@ private class CalendarView: NSStackView {
             border.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             border.widthAnchor.constraint(equalToConstant: lineWidth)
         ])
-    }
-    
-    private func todayItem() -> NSView {
-        let view = NSView()
-        
-        let size: CGFloat = 25
-        let circle = NSView(frame: NSRect(x: (self.itemSize.width-size)/2, y: (self.itemSize.height-size)/2, width: size, height: size))
-        circle.wantsLayer = true
-        circle.layer?.backgroundColor = NSColor.systemRed.cgColor
-        circle.layer?.cornerRadius = size/2
-        
-        let field = NSTextField()
-        field.translatesAutoresizingMaskIntoConstraints = false
-        let cell = VerticallyCenteredTextFieldCell(textCell: "\(self.currentDay)")
-        field.cell = cell
-        field.alignment = .center
-        field.textColor = .white
-        
-        view.addSubview(circle)
-        view.addSubview(field)
-        
-        view.widthAnchor.constraint(equalToConstant: self.itemSize.width).isActive = true
-        view.heightAnchor.constraint(equalToConstant: self.itemSize.height).isActive = true
-        field.widthAnchor.constraint(equalToConstant: self.itemSize.width).isActive = true
-        field.heightAnchor.constraint(equalToConstant: self.itemSize.height).isActive = true
-        return view
     }
     
     private func generateDays(for month: Int, in year: Int) -> [[DateComponents]] {
@@ -510,6 +472,118 @@ private class CalendarView: NSStackView {
     }
 }
 
+private class CalendarItemView: NSView {
+    private let components: DateComponents
+    private let isHoverable: Bool
+    
+    private let app = URL(fileURLWithPath: "/System/Applications/Calendar.app")
+    
+    init(_ components: DateComponents, size: NSSize, isToday: Bool, isOutOfMonth: Bool) {
+        self.components = components
+        self.isHoverable = !isToday
+        
+        super.init(frame: NSRect(x: 0, y: 0, width: size.width, height: size.height))
+        
+        self.wantsLayer = true
+        self.layer?.cornerRadius = 4
+        self.toolTip = self.formattedDate()
+        self.widthAnchor.constraint(equalToConstant: size.width).isActive = true
+        self.heightAnchor.constraint(equalToConstant: size.height).isActive = true
+        
+        let field = NSTextField()
+        field.translatesAutoresizingMaskIntoConstraints = false
+        let cell = VerticallyCenteredTextFieldCell(textCell: "\(components.day ?? 0)")
+        field.cell = cell
+        field.alignment = .center
+        
+        if isToday {
+            let circleSize: CGFloat = min(size.width, size.height) - 3
+            let circle = NSView()
+            circle.translatesAutoresizingMaskIntoConstraints = false
+            circle.wantsLayer = true
+            circle.layer?.backgroundColor = NSColor.systemRed.cgColor
+            circle.layer?.cornerRadius = circleSize/2
+            
+            field.textColor = .white
+            
+            self.addSubview(circle)
+            self.addSubview(field)
+            
+            NSLayoutConstraint.activate([
+                circle.widthAnchor.constraint(equalToConstant: circleSize),
+                circle.heightAnchor.constraint(equalToConstant: circleSize),
+                circle.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+                circle.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 0.5),
+                field.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+                field.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+            ])
+        } else {
+            if isOutOfMonth {
+                field.textColor = .lightGray
+            }
+            self.addSubview(field)
+            NSLayoutConstraint.activate([
+                field.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+                field.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+            ])
+        }
+        
+        NSLayoutConstraint.activate([
+            field.widthAnchor.constraint(equalToConstant: size.width),
+            field.heightAnchor.constraint(equalToConstant: size.height)
+        ])
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func updateTrackingAreas() {
+        super.updateTrackingAreas()
+        self.trackingAreas.forEach { self.removeTrackingArea($0) }
+        guard self.isHoverable else { return }
+        self.addTrackingArea(NSTrackingArea(
+            rect: self.bounds,
+            options: [.mouseEnteredAndExited, .activeInActiveApp],
+            owner: self,
+            userInfo: nil
+        ))
+    }
+    
+    override func mouseEntered(with event: NSEvent) {
+        guard self.isHoverable else { return }
+        self.layer?.backgroundColor = NSColor.gray.withAlphaComponent(0.2).cgColor
+    }
+    
+    override func mouseExited(with event: NSEvent) {
+        self.layer?.backgroundColor = .clear
+    }
+    
+    override func hitTest(_ point: NSPoint) -> NSView? {
+        guard !self.isHidden else { return nil }
+        return self.bounds.contains(self.convert(point, from: self.superview)) ? self : nil
+    }
+    
+    override func mouseDown(with event: NSEvent) {
+        if event.clickCount == 2 {
+            NSWorkspace.shared.open([], withApplicationAt: self.app, configuration: NSWorkspace.OpenConfiguration())
+            return
+        }
+        guard let value = self.formattedDate() else { return }
+        let pasteboard = NSPasteboard.general
+        pasteboard.clearContents()
+        pasteboard.setString(value, forType: .string)
+    }
+    
+    private func formattedDate() -> String? {
+        guard let date = Calendar.current.date(from: self.components) else { return nil }
+        let formatter = DateFormatter()
+        formatter.locale = .current
+        formatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "yyyyMMdd", options: 0, locale: .current)
+        return formatter.string(from: date)
+    }
+}
+
 internal class ClockView: NSStackView {
     public var clock: Clock_t
     
@@ -522,22 +596,25 @@ internal class ClockView: NSStackView {
     private let clockView: ClockChart = ClockChart(frame: CGRect(x: 0, y: 0, width: 34, height: 34))
     private let nameField: NSTextField = TextView()
     private let timeField: NSTextField = TextView()
+    private let tzField: NSTextField = TextView()
+    private let dateField: NSTextField = TextView()
     
     init(width: CGFloat, clock: Clock_t) {
         self.clock = clock
         
-        super.init(frame: NSRect(x: 0, y: 0, width: width, height: 44))
+        super.init(frame: NSRect(x: 0, y: 0, width: width, height: 50))
         
         self.orientation = .horizontal
-        self.spacing = 5
+        self.distribution = .fill
+        self.spacing = Constants.Popup.margins
         self.edgeInsets = NSEdgeInsets(
-            top: 5,
-            left: 5,
-            bottom: 5,
-            right: 5
+            top: Constants.Popup.margins,
+            left: Constants.Popup.margins,
+            bottom: Constants.Popup.margins,
+            right: Constants.Popup.margins
         )
         self.wantsLayer = true
-        self.layer?.cornerRadius = 2
+        self.layer?.cornerRadius = Constants.Popup.radius
         self.setAccessibilityElement(true)
         self.toolTip = "\(clock.name): \(clock.formatted())"
         
@@ -549,8 +626,9 @@ internal class ClockView: NSStackView {
         container.distribution = .fillEqually
         container.alignment = .left
         
-        self.nameField.font = NSFont.systemFont(ofSize: 11, weight: .light)
-        self.setTZ()
+        self.nameField.font = NSFont.systemFont(ofSize: 11, weight: .medium)
+        self.nameField.textColor = .tertiaryLabelColor
+        self.nameField.stringValue = self.clock.name
         self.nameField.cell?.truncatesLastVisibleLine = true
         
         self.timeField.font = NSFont.systemFont(ofSize: 13, weight: .regular)
@@ -559,9 +637,29 @@ internal class ClockView: NSStackView {
         
         container.addArrangedSubview(self.nameField)
         container.addArrangedSubview(self.timeField)
+        container.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        
+        let details: NSStackView = NSStackView()
+        details.orientation = .vertical
+        details.spacing = 2
+        details.distribution = .fillEqually
+        details.alignment = .right
+        
+        self.tzField.font = NSFont.systemFont(ofSize: 11, weight: .medium)
+        self.tzField.textColor = .tertiaryLabelColor
+        self.tzField.alignment = .right
+        
+        self.dateField.font = NSFont.systemFont(ofSize: 11, weight: .regular)
+        self.dateField.textColor = .tertiaryLabelColor
+        self.dateField.alignment = .right
+        
+        details.addArrangedSubview(self.tzField)
+        details.addArrangedSubview(self.dateField)
+        details.setContentHuggingPriority(.required, for: .horizontal)
         
         self.addArrangedSubview(self.clockView)
         self.addArrangedSubview(container)
+        self.addArrangedSubview(details)
         
         self.update(clock)
     }
@@ -574,28 +672,59 @@ internal class ClockView: NSStackView {
         self.layer?.backgroundColor = (isDarkMode ? NSColor(red: 17/255, green: 17/255, blue: 17/255, alpha: 0.25) : NSColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)).cgColor
     }
     
-    private func setTZ() {
-        self.nameField.stringValue = "\(self.clock.name)"
-        if let tz = Clock.zones.first(where: { $0.key == self.clock.tz }), tz.key != "local" {
-            self.nameField.stringValue += " (\(tz.value))"
-        }
-    }
-    
     public func update(_ newClock: Clock_t) {
         if self.clock.tz != newClock.tz || self.clock.name != newClock.name {
             self.clock = newClock
-            self.setTZ()
+            self.nameField.stringValue = self.clock.name
         }
-        
         self.cache.apply(newClock, visible: self.window?.isVisible ?? false, render: self.renderClock)
     }
     
     private func renderClock(_ newClock: Clock_t) {
         self.timeField.stringValue = newClock.formatted()
+        self.setDetails(newClock)
         if let value = newClock.value {
             self.clockView.setValue(value.convertToTimeZone(TimeZone(from: newClock.tz)))
         }
         self.clockView.display()
+    }
+    
+    private func setDetails(_ clock: Clock_t) {
+        let date = clock.value ?? Date()
+        let tz = TimeZone(from: clock.tz)
+        
+        let seconds = tz.secondsFromGMT(for: date)
+        let sign = seconds < 0 ? "-" : "+"
+        let hours = abs(seconds) / 3600
+        let minutes = abs(seconds) / 60 % 60
+        self.tzField.stringValue = minutes == 0
+            ? "GMT\(sign)\(hours)"
+            : String(format: "GMT\(sign)%d:%02d", hours, minutes)
+        
+        guard clock.tz != "local" else {
+            self.dateField.stringValue = ""
+            self.dateField.isHidden = true
+            return
+        }
+        self.dateField.isHidden = false
+        
+        var remote = Calendar.current
+        remote.timeZone = tz
+        var local = Calendar.current
+        local.timeZone = .current
+        let diff = (remote.ordinality(of: .day, in: .era, for: date) ?? 0) - (local.ordinality(of: .day, in: .era, for: date) ?? 0)
+        
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current
+        formatter.timeZone = tz
+        formatter.dateFormat = "EEE"
+        var value = formatter.string(from: date)
+        if diff > 0 {
+            value += " · +\(diff)"
+        } else if diff < 0 {
+            value += " · \(diff)"
+        }
+        self.dateField.stringValue = value
     }
     
     public func appear() {
