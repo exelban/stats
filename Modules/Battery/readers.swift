@@ -98,7 +98,7 @@ internal class UsageReader: Reader<Battery_Usage> {
                 }
                 self.usage.health = Int((Double(100 * self.usage.maxCapacity) / Double(self.usage.designedCapacity)).rounded(.toNearestOrEven))
                 
-                self.usage.amperage = self.getIntValue("Amperage" as CFString) ?? 0
+                self.usage.current = self.getIntValue("Amperage" as CFString) ?? 0
                 self.usage.voltage = self.getVoltage() ?? 0
                 self.usage.temperature = self.getTemperature() ?? 0
                 
@@ -112,6 +112,12 @@ internal class UsageReader: Reader<Battery_Usage> {
                     }
                 }
                 self.usage.ACwatts = ACwatts
+                
+                self.usage.batteryPower = SMC.shared.getValue("PPBR") ?? (self.usage.voltage * (Double(self.usage.current) / 1000))
+                self.usage.adapterPower = SMC.shared.getValue("PDTR") ?? 0
+                if let adapterDetails = self.getAdapterDetails() {
+                    self.usage.adapterVoltage = Double(adapterDetails["AdapterVoltage"] as? Int ?? 0) / 1000
+                }
                 
                 if let chargerData = self.getChargerData() {
                     self.usage.chargingCurrent = chargerData["ChargingCurrent"] as? Int ?? 0
@@ -157,6 +163,10 @@ internal class UsageReader: Reader<Battery_Usage> {
     }
     
     private func getTemperature() -> Double? {
+        let sensors = ["TB1T", "TB2T"].compactMap { SMC.shared.getValue($0) }.filter { $0 > 0 }
+        if !sensors.isEmpty {
+            return sensors.reduce(0, +) / Double(sensors.count)
+        }
         if let value = IORegistryEntryCreateCFProperty(self.service, "Temperature" as CFString, kCFAllocatorDefault, 0),
            let temperature = value.takeRetainedValue() as? Double {
             return temperature / 100.0
@@ -167,6 +177,13 @@ internal class UsageReader: Reader<Battery_Usage> {
     private func getChargerData() -> [String: Any]? {
         if let chargerData = IORegistryEntryCreateCFProperty(service, "ChargerData" as CFString, kCFAllocatorDefault, 0) {
             return chargerData.takeRetainedValue() as? [String: Any]
+        }
+        return nil
+    }
+
+    private func getAdapterDetails() -> [String: Any]? {
+        if let adapterDetails = IORegistryEntryCreateCFProperty(service, "AdapterDetails" as CFString, kCFAllocatorDefault, 0) {
+            return adapterDetails.takeRetainedValue() as? [String: Any]
         }
         return nil
     }

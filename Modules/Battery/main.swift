@@ -28,13 +28,16 @@ struct Battery_Usage: Codable {
     var maxCapacity: Int = 0
     var currentCapacity: Int = 0
     
-    var amperage: Int = 0
+    var current: Int = 0
     var voltage: Double = 0
     var temperature: Double = 0
-    
+    var batteryPower: Double = 0
+
     var ACwatts: Int = 0
     var chargingCurrent: Int = 0
     var chargingVoltage: Int = 0
+    var adapterPower: Double = 0
+    var adapterVoltage: Double = 0
     
     var timeToEmpty: Int = 0
     var timeToCharge: Int = 0
