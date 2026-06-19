@@ -91,7 +91,14 @@ internal class Popup: PopupWrapper {
         }
         
         if !fans.isEmpty {
-            self.addArrangedSubview(self.fansSeparatorView())
+            let separator = SeparatorView(
+                label: localizedString("Fans"),
+                button: PopupButton(toolTip: localizedString("Control"), state: self.fanControlState) { [weak self] in
+                    self?.toggleFanControl()
+                }
+            )
+            separator.widthAnchor.constraint(equalToConstant: Constants.Popup.width).isActive = true
+            self.addArrangedSubview(separator)
             
             let container = NSStackView()
             container.orientation = .vertical
@@ -231,28 +238,6 @@ internal class Popup: PopupWrapper {
     }
     
     // MARK: helpers
-    
-    private func fansSeparatorView() -> NSView {
-        let row: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: Constants.Popup.separatorHeight))
-        row.widthAnchor.constraint(equalToConstant: row.frame.width).isActive = true
-        row.heightAnchor.constraint(equalToConstant: row.bounds.height).isActive = true
-        
-        let button = NSButtonWithPadding()
-        button.frame = CGRect(x: row.frame.width - 18, y: 6, width: 18, height: 18)
-        button.bezelStyle = .regularSquare
-        button.isBordered = false
-        button.imageScaling = NSImageScaling.scaleProportionallyDown
-        button.contentTintColor = .lightGray
-        button.action = #selector(self.toggleFanControl)
-        button.target = self
-        button.toolTip = localizedString("Control")
-        button.image = iconFromSymbol(name: "slider.horizontal.3", scale: .medium)
-        
-        row.addSubview(separatorView(localizedString("Fans"), width: self.frame.width, rightInset: 24))
-        row.addSubview(button)
-        
-        return row
-    }
     
     @objc private func toggleSensor(_ sender: NSControl) {
         guard let id = sender.identifier else { return }
@@ -404,7 +389,7 @@ internal class ValueSensorView: NSStackView {
 internal class ChartSensorView: NSStackView {
     private var chart: LineChartView? = nil
     private var currentSuffix: String
-
+    
     public init(width: CGFloat, suffix: String) {
         self.currentSuffix = suffix
         super.init(frame: NSRect(x: 0, y: 0, width: width, height: 60))
@@ -462,17 +447,13 @@ internal class FanView: NSStackView {
     private var modeButtons: ModeButtons? = nil
     private var debouncer: DispatchWorkItem? = nil
     
-    private var barView: BarChartView? = nil
+    private var barView: BarChartView = BarChartView(size: 6, horizontal: true)
     
     private var minBtn: NSButton? = nil
     private var maxBtn: NSButton? = nil
     
-    private var speedState: Bool {
-        Store.shared.bool(key: "Sensors_speed", defaultValue: false)
-    }
-    private var syncState: Bool {
-        Store.shared.bool(key: "Sensors_fansSync", defaultValue: false)
-    }
+    private var speedState: Bool { Store.shared.bool(key: "Sensors_speed", defaultValue: false) }
+    private var syncState: Bool { Store.shared.bool(key: "Sensors_fansSync", defaultValue: false) }
     private var speed: Double {
         get {
             if let v = self.fan.customSpeed, self.speedState {
@@ -500,8 +481,7 @@ internal class FanView: NSStackView {
         self.sizeCallback = callback
         self.controlState = Store.shared.bool(key: "Sensors_fanControl", defaultValue: true)
         
-        let inset: CGFloat = 5
-        super.init(frame: NSRect(x: 0, y: 0, width: width - (inset*2), height: 0))
+        super.init(frame: NSRect(x: 0, y: 0, width: width, height: 0))
         
         self.helperView = self.noHelper()
         self.controlView = self.control()
@@ -511,7 +491,7 @@ internal class FanView: NSStackView {
         self.alignment = .centerX
         self.distribution = .fillProportionally
         self.spacing = 1
-        self.edgeInsets = NSEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
+        self.edgeInsets = NSEdgeInsets(top: 4, left: 0, bottom: 4, right: 0)
         self.wantsLayer = true
         self.layer?.cornerRadius = Constants.Popup.radius
         
@@ -549,10 +529,6 @@ internal class FanView: NSStackView {
         NotificationCenter.default.removeObserver(self, name: NSApplication.didBecomeActiveNotification, object: nil)
     }
     
-    override func updateLayer() {
-        self.layer?.backgroundColor = (isDarkMode ? NSColor(red: 17/255, green: 17/255, blue: 17/255, alpha: 0.25) : NSColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)).cgColor
-    }
-    
     private func nameAndSpeed() {
         let row: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 16))
         row.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
@@ -573,18 +549,15 @@ internal class FanView: NSStackView {
         valueField.stringValue = self.fanValue == .percentage ? "\(self.fan.percentage)%" : self.fan.formattedValue
         valueField.toolTip = "\(value)"
         
-        let bar = BarChartView(frame: NSRect(x: 0, y: 0, width: 80, height: 8), horizontal: true)
-        bar.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        bar.heightAnchor.constraint(equalToConstant: 8).isActive = true
         let percentage = self.fan.percentage < 0 ? 0 : self.fan.percentage
-        bar.setValue(ColorValue(Double(percentage) / 100))
+        self.barView.widthAnchor.constraint(equalToConstant: 110).isActive = true
+        self.barView.setValue(ColorValue(Double(percentage) / 100))
         
         row.addArrangedSubview(nameField)
-        row.addArrangedSubview(bar)
+        row.addArrangedSubview(self.barView)
         row.addArrangedSubview(valueField)
         
         self.valueField = valueField
-        self.barView = bar
         
         self.addArrangedSubview(row)
     }
@@ -614,7 +587,7 @@ internal class FanView: NSStackView {
     }
     
     private func mode() -> NSView {
-        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 30))
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 44))
         view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
         
         let buttons = ModeButtons(frame: NSRect(
@@ -637,6 +610,7 @@ internal class FanView: NSStackView {
                     self?.fan.mode = .forced
                     SMCHelper.shared.setFanMode(fan.id, mode: FanMode.forced.rawValue)
                 }
+                self?.fan.customMode = .forced
                 SMCHelper.shared.setFanSpeed(fan.id, speed: 0)
                 self?.fan.customSpeed = 0
             }
@@ -648,6 +622,7 @@ internal class FanView: NSStackView {
                     self?.fan.mode = .forced
                     SMCHelper.shared.setFanMode(fan.id, mode: FanMode.forced.rawValue)
                 }
+                self?.fan.customMode = .forced
                 SMCHelper.shared.setFanSpeed(fan.id, speed: Int(fan.maxSpeed))
                 self?.fan.customSpeed = Int(fan.maxSpeed)
             }
@@ -661,15 +636,18 @@ internal class FanView: NSStackView {
     }
     
     private func control() -> NSView {
-        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 46))
-        view.identifier = NSUserInterfaceItemIdentifier(rawValue: "control")
+        let view: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 40))
         view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
+        view.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
+        view.identifier = NSUserInterfaceItemIdentifier(rawValue: "control")
         
-        let controls: NSStackView = NSStackView(frame: NSRect(x: 0, y: 14, width: view.frame.width, height: 30))
-        controls.orientation = .horizontal
-        controls.spacing = 0
+//        view.wantsLayer = true
+//        view.layer?.backgroundColor = NSColor.red.cgColor
+        view.orientation = .vertical
+        view.distribution = .fill
+        view.edgeInsets = NSEdgeInsets(top: 0, left: Constants.Popup.margins/2, bottom: Constants.Popup.margins/2, right: Constants.Popup.margins/2)
         
-        let slider: NSSlider = NSSlider(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 26))
+        let slider: NSSlider = NSSlider()
         slider.minValue = self.fan.minSpeed
         slider.maxValue = self.fan.maxSpeed
         slider.doubleValue = self.speed
@@ -677,9 +655,13 @@ internal class FanView: NSStackView {
         slider.action = #selector(self.sliderCallback)
         slider.target = self
         
-        let levels: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 16))
+        let levels: NSStackView = NSStackView()
+        levels.heightAnchor.constraint(equalToConstant: 16).isActive = true
+        levels.orientation = .horizontal
+        levels.distribution = .fill
         
-        let minBtn: NSButton = NSButton(frame: NSRect(x: 0, y: 0, width: 50, height: levels.frame.height))
+        let minBtn: NSButtonWithPadding = NSButtonWithPadding()
+        minBtn.horizontalPadding = 4
         minBtn.title = "\(Int(self.fan.minSpeed))"
         minBtn.toolTip = localizedString("Min")
         minBtn.setButtonType(.toggle)
@@ -687,17 +669,24 @@ internal class FanView: NSStackView {
         minBtn.target = self
         minBtn.state = .off
         minBtn.action = #selector(self.setMin)
+        minBtn.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         minBtn.wantsLayer = true
-        minBtn.layer?.cornerRadius = 3
+        minBtn.layer?.cornerRadius = Constants.Popup.radius
         minBtn.layer?.borderWidth = 1
         minBtn.layer?.borderColor = NSColor.lightGray.cgColor
         
-        let valueField: NSTextField = TextView(frame: NSRect(x: 80, y: 0, width: levels.frame.width - 160, height: levels.frame.height))
+        let valueField: NSTextField = TextView()
         valueField.font = NSFont.systemFont(ofSize: 11, weight: .light)
         valueField.textColor = .secondaryLabelColor
         valueField.alignment = .center
+        valueField.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        valueField.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        if let speed = self.fan.customSpeed {
+            valueField.stringValue = "\(Int(speed))"
+        }
         
-        let maxBtn: NSButton = NSButton(frame: NSRect(x: levels.frame.width - 50, y: 0, width: 50, height: levels.frame.height))
+        let maxBtn: NSButtonWithPadding = NSButtonWithPadding()
+        maxBtn.horizontalPadding = 4
         maxBtn.title = "\(Int(self.fan.maxSpeed))"
         maxBtn.toolTip = localizedString("Max")
         maxBtn.setButtonType(.toggle)
@@ -706,19 +695,20 @@ internal class FanView: NSStackView {
         maxBtn.state = .off
         maxBtn.wantsLayer = true
         maxBtn.action = #selector(self.setMax)
-        maxBtn.layer?.cornerRadius = 3
+        maxBtn.layer?.cornerRadius = Constants.Popup.radius
         maxBtn.layer?.borderWidth = 1
         maxBtn.layer?.borderColor = NSColor.lightGray.cgColor
+        maxBtn.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         
-        controls.addArrangedSubview(slider)
+        levels.addArrangedSubview(minBtn)
+        levels.addArrangedSubview(valueField)
+        levels.addArrangedSubview(maxBtn)
         
-        levels.addSubview(minBtn)
-        levels.addSubview(valueField)
-        levels.addSubview(maxBtn)
-        
-        view.addSubview(controls)
-        view.addSubview(levels)
-        
+        view.addArrangedSubview(slider)
+        view.addArrangedSubview(levels)
+
+        levels.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -Constants.Popup.margins).isActive = true
+
         self.slider = slider
         self.sliderValueField = valueField
         self.minBtn = minBtn
@@ -891,10 +881,8 @@ internal class FanView: NSStackView {
                 self.valueField?.stringValue = newValue
                 self.valueField?.toolTip = value.formattedValue
                 
-                if let v = self.barView {
-                    let percentage = value.percentage < 0 ? 0 : value.percentage
-                    v.setValue(ColorValue(Double(percentage) / 100))
-                }
+                let percentage = value.percentage < 0 ? 0 : value.percentage
+                self.barView.setValue(ColorValue(Double(percentage) / 100))
                 
                 if self.resetModeAfterSleep && !value.mode.isAutomatic {
                     if self.sliderValueField?.stringValue != "" && self.slider?.doubleValue != value.value {
@@ -969,21 +957,18 @@ private class ModeButtons: NSStackView {
     public var turbo: () -> Void = {}
     public var off: () -> Void = {}
     
-    private var fansSyncState: Bool {
-        Store.shared.bool(key: "Sensors_fansSync", defaultValue: false)
-    }
+    private var fansSyncState: Bool { Store.shared.bool(key: "Sensors_fansSync", defaultValue: false) }
+    
+    private var modes: ModeSwitch
     
     private var offBtn: NSButton
-    private var autoBtn: NSButton = NSButton(title: localizedString("Automatic"), target: nil, action: #selector(autoMode))
-    private var manualBtn: NSButton = NSButton(title: localizedString("Manual"), target: nil, action: #selector(manualMode))
     private var turboBtn: NSButton
     
     public init(frame: NSRect, mode: FanMode) {
-        let turboIcon: NSImage = iconFromSymbol(name: "snowflake", scale: .large)
-        let offIcon: NSImage = iconFromSymbol(name: "fanblades.slash", scale: .medium)
+        self.modes = .init(mode)
         
-        self.offBtn = NSButton(image: offIcon, target: nil, action: #selector(offMode))
-        self.turboBtn = NSButton(image: turboIcon, target: nil, action: #selector(turboMode))
+        self.offBtn = NSButton(image: iconFromSymbol(name: "nosign", scale: .medium), target: nil, action: #selector(offMode))
+        self.turboBtn = NSButton(image: iconFromSymbol(name: "snowflake", scale: .large), target: nil, action: #selector(turboMode))
         
         super.init(frame: frame)
         
@@ -992,27 +977,26 @@ private class ModeButtons: NSStackView {
         self.distribution = .fillProportionally
         self.spacing = 0
         self.wantsLayer = true
-        self.layer?.cornerRadius = 3
-        self.layer?.borderWidth = 1
-        self.layer?.borderColor = NSColor.lightGray.cgColor
+        self.layer?.cornerRadius = Constants.Popup.radius
+        self.edgeInsets = .init(top: 0, left: Constants.Popup.margins/2, bottom: 0, right: Constants.Popup.margins/2)
         
-        let modes: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
-        modes.orientation = .horizontal
-        modes.alignment = .centerY
-        modes.distribution = .fillEqually
-        
-        self.autoBtn.setButtonType(.toggle)
-        self.autoBtn.isBordered = false
-        self.autoBtn.target = self
-        self.autoBtn.state = mode.isAutomatic ? .on : .off
-        
-        self.manualBtn.setButtonType(.toggle)
-        self.manualBtn.isBordered = false
-        self.manualBtn.target = self
-        self.manualBtn.state = mode == .forced ? .on : .off
-        
-        modes.addArrangedSubview(self.autoBtn)
-        modes.addArrangedSubview(self.manualBtn)
+        self.modes.autoCallback = { [weak self] in
+            if let self {
+                self.offBtn.state = .off
+                self.turboBtn.state = .off
+                self.callback(.automatic)
+            }
+            NotificationCenter.default.post(name: .syncFansControl, object: nil, userInfo: ["mode": "automatic"])
+            NotificationCenter.default.post(name: .checkFanModes, object: nil)
+        }
+        self.modes.manualCallback = { [weak self] in
+            if let self {
+                self.offBtn.state = .off
+                self.turboBtn.state = .off
+                self.callback(.forced)
+            }
+            NotificationCenter.default.post(name: .syncFansControl, object: nil, userInfo: ["mode": "forced"])
+        }
         
         self.offBtn.setButtonType(.toggle)
         self.offBtn.isBordered = false
@@ -1022,17 +1006,17 @@ private class ModeButtons: NSStackView {
         self.turboBtn.isBordered = false
         self.turboBtn.target = self
         
-        NSLayoutConstraint.activate([
-            self.offBtn.widthAnchor.constraint(equalToConstant: 26),
-            self.offBtn.heightAnchor.constraint(equalToConstant: self.frame.height),
-            self.turboBtn.widthAnchor.constraint(equalToConstant: 26),
-            self.turboBtn.heightAnchor.constraint(equalToConstant: self.frame.height),
-            modes.heightAnchor.constraint(equalToConstant: self.frame.height)
-        ])
-        
         self.addArrangedSubview(modes)
         self.addArrangedSubview(self.offBtn)
         self.addArrangedSubview(self.turboBtn)
+        
+        NSLayoutConstraint.activate([
+            self.modes.heightAnchor.constraint(equalTo: self.heightAnchor, constant: -Constants.Popup.margins),
+            self.offBtn.widthAnchor.constraint(equalToConstant: 26),
+            self.offBtn.heightAnchor.constraint(equalToConstant: self.frame.height),
+            self.turboBtn.widthAnchor.constraint(equalToConstant: 26),
+            self.turboBtn.heightAnchor.constraint(equalToConstant: self.frame.height)
+        ])
         
         NotificationCenter.default.addObserver(self, selector: #selector(syncFanMode), name: .syncFansControl, object: nil)
     }
@@ -1045,33 +1029,8 @@ private class ModeButtons: NSStackView {
         NotificationCenter.default.removeObserver(self)
     }
     
-    @objc private func autoMode(_ sender: NSButton) {
-        if sender.state.rawValue == 0 {
-            self.autoBtn.state = .on
-            return
-        }
-        
-        self.manualBtn.state = .off
-        self.offBtn.state = .off
-        self.turboBtn.state = .off
-        self.callback(.automatic)
-        
-        NotificationCenter.default.post(name: .syncFansControl, object: nil, userInfo: ["mode": "automatic"])
-        NotificationCenter.default.post(name: .checkFanModes, object: nil)
-    }
-    
-    @objc private func manualMode(_ sender: NSButton) {
-        if sender.state.rawValue == 0 {
-            self.manualBtn.state = .on
-            return
-        }
-        
-        self.autoBtn.state = .off
-        self.offBtn.state = .off
-        self.turboBtn.state = .off
-        self.callback(.forced)
-        
-        NotificationCenter.default.post(name: .syncFansControl, object: nil, userInfo: ["mode": "forced"])
+    override func updateLayer() {
+        self.layer?.backgroundColor = (isDarkMode ? NSColor(red: 17/255, green: 17/255, blue: 17/255, alpha: 0.25) : NSColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)).cgColor
     }
     
     @objc private func offMode(_ sender: NSButton) {
@@ -1102,8 +1061,7 @@ private class ModeButtons: NSStackView {
     }
     
     private func toggleOffMode(_ sender: NSButton) {
-        self.manualBtn.state = .off
-        self.autoBtn.state = .off
+        self.modes.change()
         self.offBtn.state = .on
         self.turboBtn.state = .off
         self.off()
@@ -1119,8 +1077,7 @@ private class ModeButtons: NSStackView {
             return
         }
         
-        self.manualBtn.state = .off
-        self.autoBtn.state = .off
+        self.modes.change()
         self.offBtn.state = .off
         self.turboBtn.state = .on
         self.turbo()
@@ -1154,17 +1111,118 @@ private class ModeButtons: NSStackView {
     
     public func setMode(_ mode: FanMode) {
         if mode.isAutomatic {
-            self.autoBtn.state = .on
-            self.manualBtn.state = .off
+            self.modes.change(auto: true)
             self.offBtn.state = .off
             self.turboBtn.state = .off
             self.callback(.automatic)
         } else if mode == .forced {
-            self.manualBtn.state = .on
-            self.autoBtn.state = .off
+            self.modes.change(manual: true)
             self.offBtn.state = .off
             self.turboBtn.state = .off
             self.callback(.forced)
         }
+    }
+}
+
+private class ModeSwitch: NSStackView {
+    public var autoCallback: (() -> Void)?
+    public var manualCallback: (() -> Void)?
+    
+    private var autoBtn: NSButton = {
+        let button: NSButton = NSButton(title: localizedString("Automatic"), target: nil, action: #selector(autoMode))
+        button.setButtonType(.toggle)
+        button.isBordered = false
+        button.wantsLayer = true
+        button.layer?.cornerRadius = Constants.Popup.radius
+        button.layer?.backgroundColor = NSColor.clear.cgColor
+        button.attributedTitle = NSAttributedString(string: localizedString("Automatic"), attributes: [
+            .foregroundColor: NSColor.secondaryLabelColor,
+            .font: NSFont.systemFont(ofSize: 11, weight: .semibold)
+        ])
+        return button
+    }()
+    
+    private var manualBtn: NSButton = {
+        let button: NSButton = NSButton(title: localizedString("Manual"), target: nil, action: #selector(manualMode))
+        button.setButtonType(.toggle)
+        button.isBordered = false
+        button.wantsLayer = true
+        button.layer?.cornerRadius = Constants.Popup.radius
+        button.layer?.backgroundColor = NSColor.clear.cgColor
+        button.attributedTitle = NSAttributedString(string: localizedString("Manual"), attributes: [
+            .foregroundColor: NSColor.secondaryLabelColor,
+            .font: NSFont.systemFont(ofSize: 11, weight: .semibold)
+        ])
+        return button
+    }()
+    
+    private var selectedColor: CGColor {
+        (isDarkMode ? NSColor(red: 95/255, green: 95/255, blue: 95/255, alpha: 1) : .textBackgroundColor).cgColor
+    }
+    
+    init(_ mode: FanMode) {
+        super.init(frame: .zero)
+        
+        self.orientation = .horizontal
+        self.alignment = .centerY
+        self.distribution = .fillEqually
+        self.wantsLayer = true
+        self.layer?.cornerRadius = Constants.Popup.radius
+        self.spacing = 0
+        self.edgeInsets = .init(top: 2, left: 2, bottom: 2, right: 2)
+        
+        self.autoBtn.target = self
+        self.autoBtn.state = mode.isAutomatic ? .on : .off
+        self.autoBtn.layer?.backgroundColor = mode.isAutomatic ? self.selectedColor : NSColor.clear.cgColor
+        
+        self.manualBtn.target = self
+        self.manualBtn.state = mode == .forced ? .on : .off
+        self.manualBtn.layer?.backgroundColor = mode == .forced ? self.selectedColor : NSColor.clear.cgColor
+        
+        self.addArrangedSubview(self.autoBtn)
+        self.addArrangedSubview(self.manualBtn)
+        
+        NSLayoutConstraint.activate([
+            self.autoBtn.heightAnchor.constraint(equalTo: self.heightAnchor, constant: -4),
+            self.manualBtn.heightAnchor.constraint(equalTo: self.heightAnchor, constant: -4)
+        ])
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func updateLayer() {
+        self.layer?.backgroundColor = (isDarkMode ? NSColor(red: 17/255, green: 17/255, blue: 17/255, alpha: 0.25) : NSColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1)).cgColor
+        self.autoBtn.layer?.backgroundColor = self.autoBtn.state == .on ? self.selectedColor : NSColor.clear.cgColor
+        self.manualBtn.layer?.backgroundColor = self.manualBtn.state == .on ? self.selectedColor : NSColor.clear.cgColor
+    }
+    
+    public func change(auto: Bool = false, manual: Bool = false) {
+        self.autoBtn.state = auto ? .on : .off
+        self.manualBtn.state = manual ? .on : .off
+        
+        self.autoBtn.layer?.backgroundColor = auto ? self.selectedColor : NSColor.clear.cgColor
+        self.manualBtn.layer?.backgroundColor = manual ? self.selectedColor : NSColor.clear.cgColor
+    }
+    
+    @objc private func autoMode() {
+        self.autoBtn.state = .on
+        self.manualBtn.state = .off
+        
+        self.autoBtn.layer?.backgroundColor = self.selectedColor
+        self.manualBtn.layer?.backgroundColor = NSColor.clear.cgColor
+        
+        self.autoCallback?()
+    }
+    
+    @objc private func manualMode() {
+        self.autoBtn.state = .off
+        self.manualBtn.state = .on
+        
+        self.autoBtn.layer?.backgroundColor = NSColor.clear.cgColor
+        self.manualBtn.layer?.backgroundColor = self.selectedColor
+        
+        self.manualCallback?()
     }
 }
