@@ -254,7 +254,7 @@ public class Remote: Module {
 
 extension SystemStats {
     internal func fetchMachines() async -> [RemoteMachine] {
-        await self.fetchListAsync(path: "/remote/machine")
+        await self.fetchListAsync(path: "/machine")
     }
     internal func fetchHosts(historyWindow: String = "") async -> [RemoteHost] {
         let path = historyWindow.isEmpty ? "/host" : "/host?history=\(historyWindow)"
@@ -293,7 +293,7 @@ extension SystemStats {
     }
     
     internal func fetchMachines(completion: @escaping ([RemoteMachine]) -> Void) {
-        self.fetchList(path: "/remote/machine", completion: completion)
+        self.fetchList(path: "/machine", completion: completion)
     }
     
     internal func fetchHosts(historyWindow: String? = nil, completion: @escaping ([RemoteHost]) -> Void) {
@@ -405,7 +405,7 @@ public final class RemoteMachineStream: NSObject, URLSessionDataDelegate {
     }
     
     private func openConnection() {
-        guard !self.stopped, SystemStats.shared.isAuthorized, let url = URL(string: "\(SystemStats.host)/remote/machine/\(self.machineID)/sse") else { return }
+        guard !self.stopped, SystemStats.shared.isAuthorized, let url = URL(string: "\(SystemStats.host)/machine/\(self.machineID)/sse") else { return }
         
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = .infinity

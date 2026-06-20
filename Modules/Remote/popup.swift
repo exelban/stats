@@ -12,6 +12,39 @@
 import Cocoa
 import Kit
 
+internal enum RemoteItem {
+    case machine(RemoteMachine)
+    case host(RemoteHost)
+    
+    var id: String {
+        switch self {
+        case .machine(let m): return "machine-\(m.id)"
+        case .host(let h): return "host-\(h.id)"
+        }
+    }
+    
+    var name: String {
+        switch self {
+        case .machine(let m): return m.displayName
+        case .host(let h): return h.displayName
+        }
+    }
+    
+    var url: URL? {
+        switch self {
+        case .machine(let m): return m.uri
+        case .host(let h): return h.uri
+        }
+    }
+    
+    var status: Bool {
+        switch self {
+        case .machine(let m): return m.online
+        case .host(let h): return h.lastStatus?.lowercased() == "up"
+        }
+    }
+}
+
 internal class Popup: PopupWrapper {
     private let loginPrompt = EmptyView(height: 60, msg: localizedString("Login to System Stats to see your devices"))
     
@@ -223,7 +256,7 @@ private class GroupView: NSStackView {
             header.orientation = .horizontal
             header.alignment = .centerY
             header.spacing = 4
-            header.edgeInsets = NSEdgeInsets(top: 12, left: 6, bottom: 12, right: 6)
+            header.edgeInsets = NSEdgeInsets(top: 12, left: Constants.Popup.margins, bottom: 12, right: Constants.Popup.margins)
             header.translatesAutoresizingMaskIntoConstraints = false
             header.setHuggingPriority(NSLayoutConstraint.Priority(500), for: .vertical)
             
@@ -252,7 +285,6 @@ private class GroupView: NSStackView {
             self.body.isHidden = self.collapsed
         } else {
             self.collapsed = false
-            self.body.edgeInsets = NSEdgeInsets(top: 0, left: 0, bottom: 4, right: 0)
         }
         
         self.addArrangedSubview(self.body)
@@ -284,42 +316,23 @@ private class GroupView: NSStackView {
         self.currentHosts = hosts
         self.statusDot.setColor(self.aggregateColor(machines: machines, hosts: hosts))
         
-        // Same add / update / reorder dance you already use, but scoped to this sector's body.
-        let machineIDs = Set(machines.map { $0.id })
-        self.body.subviews.compactMap { $0 as? MachineView }.filter { !machineIDs.contains($0.id) }.forEach { $0.removeFromSuperview() }
-        machines.forEach { machine in
-            if let view = self.body.subviews.compactMap({ $0 as? MachineView }).first(where: { $0.id == machine.id }) {
-                view.update(machine)
-            } else {
-                self.body.addArrangedSubview(MachineView(machine))
-            }
-        }
+        let items: [RemoteItem] = machines.map { .machine($0) } + hosts.map { .host($0) }
+        let ids = Set(items.map { $0.id })
         
-        let hostIDs = Set(hosts.map { $0.id })
-        self.body.subviews.compactMap { $0 as? HostRow }.filter { !hostIDs.contains($0.id) }.forEach { $0.removeFromSuperview() }
-        hosts.forEach { host in
-            if let view = self.body.subviews.compactMap({ $0 as? HostRow }).first(where: { $0.id == host.id }) {
-                view.update(host)
-            } else {
-                self.body.addArrangedSubview(HostRow(host: host))
-            }
-        }
+        self.body.subviews.compactMap { $0 as? RemoteItemView }.filter { !ids.contains($0.id) }.forEach { $0.removeFromSuperview() }
         
-        // Reorder: machines first, then hosts. Hide the separator on the final row.
-        let total = machines.count + hosts.count
-        machines.enumerated().forEach { (index, machine) in
-            if let view = self.body.arrangedSubviews.compactMap({ $0 as? MachineView }).first(where: { $0.id == machine.id }) {
-                self.body.removeArrangedSubview(view)
-                self.body.insertArrangedSubview(view, at: index)
-                view.setLast(index == total - 1)
+        items.enumerated().forEach { (index, item) in
+            let view: RemoteItemView
+            if let existing = self.body.subviews.compactMap({ $0 as? RemoteItemView }).first(where: { $0.id == item.id }) {
+                existing.update(item)
+                view = existing
+            } else {
+                view = RemoteItemView(item)
+                self.body.addArrangedSubview(view)
             }
-        }
-        hosts.enumerated().forEach { (index, host) in
-            if let view = self.body.arrangedSubviews.compactMap({ $0 as? HostRow }).first(where: { $0.id == host.id }) {
-                self.body.removeArrangedSubview(view)
-                self.body.insertArrangedSubview(view, at: machines.count + index)
-                view.setLast(machines.count + index == total - 1)
-            }
+            self.body.removeArrangedSubview(view)
+            self.body.insertArrangedSubview(view, at: index)
+            view.setLast(index == items.count - 1)
         }
     }
     
@@ -328,7 +341,7 @@ private class GroupView: NSStackView {
         guard let index = self.currentMachines.firstIndex(where: { $0.id == id }) else { return false }
         let merged = self.currentMachines[index].applying(update)
         self.currentMachines[index] = merged
-        self.body.arrangedSubviews.compactMap { $0 as? MachineView }.first { $0.id == id }?.update(merged)
+        self.body.arrangedSubviews.compactMap { $0 as? RemoteItemView }.first { $0.id == RemoteItem.machine(merged).id }?.update(.machine(merged))
         self.statusDot.setColor(self.aggregateColor(machines: self.currentMachines, hosts: self.currentHosts))
         return true
     }
@@ -350,24 +363,27 @@ private class GroupView: NSStackView {
     }
 }
 
-private class MachineView: NSStackView {
+private class RemoteItemView: NSStackView {
     public let id: String
     
     private let dot = DotView(color: .tertiaryLabelColor)
+    private var labelField: LabelField = LabelField()
     
     private let cpuLabel = TextView()
     private let cpuBar = BarChartView(horizontal: true)
     private let ramLabel = TextView()
     private let ramBar = BarChartView(horizontal: true)
     
+    private let grid = GridChartView(grid: (24, 1))
+    
     private let separator = RemoteSeparator()
     private var heightConstraint: NSLayoutConstraint?
     
-    public init(_ machine: RemoteMachine) {
-        self.id = machine.id
+    public init(_ item: RemoteItem) {
+        self.id = item.id
         
-        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 43))
-        let height = self.heightAnchor.constraint(equalToConstant: 43)
+        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 53))
+        let height = self.heightAnchor.constraint(equalToConstant: 53)
         height.priority = NSLayoutConstraint.Priority(999)
         height.isActive = true
         self.heightConstraint = height
@@ -376,78 +392,32 @@ private class MachineView: NSStackView {
         self.orientation = .vertical
         self.distribution = .fill
         self.spacing = 0
-        self.edgeInsets = NSEdgeInsets(top: 4, left: 6, bottom: 0, right: 6)
+        self.edgeInsets = NSEdgeInsets(top: Constants.Popup.margins, left: Constants.Popup.margins, bottom: 0, right: Constants.Popup.margins)
         
         let header: NSStackView = {
             let view: NSStackView = NSStackView()
             view.orientation = .horizontal
             view.spacing = 4
             
-            self.dot.setColor(machine.online ? .systemGreen : .systemRed)
-            let label = LabelField(machine.displayName)
+            self.dot.setColor(item.status ? .systemGreen : .systemRed)
+            self.labelField.stringValue = item.name
             
             view.addArrangedSubview(self.dot)
-            view.addArrangedSubview(label)
+            view.addArrangedSubview(self.labelField)
             view.addArrangedSubview(NSView())
             
-            if let url = machine.uri {
+            if let url = item.url {
                 view.addArrangedSubview(LinkButton(url, size: 10))
             }
             
             return view
         }()
         
-        let stats: NSStackView = {
-            let view: NSStackView = NSStackView()
-            view.spacing = Constants.Popup.margins
-            view.orientation = .horizontal
-            view.alignment = .centerY
-            view.distribution = .fillEqually
-            view.translatesAutoresizingMaskIntoConstraints = false
-            view.edgeInsets = NSEdgeInsets(top: 2, left: 0, bottom: 2, right: 0)
-            
-            let cpuIcon = NSImageView()
-            cpuIcon.image = NSImage(systemSymbolName: "cpu", accessibilityDescription: localizedString("CPU"))
-            cpuIcon.symbolConfiguration = NSImage.SymbolConfiguration(pointSize: 10, weight: .regular)
-            cpuIcon.contentTintColor = .secondaryLabelColor
-            cpuIcon.toolTip = localizedString("CPU")
-            
-            self.cpuLabel.font = NSFont.systemFont(ofSize: 10, weight: .regular)
-            self.cpuLabel.textColor = .secondaryLabelColor
-            self.cpuLabel.setContentHuggingPriority(.required, for: .horizontal)
-            
-            let ramIcon = NSImageView()
-            ramIcon.image = NSImage(systemSymbolName: "memorychip", accessibilityDescription: localizedString("RAM"))
-            ramIcon.symbolConfiguration = NSImage.SymbolConfiguration(pointSize: 10, weight: .regular)
-            ramIcon.contentTintColor = .secondaryLabelColor
-            ramIcon.toolTip = localizedString("RAM")
-            
-            self.ramLabel.font = NSFont.systemFont(ofSize: 10, weight: .regular)
-            self.ramLabel.textColor = .secondaryLabelColor
-            self.ramLabel.setContentHuggingPriority(.required, for: .horizontal)
-            
-            [self.cpuBar, self.ramBar].forEach {
-                let height = $0.heightAnchor.constraint(equalToConstant: 4)
-                height.priority = .defaultHigh
-                height.isActive = true
-                $0.widthAnchor.constraint(greaterThanOrEqualToConstant: 28).isActive = true
-            }
-            
-            let cpuGroup = NSStackView(views: [cpuIcon, self.cpuLabel, self.cpuBar])
-            cpuGroup.orientation = .horizontal
-            cpuGroup.alignment = .centerY
-            cpuGroup.spacing = 0
-            
-            let ramGroup = NSStackView(views: [ramIcon, self.ramLabel, self.ramBar])
-            ramGroup.orientation = .horizontal
-            ramGroup.alignment = .centerY
-            ramGroup.spacing = 0
-            
-            view.addArrangedSubview(cpuGroup)
-            view.addArrangedSubview(ramGroup)
-            
-            return view
-        }()
+        let stats: NSView
+        switch item {
+        case .machine: stats = self.machineStats()
+        case .host:    stats = self.hostStats()
+        }
         
         self.addArrangedSubview(header)
         self.addArrangedSubview(stats)
@@ -458,99 +428,104 @@ private class MachineView: NSStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func update(_ machine: RemoteMachine) {
-        self.dot.setColor(machine.online ? .systemGreen : .systemRed)
+    private func machineStats() -> NSView {
+        let view: NSStackView = NSStackView()
+        view.spacing = Constants.Popup.margins
+        view.orientation = .horizontal
+        view.alignment = .centerY
+        view.distribution = .fillEqually
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.edgeInsets = NSEdgeInsets(top: 2, left: 0, bottom: 2, right: 0)
         
-        if let cpu = machine.modules?.cpuUsage {
-            self.cpuLabel.stringValue = "\(Int(cpu.rounded(toPlaces: 2) * 100))%"
-            self.cpuBar.setValue(ColorValue(cpu))
-        } else {
-            self.cpuLabel.stringValue = "—"
-            self.cpuBar.setValue(ColorValue(0))
+        let cpuIcon = NSImageView()
+        cpuIcon.image = NSImage(systemSymbolName: "cpu", accessibilityDescription: localizedString("CPU"))
+        cpuIcon.symbolConfiguration = NSImage.SymbolConfiguration(pointSize: 10, weight: .regular)
+        cpuIcon.contentTintColor = .secondaryLabelColor
+        cpuIcon.toolTip = localizedString("CPU")
+        
+        self.cpuLabel.font = NSFont.systemFont(ofSize: 10, weight: .regular)
+        self.cpuLabel.textColor = .secondaryLabelColor
+        self.cpuLabel.setContentHuggingPriority(.required, for: .horizontal)
+        
+        let ramIcon = NSImageView()
+        ramIcon.image = NSImage(systemSymbolName: "memorychip", accessibilityDescription: localizedString("RAM"))
+        ramIcon.symbolConfiguration = NSImage.SymbolConfiguration(pointSize: 10, weight: .regular)
+        ramIcon.contentTintColor = .secondaryLabelColor
+        ramIcon.toolTip = localizedString("RAM")
+        
+        self.ramLabel.font = NSFont.systemFont(ofSize: 10, weight: .regular)
+        self.ramLabel.textColor = .secondaryLabelColor
+        self.ramLabel.setContentHuggingPriority(.required, for: .horizontal)
+        
+        [self.cpuBar, self.ramBar].forEach {
+            let height = $0.heightAnchor.constraint(equalToConstant: 4)
+            height.priority = .defaultHigh
+            height.isActive = true
+            $0.widthAnchor.constraint(greaterThanOrEqualToConstant: 28).isActive = true
         }
-        if let ram = machine.modules?.ramUsage {
-            self.ramLabel.stringValue = "\(Int(ram.rounded(toPlaces: 2) * 100))%"
-            self.ramBar.setValue(ColorValue(ram))
-        } else {
-            self.ramLabel.stringValue = "—"
-            self.ramBar.setValue(ColorValue(0))
-        }
+        
+        let cpuGroup = NSStackView(views: [cpuIcon, self.cpuLabel, self.cpuBar])
+        cpuGroup.orientation = .horizontal
+        cpuGroup.alignment = .centerY
+        cpuGroup.spacing = 0
+        
+        let ramGroup = NSStackView(views: [ramIcon, self.ramLabel, self.ramBar])
+        ramGroup.orientation = .horizontal
+        ramGroup.alignment = .centerY
+        ramGroup.spacing = 0
+        
+        view.addArrangedSubview(cpuGroup)
+        view.addArrangedSubview(ramGroup)
+        
+        return view
     }
     
-    public func setLast(_ isLast: Bool) {
-        self.separator.isHidden = isLast
-        self.heightConstraint?.constant = 43 + (isLast ? 0 : 1)
-    }
-}
-
-internal final class HostRow: NSStackView {
-    public let id: String
-    
-    private let dot = DotView(color: .tertiaryLabelColor)
-    private let nameLink: LabelField
-    private let latency = TextView()
-    private let grid = GridChartView(grid: (24, 1))
-    
-    private let separator = RemoteSeparator()
-    private var heightConstraint: NSLayoutConstraint?
-    
-    init(host: RemoteHost) {
-        self.id = host.id
-        self.nameLink = LabelField(host.displayName)
-        
-        super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 36))
-        let height = self.heightAnchor.constraint(equalToConstant: 36)
-        height.priority = NSLayoutConstraint.Priority(999)
-        height.isActive = true
-        self.heightConstraint = height
-        self.setContentHuggingPriority(.required, for: .vertical)
-        
-        self.orientation = .vertical
-        self.distribution = .fill
-        self.spacing = Constants.Popup.spacing
-        self.edgeInsets = NSEdgeInsets(top: 0, left: 6, bottom: 0, right: 6)
-        
-        self.nameLink.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        self.nameLink.lineBreakMode = .byTruncatingTail
-        
-        self.latency.font = NSFont.systemFont(ofSize: 10, weight: .regular)
-        self.latency.textColor = .secondaryLabelColor
-        
-        self.dot.setColor(host.color)
-        self.latency.stringValue = host.lastLatencyMs.map { "\($0) ms" } ?? ""
-        self.grid.addValue(host.lastStatus?.lowercased() == "up")
-        
-        let header = NSStackView(views: [self.dot, self.nameLink, NSView(), self.latency])
-        header.orientation = .horizontal
-        header.alignment = .centerY
-        header.spacing = 4
-        header.heightAnchor.constraint(equalToConstant: 22).isActive = true
-        
-        if let url = host.uri {
-            header.addArrangedSubview(LinkButton(url, size: 10))
-        }
+    private func hostStats() -> NSView {
+        let view: NSStackView = NSStackView()
+        view.spacing = Constants.Popup.margins
+        view.orientation = .horizontal
+        view.alignment = .centerY
+        view.distribution = .fillEqually
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.edgeInsets = NSEdgeInsets(top: 2, left: 0, bottom: 2, right: 0)
         
         self.grid.heightAnchor.constraint(equalToConstant: 9).isActive = true
         
-        self.addArrangedSubview(header)
-        self.addArrangedSubview(self.grid)
-        self.addArrangedSubview(self.separator)
+        view.addArrangedSubview(self.grid)
+        
+        return view
     }
     
-    required init(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    public func update(_ host: RemoteHost) {
-        self.nameLink.stringValue = host.displayName
-        self.dot.setColor(host.color)
-        self.latency.stringValue = host.lastLatencyMs.map { "\($0) ms" } ?? ""
-        self.grid.addValue(host.lastStatus?.lowercased() == "up")
+    public func update(_ item: RemoteItem) {
+        self.labelField.stringValue = item.name
+        
+        switch item {
+        case .machine(let machine):
+            self.dot.setColor(machine.online ? .systemGreen : .systemRed)
+            
+            if let cpu = machine.modules?.cpuUsage {
+                self.cpuLabel.stringValue = "\(Int(cpu.rounded(toPlaces: 2) * 100))%"
+                self.cpuBar.setValue(ColorValue(cpu))
+            } else {
+                self.cpuLabel.stringValue = "—"
+                self.cpuBar.setValue(ColorValue(0))
+            }
+            if let ram = machine.modules?.ramUsage {
+                self.ramLabel.stringValue = "\(Int(ram.rounded(toPlaces: 2) * 100))%"
+                self.ramBar.setValue(ColorValue(ram))
+            } else {
+                self.ramLabel.stringValue = "—"
+                self.ramBar.setValue(ColorValue(0))
+            }
+        case .host(let host):
+            self.dot.setColor(host.color)
+            self.grid.addValue(host.lastStatus?.lowercased() == "up")
+        }
     }
     
     public func setLast(_ isLast: Bool) {
         self.separator.isHidden = isLast
-        self.heightConstraint?.constant = 36 - (isLast ? 1 : 0)
+        self.heightConstraint?.constant = 53 + (isLast ? 0 : 1)
     }
 }
 
