@@ -129,6 +129,7 @@ If you want to develop a new feature or you've found something that doesn't work
 - Estonian (thanks to [postylem](https://github.com/postylem))
 - Hindi (thanks to [patiljignesh](https://github.com/patiljignesh))
 - Finnish (thanks to [eightscrow](https://github.com/eightscrow))
+- Bengali (thanks to [fahimunnafis](https://github.com/fahimunnafis))
 
 You can help by adding a new language or improving the existing translation.
 
