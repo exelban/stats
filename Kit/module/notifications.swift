@@ -16,6 +16,7 @@ open class NotificationsWrapper: NSStackView {
     public let module: String
     
     private var ids: [String: Bool?] = [:]
+    private var streak: [String: Int] = [:]
     
     public init(_ module: ModuleType, _ ids: [String] = []) {
         self.module = module.stringValue
@@ -42,23 +43,33 @@ open class NotificationsWrapper: NSStackView {
         for id in ids {
             let notificationID = "Stats_\(self.module)_\(id)"
             self.ids[notificationID] = nil
+            self.streak[notificationID] = 0
             removeNotification(notificationID)
         }
     }
     
-    public func checkDouble(id rid: String, value: Double, threshold: Double, title: String, subtitle: String, less: Bool = false) {
+    public func checkDouble(id rid: String, value: Double, threshold: Double, title: String, subtitle: String, less: Bool = false, consecutive: Int = 2) {
         let id = "Stats_\(self.module)_\(rid)"
         let first = less ? value > threshold : value < threshold
         let second = less ? value <= threshold : value >= threshold
-        
+
         if self.ids[id] != nil, first {
             removeNotification(id)
             self.ids[id] = nil
         }
-        
+
+        if first {
+            self.streak[id] = 0
+        }
+
         if self.ids[id] == nil && second {
-            self.showNotification(id: id, title: title, subtitle: subtitle)
-            self.ids[id] = true
+            let count = (self.streak[id] ?? 0) + 1
+            self.streak[id] = count
+            if count >= max(1, consecutive) {
+                self.showNotification(id: id, title: title, subtitle: subtitle)
+                self.ids[id] = true
+                self.streak[id] = 0
+            }
         }
     }
     

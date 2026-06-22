@@ -17,7 +17,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
-	<string>803</string>
+	<string>804</string>
 	<key>Description</key>
 	<string>Simple macOS system monitor in your menu bar</string>
 	<key>LSApplicationCategoryType</key>
@@ -31,6 +31,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>This permission allows opening a selected day in the Calendar app</string>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>This permission allows obtaining battery level of Bluetooth devices</string>
 	<key>NSHumanReadableCopyright</key>
