@@ -65,7 +65,7 @@
 "Square" = "বর্গ";
 "Cube" = "ঘন";
 "Logarithmic" = "লগারিদমিক";
-"Fixed scale" = "নির্ধারিত";
+"Fixed scale" = "স্থির স্কেল";
 "Cores" = "কোর";
 "Core" = "কোর";
 "Settings" = "সেটিংস";
@@ -80,8 +80,8 @@
 "3 minutes" = "3 মিনিট";
 "10 minutes" = "10 মিনিট";
 "Separator" = "বিভাজক";
-"Read" = "পড়ুন";
-"Write" = "লিখুন";
+"Read" = "পঠন";
+"Write" = "লিখন";
 "Frequency" = "ফ্রিকোয়েন্সি";
 "Save" = "সংরক্ষণ করুন";
 "Run" = "চালু করুন";
@@ -105,36 +105,36 @@
 "Finish" = "সম্পন্ন";
 "Finish setup" = "সেটআপ সম্পন্ন করুন";
 "Welcome to Stats" = "Stats-এ স্বাগতম";
-"welcome_message" = "Stats ব্যবহার করার জন্য ধন্যবাদ, আপনার মেনু বারের জন্য একটি বিনামূল্যে ওপেন সোর্স macOS সিস্টেম মনিটর।";
-"Start the application automatically when starting your Mac" = "Mac চালু করার সময় অ্যাপ্লিকেশনটি স্বয়ংক্রিয়ভাবে শুরু করুন";
-"Do not start the application automatically when starting your Mac" = "Mac চালু করার সময় অ্যাপ্লিকেশনটি স্বয়ংক্রিয়ভাবে শুরু করবেন না";
-"Do everything silently in the background (recommended)" = "পটভূমিতে নীরবে সব কিছু করুন (প্রস্তাবিত)";
+"welcome_message" = "Stats ব্যবহার করার জন্য ধন্যবাদ। আপনার মেনু বারে ব্যবহারের জন্য এটি একটি বিনামূল্যের, ওপেন-সোর্স macOS সিস্টেম মনিটর।";
+"Start the application automatically when starting your Mac" = "Mac চালুর সময় অ্যাপটি স্বয়ংক্রিয়ভাবে শুরু করুন";
+"Do not start the application automatically when starting your Mac" = "Mac চালুর সময় অ্যাপটি স্বয়ংক্রিয়ভাবে শুরু করবেন না";
+"Do everything silently in the background (recommended)" = "পটভূমিতে নীরবে সবকিছু চালান (প্রস্তাবিত)";
 "Check for a new version on startup" = "শুরুতে নতুন সংস্করণ পরীক্ষা করুন";
 "Check for a new version every day (once a day)" = "প্রতিদিন নতুন সংস্করণ পরীক্ষা করুন (দিনে একবার)";
 "Check for a new version every week (once a week)" = "প্রতি সপ্তাহে নতুন সংস্করণ পরীক্ষা করুন (সপ্তাহে একবার)";
 "Check for a new version every month (once a month)" = "প্রতি মাসে নতুন সংস্করণ পরীক্ষা করুন (মাসে একবার)";
 "Never check for updates (not recommended)" = "আপডেট কখনো পরীক্ষা করবেন না (প্রস্তাবিত নয়)";
-"The configuration is completed" = "কনফিগারেশন সম্পন্ন হয়েছে";
-"finish_setup_message" = "সব কিছু সেট করা হয়েছে! \n Stats একটি ওপেন সোর্স টুল, এটি বিনামূল্যে এবং সবসময় থাকবে। \n আপনি যদি এটি পছন্দ করেন তাহলে প্রকল্পটি সমর্থন করতে পারেন, এটি সবসময় প্রশংসিত!";
+"The configuration is completed" = "সেটআপ সম্পন্ন হয়েছে";
+"finish_setup_message" = "সবকিছু প্রস্তুত! \n Stats একটি ওপেন-সোর্স টুল; এটি বিনামূল্যে এবং সবসময়ই থাকবে। \n আপনি যদি এটি পছন্দ করেন, তাহলে প্রকল্পটিকে সমর্থন করতে পারেন। প্রতিটি সহায়তাই মূল্যবান!";
 
 // Alerts
 "New version available" = "নতুন সংস্করণ পাওয়া গেছে";
 "Click to install the new version of Stats" = "Stats-এর নতুন সংস্করণ ইনস্টল করতে ক্লিক করুন";
 "Successfully updated" = "সফলভাবে আপডেট হয়েছে";
 "Stats was updated to v" = "Stats v%0 তে আপডেট হয়েছে";
-"Reset settings text" = "সমস্ত অ্যাপ্লিকেশন সেটিংস পুনরায় সেট হয়ে যাবে এবং অ্যাপ্লিকেশনটি পুনরায় চালু হবে। আপনি কি এটি করতে চান?";
-"Support text" = "Stats ব্যবহার করার জন্য ধন্যবাদ!\n\n এই ওপেন-সোর্স প্রকল্পটি রক্ষণাবেক্ষণ এবং উন্নত করতে সময় ও সম্পদ প্রয়োজন। আপনার সহায়তা আমাদের সকলের জন্য একটি বিনামূল্যে ও নির্ভরযোগ্য অ্যাপ্লিকেশন সরবরাহ করতে সাহায্য করে।\n\nযদি আপনি Stats-কে সহায়ক মনে করেন, তাহলে অবদান রাখার কথা বিবেচনা করুন। প্রতিটি ছোট সাহায্যই কাজে লাগে!";
+"Reset settings text" = "এই অ্যাপের সব সেটিংস পুনরায় সেট হয়ে যাবে এবং অ্যাপটি পুনরায় চালু হবে। আপনি কি এটি করতে চান?";
+"Support text" = "Stats ব্যবহার করার জন্য ধন্যবাদ!\n\nএই ওপেন-সোর্স প্রকল্পটি রক্ষণাবেক্ষণ ও উন্নত করতে সময় ও সম্পদ লাগে। আপনার সহায়তা আমাদের সবার জন্য একটি বিনামূল্যের ও নির্ভরযোগ্য অ্যাপ দিতে সাহায্য করে।\n\nStats যদি আপনার কাজে লাগে, তাহলে অবদান রাখার কথা বিবেচনা করুন। প্রতিটি ছোট অবদানই কাজে আসে!";
 
 // Settings
 "Open Activity Monitor" = "Activity Monitor খুলুন";
 "Report a bug" = "বাগ রিপোর্ট করুন";
-"Support the application" = "অ্যাপ্লিকেশনটি সমর্থন করুন";
-"Close application" = "অ্যাপ্লিকেশন বন্ধ করুন";
-"Open application settings" = "অ্যাপ্লিকেশন সেটিংস খুলুন";
+"Support the application" = "অ্যাপটিকে সমর্থন করুন";
+"Close application" = "অ্যাপ বন্ধ করুন";
+"Open application settings" = "অ্যাপ সেটিংস খুলুন";
 "Open dashboard" = "ড্যাশবোর্ড খুলুন";
-"No notifications available in this module" = "এই মডিউলে কোনো বিজ্ঞপ্তি পাওয়া যায় না";
+"No notifications available in this module" = "এই মডিউলে কোনো বিজ্ঞপ্তি নেই";
 "Open Calendar" = "ক্যালেন্ডার খুলুন";
-"Toggle the module" = "মডিউল টগল করুন";
+"Toggle the module" = "মডিউল চালু/বন্ধ করুন";
 "Open System Stats" = "System Stats খুলুন";
 
 // Application settings
@@ -149,7 +149,7 @@
 "Start at login" = "লগইনে শুরু করুন";
 "Build number" = "বিল্ড নম্বর";
 "Import settings" = "সেটিংস আমদানি করুন";
-"Export settings" = "সেটিংস রফতানি করুন";
+"Export settings" = "সেটিংস রপ্তানি করুন";
 "Reset settings" = "সেটিংস পুনরায় সেট করুন";
 "Pause the Stats" = "Stats বিরতি দিন";
 "Resume the Stats" = "Stats পুনরায় শুরু করুন";
@@ -161,7 +161,7 @@
 
 // Dashboard
 "Serial number" = "ক্রমিক নম্বর";
-"Model identifier" = "মডেল পরিচিতি";
+"Model identifier" = "মডেল শনাক্তকারী";
 "Production year" = "উৎপাদনের বছর";
 "Uptime" = "আপটাইম";
 "Number of cores" = "%0 কোর";
@@ -213,39 +213,39 @@
 "Monospaced font" = "মনোস্পেসড ফন্ট";
 "Reverse order" = "বিপরীত ক্রম";
 "Chart history" = "চার্ট ইতিহাস";
-"Default color" = "ডিফল্ট";
+"Default color" = "ডিফল্ট রঙ";
 "Transparent when no activity" = "কোনো কার্যক্রম না থাকলে স্বচ্ছ";
-"Constant color" = "স্থির";
+"Constant color" = "স্থির রঙ";
 "Custom..." = "কাস্টম...";
 
 // Module Kit
 "Open module settings" = "মডিউল সেটিংস খুলুন";
 "Open widget settings" = "উইজেট সেটিংস খুলুন";
-"Update interval" = "আপডেট বিরতি";
+"Update interval" = "আপডেটের ব্যবধান";
 "Usage history" = "ব্যবহারের ইতিহাস";
 "Details" = "বিস্তারিত";
-"Top processes" = "শীর্ষ প্রক্রিয়া";
+"Top processes" = "শীর্ষ প্রসেস";
 "Pictogram" = "পিক্টোগ্রাম";
 "Module" = "মডিউল";
 "Widgets" = "উইজেট";
 "Popup" = "পপআপ";
 "Notifications" = "বিজ্ঞপ্তি";
 "Merge widgets" = "উইজেট একত্রিত করুন";
-"No available widgets to configure" = "কনফিগার করার জন্য কোনো উইজেট পাওয়া যায় না";
-"No options to configure for the popup in this module" = "এই মডিউলে পপআপ কনফিগার করার কোনো বিকল্প নেই";
-"Process" = "প্রক্রিয়া";
-"Kill process" = "প্রক্রিয়া বন্ধ করুন";
+"No available widgets to configure" = "কনফিগার করার মতো কোনো উইজেট নেই";
+"No options to configure for the popup in this module" = "এই মডিউলের পপআপের জন্য কনফিগার করার কোনো বিকল্প নেই";
+"Process" = "প্রসেস";
+"Kill process" = "প্রসেস শেষ করুন";
 "Keyboard shortcut" = "কীবোর্ড শর্টকাট";
 "Listening..." = "শুনছি...";
 
 // Modules
-"Number of top processes" = "শীর্ষ প্রক্রিয়ার সংখ্যা";
-"Update interval for top processes" = "শীর্ষ প্রক্রিয়ার আপডেট বিরতি";
+"Number of top processes" = "শীর্ষ প্রসেসের সংখ্যা";
+"Update interval for top processes" = "শীর্ষ প্রসেসগুলোর আপডেটের ব্যবধান";
 "Chart color" = "চার্টের রঙ";
 "Main chart scaling" = "প্রধান চার্ট স্কেলিং";
 "Scale value" = "স্কেল মান";
 "Text widget value" = "টেক্সট উইজেটের মান";
-"Combined processes" = "সম্মিলিত প্রক্রিয়া";
+"Combined processes" = "সম্মিলিত প্রসেস";
 
 // CPU
 "CPU usage" = "CPU ব্যবহার";
@@ -312,7 +312,7 @@
 "Wired color" = "ওয়্যার্ড রঙ";
 "Compressed color" = "সংকুচিত রঙ";
 "Free color" = "মুক্ত রঙ";
-"Free memory (less than)" = "মুক্ত মেমোরি (কম)";
+"Free memory (less than)" = "মুক্ত মেমোরি (এর কম)";
 "Swap size" = "Swap আকার";
 "Free RAM is" = "মুক্ত RAM %0";
 
@@ -349,7 +349,7 @@
 "Uninstall fan helper" = "ফ্যান হেল্পার আনইনস্টল করুন";
 "Fan value" = "ফ্যানের মান";
 "Turn off fan" = "ফ্যান বন্ধ করুন";
-"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "আপনি ফ্যান বন্ধ করতে যাচ্ছেন। এটি একটি অপ্রস্তাবিত কাজ যা আপনার Mac-এর ক্ষতি করতে পারে, আপনি কি এটি করতে চান?";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "আপনি ফ্যান বন্ধ করতে যাচ্ছেন। এটি সুপারিশকৃত নয় এবং এতে আপনার Mac-এর ক্ষতি হতে পারে। আপনি কি নিশ্চিত?";
 "Sensor threshold" = "সেন্সরের সীমা";
 "Left fan" = "বাম";
 "Right fan" = "ডান";
@@ -368,8 +368,8 @@
 "Total download" = "মোট ডাউনলোড";
 "Total upload" = "মোট আপলোড";
 "Reader type" = "রিডার ধরন";
-"Interface based" = "ইন্টারফেস ভিত্তিক";
-"Processes based" = "প্রক্রিয়া ভিত্তিক";
+"Interface based" = "ইন্টারফেস-ভিত্তিক";
+"Processes based" = "প্রসেস-ভিত্তিক";
 "Reset data usage" = "ডেটা ব্যবহার রিসেট করুন";
 "VPN mode" = "VPN মোড";
 "Standard" = "স্ট্যান্ডার্ড";
@@ -381,7 +381,7 @@
 "Connectivity host" = "সংযোগ হোস্ট";
 "Leave empty to disable the check" = "পরীক্ষা নিষ্ক্রিয় করতে খালি রাখুন";
 "Connectivity history" = "সংযোগ ইতিহাস";
-"Auto-refresh public IP address" = "পাবলিক IP ঠিকানা স্বয়ংক্রিয়-রিফ্রেশ করুন";
+"Auto-refresh public IP address" = "পাবলিক IP ঠিকানা স্বয়ংক্রিয়ভাবে রিফ্রেশ করুন";
 "Every hour" = "প্রতি ঘণ্টায়";
 "Every 12 hours" = "প্রতি 12 ঘণ্টায়";
 "Every 24 hours" = "প্রতি 24 ঘণ্টায়";
@@ -410,8 +410,8 @@
 "Power adapter" = "পাওয়ার অ্যাডাপ্টার";
 "Power" = "শক্তি";
 "Is charging" = "চার্জ হচ্ছে";
-"Time to discharge" = "নিঃশেষিত হওয়ার সময়";
-"Time to charge" = "চার্জ হওয়ার সময়";
+"Time to discharge" = "ডিসচার্জ হতে সময়";
+"Time to charge" = "চার্জ হতে সময়";
 "Calculating" = "গণনা করছে";
 "Fully charged" = "সম্পূর্ণ চার্জিত";
 "Not connected" = "সংযুক্ত নয়";
@@ -420,7 +420,7 @@
 "Low battery" = "কম ব্যাটারি";
 "High battery" = "উচ্চ ব্যাটারি";
 "Battery remaining" = "%0% বাকি";
-"Battery remaining to full charge" = "%0% সম্পূর্ণ চার্জ হতে বাকি";
+"Battery remaining to full charge" = "সম্পূর্ণ চার্জ হতে %0% বাকি";
 "Percentage" = "শতকরা";
 "Percentage and time" = "শতকরা এবং সময়";
 "Time and percentage" = "সময় এবং শতকরা";
@@ -439,7 +439,7 @@
 "Time zone" = "সময় অঞ্চল";
 "Local" = "স্থানীয়";
 "Calendar" = "ক্যালেন্ডার";
-"Show week numbers" = "সপ্তাহ সংখ্যা দেখান";
+"Show week numbers" = "সপ্তাহ নম্বর দেখান";
 "Local time" = "স্থানীয় সময়";
 "Add new clock" = "নতুন ঘড়ি যোগ করুন";
 "Delete selected clock" = "নির্বাচিত ঘড়ি মুছুন";
