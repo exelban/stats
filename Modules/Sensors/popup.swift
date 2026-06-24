@@ -465,6 +465,8 @@ internal class FanView: NSStackView {
     private var resetModeAfterSleep: Bool = false
     private var controlState: Bool
     private var helperInstalled: Bool = false
+    private var helperButton: NSButton? = nil
+    private var approvalPollTimer: Timer? = nil
     private var fanValue: FanValue {
         FanValue(rawValue: Store.shared.string(key: "Sensors_popup_fanValue", defaultValue: FanValue.percentage.rawValue)) ?? .percentage
     }
@@ -522,6 +524,7 @@ internal class FanView: NSStackView {
     }
     
     deinit {
+        self.approvalPollTimer?.invalidate()
         NSWorkspace.shared.notificationCenter.removeObserver(self)
         NotificationCenter.default.removeObserver(self, name: .syncFansControl, object: nil)
         NotificationCenter.default.removeObserver(self, name: .fanHelperState, object: nil)
@@ -568,17 +571,26 @@ internal class FanView: NSStackView {
         
         let container = NSStackView(frame: NSRect(x: 0, y: 4, width: view.frame.width, height: view.frame.height - 8))
         container.wantsLayer = true
-        container.layer?.cornerRadius = 3
-        container.layer?.borderWidth = 1
-        container.layer?.borderColor = NSColor.lightGray.cgColor
+        container.layer?.cornerRadius = Constants.Popup.radius
         container.orientation = .horizontal
         container.alignment = .centerY
         container.distribution = .fillProportionally
         container.spacing = 0
+        container.wantsLayer = true
+        container.layer?.backgroundColor = (isDarkMode ? NSColor(red: 17/255, green: 17/255, blue: 17/255, alpha: 0.25) : NSColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1)).cgColor
         
-        let button: NSButton = NSButton(title: localizedString("Install fan helper"), target: nil, action: #selector(self.installHelper))
+        let button: NSButton = NSButton()
         button.isBordered = false
         button.target = self
+        button.isBordered = false
+        button.wantsLayer = true
+        button.layer?.backgroundColor = NSColor.clear.cgColor
+        button.attributedTitle = NSAttributedString(string: localizedString("Install fan helper"), attributes: [
+            .foregroundColor: NSColor.secondaryLabelColor,
+            .font: NSFont.systemFont(ofSize: 11, weight: .semibold)
+        ])
+        button.action = #selector(self.installHelper)
+        self.helperButton = button
         
         container.addArrangedSubview(button)
         view.addSubview(container)
@@ -641,8 +653,6 @@ internal class FanView: NSStackView {
         view.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
         view.identifier = NSUserInterfaceItemIdentifier(rawValue: "control")
         
-//        view.wantsLayer = true
-//        view.layer?.backgroundColor = NSColor.red.cgColor
         view.orientation = .vertical
         view.distribution = .fill
         view.edgeInsets = NSEdgeInsets(top: 0, left: Constants.Popup.margins/2, bottom: Constants.Popup.margins/2, right: Constants.Popup.margins/2)
@@ -706,9 +716,9 @@ internal class FanView: NSStackView {
         
         view.addArrangedSubview(slider)
         view.addArrangedSubview(levels)
-
+        
         levels.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -Constants.Popup.margins).isActive = true
-
+        
         self.slider = slider
         self.sliderValueField = valueField
         self.minBtn = minBtn
@@ -899,8 +909,71 @@ internal class FanView: NSStackView {
     }
     
     @objc private func installHelper(_ sender: NSButton) {
-        SMCHelper.shared.install { status in
-            NotificationCenter.default.post(name: .fanHelperState, object: nil, userInfo: ["state": status])
+        SMCHelper.shared.install { [weak self] state in
+            DispatchQueue.main.async {
+                switch state {
+                case .enabled:
+                    NotificationCenter.default.post(name: .fanHelperState, object: nil, userInfo: ["state": true])
+                case .requiresApproval:
+                    self?.showApprovalPending()
+                case .failed:
+                    self?.showInstallFailed()
+                    NotificationCenter.default.post(name: .fanHelperState, object: nil, userInfo: ["state": false])
+                }
+            }
+        }
+    }
+    
+    @objc private func openLoginItems(_ sender: NSButton) {
+        SMCHelper.shared.openLoginItems()
+    }
+    
+    private func showApprovalPending() {
+        self.helperButton?.title = localizedString("Approve in System Settings ▸ Login Items")
+        self.helperButton?.action = #selector(self.openLoginItems)
+        
+        self.startApprovalPolling()
+        
+        let alert = NSAlert()
+        alert.messageText = localizedString("Fan helper needs your approval")
+        alert.informativeText = localizedString("To control the fans, enable Stats in System Settings ▸ Login Items.")
+        alert.addButton(withTitle: localizedString("Open Login Items"))
+        alert.addButton(withTitle: localizedString("Cancel"))
+        
+        if alert.runModal() == .alertFirstButtonReturn {
+            SMCHelper.shared.openLoginItems()
+        }
+    }
+    
+    private func showInstallFailed() {
+        let alert = NSAlert()
+        alert.messageText = localizedString("Could not enable the fan helper")
+        alert.informativeText = localizedString("Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again.")
+        alert.addButton(withTitle: localizedString("Open Login Items"))
+        alert.addButton(withTitle: localizedString("Cancel"))
+        
+        if alert.runModal() == .alertFirstButtonReturn {
+            SMCHelper.shared.openLoginItems()
+        }
+    }
+    
+    private func startApprovalPolling() {
+        self.approvalPollTimer?.invalidate()
+        var elapsed: TimeInterval = 0
+        self.approvalPollTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { [weak self] timer in
+            elapsed += 2
+            if SMCHelper.shared.isInstalled {
+                timer.invalidate()
+                self?.approvalPollTimer = nil
+                DispatchQueue.main.async {
+                    self?.helperButton?.title = localizedString("Install fan helper")
+                    self?.helperButton?.action = #selector(FanView.installHelper)
+                    self?.setupControls(true)
+                }
+            } else if elapsed >= 60 {
+                timer.invalidate()
+                self?.approvalPollTimer = nil
+            }
         }
     }
     

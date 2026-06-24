@@ -261,7 +261,7 @@ extension SystemStats {
         return await self.fetchListAsync(path: path)
     }
     internal func fetchGroups() async -> [RemoteGroup] {
-        await self.fetchListAsync(path: "/group")
+        await self.fetchListAsync(path: "/v1/group")
     }
     internal func fetchAccountOrder() async -> RemoteAccountOrder {
         guard let request = self.authorizedGET("/account") else {
@@ -305,7 +305,7 @@ extension SystemStats {
     }
     
     internal func fetchGroups(completion: @escaping ([RemoteGroup]) -> Void) {
-        self.fetchList(path: "/group", completion: completion)
+        self.fetchList(path: "/v1/group", completion: completion)
     }
     
     internal func fetchAccountOrder(completion: @escaping (RemoteAccountOrder) -> Void) {

@@ -1032,6 +1032,12 @@ public class SettingsContainerView: NSStackView {
     }
 }
 
+public enum SMCHelperInstallState {
+    case enabled
+    case requiresApproval
+    case failed
+}
+
 public class SMCHelper {
     public static let shared = SMCHelper()
     
@@ -1043,6 +1049,19 @@ public class SMCHelper {
             return SMAppService.daemon(plistName: self.plistName).status == .enabled
         }
         return self.legacyIsInstalled
+    }
+    
+    public var requiresApproval: Bool {
+        if #available(macOS 13, *) {
+            return SMAppService.daemon(plistName: self.plistName).status == .requiresApproval
+        }
+        return false
+    }
+    
+    public func openLoginItems() {
+        if #available(macOS 13, *) {
+            SMAppService.openSystemSettingsLoginItems()
+        }
     }
     
     private var legacyIsInstalled: Bool {
@@ -1093,8 +1112,8 @@ public class SMCHelper {
             guard installedHelperVersion != helperVersion else { return }
             print("new version of SMC helper is detected, going to update...")
             self.uninstall(silent: true)
-            self.install { installed in
-                if installed {
+            self.install { state in
+                if case .enabled = state {
                     print("the new version of SMC helper was successfully installed")
                 } else {
                     print("error when installing a new version of the SMC helper")
@@ -1103,32 +1122,49 @@ public class SMCHelper {
         }
     }
     
-    public func install(completion: @escaping (_ installed: Bool) -> Void) {
+    public func install(completion: @escaping (_ state: SMCHelperInstallState) -> Void) {
         if #available(macOS 13, *) {
             self.cleanupLegacyInstall()
             let service = SMAppService.daemon(plistName: self.plistName)
             if service.status == .enabled {
-                completion(true)
+                completion(.enabled)
                 return
             }
             
             do {
                 try service.register()
             } catch {
-                print("failed to register SMC helper daemon: \(error.localizedDescription), resetting and retrying")
+                print("failed to register SMC helper daemon: \(error.localizedDescription)")
+                if service.status == .requiresApproval {
+                    print("SMC helper requires approval in System Settings > Login Items")
+                    completion(.requiresApproval)
+                    return
+                }
+                print("resetting and retrying")
                 try? service.unregister()
                 do {
                     try service.register()
                 } catch {
                     print("failed to register SMC helper daemon after reset: \(error.localizedDescription)")
+                    if service.status == .requiresApproval {
+                        print("SMC helper requires approval in System Settings > Login Items")
+                        completion(.requiresApproval)
+                        return
+                    }
+                    completion(.failed)
+                    return
                 }
             }
             
-            if service.status == .requiresApproval {
+            switch service.status {
+            case .enabled:
+                completion(.enabled)
+            case .requiresApproval:
                 print("SMC helper requires approval in System Settings > Login Items")
-                SMAppService.openSystemSettingsLoginItems()
+                completion(.requiresApproval)
+            default:
+                completion(.failed)
             }
-            completion(service.status == .enabled)
             
             return
         }
@@ -1145,13 +1181,13 @@ public class SMCHelper {
         self.connection = nil
     }
     
-    private func installLegacy(completion: @escaping (_ installed: Bool) -> Void) {
+    private func installLegacy(completion: @escaping (_ state: SMCHelperInstallState) -> Void) {
         var authRef: AuthorizationRef?
         var authStatus = AuthorizationCreate(nil, nil, [.preAuthorize], &authRef)
         
         guard authStatus == errAuthorizationSuccess else {
             print("Unable to get a valid empty authorization reference to load Helper daemon")
-            completion(false)
+            completion(.failed)
             return
         }
         
@@ -1174,7 +1210,7 @@ public class SMCHelper {
         
         guard authStatus == errAuthorizationSuccess else {
             print("Unable to get a valid loading authorization reference to load Helper daemon")
-            completion(false)
+            completion(.failed)
             return
         }
         
@@ -1182,12 +1218,12 @@ public class SMCHelper {
         if SMJobBless(kSMDomainSystemLaunchd, "eu.exelban.Stats.SMC.Helper" as CFString, authRef, &error) == false {
             let blessError = error!.takeRetainedValue() as Error
             print("Error while installing the Helper: \(blessError.localizedDescription)")
-            completion(false)
+            completion(.failed)
             return
         }
         
         AuthorizationFree(authRef!, [])
-        completion(true)
+        completion(.enabled)
     }
     
     private func helperConnection() -> NSXPCConnection? {

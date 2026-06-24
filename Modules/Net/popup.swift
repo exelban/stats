@@ -249,21 +249,12 @@ internal class Popup: PopupWrapper {
         view.orientation = .vertical
         view.spacing = 0
         
-        let row: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Popup.separatorHeight))
-        row.heightAnchor.constraint(equalToConstant: Constants.Popup.separatorHeight).isActive = true
-        let button = NSButtonWithPadding()
-        button.frame = CGRect(x: view.frame.width - 18, y: 6, width: 18, height: 18)
-        button.bezelStyle = .regularSquare
-        button.isBordered = false
-        button.imageScaling = NSImageScaling.scaleProportionallyDown
-        button.contentTintColor = .lightGray
-        button.action = #selector(self.resetTotalNetworkUsage)
-        button.target = self
-        button.toolTip = localizedString("Reset")
-        button.image = iconFromSymbol(name: "arrow.clockwise", scale: .medium)
-        row.addSubview(separatorView(localizedString("Details"), width: self.frame.width, rightInset: 24))
-        row.addSubview(button)
-        view.addArrangedSubview(row)
+        view.addArrangedSubview(SeparatorView(
+            label: localizedString("Interface"),
+            button: PopupButton(toolTip: localizedString("Reset"), icon: "arrow.clockwise") { [weak self] in
+                self?.resetTotalNetworkUsage()
+            }
+        ))
         
         let totalUpload = popupWithColorRow(view, color: self.uploadColor, title: "\(localizedString("Total upload")):", value: "0")
         let totalDownload = popupWithColorRow(view, color: self.downloadColor, title: "\(localizedString("Total download")):", value: "0")
@@ -289,24 +280,12 @@ internal class Popup: PopupWrapper {
         view.orientation = .vertical
         view.spacing = 0
         
-        let row: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Popup.separatorHeight))
-        row.heightAnchor.constraint(equalToConstant: Constants.Popup.separatorHeight).isActive = true
-        
-        let button = NSButtonWithPadding()
-        button.frame = CGRect(x: view.frame.width - 18, y: 6, width: 18, height: 18)
-        button.bezelStyle = .regularSquare
-        button.isBordered = false
-        button.imageScaling = NSImageScaling.scaleProportionallyDown
-        button.contentTintColor = .lightGray
-        button.action = #selector(self.toggleInterfaceDetails)
-        button.target = self
-        button.toolTip = localizedString("Details")
-        button.image = iconFromSymbol(name: "slider.horizontal.3", scale: .medium)
-        
-        row.addSubview(separatorView(localizedString("Interface"), width: self.frame.width, rightInset: 24))
-        row.addSubview(button)
-        
-        view.addArrangedSubview(row)
+        view.addArrangedSubview(SeparatorView(
+            label: localizedString("Interface"),
+            button: PopupButton(toolTip: localizedString("Details"), state: interfaceDetailsState) { [weak self] in
+                self?.toggleInterfaceDetails()
+            }
+        ))
         
         self.interfaceField = popupRow(view, title: "\(localizedString("Interface")):", value: localizedString("Unknown")).1
         self.interfaceStatusField = popupBadgeRow(view, title: "\(localizedString("Status")):").1
@@ -343,21 +322,12 @@ internal class Popup: PopupWrapper {
         view.orientation = .vertical
         view.spacing = 0
         
-        let row: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Popup.separatorHeight))
-        row.heightAnchor.constraint(equalToConstant: Constants.Popup.separatorHeight).isActive = true
-        let button = NSButtonWithPadding()
-        button.frame = CGRect(x: view.frame.width - 18, y: 6, width: 18, height: 18)
-        button.bezelStyle = .regularSquare
-        button.isBordered = false
-        button.imageScaling = NSImageScaling.scaleProportionallyDown
-        button.contentTintColor = .lightGray
-        button.action = #selector(self.refreshPublicIP)
-        button.target = self
-        button.toolTip = localizedString("Refresh")
-        button.image = iconFromSymbol(name: "arrow.clockwise", scale: .medium)
-        row.addSubview(separatorView(localizedString("Address"), width: self.frame.width, rightInset: 24))
-        row.addSubview(button)
-        view.addArrangedSubview(row)
+        view.addArrangedSubview(SeparatorView(
+            label: localizedString("Address"),
+            button: PopupButton(toolTip: localizedString("Refresh"), icon: "arrow.clockwise") { [weak self] in
+                self?.refreshPublicIP()
+            }
+        ))
         
         self.localIPField = popupRow(view, title: "\(localizedString("Local IP")):", value: localizedString("Unknown")).1
         
