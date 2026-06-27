@@ -180,24 +180,59 @@ internal class Popup: PopupWrapper {
             view.edgeInsets = NSEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
             
             let capacity: NSStackView = {
-                let row = NSStackView()
-                row.orientation = .horizontal
-                row.distribution = .fill
-                row.spacing = 0
+                let rows = NSStackView()
+                rows.orientation = .vertical
+                rows.spacing = 0
+                rows.distribution = .fill
                 
-                let max = LabelField("Max capacity", size: 10)
-                max.textColor = .tertiaryLabelColor
-                let designed = LabelField("Designed capacity", size: 10)
-                designed.textColor = .tertiaryLabelColor
+                let labels: NSStackView = {
+                    let row = NSStackView()
+                    row.orientation = .horizontal
+                    row.distribution = .fillEqually
+                    row.spacing = 0
+                    
+                    let max = LabelField(localizedString("Max capacity"), size: 8)
+                    max.textColor = .tertiaryLabelColor
+                    let designed = LabelField(localizedString("Designed capacity"), size: 8)
+                    designed.textColor = .tertiaryLabelColor
+                    designed.alignment = .right
+                    
+                    row.addArrangedSubview(max)
+                    row.addArrangedSubview(NSView())
+                    row.addArrangedSubview(designed)
+                    
+                    return row
+                }()
                 
-                self.maxCapacityField = max
-                self.designedCapacityField = designed
+                let values: NSStackView = {
+                    let row = NSStackView()
+                    row.orientation = .horizontal
+                    row.distribution = .fillEqually
+                    row.spacing = 0
+                    
+                    let max = LabelField("0 mAh", size: 11)
+                    max.textColor = .secondaryLabelColor
+                    let designed = LabelField("0 mAh", size: 11)
+                    designed.textColor = .secondaryLabelColor
+                    designed.alignment = .right
+                    
+                    self.maxCapacityField = max
+                    self.designedCapacityField = designed
+                    
+                    row.addArrangedSubview(max)
+                    row.addArrangedSubview(NSView())
+                    row.addArrangedSubview(designed)
+                    
+                    return row
+                }()
                 
-                row.addArrangedSubview(max)
-                row.addArrangedSubview(NSView())
-                row.addArrangedSubview(designed)
+                rows.addArrangedSubview(labels)
+                rows.addArrangedSubview(values)
                 
-                return row
+                labels.widthAnchor.constraint(equalTo: rows.widthAnchor).isActive = true
+                values.widthAnchor.constraint(equalTo: rows.widthAnchor).isActive = true
+                
+                return rows
             }()
             
             view.addArrangedSubview(capacity)
@@ -311,8 +346,8 @@ internal class Popup: PopupWrapper {
         }
         
         self.barView.setValue(ColorValue(Double(value.health)/100, color: .systemGreen))
-        self.maxCapacityField?.stringValue = localizedString("Max capacity", "\(value.maxCapacity)")
-        self.designedCapacityField?.stringValue = localizedString("Designed capacity", "\(value.designedCapacity)")
+        self.maxCapacityField?.stringValue = "\(value.maxCapacity) mAh"
+        self.designedCapacityField?.stringValue = "\(value.designedCapacity) mAh"
         
         self.healthField?.stringValue = "\(value.health)%"
         self.cyclesField?.stringValue = "\(value.cycles)"
