@@ -517,8 +517,11 @@ public class FrequencyReader: Reader<CPU_Frequency> {
     }
     
     private func collectIOSamples(data: CFDictionary) -> [IOSample] {
-        let dict = data as! [String: Any]
-        let items = dict["IOReportChannels"] as! CFArray
+        guard let dict = data as? [String: Any],
+              let channelsList = dict["IOReportChannels"] as? NSArray else {
+            return []
+        }
+        let items = channelsList as CFArray
         let itemSize = CFArrayGetCount(items)
         
         var samples = [IOSample]()
@@ -584,7 +587,6 @@ public class LimitReader: Reader<CPU_Limit> {
 }
 
 public class AverageLoadReader: Reader<CPU_AverageLoad> {
-    private let title: String = "CPU"
     private var load: CPU_AverageLoad = CPU_AverageLoad()
     
     public override func setup() {

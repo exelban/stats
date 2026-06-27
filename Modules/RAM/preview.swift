@@ -16,7 +16,7 @@ internal class Preview: PreviewWrapper {
     private var usageCircle: PieChartView? = nil
     private var bar: BarChartView? = nil
     private var loadLineChart: LineChartView? = nil
-    private var pressureCircle: PieChartView? = nil
+    private var pressureCircle: GaugeChartView? = nil
     private var pressureLineChart: LineChartView? = nil
     private var swapCircle: PieChartView? = nil
     private var swapLineChart: LineChartView? = nil
@@ -39,7 +39,6 @@ internal class Preview: PreviewWrapper {
     private var compressedField: NSTextField? = nil
     private var freeField: NSTextField? = nil
     private var swapField: NSTextField? = nil
-    private var pressureField: NSTextField? = nil
     
     private var initialized: Bool = false
     
@@ -185,11 +184,11 @@ internal class Preview: PreviewWrapper {
         )
         view.spacing = Constants.Settings.margin
         
-        let circle = PieChartView(segments: [
+        let circle = GaugeChartView(segments: [
             ColorValue(1/3, color: NSColor.systemGreen),
             ColorValue(1/3, color: NSColor.systemYellow),
             ColorValue(1/3, color: NSColor.systemRed)
-        ], drawValue: true, drawNeedle: true, openCircle: true)
+        ], title: localizedString("Normal"))
         circle.widthAnchor.constraint(equalToConstant: 90).isActive = true
         circle.toolTip = localizedString("Memory pressure")
         self.pressureCircle = circle
@@ -224,7 +223,7 @@ internal class Preview: PreviewWrapper {
         )
         view.spacing = Constants.Settings.margin
         
-        let circle = PieChartView(openCircle: true)
+        let circle = PieChartView()
         circle.widthAnchor.constraint(equalToConstant: 90).isActive = true
         circle.toolTip = localizedString("Swap")
         self.swapCircle = circle
@@ -269,8 +268,8 @@ internal class Preview: PreviewWrapper {
                 self.bar?.setValues(values)
                 
                 self.pressureCircle?.setActiveSegment(value.pressure.value.number())
+                self.pressureCircle?.setTitle(localizedString(value.pressure.value.rawValue.capitalized))
                 self.pressureCircle?.toolTip = "\(localizedString("Memory pressure")): \(value.pressure.value.rawValue)"
-                self.pressureField?.stringValue = localizedString(value.pressure.value.rawValue.capitalized)
                 
                 self.swapCircle?.setValue(value.swap.total > 0 ? (value.swap.used*100)/value.swap.total : 0)
                 self.swapCircle?.setText(Units(bytes: Int64(value.swap.used)).getReadableMemory(style: .memory))

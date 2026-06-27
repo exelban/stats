@@ -59,7 +59,6 @@
 "Center alignment" = "по центру";
 "Right alignment" = "по правому";
 "Dashboard" = "Главная страница"; // translategemma:4b
-"Enabled" = "Включено";
 "Disabled" = "Отключено";
 "Silent" = "Бесшумно";
 "Units" = "Единицы"; // translategemma:4b
@@ -83,8 +82,6 @@
 "2 minutes" = "2 минуты";
 "3 minutes" = "3 минуты";
 "10 minutes" = "10 минут";
-"Import" = "Импорт";
-"Export" = "Экспорт";
 "Separator" = "Разделитель";
 "Read" = "Чтение";
 "Write" = "Запись";
@@ -120,9 +117,6 @@
 "Check for a new version every week (once a week)" = "Проверять наличие новой версии каждую неделю (раз в неделю)";
 "Check for a new version every month (once a month)" = "Проверять наличие новой версии каждый месяц (раз в месяц)";
 "Never check for updates (not recommended)" = "Никогда не проверять наличие обновлений (не рекомендуется)";
-"Anonymous telemetry for better development decisions" = "Анонимная телеметрия для принятия лучших решений при разработке";
-"Share anonymous telemetry data" = "Делится анонимными данными телеметрии";
-"Do not share anonymous telemetry data" = "Не передавайте анонимные данные телеметрии";
 "The configuration is completed" = "Настройка завершена";
 "finish_setup_message" = "Все готово! \n Stats — это инструмент с открытым исходным кодом, он бесплатный и всегда будет бесплатным. \n Если вам нравится, вы можете поддержать проект, это всегда ценно!";
 
@@ -144,9 +138,9 @@
 "No notifications available in this module" = "В этом модуле нет доступных уведомлений";
 "Open Calendar" = "Открыть календарь";
 "Toggle the module" = "Переключить модуль";
+"Open System Stats" = "Открыть System Stats";
 
 // Application settings
-"Update application" = "Обновить приложение";
 "Check for updates" = "Проверять обновления";
 "At start" = "При включении";
 "Once per day" = "Раз в день";
@@ -165,7 +159,6 @@
 "Combined modules" = "Комбинированные модули";
 "Combined details" = "Комбинированные детали";
 "Spacing" = "Интервал";
-"Share anonymous telemetry" = "Делится анонимной телеметрией";
 "Choose file" = "Выбрать файл";
 "Stress tests" = "Стресс-тесты";
 
@@ -197,7 +190,6 @@
 "Colorize" = "Раскрасить";
 "Colorize value" = "Раскрасить значение";
 "Additional information" = "Дополнительная информация";
-"Reverse values order" = "Изменить порядок сортировки";
 "Base" = "Основа";
 "Display mode" = "Режим отображения";
 "One row" = "Один ряд";
@@ -231,7 +223,6 @@
 
 // Module Kit
 "Open module settings" = "Открыть настройки модуля";
-"Select widget" = "Активировать %0 виджет";
 "Open widget settings" = "Открыть настройки виджета";
 "Update interval" = "Интервал обновления";
 "Usage history" = "История использования";
@@ -253,7 +244,6 @@
 // Modules
 "Number of top processes" = "Количество процессов";
 "Update interval for top processes" = "Интервал обновления процессов";
-"Notification level" = "Уровень уведомления";
 "Chart color" = "Цвет графика";
 "Main chart scaling" = "Масштабирование основного графика";
 "Scale value" = "Значение масштаба";
@@ -277,7 +267,6 @@
 "5 minutes" = "5 минут";
 "15 minutes" = "15 минут";
 "CPU usage threshold" = "Порог использования процессора";
-"CPU usage is" = "Использование процессора %0";
 "Efficiency cores" = "Энергоэффективные ядра";
 "Performance cores" = "Производительные ядра";
 "System color" = "Системный цвет";
@@ -300,18 +289,9 @@
 // GPU
 "GPU to show" = "Активный графический процессор";
 "Show GPU type" = "Отображать тип графического процессора";
-"GPU enabled" = "Включен";
-"GPU disabled" = "Отключен";
-"GPU temperature" = "Температура графического процессора";
 "GPU utilization" = "Использование графического процессора";
-"Vendor" = "Производитель";
 "Model" = "Модель";
 "Status" = "Статус";
-"Active" = "Активная";
-"Non active" = "Не активная";
-"Fan speed" = "Скорость вентилятора";
-"Core clock" = "Частота ядра";
-"Memory clock" = "Частота памяти";
 "Utilization" = "Использование";
 "Render utilization" = "Использование render";
 "Tiler utilization" = "Использование tiler";
@@ -353,13 +333,12 @@
 "Disk usage" = "Использование диска";
 "Total read" = "Всего прочитано";
 "Total written" = "Всего записано";
-"Write speed" = "Запись";
-"Read speed" = "Чтение";
 "Drives" = "Диски";
 "SMART data" = "SMART данные";
+"Power cycles" = "Количество циклов";
+"Power on hours" = "Часы работы";
 
 // Sensors
-"Temperature unit" = "Единица измерения температуры";
 "Celsius" = "Цельсия";
 "Fahrenheit" = "Фаренгейта";
 "Save the fan speed" = "Сохранить скорость вентилятора";
@@ -388,11 +367,6 @@
 "Interface" = "Интерфейс";
 "Physical address" = "Физический адрес";
 "Refresh" = "Обновить";
-"Click to copy public IP address" = "Нажмите, чтобы скопировать публичный IP";
-"Click to copy local IP address" = "Нажмите, чтобы скопировать локальный IP";
-"Click to copy wifi name" = "Нажмите, чтобы скопировать имя Wi-Fi";
-"Click to copy mac address" = "Нажмите, чтобы скопировать физический адрес";
-"No connection" = "Нет соединения";
 "Network interface" = "Сетевой интерфейс";
 "Total download" = "Всего скачано";
 "Total upload" = "Всего выгружено";
@@ -404,12 +378,9 @@
 "Standard" = "Стандарт";
 "Security" = "Шифрование";
 "Channel" = "Канал";
-"Common scale" = "Общий масштаб";
 "Autodetection" = "Автоопределение";
 "Widget activation threshold" = "Порог активации виджета";
 "Internet connection" = "Интернет-соединение";
-"Active state color" = "Цвет активного состояния";
-"Nonactive state color" = "Цвет неактивного состояния";
 "Connectivity host" = "Хост подключения";
 "Leave empty to disable the check" = "Оставьте пустым, чтобы отключить проверку";
 "Connectivity history" = "История подключения";
@@ -417,11 +388,8 @@
 "Every hour" = "Каждый час";
 "Every 12 hours" = "Каждые 12 часов";
 "Every 24 hours" = "Каждые 24 часа";
-"Network activity" = "Сетевая активность";
 "Last reset" = "Последний сброс %0 назад";
 "Latency" = "Задержка";
-"Upload speed" = "Выгрузка";
-"Download speed" = "Загрузка";
 "Address" = "Адрес";
 "WiFi network" = "Сеть Wi-Fi";
 "Local IP changed" = "Локальный IP-адрес был изменён";
@@ -430,10 +398,9 @@
 "New IP" = "Новый IP-адрес: %0";
 "Internet connection lost" = "Соединение с интернетом потеряно";
 "Internet connection established" = "Соединение с интернетом восстановлено";
-"Show country code instead of emoji" = "Отображать код страны вместо эмодзи"; // translategemma:4b
+"Show country code instead of emoji" = "Отображать код страны вместо эмодзи";
 
 // Battery
-"Level" = "Уровень заряда";
 "Source" = "Источник";
 "AC Power" = "Сеть";
 "Battery Power" = "Аккумулятор";
@@ -465,15 +432,10 @@
 "Last charge" = "Последняя зарядка";
 "Capacity" = "Емкость";
 "current / maximum / designed" = "текущая / максимальная / расчетная";
-"Low power mode" = "Режим пониженного энергопотребления";
 "Percentage inside the icon" = "Процент внутри виджета";
-"Colorize battery" = "Раскрасить батарею";
-"Charging current" = "Ток зарядки";
-"Charging Voltage" = "Напряжение зарядки";
 "Charger state inside the battery" = "Состояние зарядки внутри аккумулятора";
 
 // Bluetooth
-"Battery to show" = "Активная батарея";
 "No Bluetooth devices are available" = "Нет доступных устройств Bluetooth";
 
 // Clock
@@ -485,7 +447,7 @@
 "Add new clock" = "Добавить новые часы";
 "Delete selected clock" = "Удалить выбранные часы";
 "Help with datetime format" = "Помощь с форматом даты и времени";
-"Sync with NTP server" = "Синхронизация с сервером NTP"; // translategemma:4b
+"Sync with NTP server" = "Синхронизация с сервером NTP";
 
 // Colors
 "Based on utilization" = "На основе использования";

@@ -58,8 +58,7 @@
 "Left alignment" = "Do lewej";
 "Center alignment" = "Centrum";
 "Right alignment" = "Do prawej";
-"Dashboard" = "Panel kontrolny"; // translategemma:4b
-"Enabled" = "Włączone";
+"Dashboard" = "Panel kontrolny";
 "Disabled" = "Wyłączone";
 "Silent" = "Tryb cichy";
 "Units" = "Jednostki";
@@ -83,8 +82,6 @@
 "2 minutes" = "2 minuty";
 "3 minutes" = "3 minuty";
 "10 minutes" = "10 minut";
-"Import" = "Import";
-"Export" = "Eksport";
 "Separator" = "Separator";
 "Read" = "Odczyt";
 "Write" = "Zapis";
@@ -120,9 +117,6 @@
 "Check for a new version every week (once a week)" = "Sprawdzaj nową wersję co tydzień (raz w tygodniu)";
 "Check for a new version every month (once a month)" = "Sprawdzaj nową wersję co miesiąc (raz w miesiącu)";
 "Never check for updates (not recommended)" = "Nigdy nie sprawdzaj czy są aktualizacje (niezalecane)";
-"Anonymous telemetry for better development decisions" = "Anonimowe dane telemetryczne aby podejmować lepsze decyzje rozwojowe";
-"Share anonymous telemetry data" = "Udostępniaj anonimowe dane telemetryczne";
-"Do not share anonymous telemetry data" = "Nie udostępniaj anonimowych danych telemetrycznych";
 "The configuration is completed" = "Konfiguracja zakończona";
 "finish_setup_message" = "Wszystko gotowe! \n Stats to narzędzie open source, które jest bezpłatne i zawsze takie będzie. \n Jeśli Ci się spodoba, możesz wesprzeć projekt, to jest zawsze mile widziane!";
 
@@ -144,9 +138,9 @@
 "No notifications available in this module" = "W tym module nie są dostępne żadne powiadomienia";
 "Open Calendar" = "Otwórz kalendarz";
 "Toggle the module" = "Przełącz moduł";
+"Open System Stats" = "Otworzyć System Stats";
 
 // Application settings
-"Update application" = "Aktualizuj aplikacje";
 "Check for updates" = "Sprawdzaj aktualizacje";
 "At start" = "Przy uruchomieniu";
 "Once per day" = "Raz dziennie";
@@ -165,7 +159,6 @@
 "Combined modules" = "Połączone moduły";
 "Combined details" = "Połączone okno";
 "Spacing" = "Rozstaw";
-"Share anonymous telemetry" = "Udostępnij anonimową telemetrię";
 "Choose file" = "Wybrać plik";
 "Stress tests" = "Testy obciążeniowe";
 
@@ -197,7 +190,6 @@
 "Colorize" = "Kolorowanie";
 "Colorize value" = "Kolorowanie wartości";
 "Additional information" = "Informacja dodatkowa";
-"Reverse values order" = "Zmień kolejność wyświetlania";
 "Base" = "Podstawa";
 "Display mode" = "Tryb wyświetlania";
 "One row" = "Jeden wiersz";
@@ -231,7 +223,6 @@
 
 // Module Kit
 "Open module settings" = "Otwórz ustawienia modułu";
-"Select widget" = "Wybierz %0 widżet";
 "Open widget settings" = "Otwórz ustawienia widgetu";
 "Update interval" = "Interwał odświeżania";
 "Usage history" = "Historia użycia";
@@ -253,7 +244,6 @@
 // Modules
 "Number of top processes" = "Liczba procesów";
 "Update interval for top processes" = "Interwał odświeżania procesów";
-"Notification level" = "Poziom powiadomienia";
 "Chart color" = "Kolor wykresu";
 "Main chart scaling" = "Skalowanie wykresu głównego";
 "Scale value" = "Wartość skali";
@@ -277,7 +267,6 @@
 "5 minutes" = "5 minut";
 "15 minutes" = "15 minut";
 "CPU usage threshold" = "Próg wykorzystania procesora";
-"CPU usage is" = "Użycie procesora %0";
 "Efficiency cores" = "Rdzenie energooszczędne";
 "Performance cores" = "Rdzenie wydajnościowe";
 "System color" = "Kolor systemu";
@@ -300,18 +289,9 @@
 // GPU
 "GPU to show" = "GPU do wyświetlenia";
 "Show GPU type" = "Pokaż typ GPU";
-"GPU enabled" = "GPU włączone";
-"GPU disabled" = "GPU wyłączone";
-"GPU temperature" = "Temperatura GPU";
 "GPU utilization" = "Wykorzystanie GPU";
-"Vendor" = "Producent";
 "Model" = "Model";
-"Status" = "Stan"; // translategemma:4b
-"Active" = "Aktywny";
-"Non active" = "Nieaktywny";
-"Fan speed" = "Prędkość wentylatora";
-"Core clock" = "Taktowanie rdzenia";
-"Memory clock" = "Taktowanie pamięci";
+"Status" = "Stan";
 "Utilization" = "Wykorzystanie";
 "Render utilization" = "Wykorzystanie rendera";
 "Tiler utilization" = "Wykorzystanie tilera";
@@ -353,13 +333,12 @@
 "Disk usage" = "Użycie dysku";
 "Total read" = "Całkowity odczyt";
 "Total written" = "Całkowity zapis";
-"Write speed" = "Zapis";
-"Read speed" = "Odczyt";
 "Drives" = "Dyski";
 "SMART data" = "Dane SMART";
+"Power cycles" = "Liczba cykli";
+"Power on hours" = "Godziny pracy";
 
 // Sensors
-"Temperature unit" = "Jednostka temperatury";
 "Celsius" = "Celsjusz";
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Zapisz prędkość wentylatora";
@@ -388,11 +367,6 @@
 "Interface" = "Interfejs";
 "Physical address" = "Adres fizyczny";
 "Refresh" = "Odśwież";
-"Click to copy public IP address" = "Kliknij, aby skopiować publiczny adres IP";
-"Click to copy local IP address" = "Kliknij, aby skopiować lokalny adres IP";
-"Click to copy wifi name" = "Kliknij, aby skopiować nazwę Wi-Fi";
-"Click to copy mac address" = "Kliknij, aby skopiować adres fizyczny";
-"No connection" = "Brak połączenia";
 "Network interface" = "Interfejs sieciowy";
 "Total download" = "Całkowicie pobrano";
 "Total upload" = "Całkowicie wysłano";
@@ -404,12 +378,9 @@
 "Standard" = "Standard";
 "Security" = "Szyfrowanie";
 "Channel" = "Kanał";
-"Common scale" = "Wspólna skala";
 "Autodetection" = "Autodetekcja";
 "Widget activation threshold" = "Próg aktywacji widżetu";
 "Internet connection" = "Połączenie internetowe";
-"Active state color" = "Kolor stanu aktywnego";
-"Nonactive state color" = "Kolor stanu nieaktywnego";
 "Connectivity host" = "Host łączności";
 "Leave empty to disable the check" = "Pozostaw puste, aby wyłączyć sprawdzanie";
 "Connectivity history" = "Historia łączności";
@@ -417,11 +388,8 @@
 "Every hour" = "Co godzinę";
 "Every 12 hours" = "Co 12 godzin";
 "Every 24 hours" = "Co 24 godzin";
-"Network activity" = "Aktywność sieciowa";
 "Last reset" = "Ostatni reset %0 temu";
 "Latency" = "Opóźnienie";
-"Upload speed" = "Wysyłka";
-"Download speed" = "Pobranie";
 "Address" = "Adres";
 "WiFi network" = "Sieć WiFi";
 "Local IP changed" = "Lokalny adres IP został zmieniony";
@@ -430,10 +398,9 @@
 "New IP" = "Nowy adres IP: %0";
 "Internet connection lost" = "Utracono połączenie z internetem";
 "Internet connection established" = "Połączenie z internetem zostało przywrócone";
-"Show country code instead of emoji" = "Wyświetl kod kraju zamiast emoji"; // translategemma:4b
+"Show country code instead of emoji" = "Wyświetl kod kraju zamiast emoji";
 
 // Battery
-"Level" = "Poziom naładowania";
 "Source" = "Źródło";
 "AC Power" = "Zasilacz";
 "Battery Power" = "Bateria";
@@ -465,15 +432,10 @@
 "Last charge" = "Ostatnie ładowanie";
 "Capacity" = "Pojemność";
 "current / maximum / designed" = "aktualna / maksymalna / zaprojektowana";
-"Low power mode" = "Niskie zużycie energii";
 "Percentage inside the icon" = "Procent wewnątrz ikony";
-"Colorize battery" = "Kolorowanie baterii";
-"Charging current" = "Prąd ładowania";
-"Charging Voltage" = "Napięcie ładowania";
 "Charger state inside the battery" = "Stan ładowania wewnątrz akumulatora";
 
 // Bluetooth
-"Battery to show" = "Bateria do wyświetlenia";
 "No Bluetooth devices are available" = "Brak dostępnych urządzeń Bluetooth";
 
 // Clock
@@ -485,7 +447,7 @@
 "Add new clock" = "Dodaj nowy zegar";
 "Delete selected clock" = "Usuń wybrany zegar";
 "Help with datetime format" = "Pomoc z formatem daty i godziny";
-"Sync with NTP server" = "Synchronizacja z serwerem NTP"; // translategemma:4b
+"Sync with NTP server" = "Synchronizacja z serwerem NTP";
 
 // Colors
 "Based on utilization" = "Na podstawie wykorzystania";

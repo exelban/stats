@@ -26,7 +26,7 @@ public class LineChart: WidgetWrapper {
         y: 0,
         width: 32,
         height: Constants.Widget.height - (2*Constants.Widget.margin.y)
-    ), num: 60)
+    ), num: 60, animation: false)
     private var colors: [SColor] = SColor.allCases.filter({ $0 != SColor.cluster })
     private var _value: Double = 0
     private var _pressureLevel: RAMPressure = .normal
@@ -224,10 +224,10 @@ public class LineChart: WidgetWrapper {
         } else {
             self.chart.setTransparent(true)
         }
-
+        
         context.saveGState()
         context.translateBy(x: x+offset+lineWidth, y: offset)
-
+        
         let chartSize = NSSize(
             width: box.bounds.width - (offset*2+lineWidth),
             height: box.bounds.height - offset
@@ -235,7 +235,7 @@ public class LineChart: WidgetWrapper {
         self.chart.setColor(color)
         self.chart.setFrameSize(chartSize)
         self.chart.draw(NSRect(origin: .zero, size: chartSize))
-
+        
         context.restoreGState()
         
         if self.boxState || self.frameState {
@@ -251,7 +251,7 @@ public class LineChart: WidgetWrapper {
         DispatchQueue.main.async(execute: {
             self._value = newValue
             self.chart.addValue(newValue)
-            self.display()
+            self.needsDisplay = true
         })
     }
     
@@ -259,7 +259,7 @@ public class LineChart: WidgetWrapper {
         DispatchQueue.main.async(execute: {
             guard self._pressureLevel != newPressureLevel else { return }
             self._pressureLevel = newPressureLevel
-            self.display()
+            self.needsDisplay = true
         })
     }
     

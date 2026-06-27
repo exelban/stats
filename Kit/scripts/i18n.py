@@ -1,6 +1,9 @@
 import os
+import re
 import sys
 import json
+import socket
+import urllib.error
 import urllib.request
 import subprocess
 
@@ -8,6 +11,16 @@ try:
     import langcodes
 except Exception:
     langcodes = None
+
+
+KEY_RE = re.compile(r'^\s*"((?:[^"\\]|\\.)*)"\s*=')
+CODE_KEY_RE = re.compile(r'(?:localizedString|NSLocalizedString)\(\s*"((?:[^"\\]|\\.)*)"')
+STRING_RE = re.compile(r'"((?:[^"\\]|\\.)*)"')
+INTERP_RE = re.compile(r'\\\([^()]*(?:\([^()]*\)[^()]*)*\)')
+
+
+def unescape(s):
+    return s.replace('\\"', '"').replace("\\n", "\n").replace("\\\\", "\\")
 
 
 def dictionary(lines):
@@ -25,11 +38,20 @@ def dictionary(lines):
 
 
 class i18n:
-    path = os.getcwd() + "/Stats/Supporting Files/"
+    path = os.getcwd() + "/Stats/Supporting Files"
+
+    app_context = (
+        "Context: the text is a short UI label from Stats, an open-source macOS menu-bar "
+        "system monitor (CPU, GPU, RAM, disk, network, battery, sensors). The labels name "
+        "widgets, modules, menu items, and settings. They are not full sentences, so do not "
+        "rephrase or compress them."
+    )
+
+    trusted_languages = ["pl", "uk", "ru"]
 
     def __init__(self):
         if "Kit/scripts" in os.getcwd():
-            self.path = os.getcwd() + "/../../Stats/Supporting Files/"
+            self.path = os.getcwd() + "/../../Stats/Supporting Files"
         self.languages = list(filter(lambda x: x.endswith(".lproj"), os.listdir(self.path)))
 
     def en_file(self):
@@ -79,6 +101,98 @@ class i18n:
                         f.write("".join(file))
 
         self.check()
+
+    def scan(self, clean=False, accept=False):
+        repo_root = os.path.dirname(os.path.dirname(self.path))
+        code_dirs = ["Stats", "Kit", "Modules", "Widgets", "SMC", "LaunchAtLogin"]
+        skip_parts = {"build", ".build", "DerivedData", "Pods", "xcloc", "xcarchive"}
+
+        en_keys = set()
+        for line in self.en_file():
+            m = KEY_RE.match(line)
+            if m:
+                en_keys.add(unescape(m.group(1)))
+
+        code_keys = {}
+        literals = set()
+        interp_patterns = []
+        for d in code_dirs:
+            base = os.path.join(repo_root, d)
+            if not os.path.isdir(base):
+                continue
+            for root, dirs, files in os.walk(base):
+                dirs[:] = [x for x in dirs if x not in skip_parts and not x.endswith(".lproj")]
+                for name in files:
+                    if not name.endswith(".swift"):
+                        continue
+                    full = os.path.join(root, name)
+                    try:
+                        with open(full, "r", encoding="utf-8") as f:
+                            text = f.read()
+                    except (UnicodeDecodeError, OSError):
+                        continue
+                    for m in STRING_RE.finditer(text):
+                        literals.add(unescape(m.group(1)))
+                    for m in CODE_KEY_RE.finditer(text):
+                        key = unescape(m.group(1))
+                        if not key:
+                            continue
+                        if "\\(" in key:
+                            segs = INTERP_RE.split(key)
+                            interp_patterns.append(re.compile("^" + ".*".join(re.escape(s) for s in segs) + "$"))
+                        else:
+                            code_keys.setdefault(key, os.path.relpath(full, repo_root))
+
+        def used(k):
+            return k in literals or k in code_keys or any(p.match(k) for p in interp_patterns)
+
+        missing = sorted(k for k in code_keys if k not in en_keys)
+        unused = sorted(k for k in en_keys if not used(k))
+
+        print(f"Found {len(code_keys)} localized string(s) in code, {len(en_keys)} key(s) in en.lproj.")
+
+        if missing:
+            print(f"\n{len(missing)} string(s) used in code but missing from en.lproj:")
+            for k in missing:
+                print(f"  \"{k}\"  ({code_keys[k]})")
+
+        if unused:
+            print(f"\n{len(unused)} key(s) in en.lproj not found as a string literal anywhere in code (possibly dead):")
+            for k in unused:
+                print(f"  \"{k}\"")
+
+        if clean and unused:
+            self._delete_keys(set(unused), accept=accept)
+            return
+
+        if missing or unused:
+            sys.exit(f"\nFound {len(missing)} string(s) missing from en.lproj and {len(unused)} unused key(s).")
+        print("\nAll localized strings in code are present in en.lproj.")
+
+    def _delete_keys(self, keys, accept=False):
+        if not accept:
+            answer = input(f"Delete {len(keys)} key(s) from all {len(self.languages)} translation file(s)? [y/N]: ").strip().lower()
+            if answer not in ("y", "yes"):
+                print("Aborted, nothing deleted.")
+                return
+
+        for lang in self.languages:
+            lang_path = f"{self.path}/{lang}/Localizable.strings"
+            with open(lang_path, "r") as f:
+                lines = f.readlines()
+            kept = []
+            removed = 0
+            for line in lines:
+                m = KEY_RE.match(line)
+                if m and unescape(m.group(1)) in keys:
+                    removed += 1
+                    continue
+                kept.append(line)
+            if removed:
+                with open(lang_path, "w") as f:
+                    f.write("".join(kept))
+                print(f"Removed {removed} key(s) from {lang.replace('.lproj', '')}")
+        print(f"Deleted {len(keys)} dead key(s) from all translations.")
 
     def _normalize_lang_code(self, code):
         code = (code or "").strip()
@@ -177,35 +291,109 @@ class i18n:
         }
         return hints.get(lang, "")
 
-    def _ollama_translate(self, text, target_lang, model="translategemma:4b", retries=2):
+    def _tokens(self, s):
+        s = s or ""
+        for ch in "/\\-_–—":
+            s = s.replace(ch, " ")
+        return [t.lower() for t in s.split() if any(c.isalnum() for c in t)]
+
+    def _dropped_words(self, candidate, source):
+        src = self._tokens(source)
+        cand = self._tokens(candidate)
+        if len(src) < 2 or len(cand) >= len(src):
+            return False
+        return all(t in src for t in cand)
+
+    def _looks_valid(self, candidate, source):
+        if not candidate:
+            return False
+        if not any(ch.isalnum() for ch in candidate):
+            return False
+        if self._dropped_words(candidate, source):
+            return False
+        return True
+
+    def _build_prompt(self, text, lang, tgt, script_hint, references=None):
+        rules = [
+            f"You are a professional translator. Translate the following UI string from English (en) into {lang} ({tgt}).",
+            self.app_context,
+            "Output ONLY the translated text. No explanations, notes, quotes, JSON, or markdown.",
+            "Translate the COMPLETE phrase and keep every word. Do not omit, shorten, or summarize.",
+            "Use natural wording suitable for a small UI control, but keep all words: never shorten by dropping a word like \"widget\".",
+            "Use the target language's standard UI and menu conventions, including its own capitalization rules (e.g. sentence case where English uses Title Case).",
+            "Do not translate technical acronyms, units, or brand and product names: e.g. CPU, GPU, RAM, SSD, USB, Wi-Fi, Bluetooth, MB/s, GB, GHz, °C, %.",
+            "Keep every placeholder and format token exactly and in the same count (e.g. %@, %d, %1$@, {0}); reposition one only if the target grammar requires it.",
+            "Do not add or remove punctuation that is not in the source; UI labels usually have no trailing period.",
+        ]
+        if script_hint:
+            rules.append(script_hint)
+
+        prompt = "\n".join(rules)
+        if references:
+            ref_lines = "\n".join(f"- {name}: {value}" for name, value in references)
+            prompt += (
+                "\n\nHuman-verified translations of this exact label in other languages. "
+                "Use them to understand the meaning and to keep every part of the label, "
+                "but write the answer in the target language and script:\n" + ref_lines
+            )
+        return prompt + f"\n\nEnglish text:\n{text}"
+
+    def _reference_translations(self, index, en_key, en_value, trusted_dicts):
+        refs = []
+        for code, d in trusted_dicts.items():
+            item = d.get(index)
+            if not item or item.get("key") != en_key:
+                continue
+            value = item.get("value")
+            if value and value != en_value:
+                refs.append((self._lang_name_from_code(code), value))
+        return refs
+
+    def _ollama_translate(self, text, target_lang, model="gemma4:31b", retries=2, references=None):
         url = "http://ai:11434/api/generate"
         tgt = self._normalize_lang_code(target_lang)
         lang = self._lang_name_from_code(tgt)
         script_hint = self._script_hint(tgt)
+        base_prompt = self._build_prompt(text, lang, tgt, script_hint, references)
 
-        prompt = (
-            f"You are a professional English (en) to {lang} ({tgt}) translator. Your goal is to accurately convey the meaning and nuances of the original English text while adhering to {lang} grammar, vocabulary, and cultural sensitivities. Produce only the {lang} translation, without any additional explanations or commentary. Output only the final translated text. Do not add explanations, notes, JSON, markdown, or quotes. Preserve placeholders/tokens exactly \\(e\\.g\\. `%@`, `%d`, `{0}`, `MB/s`\\). Preserve punctuation, casing intent, and technical abbreviations. {script_hint} Please translate the following English text into {lang}:\\n\\n"
-            f"{text}"
-        )
-        
-        payload = {
-            "model": model,
-            "prompt": prompt,
-            "stream": False,
-        }
+        prompt = base_prompt
+        for attempt in range(retries + 1):
+            payload = {
+                "model": model,
+                "prompt": prompt,
+                "stream": False,
+                "options": {
+                    "temperature": 0.0 if attempt == 0 else 0.3 * attempt,
+                    "seed": 0,
+                },
+            }
 
-        req = urllib.request.Request(
-            url,
-            data=json.dumps(payload).encode("utf-8"),
-            headers={"Content-Type": "application/json"},
-            method="POST"
-        )
+            req = urllib.request.Request(
+                url,
+                data=json.dumps(payload).encode("utf-8"),
+                headers={"Content-Type": "application/json"},
+                method="POST"
+            )
 
-        with urllib.request.urlopen(req, timeout=240) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
-            raw = data.get("response", "").strip()
+            try:
+                with urllib.request.urlopen(req, timeout=240) as resp:
+                    data = json.loads(resp.read().decode("utf-8"))
+                    raw = data.get("response", "").strip()
+            except (urllib.error.URLError, TimeoutError, socket.timeout) as e:
+                print(f"  request failed ({e}); attempt {attempt + 1}/{retries + 1}")
+                continue
 
-        return self._extract_translation(raw, fallback=text)
+            candidate = self._extract_translation(raw, fallback="")
+            if self._looks_valid(candidate, text):
+                return candidate
+
+            prompt = base_prompt + (
+                f"\n\nYour previous answer \"{candidate}\" is wrong because it dropped words "
+                f"from the source. Translate the ENTIRE phrase \"{text}\" into {lang}, "
+                f"keeping every word (including generic nouns like \"widget\")."
+            )
+
+        return text
 
     def _line_authors(self, file_path):
         cmd = ["git", "blame", "--line-porcelain", file_path]
@@ -233,17 +421,42 @@ class i18n:
         s = s.replace("\\", "\\\\").replace('"', '\\"').replace("\n", "\\n")
         return s
 
-    def translate(self, model="translategemma:4b", accept=False):
+    def _split_ai_tag(self, value):
+        if value and " // " in value:
+            clean, _, tag = value.rpartition(" // ")
+            return clean.strip(), tag.strip()
+        return value, None
+
+    def _normalize_punct(self, translated, source):
+        if source.rstrip().endswith((".", "。", "…")):
+            return translated
+        return translated.rstrip().rstrip(".。…").rstrip()
+
+    def translate(self, model="gemma4:31b", accept=False, recheck=False, omit=0):
         en_lines = self.en_file()
         en_dict = dictionary(en_lines)
         omit_keys = ["Swap"]
         ai_tag = f"// {model}"
 
+        trusted_dicts = {}
+        for code in self.trusted_languages:
+            trusted_path = f"{self.path}/{code}.lproj/Localizable.strings"
+            if os.path.exists(trusted_path):
+                with open(trusted_path, "r") as f:
+                    trusted_dicts[code] = dictionary(f.readlines())
+
         target_languages = [
             l for l in self.languages
             if not self._normalize_lang_code(l).lower().startswith("en")
+            and self._normalize_lang_code(l).lower() not in self.trusted_languages
 #            if self._normalize_lang_code(l).lower() in ("sk")
         ]
+
+        if omit > 0:
+            skipped = target_languages[:omit]
+            target_languages = target_languages[omit:]
+            print("Omitting first {} language(s): {}".format(len(skipped), ", ".join(skipped)))
+
         total_langs = len(target_languages)
 
         for lang_idx, lang in enumerate(target_languages, start=1):
@@ -256,7 +469,7 @@ class i18n:
 
             new_lines = old_lines[:]
             lang_dict = dictionary(old_lines)
-            changed = False
+            translated_any = False
 
             try:
                 authors = self._line_authors(lang_path)
@@ -281,37 +494,49 @@ class i18n:
                         new_lines.append(line)
                     if i <= len(authors):
                         authors.insert(i, file_author)
-                    changed = True
                     translate_value = en_value
 
                 if translate_key != en_key:
                     continue
                 if en_key in omit_keys:
                     continue
-                if i < len(authors) and file_author and authors[i] != file_author:
-                    continue
+
+                author_ok = not (i < len(authors) and file_author and authors[i] != file_author)
 
                 if translate_value is None or translate_value == en_value:
-                    candidates.append((i, en_key, en_value))
+                    candidates.append((i, en_key, en_value, None))
+                elif recheck and author_ok:
+                    old_value, tag_model = self._split_ai_tag(translate_value)
+                    if tag_model and tag_model != model:
+                        candidates.append((i, en_key, en_value, old_value))
 
-            print("Candidates for translation in {} ({}): {}".format(lang_name, lang_code, len(candidates)))
+            print("[{}/{}] Candidates for translation in {} ({}): {}".format(lang_idx, total_langs, lang_name, lang_code, len(candidates)))
 
-            for idx, (i, en_key, en_value) in enumerate(candidates, start=1):
-                translated = self._ollama_translate(en_value, lang_code, model=model)
+            for idx, (i, en_key, en_value, old_value) in enumerate(candidates, start=1):
+                references = self._reference_translations(i, en_key, en_value, trusted_dicts)
+                translated = self._ollama_translate(en_value, lang_code, model=model, references=references)
+                translated = self._normalize_punct(translated, en_value)
+                if translated.strip() == en_value.strip():
+                    continue
+                if old_value is not None and translated.strip() == old_value.strip():
+                    continue
                 safe_translated = self._strings_escape(translated)
-                print(f"[{lang_name} {lang_idx}/{total_langs}] {idx}/{len(candidates)} {en_key} -> {safe_translated}")
+                if old_value is not None:
+                    print(f"[{lang_name} {lang_idx}/{total_langs}] {idx}/{len(candidates)} {en_value} -> {safe_translated}  (was: {old_value}, key: {en_key})")
+                else:
+                    print(f"[{lang_name} {lang_idx}/{total_langs}] {idx}/{len(candidates)} {en_value} -> {safe_translated}  (key: {en_key})")
 
                 translated_line = f"\"{en_key}\" = \"{safe_translated}\";\n"
                 update_line = f"\"{en_key}\" = \"{safe_translated}\"; {ai_tag}\n"
                 if i < len(new_lines):
                     if new_lines[i] != translated_line:
                         new_lines[i] = update_line
-                        changed = True
+                        translated_any = True
                 else:
                     new_lines.append(update_line)
-                    changed = True
+                    translated_any = True
 
-            if not changed:
+            if not translated_any:
                 print(f"No changes for {lang_code} ({lang_code}).")
                 continue
 
@@ -335,14 +560,34 @@ if __name__ == "__main__":
     i18n = i18n()
     args = sys.argv[1:]
     accept = "--accept" in args
-    args = [a for a in args if a != "--accept"]
+    recheck = "--recheck" in args
+    clean = "--clean" in args
+
+    omit = 0
+    filtered = []
+    skip_next = False
+    for idx, a in enumerate(args):
+        if skip_next:
+            skip_next = False
+            continue
+        if a == "--omit":
+            omit = int(args[idx + 1]) if idx + 1 < len(args) else 0
+            skip_next = True
+        elif a.startswith("--omit="):
+            omit = int(a.split("=", 1)[1])
+        elif a not in ("--accept", "--recheck", "--clean"):
+            filtered.append(a)
+    args = filtered
 
     if len(sys.argv) >= 2 and sys.argv[1] == "fix":
         print("running fix command...")
         i18n.fix()
+    elif len(sys.argv) >= 2 and sys.argv[1] == "scan":
+        print("running scan command...")
+        i18n.scan(clean=clean, accept=accept)
     elif len(sys.argv) >= 2 and sys.argv[1] == "translate":
         print("running translate command...")
-        i18n.translate(accept=accept)
+        i18n.translate(accept=accept, recheck=recheck, omit=omit)
     else:
         print("running check command...")
         i18n.check()

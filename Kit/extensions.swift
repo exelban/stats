@@ -39,8 +39,6 @@ internal final class RegexCache {
 extension String: @retroactive LocalizedError {
     public var errorDescription: String? { return self }
     
-    public var nilIfEmpty: String? { self.isEmpty ? nil : self }
-    
     public var digits: String {
         return components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
     }
@@ -183,6 +181,20 @@ public extension Double {
         }
     }
     
+    func batteryColorV2(lowPowerMode: Bool = false) -> NSColor {
+        if lowPowerMode {
+            return NSColor.systemOrange
+        }
+        switch self {
+        case 0.2...0.4:
+            return NSColor.systemOrange
+        case 0.4...1:
+            return NSColor.systemGreen
+        default:
+            return NSColor.systemRed
+        }
+    }
+    
     func secondsToHoursMinutesSeconds() -> (Int, Int) {
         let mins = (self.truncatingRemainder(dividingBy: 3600)) / 60
         return (Int(self / 3600), Int(mins))
@@ -232,72 +244,6 @@ public extension NSView {
         default:
             return false
         }
-    }
-    
-    func toggleSettingRow(title: String, action: Selector, state: Bool) -> NSView {
-        let view: NSStackView = NSStackView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
-        view.orientation = .horizontal
-        view.alignment = .centerY
-        view.distribution = .fill
-        view.spacing = 0
-        
-        let titleField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), title)
-        titleField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        titleField.textColor = .textColor
-        
-        let state: NSControl.StateValue = state ? .on : .off
-        var toggle: NSControl = NSControl()
-        if #available(OSX 10.15, *) {
-            let switchButton = NSSwitch()
-            switchButton.state = state
-            switchButton.action = action
-            switchButton.target = self
-            
-            toggle = switchButton
-        } else {
-            let button: NSButton = NSButton()
-            button.setButtonType(.switch)
-            button.state = state
-            button.title = ""
-            button.action = action
-            button.isBordered = false
-            button.isTransparent = false
-            button.target = self
-            button.wantsLayer = true
-            
-            toggle = button
-        }
-        
-        view.addArrangedSubview(titleField)
-        view.addArrangedSubview(NSView())
-        view.addArrangedSubview(toggle)
-        
-        return view
-    }
-    
-    func selectSettingsRow(title: String, action: Selector, items: [KeyValue_p], selected: String) -> NSView {
-        let view = NSStackView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.heightAnchor.constraint(equalToConstant: Constants.Settings.row).isActive = true
-        view.orientation = .horizontal
-        view.alignment = .centerY
-        view.distribution = .fill
-        view.spacing = 0
-        
-        let titleField: NSTextField = LabelField(frame: NSRect(x: 0, y: 0, width: 0, height: 0), title)
-        titleField.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        titleField.textColor = .textColor
-        
-        let select: NSPopUpButton = selectView(action: action, items: items, selected: selected)
-        select.sizeToFit()
-        
-        view.addArrangedSubview(titleField)
-        view.addArrangedSubview(NSView())
-        view.addArrangedSubview(select)
-        
-        return view
     }
     
     func selectView(action: Selector, items: [KeyValue_p], selected: String) -> NSPopUpButton {
@@ -665,7 +611,7 @@ extension NSTextView {
         let commandShiftKey = NSEvent.ModifierFlags.command.rawValue | NSEvent.ModifierFlags.shift.rawValue
         if event.type == NSEvent.EventType.keyDown {
             if (event.modifierFlags.rawValue & NSEvent.ModifierFlags.deviceIndependentFlagsMask.rawValue) == commandKey {
-                switch event.charactersIgnoringModifiers! {
+                switch event.charactersIgnoringModifiers ?? "" {
                 case "x":
                     if NSApp.sendAction(#selector(NSText.cut(_:)), to: nil, from: self) { return true }
                 case "c":

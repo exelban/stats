@@ -13,7 +13,7 @@ import Cocoa
 import Kit
 
 internal class UsageReader: Reader<Battery_Usage> {
-    private var service: io_connect_t = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleSmartBattery"))
+    private var service: io_connect_t = IOServiceGetMatchingService(kIOMainPortDefault, IOServiceMatching("AppleSmartBattery"))
     
     private var source: CFRunLoopSource?
     private var loop: CFRunLoop?
@@ -98,24 +98,35 @@ internal class UsageReader: Reader<Battery_Usage> {
                 }
                 self.usage.health = Int((Double(100 * self.usage.maxCapacity) / Double(self.usage.designedCapacity)).rounded(.toNearestOrEven))
                 
-                self.usage.amperage = self.getIntValue("Amperage" as CFString) ?? 0
+                self.usage.current = self.getIntValue("Amperage" as CFString) ?? 0
                 self.usage.voltage = self.getVoltage() ?? 0
                 self.usage.temperature = self.getTemperature() ?? 0
                 
                 var ACwatts: Int = 0
                 if let ACDetails = IOPSCopyExternalPowerAdapterDetails() {
                     if let ACList = ACDetails.takeRetainedValue() as? [String: Any] {
-                        guard let watts = ACList[kIOPSPowerAdapterWattsKey] else {
+                        guard let watts = ACList[kIOPSPowerAdapterWattsKey] as? Int else {
                             return
                         }
-                        ACwatts = Int(watts as! Int)
+                        ACwatts = watts
                     }
                 }
                 self.usage.ACwatts = ACwatts
                 
+                self.usage.batteryPower = SMC.shared.getValue("PPBR") ?? (self.usage.voltage * (Double(self.usage.current) / 1000))
+                self.usage.adapterPower = SMC.shared.getValue("PDTR") ?? 0
+                if let adapterDetails = self.getAdapterDetails() {
+                    self.usage.adapterVoltage = Double(adapterDetails["AdapterVoltage"] as? Int ?? 0) / 1000
+                }
+                
                 if let chargerData = self.getChargerData() {
                     self.usage.chargingCurrent = chargerData["ChargingCurrent"] as? Int ?? 0
                     self.usage.chargingVoltage = chargerData["ChargingVoltage"] as? Int ?? 0
+                    
+                    if !self.usage.optimizedChargingEngaged && !self.usage.isBatteryPowered && !self.usage.isCharging && self.usage.level < 1,
+                       let notChargingReason = chargerData["NotChargingReason"] as? Int, notChargingReason != 0 {
+                        self.usage.optimizedChargingEngaged = true
+                    }
                 }
                 
                 self.callback(self.usage)
@@ -152,8 +163,13 @@ internal class UsageReader: Reader<Battery_Usage> {
     }
     
     private func getTemperature() -> Double? {
-        if let value = IORegistryEntryCreateCFProperty(self.service, "Temperature" as CFString, kCFAllocatorDefault, 0) {
-            return value.takeRetainedValue() as! Double / 100.0
+        let sensors = ["TB1T", "TB2T"].compactMap { SMC.shared.getValue($0) }.filter { $0 > 0 }
+        if !sensors.isEmpty {
+            return sensors.reduce(0, +) / Double(sensors.count)
+        }
+        if let value = IORegistryEntryCreateCFProperty(self.service, "Temperature" as CFString, kCFAllocatorDefault, 0),
+           let temperature = value.takeRetainedValue() as? Double {
+            return temperature / 100.0
         }
         return nil
     }
@@ -161,6 +177,13 @@ internal class UsageReader: Reader<Battery_Usage> {
     private func getChargerData() -> [String: Any]? {
         if let chargerData = IORegistryEntryCreateCFProperty(service, "ChargerData" as CFString, kCFAllocatorDefault, 0) {
             return chargerData.takeRetainedValue() as? [String: Any]
+        }
+        return nil
+    }
+
+    private func getAdapterDetails() -> [String: Any]? {
+        if let adapterDetails = IORegistryEntryCreateCFProperty(service, "AdapterDetails" as CFString, kCFAllocatorDefault, 0) {
+            return adapterDetails.takeRetainedValue() as? [String: Any]
         }
         return nil
     }

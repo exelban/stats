@@ -39,12 +39,15 @@ internal class CapacityReader: Reader<Disks> {
     private var SMART: Bool {
         Store.shared.bool(key: "\(ModuleType.disk.stringValue)_SMART", defaultValue: true)
     }
+    
     private var purgableSpace: [URL: (Date, Int64)] = [:]
     
     public override func read() {
         let keys: [URLResourceKey] = [.volumeNameKey]
         let removableState = Store.shared.bool(key: "Disk_removable", defaultValue: false)
-        let paths = FileManager.default.mountedVolumeURLs(includingResourceValuesForKeys: keys, options: [.skipHiddenVolumes])!
+        guard let paths = FileManager.default.mountedVolumeURLs(includingResourceValuesForKeys: keys, options: [.skipHiddenVolumes]) else {
+            return
+        }
         
         guard let session = DASessionCreate(kCFAllocatorDefault) else {
             error("cannot create main DASessionCreate()", log: self.log)
@@ -95,15 +98,12 @@ internal class CapacityReader: Reader<Disks> {
         }
         
         self.callback(self.list)
+        
     }
-    
-    public func resetPurgableSpace(for uuid: String) {
-        if let disk = self.list.first(where: { $0.uuid == uuid }), let path = disk.path {
-            self.purgableSpace.removeValue(forKey: path)
-        }
-    }
-    
     private func freeDiskSpaceInBytes(_ path: URL) -> Int64 {
+        var path = path
+        path.removeAllCachedResourceValues()
+        
         var stat = statfs()
         if statfs(path.path, &stat) == 0 {
             var purgeable: Int64 = 0
@@ -125,11 +125,9 @@ internal class CapacityReader: Reader<Disks> {
         }
         
         do {
-            if let url = URL(string: path.absoluteString) {
-                let values = try url.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey])
-                if let capacity = values.volumeAvailableCapacityForImportantUsage, capacity != 0 {
-                    return capacity
-                }
+            let values = try path.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey])
+            if let capacity = values.volumeAvailableCapacityForImportantUsage, capacity != 0 {
+                return capacity
             }
         } catch let err {
             error("error retrieving free space #1: \(err.localizedDescription)", log: self.log)
@@ -163,7 +161,7 @@ internal class CapacityReader: Reader<Disks> {
     private func getSMARTDetails(for BSDName: String) -> smart_t? {
         guard self.SMART else { return nil }
         
-        var disk = IOServiceGetMatchingService(kIOMasterPortDefault, IOBSDNameMatching(kIOMasterPortDefault, 0, BSDName.cString(using: .utf8)))
+        var disk = IOServiceGetMatchingService(kIOMainPortDefault, IOBSDNameMatching(kIOMainPortDefault, 0, BSDName.cString(using: .utf8)))
         guard disk != kIOReturnSuccess else { return nil }
         defer { IOObjectRelease(disk) }
         
@@ -258,7 +256,9 @@ internal class ActivityReader: Reader<Disks> {
     public override func read() {
         let keys: [URLResourceKey] = [.volumeNameKey]
         let removableState = Store.shared.bool(key: "Disk_removable", defaultValue: false)
-        let paths = FileManager.default.mountedVolumeURLs(includingResourceValuesForKeys: keys)!
+        guard let paths = FileManager.default.mountedVolumeURLs(includingResourceValuesForKeys: keys) else {
+            return
+        }
         
         guard let session = DASessionCreate(kCFAllocatorDefault) else {
             error("cannot create a DASessionCreate()", log: self.log)
@@ -302,7 +302,7 @@ internal class ActivityReader: Reader<Disks> {
     }
     
     private func driveStats(_ idx: Int, _ d: drive) {
-        let service = IOServiceGetMatchingService(kIOMasterPortDefault, IOBSDNameMatching(kIOMasterPortDefault, 0, d.BSDName))
+        let service = IOServiceGetMatchingService(kIOMainPortDefault, IOBSDNameMatching(kIOMainPortDefault, 0, d.BSDName))
         if service == 0 { return }
         IOObjectRelease(service)
         
@@ -335,8 +335,8 @@ private func driveDetails(_ disk: DADisk, removableState: Bool) -> drive? {
     
     if let diskDescription = DADiskCopyDescription(disk) {
         if let dict = diskDescription as? [String: AnyObject] {
-            if let removable = dict[kDADiskDescriptionMediaRemovableKey as String] {
-                if removable as! Bool {
+            if let removable = dict[kDADiskDescriptionMediaRemovableKey as String] as? Bool {
+                if removable {
                     if !removableState {
                         return nil
                     }
@@ -344,28 +344,28 @@ private func driveDetails(_ disk: DADisk, removableState: Bool) -> drive? {
                 }
             }
             
-            if let mediaUUID = dict[kDADiskDescriptionMediaUUIDKey as String] {
+            if let mediaUUID = dict[kDADiskDescriptionMediaUUIDKey as String], CFGetTypeID(mediaUUID) == CFUUIDGetTypeID() {
                 d.uuid = CFUUIDCreateString(kCFAllocatorDefault, (mediaUUID as! CFUUID)) as String
             }
-            if let mediaName = dict[kDADiskDescriptionVolumeNameKey as String] {
-                d.mediaName = mediaName as! String
+            if let mediaName = dict[kDADiskDescriptionVolumeNameKey as String] as? String {
+                d.mediaName = mediaName
                 if d.mediaName == "Recovery" {
                     return nil
                 }
             }
             if d.mediaName == "" {
-                if let mediaName = dict[kDADiskDescriptionMediaNameKey as String] {
-                    d.mediaName = mediaName as! String
+                if let mediaName = dict[kDADiskDescriptionMediaNameKey as String] as? String {
+                    d.mediaName = mediaName
                     if d.mediaName == "Recovery" {
                         return nil
                     }
                 }
             }
-            if let deviceModel = dict[kDADiskDescriptionDeviceModelKey as String] {
-                d.model = (deviceModel as! String).trimmingCharacters(in: .whitespacesAndNewlines)
+            if let deviceModel = dict[kDADiskDescriptionDeviceModelKey as String] as? String {
+                d.model = deviceModel.trimmingCharacters(in: .whitespacesAndNewlines)
             }
-            if let deviceProtocol = dict[kDADiskDescriptionDeviceProtocolKey as String] {
-                d.connectionType = deviceProtocol as! String
+            if let deviceProtocol = dict[kDADiskDescriptionDeviceProtocolKey as String] as? String {
+                d.connectionType = deviceProtocol
             }
             if let volumePath = dict[kDADiskDescriptionVolumePathKey as String] {
                 if let url = volumePath as? NSURL {
@@ -382,8 +382,8 @@ private func driveDetails(_ disk: DADisk, removableState: Bool) -> drive? {
                     }
                 }
             }
-            if let volumeKind = dict[kDADiskDescriptionVolumeKindKey as String] {
-                d.fileSystem = volumeKind as! String
+            if let volumeKind = dict[kDADiskDescriptionVolumeKindKey as String] as? String {
+                d.fileSystem = volumeKind
             }
         }
     }

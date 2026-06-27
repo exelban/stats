@@ -84,7 +84,7 @@ public class PortalHeader: NSStackView {
         settings.bezelStyle = .regularSquare
         settings.translatesAutoresizingMaskIntoConstraints = false
         settings.imageScaling = .scaleProportionallyDown
-        settings.image = Bundle(for: type(of: self)).image(forResource: "settings")!
+        settings.image = iconFromSymbol(name: "gearshape.fill", scale: .xlarge)
         settings.contentTintColor = .lightGray
         settings.isBordered = false
         settings.action = #selector(self.openSettings)

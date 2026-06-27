@@ -145,7 +145,7 @@ public class Sensors: Module {
                 var flatList: [[ColorValue]] = []
                 value.sensors.filter{ $0 is Fan }.forEach { (s: Sensor_p) in
                     if s.state, let f = s as? Fan {
-                        flatList.append([ColorValue(((f.value*100)/f.maxSpeed)/100)])
+                        flatList.append([ColorValue(Double(f.percentage) / 100)])
                     }
                 }
                 widget.setValue(flatList)

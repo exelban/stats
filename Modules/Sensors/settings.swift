@@ -27,7 +27,6 @@ internal class Settings: NSStackView, Settings_v {
     public var selectedHandler: (String) -> Void = {_ in }
     
     private let title: String
-    private var button: NSPopUpButton?
     private var list: [Sensor_p] = []
     private var sensorsPrefs: PreferencesSection?
     private var selectedSensor: String = "Average System Total"
@@ -146,9 +145,7 @@ internal class Settings: NSStackView, Settings_v {
         }
         
         if let row = self.sensorsPrefs?.findRow("active_sensor") {
-            if !widgets.isEmpty {
-                self.sensorsPrefs?.setRowVisibility(row, newState: widgets.contains(where: { $0 == .mini }))
-            }
+            self.sensorsPrefs?.setRowVisibility(row, newState: widgets.contains(where: { $0 == .mini }))
             row.replaceComponent(with: selectView(
                 action: #selector(self.handleSelection),
                 items: buttonList,

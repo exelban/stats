@@ -210,7 +210,7 @@ internal class Popup: PopupWrapper {
         let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
         container.wantsLayer = true
         container.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
-        container.layer?.cornerRadius = 3
+        container.layer?.cornerRadius = Constants.Popup.radius
         
         let chart = NetworkChartView(
             frame: NSRect(x: 0, y: 1, width: container.frame.width, height: container.frame.height - 2),
@@ -253,21 +253,12 @@ internal class Popup: PopupWrapper {
         view.orientation = .vertical
         view.spacing = 0
         
-        let row: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Popup.separatorHeight))
-        row.heightAnchor.constraint(equalToConstant: Constants.Popup.separatorHeight).isActive = true
-        let button = NSButtonWithPadding()
-        button.frame = CGRect(x: view.frame.width - 18, y: 6, width: 18, height: 18)
-        button.bezelStyle = .regularSquare
-        button.isBordered = false
-        button.imageScaling = NSImageScaling.scaleAxesIndependently
-        button.contentTintColor = .lightGray
-        button.action = #selector(self.resetTotalNetworkUsage)
-        button.target = self
-        button.toolTip = localizedString("Reset")
-        button.image = Bundle(for: Module.self).image(forResource: "refresh")!
-        row.addSubview(separatorView(localizedString("Details"), width: self.frame.width))
-        row.addSubview(button)
-        view.addArrangedSubview(row)
+        view.addArrangedSubview(SeparatorView(
+            label: localizedString("Interface"),
+            button: PopupButton(toolTip: localizedString("Reset"), icon: "arrow.clockwise") { [weak self] in
+                self?.resetTotalNetworkUsage()
+            }
+        ))
         
         let totalUpload = popupWithColorRow(view, color: self.uploadColor, title: "\(localizedString("Total upload")):", value: "0")
         let totalDownload = popupWithColorRow(view, color: self.downloadColor, title: "\(localizedString("Total download")):", value: "0")
@@ -293,24 +284,12 @@ internal class Popup: PopupWrapper {
         view.orientation = .vertical
         view.spacing = 0
         
-        let row: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Popup.separatorHeight))
-        row.heightAnchor.constraint(equalToConstant: Constants.Popup.separatorHeight).isActive = true
-        
-        let button = NSButtonWithPadding()
-        button.frame = CGRect(x: view.frame.width - 18, y: 6, width: 18, height: 18)
-        button.bezelStyle = .regularSquare
-        button.isBordered = false
-        button.imageScaling = NSImageScaling.scaleAxesIndependently
-        button.contentTintColor = .lightGray
-        button.action = #selector(self.toggleInterfaceDetails)
-        button.target = self
-        button.toolTip = localizedString("Details")
-        button.image = Bundle(for: Module.self).image(forResource: "tune")!
-        
-        row.addSubview(separatorView(localizedString("Interface"), width: self.frame.width))
-        row.addSubview(button)
-        
-        view.addArrangedSubview(row)
+        view.addArrangedSubview(SeparatorView(
+            label: localizedString("Interface"),
+            button: PopupButton(toolTip: localizedString("Details"), state: interfaceDetailsState) { [weak self] in
+                self?.toggleInterfaceDetails()
+            }
+        ))
         
         self.interfaceField = popupRow(view, title: "\(localizedString("Interface")):", value: localizedString("Unknown")).1
         self.interfaceStatusField = popupBadgeRow(view, title: "\(localizedString("Status")):").1
@@ -347,21 +326,12 @@ internal class Popup: PopupWrapper {
         view.orientation = .vertical
         view.spacing = 0
         
-        let row: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: Constants.Popup.separatorHeight))
-        row.heightAnchor.constraint(equalToConstant: Constants.Popup.separatorHeight).isActive = true
-        let button = NSButtonWithPadding()
-        button.frame = CGRect(x: view.frame.width - 18, y: 6, width: 18, height: 18)
-        button.bezelStyle = .regularSquare
-        button.isBordered = false
-        button.imageScaling = NSImageScaling.scaleAxesIndependently
-        button.contentTintColor = .lightGray
-        button.action = #selector(self.refreshPublicIP)
-        button.target = self
-        button.toolTip = localizedString("Refresh")
-        button.image = Bundle(for: Module.self).image(forResource: "refresh")!
-        row.addSubview(separatorView(localizedString("Address"), width: self.frame.width))
-        row.addSubview(button)
-        view.addArrangedSubview(row)
+        view.addArrangedSubview(SeparatorView(
+            label: localizedString("Address"),
+            button: PopupButton(toolTip: localizedString("Refresh"), icon: "arrow.clockwise") { [weak self] in
+                self?.refreshPublicIP()
+            }
+        ))
         
         self.localIPField = popupRow(view, title: "\(localizedString("Local IP")):", value: localizedString("Unknown")).1
         
@@ -874,19 +844,20 @@ internal class Popup: PopupWrapper {
         unitField.textColor = .labelColor
         unitField.alignment = .left
         
-        let titleWidth: CGFloat = title.widthOfString(usingFont: NSFont.systemFont(ofSize: 12, weight: .regular))+8
+        let titleWidth: CGFloat = title.widthOfString(usingFont: NSFont.systemFont(ofSize: 11, weight: .regular))+8
         let iconSize: CGFloat = 12
         let bottomWidth: CGFloat = titleWidth+iconSize
         let bottomView: NSView = NSView(frame: NSRect(
             x: (view.frame.width-bottomWidth)/2,
-            y: topView.frame.origin.y - titleHeight,
+            y: topView.frame.origin.y - titleHeight - 2,
             width: bottomWidth,
             height: titleHeight
         ))
         
-        let colorBlock: ColorView = ColorView(frame: NSRect(x: 0, y: 1, width: iconSize, height: iconSize), color: color, radius: 4)
+        let colorBlock: ColorView = ColorView(frame: NSRect(x: 0, y: 2, width: iconSize, height: iconSize), color: color, radius: 4)
         let titleField = LabelField(frame: NSRect(x: iconSize, y: 0, width: titleWidth, height: titleHeight), title)
         titleField.alignment = .center
+        titleField.font = NSFont.systemFont(ofSize: 11, weight: .regular)
         
         topView.addSubview(valueField)
         topView.addSubview(unitField)

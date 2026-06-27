@@ -22,7 +22,7 @@ public class PieChart: WidgetWrapper {
             width: Constants.Widget.height,
             height: Constants.Widget.height
         ),
-        segments: [], filled: true, drawValue: false
+        segments: [], filled: true, drawValue: false, animation: false, lineCap: .butt
     )
     private var labelView: NSView? = nil
     

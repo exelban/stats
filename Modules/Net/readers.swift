@@ -14,12 +14,6 @@ import Kit
 import SystemConfiguration
 import CoreWLAN
 
-struct ipResponse: Decodable {
-    var ip: String
-    var country: String
-    var cc: String
-}
-
 // swiftlint:disable control_statement
 extension CWPHYMode: @retroactive CustomStringConvertible {
     public var description: String {
@@ -312,15 +306,19 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         let outputPipe = Pipe()
         let errorPipe = Pipe()
         
+        task.standardInput = inputPipe
+        task.standardOutput = outputPipe
+        task.standardError = errorPipe
+        
         defer {
+            if task.isRunning {
+                task.terminate()
+            }
+            task.waitUntilExit()
             inputPipe.fileHandleForWriting.closeFile()
             outputPipe.fileHandleForReading.closeFile()
             errorPipe.fileHandleForReading.closeFile()
         }
-        
-        task.standardInput = inputPipe
-        task.standardOutput = outputPipe
-        task.standardError = errorPipe
         
         do {
             try task.run()
@@ -334,7 +332,7 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         let output = String(data: outputData, encoding: .utf8)
         _ = String(data: errorData, encoding: .utf8)
         guard let output, !output.isEmpty else { return Bandwidth() }
-
+        
         var totalUpload: Int64 = 0
         var totalDownload: Int64 = 0
         var firstLine = false
@@ -469,7 +467,8 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     }
     
     private func getLocalIP(_ pointer: UnsafeMutablePointer<ifaddrs>) {
-        var addr = pointer.pointee.ifa_addr.pointee
+        guard let ifaAddr = pointer.pointee.ifa_addr else { return }
+        var addr = ifaAddr.pointee
         guard addr.sa_family == UInt8(AF_INET) || addr.sa_family == UInt8(AF_INET6) else { return}
         
         var ip = [CChar](repeating: 0, count: Int(NI_MAXHOST))
@@ -598,26 +597,6 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     public func ssidDidChangeForWiFiInterface(withName interfaceName: String) {
         self.getWiFiDetails()
     }
-    
-    private func isInterfaceUp(_ ifName: String) -> Bool {
-        var addrs: UnsafeMutablePointer<ifaddrs>? = nil
-        guard getifaddrs(&addrs) == 0, let first = addrs else { return false }
-        defer { freeifaddrs(addrs) }
-        
-        var ptr = first
-        while true {
-            let name = String(cString: ptr.pointee.ifa_name)
-            if name == ifName {
-                return (ptr.pointee.ifa_flags & UInt32(IFF_UP)) != 0
-            }
-            if let next = ptr.pointee.ifa_next {
-                ptr = next
-            } else {
-                break
-            }
-        }
-        return false
-    }
 }
 
 public class ProcessReader: Reader<[Network_Process]> {
@@ -651,15 +630,19 @@ public class ProcessReader: Reader<[Network_Process]> {
         let outputPipe = Pipe()
         let errorPipe = Pipe()
         
+        task.standardInput = inputPipe
+        task.standardOutput = outputPipe
+        task.standardError = errorPipe
+        
         defer {
+            if task.isRunning {
+                task.terminate()
+            }
+            task.waitUntilExit()
             inputPipe.fileHandleForWriting.closeFile()
             outputPipe.fileHandleForReading.closeFile()
             errorPipe.fileHandleForReading.closeFile()
         }
-        
-        task.standardInput = inputPipe
-        task.standardOutput = outputPipe
-        task.standardError = errorPipe
         
         do {
             try task.run()

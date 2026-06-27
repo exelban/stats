@@ -22,7 +22,7 @@ brew install stats
 Legacy version for older systems could be found [here](https://mac-stats.com/downloads).
 
 ## Requirements
-Stats is supported on the released macOS version starting from macOS 11.15 (Big Sur).
+Stats is supported on the released macOS version starting from macOS 12 (Monterey).
 
 ## Features
 Stats is an application that allows you to monitor your macOS system.
@@ -53,6 +53,11 @@ To change the order of any menu bar icon - macOS Mojave (version 10.14) and up.
 macOS 26 introduced a new privacy control under System Settings → Menu Bar. Apps must be explicitly allowed there to display menu bar items. If Stats is running with at least one module active and one widget enabled, but none of its icons show up in the menu bar, this is almost certainly the cause. More details you can find [here](https://github.com/exelban/stats/issues/3120).
 
 **Solution:** open **System Settings → Menu Bar** and toggle **Stats** ON.
+
+### Desktop widgets not showing the data
+Due to a problem with high data load in the system process (`chronod`) responsible for communication between the app and widgets, communication is disabled by default on the Stats side. To enable it, the `macOS widgets` option must be enabled in the Stats settings. More details you can find [here](https://github.com/exelban/stats/issues/2733).
+
+**Solution:** open **Stats Settings** and toggle **macOS widgets** ON.
 
 ### How to reduce energy impact or CPU usage of Stats?
 Stats tries to be efficient as it's possible. But reading some data periodically is not a cheap task. Each module has its own "price". So, if you want to reduce energy impact from the Stats you need to disable some Stats modules. The most inefficient modules are Sensors and Bluetooth. Disabling these modules could reduce CPU usage and power efficiency by up to 50% in some cases.

@@ -260,7 +260,7 @@ public struct DiskSize {
 }
 
 public class LabelField: NSTextField {
-    public init(frame: NSRect = NSRect.zero, _ label: String = "") {
+    public init(frame: NSRect = NSRect.zero, _ label: String = "", size: CGFloat = 12) {
         super.init(frame: frame)
         
         self.isEditable = false
@@ -273,7 +273,7 @@ public class LabelField: NSTextField {
         self.stringValue = label
         self.textColor = .secondaryLabelColor
         self.alignment = .natural
-        self.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        self.font = NSFont.systemFont(ofSize: size, weight: .regular)
         
         self.cell?.truncatesLastVisibleLine = true
         self.cell?.usesSingleLineMode = true
@@ -310,6 +310,8 @@ public class ValueField: NSTextField {
 
 public class StatusBadgeView: NSStackView {
     private var status: Bool?
+    private let ok: String
+    private let notOk: String
     private let labelField: NSTextField = LabelField("")
     
     public override var intrinsicContentSize: CGSize {
@@ -324,13 +326,15 @@ public class StatusBadgeView: NSStackView {
     }
     private var label: String {
         if let status {
-            return status ? localizedString("UP") : localizedString("DOWN")
+            return status ? localizedString(self.ok) : localizedString(self.notOk)
         }
         return ""
     }
     
-    public init(frame: NSRect = NSRect(origin: .zero, size: NSSize(width: 50, height: 14)), _ status: Bool? = nil) {
+    public init(frame: NSRect = NSRect(origin: .zero, size: NSSize(width: 50, height: 14)), _ status: Bool? = nil, ok: String = "UP", notOk: String = "DOWN") {
         self.status = status
+        self.ok = ok
+        self.notOk = notOk
         
         super.init(frame: frame)
         
@@ -383,22 +387,58 @@ public extension NSBezierPath {
     }
 }
 
-public func separatorView(_ title: String, origin: NSPoint = NSPoint(x: 0, y: 0), width: CGFloat = 0) -> NSView {
+public func separatorView(_ title: String, origin: NSPoint = NSPoint(x: 0, y: 0), width: CGFloat = 0, rightInset: CGFloat = 0) -> NSView {
     let view: NSView = NSView(frame: NSRect(x: origin.x, y: origin.y, width: width, height: 30))
     view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
     
-    let labelView: NSTextField = TextView(frame: NSRect(x: 0, y: (view.frame.height-15)/2, width: view.frame.width, height: 15))
-    labelView.stringValue = title
+    let labelView: NSTextField = NSTextField(labelWithString: "")
+    labelView.translatesAutoresizingMaskIntoConstraints = false
     labelView.alignment = .center
-    labelView.textColor = .secondaryLabelColor
-    labelView.font = NSFont.systemFont(ofSize: 12, weight: .medium)
+    labelView.isBezeled = false
+    labelView.isEditable = false
+    labelView.drawsBackground = false
+    labelView.attributedStringValue = NSAttributedString(string: title.uppercased(), attributes: [
+        .font: NSFont.systemFont(ofSize: 10, weight: .semibold),
+        .foregroundColor: NSColor.tertiaryLabelColor,
+        .kern: 1.0
+    ])
+    labelView.setContentHuggingPriority(.required, for: .horizontal)
+    labelView.setContentCompressionResistancePriority(.required, for: .horizontal)
     
+    let leftLine: NSView = NSView()
+    leftLine.translatesAutoresizingMaskIntoConstraints = false
+    leftLine.wantsLayer = true
+    leftLine.layer?.backgroundColor = NSColor.separatorColor.cgColor
+    
+    let rightLine: NSView = NSView()
+    rightLine.translatesAutoresizingMaskIntoConstraints = false
+    rightLine.wantsLayer = true
+    rightLine.layer?.backgroundColor = NSColor.separatorColor.cgColor
+    
+    view.addSubview(leftLine)
     view.addSubview(labelView)
+    view.addSubview(rightLine)
+    
+    let gap: CGFloat = 8
+    NSLayoutConstraint.activate([
+        labelView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+        labelView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        
+        leftLine.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+        leftLine.trailingAnchor.constraint(equalTo: labelView.leadingAnchor, constant: -gap),
+        leftLine.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        leftLine.heightAnchor.constraint(equalToConstant: 1),
+        
+        rightLine.leadingAnchor.constraint(equalTo: labelView.trailingAnchor, constant: gap),
+        rightLine.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -rightInset),
+        rightLine.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        rightLine.heightAnchor.constraint(equalToConstant: 1)
+    ])
     
     return view
 }
 
-public func popupBadgeRow(_ view: NSView? = nil, title: String, status: Bool? = nil) -> (LabelField, StatusBadgeView, NSView) {
+public func popupBadgeRow(_ view: NSView? = nil, title: String, status: Bool? = nil, ok: String = "UP", notOk: String = "DOWN") -> (LabelField, StatusBadgeView, NSView) {
     let width = view?.frame.width ?? 0
     let height: CGFloat = 22
     let rowView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: width, height: height))
@@ -406,7 +446,7 @@ public func popupBadgeRow(_ view: NSView? = nil, title: String, status: Bool? = 
     let labelWidth = title.widthOfString(usingFont: .systemFont(ofSize: 12, weight: .regular)) + 4
     let labelView: LabelField = LabelField(frame: NSRect(x: 0, y: (height-16)/2, width: labelWidth, height: 16), title)
     
-    let badgeView = StatusBadgeView(frame: NSRect(x: rowView.frame.width - 50, y: (height-14)/2, width: 50, height: 14), status)
+    let badgeView = StatusBadgeView(frame: NSRect(x: rowView.frame.width - 50, y: (height-14)/2, width: 50, height: 14), status, ok: ok, notOk: notOk)
     badgeView.autoresizingMask = [.minXMargin]
     
     rowView.addSubview(labelView)
@@ -474,13 +514,10 @@ public func portalRow(_ v: NSStackView, title: String, value: String = "", isSel
     return (labelView, valueView, view)
 }
 
-public func popupWithColorRow(_ view: NSView, color: NSColor, title: String, value: String) -> (NSView, LabelField, ValueField) {
+public func popupWithColorRow(_ view: NSView, color: NSColor, title: String, value: String) -> (ColorBlock, LabelField, ValueField) {
     let rowView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 22))
     
-    let colorView: NSView = NSView(frame: NSRect(x: 2, y: 5, width: 12, height: 12))
-    colorView.wantsLayer = true
-    colorView.layer?.backgroundColor = color.cgColor
-    colorView.layer?.cornerRadius = 2
+    let colorView: ColorBlock = ColorBlock(frame: NSRect(x: 3, y: 6, width: 10, height: 10), color: color)
     let labelWidth = min(180, title.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .regular)) + 5)
     let labelView: LabelField = LabelField(frame: NSRect(x: 18, y: (22-16)/2, width: labelWidth, height: 16), title)
     let valueView: ValueField = ValueField(frame: NSRect(x: 18 + labelWidth, y: (22-16)/2, width: rowView.frame.width - labelWidth - 18, height: 16), value)
@@ -609,15 +646,6 @@ public func toggleNSControlState(_ control: NSControl?, state: NSControl.StateVa
     }
 }
 
-public func asyncShell(_ args: String) {
-    let task = Process()
-    task.launchPath = "/bin/sh"
-    task.arguments = ["-c", args]
-    let pipe = Pipe()
-    task.standardOutput = pipe
-    task.launch()
-}
-
 public func syncShell(_ args: String) -> String {
     let task = Process()
     task.launchPath = "/bin/sh"
@@ -629,7 +657,7 @@ public func syncShell(_ args: String) -> String {
     task.waitUntilExit()
     
     let data = pipe.fileHandleForReading.readDataToEndOfFile()
-    let output = String(data: data, encoding: .utf8)!
+    let output = String(data: data, encoding: .utf8) ?? ""
     
     return output
 }
@@ -771,7 +799,7 @@ public func fetchIOService(_ name: String) -> [NSDictionary]? {
     var obj: io_registry_entry_t = 1
     var list: [NSDictionary] = []
     
-    let result = IOServiceGetMatchingServices(kIOMasterPortDefault, IOServiceMatching(name), &iterator)
+    let result = IOServiceGetMatchingServices(kIOMainPortDefault, IOServiceMatching(name), &iterator)
     if result != kIOReturnSuccess {
         print("Error IOServiceGetMatchingServices(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
         return nil
@@ -1009,11 +1037,40 @@ public class SettingsContainerView: NSStackView {
     }
 }
 
+public enum SMCHelperInstallState {
+    case enabled
+    case requiresApproval
+    case failed
+}
+
 public class SMCHelper {
     public static let shared = SMCHelper()
     
+    private let id: String = "eu.exelban.Stats.SMC.Helper"
+    private let plistName: String = "eu.exelban.Stats.SMC.Helper.plist"
+    
     public var isInstalled: Bool {
-        syncShell("ls /Library/PrivilegedHelperTools/").contains("eu.exelban.Stats.SMC.Helper")
+        if #available(macOS 13, *) {
+            return SMAppService.daemon(plistName: self.plistName).status == .enabled
+        }
+        return self.legacyIsInstalled
+    }
+    
+    public var requiresApproval: Bool {
+        if #available(macOS 13, *) {
+            return SMAppService.daemon(plistName: self.plistName).status == .requiresApproval
+        }
+        return false
+    }
+    
+    public func openLoginItems() {
+        if #available(macOS 13, *) {
+            SMAppService.openSystemSettingsLoginItems()
+        }
+    }
+    
+    private var legacyIsInstalled: Bool {
+        syncShell("ls /Library/PrivilegedHelperTools/").contains(self.id)
     }
     
     private var connection: NSXPCConnection? = nil
@@ -1046,6 +1103,11 @@ public class SMCHelper {
     }
     
     public func checkForUpdate() {
+        if #available(macOS 13, *) {
+            self.cleanupLegacyInstall()
+            return
+        }
+        
         let helperURL = Bundle.main.bundleURL.appendingPathComponent("Contents/Library/LaunchServices/eu.exelban.Stats.SMC.Helper")
         guard let helperBundleInfo = CFBundleCopyInfoDictionaryForURL(helperURL as CFURL) as? [String: Any],
               let helperVersion = helperBundleInfo["CFBundleShortVersionString"] as? String,
@@ -1055,8 +1117,8 @@ public class SMCHelper {
             guard installedHelperVersion != helperVersion else { return }
             print("new version of SMC helper is detected, going to update...")
             self.uninstall(silent: true)
-            self.install { installed in
-                if installed {
+            self.install { state in
+                if case .enabled = state {
                     print("the new version of SMC helper was successfully installed")
                 } else {
                     print("error when installing a new version of the SMC helper")
@@ -1065,13 +1127,72 @@ public class SMCHelper {
         }
     }
     
-    public func install(completion: @escaping (_ installed: Bool) -> Void) {
+    public func install(completion: @escaping (_ state: SMCHelperInstallState) -> Void) {
+        if #available(macOS 13, *) {
+            self.cleanupLegacyInstall()
+            let service = SMAppService.daemon(plistName: self.plistName)
+            if service.status == .enabled {
+                completion(.enabled)
+                return
+            }
+            
+            do {
+                try service.register()
+            } catch {
+                print("failed to register SMC helper daemon: \(error.localizedDescription)")
+                if service.status == .requiresApproval {
+                    print("SMC helper requires approval in System Settings > Login Items")
+                    completion(.requiresApproval)
+                    return
+                }
+                print("resetting and retrying")
+                try? service.unregister()
+                do {
+                    try service.register()
+                } catch {
+                    print("failed to register SMC helper daemon after reset: \(error.localizedDescription)")
+                    if service.status == .requiresApproval {
+                        print("SMC helper requires approval in System Settings > Login Items")
+                        completion(.requiresApproval)
+                        return
+                    }
+                    completion(.failed)
+                    return
+                }
+            }
+            
+            switch service.status {
+            case .enabled:
+                completion(.enabled)
+            case .requiresApproval:
+                print("SMC helper requires approval in System Settings > Login Items")
+                completion(.requiresApproval)
+            default:
+                completion(.failed)
+            }
+            
+            return
+        }
+        
+        self.installLegacy(completion: completion)
+    }
+    
+    @available(macOS 13, *)
+    private func cleanupLegacyInstall() {
+        guard self.legacyIsInstalled, let helper = self.helper(nil) else { return }
+        print("legacy SMC helper detected, removing it before registering the SMAppService daemon")
+        helper.uninstall()
+        self.connection?.invalidate()
+        self.connection = nil
+    }
+    
+    private func installLegacy(completion: @escaping (_ state: SMCHelperInstallState) -> Void) {
         var authRef: AuthorizationRef?
         var authStatus = AuthorizationCreate(nil, nil, [.preAuthorize], &authRef)
         
         guard authStatus == errAuthorizationSuccess else {
             print("Unable to get a valid empty authorization reference to load Helper daemon")
-            completion(false)
+            completion(.failed)
             return
         }
         
@@ -1094,7 +1215,7 @@ public class SMCHelper {
         
         guard authStatus == errAuthorizationSuccess else {
             print("Unable to get a valid loading authorization reference to load Helper daemon")
-            completion(false)
+            completion(.failed)
             return
         }
         
@@ -1102,12 +1223,12 @@ public class SMCHelper {
         if SMJobBless(kSMDomainSystemLaunchd, "eu.exelban.Stats.SMC.Helper" as CFString, authRef, &error) == false {
             let blessError = error!.takeRetainedValue() as Error
             print("Error while installing the Helper: \(blessError.localizedDescription)")
-            completion(false)
+            completion(.failed)
             return
         }
         
         AuthorizationFree(authRef!, [])
-        completion(true)
+        completion(.enabled)
     }
     
     private func helperConnection() -> NSXPCConnection? {
@@ -1153,6 +1274,19 @@ public class SMCHelper {
             for i in 0..<Int(count) {
                 self.setFanMode(i, mode: 0)
             }
+        }
+        if #available(macOS 13, *) {
+            do {
+                try SMAppService.daemon(plistName: self.plistName).unregister()
+            } catch {
+                print("failed to unregister SMC helper daemon: \(error.localizedDescription)")
+            }
+            self.connection?.invalidate()
+            self.connection = nil
+            if !silent {
+                NotificationCenter.default.post(name: .fanHelperState, object: nil, userInfo: ["state": false])
+            }
+            return
         }
         guard let helper = self.helper(nil) else { return }
         helper.uninstall()
@@ -1353,8 +1487,22 @@ public func controlState(_ sender: NSControl) -> Bool {
     return state == .on
 }
 
-public func iconFromSymbol(name: String, scale: NSImage.SymbolScale) -> NSImage {
-    let config = NSImage.SymbolConfiguration(textStyle: .body, scale: scale)
+public enum IconScale {
+    case small, medium, large, xlarge
+}
+
+public func iconFromSymbol(name: String, scale: IconScale) -> NSImage {
+    let config: NSImage.SymbolConfiguration
+    switch scale {
+    case .small:
+        config = NSImage.SymbolConfiguration(textStyle: .body, scale: .small)
+    case .medium:
+        config = NSImage.SymbolConfiguration(textStyle: .body, scale: .medium)
+    case .large:
+        config = NSImage.SymbolConfiguration(textStyle: .body, scale: .large)
+    case .xlarge:
+        config = NSImage.SymbolConfiguration(pointSize: 14, weight: .regular, scale: .large)
+    }
     if let symbol = NSImage(systemSymbolName: name, accessibilityDescription: nil), let icon = symbol.withSymbolConfiguration(config) {
         return icon
     }
@@ -1380,7 +1528,7 @@ public func showAlert(_ message: String, _ information: String? = nil, _ style: 
 }
 
 var isDarkMode: Bool {
-    switch NSAppearance.current.name {
+    switch NSAppearance.currentDrawing().name {
     case .darkAqua, .vibrantDark, .accessibilityHighContrastDarkAqua, .accessibilityHighContrastVibrantDark:
         return true
     default:
@@ -2016,4 +2164,214 @@ public func countryFlag(_ code: String) -> String? {
     guard uppercased.count == 2 else { return nil }
     let scalars = uppercased.unicodeScalars.compactMap { UnicodeScalar(127397 + $0.value) }
     return scalars.count == 2 ? String(String.UnicodeScalarView(scalars)) : nil
+}
+
+public class DotView: NSView {
+    private let size: CGFloat
+    
+    public init(color: NSColor, size: CGFloat = 8) {
+        self.size = size
+        super.init(frame: NSRect(x: 0, y: 0, width: size, height: size))
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.widthAnchor.constraint(equalToConstant: size).isActive = true
+        
+        let height = self.heightAnchor.constraint(equalToConstant: size)
+        height.priority = .defaultHigh
+        height.isActive = true
+        
+        self.wantsLayer = true
+        self.layer?.cornerRadius = size / 2
+        self.layer?.backgroundColor = color.cgColor
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func setColor(_ color: NSColor) {
+        self.layer?.backgroundColor = color.cgColor
+    }
+}
+
+public class LinkButton: NSButton {
+    private var url: URL
+    
+    public init(_ url: URL, size: CGFloat = 14) {
+        self.url = url
+        
+        super.init(frame: .zero)
+        self.target = self
+        self.action = #selector(self.openURL)
+        
+        self.image = NSImage(systemSymbolName: "arrow.up.right.square", accessibilityDescription: localizedString("Open in browser"))
+        self.symbolConfiguration = NSImage.SymbolConfiguration(pointSize: 11, weight: .regular)
+        self.imagePosition = .imageOnly
+        self.isBordered = false
+        self.bezelStyle = .accessoryBar
+        self.contentTintColor = .secondaryLabelColor
+        self.toolTip = url.absoluteString
+        self.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.widthAnchor.constraint(equalToConstant: size).isActive = true
+        self.heightAnchor.constraint(equalToConstant: size).isActive = true
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc private func openURL() {
+        NSWorkspace.shared.open(self.url)
+    }
+    
+    public override func resetCursorRects() {
+        self.addCursorRect(self.bounds, cursor: .pointingHand)
+    }
+}
+
+public class ColorBlock: NSView {
+    public init(frame: CGRect? = nil, toolTip: String? = nil, color: NSColor? = nil) {
+        super.init(frame: frame != nil ? frame! : NSRect(x: 0, y: 0, width: 10, height: 10))
+        
+        self.wantsLayer = true
+        self.layer?.backgroundColor = (color != nil ? color! : NSColor.lightGray.withAlphaComponent(0.75)).cgColor
+        self.layer?.cornerRadius = 3
+        
+        if let toolTip {
+            self.toolTip = toolTip
+        }
+        
+        self.widthAnchor.constraint(equalToConstant: 10).isActive = true
+        self.heightAnchor.constraint(equalToConstant: 10).isActive = true
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func set(color: NSColor? = nil) {
+        let resolved = color ?? .lightGray.withAlphaComponent(0.75)
+        self.effectiveAppearance.performAsCurrentDrawingAppearance {
+            self.layer?.backgroundColor = resolved.cgColor
+        }
+    }
+    
+    public func set(toolTip: String? = nil) {
+        self.toolTip = toolTip
+    }
+}
+
+public class PopupButton: NSButton {
+    private var callback: (() -> Void)?
+    
+    public var currentState: Bool? = nil
+    
+    public init(toolTip: String? = nil, state: Bool? = nil, icon: String = "slider.horizontal.3", action: (() -> Void)? = nil) {
+        self.callback = action
+        self.currentState = state
+        
+        super.init(frame: NSRect(x: 0, y: 0, width: 20, height: 16))
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.wantsLayer = true
+        self.layer?.cornerRadius = Constants.Popup.radius
+        self.contentTintColor = .lightGray
+        self.layer?.backgroundColor = NSColor.clear.cgColor
+        
+        self.bezelStyle = .regularSquare
+        self.isBordered = false
+        self.imageScaling = .scaleProportionallyDown
+        self.image = iconFromSymbol(name: icon, scale: .medium)
+        
+        self.action = #selector(self.click)
+        self.target = self
+        if let toolTip {
+            self.toolTip = toolTip
+        }
+        
+        self.updateAppearance()
+        
+        self.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
+        self.heightAnchor.constraint(equalToConstant: self.frame.height).isActive = true
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc private func click() {
+        self.callback?()
+        if self.currentState != nil {
+            self.currentState = !self.currentState!
+        }
+        self.updateAppearance()
+    }
+    
+    private func updateAppearance() {
+        guard let currentState else { return }
+        
+        if currentState {
+            self.contentTintColor = .white
+            self.layer?.backgroundColor = NSColor.controlAccentColor.cgColor
+        } else {
+            self.contentTintColor = .lightGray
+            self.layer?.backgroundColor = NSColor.clear.cgColor
+        }
+    }
+}
+
+public class SeparatorView: NSStackView {
+    public init(label: String, button: NSView? = nil) {
+        super.init(frame: NSRect(x: 0, y: 0, width: 0, height: Constants.Popup.separatorHeight))
+        
+        self.orientation = .horizontal
+        self.alignment = .centerY
+        self.distribution = .fill
+        self.spacing = Constants.Popup.margins
+        self.translatesAutoresizingMaskIntoConstraints = false
+        
+        let labelView: NSTextField = NSTextField(labelWithString: "")
+        labelView.alignment = .center
+        labelView.isBezeled = false
+        labelView.isEditable = false
+        labelView.drawsBackground = false
+        labelView.attributedStringValue = NSAttributedString(string: label.uppercased(), attributes: [
+            .font: NSFont.systemFont(ofSize: 10, weight: .semibold),
+            .foregroundColor: NSColor.tertiaryLabelColor,
+            .kern: 1.0
+        ])
+        labelView.setContentHuggingPriority(.required, for: .horizontal)
+        labelView.setContentCompressionResistancePriority(.required, for: .horizontal)
+        
+        let leftLine = self.line()
+        let rightLine = self.line()
+        
+        self.addArrangedSubview(leftLine)
+        self.addArrangedSubview(labelView)
+        self.addArrangedSubview(rightLine)
+        
+        if let button {
+            self.addArrangedSubview(button)
+        }
+        
+        NSLayoutConstraint.activate([
+            self.heightAnchor.constraint(equalToConstant: Constants.Popup.separatorHeight),
+            labelView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            labelView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+        ])
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func line() -> NSView {
+        let view: NSView = NSView()
+        view.wantsLayer = true
+        view.layer?.backgroundColor = NSColor.separatorColor.cgColor
+        view.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        view.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        return view
+    }
 }

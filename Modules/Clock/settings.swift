@@ -15,6 +15,7 @@ import Kit
 let nameColumnID = NSUserInterfaceItemIdentifier(rawValue: "name")
 let formatColumnID = NSUserInterfaceItemIdentifier(rawValue: "format")
 let tzColumnID = NSUserInterfaceItemIdentifier(rawValue: "tz")
+let calendarColumnID = NSUserInterfaceItemIdentifier(rawValue: "calendar")
 let statusColumnID = NSUserInterfaceItemIdentifier(rawValue: "status")
 
 internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableViewDataSource, NSTextFieldDelegate {
@@ -38,7 +39,6 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
     }
     
     private var title: String
-    private var selectedRow: Int = -1
     
     private let scrollView = NSScrollView()
     private let tableView = NSTableView()
@@ -99,6 +99,10 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
         tzColumn.headerCell.title = localizedString("Time zone")
         tzColumn.headerCell.alignment = .center
         tzColumn.width = 132
+        let calendarColumn = NSTableColumn(identifier: calendarColumnID)
+        calendarColumn.headerCell.title = localizedString("Calendar")
+        calendarColumn.headerCell.alignment = .center
+        calendarColumn.width = 60
         let statusColumn = NSTableColumn(identifier: statusColumnID)
         statusColumn.headerCell.title = ""
         statusColumn.width = 16
@@ -106,6 +110,7 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
         self.tableView.addTableColumn(nameColumn)
         self.tableView.addTableColumn(formatColumn)
         self.tableView.addTableColumn(tzColumn)
+        self.tableView.addTableColumn(calendarColumn)
         self.tableView.addTableColumn(statusColumn)
         
         let separator = NSBox()
@@ -214,10 +219,20 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
         case tzColumnID:
             let select: NSPopUpButton = selectView(action: #selector(self.toggleTZ), items: Clock.zones, selected: item.tz)
             select.identifier = NSUserInterfaceItemIdentifier("\(row)")
+            select.itemArray.forEach { $0.identifier = NSUserInterfaceItemIdentifier("\(row)") }
             select.sizeToFit()
             select.preferredEdge = .maxX
             select.translatesAutoresizingMaskIntoConstraints = false
             select.widthAnchor.constraint(lessThanOrEqualToConstant: 132).isActive = true
+            cell.addSubview(select)
+        case calendarColumnID:
+            let select: NSPopUpButton = selectView(action: #selector(self.toggleCalendar), items: Clock.calendars, selected: item.calendar)
+            select.identifier = NSUserInterfaceItemIdentifier("\(row)")
+            select.itemArray.forEach { $0.identifier = NSUserInterfaceItemIdentifier("\(row)") }
+            select.sizeToFit()
+            select.preferredEdge = .maxX
+            select.translatesAutoresizingMaskIntoConstraints = false
+            select.widthAnchor.constraint(lessThanOrEqualToConstant: 60).isActive = true
             cell.addSubview(select)
         case statusColumnID:
             let button: NSButton = NSButton(frame: NSRect(x: 0, y: 8, width: 10, height: 10))
@@ -260,9 +275,35 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
         }
     }
     
-    @objc private func toggleTZ(_ sender: NSMenuItem) {
-        guard let key = sender.representedObject as? String, let id = sender.identifier, let i = Int(id.rawValue) else { return }
+    private func selectValue(_ sender: Any) -> (key: String, index: Int)? {
+        if let select = sender as? NSPopUpButton,
+           let key = select.selectedItem?.representedObject as? String,
+           let id = select.identifier,
+           let index = Int(id.rawValue) {
+            return (key, index)
+        }
+        
+        if let item = sender as? NSMenuItem,
+           let key = item.representedObject as? String,
+           let id = item.identifier,
+           let index = Int(id.rawValue) {
+            return (key, index)
+        }
+        
+        return nil
+    }
+    
+    @objc private func toggleTZ(_ sender: Any) {
+        guard let value = self.selectValue(sender) else { return }
+        let key = value.key
+        let i = value.index
         self.list[i].tz = key
+    }
+    @objc private func toggleCalendar(_ sender: Any) {
+        guard let value = self.selectValue(sender) else { return }
+        let key = value.key
+        let i = value.index
+        self.list[i].calendar = key
     }
     @objc private func toggleClock(_ sender: NSButton) {
         guard let id = sender.identifier, let i = Int(id.rawValue) else { return }

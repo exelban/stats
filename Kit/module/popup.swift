@@ -356,8 +356,10 @@ internal class HeaderView: NSStackView {
     private var isCloseAction: Bool = false
     private let activityMonitor: URL?
     private let calendar: URL?
+    private var module: ModuleType
     
     init(frame: NSRect, module: ModuleType) {
+        self.module = module
         self.activityMonitor = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.apple.ActivityMonitor")
         self.calendar = URL(fileURLWithPath: "/System/Applications/Calendar.app")
         
@@ -376,17 +378,9 @@ internal class HeaderView: NSStackView {
         activity.contentTintColor = .lightGray
         activity.isBordered = false
         activity.target = self
-        if module == .clock {
-            activity.action = #selector(self.openCalendar)
-            activity.image = Bundle(for: type(of: self)).image(forResource: "calendar")!
-            activity.toolTip = localizedString("Open Calendar")
-        } else {
-            activity.action = #selector(self.openActivityMonitor)
-            activity.image = Bundle(for: type(of: self)).image(forResource: "chart")!
-            activity.toolTip = localizedString("Open Activity Monitor")
-        }
         activity.focusRingType = .none
         self.activityButton = activity
+        self.setupActionButton()
         
         let title = NSTextField(frame: NSRect(x: 0, y: 0, width: frame.width/2, height: 18))
         title.isEditable = false
@@ -407,12 +401,12 @@ internal class HeaderView: NSStackView {
         settings.bezelStyle = .regularSquare
         settings.translatesAutoresizingMaskIntoConstraints = false
         settings.imageScaling = .scaleNone
-        settings.image = Bundle(for: type(of: self)).image(forResource: "settings")!
+        settings.image = iconFromSymbol(name: "command", scale: .large)
         settings.contentTintColor = .lightGray
         settings.isBordered = false
         settings.action = #selector(self.openSettings)
         settings.target = self
-        settings.toolTip = localizedString("Open module settings")
+        settings.toolTip = localizedString("Open module")
         settings.focusRingType = .none
         
         self.addArrangedSubview(activity)
@@ -435,14 +429,49 @@ internal class HeaderView: NSStackView {
         self.titleView?.stringValue = localizedString(newTitle)
     }
     
+    private func setupActionButton() {
+        guard let button = self.activityButton else { return }
+        
+        if self.isCloseAction {
+            button.action = #selector(self.closePopup)
+            button.image = iconFromSymbol(name: "xmark.circle.fill", scale: .xlarge)
+            button.toolTip = localizedString("Close")
+            return
+        }
+        
+        if self.module == .clock {
+            button.action = #selector(self.openCalendar)
+            button.image = iconFromSymbol(name: "calendar", scale: .large)
+            button.toolTip = localizedString("Open Calendar")
+            return
+        } else if self.module == .remote {
+            button.action = #selector(self.openSystemStats)
+            button.image = iconFromSymbol(name: "globe", scale: .large)
+            button.toolTip = localizedString("Open System Stats")
+            return
+        }
+        
+        button.action = #selector(self.openActivityMonitor)
+        button.image = iconFromSymbol(name: "chart.bar.fill", scale: .medium)
+        button.toolTip = localizedString("Open Activity Monitor")
+    }
+    
     @objc func openActivityMonitor() {
         guard let app = self.activityMonitor else { return }
+        if let tab = self.module.activityMonitorTab {
+            UserDefaults(suiteName: "com.apple.ActivityMonitor")?.set(tab, forKey: "SelectedTab")
+        }
         NSWorkspace.shared.open([], withApplicationAt: app, configuration: NSWorkspace.OpenConfiguration())
     }
     
     @objc func openCalendar() {
         guard let app = self.calendar else { return }
         NSWorkspace.shared.open([], withApplicationAt: app, configuration: NSWorkspace.OpenConfiguration())
+    }
+    
+    @objc func openSystemStats() {
+        guard let url = URL(string: "https://app.system-stats.com") else { return }
+        NSWorkspace.shared.open(url)
     }
     
     @objc func openSettings() {
@@ -456,16 +485,8 @@ internal class HeaderView: NSStackView {
     }
     
     fileprivate func setCloseButton(_ state: Bool) {
-        if state && !self.isCloseAction {
-            self.activityButton?.image = Bundle(for: type(of: self)).image(forResource: "close")!
-            self.activityButton?.toolTip = localizedString("Close")
-            self.activityButton?.action = #selector(self.closePopup)
-            self.isCloseAction = true
-        } else if !state && self.isCloseAction {
-            self.activityButton?.image = Bundle(for: type(of: self)).image(forResource: "chart")!
-            self.activityButton?.toolTip = localizedString("Open Activity Monitor")
-            self.activityButton?.action = #selector(self.openActivityMonitor)
-            self.isCloseAction = false
-        }
+        guard state != self.isCloseAction else { return }
+        self.isCloseAction = state
+        self.setupActionButton()
     }
 }

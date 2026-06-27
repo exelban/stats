@@ -59,7 +59,6 @@
 "Center alignment" = "Căn giữa";
 "Right alignment" = "Căn phải";
 "Dashboard" = "Bảng điều khiển";
-"Enabled" = "Đã bật";
 "Disabled" = "Đã tắt";
 "Silent" = "Im lặng";
 "Units" = "Đơn vị";
@@ -71,7 +70,7 @@
 "Logarithmic" = "Logarit";
 "Fixed scale" = "Tỷ lệ cố định";
 "Cores" = "Nhân";
-"Core" = "Trục cơ bản"; // translategemma:4b
+"Core" = "Nhân"; // gemma4:31b
 "Settings" = "Cài đặt";
 "Name" = "Tên";
 "Format" = "Định dạng";
@@ -83,8 +82,6 @@
 "2 minutes" = "2 phút";
 "3 minutes" = "3 phút";
 "10 minutes" = "10 phút";
-"Import" = "Nhập";
-"Export" = "Xuất";
 "Separator" = "Phân cách";
 "Read" = "Đọc";
 "Write" = "Ghi";
@@ -120,9 +117,6 @@
 "Check for a new version every week (once a week)" = "Kiểm tra phiên bản mới mỗi tuần (một lần một tuần)";
 "Check for a new version every month (once a month)" = "Kiểm tra phiên bản mới mỗi tháng (một lần một tháng)";
 "Never check for updates (not recommended)" = "Không bao giờ kiểm tra cập nhật (không khuyến nghị)";
-"Anonymous telemetry for better development decisions" = "Dữ liệu ẩn danh để cải thiện quyết định phát triển";
-"Share anonymous telemetry data" = "Chia sẻ dữ liệu ẩn danh";
-"Do not share anonymous telemetry data" = "Không chia sẻ dữ liệu ẩn danh";
 "The configuration is completed" = "Cấu hình đã hoàn tất";
 "finish_setup_message" = "Tất cả đã được thiết lập! \n Stats là một công cụ mã nguồn mở miễn phí và sẽ luôn như vậy. \n Nếu bạn yêu thích, hãy ủng hộ dự án, điều đó luôn được đánh giá cao!";
 
@@ -144,9 +138,9 @@
 "No notifications available in this module" = "Không có thông báo nào trong module này";
 "Open Calendar" = "Mở Lịch";
 "Toggle the module" = "Bật/tắt module";
+"Open System Stats" = "Mở System Stats"; // gemma4:31b
 
 // Application settings
-"Update application" = "Cập nhật ứng dụng";
 "Check for updates" = "Kiểm tra cập nhật";
 "At start" = "Khi khởi động";
 "Once per day" = "Một lần mỗi ngày";
@@ -165,7 +159,6 @@
 "Combined modules" = "Các module kết hợp";
 "Combined details" = "Chi tiết kết hợp";
 "Spacing" = "Khoảng cách";
-"Share anonymous telemetry" = "Chia sẻ dữ liệu ẩn danh";
 "Choose file" = "Chọn tập tin";
 "Stress tests" = "Kiểm tra áp lực";
 
@@ -178,9 +171,9 @@
 "Number of threads" = "%0 luồng";
 "Number of e-cores" = "%0 nhân tiết kiệm";
 "Number of p-cores" = "%0 nhân hiệu năng";
-"Number of s-cores" = "%0 các nhân xử lý chính"; // translategemma:4b
-"Disks" = "Ổ cứng"; // translategemma:4b
-"Display" = "Hiển thị"; // translategemma:4b
+"Number of s-cores" = "%0 nhân siêu"; // gemma4:31b
+"Disks" = "Ổ đĩa"; // gemma4:31b
+"Display" = "Màn hình"; // gemma4:31b
 
 // Update
 "The latest version of Stats installed" = "Phiên bản Stats mới nhất đã được cài đặt";
@@ -197,7 +190,6 @@
 "Colorize" = "Tô màu";
 "Colorize value" = "Tô màu giá trị";
 "Additional information" = "Thông tin bổ sung";
-"Reverse values order" = "Đảo thứ tự giá trị";
 "Base" = "Cơ sở";
 "Display mode" = "Chế độ hiển thị";
 "One row" = "Một hàng";
@@ -214,8 +206,8 @@
 "Static width" = "Chiều rộng cố định";
 "Tachometer widget" = "Widget đo tốc độ";
 "State widget" = "Widget trạng thái";
-"Text widget" = "Bộ điều khiển văn bản"; // translategemma:4b
-"Battery details widget" = "Widget hiển thị thông tin pin"; // translategemma:4b
+"Text widget" = "Widget văn bản"; // gemma4:31b
+"Battery details widget" = "Widget chi tiết pin"; // gemma4:31b
 "Show symbols" = "Hiển thị ký hiệu";
 "Label widget" = "Widget nhãn";
 "Number of reads in the chart" = "Số lần đọc trong biểu đồ";
@@ -231,7 +223,6 @@
 
 // Module Kit
 "Open module settings" = "Mở cài đặt module";
-"Select widget" = "Chọn widget %0";
 "Open widget settings" = "Mở cài đặt widget";
 "Update interval" = "Khoảng thời gian cập nhật";
 "Usage history" = "Lịch sử sử dụng";
@@ -239,8 +230,8 @@
 "Top processes" = "Các tiến trình hàng đầu";
 "Pictogram" = "Biểu tượng";
 "Module" = "Mô-đun"; // translategemma:4b
-"Widgets" = "Widget"; // translategemma:4b
-"Popup" = "Hiển thị cửa sổ"; // translategemma:4b
+"Widgets" = "Tiện ích"; // gemma4:31b
+"Popup" = "Cửa sổ bật lên"; // gemma4:31b
 "Notifications" = "Thông báo";
 "Merge widgets" = "Gộp các widget";
 "No available widgets to configure" = "Không có widget nào để cấu hình";
@@ -253,12 +244,11 @@
 // Modules
 "Number of top processes" = "Số lượng tiến trình hàng đầu";
 "Update interval for top processes" = "Khoảng thời gian cập nhật cho các tiến trình hàng đầu";
-"Notification level" = "Mức độ thông báo";
 "Chart color" = "Màu biểu đồ";
 "Main chart scaling" = "Tỷ lệ biểu đồ chính";
 "Scale value" = "Giá trị tỷ lệ";
-"Text widget value" = "Giá trị của widget văn bản"; // translategemma:4b
-"Combined processes" = "Quy trình kết hợp"; // translategemma:4b
+"Text widget value" = "Giá trị widget văn bản"; // gemma4:31b
+"Combined processes" = "Gộp các tiến trình"; // gemma4:31b
 
 // CPU
 "CPU usage" = "Sử dụng CPU";
@@ -277,7 +267,6 @@
 "5 minutes" = "5 phút";
 "15 minutes" = "15 phút";
 "CPU usage threshold" = "Ngưỡng sử dụng CPU";
-"CPU usage is" = "Sử dụng CPU là %0";
 "Efficiency cores" = "Nhân tiết kiệm";
 "Performance cores" = "Nhân hiệu năng";
 "System color" = "Màu hệ thống";
@@ -292,26 +281,17 @@
 "Efficiency cores load" = "Tải nhân tiết kiệm";
 "Performance cores load" = "Tải nhân hiệu năng";
 "All cores" = "Tất cả các nhân";
-"Load per core" = "Tải theo mỗi nhân xử lý"; // translategemma:4b
-"Efficiency core" = "Trọng tâm về hiệu quả"; // translategemma:4b
-"Performance core" = "Trục hiệu năng"; // translategemma:4b
-"Super core" = "Vô cùng mạnh mẽ"; // translategemma:4b
+"Load per core" = "Tải trên mỗi nhân"; // gemma4:31b
+"Efficiency core" = "Nhân hiệu quả"; // gemma4:31b
+"Performance core" = "Nhân hiệu năng"; // gemma4:31b
+"Super core" = "Siêu lõi"; // gemma4:31b
 
 // GPU
 "GPU to show" = "GPU hiển thị";
 "Show GPU type" = "Hiển thị loại GPU";
-"GPU enabled" = "GPU đã bật";
-"GPU disabled" = "GPU đã tắt";
-"GPU temperature" = "Nhiệt độ GPU";
 "GPU utilization" = "Mức sử dụng GPU";
-"Vendor" = "Nhà cung cấp";
 "Model" = "Mô hình";
 "Status" = "Trạng thái";
-"Active" = "Hoạt động";
-"Non active" = "Không hoạt động";
-"Fan speed" = "Tốc độ quạt";
-"Core clock" = "Xung nhịp lõi";
-"Memory clock" = "Xung nhịp bộ nhớ";
 "Utilization" = "Sử dụng";
 "Render utilization" = "Mức sử dụng kết xuất";
 "Tiler utilization" = "Mức sử dụng tiler";
@@ -353,13 +333,12 @@
 "Disk usage" = "Sử dụng ổ đĩa";
 "Total read" = "Tổng dữ liệu đọc";
 "Total written" = "Tổng dữ liệu ghi";
-"Write speed" = "Tốc độ ghi";
-"Read speed" = "Tốc độ đọc";
 "Drives" = "Ổ đĩa";
 "SMART data" = "Dữ liệu SMART";
+"Power cycles" = "Số chu kỳ sạc"; // gemma4:31b
+"Power on hours" = "Số giờ bật nguồn"; // gemma4:31b
 
 // Sensors
-"Temperature unit" = "Đơn vị nhiệt độ";
 "Celsius" = "Độ C";
 "Fahrenheit" = "Độ F";
 "Save the fan speed" = "Lưu tốc độ quạt";
@@ -388,11 +367,6 @@
 "Interface" = "Giao diện";
 "Physical address" = "Địa chỉ vật lý";
 "Refresh" = "Làm mới";
-"Click to copy public IP address" = "Nhấn để sao chép địa chỉ IP công khai";
-"Click to copy local IP address" = "Nhấn để sao chép địa chỉ IP nội bộ";
-"Click to copy wifi name" = "Nhấn để sao chép tên wifi";
-"Click to copy mac address" = "Nhấn để sao chép địa chỉ mac";
-"No connection" = "Không có kết nối";
 "Network interface" = "Giao diện mạng";
 "Total download" = "Tổng dữ liệu tải xuống";
 "Total upload" = "Tổng dữ liệu tải lên";
@@ -404,12 +378,9 @@
 "Standard" = "Chuẩn";
 "Security" = "Bảo mật";
 "Channel" = "Kênh";
-"Common scale" = "Thang đo chung";
 "Autodetection" = "Tự phát hiện";
 "Widget activation threshold" = "Ngưỡng kích hoạt widget";
 "Internet connection" = "Kết nối internet";
-"Active state color" = "Màu trạng thái hoạt động";
-"Nonactive state color" = "Màu trạng thái không hoạt động";
 "Connectivity host" = "Máy chủ kết nối";
 "Leave empty to disable the check" = "Để trống để tắt kiểm tra";
 "Connectivity history" = "Lịch sử kết nối";
@@ -417,11 +388,8 @@
 "Every hour" = "Mỗi giờ";
 "Every 12 hours" = "Mỗi 12 giờ";
 "Every 24 hours" = "Mỗi 24 giờ";
-"Network activity" = "Hoạt động mạng";
 "Last reset" = "Đặt lại lần cuối cách đây %0";
 "Latency" = "Độ trễ";
-"Upload speed" = "Tốc độ tải lên";
-"Download speed" = "Tốc độ tải xuống";
 "Address" = "Địa chỉ";
 "WiFi network" = "Mạng WiFi";
 "Local IP changed" = "IP nội bộ đã thay đổi";
@@ -430,10 +398,9 @@
 "New IP" = "IP mới: %0";
 "Internet connection lost" = "Mất kết nối internet";
 "Internet connection established" = "Kết nối internet được thiết lập";
-"Show country code instead of emoji" = "Hiển thị mã quốc gia thay vì biểu tượng cảm xúc"; // translategemma:4b
+"Show country code instead of emoji" = "Hiển thị mã quốc gia thay vì emoji"; // gemma4:31b
 
 // Battery
-"Level" = "Mức";
 "Source" = "Nguồn";
 "AC Power" = "Nguồn AC";
 "Battery Power" = "Nguồn pin";
@@ -465,27 +432,22 @@
 "Last charge" = "Lần sạc cuối";
 "Capacity" = "Dung lượng";
 "current / maximum / designed" = "hiện tại / tối đa / thiết kế";
-"Low power mode" = "Chế độ tiết kiệm pin";
 "Percentage inside the icon" = "Phần trăm hiển thị trong biểu tượng";
-"Colorize battery" = "Tô màu pin";
-"Charging current" = "Dòng sạc";
-"Charging Voltage" = "Điện áp sạc";
 "Charger state inside the battery" = "Trạng thái sạc bên trong pin";
 
 // Bluetooth
-"Battery to show" = "Hiển thị pin";
 "No Bluetooth devices are available" = "Không có thiết bị Bluetooth nào khả dụng";
 
 // Clock
 "Time zone" = "Múi giờ";
 "Local" = "Địa phương";
 "Calendar" = "Lịch";
-"Show week numbers" = "Hiển thị số thứ tự tuần"; // translategemma:4b
+"Show week numbers" = "Hiển thị số tuần"; // gemma4:31b
 "Local time" = "Giờ địa phương";
 "Add new clock" = "Thêm đồng hồ mới";
 "Delete selected clock" = "Xóa đồng hồ đã chọn";
 "Help with datetime format" = "Trợ giúp về định dạng ngày giờ";
-"Sync with NTP server" = "Đồng bộ với máy chủ NTP"; // translategemma:4b
+"Sync with NTP server" = "Đồng bộ hóa với máy chủ NTP"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "Dựa trên mức sử dụng";

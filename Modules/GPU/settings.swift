@@ -23,7 +23,6 @@ internal class Settings: NSStackView, Settings_v {
     public var callback: (() -> Void) = {}
     public var setInterval: ((_ value: Int) -> Void) = {_ in }
     
-    private var hyperthreadView: NSView? = nil
     private var button: NSPopUpButton?
     
     public init(_ module: ModuleType) {

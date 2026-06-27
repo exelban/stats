@@ -55,7 +55,6 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
     
     public var interval: Double? = nil
     public var defaultInterval: Int = 1
-    public var optional: Bool = false
     public var popup: Bool = false
     public var preview: Bool = false
     public var sleep: Bool = false
@@ -116,7 +115,7 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
         self.value = value
         if let value {
             self.callbackHandler(value)
-            Remote.shared.send(key: moduleKey, value: value)
+            SystemStats.shared.send(key: moduleKey, value: value)
             if let ts = self.lastDBWrite, let interval = self.interval, Date().timeIntervalSince(ts) > interval * 10 {
                 DB.shared.insert(key: moduleKey, value: value, ts: self.history)
                 self.lastDBWrite = Date()

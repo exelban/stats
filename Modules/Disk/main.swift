@@ -101,12 +101,6 @@ public class Disks: Codable, RemoteType {
         self.queue.sync { self._array.count }
     }
     
-    // swiftlint:disable empty_count
-    public var isEmpty: Bool {
-        self.count == 0
-    }
-    // swiftlint:enable empty_count
-    
     public func first(where predicate: (drive) -> Bool) -> drive? {
         return self.array.first(where: predicate)
     }
@@ -235,6 +229,10 @@ public class Disk: Module {
         self.userDefaults?.bool(forKey: "systemWidgetsUpdates_state") ?? false
     }
     
+    private var mainColor: NSColor {
+        SColor.fromString(Store.shared.string(key: "\(self.name)_mainColor", defaultValue: SColor.secondBlue.key)).additional as! NSColor
+    }
+    
     public init() {
         super.init(
             moduleType: .disk,
@@ -260,11 +258,6 @@ public class Disk: Module {
             if let list = value {
                 self?.popupView.processCallback(list)
             }
-        }
-        
-        self.popupView.refreshCallback = { [weak self] uuid in
-            self?.capacityReader?.resetPurgableSpace(for: uuid)
-            self?.capacityReader?.read()
         }
         
         self.selectedDisk = Store.shared.string(key: "\(ModuleType.disk.stringValue)_disk", defaultValue: self.selectedDisk)
@@ -313,7 +306,7 @@ public class Disk: Module {
                 widget.setValue((DiskSize(d.free).getReadableMemory(), DiskSize(d.size - d.free).getReadableMemory()), usedPercentage: d.percentage)
             case let widget as PieChart:
                 widget.setValue([
-                    ColorValue(d.percentage, color: NSColor.systemBlue)
+                    ColorValue(d.percentage, color: self.mainColor)
                 ])
             case let widget as TextWidget:
                 var text = "\(self.textValue)"

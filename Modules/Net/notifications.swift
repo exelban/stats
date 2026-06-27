@@ -14,7 +14,6 @@ import Kit
 
 class Notifications: NotificationsWrapper {
     private let connectionID: String = "connection"
-    private let connectionThresholdID: String = "connection_threshold"
     private let interfaceID: String = "interface"
     private let localID: String = "localIP"
     private let publicID: String = "publicIP"
@@ -29,7 +28,6 @@ class Notifications: NotificationsWrapper {
     
     private var connection: Bool?
     private var connectionCount: Int = 0
-    private var connectionPrev: Bool?
     private var interface: String?
     private var localIP: String?
     private var publicIP: String?
@@ -40,7 +38,6 @@ class Notifications: NotificationsWrapper {
     private var publicIPCount: Int = 0
     private var publicIPThreshold: Int = 3
     
-    private var connectionInit: Bool = false
     private var interfaceInit: Bool = false
     private var localIPInit: Bool = false
     private var publicIPInit: Bool = false

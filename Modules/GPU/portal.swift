@@ -13,7 +13,7 @@ import Cocoa
 import Kit
 
 public class Portal: PortalWrapper {
-    private var circle: PieChartView? = nil
+    private var circle: PieChartView = PieChartView()
     
     private var usageField: NSTextField? = nil
     private var renderField: NSTextField? = nil
@@ -57,10 +57,8 @@ public class Portal: PortalWrapper {
             right: Constants.Popup.spacing*4
         )
         
-        let chart = PieChartView(openCircle: true)
-        chart.toolTip = localizedString("GPU usage")
-        view.addArrangedSubview(chart)
-        self.circle = chart
+        self.circle.toolTip = localizedString("GPU usage")
+        view.addArrangedSubview(self.circle)
         
         return view
     }
@@ -95,9 +93,9 @@ public class Portal: PortalWrapper {
                     self.aneField?.stringValue = "\(Int(value*100))%"
                 }
                 
-                self.circle?.toolTip = "\(localizedString("GPU usage")): \(Int(value.utilization!*100))%"
-                self.circle?.setValue(value.utilization!)
-                self.circle?.setText("\(Int(value.utilization!*100))%")
+                self.circle.toolTip = "\(localizedString("GPU usage")): \(Int(value.utilization!*100))%"
+                self.circle.setValue(value.utilization!)
+                self.circle.setText("\(Int(value.utilization!*100))%")
                 self.initialized = true
             }
         })

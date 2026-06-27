@@ -59,7 +59,6 @@
 "Center alignment" = "Keskjoondus";
 "Right alignment" = "Parempoolne joondus";
 "Dashboard" = "Töölaud";
-"Enabled" = "Lubatud";
 "Disabled" = "Keelatud";
 "Silent" = "Vaigista";
 "Units" = "Ühikud";
@@ -83,8 +82,6 @@
 "2 minutes" = "2 minutit";
 "3 minutes" = "3 minutit";
 "10 minutes" = "10 minutit";
-"Import" = "Impordi";
-"Export" = "Ekspordi";
 "Separator" = "Eraldaja";
 "Read" = "Loe";
 "Write" = "Kirjuta";
@@ -120,9 +117,6 @@
 "Check for a new version every week (once a week)" = "Kontrolli uut versiooni iga nädal (üks kord nädalas)";
 "Check for a new version every month (once a month)" = "Kontrolli uut versiooni iga kuu (üks kord kuus)";
 "Never check for updates (not recommended)" = "Ära kunagi kontrolli värskendusi (pole soovitatav)";
-"Anonymous telemetry for better development decisions" = "Anonüümne telemeetria paremate arendusotsuste tegemiseks";
-"Share anonymous telemetry data" = "Jaga anonüümseid telemeetriaandmeid";
-"Do not share anonymous telemetry data" = "Ära jaga anonüümseid telemeetriaandmeid";
 "The configuration is completed" = "Seadistamine on lõpetatud";
 "finish_setup_message" = "Kõik on paika pandud! \n Stats on avatud lähtekoodiga tööriist, see on tasuta ja jääb alati tasuta. \n Kui teile meeldib, saate projekti toetada, see on alati teretulnud!";
 
@@ -144,9 +138,9 @@
 "No notifications available in this module" = "Selles moodulis pole saadaval teavitusi.";
 "Open Calendar" = "Ava kalender";
 "Toggle the module" = "Lülita moodul sisse";
+"Open System Stats" = "Ava System Stats"; // gemma4:31b
 
 // Application settings
-"Update application" = "Uuenda rakendust";
 "Check for updates" = "Otsi värskendusi";
 "At start" = "Käivitamisel";
 "Once per day" = "Üks kord päevas";
@@ -165,7 +159,6 @@
 "Combined modules" = "Kombineeritud moodulid";
 "Combined details" = "Ühendatud andmed";
 "Spacing" = "Vahekaugus";
-"Share anonymous telemetry" = "Jaga anonüümset telemeetriat";
 "Choose file" = "Vali fail";
 "Stress tests" = "Stressitestid";
 
@@ -197,7 +190,6 @@
 "Colorize" = "Värvi";
 "Colorize value" = "Värvi väärtus";
 "Additional information" = "Lisateave";
-"Reverse values order" = "Pööra väärtuste järjekord vastupidiseks";
 "Base" = "Alus";
 "Display mode" = "Kuvarežiim";
 "One row" = "Üks rida";
@@ -231,7 +223,6 @@
 
 // Module Kit
 "Open module settings" = "Ava mooduli sätted";
-"Select widget" = "Vali %0 vidin";
 "Open widget settings" = "Ava vidina seaded";
 "Update interval" = "Värskendamise intervall";
 "Usage history" = "Kasutusajalugu";
@@ -253,12 +244,11 @@
 // Modules
 "Number of top processes" = "Tipp-protsesside arv";
 "Update interval for top processes" = "Tipp-protsesside värskendusintervall";
-"Notification level" = "Teavitustase";
 "Chart color" = "Diagrammi värv";
 "Main chart scaling" = "Peamise graafi skaala";
 "Scale value" = "Mõõtühiku väärtus";
 "Text widget value" = "Teksti atribuudi väärtus";
-"Combined processes" = "Combined processes";
+"Combined processes" = "Grupeeritud protsessid"; // gemma4:31b
 
 // CPU
 "CPU usage" = "CPU kasutus";
@@ -277,7 +267,6 @@
 "5 minutes" = "5 minutit";
 "15 minutes" = "15 minutit";
 "CPU usage threshold" = "CPU kasutuslävi";
-"CPU usage is" = "CPU kasutus on %0";
 "Efficiency cores" = "Tõhusustuumad";
 "Performance cores" = "Jõudlustuumad";
 "System color" = "Süsteemi värv";
@@ -300,18 +289,9 @@
 // GPU
 "GPU to show" = "GPU, mida näidatakse";
 "Show GPU type" = "Kuva GPU tüüp";
-"GPU enabled" = "GPU lubatud";
-"GPU disabled" = "GPU keelatud";
-"GPU temperature" = "GPU temperatuur";
 "GPU utilization" = "GPU kasutus";
-"Vendor" = "Tootja";
 "Model" = "Mudel";
 "Status" = "Olek";
-"Active" = "Aktiivne";
-"Non active" = "Mitteaktiivne";
-"Fan speed" = "Ventilaatori kiirus";
-"Core clock" = "Tuuma takt";
-"Memory clock" = "Mälu Takt";
 "Utilization" = "Kasutus";
 "Render utilization" = "Renderdamise kasutus";
 "Tiler utilization" = "Osapõhise renderdaja kasutus";
@@ -353,14 +333,13 @@
 "Disk usage" = "Kettakasutus";
 "Total read" = "Kokku lugemisi";
 "Total written" = "Kokku kirjutatud";
-"Write speed" = "Kirjutamise kiirus";
-"Read speed" = "Lugemise kiirus";
 "Drives" = "Kettad";
 "SMART data" = "SMART-andmed";
+"Power cycles" = "Toitetsüklid"; // gemma4:31b
+"Power on hours" = "Töötunnid"; // gemma4:31b
 
 // Sensors
-"Temperature unit" = "Temperatuuriühik";
-"Celsius" = "Celsius";
+"Celsius" = "Celsiuse"; // gemma4:31b
 "Fahrenheit" = "Fahrenheit";
 "Save the fan speed" = "Salvesta ventilaatori kiirus";
 "Fan" = "Ventilaator";
@@ -388,11 +367,6 @@
 "Interface" = "Liides";
 "Physical address" = "Füüsiline aadress";
 "Refresh" = "Värskenda";
-"Click to copy public IP address" = "Klõpsa avaliku IP-aadressi kopeerimiseks";
-"Click to copy local IP address" = "Klõpsa kohaliku IP-aadressi kopeerimiseks";
-"Click to copy wifi name" = "Klõpsa wifi nime kopeerimiseks";
-"Click to copy mac address" = "MAC-aadressi kopeerimiseks klõpsake";
-"No connection" = "Ühendus puudub";
 "Network interface" = "Võrguliides";
 "Total download" = "Allalaadimine kokku";
 "Total upload" = "Üleslaadimine kokku";
@@ -404,12 +378,9 @@
 "Standard" = "Standard";
 "Security" = "Turvalisus";
 "Channel" = "Kanal";
-"Common scale" = "Ühine skaala";
 "Autodetection" = "Automaattuvastus";
 "Widget activation threshold" = "Vidina aktiveerimise lävi";
 "Internet connection" = "Internetiühendus";
-"Active state color" = "Aktiivse oleku värv";
-"Nonactive state color" = "Mitteaktiivse oleku värv";
 "Connectivity host" = "Ühendushost";
 "Leave empty to disable the check" = "Kontrolli keelamiseks jätke tühjaks";
 "Connectivity history" = "Ühenduse ajalugu";
@@ -417,11 +388,8 @@
 "Every hour" = "Iga tund";
 "Every 12 hours" = "Iga 12 tunni järel";
 "Every 24 hours" = "Iga 24 tunni järel";
-"Network activity" = "Võrgutegevus";
 "Last reset" = "Viimane lähtestamine %0 tagasi";
 "Latency" = "Latents";
-"Upload speed" = "Üleslaadimise kiirus";
-"Download speed" = "Allalaadimise kiirus";
 "Address" = "Aadress";
 "WiFi network" = "Wifi võrk";
 "Local IP changed" = "Lokaalne IP-aadress on muutunud";
@@ -433,7 +401,6 @@
 "Show country code instead of emoji" = "Näita emoji asemel riigikoodi";
 
 // Battery
-"Level" = "Tase";
 "Source" = "Allikas";
 "AC Power" = "Võrgutoide";
 "Battery Power" = "Akutoide";
@@ -465,15 +432,10 @@
 "Last charge" = "Viimane laadimine";
 "Capacity" = "Mahutavus";
 "current / maximum / designed" = "praegune / maksimaalne / kavandatud";
-"Low power mode" = "Madala energiatarbega režiim";
 "Percentage inside the icon" = "Protsent ikooni sees";
-"Colorize battery" = "Värvi aku";
-"Charging current" = "Laadimise voolutugevus";
-"Charging Voltage" = "Laadimise pinge";
 "Charger state inside the battery" = "Laadija olek aku sees";
 
 // Bluetooth
-"Battery to show" = "Aku, mida näidata";
 "No Bluetooth devices are available" = "Ükski Bluetoothi seade pole saadaval";
 
 // Clock
@@ -517,5 +479,5 @@
 "Cyan" = "Tsüaan";
 "Magenta" = "Magenta";
 "Pink" = "Roosa";
-"Teal" = "Sinakasroheline"; // ehk rohekassinine
+"Teal" = "Türkiis"; // gemma4:31b
 "Indigo" = "Indigo";

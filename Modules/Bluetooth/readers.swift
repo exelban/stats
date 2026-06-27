@@ -374,7 +374,7 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
             return
         }
         
-        if let batteryLevel = characteristic.value?[0] {
+        if let batteryLevel = characteristic.value?.first {
             self.bleLevels[peripheral.identifier] = KeyValue_t(key: "battery", value: "\(batteryLevel)")
         }
     }

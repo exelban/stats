@@ -19,13 +19,14 @@ public struct Popup_c_s {
     public let headerHeight: CGFloat = 42
     public let separatorHeight: CGFloat = 30
     public let portalHeight: CGFloat = 120
+    public let radius: CGFloat = 6
+    public let processHeight: CGFloat = 22
 }
 
 public struct Settings_c_s {
     public let width: CGFloat = 540
     public let height: CGFloat = 480
     public let margin: CGFloat = 10
-    public let row: CGFloat = 30
 }
 
 public struct Widget_c_s {
@@ -60,6 +61,7 @@ public enum ModuleType: Int {
     case battery
     case bluetooth
     case clock
+    case remote
     
     case combined
     
@@ -74,7 +76,19 @@ public enum ModuleType: Int {
         case .battery: return "Battery"
         case .bluetooth: return "Bluetooth"
         case .clock: return "Clock"
+        case .remote: return "Remote"
         case .combined: return ""
+        }
+    }
+    
+    public var activityMonitorTab: Int? {
+        switch self {
+        case .CPU: return 0
+        case .RAM: return 1
+        case .disk: return 3
+        case .network: return 4
+        case .battery: return 2
+        default: return nil
         }
     }
 }

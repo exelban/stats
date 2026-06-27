@@ -19,9 +19,6 @@ public struct DoubleValue {
         self.value = value
     }
 }
-extension [DoubleValue] {
-    public func max() -> Double? { self.max(by: { $0.value < $1.value })?.value }
-}
 
 public struct ColorValue: Equatable {
     public var ts: Date = Date()
@@ -322,6 +319,8 @@ public extension Notification.Name {
     static let combinedModulesPopup = Notification.Name("combinedModulesPopup")
     static let remoteLoginSuccess = Notification.Name("remoteLoginSuccess")
     static let remoteState = Notification.Name("remoteState")
+    static let remoteAuthenticated = Notification.Name("remoteAuthenticated")
+    static let remoteUpdate = Notification.Name("remoteUpdate")
     static let openWindow = Notification.Name("openWindow")
 }
 

@@ -16,7 +16,6 @@ public class Portal: NSStackView, Portal_p {
     public var name: String
     
     private let container = ScrollableStackView()
-    private var initialized: Bool = false
     private var list: [Clock_t] = []
     
     init(_ module: ModuleType, list: [Clock_t]) {
@@ -86,13 +85,5 @@ public class Portal: NSStackView, Portal_p {
         }
         
         self.list = sorted
-    }
-}
-
-private func setFullWidth(_ view: NSView, width: CGFloat) {
-    if let widthConstraint = view.constraints.first(where: { $0.firstAttribute == .width }) {
-        widthConstraint.constant = width
-    } else {
-        view.widthAnchor.constraint(equalToConstant: width).isActive = true
     }
 }

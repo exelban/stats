@@ -59,7 +59,6 @@
 "Center alignment" = "По центру";
 "Right alignment" = "Праворуч";
 "Dashboard" = "Головний екран"; // translategemma:4b
-"Enabled" = "Включено";
 "Disabled" = "Виключено";
 "Silent" = "Безшумно";
 "Units" = "Одиниці";
@@ -83,8 +82,6 @@
 "2 minutes" = "2 хвилини";
 "3 minutes" = "3 хвилини";
 "10 minutes" = "10 хвилин";
-"Import" = "Імпорт";
-"Export" = "Експорт";
 "Separator" = "Роздільник";
 "Read" = "Зчитування";
 "Write" = "Запис";
@@ -120,9 +117,6 @@
 "Check for a new version every week (once a week)" = "Щотижня перевіряти наявність нової версії (раз на тиждень)";
 "Check for a new version every month (once a month)" = "Перевіряти наявність нової версії щомісяця (раз на місяць)";
 "Never check for updates (not recommended)" = "Ніколи не перевіряти наявність оновлень (не рекомендовано)";
-"Anonymous telemetry for better development decisions" = "Анонімна телеметрія для кращих рішень щодо програми";
-"Share anonymous telemetry data" = "Ділитись анонімними даними телеметрії";
-"Do not share anonymous telemetry data" = "Не передавати анонімні дані телеметрії";
 "The configuration is completed" = "Налаштування завершено";
 "finish_setup_message" = "Все налаштовано! \n Stats — це інструмент з відкритим вихідним кодом, він безкоштовний і таким завжди буде. \n Якщо вам це подобається ви можете підтримати проект, це завжди цінується!";
 
@@ -144,9 +138,9 @@
 "No notifications available in this module" = "У цьому модулі немає повідомлень";
 "Open Calendar" = "Відкрити календар";
 "Toggle the module" = "Перемкніть модуль";
+"Open System Stats" = "Відкрити System Stats";
 
 // Application settings
-"Update application" = "Оновити програму";
 "Check for updates" = "Перевіряти оновленя";
 "At start" = "При включенні";
 "Once per day" = "Раз на день";
@@ -165,7 +159,6 @@
 "Combined modules" = "Комбіновані модулі";
 "Combined details" = "Комбіновані деталі";
 "Spacing" = "Інтервал";
-"Share anonymous telemetry" = "Ділитись анонімною телеметрією";
 "Choose file" = "Виберіть файл";
 "Stress tests" = "Стрес-тести";
 
@@ -197,7 +190,6 @@
 "Colorize" = "Розфарбувати";
 "Colorize value" = "Розфарбувати значення";
 "Additional information" = "Додаткова інформація";
-"Reverse values order" = "Змінити порядок сортування";
 "Base" = "Основа";
 "Display mode" = "Режим відображення";
 "One row" = "Один ряд";
@@ -231,7 +223,6 @@
 
 // Module Kit
 "Open module settings" = "Відкрити налаштування модуля";
-"Select widget" = "Активувати %0 віджет";
 "Open widget settings" = "Відкрити налаштування віджета";
 "Update interval" = "Інтервал оновлень";
 "Usage history" = "Історія використання";
@@ -253,7 +244,6 @@
 // Modules
 "Number of top processes" = "Кількість процесів";
 "Update interval for top processes" = "Інтервал оновлення для процесів";
-"Notification level" = "Рівень сповіщення";
 "Chart color" = "Колір діаграми";
 "Main chart scaling" = "Масштабування основної діаграми";
 "Scale value" = "Значення масштабування";
@@ -277,7 +267,6 @@
 "5 minutes" = "5 хвилин";
 "15 minutes" = "15 хвилин";
 "CPU usage threshold" = "Поріг використання процесора";
-"CPU usage is" = "Використання процесора %0";
 "Efficiency cores" = "Енергоефективні ядра";
 "Performance cores" = "Високопродуктивні ядра";
 "System color" = "Системний колір";
@@ -300,18 +289,9 @@
 // GPU
 "GPU to show" = "Активний графічний процесор";
 "Show GPU type" = "Показувати тип графічного процесора";
-"GPU enabled" = "Увімкнено";
-"GPU disabled" = "Вимкнено";
-"GPU temperature" = "Температура графічного процесора";
 "GPU utilization" = "Навантаженість графічного процесора";
-"Vendor" = "Постачальник";
 "Model" = "Модель";
 "Status" = "Статус";
-"Active" = "Активна";
-"Non active" = "Неактивна";
-"Fan speed" = "Швидкість вентилятора";
-"Core clock" = "Частота процесора";
-"Memory clock" = "Частота пам'яті";
 "Utilization" = "Використання";
 "Render utilization" = "Використання render";
 "Tiler utilization" = "Використання tiler";
@@ -353,13 +333,12 @@
 "Disk usage" = "Використання диска";
 "Total read" = "Всього прочитано";
 "Total written" = "Всього записано";
-"Write speed" = "Запис";
-"Read speed" = "Зчитування";
 "Drives" = "Диски";
 "SMART data" = "SMART дані";
+"Power cycles" = "Кількість циклів";
+"Power on hours" = "Години роботи";
 
 // Sensors
-"Temperature unit" = "Одиниця виміру температури";
 "Celsius" = "Цельсія";
 "Fahrenheit" = "Фаренгейта";
 "Save the fan speed" = "Зберегти швидкість вентилятора";
@@ -388,11 +367,6 @@
 "Interface" = "Інтерфейс";
 "Physical address" = "Фізичний адрес";
 "Refresh" = "Оновити";
-"Click to copy public IP address" = "Натисніть, щоб скопіювати публічний IP";
-"Click to copy local IP address" = "Натисніть, щоб скопіювати локальний IP";
-"Click to copy wifi name" = "Натисніть, щоб скопіювати назву wifi";
-"Click to copy mac address" = "Натисніть, щоб скопіювати фізичний адрес";
-"No connection" = "Немає з'єднання";
 "Network interface" = "Мережевий інтерфейс";
 "Total download" = "Загально завантажено";
 "Total upload" = "Загально вислано";
@@ -404,12 +378,9 @@
 "Standard" = "Стандарт";
 "Security" = "Шифрування";
 "Channel" = "Канал";
-"Common scale" = "Загальна шкала";
 "Autodetection" = "Автовизначення";
 "Widget activation threshold" = "Поріг активації віджета";
 "Internet connection" = "Підключення до інтернету";
-"Active state color" = "Колір активного стану";
-"Nonactive state color" = "Колір неактивного стану";
 "Connectivity host" = "Хост підключення";
 "Leave empty to disable the check" = "Залиште пустим, щоб вимкнути перевірку";
 "Connectivity history" = "Історія підключення";
@@ -417,11 +388,8 @@
 "Every hour" = "Щогодини";
 "Every 12 hours" = "Кожні 12 годин";
 "Every 24 hours" = "Кожні 24 години";
-"Network activity" = "Мережева активність";
 "Last reset" = "Останнє скидання %0 тому";
 "Latency" = "Затримка";
-"Upload speed" = "Висилання";
-"Download speed" = "Завантаження";
 "Address" = "Адреса";
 "WiFi network" = "Мережа WiFi";
 "Local IP changed" = "Локальна IP-адреса була змінена";
@@ -433,7 +401,6 @@
 "Show country code instead of emoji" = "Показувати код країни замість емодзі";
 
 // Battery
-"Level" = "Рівень заряду";
 "Source" = "Джерело";
 "AC Power" = "Мережа";
 "Battery Power" = "Акумулятор";
@@ -465,15 +432,10 @@
 "Last charge" = "Остання зарядка";
 "Capacity" = "Ємність";
 "current / maximum / designed" = "поточна / максимальна / запроектована";
-"Low power mode" = "Режим низької потужності";
 "Percentage inside the icon" = "Відсоток всередині віджету";
-"Colorize battery" = "Розфарбувати акумулятор";
-"Charging current" = "Струм зарядки";
-"Charging Voltage" = "Напруга зарядки";
 "Charger state inside the battery" = "Стан зарядки всередині акумулятора";
 
 // Bluetooth
-"Battery to show" = "Активна батарея";
 "No Bluetooth devices are available" = "Немає пристроїв Bluetooth";
 
 // Clock
@@ -485,7 +447,7 @@
 "Add new clock" = "Додати новий годинник";
 "Delete selected clock" = "Видалити вибраний годинник";
 "Help with datetime format" = "Довідка з форматом дати й часу";
-"Sync with NTP server" = "Синхронізація з сервером NTP"; // translategemma:4b
+"Sync with NTP server" = "Синхронізація з сервером NTP";
 
 // Colors
 "Based on utilization" = "На основі використання";
