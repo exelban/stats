@@ -350,6 +350,12 @@
 "Show unknown sensors" = "הצג חיישנים לא ידועים"; // gemma4:31b
 "Install fan helper" = "התקן כלי עזר למאוורר"; // gemma4:31b
 "Uninstall fan helper" = "הסר את עוזר המאוורר"; // gemma4:31b
+"Approve in System Settings ▸ Login Items" = "אשר בהגדרות המערכת ▸ פריטי התחברות"; // gemma4:31b
+"Fan helper needs your approval" = "עוזר המאוורר זקוק לאישורך"; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "כדי לשלוט במאווררים, הפעל את Stats בהגדרות המערכת ▸ פריטי התחלה."; // gemma4:31b
+"Open Login Items" = "פתח פריטי התחברות"; // gemma4:31b
+"Could not enable the fan helper" = "לא ניתן להפעיל את כלי העזר למאוורר"; // gemma4:31b
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "פתח את הגדרות המערכת ▸ פריטי התחברות, וודא ש-Stats מורשה ברקע, ואז נסה שוב."; // gemma4:31b
 "Fan value" = "ערך המאוורר"; // gemma4:31b
 "Turn off fan" = "כבה את המאוורר"; // translategemma:4b
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "אתה עומד לכבות את המאוורר. זוהי פעולה שאינה מומלצת שעלולה לגרום נזק למחשב ה-Mac שלך, האם אתה בטוח שברצונך לעשות זאת?"; // gemma4:31b
@@ -417,7 +423,6 @@
 "Time to charge" = "זמן להטענה";
 "Calculating" = "מחשב";
 "Fully charged" = "טעון במלואה";
-"Not connected" = "לא מחובר";
 "Low level notification" = "התראה ברמה נמוכה";
 "High level notification" = "התראה ברמה גבוהה";
 "Low battery" = "בטרייה נמוכנה";
@@ -429,11 +434,14 @@
 "Time and percentage" = "זמן ואחוז";
 "Time format" = "פורמט זמן";
 "Hide additional information when full" = "הסתר מידע נוסף כשהסוללה מלאה";
-"Last charge" = "טעינה אחרונה";
-"Capacity" = "קיבולת";
-"current / maximum / designed" = "current / מקסימום / עיצוב";
 "Percentage inside the icon" = "אחוז בתוך הסמל"; // translategemma:4b
 "Charger state inside the battery" = "מצב טעינה בתוך הסוללה"; // translategemma:4b
+"Max capacity" = "קיבולת מקסימלית"; // gemma4:31b
+"Designed capacity" = "קיבולת תכנונית"; // gemma4:31b
+"On hold" = "בהמתנה"; // gemma4:31b
+"On battery" = "בסוללה"; // gemma4:31b
+"Plugged in" = "מחובר"; // gemma4:31b
+"Charging" = "טעינה"; // gemma4:31b
 
 // Bluetooth
 "No Bluetooth devices are available" = "לא קיימים מכשירים בלוטות׳ זמינים";
@@ -448,6 +456,8 @@
 "Delete selected clock" = "מחק את השעון הנבחר"; // translategemma:4b
 "Help with datetime format" = "עזרה בפורמט תאריך ושעה"; // translategemma:4b
 "Sync with NTP server" = "סנכרון עם שרת NTP"; // translategemma:4b
+"Previous month" = "החודש הקודם"; // gemma4:31b
+"Next month" = "החודש הבא"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "מבוסס על ניצול";

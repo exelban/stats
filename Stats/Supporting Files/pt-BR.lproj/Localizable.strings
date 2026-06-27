@@ -350,6 +350,12 @@
 "Show unknown sensors" = "Mostrar sensores desconhecidos";
 "Install fan helper" = "Instalar software auxiliar para ventoinha";
 "Uninstall fan helper" = "Desinstalar software auxiliar para ventoinha";
+"Approve in System Settings ▸ Login Items" = "Aprovar nos Ajustes do Sistema ▸ Itens de Início"; // gemma4:31b
+"Fan helper needs your approval" = "O auxiliar da ventoinha precisa da sua aprovação"; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "Para controlar os ventiladores, ative o Stats em Ajustes do Sistema ▸ Itens de Início."; // gemma4:31b
+"Open Login Items" = "Abrir Itens de Início"; // gemma4:31b
+"Could not enable the fan helper" = "Não foi possível ativar o assistente da ventoinha"; // gemma4:31b
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "Abra Ajustes do Sistema ▸ Itens de Início, certifique-se de que o Stats está permitido em segundo plano e tente novamente."; // gemma4:31b
 "Fan value" = "Valor da ventoinha";
 "Turn off fan" = "Desligar ventoninha";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Você irá desligar a ventoinha. Esta não é uma ação recomendada, pois pode danificar o seu mac, tem certeza que deseja fazer isto?";
@@ -417,7 +423,6 @@
 "Time to charge" = "Tempo para carregar";
 "Calculating" = "Calculando";
 "Fully charged" = "Completamente carregado";
-"Not connected" = "Não conectado";
 "Low level notification" = "Notificação de baixo nível";
 "High level notification" = "Notificação de alto nível";
 "Low battery" = "Bateria fraca";
@@ -429,11 +434,14 @@
 "Time and percentage" = "Tempo e porcentagem";
 "Time format" = "Formato de hora";
 "Hide additional information when full" = "Ocultar informações adicionais quando estiver cheia";
-"Last charge" = "Última carga";
-"Capacity" = "Capacidade";
-"current / maximum / designed" = "atual / máximo / projetado";
 "Percentage inside the icon" = "Porcentagem dentro do ícone";
 "Charger state inside the battery" = "Estado de carregamento dentro da bateria"; // gemma4:31b
+"Max capacity" = "Capacidade máxima"; // gemma4:31b
+"Designed capacity" = "Capacidade projetada"; // gemma4:31b
+"On hold" = "Em espera"; // gemma4:31b
+"On battery" = "Na bateria"; // gemma4:31b
+"Plugged in" = "Conectado"; // gemma4:31b
+"Charging" = "Carregando"; // gemma4:31b
 
 // Bluetooth
 "No Bluetooth devices are available" = "Nenhum dispositivo Bluetooth disponível";
@@ -448,6 +456,8 @@
 "Delete selected clock" = "Excluir relógio selecionado"; // gemma4:31b
 "Help with datetime format" = "Ajuda com o formato de data e hora"; // translategemma:4b
 "Sync with NTP server" = "Sincronizar com o servidor NTP"; // translategemma:4b
+"Previous month" = "Mês anterior"; // gemma4:31b
+"Next month" = "Próximo mês"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "Baseado na utilização";

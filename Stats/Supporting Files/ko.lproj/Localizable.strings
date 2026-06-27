@@ -350,6 +350,12 @@
 "Show unknown sensors" = "알 수 없는 센서 표시";
 "Install fan helper" = "팬 헬퍼 설치";
 "Uninstall fan helper" = "팬 헬퍼 제거";
+"Approve in System Settings ▸ Login Items" = "시스템 설정 ▸ 로그인 항목에서 승인"; // gemma4:31b
+"Fan helper needs your approval" = "팬 헬퍼 승인이 필요합니다"; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "팬을 제어하려면 시스템 설정 ▸ 로그인 항목에서 Stats를 활성화하세요."; // gemma4:31b
+"Open Login Items" = "로그인 항목 열기"; // gemma4:31b
+"Could not enable the fan helper" = "팬 헬퍼를 활성화할 수 없습니다"; // gemma4:31b
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "시스템 설정 ▸ 로그인 항목을 열고, Stats가 백그라운드에서 허용되었는지 확인한 후 다시 시도하십시오."; // gemma4:31b
 "Fan value" = "팬 값";
 "Turn off fan" = "팬 끄기";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "팬을 끄려고 합니다. 팬을 끄는 행위는 Mac을 손상시킬 수 있으므로 권장하지 않습니다. 정말 팬을 끄겠습니까?";
@@ -417,7 +423,6 @@
 "Time to charge" = "충전 시간";
 "Calculating" = "계산 중";
 "Fully charged" = "완전히 충전됨";
-"Not connected" = "연결되지 않음";
 "Low level notification" = "낮은 수준 알림";
 "High level notification" = "높은 수준 알림";
 "Low battery" = "낮은 배터리";
@@ -429,11 +434,14 @@
 "Time and percentage" = "시간 및 백분율";
 "Time format" = "시간 형식";
 "Hide additional information when full" = "완전 충전 시 추가 정보 숨기기";
-"Last charge" = "마지막 충전";
-"Capacity" = "용량";
-"current / maximum / designed" = "현재 / 최대 / 설계";
 "Percentage inside the icon" = "아이콘 속에 백분율";
 "Charger state inside the battery" = "배터리 내부의 충전 상태"; // gemma4:31b
+"Max capacity" = "최대 용량"; // gemma4:31b
+"Designed capacity" = "설계 용량"; // gemma4:31b
+"On hold" = "대기 중"; // gemma4:31b
+"On battery" = "배터리 사용 중"; // gemma4:31b
+"Plugged in" = "전원 연결됨"; // gemma4:31b
+"Charging" = "충전 중"; // gemma4:31b
 
 // Bluetooth
 "No Bluetooth devices are available" = "사용 가능한 블루투스 장치가 없습니다";
@@ -448,6 +456,8 @@
 "Delete selected clock" = "선택한 시계 삭제"; // gemma4:31b
 "Help with datetime format" = "날짜 및 시간 형식 도움말"; // gemma4:31b
 "Sync with NTP server" = "NTP 서버와 동기화"; // translategemma:4b
+"Previous month" = "지난달"; // gemma4:31b
+"Next month" = "다음 달"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "사용률 기준";

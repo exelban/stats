@@ -350,6 +350,12 @@
 "Show unknown sensors" = "Prikaži neznane senzorje";
 "Install fan helper" = "Namesti pomočnika za ventilatorje";
 "Uninstall fan helper" = "Odstrani pomočnika za ventilatorje";
+"Approve in System Settings ▸ Login Items" = "Odobrite v Sistemskih nastavitvah ▸ Predmeti ob prijavi"; // gemma4:31b
+"Fan helper needs your approval" = "Pomočnik za ventilator potrebuje vašo odobritev"; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "Za upravljanje ventilatorjev omogočite Stats v Sistemskih nastavitvah ▸ Predmeti ob prijavi."; // gemma4:31b
+"Open Login Items" = "Odpri elemente ob prijavi"; // gemma4:31b
+"Could not enable the fan helper" = "Ni bilo mogoče omogočiti pomočnika za ventilator"; // gemma4:31b
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "Odprite Sistemske nastavitve ▸ Elementi prijave, prepričajte se, da je Stats dovoljen v ozadju, nato ponovite poskus."; // gemma4:31b
 "Fan value" = "Vrednost ventilatorja";
 "Turn off fan" = "Izklopi ventilator";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Izklopili boste ventilator. To ni priporočljivo dejanje, saj lahko poškoduje vaš računalnik. Ali ste prepričani, da želite to storiti?";
@@ -417,7 +423,6 @@
 "Time to charge" = "Čas do polne baterije";
 "Calculating" = "Izračunavanje";
 "Fully charged" = "Popolnoma napolnjena";
-"Not connected" = "Ni priključen";
 "Low level notification" = "Obvestilo za nizko raven";
 "High level notification" = "Obvestilo za visoko raven";
 "Low battery" = "Nizka raven baterije";
@@ -429,11 +434,14 @@
 "Time and percentage" = "Čas in odstotek";
 "Time format" = "Časovni format";
 "Hide additional information when full" = "Skrij dodatne informacije, ko je batarija polna";
-"Last charge" = "Zadnje polnjenje";
-"Capacity" = "Kapaciteta";
-"current / maximum / designed" = "trenutna / največja / predvidena";
 "Percentage inside the icon" = "Odstotek znotraj ikone";
 "Charger state inside the battery" = "Stanje polnjenja v bateriji"; // gemma4:31b
+"Max capacity" = "Maksimalna kapaciteta"; // gemma4:31b
+"Designed capacity" = "Projektirana kapaciteta"; // gemma4:31b
+"On hold" = "Na čakanju"; // gemma4:31b
+"On battery" = "Na bateriji"; // gemma4:31b
+"Plugged in" = "Priklopljeno"; // gemma4:31b
+"Charging" = "Polnjenje"; // gemma4:31b
 
 // Bluetooth
 "No Bluetooth devices are available" = "Naprave Bluetooth niso na voljo";
@@ -448,6 +456,8 @@
 "Delete selected clock" = "Izbriši izbrano uro"; // gemma4:31b
 "Help with datetime format" = "Pomoč pri formatu datuma in časa"; // gemma4:31b
 "Sync with NTP server" = "Sinhronizacija z NTP strežnikom"; // translategemma:4b
+"Previous month" = "Prejšnji mesec"; // gemma4:31b
+"Next month" = "Naslednji mesec"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "Na podlagi uporabe";

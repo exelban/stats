@@ -350,6 +350,12 @@
 "Show unknown sensors" = "Vis ukjente sensorer";
 "Install fan helper" = "Installer viftehjelper";
 "Uninstall fan helper" = "Avinstaller viftehjelper";
+"Approve in System Settings ▸ Login Items" = "Godkjenn i Systeminnstillinger ▸ Innloggingselementer"; // gemma4:31b
+"Fan helper needs your approval" = "Viftehjelperen trenger din godkjenning"; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "For å styre viftene, aktiver Stats i Systeminnstillinger ▸ Innloggingselementer."; // gemma4:31b
+"Open Login Items" = "Åpne påloggingselementer"; // gemma4:31b
+"Could not enable the fan helper" = "Kunne ikke aktivere viftehjelperen"; // gemma4:31b
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "Åpne Systeminnstillinger ▸ Innloggingselementer, sørg for at Stats er tillatt i bakgrunnen, og prøv deretter på nytt."; // gemma4:31b
 "Fan value" = "Vifteverdi";
 "Turn off fan" = "Slå av viften";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Du slå nå av viften. Dette er en ikke-anbefalt handling som kan skade Mac-en din, er du sikker på at vil gjøre dette?";
@@ -417,7 +423,6 @@
 "Time to charge" = "Tid på å lade";
 "Calculating" = "Kalkulerer";
 "Fully charged" = "Fullstendig ladet";
-"Not connected" = "Ikke koblet til";
 "Low level notification" = "Varsling ved lavt nivå";
 "High level notification" = "Varsling ved høyt nivå";
 "Low battery" = "Lavt batterinivå";
@@ -429,11 +434,14 @@
 "Time and percentage" = "Tid og prosent";
 "Time format" = "Tidsformat";
 "Hide additional information when full" = "Skjul ekstra information når fulladet";
-"Last charge" = "Siste lading";
-"Capacity" = "Kapasitet";
-"current / maximum / designed" = "current / maksimum / tiltenkt";
 "Percentage inside the icon" = "Prosent inne i ikonet";
 "Charger state inside the battery" = "Ladestatus inne i batteriet"; // gemma4:31b
+"Max capacity" = "Maksimal kapasitet"; // gemma4:31b
+"Designed capacity" = "Designet kapasitet"; // gemma4:31b
+"On hold" = "Satt på vent"; // gemma4:31b
+"On battery" = "På batteri"; // gemma4:31b
+"Plugged in" = "Tilkoblet"; // gemma4:31b
+"Charging" = "Lader"; // gemma4:31b
 
 // Bluetooth
 "No Bluetooth devices are available" = "Ingen Bluetooth-enheter er tilgjengelige";
@@ -448,6 +456,8 @@
 "Delete selected clock" = "Slett valgt klokke"; // translategemma:4b
 "Help with datetime format" = "Hjelp med dato- og tidsformat"; // gemma4:31b
 "Sync with NTP server" = "Synkronisering med NTP-server"; // gemma4:31b
+"Previous month" = "Forrige måned"; // gemma4:31b
+"Next month" = "Neste måned"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "Basert på bruk";

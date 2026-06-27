@@ -350,6 +350,12 @@
 "Show unknown sensors" = "Näytä tuntemattomat anturit";
 "Install fan helper" = "Asenna tuuletinavustaja";
 "Uninstall fan helper" = "Poista tuuletinavustaja";
+"Approve in System Settings ▸ Login Items" = "Hyväksy Järjestelmäasetuksissa ▸ Kirjautumiskohteet"; // gemma4:31b
+"Fan helper needs your approval" = "Tuuletinapuohjelma tarvitsee hyväksyntäsi"; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "Hallitaksesi tuulettimia, ota Stats käyttöön kohdassa Järjestelmäasetukset ▸ Kirjautumiskohteet."; // gemma4:31b
+"Open Login Items" = "Avaa kirjautumiskohteet"; // gemma4:31b
+"Could not enable the fan helper" = "Tuulettimen apuohjelmaa ei voitu ottaa käyttöön"; // gemma4:31b
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "Avaa Järjestelmäasetukset ▸ Kirjautumiskohteet, varmista, että Stats on sallittu taustalla, ja yritä sitten uudelleen."; // gemma4:31b
 "Fan value" = "Tuulettimen arvo";
 "Turn off fan" = "Sammuta tuuletin";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Olet sammuttamassa tuuletinta. Tämä ei ole suositeltavaa ja voi vahingoittaa Maciasi. Haluatko varmasti tehdä tämän?";
@@ -417,7 +423,6 @@
 "Time to charge" = "Latausaika";
 "Calculating" = "Lasketaan";
 "Fully charged" = "Täyteen ladattu";
-"Not connected" = "Ei kytketty";
 "Low level notification" = "Matala tason ilmoitus";
 "High level notification" = "Korkea tason ilmoitus";
 "Low battery" = "Akku Vähissä";
@@ -429,11 +434,14 @@
 "Time and percentage" = "Aika ja prosentti";
 "Time format" = "Ajan muoto";
 "Hide additional information when full" = "Piilota lisätiedot, kun täynnä";
-"Last charge" = "Viimeinen lataus";
-"Capacity" = "Kapasiteetti";
-"current / maximum / designed" = "nykyinen / maksimi / suunniteltu";
 "Percentage inside the icon" = "Prosentti kuvakkeen sisällä";
 "Charger state inside the battery" = "Lataustila akun sisällä"; // gemma4:31b
+"Max capacity" = "Maksimikapasiteetti"; // gemma4:31b
+"Designed capacity" = "Suunniteltu kapasiteetti"; // gemma4:31b
+"On hold" = "Odotuksessa"; // gemma4:31b
+"On battery" = "Akulla"; // gemma4:31b
+"Plugged in" = "Kytketty"; // gemma4:31b
+"Charging" = "Ladataan"; // gemma4:31b
 
 // Bluetooth
 "No Bluetooth devices are available" = "Bluetooth-laitteita ei ole saatavilla";
@@ -448,6 +456,8 @@
 "Delete selected clock" = "Poista valittu kello"; // gemma4:31b
 "Help with datetime format" = "Ohje päivämäärän ja kellonajan muotoiluun"; // gemma4:31b
 "Sync with NTP server" = "Synkronointi NTP-palvelimen kanssa"; // gemma4:31b
+"Previous month" = "Edellinen kuukausi"; // gemma4:31b
+"Next month" = "Seuraava kuukausi"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "Perustuu käyttöasteeseen";

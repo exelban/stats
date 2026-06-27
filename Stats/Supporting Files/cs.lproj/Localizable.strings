@@ -350,6 +350,12 @@
 "Show unknown sensors" = "Zobrazit neznáme senzory";
 "Install fan helper" = "Nainstalovat pomocnou aplikaci ovládání ventilátorů";
 "Uninstall fan helper" = "Odinstalovat pomocnou aplikaci ventilátorů";
+"Approve in System Settings ▸ Login Items" = "Schválit v Nastavení systému ▸ Položky přihlášení"; // gemma4:31b
+"Fan helper needs your approval" = "Pomocník pro ventilátor potřebuje váš souhlas"; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "Pro ovládání ventilátorů povolte Stats v Systemovém nastavení ▸ Položky při přihlášení."; // gemma4:31b
+"Open Login Items" = "Otevřít položky přihlášení"; // gemma4:31b
+"Could not enable the fan helper" = "Nepodařilo se aktivovat pomocný nástroj pro ventilátor"; // gemma4:31b
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "Otevřete Nastavení systému ▸ Přístup při přihlášení, ujistěte se, že je Stats povoleno v pozadí, a poté zkuste znovu."; // gemma4:31b
 "Fan value" = "Hodnota ventilátoru";
 "Turn off fan" = "Vypnout ventilátor"; // gemma4:31b
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Chystáte se vypnout ventilátor. Toto není doporučený postup, který může poškodit váš Mac, jste si jistí, že to chcete udělat?"; // gemma4:31b
@@ -417,7 +423,6 @@
 "Time to charge" = "Čas do nabití";
 "Calculating" = "Počítání";
 "Fully charged" = "Plně nabito";
-"Not connected" = "Nepřipojeno";
 "Low level notification" = "Upozornění při nízké úrovni";
 "High level notification" = "Upozornění při vysoké úrovni";
 "Low battery" = "Nízká úroveň baterie";
@@ -429,11 +434,14 @@
 "Time and percentage" = "Čas a procenta";
 "Time format" = "Formát času";
 "Hide additional information when full" = "Skrýt další informace při plném nabití";
-"Last charge" = "Poslední nabití";
-"Capacity" = "Kapacita";
-"current / maximum / designed" = "current / maximum / výrobní";
 "Percentage inside the icon" = "Procento uvnitř ikony";
 "Charger state inside the battery" = "Stav nabíjení uvnitř baterie"; // translategemma:4b
+"Max capacity" = "Maximální kapacita"; // gemma4:31b
+"Designed capacity" = "Projektovaná kapacita"; // gemma4:31b
+"On hold" = "Pozastaveno"; // gemma4:31b
+"On battery" = "Na baterii"; // gemma4:31b
+"Plugged in" = "Připojen"; // gemma4:31b
+"Charging" = "Nabíjení"; // gemma4:31b
 
 // Bluetooth
 "No Bluetooth devices are available" = "Žádná bluetooth zařízení nejsou k dispozici";
@@ -448,6 +456,8 @@
 "Delete selected clock" = "Smazat vybrané hodiny"; // gemma4:31b
 "Help with datetime format" = "Pomoc s formátem data a času"; // gemma4:31b
 "Sync with NTP server" = "Synchronizace s NTP serverem"; // translategemma:4b
+"Previous month" = "Minulý měsíc"; // gemma4:31b
+"Next month" = "Příští měsíc"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "Na základě využití";

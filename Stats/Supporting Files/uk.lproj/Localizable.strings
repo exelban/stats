@@ -350,6 +350,12 @@
 "Show unknown sensors" = "Показати невідомі датчики";
 "Install fan helper" = "Встановити помічник для вентилятора";
 "Uninstall fan helper" = "Видалити помічник для вентилятора";
+"Approve in System Settings ▸ Login Items" = "Approve in System Settings ▸ Login Items";
+"Fan helper needs your approval" = "Fan helper needs your approval";
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "To control the fans, enable Stats in System Settings ▸ Login Items.";
+"Open Login Items" = "Open Login Items";
+"Could not enable the fan helper" = "Could not enable the fan helper";
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again.";
 "Fan value" = "Значення вентилятора";
 "Turn off fan" = "Вимкнути вентилятор";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Ви збираєтеся вимкнути вентилятор. Це не рекомендована дія, яка може зламати ваш Mac. Ви впевнені, що хочете це зробити?";
@@ -417,7 +423,6 @@
 "Time to charge" = "Час до зарядки";
 "Calculating" = "Обчислення";
 "Fully charged" = "Повністю заряджена";
-"Not connected" = "Не під'єднаний";
 "Low level notification" = "Повідомлення про низький рівень заряду";
 "High level notification" = "Повідомлення про високий рівень заряду";
 "Low battery" = "Низький заряд акумулятора";
@@ -429,11 +434,14 @@
 "Time and percentage" = "Час і проценти";
 "Time format" = "Формат часу";
 "Hide additional information when full" = "Приховати додаткову інформацію, якщо акумулятор заряджений";
-"Last charge" = "Остання зарядка";
-"Capacity" = "Ємність";
-"current / maximum / designed" = "поточна / максимальна / запроектована";
 "Percentage inside the icon" = "Відсоток всередині віджету";
 "Charger state inside the battery" = "Стан зарядки всередині акумулятора";
+"Max capacity" = "Max capacity";
+"Designed capacity" = "Designed capacity";
+"On hold" = "On hold";
+"On battery" = "On battery";
+"Plugged in" = "Plugged in";
+"Charging" = "Charging";
 
 // Bluetooth
 "No Bluetooth devices are available" = "Немає пристроїв Bluetooth";
@@ -448,6 +456,8 @@
 "Delete selected clock" = "Видалити вибраний годинник";
 "Help with datetime format" = "Довідка з форматом дати й часу";
 "Sync with NTP server" = "Синхронізація з сервером NTP";
+"Previous month" = "Previous month";
+"Next month" = "Next month";
 
 // Colors
 "Based on utilization" = "На основі використання";

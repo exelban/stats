@@ -350,6 +350,12 @@
 "Show unknown sensors" = "Mostra sensors desconeguts";
 "Install fan helper" = "Instal·la l'ajuda del ventilador";
 "Uninstall fan helper" = "Desinstal·la l'ajuda del ventilador";
+"Approve in System Settings ▸ Login Items" = "Aprova a Ajustos del sistema ▸ Elements d'inici"; // gemma4:31b
+"Fan helper needs your approval" = "L'ajudant del ventilador necessita la teva aprovació"; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "Per controlar els ventiladors, activa Stats als Ajustos del sistema ▸ Elements d'inici."; // gemma4:31b
+"Open Login Items" = "Obre els elements d'inici"; // gemma4:31b
+"Could not enable the fan helper" = "No s'ha pogut activar l'ajudant del ventilador"; // gemma4:31b
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "Obre els Ajustes del sistema ▸ Elementes d'inici, assegura't que Stats estigui permès en segon pla i després torna-ho a intentar."; // gemma4:31b
 "Fan value" = "Valor del ventilador";
 "Turn off fan" = "Apaga el ventilador";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Estàs a punt d'apagar el ventilador. No està recomanat i pot espatllar el teu mac, estàs segur/segura que vols fer això?";
@@ -417,7 +423,6 @@
 "Time to charge" = "Temps fins la càrrega completa";
 "Calculating" = "Calculant";
 "Fully charged" = "Completament carregada";
-"Not connected" = "No connectat";
 "Low level notification" = "Notificació de nivell baix";
 "High level notification" = "Notificació de nivell alt";
 "Low battery" = "Bateria baixa";
@@ -429,11 +434,14 @@
 "Time and percentage" = "Temps i percentatge";
 "Time format" = "Format de temps";
 "Hide additional information when full" = "Oculta informació addicional quan la bateria estigui carregada";
-"Last charge" = "Última càrrega";
-"Capacity" = "Capacitat";
-"current / maximum / designed" = "actual / màxima / dissenyada";
 "Percentage inside the icon" = "Percentatge dins de la icona";
 "Charger state inside the battery" = "Estat de càrrega dins de la bateria"; // gemma4:31b
+"Max capacity" = "Capacitat màxima"; // gemma4:31b
+"Designed capacity" = "Capacitat dissenyada"; // gemma4:31b
+"On hold" = "En espera"; // gemma4:31b
+"On battery" = "Amb bateria"; // gemma4:31b
+"Plugged in" = "Connectat"; // gemma4:31b
+"Charging" = "Carregant"; // gemma4:31b
 
 // Bluetooth
 "No Bluetooth devices are available" = "No hi han dispositius Bluetooth disponibles";
@@ -448,6 +456,8 @@
 "Delete selected clock" = "Eliminar el rellotge seleccionat"; // gemma4:31b
 "Help with datetime format" = "Ajuda amb el format de data i hora"; // translategemma:4b
 "Sync with NTP server" = "Sincronització amb el servidor NTP"; // gemma4:31b
+"Previous month" = "Mes anterior"; // gemma4:31b
+"Next month" = "El proper mes"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "Basat en l'utilització";

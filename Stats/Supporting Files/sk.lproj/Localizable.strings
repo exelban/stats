@@ -350,6 +350,12 @@
 "Show unknown sensors" = "Zobraziť neznáme senzory"; // gemma4:31b
 "Install fan helper" = "Inštalovať pomocníka pre ventilátor"; // gemma4:31b
 "Uninstall fan helper" = "Odinštalovať pomocníka pre ventilátor"; // gemma4:31b
+"Approve in System Settings ▸ Login Items" = "Schváliť v Systemových nastaveniach ▸ Položky pri prihlasovaní"; // gemma4:31b
+"Fan helper needs your approval" = "Pomocník ventilátora potrebuje váš súhlas"; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "Ak chcete ovládať ventilátory, zapnite Stats v Systemových nastaveniach ▸ Položky pri prihlasovaní."; // gemma4:31b
+"Open Login Items" = "Otvoriť položky pri prihlasovaní"; // gemma4:31b
+"Could not enable the fan helper" = "Nebolo možné zapnúť pomocný nástroj pre ventilátor"; // gemma4:31b
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "Otvorte Nastavenia systému ▸ Položky pri prihlasovaní, uistite sa, že je Stats povolený v pozadí, a potom skúste znova."; // gemma4:31b
 "Fan value" = "Hodnota ventilátora"; // gemma4:31b
 "Turn off fan" = "Vypnúť ventilátor"; // gemma4:31b
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Chystáte sa vypnúť ventilátor. Toto je neodporúčaná akcia, ktorá môže poškodiť váš Mac, ste si istý, že to chcete urobiť?"; // gemma4:31b
@@ -417,7 +423,6 @@
 "Time to charge" = "Čas do nabitia"; // gemma4:31b
 "Calculating" = "Výpočet"; // gemma4:31b
 "Fully charged" = "Plne nabitá"; // gemma4:31b
-"Not connected" = "Nepripojené"; // gemma4:31b
 "Low level notification" = "Upozornenie o nízkej úrovni"; // gemma4:31b
 "High level notification" = "Oznámenie o vysokej úrovni"; // gemma4:31b
 "Low battery" = "Nízky stav batérie"; // gemma4:31b
@@ -429,11 +434,14 @@
 "Time and percentage" = "Čas a percentá"; // gemma4:31b
 "Time format" = "Formát času"; // gemma4:31b
 "Hide additional information when full" = "Skryť dodatočné informácie pri plnom nabití"; // gemma4:31b
-"Last charge" = "Posledné nabitie"; // gemma4:31b
-"Capacity" = "Kapacita"; // gemma4:31b
-"current / maximum / designed" = "aktuálna / maximálna / navrhovaná"; // gemma4:31b
 "Percentage inside the icon" = "Percentuálny údaj vo vnútri ikony"; // gemma4:31b
 "Charger state inside the battery" = "Stav nabíjania vnútri batérie"; // gemma4:31b
+"Max capacity" = "Maximálna kapacita"; // gemma4:31b
+"Designed capacity" = "Navrhnutá kapacita"; // gemma4:31b
+"On hold" = "Pozastavené"; // gemma4:31b
+"On battery" = "Na batérii"; // gemma4:31b
+"Plugged in" = "Pripojený"; // gemma4:31b
+"Charging" = "Nabíjanie"; // gemma4:31b
 "Fan" = "Ventilátor";
 "HID sensors" = "HID senzory";
 "No Bluetooth devices are available" = "Žiadne Bluetooth zariadenia nie sú k dispozícii"; // gemma4:31b
@@ -448,6 +456,8 @@
 "Delete selected clock" = "Odstrániť vybrané hodiny"; // gemma4:31b
 "Help with datetime format" = "Pomoc s formátom dátumu a času"; // gemma4:31b
 "Sync with NTP server" = "Synchronizácia s NTP serverom"; // gemma4:31b
+"Previous month" = "Predošlý mesiac"; // gemma4:31b
+"Next month" = "Nasledujúci mesiac"; // gemma4:31b
 "Energy" = "Energia";
 "Show unknown sensors" = "Zobraziť neznáme snímače";
 "Based on utilization" = "Na základe využitia"; // gemma4:31b
@@ -477,7 +487,7 @@
 "Brown" = "Hnedý"; // gemma4:31b
 "Second brown" = "Druhý hnedý"; // gemma4:31b
 "Cyan" = "Cyan";
-"Magenta" = "Magenta";
+"Magenta" = "Purpurový"; // gemma4:31b
 "Pink" = "Ružová"; // gemma4:31b
 "Teal" = "Tyrkysová"; // gemma4:31b
 "Indigo" = "Indigo";
@@ -550,7 +560,6 @@
 "Time to charge" = "Čas do nabitia";
 "Calculating" = "Počítanie";
 "Fully charged" = "Plne nabité";
-"Not connected" = "Nepripojené";
 "Low level notification" = "Upozornenie pri nízkej úrovni";
 "High level notification" = "Upozornenie pri vysokej úrovni";
 "Low battery" = "Nízka úroveň batérie";
@@ -562,9 +571,6 @@
 "Time and percentage" = "Čas a percentá";
 "Time format" = "Formát času";
 "Hide additional information when full" = "Skryť ďalšie informácie, keď je plne nabitá";
-"Last charge" = "Posledné nabíjanie";
-"Capacity" = "Kapacita";
-"current / maximum / designed" = "aktuálne / maximálne / projektované";
 "Percentage inside the icon" = "Percentá vo vnútri ikony";
 "Charger state inside the battery" = "Stav nabíjačky vo vnútri batérie"; // translategemma:4b
 

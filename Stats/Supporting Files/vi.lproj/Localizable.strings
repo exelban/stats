@@ -350,6 +350,12 @@
 "Show unknown sensors" = "Hiển thị các cảm biến không xác định";
 "Install fan helper" = "Cài đặt trợ lý quạt";
 "Uninstall fan helper" = "Gỡ cài đặt trợ lý quạt";
+"Approve in System Settings ▸ Login Items" = "Phê duyệt trong Cài đặt Hệ thống ▸ Mục Đăng nhập"; // gemma4:31b
+"Fan helper needs your approval" = "Trình hỗ trợ quạt cần sự chấp thuận của bạn"; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "Để điều khiển quạt, hãy bật Stats trong Cài đặt hệ thống ▸ Mục đăng nhập."; // gemma4:31b
+"Open Login Items" = "Mở Mục Đăng nhập"; // gemma4:31b
+"Could not enable the fan helper" = "Không thể kích hoạt trình hỗ trợ quạt"; // gemma4:31b
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "Mở Cài đặt Hệ thống ▸ Mục Đăng nhập, đảm bảo Stats được cho phép chạy trong nền, sau đó thử lại."; // gemma4:31b
 "Fan value" = "Giá trị quạt";
 "Turn off fan" = "Tắt quạt";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Bạn sắp tắt quạt. Đây là hành động không được khuyến nghị và có thể gây hư hại cho Mac của bạn. Bạn có chắc chắn muốn thực hiện không?";
@@ -417,7 +423,6 @@
 "Time to charge" = "Thời gian để sạc đầy";
 "Calculating" = "Đang tính toán";
 "Fully charged" = "Đã sạc đầy";
-"Not connected" = "Chưa kết nối";
 "Low level notification" = "Thông báo pin yếu";
 "High level notification" = "Thông báo pin đầy";
 "Low battery" = "Pin yếu";
@@ -429,11 +434,14 @@
 "Time and percentage" = "Thời gian và phần trăm";
 "Time format" = "Định dạng thời gian";
 "Hide additional information when full" = "Ẩn thông tin bổ sung khi pin đầy";
-"Last charge" = "Lần sạc cuối";
-"Capacity" = "Dung lượng";
-"current / maximum / designed" = "hiện tại / tối đa / thiết kế";
 "Percentage inside the icon" = "Phần trăm hiển thị trong biểu tượng";
 "Charger state inside the battery" = "Trạng thái sạc bên trong pin";
+"Max capacity" = "Dung lượng tối đa"; // gemma4:31b
+"Designed capacity" = "Dung lượng thiết kế"; // gemma4:31b
+"On hold" = "Tạm dừng"; // gemma4:31b
+"On battery" = "Đang dùng pin"; // gemma4:31b
+"Plugged in" = "Đã kết nối"; // gemma4:31b
+"Charging" = "Đang sạc"; // gemma4:31b
 
 // Bluetooth
 "No Bluetooth devices are available" = "Không có thiết bị Bluetooth nào khả dụng";
@@ -448,6 +456,8 @@
 "Delete selected clock" = "Xóa đồng hồ đã chọn";
 "Help with datetime format" = "Trợ giúp về định dạng ngày giờ";
 "Sync with NTP server" = "Đồng bộ hóa với máy chủ NTP"; // gemma4:31b
+"Previous month" = "Tháng trước"; // gemma4:31b
+"Next month" = "Tháng sau"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "Dựa trên mức sử dụng";

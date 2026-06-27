@@ -350,6 +350,12 @@
 "Show unknown sensors" = "显示未知传感器";
 "Install fan helper" = "安装风扇控制程序";
 "Uninstall fan helper" = "卸载风扇控制程序";
+"Approve in System Settings ▸ Login Items" = "在系统设置 ▸ 登录项中批准"; // gemma4:31b
+"Fan helper needs your approval" = "风扇辅助工具需要您的批准"; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "若要控制风扇，请在“系统设置”▸“登录项”中启用 Stats。"; // gemma4:31b
+"Open Login Items" = "打开登录项"; // gemma4:31b
+"Could not enable the fan helper" = "无法启用风扇助手"; // gemma4:31b
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "打开“系统设置” ▸ “登录项”，确保 Stats 已允许在后台运行，然后重试。"; // gemma4:31b
 "Fan value" = "风扇转数";
 "Turn off fan" = "禁用风扇";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "你想禁用你的风扇，这可能损害你的Mac。不推荐进行这个操作，你确定要继续吗？";
@@ -417,7 +423,6 @@
 "Time to charge" = "充电所需时间";
 "Calculating" = "计算中";
 "Fully charged" = "已充满";
-"Not connected" = "未连接";
 "Low level notification" = "低电量通知";
 "High level notification" = "高电量通知";
 "Low battery" = "低电量";
@@ -429,11 +434,14 @@
 "Time and percentage" = "时间和百分比";
 "Time format" = "时间格式";
 "Hide additional information when full" = "电池充满后隐藏其他信息";
-"Last charge" = "最后一次充电";
-"Capacity" = "容量";
-"current / maximum / designed" = "当前容量 / 最大容量 / 设计容量";
 "Percentage inside the icon" = "图标内百分比";
 "Charger state inside the battery" = "在电池图标内显示充电器状态";
+"Max capacity" = "最大容量"; // gemma4:31b
+"Designed capacity" = "设计容量"; // gemma4:31b
+"On hold" = "暂停"; // gemma4:31b
+"On battery" = "电池供电"; // gemma4:31b
+"Plugged in" = "已连接电源"; // gemma4:31b
+"Charging" = "充电中"; // gemma4:31b
 
 // Bluetooth
 "No Bluetooth devices are available" = "没有可用的蓝牙设备";
@@ -448,6 +456,8 @@
 "Delete selected clock" = "删除选定的时钟";
 "Help with datetime format" = "日期时间格式帮助";
 "Sync with NTP server" = "与 NTP 服务器同步"; // translategemma:4b
+"Previous month" = "上个月"; // gemma4:31b
+"Next month" = "下个月"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "基于利用率";

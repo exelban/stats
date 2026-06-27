@@ -248,7 +248,7 @@
 "Main chart scaling" = "Масштабирование основного графика";
 "Scale value" = "Значение масштаба";
 "Text widget value" = "Значение текстового виджета";
-"Combined processes" = "Згруппировать процессы";
+"Combined processes" = "Сгруппировать процессы";
 
 // CPU
 "CPU usage" = "Использование процессора";
@@ -350,6 +350,12 @@
 "Show unknown sensors" = "Показать неизвестные датчики";
 "Install fan helper" = "Установить помощник для вентилятора";
 "Uninstall fan helper" = "Удалить помощник для вентилятора";
+"Approve in System Settings ▸ Login Items" = "Approve in System Settings ▸ Login Items";
+"Fan helper needs your approval" = "Fan helper needs your approval";
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "To control the fans, enable Stats in System Settings ▸ Login Items.";
+"Open Login Items" = "Open Login Items";
+"Could not enable the fan helper" = "Could not enable the fan helper";
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again.";
 "Fan value" = "Значение вентилятора";
 "Turn off fan" = "Выключить вентилятор";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Вы собираетесь выключить вентилятор. Это не рекомендуемое действие, которое может сломать ваш Mac. Вы уверены, что хотите это сделать?";
@@ -417,7 +423,6 @@
 "Time to charge" = "Время до зарядки";
 "Calculating" = "Вычисления";
 "Fully charged" = "Полностью заряжена";
-"Not connected" = "Не подключено";
 "Low level notification" = "Сообщение о низком уровне заряда";
 "High level notification" = "Сообщение о высоком уровне заряда";
 "Low battery" = "Низкий заряд аккумулятора";
@@ -429,11 +434,14 @@
 "Time and percentage" = "Время и проценты";
 "Time format" = "Формат времени";
 "Hide additional information when full" = "Скрыть дополнительную информацию при полном заряде";
-"Last charge" = "Последняя зарядка";
-"Capacity" = "Емкость";
-"current / maximum / designed" = "текущая / максимальная / расчетная";
 "Percentage inside the icon" = "Процент внутри виджета";
 "Charger state inside the battery" = "Состояние зарядки внутри аккумулятора";
+"Max capacity" = "Max capacity";
+"Designed capacity" = "Designed capacity";
+"On hold" = "On hold";
+"On battery" = "On battery";
+"Plugged in" = "Plugged in";
+"Charging" = "Charging";
 
 // Bluetooth
 "No Bluetooth devices are available" = "Нет доступных устройств Bluetooth";
@@ -448,6 +456,8 @@
 "Delete selected clock" = "Удалить выбранные часы";
 "Help with datetime format" = "Помощь с форматом даты и времени";
 "Sync with NTP server" = "Синхронизация с сервером NTP";
+"Previous month" = "Previous month";
+"Next month" = "Next month";
 
 // Colors
 "Based on utilization" = "На основе использования";

@@ -350,6 +350,12 @@
 "Show unknown sensors" = "Показване на непознатите сензори";
 "Install fan helper" = "Инсталирай помощник за вентилатора"; // gemma4:31b
 "Uninstall fan helper" = "Деинсталирай помощника за вентилатора"; // gemma4:31b
+"Approve in System Settings ▸ Login Items" = "Одобрете в Системни настройки ▸ Обекти за вход"; // gemma4:31b
+"Fan helper needs your approval" = "Помощникът за вентилатора се нуждае от вашето одобрение"; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "За да контролирате вентилаторите, активирайте Stats в Системни настройки ▸ Обекти за вход."; // gemma4:31b
+"Open Login Items" = "Отвори обекти при вход"; // gemma4:31b
+"Could not enable the fan helper" = "Не успя да се активира помощникът за вентилатора"; // gemma4:31b
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "Отворете Системни настройки ▸ Обекти за вход, уверете се, че Stats е разрешен във фонов режим, след това опитайте отново."; // gemma4:31b
 "Fan value" = "Стойност на вентилатора"; // gemma4:31b
 "Turn off fan" = "Изключи вентилатора"; // gemma4:31b
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Вие ще изключите вентилатора. Това не е препоръчително действие, което може да повреди вашия Mac, сигурни ли сте, че искате да направите това?"; // gemma4:31b
@@ -417,7 +423,6 @@
 "Time to charge" = "Време до пълен заряд";
 "Calculating" = "Пресмята се";
 "Fully charged" = "Пълен заряд";
-"Not connected" = "Не е свързано";
 "Low level notification" = "Известие за ниско ниво на батерията";
 "High level notification" = "Известие за високо ниво на батерията";
 "Low battery" = "Ниско ниво на батерията";
@@ -429,11 +434,14 @@
 "Time and percentage" = "Време и процент";
 "Time format" = "Формат на времето";
 "Hide additional information when full" = "Скриване на допълнителна информация при пълен заряд";
-"Last charge" = "Последно зареждане";
-"Capacity" = "Капацитет";
-"current / maximum / designed" = "текуща / максимална / проектирана"; // gemma4:31b
 "Percentage inside the icon" = "Процент в иконата";
 "Charger state inside the battery" = "Състояние на зареждането вътре в батерията"; // translategemma:4b
+"Max capacity" = "Максимален капацитет"; // gemma4:31b
+"Designed capacity" = "Проектиран капацитет"; // gemma4:31b
+"On hold" = "В изчакване"; // gemma4:31b
+"On battery" = "На батерия"; // gemma4:31b
+"Plugged in" = "Свързан"; // gemma4:31b
+"Charging" = "Зареждане"; // gemma4:31b
 
 // Bluetooth
 "No Bluetooth devices are available" = "Няма налични Bluetooth устройства";
@@ -448,6 +456,8 @@
 "Delete selected clock" = "Изтрий избрания часовник"; // gemma4:31b
 "Help with datetime format" = "Помощ за формата на дата и час"; // gemma4:31b
 "Sync with NTP server" = "Синхронизиране с NTP сървър"; // translategemma:4b
+"Previous month" = "Предишен месец"; // gemma4:31b
+"Next month" = "Следващият месец"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "На база утилизация";

@@ -350,6 +350,12 @@
 "Show unknown sensors" = "عرض المستشعرات غير المعروفة";
 "Install fan helper" = "تثبيت مساعد المروحة";
 "Uninstall fan helper" = "إلغاء تثبيت مساعد المروحة";
+"Approve in System Settings ▸ Login Items" = "وافق في إعدادات النظام ▸ عناصر تسجيل الدخول"; // gemma4:31b
+"Fan helper needs your approval" = "مساعد المروحة يتطلب موافقتك"; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "للتحكم في المراوح، قم بتفعيل Stats في إعدادات النظام ▸ عناصر تسجيل الدخول."; // gemma4:31b
+"Open Login Items" = "فتح عناصر تسجيل الدخول"; // gemma4:31b
+"Could not enable the fan helper" = "تعذر تفعيل مساعد المروحة"; // gemma4:31b
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "افتح إعدادات النظام ▸ عناصر تسجيل الدخول، وتأكد من السماح لـ Stats في الخلفية، ثم حاول مرة أخرى."; // gemma4:31b
 "Fan value" = "قيمة المروحة";
 "Turn off fan" = "إيقاف تشغيل المروحة";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "أنت على وشك إيقاف تشغيل المروحة. هذا ليس إجراءً مُوصى به يمكن أن يتسبب في تلف جهازك، هل تريد بالتأكيد القيام بذلك؟";
@@ -417,7 +423,6 @@
 "Time to charge" = "الوقت للشحن";
 "Calculating" = "جاري الحساب";
 "Fully charged" = "مشحون بالكامل";
-"Not connected" = "غير متصل";
 "Low level notification" = "إشعار بالمستوى المنخفض";
 "High level notification" = "إشعار بالمستوى العالي";
 "Low battery" = "البطارية منخفضة";
@@ -429,11 +434,14 @@
 "Time and percentage" = "الوقت والنسبة المئوية";
 "Time format" = "تنسيق الوقت";
 "Hide additional information when full" = "إخفاء المعلومات الإضافية عندما تكون ممتلئة";
-"Last charge" = "آخر شحن";
-"Capacity" = "السعة";
-"current / maximum / designed" = "الحالي / الأقصى / المصمم";
 "Percentage inside the icon" = "النسبة المئوية داخل الرمز";
 "Charger state inside the battery" = "حالة الشحن داخل البطارية"; // gemma4:31b
+"Max capacity" = "السعة القصوى"; // gemma4:31b
+"Designed capacity" = "السعة التصميمية"; // gemma4:31b
+"On hold" = "في الانتظار"; // gemma4:31b
+"On battery" = "على البطارية"; // gemma4:31b
+"Plugged in" = "متصل"; // gemma4:31b
+"Charging" = "جاري الشحن"; // gemma4:31b
 
 // Bluetooth
 "No Bluetooth devices are available" = "لا توجد أجهزة بلوتوث متاحة";
@@ -448,6 +456,8 @@
 "Delete selected clock" = "حذف الساعة المحددة"; // translategemma:4b
 "Help with datetime format" = "مساعدة في تنسيق التاريخ والوقت"; // translategemma:4b
 "Sync with NTP server" = "مزامنة مع خادم NTP"; // gemma4:31b
+"Previous month" = "الشهر السابق"; // gemma4:31b
+"Next month" = "الشهر القادم"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "بناءً على الاستخدام";

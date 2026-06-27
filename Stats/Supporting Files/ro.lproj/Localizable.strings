@@ -350,6 +350,12 @@
 "Show unknown sensors" = "Afișează senzorii necunoscuți"; // gemma4:31b
 "Install fan helper" = "Instalează asistentul pentru ventilator"; // gemma4:31b
 "Uninstall fan helper" = "Dezinstalează asistentul pentru ventilator"; // gemma4:31b
+"Approve in System Settings ▸ Login Items" = "Aprobă în Setări sistem ▸ Elemente de autentificare"; // gemma4:31b
+"Fan helper needs your approval" = "Ajutorul pentru ventilator necesită aprobarea ta"; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "Pentru a controla ventilatoarele, activează Stats în Setări de sistem ▸ Elementele de autentificare."; // gemma4:31b
+"Open Login Items" = "Deschide elementele de autentificare"; // gemma4:31b
+"Could not enable the fan helper" = "Nu s-a putut activa utilitarul pentru ventilator"; // gemma4:31b
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "Deschide Setări sistem ▸ Elemente de autentificare, asigură-te că Stats este permis în fundal, apoi încearcă din nou."; // gemma4:31b
 "Fan value" = "Valoarea ventilatorului"; // gemma4:31b
 "Turn off fan" = "Oprește ventilatorul"; // translategemma:4b
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Sunteți pe cale să opriți ventilatorul. Aceasta nu este o acțiune recomandată care poate deteriora Mac-ul dumneavoastră, sunteți sigur că doriți să faceți acest lucru?"; // gemma4:31b
@@ -417,7 +423,6 @@
 "Time to charge" = "Timp până la încărcare";
 "Calculating" = "Se calculează";
 "Fully charged" = "Încărcat complet";
-"Not connected" = "Nu este conectat";
 "Low level notification" = "Notificație de nivel scăzut";
 "High level notification" = "Notificare nivel ridicat"; // gemma4:31b
 "Low battery" = "Baterie puțină";
@@ -429,11 +434,14 @@
 "Time and percentage" = "Timp si procentaj";
 "Time format" = "Formatul timpului";
 "Hide additional information when full" = "Ascunde restul informației cand e plină";
-"Last charge" = "Ultima încărcare";
-"Capacity" = "Capacitate"; // translategemma:4b
-"current / maximum / designed" = "actuală / maximă / proiectată"; // gemma4:31b
 "Percentage inside the icon" = "Procentaj în interiorul pictogramei"; // gemma4:31b
 "Charger state inside the battery" = "Starea încărcării în interiorul bateriei"; // gemma4:31b
+"Max capacity" = "Capacitate maximă"; // gemma4:31b
+"Designed capacity" = "Capacitate proiectată"; // gemma4:31b
+"On hold" = "În așteptare"; // gemma4:31b
+"On battery" = "La baterie"; // gemma4:31b
+"Plugged in" = "Conectat"; // gemma4:31b
+"Charging" = "Încărcare"; // gemma4:31b
 
 // Bluetooth
 "No Bluetooth devices are available" = "Nu sunt disponibile dispozitive Bluetooth"; // gemma4:31b
@@ -448,6 +456,8 @@
 "Delete selected clock" = "Șterge ceasul selectat"; // translategemma:4b
 "Help with datetime format" = "Ajutor pentru formatul datei și orei"; // gemma4:31b
 "Sync with NTP server" = "Sincronizare cu serverul NTP"; // translategemma:4b
+"Previous month" = "Luna precedentă"; // gemma4:31b
+"Next month" = "Luna următoare"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "Pe baza utilizării"; // gemma4:31b

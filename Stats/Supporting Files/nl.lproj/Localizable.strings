@@ -350,6 +350,12 @@
 "Show unknown sensors" = "Toon onbekende sensoren"; // gemma4:31b
 "Install fan helper" = "Installeer ventilator-helper"; // gemma4:31b
 "Uninstall fan helper" = "Verwijder ventilator-helper"; // gemma4:31b
+"Approve in System Settings ▸ Login Items" = "Goedkeuren in Systeeminstellingen ▸ Inlogitems"; // gemma4:31b
+"Fan helper needs your approval" = "Fan-helper heeft uw goedkeuring nodig"; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "Om de ventilatoren te bedienen, schakel Stats in in Systeeminstellingen ▸ Inlogitems."; // gemma4:31b
+"Open Login Items" = "Open Inlogitems"; // gemma4:31b
+"Could not enable the fan helper" = "Kon de fan-helper niet inschakelen"; // gemma4:31b
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "Open Systeeminstellingen ▸ Inlogitems, zorg ervoor dat Stats is toegestaan op de achtergrond, en probeer het dan opnieuw."; // gemma4:31b
 "Fan value" = "Ventilatorwaarde"; // gemma4:31b
 "Turn off fan" = "Ventilator uitschakelen"; // gemma4:31b
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Je gaat de ventilator uitschakelen. Dit is geen aanbevolen actie die je Mac kan beschadigen, weet je zeker dat je dit wilt doen?"; // gemma4:31b
@@ -417,7 +423,6 @@
 "Time to charge" = "Tijd tot opladen"; // gemma4:31b
 "Calculating" = "Berekenen"; // gemma4:31b
 "Fully charged" = "Volledig opgeladen"; // gemma4:31b
-"Not connected" = "Niet verbonden"; // gemma4:31b
 "Low level notification" = "Melding bij laag niveau"; // gemma4:31b
 "High level notification" = "Melding bij hoog niveau"; // gemma4:31b
 "Low battery" = "Lage batterij"; // gemma4:31b
@@ -429,11 +434,14 @@
 "Time and percentage" = "Tijd en percentage"; // gemma4:31b
 "Time format" = "Tijdformaat"; // gemma4:31b
 "Hide additional information when full" = "Verberg aanvullende informatie wanneer vol"; // gemma4:31b
-"Last charge" = "Laatste oplading"; // gemma4:31b
-"Capacity" = "Capaciteit"; // gemma4:31b
-"current / maximum / designed" = "huidige / maximale / ontworpen"; // gemma4:31b
 "Percentage inside the icon" = "Percentage in het icoon"; // gemma4:31b
 "Charger state inside the battery" = "Laadstatus in de batterij"; // gemma4:31b
+"Max capacity" = "Maximale capaciteit"; // gemma4:31b
+"Designed capacity" = "Ontworpen capaciteit"; // gemma4:31b
+"On hold" = "In wacht"; // gemma4:31b
+"On battery" = "Op batterij"; // gemma4:31b
+"Plugged in" = "Aangesloten"; // gemma4:31b
+"Charging" = "Opladen"; // gemma4:31b
 "Fan" = "Ventilator";
 "HID sensors" = "HID-Sensoren";
 "No Bluetooth devices are available" = "Geen Bluetooth-apparaten beschikbaar"; // gemma4:31b
@@ -448,6 +456,8 @@
 "Delete selected clock" = "Verwijder geselecteerde klok"; // gemma4:31b
 "Help with datetime format" = "Hulp bij datum- en tijdformaat"; // gemma4:31b
 "Sync with NTP server" = "Synchroniseer met NTP-server"; // gemma4:31b
+"Previous month" = "Vorige maand"; // gemma4:31b
+"Next month" = "Volgende maand"; // gemma4:31b
 "Energy" = "Energie"; // translategemma:4b
 "Show unknown sensors" = "Toon onbekende sensoren"; // translategemma:4b
 "Based on utilization" = "Op basis van gebruik"; // gemma4:31b
@@ -550,7 +560,6 @@
 "Time to charge" = "Tijd tot opgeladen";
 "Calculating" = "Berekenen";
 "Fully charged" = "Volledig opgeladen";
-"Not connected" = "Niet verbonden";
 "Low level notification" = "Melding laag niveau";
 "High level notification" = "Melding hoog niveau";
 "Low battery" = "Bijna lege batterij";
@@ -562,9 +571,6 @@
 "Time and percentage" = "Tijd and Percentage";
 "Time format" = "Tijdsnotatie";
 "Hide additional information when full" = "Verberg aanvullende informatie wanneer batterij vol is";
-"Last charge" = "Laatste oplading";
-"Capacity" = "Capaciteit"; // translategemma:4b
-"current / maximum / designed" = "huidig / maximum / ontworpen"; // translategemma:4b
 "Percentage inside the icon" = "Percentage binnen het icoon"; // translategemma:4b
 "Charger state inside the battery" = "Status van de oplaadunit binnenin de batterij"; // translategemma:4b
 

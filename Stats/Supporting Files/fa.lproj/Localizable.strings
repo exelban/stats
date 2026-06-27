@@ -350,6 +350,12 @@
 "Show unknown sensors" = "نمایش سنسور‌های ناشناخته";
 "Install fan helper" = "نصب دستیار فن"; // gemma4:31b
 "Uninstall fan helper" = "حذف ابزار کمکی فن"; // gemma4:31b
+"Approve in System Settings ▸ Login Items" = "در تنظیمات سیستم ▸ موارد ورود تایید کنید"; // gemma4:31b
+"Fan helper needs your approval" = "ابزار کمکی فن به تأیید شما نیاز دارد"; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "برای کنترل فن‌ها، Stats را در تنظیمات سیستم ▸ آیتم‌های ورود فعال کنید."; // gemma4:31b
+"Open Login Items" = "باز کردن آیتم‌های ورود"; // gemma4:31b
+"Could not enable the fan helper" = "امکان فعال‌سازی کمک‌کننده فن وجود نداشت"; // gemma4:31b
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "تنظیمات سیستم ▸ آیتم‌های ورود را باز کنید، مطمئن شوید که Stats در پس‌زمینه مجاز است، سپس دوباره تلاش کنید."; // gemma4:31b
 "Fan value" = "مقدار فن"; // translategemma:4b
 "Turn off fan" = "خاموش کردن فن"; // gemma4:31b
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "شما قصد دارید فن را خاموش کنید. این اقدام توصیه نمی‌شود و می‌تواند به Mac شما آسیب برساند، آیا مطمئن هستید که می‌خواهید این کار را انجام دهید؟"; // gemma4:31b
@@ -417,7 +423,6 @@
 "Time to charge" = "زمان شارژ";
 "Calculating" = "محاسبه";
 "Fully charged" = "شارژ کامل";
-"Not connected" = "وصل نیست";
 "Low level notification" = "نوتیفیکیشن سطح کم";
 "High level notification" = "نوتیفیکشن سطح زیاد";
 "Low battery" = "باتری کم";
@@ -429,11 +434,14 @@
 "Time and percentage" = "زمان و درصد";
 "Time format" = "فرمت زمان";
 "Hide additional information when full" = "پنهان کردن اطلاعات اضافه موقع شارژ کامل";
-"Last charge" = "آخرین شارژ";
-"Capacity" = "ظرفیت";
-"current / maximum / designed" = "current / حداکثر / طراحی شده";
 "Percentage inside the icon" = "درصد داخل آیکون";
 "Charger state inside the battery" = "وضعیت شارژ در داخل باتری"; // translategemma:4b
+"Max capacity" = "حداکثر ظرفیت"; // gemma4:31b
+"Designed capacity" = "ظرفیت طراحی شده"; // gemma4:31b
+"On hold" = "در انتظار"; // gemma4:31b
+"On battery" = "روی باتری"; // gemma4:31b
+"Plugged in" = "متصل"; // gemma4:31b
+"Charging" = "در حال شارژ"; // gemma4:31b
 
 // Bluetooth
 "No Bluetooth devices are available" = "هیچ دیوایس بلوتوثی در دسترس نیست";
@@ -448,6 +456,8 @@
 "Delete selected clock" = "حذف ساعت انتخاب‌شده"; // translategemma:4b
 "Help with datetime format" = "راهنمای فرمت تاریخ و زمان"; // gemma4:31b
 "Sync with NTP server" = "همگام‌سازی با سرور NTP"; // translategemma:4b
+"Previous month" = "ماه گذشته"; // gemma4:31b
+"Next month" = "ماه بعد"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "بر اساس استفاده";

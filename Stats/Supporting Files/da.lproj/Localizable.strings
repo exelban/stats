@@ -350,6 +350,12 @@
 "Show unknown sensors" = "Vis ukendte sensorer"; // gemma4:31b
 "Install fan helper" = "Installer blæserhjælper"; // gemma4:31b
 "Uninstall fan helper" = "Afinstaller hjælpeprogram til blæser"; // gemma4:31b
+"Approve in System Settings ▸ Login Items" = "Godkend i Systemindstillinger ▸ Login-elementer"; // gemma4:31b
+"Fan helper needs your approval" = "Blæser-hjælpeprogrammet har brug for din godkendelse"; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "For at styre blæserne, aktiver Stats i Systemindstillinger ▸ Login-elementer."; // gemma4:31b
+"Open Login Items" = "Åbn login-elementer"; // gemma4:31b
+"Could not enable the fan helper" = "Kunne ikke aktivere blæserhjælperen"; // gemma4:31b
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "Åbn Systemindstillinger ▸ Login-elementer, sørg for, at Stats er tilladt i baggrunden, og prøv derefter igen."; // gemma4:31b
 "Fan value" = "Blæserværdi"; // gemma4:31b
 "Turn off fan" = "Sluk for ventilator"; // gemma4:31b
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Du er ved at slukke for blæseren. Dette er ikke en anbefalet handling, som kan beskadige din Mac, er du sikker på, at du vil gøre det?"; // gemma4:31b
@@ -417,7 +423,6 @@
 "Time to charge" = "Tid til opladning"; // gemma4:31b
 "Calculating" = "Beregner"; // gemma4:31b
 "Fully charged" = "Fuldt opladet"; // gemma4:31b
-"Not connected" = "Ikke forbundet"; // gemma4:31b
 "Low level notification" = "Notifikation om lavt niveau"; // gemma4:31b
 "High level notification" = "Notifikation om højt niveau"; // gemma4:31b
 "Low battery" = "Lavt batteri"; // gemma4:31b
@@ -429,11 +434,14 @@
 "Time and percentage" = "Tid og procent"; // gemma4:31b
 "Time format" = "Tidsformat"; // gemma4:31b
 "Hide additional information when full" = "Skjul yderligere oplysninger, når fuldt opladet"; // gemma4:31b
-"Last charge" = "Sidste opladning"; // gemma4:31b
-"Capacity" = "Kapacitet"; // gemma4:31b
-"current / maximum / designed" = "aktuel / maksimal / designet"; // gemma4:31b
 "Percentage inside the icon" = "Procent inde i ikonet"; // gemma4:31b
 "Charger state inside the battery" = "Opladerstatus inde i batteriet"; // gemma4:31b
+"Max capacity" = "Maksimal kapacitet"; // gemma4:31b
+"Designed capacity" = "Designet kapacitet"; // gemma4:31b
+"On hold" = "På vent"; // gemma4:31b
+"On battery" = "På batteri"; // gemma4:31b
+"Plugged in" = "Tilsluttet"; // gemma4:31b
+"Charging" = "Oplader"; // gemma4:31b
 "Fan" = "Blæser";
 "HID sensors" = "HID sensorer";
 "No Bluetooth devices are available" = "Ingen Bluetooth-enheder er tilgængelige"; // gemma4:31b
@@ -448,6 +456,8 @@
 "Delete selected clock" = "Slet valgt ur"; // gemma4:31b
 "Help with datetime format" = "Hjælp til dato- og tidsformat"; // gemma4:31b
 "Sync with NTP server" = "Synkronisering med NTP-server"; // gemma4:31b
+"Previous month" = "Forrige måned"; // gemma4:31b
+"Next month" = "Næste måned"; // gemma4:31b
 "Energy" = "Energi";
 "Show unknown sensors" = "Vis ukendte sensorer";
 "Based on utilization" = "Baseret på udnyttelse"; // gemma4:31b
@@ -550,7 +560,6 @@
 "Time to charge" = "Tid til opladning";
 "Calculating" = "Udregner";
 "Fully charged" = "Fuldt opladt";
-"Not connected" = "Ikke forbundet";
 "Low level notification" = "Notifikation om lavt niveau";
 "High level notification" = "Notifikation om højt niveau";
 "Low battery" = "Lavt batteri";
@@ -562,9 +571,6 @@
 "Time and percentage" = "Tid og procent";
 "Time format" = "Tidsformat";
 "Hide additional information when full" = "Skjul yderligere information når fuldt opladt";
-"Last charge" = "Sidst opladt";
-"Capacity" = "Kapacitet";
-"current / maximum / designed" = "nuværende / maksimal / designet"; // translategemma:4b
 "Percentage inside the icon" = "Procenttegn i ikonet";
 "Charger state inside the battery" = "Tilstand af opladningssystemet inde i batteriet"; // translategemma:4b
 

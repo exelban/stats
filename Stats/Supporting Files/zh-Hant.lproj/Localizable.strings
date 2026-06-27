@@ -350,6 +350,12 @@
 "Show unknown sensors" = "顯示未知的感知器";
 "Install fan helper" = "安裝風扇輔助程式";
 "Uninstall fan helper" = "解除安裝風扇輔助程式";
+"Approve in System Settings ▸ Login Items" = "在系統設定 ▸ 登入項目中核准"; // gemma4:31b
+"Fan helper needs your approval" = "風扇輔助工具需要您的核准"; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "若要控制風扇，請在「系統設定」▸「登入項目」中啟用 Stats。"; // gemma4:31b
+"Open Login Items" = "開啟登入項目"; // gemma4:31b
+"Could not enable the fan helper" = "無法啟用風扇助手"; // gemma4:31b
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "開啟「系統設定」▸「登入項目」，確認 Stats 已獲准在背景執行，然後再試一次。"; // gemma4:31b
 "Fan value" = "風扇轉速值";
 "Turn off fan" = "關閉風扇";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "您似乎要關閉您Mac的風扇。不建議進行此操作，因為這可能會造成Mac的損毀，您確定仍要關閉風扇嗎？";
@@ -417,7 +423,6 @@
 "Time to charge" = "充電時間";
 "Calculating" = "計算中";
 "Fully charged" = "已充飽";
-"Not connected" = "未連接";
 "Low level notification" = "低電量通知";
 "High level notification" = "高電量通知";
 "Low battery" = "低電量";
@@ -429,11 +434,14 @@
 "Time and percentage" = "時間和百分比";
 "Time format" = "時間格式";
 "Hide additional information when full" = "電池充飽後隱藏其他資訊";
-"Last charge" = "最近一次充電";
-"Capacity" = "容量";
-"current / maximum / designed" = "目前容量/最大容量/設計容量";
 "Percentage inside the icon" = "在圖示內顯示百分比";
 "Charger state inside the battery" = "在電池圖示中顯示充電狀態";
+"Max capacity" = "最大容量"; // gemma4:31b
+"Designed capacity" = "設計容量"; // gemma4:31b
+"On hold" = "暫停"; // gemma4:31b
+"On battery" = "使用電池"; // gemma4:31b
+"Plugged in" = "已連接"; // gemma4:31b
+"Charging" = "充電中"; // gemma4:31b
 
 // Bluetooth
 "No Bluetooth devices are available" = "沒有可用的藍牙裝置";
@@ -448,6 +456,8 @@
 "Delete selected clock" = "刪除所選時鐘";
 "Help with datetime format" = "時間日期格式說明";
 "Sync with NTP server" = "與 NTP 伺服器同步"; // translategemma:4b
+"Previous month" = "上個月"; // gemma4:31b
+"Next month" = "下個月"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "根據使用率";

@@ -350,6 +350,12 @@
 "Show unknown sensors" = "不明なセンサーを表示"; // gemma4:31b
 "Install fan helper" = "ファンヘルパーをインストール"; // gemma4:31b
 "Uninstall fan helper" = "ファンヘルパーをアンインストール"; // gemma4:31b
+"Approve in System Settings ▸ Login Items" = "システム設定 ▸ ログイン項目で承認してください"; // gemma4:31b
+"Fan helper needs your approval" = "ファンヘルパーにはあなたの承認が必要です"; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "ファンを制御するには、「システム設定」▸「ログイン項目」でStatsを有効にしてください。"; // gemma4:31b
+"Open Login Items" = "ログイン項目を開く"; // gemma4:31b
+"Could not enable the fan helper" = "ファンヘルパーを有効にできませんでした"; // gemma4:31b
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "「システム設定 ▸ ログイン項目」を開き、Statsがバックグラウンドで許可されていることを確認してから、もう一度お試しください。"; // gemma4:31b
 "Fan value" = "ファンの表示単位";
 "Turn off fan" = "ファンの停止";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "ファンの停止はmacに大きなダメージを与える可能性がある為、推奨されません。本当に実行しますか？";
@@ -417,7 +423,6 @@
 "Time to charge" = "充電完了までの時間";
 "Calculating" = "計算中";
 "Fully charged" = "フル充電済み";
-"Not connected" = "接続されていません";
 "Low level notification" = "バッテリー残量低下の通知";
 "High level notification" = "バッテリー充電状況の通知";
 "Low battery" = "バッテリー残量低下";
@@ -429,11 +434,14 @@
 "Time and percentage" = "残り時間と残量（%）";
 "Time format" = "時間の表示形式";
 "Hide additional information when full" = "フル充電済みのときはアイコンのみ表示";
-"Last charge" = "最後の充電から";
-"Capacity" = "容量";
-"current / maximum / designed" = "current / 最大 / 規格";
 "Percentage inside the icon" = "アイコン内のパーセンテージ"; // translategemma:4b
 "Charger state inside the battery" = "バッテリー内部の充電状態"; // translategemma:4b
+"Max capacity" = "最大容量"; // gemma4:31b
+"Designed capacity" = "設計容量"; // gemma4:31b
+"On hold" = "保留中"; // gemma4:31b
+"On battery" = "バッテリー駆動"; // gemma4:31b
+"Plugged in" = "電源接続済み"; // gemma4:31b
+"Charging" = "充電中"; // gemma4:31b
 
 // Bluetooth
 "No Bluetooth devices are available" = "利用可能な Bluetooth デバイスがありません";
@@ -448,6 +456,8 @@
 "Delete selected clock" = "選択した時計を削除する";
 "Help with datetime format" = "日時フォーマットのヘルプ"; // gemma4:31b
 "Sync with NTP server" = "NTPサーバーと同期"; // gemma4:31b
+"Previous month" = "前月"; // gemma4:31b
+"Next month" = "来月"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "使用率に基づいたカラー";

@@ -350,6 +350,12 @@
 "Show unknown sensors" = "แสดงเซ็นเซอร์ที่ไม่รู้จัก";
 "Install fan helper" = "ติดตั้งตัวช่วยพัดลม";
 "Uninstall fan helper" = "ถอนการติดตั้งตัวช่วยพัดลม";
+"Approve in System Settings ▸ Login Items" = "อนุมัติใน การตั้งค่าระบบ ▸ รายการล็อกอิน"; // gemma4:31b
+"Fan helper needs your approval" = "ตัวช่วยพัดลมต้องการการอนุญาตของคุณ"; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "หากต้องการควบคุมพัดลม ให้เปิดใช้งาน Stats ในการตั้งค่าระบบ ▸ รายการล็อกอิน."; // gemma4:31b
+"Open Login Items" = "เปิดรายการล็อกอิน"; // gemma4:31b
+"Could not enable the fan helper" = "ไม่สามารถเปิดใช้งานตัวช่วยพัดลมได้"; // gemma4:31b
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "เปิดการตั้งค่าระบบ ▸ รายการล็อกอิน, ตรวจสอบให้แน่ใจว่า Stats ได้รับอนุญาตให้ทำงานในพื้นหลัง, จากนั้นลองอีกครั้ง."; // gemma4:31b
 "Fan value" = "ค่าพัดลม";
 "Turn off fan" = "ปิดพัดลม"; // translategemma:4b
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "คุณกำลังจะปิดพัดลม นี่เป็นการกระทำที่ไม่แนะนำซึ่งอาจทำให้ Mac ของคุณเสียหาย คุณแน่ใจหรือไม่ว่าต้องการทำเช่นนั้น?"; // gemma4:31b
@@ -417,7 +423,6 @@
 "Time to charge" = "เวลาในการชาร์จ";
 "Calculating" = "การคำนวณ";
 "Fully charged" = "เต็มแล้ว";
-"Not connected" = "ไม่ได้เชื่อมต่อ";
 "Low level notification" = "การแจ้งเตือนระดับต่ำ";
 "High level notification" = "การแจ้งเตือนระดับสูง";
 "Low battery" = "แบตเตอรี่ต่ำ";
@@ -429,11 +434,14 @@
 "Time and percentage" = "เวลาและเปอร์เซ็นต์";
 "Time format" = "รูปแบบเวลา";
 "Hide additional information when full" = "ซ่อนข้อมูลเพิ่มเติมเมื่อเต็ม";
-"Last charge" = "ชาร์จครั้งสุดท้าย";
-"Capacity" = "ความจุ";
-"current / maximum / designed" = "ปัจจุบัน / สูงสุด / ออกแบบ";
 "Percentage inside the icon" = "เปอร์เซ็นต์ภายในไอคอน";
 "Charger state inside the battery" = "สถานะการชาร์จภายในแบตเตอรี่"; // gemma4:31b
+"Max capacity" = "ความจุสูงสุด"; // gemma4:31b
+"Designed capacity" = "ความจุที่ออกแบบไว้"; // gemma4:31b
+"On hold" = "ระงับไว้"; // gemma4:31b
+"On battery" = "ใช้แบตเตอรี่"; // gemma4:31b
+"Plugged in" = "เสียบปลั๊กอยู่"; // gemma4:31b
+"Charging" = "กำลังชาร์จ"; // gemma4:31b
 
 // Bluetooth
 "No Bluetooth devices are available" = "ไม่มีอุปกรณ์ Bluetooth ที่ใช้งานได้";
@@ -448,6 +456,8 @@
 "Delete selected clock" = "ลบนาฬิกาที่เลือก"; // translategemma:4b
 "Help with datetime format" = "ความช่วยเหลือเกี่ยวกับรูปแบบวันที่และเวลา"; // gemma4:31b
 "Sync with NTP server" = "ซิงค์กับเซิร์ฟเวอร์ NTP"; // translategemma:4b
+"Previous month" = "เดือนก่อนหน้า"; // gemma4:31b
+"Next month" = "เดือนถัดไป"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "อ้างอิงจากการใช้งาน";

@@ -350,6 +350,12 @@
 "Show unknown sensors" = "Show unknown sensors";
 "Install fan helper" = "Install fan helper";
 "Uninstall fan helper" = "Uninstall fan helper";
+"Approve in System Settings ▸ Login Items" = "Approve in System Settings ▸ Login Items";
+"Fan helper needs your approval" = "Fan helper needs your approval";
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "To control the fans, enable Stats in System Settings ▸ Login Items.";
+"Open Login Items" = "Open Login Items";
+"Could not enable the fan helper" = "Could not enable the fan helper";
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again.";
 "Fan value" = "Fan value";
 "Turn off fan" = "Turn off fan";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "You are going to turn off the fan. This is not recommended action that can damage your Mac, are you sure you want to do that?";
@@ -417,7 +423,6 @@
 "Time to charge" = "Time to charge";
 "Calculating" = "Calculating";
 "Fully charged" = "Fully charged";
-"Not connected" = "Not connected";
 "Low level notification" = "Low level notification";
 "High level notification" = "High level notification";
 "Low battery" = "Low battery";
@@ -429,11 +434,14 @@
 "Time and percentage" = "Time and percentage";
 "Time format" = "Time format";
 "Hide additional information when full" = "Hide additional information when full";
-"Last charge" = "Last charge";
-"Capacity" = "Capacity";
-"current / maximum / designed" = "current / maximum / designed";
 "Percentage inside the icon" = "Percentage inside the icon";
 "Charger state inside the battery" = "Charger state inside the battery";
+"Max capacity" = "Max capacity";
+"Designed capacity" = "Designed capacity";
+"On hold" = "On hold";
+"On battery" = "On battery";
+"Plugged in" = "Plugged in";
+"Charging" = "Charging";
 
 // Bluetooth
 "No Bluetooth devices are available" = "No Bluetooth devices are available";
@@ -448,6 +456,8 @@
 "Delete selected clock" = "Delete selected clock";
 "Help with datetime format" = "Help with datetime format";
 "Sync with NTP server" = "Sync with NTP server";
+"Previous month" = "Previous month";
+"Next month" = "Next month";
 
 // Colors
 "Based on utilization" = "Based on utilisation";

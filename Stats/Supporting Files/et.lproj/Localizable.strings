@@ -350,6 +350,12 @@
 "Show unknown sensors" = "Näita tundmatuid sensoreid";
 "Install fan helper" = "Installi ventilaatoriabiline";
 "Uninstall fan helper" = "Desinstalli ventilaatoriabiline";
+"Approve in System Settings ▸ Login Items" = "Kinnita Süsteemi seadetes ▸ Sisselogimise üksused"; // gemma4:31b
+"Fan helper needs your approval" = "Ventilaatori abiutill vajab teie heaks kiitmist"; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "Ventilaatorite juhtimiseks aktiveeri Stats Süsteemi seadetes ▸ Sisselogimise üksused."; // gemma4:31b
+"Open Login Items" = "Ava sisselogimise üksused"; // gemma4:31b
+"Could not enable the fan helper" = "Ei õnnestunud ventilaatori abiutliiti aktiveerida"; // gemma4:31b
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "Ava Süsteemi seaded ▸ Logimise üksused, veendu, et Stats on lubatud taustal, seejärel proovi uuesti."; // gemma4:31b
 "Fan value" = "Ventilaatori väärtus";
 "Turn off fan" = "Lülita ventilaator välja";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Te kavatstate lülitada ventilator välja. See ei ole soovitatav tegevus, mis võib kahjustada teie Mac-i. Kas olete kindel, et soovite seda teha?";
@@ -417,7 +423,6 @@
 "Time to charge" = "Laadimise aeg";
 "Calculating" = "Arvutamine";
 "Fully charged" = "Laetud";
-"Not connected" = "Pole ühendatud";
 "Low level notification" = "Madala taseme märguanne";
 "High level notification" = "Kõrge taseme märguanne";
 "Low battery" = "Aku on tühjenemas";
@@ -429,11 +434,14 @@
 "Time and percentage" = "Aeg ja protsent";
 "Time format" = "Ajavorming";
 "Hide additional information when full" = "Peida lisateave, kui täis";
-"Last charge" = "Viimane laadimine";
-"Capacity" = "Mahutavus";
-"current / maximum / designed" = "praegune / maksimaalne / kavandatud";
 "Percentage inside the icon" = "Protsent ikooni sees";
 "Charger state inside the battery" = "Laadija olek aku sees";
+"Max capacity" = "Maksimaalne mahtuvus"; // gemma4:31b
+"Designed capacity" = "Projekteeritud maht"; // gemma4:31b
+"On hold" = "Ootel"; // gemma4:31b
+"On battery" = "Akul"; // gemma4:31b
+"Plugged in" = "Ühendatud"; // gemma4:31b
+"Charging" = "Laadimine"; // gemma4:31b
 
 // Bluetooth
 "No Bluetooth devices are available" = "Ükski Bluetoothi seade pole saadaval";
@@ -448,6 +456,8 @@
 "Delete selected clock" = "Kustuta valitud kell";
 "Help with datetime format" = "Abi ajavormingu määramisel";
 "Sync with NTP server" = "Sünkroniseerimine NTP-serveriga";
+"Previous month" = "Eelmine kuu"; // gemma4:31b
+"Next month" = "Järgmine kuu"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "Põhineb kasutusel";
@@ -477,7 +487,7 @@
 "Brown" = "Pruun";
 "Second brown" = "Teine pruun";
 "Cyan" = "Tsüaan";
-"Magenta" = "Magenta";
+"Magenta" = "Purpur"; // gemma4:31b
 "Pink" = "Roosa";
 "Teal" = "Türkiis"; // gemma4:31b
 "Indigo" = "Indigo";

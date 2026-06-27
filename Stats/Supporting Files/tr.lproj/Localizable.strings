@@ -350,6 +350,12 @@
 "Show unknown sensors" = "Bilinmeyen sensörleri göster";
 "Install fan helper" = "Fan yardımcısını kur";
 "Uninstall fan helper" = "Fan yardımcısını kaldır";
+"Approve in System Settings ▸ Login Items" = "Sistem Ayarları ▸ Oturum Açma Öğeleri'nde onayla"; // gemma4:31b
+"Fan helper needs your approval" = "Fan yardımcısı onayınızı gerektiriyor"; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "Fanları kontrol etmek için Stats'ı Sistem Ayarları ▸ Oturum Açma Öğeleri'nde etkinleştirin."; // gemma4:31b
+"Open Login Items" = "Oturum Açma Öğelerini Aç"; // gemma4:31b
+"Could not enable the fan helper" = "Fan yardımcısı etkinleştirilemedi"; // gemma4:31b
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "Sistem Ayarları ▸ Oturum Açma Öğeleri'ni açın, Stats'ın arka planda izin verildiğinden emin olun, ardından tekrar deneyin."; // gemma4:31b
 "Fan value" = "Fan değeri";
 "Turn off fan" = "Fanı kapat";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Fanı kapatacaksınız. Bu, Mac'inize zarar verebilecek bir eylemdir ve önerilmez. Bunu yapmak istediğinizden emin misiniz?";
@@ -417,7 +423,6 @@
 "Time to charge" = "Şarj olma süresi";
 "Calculating" = "Hesaplanıyor";
 "Fully charged" = "Tam dolu";
-"Not connected" = "Bağlı değil";
 "Low level notification" = "Düşük seviye bildirimi";
 "High level notification" = "Yüksek seviye bildirimi";
 "Low battery" = "Düşük batarya";
@@ -429,11 +434,14 @@
 "Time and percentage" = "Zaman ve yüzde";
 "Time format" = "Zaman biçimi";
 "Hide additional information when full" = "Pil dolduğunda ek bilgileri gizle";
-"Last charge" = "Son şarj";
-"Capacity" = "Kapasite";
-"current / maximum / designed" = "mevcut / maksimum / tasarlanmış";
 "Percentage inside the icon" = "Simgenin içinde yüzde";
 "Charger state inside the battery" = "Pil içindeki şarj cihazının durumu";
+"Max capacity" = "Maksimum kapasite"; // gemma4:31b
+"Designed capacity" = "Tasarım kapasitesi"; // gemma4:31b
+"On hold" = "Beklemede"; // gemma4:31b
+"On battery" = "Pilde"; // gemma4:31b
+"Plugged in" = "Takılı"; // gemma4:31b
+"Charging" = "Şarj oluyor"; // gemma4:31b
 
 // Bluetooth
 "No Bluetooth devices are available" = "Herhangi bir Bluetooth cihazı mevcut değil";
@@ -448,6 +456,8 @@
 "Delete selected clock" = "Seçili saati sil";
 "Help with datetime format" = "Tarih-saat biçimiyle ilgili yardım";
 "Sync with NTP server" = "NTP sunucusu ile senkronize et"; // gemma4:31b
+"Previous month" = "Önceki ay"; // gemma4:31b
+"Next month" = "Gelecek ay"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "Kullanıma dayalı";

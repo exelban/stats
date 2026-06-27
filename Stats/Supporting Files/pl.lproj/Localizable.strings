@@ -70,7 +70,7 @@
 "Logarithmic" = "Logarytmiczne";
 "Fixed scale" = "Stałe";
 "Cores" = "Rdzeni";
-"Core" = "Rdzeń"; // translategemma:4b
+"Core" = "Rdzeń";
 "Settings" = "Ustawienia";
 "Name" = "Nazwa";
 "Format" = "Format";
@@ -184,7 +184,7 @@
 // Widgets
 "Color" = "Kolor";
 "Label" = "Etykieta";
-"Box" = "Pudełko"; // translategemma:4b
+"Box" = "Pudełko";
 "Frame" = "Ramka";
 "Value" = "Wartość";
 "Colorize" = "Kolorowanie";
@@ -350,6 +350,12 @@
 "Show unknown sensors" = "Pokaż nieznane czujniki";
 "Install fan helper" = "Zainstaluj narzędzie do wentylatora";
 "Uninstall fan helper" = "Odinstaluj narzędzie do wentylatora";
+"Approve in System Settings ▸ Login Items" = "Zatwierdź w Ustawieniach systemowych ▸ Elementy logowania";
+"Fan helper needs your approval" = "Narzędzie do wentylatora potrzebuje zgody";
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "Aby sterować wentylatorami, włącz Stats w Ustawieniach systemowych ▸ Elementy logowania.";
+"Open Login Items" = "Otwórz elementy logowania";
+"Could not enable the fan helper" = "Nie można włączyć narzędzia do wentylatora";
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "Otwórz Ustawienia systemowe ▸ Elementy logowania, upewnij się, że Stats są dozwolone w tle, a następnie spróbuj ponownie.";
 "Fan value" = "Wartość wentylatora";
 "Turn off fan" = "Wyłączyć wentylator";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Zamierzasz wyłączyć wentylator. To nie jest zalecana czynność, która może spowodować uszkodzenie komputera Mac. Czy na pewno chcesz to zrobić?";
@@ -417,7 +423,6 @@
 "Time to charge" = "Czas do naładowania";
 "Calculating" = "Obliczanie";
 "Fully charged" = "W pełni naładowana";
-"Not connected" = "Nie podłączona";
 "Low level notification" = "Powiadomienie o niskim poziomie";
 "High level notification" = "Powiadomienie o wysokim poziomie";
 "Low battery" = "Niski poziom baterii";
@@ -429,11 +434,14 @@
 "Time and percentage" = "Czas i procenty";
 "Time format" = "Format czasu";
 "Hide additional information when full" = "Ukryj dodatkowe informacje, gdy bateria jest naładowana";
-"Last charge" = "Ostatnie ładowanie";
-"Capacity" = "Pojemność";
-"current / maximum / designed" = "aktualna / maksymalna / zaprojektowana";
 "Percentage inside the icon" = "Procent wewnątrz ikony";
 "Charger state inside the battery" = "Stan ładowania wewnątrz akumulatora";
+"Max capacity" = "Maksymalna pojemność";
+"Designed capacity" = "Zaprojektowana pojemność";
+"On hold" = "Wstrzymane";
+"On battery" = "Na baterii";
+"Plugged in" = "Podłączony";
+"Charging" = "Ładowanie";
 
 // Bluetooth
 "No Bluetooth devices are available" = "Brak dostępnych urządzeń Bluetooth";
@@ -448,6 +456,8 @@
 "Delete selected clock" = "Usuń wybrany zegar";
 "Help with datetime format" = "Pomoc z formatem daty i godziny";
 "Sync with NTP server" = "Synchronizacja z serwerem NTP";
+"Previous month" = "Poprzedni miesiąc";
+"Next month" = "Przyszły miesiąc";
 
 // Colors
 "Based on utilization" = "Na podstawie wykorzystania";

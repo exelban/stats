@@ -350,6 +350,12 @@
 "Show unknown sensors" = "Ismeretlen szenzorok megjelenítése";
 "Install fan helper" = "Ventilátor segítő telepítése";
 "Uninstall fan helper" = "Ventilátor segítő törlése";
+"Approve in System Settings ▸ Login Items" = "Hagyja jóvá a Rendszerbeállítások ▸ Bejelentkezési elemek"; // gemma4:31b
+"Fan helper needs your approval" = "A ventilátor-segédprogramnak szükség van az Ön jóváhagyására"; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "A ventilátorok vezérléséhez engedélyezze a Stats-t a Rendszerbeállítások ▸ Bejelentkezési elemekben."; // gemma4:31b
+"Open Login Items" = "Nyisd meg a bejelentkezési elemeket"; // gemma4:31b
+"Could not enable the fan helper" = "Nem sikerült aktiválni a ventilátor segédprogramot"; // gemma4:31b
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "Nyissa meg a Rendszerbeállítások ▸ Bejelentkezési elemek menüt, győződjön meg róla, hogy a Stats engedélyezve van a háttérben, majd próbálja újra."; // gemma4:31b
 "Fan value" = "Ventilátor érték";
 "Turn off fan" = "Ventilátor kikapcsolása";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "A ventilátor ki lesz kapcsolva. Ez a művelet károsíthatja a macjét, ezért nem ajánlott. Biztosan ki akarja kapcsolni a ventilátort?";
@@ -417,7 +423,6 @@
 "Time to charge" = "Idő a feltöltésig";
 "Calculating" = "Kiszámítás";
 "Fully charged" = "Teljesen feltöltve";
-"Not connected" = "Nincs csatlakoztatva";
 "Low level notification" = "Alacsony töltöttség értesítés";
 "High level notification" = "Magas töltöttség értesítés";
 "Low battery" = "Alacsony akkumulátor töltöttség";
@@ -429,11 +434,14 @@
 "Time and percentage" = "Időtartam és százalék";
 "Time format" = "Időformátum";
 "Hide additional information when full" = "További információk elrejtése, ha teljesen fel van töltve";
-"Last charge" = "Utolsó töltés";
-"Capacity" = "Kapacitás";
-"current / maximum / designed" = "jelenlegi / maximum / gyári";
 "Percentage inside the icon" = "Százalék megjelenítése az ikonban";
 "Charger state inside the battery" = "Töltési állapot az akkumulátoron belül"; // gemma4:31b
+"Max capacity" = "Maximális kapacitás"; // gemma4:31b
+"Designed capacity" = "Tervezett kapacitás"; // gemma4:31b
+"On hold" = "Várakozásban"; // gemma4:31b
+"On battery" = "Akkumulátorról"; // gemma4:31b
+"Plugged in" = "Csatlakoztatva"; // gemma4:31b
+"Charging" = "Töltés"; // gemma4:31b
 
 // Bluetooth
 "No Bluetooth devices are available" = "Nincs elérhető Bluetooth eszköz";
@@ -448,6 +456,8 @@
 "Delete selected clock" = "Töröld a kiválasztott órát"; // gemma4:31b
 "Help with datetime format" = "Segítség a dátum- és időformátumhoz"; // gemma4:31b
 "Sync with NTP server" = "Szinkronizálás NTP szerverrel"; // gemma4:31b
+"Previous month" = "Elmúlt hónap"; // gemma4:31b
+"Next month" = "Következő hónap"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "Használat függő";

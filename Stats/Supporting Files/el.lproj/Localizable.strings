@@ -350,6 +350,12 @@
 "Show unknown sensors" = "Εμφάνιση άγνωστους αισθητήρες";
 "Install fan helper" = "Εγκατάσταση fan helper";
 "Uninstall fan helper" = "Απεγκατάσταση fan helper";
+"Approve in System Settings ▸ Login Items" = "Εγκρίνετε στις Ρυθμίσεις συστήματος ▸ Αντικείμενα σύνθεσης"; // gemma4:31b
+"Fan helper needs your approval" = "Ο βοηθός ανεμιστήρα χρειάζεται την έγκρισή σας"; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "Για να ελέγξετε τους ανεμιστήρες, ενεργοποιήστε το Stats στις Ρυθμίσεις συστήματος ▸ Αντικείμενα σύνθεσης."; // gemma4:31b
+"Open Login Items" = "Άνοιξε τα Αντικείμενα σύνθεσης"; // gemma4:31b
+"Could not enable the fan helper" = "Δεν ήταν δυνατή η ενεργοποίηση του βοηθητικού προγράμματος του ανεμιστήρα"; // gemma4:31b
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "Ανοίξτε τις Ρυθμίσεις συστήματος ▸ Αντικείμενα σύνδεσης, βεβαιωθείτε ότι το Stats είναι επιτρεπτό στο παρασκήνιο, και στη συνέχεια δοκιμάστε ξανά."; // gemma4:31b
 "Fan value" = "Τιμή ανεμιστήρα"; // gemma4:31b
 "Turn off fan" = "Απενεργοποίηση ανεμιστήρα"; // gemma4:31b
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Πρόκειται να απενεργοποιήσετε τον ανεμιστήρα. Αυτή είναι μια μη προτεινόμενη ενέργεια που μπορεί να προκαλέσει βλάβη στον Mac σας, είστε σίγουροι ότι θέλετε να το κάνετε αυτό;"; // gemma4:31b
@@ -417,7 +423,6 @@
 "Time to charge" = "Χρόνος φόρτισης";
 "Calculating" = "Υπολογίζεται";
 "Fully charged" = "Πλήρως φορτισμένη";
-"Not connected" = "Δεν συνδέθηκε";
 "Low level notification" = "Ειδοποίηση χαμηλού επιπέδου μπαταρίας";
 "High level notification" = "Ειδοποίηση υψηλού επιπέδου μπαταρίας";
 "Low battery" = "Χαμηλή μπαταρία";
@@ -429,11 +434,14 @@
 "Time and percentage" = "Ώρα και ποσοστό";
 "Time format" = "Μορφή ώρας";
 "Hide additional information when full" = "Απόκρυψη επιπρόσθετων πληροφοριών όταν γεμίσει";
-"Last charge" = "Τελευταία φόρτιση";
-"Capacity" = "Χωρητικότητα";
-"current / maximum / designed" = "τρέχουσα / μέγιστη / σχεδιασμένη";
 "Percentage inside the icon" = "Ποσοστό μέσα στο εικονίδιο";
 "Charger state inside the battery" = "Κατάσταση φόρτισης εντός της μπαταρίας"; // gemma4:31b
+"Max capacity" = "Μέγιστη χωρητικότητα"; // gemma4:31b
+"Designed capacity" = "Σχεδιασμένη χωρητικότητα"; // gemma4:31b
+"On hold" = "Σε αναμονή"; // gemma4:31b
+"On battery" = "Με μπαταρία"; // gemma4:31b
+"Plugged in" = "Συνδεδεμένο"; // gemma4:31b
+"Charging" = "Φόρτιση"; // gemma4:31b
 
 // Bluetooth
 "No Bluetooth devices are available" = "Καμία συσκευή Bluetooth δεν είναι διαθέσιμη";
@@ -448,6 +456,8 @@
 "Delete selected clock" = "Διαγραφή επιλεγμένου ρολογιού"; // gemma4:31b
 "Help with datetime format" = "Βοήθεια για τη μορφή ημερομηνίας και ώρας"; // gemma4:31b
 "Sync with NTP server" = "Συγχρονισμός με διακομιστή NTP"; // gemma4:31b
+"Previous month" = "Προηγούμενος μήνας"; // gemma4:31b
+"Next month" = "Επόμενος μήνας"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "Βάσει της χρήσης";

@@ -350,6 +350,12 @@
 "Show unknown sensors" = "Unbekannte Sensoren anzeigen";
 "Install fan helper" = "Lüfter-Hilfsprogramm installieren";
 "Uninstall fan helper" = "Lüfter-Hilfsprogramm deinstallieren";
+"Approve in System Settings ▸ Login Items" = "Bestätigen in den Systemeinstellungen ▸ Anmeldeobjekte"; // gemma4:31b
+"Fan helper needs your approval" = "Lüfter-Hilfsprogramm benötigt Ihre Zustimmung"; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "Um die Lüfter zu steuern, aktivieren Sie Stats in den Systemeinstellungen ▸ Anmeldeobjekte."; // gemma4:31b
+"Open Login Items" = "Anmeldeobjekte öffnen"; // gemma4:31b
+"Could not enable the fan helper" = "Konnte den Lüfter-Helper nicht aktivieren"; // gemma4:31b
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "Öffne die Systemeinstellungen ▸ Anmeldeobjekte, stelle sicher, dass Stats im Hintergrund erlaubt ist, und versuche es dann erneut."; // gemma4:31b
 "Fan value" = "Lüfterwert";
 "Turn off fan" = "Lüfter ausschalten";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Sie sind dabei, den Lüfter auszuschalten. Dies ist keine empfohlene Aktion und kann Ihren Mac beschädigen. Sind Sie sicher, dass Sie das tun möchten?";
@@ -417,7 +423,6 @@
 "Time to charge" = "Zeit bis zur Aufladung";
 "Calculating" = "Berechnung läuft";
 "Fully charged" = "Vollständig geladen";
-"Not connected" = "Nicht verbunden";
 "Low level notification" = "Benachrichtigung bei niedrigem Ladezustand";
 "High level notification" = "Benachrichtigung bei hohem Ladezustand";
 "Low battery" = "Niedriger Ladezustand";
@@ -429,11 +434,14 @@
 "Time and percentage" = "Zeit und Prozent";
 "Time format" = "Zeitformat";
 "Hide additional information when full" = "Zusätzliche Informationen bei voller Ladung ausblenden";
-"Last charge" = "Letzte Ladung";
-"Capacity" = "Kapazität";
-"current / maximum / designed" = "aktuell / maximal / geplant";
 "Percentage inside the icon" = "Prozentanzeige im Symbol";
 "Charger state inside the battery" = "Ladegerätestatus im Batteriesymbol";
+"Max capacity" = "Maximale Kapazität"; // gemma4:31b
+"Designed capacity" = "Designkapazität"; // gemma4:31b
+"On hold" = "In Wartestellung"; // gemma4:31b
+"On battery" = "Im Batteriebetrieb"; // gemma4:31b
+"Plugged in" = "Angeschlossen"; // gemma4:31b
+"Charging" = "Laden"; // gemma4:31b
 
 // Bluetooth
 "No Bluetooth devices are available" = "Keine Bluetooth-Geräte verfügbar";
@@ -448,6 +456,8 @@
 "Delete selected clock" = "Ausgewählte Uhr löschen";
 "Help with datetime format" = "Hilfe zum Datums-/Zeitformat";
 "Sync with NTP server" = "Synchronisation mit NTP-Server"; // gemma4:31b
+"Previous month" = "Vorheriger Monat"; // gemma4:31b
+"Next month" = "Nächster Monat"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "Nach Auslastung";

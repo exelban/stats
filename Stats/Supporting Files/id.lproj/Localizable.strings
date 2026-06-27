@@ -350,6 +350,12 @@
 "Show unknown sensors" = "Tampilkan sensor tidak dikenal"; // gemma4:31b
 "Install fan helper" = "Instal pembantu kipas"; // gemma4:31b
 "Uninstall fan helper" = "Hapus instalasi pembantu kipas"; // gemma4:31b
+"Approve in System Settings ▸ Login Items" = "Setujui di Pengaturan Sistem ▸ Item Login"; // gemma4:31b
+"Fan helper needs your approval" = "Alat bantu kipas membutuhkan persetujuan Anda"; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "Untuk mengontrol kipas, aktifkan Stats di Pengaturan Sistem ▸ Item Login."; // gemma4:31b
+"Open Login Items" = "Buka Item Login"; // gemma4:31b
+"Could not enable the fan helper" = "Tidak dapat mengaktifkan helper kipas"; // gemma4:31b
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "Buka Pengaturan Sistem ▸ Item Login, pastikan Stats diizinkan di latar belakang, kemudian coba lagi."; // gemma4:31b
 "Fan value" = "Nilai kipas"; // gemma4:31b
 "Turn off fan" = "Matikan kipas"; // translategemma:4b
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Anda akan mematikan kipas. Ini adalah tindakan yang tidak direkomendasikan yang dapat merusak Mac Anda, apakah Anda yakin ingin melakukannya?"; // gemma4:31b
@@ -417,7 +423,6 @@
 "Time to charge" = "Waktu untuk mengisi daya";
 "Calculating" = "Menghitung";
 "Fully charged" = "Terisi penuh";
-"Not connected" = "Tidak terhubung";
 "Low level notification" = "Notifikasi tingkat rendah";
 "High level notification" = "Notifikasi tingkat tinggi";
 "Low battery" = "Baterai lemah";
@@ -429,11 +434,14 @@
 "Time and percentage" = "Waktu dan persentase";
 "Time format" = "Format waktu";
 "Hide additional information when full" = "Sembunyikan informasi tambahan ketika penuh";
-"Last charge" = "Terakhir diisi";
-"Capacity" = "Kapasitas";
-"current / maximum / designed" = "current / maksimal / dirancang";
 "Percentage inside the icon" = "Persentase di dalam ikon"; // translategemma:4b
 "Charger state inside the battery" = "Status pengisian daya di dalam baterai"; // translategemma:4b
+"Max capacity" = "Kapasitas maksimum"; // gemma4:31b
+"Designed capacity" = "Kapasitas desain"; // gemma4:31b
+"On hold" = "Ditangguhkan"; // gemma4:31b
+"On battery" = "Menggunakan baterai"; // gemma4:31b
+"Plugged in" = "Tersambung"; // gemma4:31b
+"Charging" = "Mengisi daya"; // gemma4:31b
 
 // Bluetooth
 "No Bluetooth devices are available" = "Tidak ada perangkat bluetooth yang tersedia";
@@ -448,6 +456,8 @@
 "Delete selected clock" = "Hapus jam yang dipilih"; // translategemma:4b
 "Help with datetime format" = "Bantuan untuk format tanggal dan waktu"; // gemma4:31b
 "Sync with NTP server" = "Sinkronisasi dengan server NTP"; // gemma4:31b
+"Previous month" = "Bulan sebelumnya"; // gemma4:31b
+"Next month" = "Bulan depan"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "Berdasarkan pemanfaatan";

@@ -350,6 +350,12 @@
 "Show unknown sensors" = "अज्ञात सेंसर दिखाएं";
 "Install fan helper" = "फैन हेल्पर स्थापित करें";
 "Uninstall fan helper" = "फैन हेल्पर की स्थापना रद्द करें";
+"Approve in System Settings ▸ Login Items" = "सिस्टम सेटिंग्स ▸ लॉगिन आइटम में अनुमोदित करें"; // gemma4:31b
+"Fan helper needs your approval" = "फैन हेल्पर को आपकी अनुमति की आवश्यकता है"; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "पंखों को नियंत्रित करने के लिए, सिस्टम सेटिंग्स ▸ लॉगिन आइटम में Stats को सक्षम करें।"; // gemma4:31b
+"Open Login Items" = "लॉगिन आइटम खोलें"; // gemma4:31b
+"Could not enable the fan helper" = "फैन हेल्पर को सक्षम नहीं किया जा सका"; // gemma4:31b
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "सिस्टम सेटिंग्स ▸ लॉगिन आइटम खोलें, सुनिश्चित करें कि Stats को बैकग्राउंड में अनुमति दी गई है, फिर से प्रयास करें।"; // gemma4:31b
 "Fan value" = "फैन वैल्यू";
 "Turn off fan" = "पंखा बंद करें";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "आप पंखे को बंद करने जा रहे हैं। यह अनुशंसित कार्रवाई नहीं है जो आपके मैक को नुकसान पहुंचा सकती है, क्या आप वाकई ऐसा करना चाहते हैं?";
@@ -417,7 +423,6 @@
 "Time to charge" = "चार्ज करने का समय";
 "Calculating" = "गणना";
 "Fully charged" = "पूरी तरह से चार्ज";
-"Not connected" = "कनेक्ट डे नहीं";
 "Low level notification" = "निम्न स्तरीय अधिसूचना";
 "High level notification" = "उच्च स्तरीय अधिसूचना";
 "Low battery" = "कम बैटरी";
@@ -429,11 +434,14 @@
 "Time and percentage" = "समय और प्रतिशत";
 "Time format" = "समय प्रारूप";
 "Hide additional information when full" = "पूर्ण होने पर अतिरिक्त जानकारी छिपाएं";
-"Last charge" = "अंतिम शुल्क";
-"Capacity" = "क्षमता";
-"current / maximum / designed" = "वर्तमान / अधिकतम / डिजाइन";
 "Percentage inside the icon" = "आइकन के अंदर प्रतिशत";
 "Charger state inside the battery" = "बैटरी के अंदर चार्जर की स्थिति"; // translategemma:4b
+"Max capacity" = "अधिकतम क्षमता"; // gemma4:31b
+"Designed capacity" = "डिज़ाइन की गई क्षमता"; // gemma4:31b
+"On hold" = "रोका गया"; // gemma4:31b
+"On battery" = "बैटरी पर"; // gemma4:31b
+"Plugged in" = "प्लग किया हुआ"; // gemma4:31b
+"Charging" = "चार्ज हो रहा है"; // gemma4:31b
 
 // Bluetooth
 "No Bluetooth devices are available" = "कोई ब्लूटूथ डिवाइस उपलब्ध नहीं हैं";
@@ -448,6 +456,8 @@
 "Delete selected clock" = "चयनित घड़ी हटाएँ"; // gemma4:31b
 "Help with datetime format" = "दिनांक और समय प्रारूप के लिए सहायता"; // gemma4:31b
 "Sync with NTP server" = "NTP सर्वर के साथ सिंक्रनाइज़ेशन"; // gemma4:31b
+"Previous month" = "पिछला महीना"; // gemma4:31b
+"Next month" = "अगला महीना"; // gemma4:31b
 
 // Colors
 "Based on utilization" = "उपयोग के आधार पर";
