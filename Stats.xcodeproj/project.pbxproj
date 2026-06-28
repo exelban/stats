@@ -530,7 +530,6 @@
 
 /* Begin PBXFileReference section */
 		0192A7ED2B017E190056F918 /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/Localizable.strings; sourceTree = "<group>"; };
-		5CB2A7D12F1C3E4B00AD8912 /* bn */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = bn; path = bn.lproj/Localizable.strings; sourceTree = "<group>"; };
 		13BE56042D0E6963001C58EC /* en-AU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-AU"; path = "en-AU.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		2658929724FC0F3B00FB3B6A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		29AA17CA2926879000709C01 /* fa */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fa; path = fa.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -595,6 +594,7 @@
 		5C9F90A02A76B30500D41748 /* et */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = et; path = et.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5CA518372B543FE600EBCCC4 /* portal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = portal.swift; sourceTree = "<group>"; };
 		5CAA50712C8E417700B13E13 /* Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
+		5CB2A7D12F1C3E4B00AD8912 /* bn */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = bn; path = bn.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5CB387892C35A7110030459D /* widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widget.swift; sourceTree = "<group>"; };
 		5CC3B4E42F5A032E00775E2C /* reader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = reader.swift; sourceTree = "<group>"; };
 		5CC804292F7EDECA00B78DC7 /* bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bridge.h; sourceTree = "<group>"; };
@@ -1502,6 +1502,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5CE7E7A02C318513006BC92C /* Build configuration list for PBXNativeTarget "WidgetsExtension" */;
 			buildPhases = (
+				5CC0857F2C419E4B00910F90 /* Set widgets extension version */,
 				5CE7E7862C318512006BC92C /* Sources */,
 				5CE7E7872C318512006BC92C /* Frameworks */,
 				5CE7E7882C318512006BC92C /* Resources */,
@@ -1582,7 +1583,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9A141105229E721200D29793 /* Build configuration list for PBXNativeTarget "Stats" */;
 			buildPhases = (
-				5CC0857F2C419E4B00910F90 /* Set widgets extension version */,
 				9A1410F1229E721100D29793 /* Sources */,
 				9A1410F2229E721100D29793 /* Frameworks */,
 				9A1410F3229E721100D29793 /* Resources */,
@@ -1835,7 +1835,7 @@
 					New,
 				);
 				LastSwiftUpdateCheck = 2650;
-				LastUpgradeCheck = 2650;
+				LastUpgradeCheck = 2660;
 				ORGANIZATIONNAME = "Serhiy Mytrovtsiy";
 				TargetAttributes = {
 					5C22299C29CCB3C400F00E69 = {
@@ -2114,15 +2114,18 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/Stats.xcodeproj/project.pbxproj",
+				"$(SRCROOT)/Stats/Supporting Files/Info.plist",
 			);
 			name = "Set widgets extension version";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$(SRCROOT)/Widgets/Supporting Files/Info.plist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "MARKETING_VERSION=$(/usr/libexec/PlistBuddy -c 'print :objects:9A141107229E721200D29793:buildSettings:MARKETING_VERSION' \"$(PWD)/Stats.xcodeproj/project.pbxproj\")\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $MARKETING_VERSION\" \"$(PWD)/Widgets/Supporting Files/Info.plist\"\nBUNDLE_VERSION=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$(PWD)/Stats/Supporting Files/Info.plist\")\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $BUNDLE_VERSION\" \"$(PWD)/Widgets/Supporting Files/Info.plist\"\n";
+			shellScript = "MARKETING_VERSION=$(/usr/libexec/PlistBuddy -c 'print :objects:9A141107229E721200D29793:buildSettings:MARKETING_VERSION' \"${SRCROOT}/Stats.xcodeproj/project.pbxproj\")\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $MARKETING_VERSION\" \"${SRCROOT}/Widgets/Supporting Files/Info.plist\"\nBUNDLE_VERSION=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${SRCROOT}/Stats/Supporting Files/Info.plist\")\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $BUNDLE_VERSION\" \"${SRCROOT}/Widgets/Supporting Files/Info.plist\"\n";
 		};
 		9A88E2672659002E00E2B7B0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3117,7 +3120,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = 3.0.4;
+				MARKETING_VERSION = 3.0.5;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3154,7 +3157,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = 3.0.4;
+				MARKETING_VERSION = 3.0.5;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats;
 				PRODUCT_NAME = "$(TARGET_NAME)";

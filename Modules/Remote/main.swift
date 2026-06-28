@@ -254,17 +254,17 @@ public class Remote: Module {
 
 extension SystemStats {
     internal func fetchMachines() async -> [RemoteMachine] {
-        await self.fetchListAsync(path: "/machine")
+        await self.fetchListAsync(path: "/v1/machine")
     }
     internal func fetchHosts(historyWindow: String = "") async -> [RemoteHost] {
-        let path = historyWindow.isEmpty ? "/host" : "/host?history=\(historyWindow)"
+        let path = historyWindow.isEmpty ? "/v1/host" : "/v1/host?history=\(historyWindow)"
         return await self.fetchListAsync(path: path)
     }
     internal func fetchGroups() async -> [RemoteGroup] {
         await self.fetchListAsync(path: "/v1/group")
     }
     internal func fetchAccountOrder() async -> RemoteAccountOrder {
-        guard let request = self.authorizedGET("/account") else {
+        guard let request = self.authorizedGET("/v1/account") else {
             return RemoteAccountOrder(machines: [], hosts: [])
         }
         guard let (data, response) = try? await self.session.data(for: request),
@@ -293,11 +293,11 @@ extension SystemStats {
     }
     
     internal func fetchMachines(completion: @escaping ([RemoteMachine]) -> Void) {
-        self.fetchList(path: "/machine", completion: completion)
+        self.fetchList(path: "/v1/machine", completion: completion)
     }
     
     internal func fetchHosts(historyWindow: String? = nil, completion: @escaping ([RemoteHost]) -> Void) {
-        var path = "/host"
+        var path = "/v1/host"
         if let window = historyWindow, !window.isEmpty {
             path += "?history=\(window)"
         }
@@ -309,7 +309,7 @@ extension SystemStats {
     }
     
     internal func fetchAccountOrder(completion: @escaping (RemoteAccountOrder) -> Void) {
-        guard self.isAuthorized, let url = URL(string: "\(SystemStats.host)/account") else {
+        guard self.isAuthorized, let url = URL(string: "\(SystemStats.host)/v1/account") else {
             DispatchQueue.main.async { completion(RemoteAccountOrder(machines: [], hosts: [])) }
             return
         }
@@ -405,7 +405,7 @@ public final class RemoteMachineStream: NSObject, URLSessionDataDelegate {
     }
     
     private func openConnection() {
-        guard !self.stopped, SystemStats.shared.isAuthorized, let url = URL(string: "\(SystemStats.host)/machine/\(self.machineID)/sse") else { return }
+        guard !self.stopped, SystemStats.shared.isAuthorized, let url = URL(string: "\(SystemStats.host)/v1/machine/\(self.machineID)/sse") else { return }
         
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = .infinity

@@ -4,11 +4,12 @@ BUNDLE_ID = eu.exelban.$(APP)
 BUILD_PATH = $(PWD)/build
 APP_PATH = "$(BUILD_PATH)/$(APP).app"
 ZIP_PATH = "$(BUILD_PATH)/$(APP).zip"
+WIDGET_PATH = "$(BUILD_PATH)/$(APP).app/Contents/PlugIns/WidgetsExtension.appex"
 
-.SILENT: archive notarize sign prepare-dmg prepare-dSYM clean next-version check history disk smc leveldb
-.PHONY: build archive notarize sign prepare-dmg prepare-dSYM clean next-version check history open smc leveldb
+.SILENT: archive notarize sign verify prepare-dmg prepare-dSYM clean next-version check history disk smc leveldb
+.PHONY: build archive notarize sign verify prepare-dmg prepare-dSYM clean next-version check history open smc leveldb
 
-build: clean next-version archive notarize sign prepare-dmg prepare-dSYM open
+build: clean next-version archive notarize sign verify prepare-dmg prepare-dSYM open
 
 # --- MAIN WORLFLOW FUNCTIONS --- #
 
@@ -50,6 +51,36 @@ sign:
 
 	osascript -e 'display notification "Stats successfully stapled" with title "Build the Stats"'
 	echo "Stats successfully stapled"
+
+verify:
+	echo "Verifying widget extension..."
+
+	if [ ! -d $(WIDGET_PATH) ]; then \
+		echo "ERROR: widget extension is missing at $(WIDGET_PATH)"; \
+		exit 1; \
+	fi
+
+	marketingVersion=$$(/usr/libexec/PlistBuddy -c "print :objects:9A141107229E721200D29793:buildSettings:MARKETING_VERSION" "$(PWD)/Stats.xcodeproj/project.pbxproj") ;\
+	appShort=$$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "$(BUILD_PATH)/$(APP).app/Contents/Info.plist") ;\
+	appBuild=$$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "$(BUILD_PATH)/$(APP).app/Contents/Info.plist") ;\
+	widgetShort=$$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "$(BUILD_PATH)/$(APP).app/Contents/PlugIns/WidgetsExtension.appex/Contents/Info.plist") ;\
+	widgetBuild=$$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "$(BUILD_PATH)/$(APP).app/Contents/PlugIns/WidgetsExtension.appex/Contents/Info.plist") ;\
+	echo "Declared: $$marketingVersion" ;\
+	echo "App:    $$appShort ($$appBuild)" ;\
+	echo "Widget: $$widgetShort ($$widgetBuild)" ;\
+	if [ "$$appShort" != "$$marketingVersion" ]; then \
+		echo "ERROR: built app version ($$appShort) does not match the declared MARKETING_VERSION ($$marketingVersion)." ;\
+		exit 1; \
+	fi ;\
+	if [ "$$appShort" != "$$widgetShort" ] || [ "$$appBuild" != "$$widgetBuild" ]; then \
+		echo "ERROR: widget extension version ($$widgetShort/$$widgetBuild) does not match app version ($$appShort/$$appBuild)." ;\
+		echo "PluginKit keys widgets on bundle-id + version; a stale version makes the widget disappear from the picker after update." ;\
+		exit 1; \
+	fi
+
+	codesign --verify --strict $(WIDGET_PATH) || { echo "ERROR: widget extension code signature is invalid"; exit 1; }
+
+	echo "Widget extension verified successfully"
 
 prepare-dmg:
 	if [ ! -d $(PWD)/create-dmg ]; then \

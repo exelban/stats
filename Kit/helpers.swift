@@ -204,6 +204,8 @@ public struct Units {
     private func formatSpeedValue(_ value: Double) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
+        formatter.decimalSeparator = "."
+        formatter.usesGroupingSeparator = false
         formatter.minimumFractionDigits = 0
         
         switch value {

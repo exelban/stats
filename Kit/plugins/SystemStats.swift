@@ -230,7 +230,7 @@ public class SystemStats {
         self.lastRegisterTime = now
         self.cooldownLock.unlock()
         
-        guard let url = URL(string: "\(SystemStats.host)/machine") else { return }
+        guard let url = URL(string: "\(SystemStats.host)/v1/machine") else { return }
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -287,7 +287,7 @@ public class SystemStats {
     }
     
     private func fetchAccount() {
-        guard let url = URL(string: "\(SystemStats.host)/account") else { return }
+        guard let url = URL(string: "\(SystemStats.host)/v1/account") else { return }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"

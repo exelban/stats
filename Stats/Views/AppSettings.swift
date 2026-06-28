@@ -178,6 +178,7 @@ class ApplicationSettings: NSStackView {
         self.remoteView?.setRowVisibility(4, newState: false)
         self.remoteView?.setRowVisibility(5, newState: false)
         self.remoteView?.setRowVisibility(6, newState: false)
+        self.remoteView?.setRowVisibility(7, newState: false)
         
         scrollView.stackView.addArrangedSubview(PreferencesSection(title: localizedString("Settings"), [
             PreferencesRow(
@@ -517,6 +518,7 @@ class ApplicationSettings: NSStackView {
                 self.remoteView?.setRowVisibility(3, newState: true)
                 self.remoteView?.setRowVisibility(4, newState: true)
                 self.remoteView?.setRowVisibility(5, newState: true)
+                self.remoteView?.setRowVisibility(6, newState: true)
                 self.remoteView?.setRowVisibility(0, newState: false)
             } else {
                 self.remoteView?.setRowVisibility(0, newState: true)
@@ -525,6 +527,7 @@ class ApplicationSettings: NSStackView {
                 self.remoteView?.setRowVisibility(3, newState: false)
                 self.remoteView?.setRowVisibility(4, newState: false)
                 self.remoteView?.setRowVisibility(5, newState: false)
+                self.remoteView?.setRowVisibility(6, newState: false)
             }
         }
     }
