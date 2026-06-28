@@ -1,0 +1,483 @@
+//
+//  Localizable.strings
+//  Stats
+//
+//  Created by Adnan on 21/06/2026.
+//  Using Swift 5.0.
+//  Running on macOS 10.15.
+//
+//  Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.
+//
+
+// Modules
+"CPU" = "CPU";
+"Open CPU settings" = "CPU সেটিংস খুলুন";
+"GPU" = "GPU";
+"Open GPU settings" = "GPU সেটিংস খুলুন";
+"RAM" = "RAM";
+"Open RAM settings" = "RAM সেটিংস খুলুন";
+"Disk" = "ডিস্ক";
+"Open Disk settings" = "ডিস্ক সেটিংস খুলুন";
+"Sensors" = "সেন্সর";
+"Open Sensors settings" = "সেন্সর সেটিংস খুলুন";
+"Network" = "নেটওয়ার্ক";
+"Open Network settings" = "নেটওয়ার্ক সেটিংস খুলুন";
+"Battery" = "ব্যাটারি";
+"Open Battery settings" = "ব্যাটারি সেটিংস খুলুন";
+"Bluetooth" = "ব্লুটুথ";
+"Open Bluetooth settings" = "ব্লুটুথ সেটিংস খুলুন";
+"Clock" = "ঘড়ি";
+"Open Clock settings" = "ঘড়ি সেটিংস খুলুন";
+
+// Words
+"Unknown" = "অজানা";
+"Version" = "সংস্করণ";
+"Processor" = "প্রসেসর";
+"Memory" = "মেমোরি";
+"Graphics" = "গ্রাফিক্স";
+"Close" = "বন্ধ করুন";
+"Download" = "ডাউনলোড";
+"Install" = "ইনস্টল করুন";
+"Cancel" = "বাতিল";
+"Unavailable" = "অনুপলব্ধ";
+"Yes" = "হ্যাঁ";
+"No" = "না";
+"Automatic" = "স্বয়ংক্রিয়";
+"Manual" = "ম্যানুয়াল";
+"None" = "কোনোটি না";
+"Dots" = "বিন্দু";
+"Arrows" = "তীর";
+"Characters" = "অক্ষর";
+"Short" = "সংক্ষিপ্ত";
+"Long" = "দীর্ঘ";
+"Statistics" = "পরিসংখ্যান";
+"Max" = "সর্বোচ্চ";
+"Min" = "সর্বনিম্ন";
+"Reset" = "পুনরায় সেট করুন";
+"Alignment" = "সারিবদ্ধতা";
+"Left alignment" = "বাম";
+"Center alignment" = "কেন্দ্র";
+"Right alignment" = "ডান";
+"Dashboard" = "ড্যাশবোর্ড";
+"Disabled" = "নিষ্ক্রিয়";
+"Silent" = "নীরব";
+"Units" = "একক";
+"Fans" = "ফ্যান";
+"Scaling" = "স্কেলিং";
+"Linear" = "রৈখিক";
+"Square" = "বর্গ";
+"Cube" = "ঘন";
+"Logarithmic" = "লগারিদমিক";
+"Fixed scale" = "স্থির স্কেল";
+"Cores" = "কোর";
+"Core" = "কোর";
+"Settings" = "সেটিংস";
+"Name" = "নাম";
+"Format" = "বিন্যাস";
+"Turn off" = "বন্ধ করুন";
+"Normal" = "সাধারণ";
+"Warning" = "সতর্কতা";
+"Critical" = "জটিল";
+"Usage" = "ব্যবহার";
+"2 minutes" = "2 মিনিট";
+"3 minutes" = "3 মিনিট";
+"10 minutes" = "10 মিনিট";
+"Separator" = "বিভাজক";
+"Read" = "পঠন";
+"Write" = "লিখন";
+"Frequency" = "ফ্রিকোয়েন্সি";
+"Save" = "সংরক্ষণ করুন";
+"Run" = "চালু করুন";
+"Stop" = "থামান";
+"Uninstall" = "আনইনস্টল করুন";
+"1 sec" = "1 সেকেন্ড";
+"2 sec" = "2 সেকেন্ড";
+"3 sec" = "3 সেকেন্ড";
+"5 sec" = "5 সেকেন্ড";
+"10 sec" = "10 সেকেন্ড";
+"15 sec" = "15 সেকেন্ড";
+"30 sec" = "30 সেকেন্ড";
+"60 sec" = "60 সেকেন্ড";
+
+// Setup
+"Stats Setup" = "Stats সেটআপ";
+"Previous" = "পূর্ববর্তী";
+"Previous page" = "পূর্ববর্তী পৃষ্ঠা";
+"Next" = "পরবর্তী";
+"Next page" = "পরবর্তী পৃষ্ঠা";
+"Finish" = "সম্পন্ন";
+"Finish setup" = "সেটআপ সম্পন্ন করুন";
+"Welcome to Stats" = "Stats-এ স্বাগতম";
+"welcome_message" = "Stats ব্যবহার করার জন্য ধন্যবাদ। আপনার মেনু বারে ব্যবহারের জন্য এটি একটি বিনামূল্যের, ওপেন-সোর্স macOS সিস্টেম মনিটর।";
+"Start the application automatically when starting your Mac" = "Mac চালুর সময় অ্যাপটি স্বয়ংক্রিয়ভাবে শুরু করুন";
+"Do not start the application automatically when starting your Mac" = "Mac চালুর সময় অ্যাপটি স্বয়ংক্রিয়ভাবে শুরু করবেন না";
+"Do everything silently in the background (recommended)" = "পটভূমিতে নীরবে সবকিছু চালান (প্রস্তাবিত)";
+"Check for a new version on startup" = "শুরুতে নতুন সংস্করণ পরীক্ষা করুন";
+"Check for a new version every day (once a day)" = "প্রতিদিন নতুন সংস্করণ পরীক্ষা করুন (দিনে একবার)";
+"Check for a new version every week (once a week)" = "প্রতি সপ্তাহে নতুন সংস্করণ পরীক্ষা করুন (সপ্তাহে একবার)";
+"Check for a new version every month (once a month)" = "প্রতি মাসে নতুন সংস্করণ পরীক্ষা করুন (মাসে একবার)";
+"Never check for updates (not recommended)" = "আপডেট কখনো পরীক্ষা করবেন না (প্রস্তাবিত নয়)";
+"The configuration is completed" = "সেটআপ সম্পন্ন হয়েছে";
+"finish_setup_message" = "সবকিছু প্রস্তুত! \n Stats একটি ওপেন-সোর্স টুল; এটি বিনামূল্যে এবং সবসময়ই থাকবে। \n আপনি যদি এটি পছন্দ করেন, তাহলে প্রকল্পটিকে সমর্থন করতে পারেন। প্রতিটি সহায়তাই মূল্যবান!";
+
+// Alerts
+"New version available" = "নতুন সংস্করণ পাওয়া গেছে";
+"Click to install the new version of Stats" = "Stats-এর নতুন সংস্করণ ইনস্টল করতে ক্লিক করুন";
+"Successfully updated" = "সফলভাবে আপডেট হয়েছে";
+"Stats was updated to v" = "Stats v%0 তে আপডেট হয়েছে";
+"Reset settings text" = "এই অ্যাপের সব সেটিংস পুনরায় সেট হয়ে যাবে এবং অ্যাপটি পুনরায় চালু হবে। আপনি কি এটি করতে চান?";
+"Support text" = "Stats ব্যবহার করার জন্য ধন্যবাদ!\n\nএই ওপেন-সোর্স প্রকল্পটি রক্ষণাবেক্ষণ ও উন্নত করতে সময় ও সম্পদ লাগে। আপনার সহায়তা আমাদের সবার জন্য একটি বিনামূল্যের ও নির্ভরযোগ্য অ্যাপ দিতে সাহায্য করে।\n\nStats যদি আপনার কাজে লাগে, তাহলে অবদান রাখার কথা বিবেচনা করুন। প্রতিটি ছোট অবদানই কাজে আসে!";
+
+// Settings
+"Open Activity Monitor" = "Activity Monitor খুলুন";
+"Report a bug" = "বাগ রিপোর্ট করুন";
+"Support the application" = "অ্যাপটিকে সমর্থন করুন";
+"Close application" = "অ্যাপ বন্ধ করুন";
+"Open application settings" = "অ্যাপ সেটিংস খুলুন";
+"Open dashboard" = "ড্যাশবোর্ড খুলুন";
+"No notifications available in this module" = "এই মডিউলে কোনো বিজ্ঞপ্তি নেই";
+"Open Calendar" = "ক্যালেন্ডার খুলুন";
+"Toggle the module" = "মডিউল চালু/বন্ধ করুন";
+"Open System Stats" = "System Stats খুলুন";
+
+// Application settings
+"Check for updates" = "আপডেট পরীক্ষা করুন";
+"At start" = "শুরুতে";
+"Once per day" = "প্রতিদিন একবার";
+"Once per week" = "প্রতি সপ্তাহে একবার";
+"Once per month" = "প্রতি মাসে একবার";
+"Never" = "কখনো না";
+"Check for update" = "আপডেট পরীক্ষা করুন";
+"Show icon in dock" = "ডকে আইকন দেখান";
+"Start at login" = "লগইনে শুরু করুন";
+"Build number" = "বিল্ড নম্বর";
+"Import settings" = "সেটিংস আমদানি করুন";
+"Export settings" = "সেটিংস রপ্তানি করুন";
+"Reset settings" = "সেটিংস পুনরায় সেট করুন";
+"Pause the Stats" = "Stats বিরতি দিন";
+"Resume the Stats" = "Stats পুনরায় শুরু করুন";
+"Combined modules" = "সম্মিলিত মডিউল";
+"Combined details" = "সম্মিলিত বিবরণ";
+"Spacing" = "ব্যবধান";
+"Choose file" = "ফাইল নির্বাচন করুন";
+"Stress tests" = "স্ট্রেস টেস্ট";
+
+// Dashboard
+"Serial number" = "ক্রমিক নম্বর";
+"Model identifier" = "মডেল শনাক্তকারী";
+"Production year" = "উৎপাদনের বছর";
+"Uptime" = "আপটাইম";
+"Number of cores" = "%0 কোর";
+"Number of threads" = "%0 থ্রেড";
+"Number of e-cores" = "%0 দক্ষতা কোর";
+"Number of p-cores" = "%0 পারফরম্যান্স কোর";
+"Number of s-cores" = "%0 সুপার কোর";
+"Disks" = "ডিস্কসমূহ";
+"Display" = "ডিসপ্লে";
+
+// Update
+"The latest version of Stats installed" = "Stats-এর সর্বশেষ সংস্করণ ইনস্টল করা আছে";
+"Downloading..." = "ডাউনলোড হচ্ছে...";
+"Current version: " = "বর্তমান সংস্করণ:  ";
+"Latest version: " = "সর্বশেষ সংস্করণ:    ";
+
+// Widgets
+"Color" = "রঙ";
+"Label" = "লেবেল";
+"Box" = "বাক্স";
+"Frame" = "ফ্রেম";
+"Value" = "মান";
+"Colorize" = "রঙিন করুন";
+"Colorize value" = "মান রঙিন করুন";
+"Additional information" = "অতিরিক্ত তথ্য";
+"Base" = "ভিত্তি";
+"Display mode" = "প্রদর্শন মোড";
+"One row" = "এক সারি";
+"Two rows" = "দুই সারি";
+"Mini widget" = "মিনি";
+"Line chart widget" = "লাইন চার্ট";
+"Bar chart widget" = "বার চার্ট";
+"Pie chart widget" = "পাই চার্ট";
+"Network chart widget" = "নেটওয়ার্ক চার্ট";
+"Speed widget" = "গতি";
+"Battery widget" = "ব্যাটারি";
+"Stack widget" = "স্ট্যাক";
+"Memory widget" = "মেমোরি";
+"Static width" = "স্থির প্রস্থ";
+"Tachometer widget" = "ট্যাকোমিটার";
+"State widget" = "অবস্থা উইজেট";
+"Text widget" = "টেক্সট উইজেট";
+"Battery details widget" = "ব্যাটারি বিস্তারিত উইজেট";
+"Show symbols" = "প্রতীক দেখান";
+"Label widget" = "লেবেল";
+"Number of reads in the chart" = "চার্টে পড়ার সংখ্যা";
+"Color of download" = "ডাউনলোডের রঙ";
+"Color of upload" = "আপলোডের রঙ";
+"Monospaced font" = "মনোস্পেসড ফন্ট";
+"Reverse order" = "বিপরীত ক্রম";
+"Chart history" = "চার্ট ইতিহাস";
+"Default color" = "ডিফল্ট রঙ";
+"Transparent when no activity" = "কোনো কার্যক্রম না থাকলে স্বচ্ছ";
+"Constant color" = "স্থির রঙ";
+"Custom..." = "কাস্টম...";
+
+// Module Kit
+"Open module settings" = "মডিউল সেটিংস খুলুন";
+"Open widget settings" = "উইজেট সেটিংস খুলুন";
+"Update interval" = "আপডেটের ব্যবধান";
+"Usage history" = "ব্যবহারের ইতিহাস";
+"Details" = "বিস্তারিত";
+"Top processes" = "শীর্ষ প্রসেস";
+"Pictogram" = "পিক্টোগ্রাম";
+"Module" = "মডিউল";
+"Widgets" = "উইজেট";
+"Popup" = "পপআপ";
+"Notifications" = "বিজ্ঞপ্তি";
+"Merge widgets" = "উইজেট একত্রিত করুন";
+"No available widgets to configure" = "কনফিগার করার মতো কোনো উইজেট নেই";
+"No options to configure for the popup in this module" = "এই মডিউলের পপআপের জন্য কনফিগার করার কোনো বিকল্প নেই";
+"Process" = "প্রসেস";
+"Kill process" = "প্রসেস শেষ করুন";
+"Keyboard shortcut" = "কীবোর্ড শর্টকাট";
+"Listening..." = "শুনছি...";
+
+// Modules
+"Number of top processes" = "শীর্ষ প্রসেসের সংখ্যা";
+"Update interval for top processes" = "শীর্ষ প্রসেসগুলোর আপডেটের ব্যবধান";
+"Chart color" = "চার্টের রঙ";
+"Main chart scaling" = "প্রধান চার্ট স্কেলিং";
+"Scale value" = "স্কেল মান";
+"Text widget value" = "টেক্সট উইজেটের মান";
+"Combined processes" = "সম্মিলিত প্রসেস";
+
+// CPU
+"CPU usage" = "CPU ব্যবহার";
+"CPU temperature" = "CPU তাপমাত্রা";
+"CPU frequency" = "CPU ফ্রিকোয়েন্সি";
+"System" = "সিস্টেম";
+"User" = "ব্যবহারকারী";
+"Idle" = "নিষ্ক্রিয়";
+"Show usage per core" = "প্রতিটি কোরের ব্যবহার দেখান";
+"Show hyper-threading cores" = "হাইপার-থ্রেডিং কোর দেখান";
+"Split the value (System/User)" = "মান বিভক্ত করুন (সিস্টেম/ব্যবহারকারী)";
+"Scheduler limit" = "শিডিউলার সীমা";
+"Speed limit" = "গতির সীমা";
+"Average load" = "গড় লোড";
+"1 minute" = "1 মিনিট";
+"5 minutes" = "5 মিনিট";
+"15 minutes" = "15 মিনিট";
+"CPU usage threshold" = "CPU ব্যবহারের সীমা";
+"Efficiency cores" = "দক্ষতা কোর";
+"Performance cores" = "পারফরম্যান্স কোর";
+"System color" = "সিস্টেম রঙ";
+"User color" = "ব্যবহারকারীর রঙ";
+"Idle color" = "নিষ্ক্রিয় রঙ";
+"Cluster grouping" = "ক্লাস্টার গ্রুপিং";
+"Efficiency cores color" = "দক্ষতা কোরের রঙ";
+"Performance cores color" = "পারফরম্যান্স কোরের রঙ";
+"Total load" = "মোট লোড";
+"System load" = "সিস্টেম লোড";
+"User load" = "ব্যবহারকারীর লোড";
+"Efficiency cores load" = "দক্ষতা কোরের লোড";
+"Performance cores load" = "পারফরম্যান্স কোরের লোড";
+"All cores" = "সব কোর";
+"Load per core" = "প্রতিটি কোরের লোড";
+"Efficiency core" = "দক্ষতা কোর";
+"Performance core" = "পারফরম্যান্স কোর";
+"Super core" = "সুপার কোর";
+
+// GPU
+"GPU to show" = "দেখানোর জন্য GPU";
+"Show GPU type" = "GPU ধরন দেখান";
+"GPU utilization" = "GPU ব্যবহার";
+"Model" = "মডেল";
+"Status" = "অবস্থা";
+"Utilization" = "ব্যবহার";
+"Render utilization" = "রেন্ডার ব্যবহার";
+"Tiler utilization" = "টাইলার ব্যবহার";
+"GPU usage threshold" = "GPU ব্যবহারের সীমা";
+"GPU usage is" = "GPU ব্যবহার %0";
+
+// RAM
+"Memory usage" = "মেমোরি ব্যবহার";
+"Memory pressure" = "মেমোরি চাপ";
+"Total" = "মোট";
+"Used" = "ব্যবহৃত";
+"App" = "অ্যাপ";
+"Wired" = "ওয়্যার্ড";
+"Compressed" = "সংকুচিত";
+"Free" = "মুক্ত";
+"Swap" = "Swap";
+"Split the value (App/Wired/Compressed)" = "মান বিভক্ত করুন (অ্যাপ/ওয়্যার্ড/সংকুচিত)";
+"RAM utilization threshold" = "RAM ব্যবহারের সীমা";
+"RAM utilization is" = "RAM ব্যবহার %0";
+"App color" = "অ্যাপের রঙ";
+"Wired color" = "ওয়্যার্ড রঙ";
+"Compressed color" = "সংকুচিত রঙ";
+"Free color" = "মুক্ত রঙ";
+"Free memory (less than)" = "মুক্ত মেমোরি (এর কম)";
+"Swap size" = "Swap আকার";
+"Free RAM is" = "মুক্ত RAM %0";
+
+// Disk
+"Show removable disks" = "অপসারণযোগ্য ডিস্ক দেখান";
+"Used disk memory" = "%1-এর মধ্যে %0 ব্যবহৃত";
+"Free disk memory" = "%1-এর মধ্যে %0 মুক্ত";
+"Disk to show" = "দেখানোর জন্য ডিস্ক";
+"Open disk" = "ডিস্ক খুলুন";
+"Switch view" = "দৃশ্য পরিবর্তন করুন";
+"Disk utilization threshold" = "ডিস্ক ব্যবহারের সীমা";
+"Disk utilization is" = "ডিস্ক ব্যবহার %0";
+"Read color" = "পড়ার রঙ";
+"Write color" = "লেখার রঙ";
+"Disk usage" = "ডিস্ক ব্যবহার";
+"Total read" = "মোট পড়া";
+"Total written" = "মোট লেখা";
+"Drives" = "ড্রাইভসমূহ";
+"SMART data" = "SMART ডেটা";
+"Power cycles" = "পাওয়ার চক্র";
+"Power on hours" = "চালু থাকার সময়";
+
+// Sensors
+"Celsius" = "সেলসিয়াস";
+"Fahrenheit" = "ফারেনহাইট";
+"Save the fan speed" = "ফ্যানের গতি সংরক্ষণ করুন";
+"Fan" = "ফ্যান";
+"HID sensors" = "HID সেন্সর";
+"Synchronize fan's control" = "ফ্যানের নিয়ন্ত্রণ সিঙ্ক্রোনাইজ করুন";
+"Current" = "কারেন্ট";
+"Energy" = "শক্তি";
+"Show unknown sensors" = "অজানা সেন্সর দেখান";
+"Install fan helper" = "ফ্যান হেল্পার ইনস্টল করুন";
+"Uninstall fan helper" = "ফ্যান হেল্পার আনইনস্টল করুন";
+"Fan value" = "ফ্যানের মান";
+"Turn off fan" = "ফ্যান বন্ধ করুন";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "আপনি ফ্যান বন্ধ করতে যাচ্ছেন। এটি সুপারিশকৃত নয় এবং এতে আপনার Mac-এর ক্ষতি হতে পারে। আপনি কি নিশ্চিত?";
+"Sensor threshold" = "সেন্সরের সীমা";
+"Left fan" = "বাম";
+"Right fan" = "ডান";
+"Fastest fan" = "দ্রুততম";
+"Sensor to show" = "দেখানোর জন্য সেন্সর";
+
+// Network
+"Uploading" = "আপলোড";
+"Downloading" = "ডাউনলোড";
+"Public IP" = "পাবলিক IP";
+"Local IP" = "স্থানীয় IP";
+"Interface" = "ইন্টারফেস";
+"Physical address" = "ভৌত ঠিকানা";
+"Refresh" = "রিফ্রেশ করুন";
+"Network interface" = "নেটওয়ার্ক ইন্টারফেস";
+"Total download" = "মোট ডাউনলোড";
+"Total upload" = "মোট আপলোড";
+"Reader type" = "রিডার ধরন";
+"Interface based" = "ইন্টারফেস-ভিত্তিক";
+"Processes based" = "প্রসেস-ভিত্তিক";
+"Reset data usage" = "ডেটা ব্যবহার রিসেট করুন";
+"VPN mode" = "VPN মোড";
+"Standard" = "স্ট্যান্ডার্ড";
+"Security" = "নিরাপত্তা";
+"Channel" = "চ্যানেল";
+"Autodetection" = "স্বয়ংক্রিয় শনাক্তকরণ";
+"Widget activation threshold" = "উইজেট সক্রিয়করণ সীমা";
+"Internet connection" = "ইন্টারনেট সংযোগ";
+"Connectivity host" = "সংযোগ হোস্ট";
+"Leave empty to disable the check" = "পরীক্ষা নিষ্ক্রিয় করতে খালি রাখুন";
+"Connectivity history" = "সংযোগ ইতিহাস";
+"Auto-refresh public IP address" = "পাবলিক IP ঠিকানা স্বয়ংক্রিয়ভাবে রিফ্রেশ করুন";
+"Every hour" = "প্রতি ঘণ্টায়";
+"Every 12 hours" = "প্রতি 12 ঘণ্টায়";
+"Every 24 hours" = "প্রতি 24 ঘণ্টায়";
+"Last reset" = "শেষ রিসেট %0 আগে";
+"Latency" = "লেটেন্সি";
+"Address" = "ঠিকানা";
+"WiFi network" = "WiFi নেটওয়ার্ক";
+"Local IP changed" = "স্থানীয় IP পরিবর্তিত হয়েছে";
+"Public IP changed" = "পাবলিক IP পরিবর্তিত হয়েছে";
+"Previous IP" = "পূর্ববর্তী IP: %0";
+"New IP" = "নতুন IP: %0";
+"Internet connection lost" = "ইন্টারনেট সংযোগ বিচ্ছিন্ন হয়েছে";
+"Internet connection established" = "ইন্টারনেট সংযোগ স্থাপিত হয়েছে";
+"Show country code instead of emoji" = "ইমোজির পরিবর্তে দেশের কোড দেখান";
+
+// Battery
+"Source" = "উৎস";
+"AC Power" = "AC পাওয়ার";
+"Battery Power" = "ব্যাটারি পাওয়ার";
+"Time" = "সময়";
+"Health" = "স্বাস্থ্য";
+"Amperage" = "অ্যাম্পেরেজ";
+"Voltage" = "ভোল্টেজ";
+"Cycles" = "চক্র";
+"Temperature" = "তাপমাত্রা";
+"Power adapter" = "পাওয়ার অ্যাডাপ্টার";
+"Power" = "শক্তি";
+"Is charging" = "চার্জ হচ্ছে";
+"Time to discharge" = "ডিসচার্জ হতে সময়";
+"Time to charge" = "চার্জ হতে সময়";
+"Calculating" = "গণনা করছে";
+"Fully charged" = "সম্পূর্ণ চার্জিত";
+"Not connected" = "সংযুক্ত নয়";
+"Low level notification" = "নিম্ন স্তরের বিজ্ঞপ্তি";
+"High level notification" = "উচ্চ স্তরের বিজ্ঞপ্তি";
+"Low battery" = "কম ব্যাটারি";
+"High battery" = "উচ্চ ব্যাটারি";
+"Battery remaining" = "%0% বাকি";
+"Battery remaining to full charge" = "সম্পূর্ণ চার্জ হতে %0% বাকি";
+"Percentage" = "শতকরা";
+"Percentage and time" = "শতকরা এবং সময়";
+"Time and percentage" = "সময় এবং শতকরা";
+"Time format" = "সময়ের বিন্যাস";
+"Hide additional information when full" = "সম্পূর্ণ হলে অতিরিক্ত তথ্য লুকান";
+"Last charge" = "শেষ চার্জ";
+"Capacity" = "ধারণক্ষমতা";
+"current / maximum / designed" = "বর্তমান / সর্বোচ্চ / পরিকল্পিত";
+"Percentage inside the icon" = "আইকনের ভেতরে শতকরা";
+"Charger state inside the battery" = "ব্যাটারির ভেতরে চার্জারের অবস্থা";
+
+// Bluetooth
+"No Bluetooth devices are available" = "কোনো Bluetooth ডিভাইস পাওয়া যাচ্ছে না";
+
+// Clock
+"Time zone" = "সময় অঞ্চল";
+"Local" = "স্থানীয়";
+"Calendar" = "ক্যালেন্ডার";
+"Show week numbers" = "সপ্তাহ নম্বর দেখান";
+"Local time" = "স্থানীয় সময়";
+"Add new clock" = "নতুন ঘড়ি যোগ করুন";
+"Delete selected clock" = "নির্বাচিত ঘড়ি মুছুন";
+"Help with datetime format" = "তারিখ ও সময়ের বিন্যাসে সাহায্য";
+"Sync with NTP server" = "NTP সার্ভারের সাথে সিঙ্ক্রোনাইজ করুন";
+
+// Colors
+"Based on utilization" = "ব্যবহারের ভিত্তিতে";
+"Based on pressure" = "চাপের ভিত্তিতে";
+"Based on cluster" = "ক্লাস্টারের ভিত্তিতে";
+"System accent" = "সিস্টেম অ্যাকসেন্ট";
+"Monochrome accent" = "মনোক্রোম অ্যাকসেন্ট";
+"Clear" = "স্বচ্ছ";
+"White" = "সাদা";
+"Black" = "কালো";
+"Gray" = "ধূসর";
+"Second gray" = "দ্বিতীয় ধূসর";
+"Dark gray" = "গাঢ় ধূসর";
+"Light gray" = "হালকা ধূসর";
+"Red" = "লাল";
+"Second red" = "দ্বিতীয় লাল";
+"Green" = "সবুজ";
+"Second green" = "দ্বিতীয় সবুজ";
+"Blue" = "নীল";
+"Second blue" = "দ্বিতীয় নীল";
+"Yellow" = "হলুদ";
+"Second yellow" = "দ্বিতীয় হলুদ";
+"Orange" = "কমলা";
+"Second orange" = "দ্বিতীয় কমলা";
+"Purple" = "বেগুনি";
+"Second purple" = "দ্বিতীয় বেগুনি";
+"Brown" = "বাদামি";
+"Second brown" = "দ্বিতীয় বাদামি";
+"Cyan" = "সায়ান";
+"Magenta" = "ম্যাজেন্টা";
+"Pink" = "গোলাপি";
+"Teal" = "টিল";
+"Indigo" = "নীলাভ";
