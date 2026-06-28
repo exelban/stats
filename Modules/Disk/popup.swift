@@ -20,6 +20,12 @@ internal class Popup: PopupWrapper {
     private var writeColorState: SColor = .secondRed
     private var writeColor: NSColor { self.writeColorState.additional as? NSColor ?? NSColor.systemBlue }
     private var reverseOrderState: Bool = false
+    private var base: DataSizeBase {
+        DataSizeBase(rawValue: Store.shared.string(key: "\(self.title)_base", defaultValue: DataSizeBase.byte.rawValue)) ?? .byte
+    }
+    private var speedUnit: String {
+        networkSpeedUnit(from: Store.shared.string(key: "\(self.title)_speedUnit", defaultValue: NetworkSpeedUnitAuto)).key
+    }
     
     private var disks: NSStackView = {
         let view = NSStackView()
@@ -172,8 +178,8 @@ internal class Popup: PopupWrapper {
             
             for i in 0..<list.count {
                 let process = list[i]
-                let write = Units(bytes: Int64(process.write)).getReadableSpeed(base: process.base)
-                let read = Units(bytes: Int64(process.read)).getReadableSpeed(base: process.base)
+                let write = Units(bytes: Int64(process.write)).getReadableSpeed(base: process.base, unit: process.speedUnit)
+                let read = Units(bytes: Int64(process.read)).getReadableSpeed(base: process.base, unit: process.speedUnit)
                 self.processes?.set(i, process, [read, write])
             }
             
@@ -475,6 +481,12 @@ internal class ChartView: NSStackView {
     private var writeColor: NSColor {
         SColor.fromString(Store.shared.string(key: "\(ModuleType.disk.stringValue)_writeColor", defaultValue: SColor.secondRed.key)).additional as! NSColor
     }
+    private var base: DataSizeBase {
+        DataSizeBase(rawValue: Store.shared.string(key: "\(ModuleType.disk.stringValue)_base", defaultValue: DataSizeBase.byte.rawValue)) ?? .byte
+    }
+    private var speedUnit: String {
+        networkSpeedUnit(from: Store.shared.string(key: "\(ModuleType.disk.stringValue)_speedUnit", defaultValue: NetworkSpeedUnitAuto)).key
+    }
     private var reverseOrder: Bool = Store.shared.bool(key: "\(ModuleType.disk.stringValue)_reverseOrder", defaultValue: false)
     
     public init(width: CGFloat) {
@@ -549,11 +561,11 @@ internal class ChartView: NSStackView {
         
         if let top {
             self.readColorView.set(color: top != 0 ? topColor : nil)
-            self.readValueField.stringValue = Units(bytes: top).getReadableSpeed()
+            self.readValueField.stringValue = Units(bytes: top).getReadableSpeed(base: self.base, unit: self.speedUnit)
         }
         if let bottom {
             self.writeColorView.set(color: bottom != 0 ? bottomColor : nil)
-            self.writeValueField.stringValue = Units(bytes: bottom).getReadableSpeed()
+            self.writeValueField.stringValue = Units(bytes: bottom).getReadableSpeed(base: self.base, unit: self.speedUnit)
         }
     }
     

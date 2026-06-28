@@ -94,6 +94,29 @@ public let SpeedBase: [KeyValue_t] = [
     KeyValue_t(key: "byte", value: "Byte", additional: DataSizeBase.byte)
 ]
 
+public let NetworkSpeedUnitAuto = "auto"
+public let NetworkSpeedUnits: [KeyValue_t] = [
+    KeyValue_t(key: NetworkSpeedUnitAuto, value: "Auto"),
+    KeyValue_t(key: SizeUnit.KB.key, value: "KB/Kb"),
+    KeyValue_t(key: SizeUnit.MB.key, value: "MB/Mb"),
+    KeyValue_t(key: SizeUnit.GB.key, value: "GB/Gb"),
+    KeyValue_t(key: SizeUnit.TB.key, value: "TB/Tb")
+]
+
+public func networkSpeedUnit(from key: String) -> KeyValue_t {
+    NetworkSpeedUnits.first(where: { $0.key.lowercased() == key.lowercased() }) ?? NetworkSpeedUnits[0]
+}
+
+public func networkSpeedSizeUnit(from key: String) -> SizeUnit? {
+    let unit = networkSpeedUnit(from: key)
+    return unit.key == NetworkSpeedUnitAuto ? nil : SizeUnit.fromString(unit.key)
+}
+
+public func networkSpeedPrefix(from key: String) -> String? {
+    let unit = networkSpeedUnit(from: key)
+    return unit.key == NetworkSpeedUnitAuto ? nil : String(unit.key.prefix(1))
+}
+
 internal enum StackMode: String {
     case auto = "automatic"
     case oneRow = "oneRow"

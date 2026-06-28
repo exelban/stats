@@ -49,6 +49,8 @@ identifier_name:
     - user_code
     - verification_uri_complete
     - expires_in
+    - NetworkSpeedUnitAuto
+    - NetworkSpeedUnits
 
 line_length: 200
 

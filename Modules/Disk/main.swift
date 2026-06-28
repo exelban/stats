@@ -178,6 +178,9 @@ public struct Disk_process: Process_p, Codable {
     public var base: DataSizeBase {
         DataSizeBase(rawValue: Store.shared.string(key: "\(ModuleType.disk.stringValue)_base", defaultValue: "byte")) ?? .byte
     }
+    public var speedUnit: String {
+        networkSpeedUnit(from: Store.shared.string(key: "\(ModuleType.disk.stringValue)_speedUnit", defaultValue: NetworkSpeedUnitAuto)).key
+    }
     
     public var pid: Int
     public var name: String

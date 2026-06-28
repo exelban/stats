@@ -90,6 +90,9 @@ internal class Popup: PopupWrapper {
     private var base: DataSizeBase {
         DataSizeBase(rawValue: Store.shared.string(key: "\(self.title)_base", defaultValue: "byte")) ?? .byte
     }
+    private var speedUnit: String {
+        networkSpeedUnit(from: Store.shared.string(key: "\(self.title)_speedUnit", defaultValue: NetworkSpeedUnitAuto)).key
+    }
     private var numberOfProcesses: Int {
         Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)
     }
@@ -216,6 +219,7 @@ internal class Popup: PopupWrapper {
             fixedScale: Double(self.chartFixedScaleSize.toBytes(self.chartFixedScale))
         )
         chart.setBase(self.base)
+        chart.setSpeedUnit(self.speedUnit)
         container.addSubview(chart)
         self.chart = chart
         
@@ -401,6 +405,7 @@ internal class Popup: PopupWrapper {
         
         if let chart = self.chart {
             chart.setBase(self.base)
+            chart.setSpeedUnit(self.speedUnit)
             chart.addValue(upload: Double(value.bandwidth.upload), download: Double(value.bandwidth.download))
         }
     }
@@ -633,8 +638,8 @@ internal class Popup: PopupWrapper {
             
             for i in 0..<list.count {
                 let process = list[i]
-                let upload = Units(bytes: Int64(process.upload)).getReadableSpeed(base: self.base)
-                let download = Units(bytes: Int64(process.download)).getReadableSpeed(base: self.base)
+                let upload = Units(bytes: Int64(process.upload)).getReadableSpeed(base: self.base, unit: self.speedUnit)
+                let download = Units(bytes: Int64(process.download)).getReadableSpeed(base: self.base, unit: self.speedUnit)
                 self.processes?.set(i, process, [download, upload])
             }
             
@@ -867,8 +872,8 @@ internal class Popup: PopupWrapper {
     }
     
     private func setUploadDownloadFields() {
-        let upload = Units(bytes: self.uploadValue).getReadableTuple(base: self.base)
-        let download = Units(bytes: self.downloadValue).getReadableTuple(base: self.base)
+        let upload = Units(bytes: self.uploadValue).getReadableTuple(base: self.base, unit: self.speedUnit)
+        let download = Units(bytes: self.downloadValue).getReadableTuple(base: self.base, unit: self.speedUnit)
         
         self.uploadContainerView?.toolTip = "\(localizedString("Uploading")): \(upload.0)\(upload.1)"
         self.downloadContainerView?.toolTip = "\(localizedString("Downloading")): \(download.0)\(download.1)"

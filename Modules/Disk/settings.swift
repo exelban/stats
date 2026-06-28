@@ -38,6 +38,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     private var updateIntervalValue: Int = 10
     private var numberOfProcesses: Int = 5
     private var baseValue: String = "byte"
+    private var speedUnitValue: String = NetworkSpeedUnitAuto
     private var SMARTState: Bool = true
     private var textValue: String = "$capacity.free/$capacity.total"
     
@@ -61,6 +62,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
         self.numberOfProcesses = Store.shared.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
         self.baseValue = Store.shared.string(key: "\(self.title)_base", defaultValue: self.baseValue)
+        self.speedUnitValue = networkSpeedUnit(from: Store.shared.string(key: "\(self.title)_speedUnit", defaultValue: self.speedUnitValue)).key
         self.SMARTState = Store.shared.bool(key: "\(self.title)_SMART", defaultValue: self.SMARTState)
         self.textValue = Store.shared.string(key: "\(self.title)_textWidgetValue", defaultValue: self.textValue)
         
@@ -112,6 +114,11 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
                     action: #selector(self.toggleBase),
                     items: SpeedBase,
                     selected: self.baseValue
+                )),
+                PreferencesRow(localizedString("Units"), component: selectView(
+                    action: #selector(self.toggleSpeedUnit),
+                    items: NetworkSpeedUnits,
+                    selected: self.speedUnitValue
                 ))
             ]))
         }
@@ -198,6 +205,11 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         guard let key = sender.representedObject as? String else { return }
         self.baseValue = key
         Store.shared.set(key: "\(self.title)_base", value: self.baseValue)
+    }
+    @objc private func toggleSpeedUnit(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String else { return }
+        self.speedUnitValue = networkSpeedUnit(from: key).key
+        Store.shared.set(key: "\(self.title)_speedUnit", value: self.speedUnitValue)
     }
     @objc private func toggleSMART(_ sender: NSControl) {
         self.SMARTState = controlState(sender)

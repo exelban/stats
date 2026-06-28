@@ -23,6 +23,9 @@ public class Portal: PortalWrapper {
     private var base: DataSizeBase {
         DataSizeBase(rawValue: Store.shared.string(key: "\(self.name)_base", defaultValue: "byte")) ?? .byte
     }
+    private var speedUnit: String {
+        networkSpeedUnit(from: Store.shared.string(key: "\(self.name)_speedUnit", defaultValue: NetworkSpeedUnitAuto)).key
+    }
     private var reverseOrderState: Bool {
         Store.shared.bool(key: "\(self.name)_reverseOrder", defaultValue: false)
     }
@@ -82,6 +85,7 @@ public class Portal: PortalWrapper {
             fixedScale: Double(self.chartFixedScaleSize.toBytes(self.chartFixedScale))
         )
         chart.setBase(self.base)
+        chart.setSpeedUnit(self.speedUnit)
         container.addSubview(chart)
         self.chart = chart
         view.addArrangedSubview(container)
@@ -105,6 +109,7 @@ public class Portal: PortalWrapper {
         DispatchQueue.main.async(execute: {
             if let chart = self.chart {
                 chart.setBase(self.base)
+                chart.setSpeedUnit(self.speedUnit)
                 chart.addValue(upload: Double(value.bandwidth.upload), download: Double(value.bandwidth.download))
                 chart.setScale(self.chartScale, Double(self.chartFixedScaleSize.toBytes(self.chartFixedScale)))
                 chart.setColors(in: self.downloadColor, out: self.uploadColor)
