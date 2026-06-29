@@ -54,6 +54,14 @@ internal class Popup: PopupWrapper {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public override func updateLayer() {
+        self.chart?.display()
+    }
+    
+    public override func appear() {
+        self.replay(self.loadCache, render: self.renderLoad)
+    }
+    
     private func recalculateHeight() {
         let h = self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - self.spacing
         if self.frame.size.height != h {
