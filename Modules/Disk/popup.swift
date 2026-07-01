@@ -571,6 +571,7 @@ internal class ChartView: NSStackView {
     
     public func appear() {
         self.cache.replay(render: self.renderActivity)
+        self.chart?.display()
     }
     
     public func setColors(read: NSColor? = nil, write: NSColor? = nil) {

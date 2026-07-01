@@ -11,6 +11,7 @@
 
 #include <libproc.h>
 #include <IOKit/hidsystem/IOHIDEventSystemClient.h>
+#include <IOKit/storage/ata/ATASMARTLib.h>
 
 struct nvme_smart_log {
     UInt8  critical_warning;

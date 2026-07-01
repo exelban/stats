@@ -32,6 +32,18 @@ let kIOCFPlugInInterfaceID = CFUUIDGetConstantUUIDWithBytes(nil,
                                                             0x91, 0xD4, 0x00, 0x50,
                                                             0xE4, 0xC6, 0x42, 0x6F
 )
+let kIOATASMARTUserClientTypeID = CFUUIDGetConstantUUIDWithBytes(nil,
+                                                                 0x24, 0x51, 0x4B, 0x7A,
+                                                                 0x28, 0x04, 0x11, 0xD6,
+                                                                 0x8A, 0x02, 0x00, 0x30,
+                                                                 0x65, 0x70, 0x48, 0x66
+)
+let kIOATASMARTInterfaceID = CFUUIDGetConstantUUIDWithBytes(nil,
+                                                            0x08, 0xAB, 0xE2, 0x1C,
+                                                            0x20, 0xD4, 0x11, 0xD6,
+                                                            0x8D, 0xF6, 0x00, 0x03,
+                                                            0x93, 0x5A, 0x76, 0xB2
+)
 
 internal class CapacityReader: Reader<Disks> {
     internal var list: Disks = Disks()
@@ -41,6 +53,7 @@ internal class CapacityReader: Reader<Disks> {
     }
     
     private var purgableSpace: [URL: (Date, Int64)] = [:]
+    private var smartTotals: [String: (read: Int64, written: Int64)] = [:]
     
     public override func read() {
         let keys: [URLResourceKey] = [.volumeNameKey]
@@ -172,8 +185,15 @@ internal class CapacityReader: Reader<Disks> {
             disk = parent
         }
         
-        guard IOObjectConformsTo(disk, kIOBlockStorageDeviceClass) > 0,
-              let raw = IORegistryEntryCreateCFProperty(disk, "NVMe SMART Capable" as CFString, kCFAllocatorDefault, 0),
+        guard IOObjectConformsTo(disk, kIOBlockStorageDeviceClass) > 0 else { return nil }
+        
+        if let smart = self.getNVMeSMART(for: disk) { return smart }
+        if let smart = self.getATASMART(for: disk, BSDName: BSDName) { return smart }
+        return nil
+    }
+    
+    private func getNVMeSMART(for disk: io_object_t) -> smart_t? {
+        guard let raw = IORegistryEntryCreateCFProperty(disk, "NVMe SMART Capable" as CFString, kCFAllocatorDefault, 0),
               let val = raw.takeRetainedValue() as? Bool, val else {
             return nil
         }
@@ -226,6 +246,135 @@ internal class CapacityReader: Reader<Disks> {
             totalWritten: dataUnitsWritten * bytesPerDataUnit,
             powerCycles: Int(powerCycles),
             powerOnHours: Int(powerOnHours)
+        )
+    }
+    
+    private func getATASMART(for disk: io_object_t, BSDName: String) -> smart_t? {
+        guard let raw = IORegistryEntryCreateCFProperty(disk, "SMART Capable" as CFString, kCFAllocatorDefault, 0),
+              let val = raw.takeRetainedValue() as? Bool, val else {
+            return nil
+        }
+        
+        var pluginInterface: UnsafeMutablePointer<UnsafeMutablePointer<IOCFPlugInInterface>?>?
+        var smartInterface: UnsafeMutablePointer<UnsafeMutablePointer<IOATASMARTInterface>?>?
+        var score: Int32 = 0
+        
+        var result = IOCreatePlugInInterfaceForService(disk, kIOATASMARTUserClientTypeID, kIOCFPlugInInterfaceID, &pluginInterface, &score)
+        guard result == kIOReturnSuccess else { return nil }
+        defer {
+            if pluginInterface != nil {
+                IODestroyPlugInInterface(pluginInterface)
+            }
+        }
+        
+        result = withUnsafeMutablePointer(to: &smartInterface) {
+            $0.withMemoryRebound(to: Optional<LPVOID>.self, capacity: 1) {
+                pluginInterface?.pointee?.pointee.QueryInterface(pluginInterface, CFUUIDGetUUIDBytes(kIOATASMARTInterfaceID), $0) ?? KERN_NOT_FOUND
+            }
+        }
+        
+        guard result == kIOReturnSuccess else { return nil }
+        defer {
+            if smartInterface != nil {
+                _ = pluginInterface?.pointee?.pointee.Release(smartInterface)
+            }
+        }
+        
+        guard let smart = smartInterface?.pointee else { return nil }
+        _ = smart.pointee.SMARTEnableDisableOperations(smartInterface, true)
+        
+        var smartData = ATASMARTData()
+        guard smart.pointee.SMARTReadData(smartInterface, &smartData) == kIOReturnSuccess else { return nil }
+        
+        var attributes: [Int: (current: Int, raw: [UInt8])] = [:]
+        withUnsafeBytes(of: &smartData) { buffer in
+            for i in 0..<30 {
+                let offset = 2 + i * 12
+                let id = Int(buffer[offset])
+                if id == 0 { continue }
+                let current = Int(buffer[offset + 3])
+                var rawBytes: [UInt8] = []
+                for j in 0..<6 {
+                    rawBytes.append(buffer[offset + 5 + j])
+                }
+                attributes[id] = (current, rawBytes)
+            }
+        }
+        
+        func rawValue(_ id: Int, bytes count: Int = 6) -> UInt64? {
+            guard let attribute = attributes[id] else { return nil }
+            var value: UInt64 = 0
+            for i in 0..<min(count, attribute.raw.count) {
+                value |= UInt64(attribute.raw[i]) << (8 * i)
+            }
+            return value
+        }
+        
+        var temperature = 0
+        if let temp = rawValue(194, bytes: 1) ?? rawValue(190, bytes: 1) {
+            temperature = Int(temp)
+        }
+        
+        var life = 100
+        for id in [231, 202, 177, 173, 169, 233] {
+            if let attribute = attributes[id] {
+                life = min(max(attribute.current, 0), 100)
+                break
+            }
+        }
+        
+        let bytesPerLBA: Int64 = 512
+        
+        var deviceRead: Int64?
+        var deviceWritten: Int64?
+        
+        let pageCount = 8
+        let logSize = 512 * pageCount
+        var logBuffer = [UInt8](repeating: 0, count: logSize)
+        let logResult = logBuffer.withUnsafeMutableBytes {
+            smart.pointee.SMARTReadLogAtAddress(smartInterface, 0x04, $0.baseAddress, UInt32(logSize))
+        }
+        if logResult == kIOReturnSuccess {
+            func deviceStatistic(page: Int, offset: Int) -> UInt64? {
+                let base = page * 512 + offset
+                guard base + 8 <= logBuffer.count else { return nil }
+                var value: UInt64 = 0
+                for i in 0..<8 {
+                    value |= UInt64(logBuffer[base + i]) << (8 * i)
+                }
+                guard (value & (UInt64(1) << 63)) != 0, (value & (UInt64(1) << 62)) != 0 else { return nil }
+                return value & 0x00FF_FFFF_FFFF_FFFF
+            }
+            
+            if let written = deviceStatistic(page: 1, offset: 0x18) {
+                deviceWritten = Int64(written) * bytesPerLBA
+            }
+            if let read = deviceStatistic(page: 1, offset: 0x28) {
+                deviceRead = Int64(read) * bytesPerLBA
+            }
+            if let used = deviceStatistic(page: 7, offset: 0x08) {
+                life = max(0, 100 - Int(used & 0xFF))
+            }
+        }
+        
+        if deviceRead != nil || deviceWritten != nil {
+            let cached = self.smartTotals[BSDName]
+            self.smartTotals[BSDName] = (
+                read: deviceRead ?? cached?.read ?? 0,
+                written: deviceWritten ?? cached?.written ?? 0
+            )
+        }
+        
+        let totalRead = deviceRead ?? self.smartTotals[BSDName]?.read ?? Int64(rawValue(242) ?? 0) * bytesPerLBA
+        let totalWritten = deviceWritten ?? self.smartTotals[BSDName]?.written ?? Int64(rawValue(241) ?? 0) * bytesPerLBA
+        
+        return smart_t(
+            temperature: temperature,
+            life: life,
+            totalRead: totalRead,
+            totalWritten: totalWritten,
+            powerCycles: Int(rawValue(12, bytes: 4) ?? 0),
+            powerOnHours: Int(rawValue(9, bytes: 4) ?? 0)
         )
     }
     
