@@ -87,12 +87,17 @@ internal class UsageReader: Reader<Battery_Usage> {
                 
                 self.usage.cycles = self.getIntValue("CycleCount" as CFString) ?? 0
                 
+                let batteryData = self.getDictValue("BatteryData" as CFString)
+                
                 self.usage.currentCapacity = self.getIntValue("AppleRawCurrentCapacity" as CFString) ?? 0
-                self.usage.designedCapacity = self.getIntValue("DesignCapacity" as CFString) ?? 1
+                self.usage.designedCapacity = self.getIntValue("DesignCapacity" as CFString) ?? batteryData?["DesignCapacity"] as? Int ?? 1
                 if self.usage.designedCapacity == 0 {
                     self.usage.designedCapacity = 1
                 }
-                self.usage.maxCapacity = self.getIntValue((isARM ? "AppleRawMaxCapacity" : "MaxCapacity") as CFString) ?? 1
+                self.usage.maxCapacity = self.getIntValue((isARM ? "AppleRawMaxCapacity" : "MaxCapacity") as CFString) ?? self.getIntValue("NominalChargeCapacity" as CFString) ?? 1
+                if self.usage.maxCapacity == 0 {
+                    self.usage.maxCapacity = 1
+                }
                 if !isARM {
                     self.usage.state = list[kIOPSBatteryHealthKey] as? String
                 }
@@ -151,6 +156,13 @@ internal class UsageReader: Reader<Battery_Usage> {
     private func getDoubleValue(_ identifier: CFString) -> Double? {
         if let value = IORegistryEntryCreateCFProperty(self.service, identifier, kCFAllocatorDefault, 0) {
             return value.takeRetainedValue() as? Double
+        }
+        return nil
+    }
+
+    private func getDictValue(_ identifier: CFString) -> [String: Any]? {
+        if let value = IORegistryEntryCreateCFProperty(self.service, identifier, kCFAllocatorDefault, 0) {
+            return value.takeRetainedValue() as? [String: Any]
         }
         return nil
     }

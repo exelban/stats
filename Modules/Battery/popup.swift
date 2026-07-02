@@ -188,7 +188,7 @@ internal class Popup: PopupWrapper {
                 let labels: NSStackView = {
                     let row = NSStackView()
                     row.orientation = .horizontal
-                    row.distribution = .fillEqually
+                    row.distribution = .fill
                     row.spacing = 0
                     
                     let max = LabelField(localizedString("Max capacity"), size: 8)
@@ -207,7 +207,7 @@ internal class Popup: PopupWrapper {
                 let values: NSStackView = {
                     let row = NSStackView()
                     row.orientation = .horizontal
-                    row.distribution = .fillEqually
+                    row.distribution = .fill
                     row.spacing = 0
                     
                     let max = LabelField("0 mAh", size: 11)

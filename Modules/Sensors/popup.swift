@@ -418,6 +418,10 @@ internal class ChartSensorView: NSStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func updateLayer() {
+        self.chart?.display()
+    }
+    
     public func update(_ value: Double, _ suffix: String) {
         guard let chart = self.chart else { return }
         if self.currentSuffix != suffix {
