@@ -166,18 +166,17 @@ public class BatteryWidget: WidgetWrapper {
         
         let bPX: CGFloat = batteryFrame.bounds.origin.x + batteryFrame.bounds.width + 1
         let bPY: CGFloat = batteryFrame.bounds.origin.y + batteryFrame.bounds.height/2 - 2
-        let batteryPoint = NSBezierPath(roundedRect: NSRect(x: bPX - 1, y: bPY, width: 3, height: 4), xRadius: 2, yRadius: 2)
+        let bPr: CGFloat = 1
+        let bPRect = NSRect(x: bPX, y: bPY, width: 2, height: 4)
+        let batteryPoint = NSBezierPath()
+        batteryPoint.move(to: CGPoint(x: bPRect.minX, y: bPRect.minY))
+        batteryPoint.line(to: CGPoint(x: bPRect.maxX - bPr, y: bPRect.minY))
+        batteryPoint.appendArc(withCenter: CGPoint(x: bPRect.maxX - bPr, y: bPRect.minY + bPr), radius: bPr, startAngle: -90, endAngle: 0)
+        batteryPoint.line(to: CGPoint(x: bPRect.maxX, y: bPRect.maxY - bPr))
+        batteryPoint.appendArc(withCenter: CGPoint(x: bPRect.maxX - bPr, y: bPRect.maxY - bPr), radius: bPr, startAngle: 0, endAngle: 90)
+        batteryPoint.line(to: CGPoint(x: bPRect.minX, y: bPRect.maxY))
+        batteryPoint.close()
         batteryPoint.fill()
-        
-        let batteryPointSeparator = NSBezierPath()
-        batteryPointSeparator.move(to: CGPoint(x: bPX, y: batteryFrame.bounds.origin.y))
-        batteryPointSeparator.line(to: CGPoint(x: bPX, y: batteryFrame.bounds.origin.y + batteryFrame.bounds.height))
-        ctx.saveGState()
-        ctx.setBlendMode(.destinationOut)
-        NSColor.white.set()
-        batteryPointSeparator.lineWidth = borderWidth
-        batteryPointSeparator.stroke()
-        ctx.restoreGState()
         width += 2 // add battery point width
         
         if let percentage {
