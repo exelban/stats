@@ -109,6 +109,12 @@
 "Finish setup" = "Einrichtung abschließen";
 "Welcome to Stats" = "Willkommen bei Stats";
 "welcome_message" = "Vielen Dank, dass Sie Stats verwenden – einen kostenlosen Open-Source-Systemmonitor für Ihre macOS-Menüleiste.";
+"Select preset" = "Voreinstellung auswählen"; // gemma4:31b
+"select_preset_message" = "Wählen Sie ein Startset an Modulen. Sie können später in den Einstellungen alles anpassen."; // gemma4:31b
+"Default" = "Standard"; // gemma4:31b
+"Basic" = "Basis"; // gemma4:31b
+"Recommended" = "Empfohlen"; // gemma4:31b
+"Extended" = "Erweitert"; // gemma4:31b
 "Start the application automatically when starting your Mac" = "Die App automatisch beim Starten Ihres Mac starten";
 "Do not start the application automatically when starting your Mac" = "Die App nicht automatisch beim Starten Ihres Mac starten";
 "Do everything silently in the background (recommended)" = "Alles lautlos im Hintergrund ausführen (empfohlen)";

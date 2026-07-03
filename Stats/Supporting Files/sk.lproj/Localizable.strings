@@ -109,6 +109,12 @@
 "Finish setup" = "Dokončiť nastavenie";
 "Welcome to Stats" = "Vitajte v Stats";
 "welcome_message" = "Ďakujeme, že používate Stats, bezplatný open source monitor systému macOS.";
+"Select preset" = "Vybrať prednastavenie"; // gemma4:31b
+"select_preset_message" = "Vyberte si počiatočnú súpravu modulov. Všetko si môžete neskôr prispôsobiť v Nastaveniach."; // gemma4:31b
+"Default" = "Predvolené"; // gemma4:31b
+"Basic" = "Základné"; // gemma4:31b
+"Recommended" = "Odporúčané"; // gemma4:31b
+"Extended" = "Rozšírené"; // gemma4:31b
 "Start the application automatically when starting your Mac" = "Automaticky spustiť aplikáciu pri štarte systému";
 "Do not start the application automatically when starting your Mac" = "Nespúšťať aplikáciu automaticky pri štarte systému";
 "Do everything silently in the background (recommended)" = "Vykonávať všetko v tichosti na pozadí (odoporúčané)";

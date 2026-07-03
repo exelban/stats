@@ -109,6 +109,12 @@
 "Finish setup" = "Zakończ konfigurację";
 "Welcome to Stats" = "Witamy w Stats";
 "welcome_message" = "Dziękujemy za korzystanie ze Stats,\n bezpłatnego monitora systemu macOS o otwartym kodzie źródłowym.";
+"Select preset" = "Wybierz ustawienie wstępne";
+"select_preset_message" = "Wybierz początkowy zestaw modułów. Wszystko możesz później dostosować w Ustawieniach.";
+"Default" = "Domyślny";
+"Basic" = "Podstawowy";
+"Recommended" = "Zalecony";
+"Extended" = "Rozszerzony";
 "Start the application automatically when starting your Mac" = "Uruchomiaj aplikację automatycznie podczas uruchamiania komputera";
 "Do not start the application automatically when starting your Mac" = "Nie uruchamiaj aplikacji automatycznie podczas uruchamiania komputera";
 "Do everything silently in the background (recommended)" = "Rób wszystko w tle (zalecane)";

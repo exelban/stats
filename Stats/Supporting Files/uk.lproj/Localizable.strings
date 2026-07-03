@@ -109,6 +109,12 @@
 "Finish setup" = "Завершити налаштування";
 "Welcome to Stats" = "Вітаю в Stats";
 "welcome_message" = "Дякуємо, що використовуєте Stats, безкоштовним моніторингом системи macOS з відкритим кодом.";
+"Select preset" = "Виберіть пресет";
+"select_preset_message" = "Виберіть початковий набір модулів. Ви можете налаштувати все пізніше в налаштуваннях.";
+"Default" = "За замовчуванням";
+"Basic" = "Рекомендований";
+"Recommended" = "Recommended";
+"Extended" = "Розширений";
 "Start the application automatically when starting your Mac" = "Запускати програму автоматично під час запуску Mac";
 "Do not start the application automatically when starting your Mac" = "Не запускати програму автоматично під час запуску Mac";
 "Do everything silently in the background (recommended)" = "Робити усе у фоновому режимі (рекомендовано)";

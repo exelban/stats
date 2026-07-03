@@ -109,6 +109,12 @@
 "Finish setup" = "完成設定";
 "Welcome to Stats" = "歡迎使用Stats";
 "welcome_message" = "感謝您使用Stats！「Stats」是一款讓您在選單列一目瞭然地監看macOS系統資源的開源App。";
+"Select preset" = "選擇預設"; // gemma4:31b
+"select_preset_message" = "選擇一組初始模組。您稍後可以在「設定」中自訂所有內容。"; // gemma4:31b
+"Default" = "預設"; // gemma4:31b
+"Basic" = "基礎"; // gemma4:31b
+"Recommended" = "推薦"; // gemma4:31b
+"Extended" = "擴展"; // gemma4:31b
 "Start the application automatically when starting your Mac" = "啟動 Mac 時自動打開Stats";
 "Do not start the application automatically when starting your Mac" = "不要在啟動Mac時自動打開Stats";
 "Do everything silently in the background (recommended)" = "在背景寧靜執行（建議）";

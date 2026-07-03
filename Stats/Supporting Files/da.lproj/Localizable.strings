@@ -109,6 +109,12 @@
 "Finish setup" = "Afslut opsætning";
 "Welcome to Stats" = "Velkommen til Stats";
 "welcome_message" = "Tak for, at du bruger Stats, det gratis, open source, program til at overvåge din Mac fra menulinjen.";
+"Select preset" = "Vælg forudindstilling"; // gemma4:31b
+"select_preset_message" = "Vælg et start-sæt af moduler. Du kan tilpasse alt senere i Indstillinger."; // gemma4:31b
+"Default" = "Standard"; // gemma4:31b
+"Basic" = "Basis"; // gemma4:31b
+"Recommended" = "Anbefalet"; // gemma4:31b
+"Extended" = "Udvidet"; // gemma4:31b
 "Start the application automatically when starting your Mac" = "Start programmet automatisk når din Mac tænder";
 "Do not start the application automatically when starting your Mac" = "Start ikke automatisk programmet når din Mac tænder";
 "Do everything silently in the background (recommended)" = "Foretag alle handlinger i baggrunden (anbefalet)";

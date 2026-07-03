@@ -12,7 +12,7 @@
 import Cocoa
 import Kit
 
-private let setupSize: CGSize = CGSize(width: 600, height: 400)
+private let setupSize: CGSize = CGSize(width: 700, height: 440)
 
 internal class SetupWindow: NSWindow, NSWindowDelegate {
     internal var finishHandler: () -> Void = {}
@@ -48,6 +48,8 @@ internal class SetupWindow: NSWindow, NSWindowDelegate {
     
     internal func show() {
         self.setIsVisible(true)
+        NSApp.activate(ignoringOtherApps: true)
+        self.makeKeyAndOrderFront(nil)
         self.orderFrontRegardless()
     }
     
@@ -64,15 +66,19 @@ internal class SetupWindow: NSWindow, NSWindowDelegate {
     }
     
     private func positionCenter() {
+        guard let screen = NSScreen.main else {
+            self.center()
+            return
+        }
         self.setFrameOrigin(NSPoint(
-            x: (NSScreen.main!.frame.width - self.view.frame.width)/2,
-            y: (NSScreen.main!.frame.height - self.view.frame.height)/1.75
+            x: (screen.frame.width - self.view.frame.width)/2,
+            y: (screen.frame.height - self.view.frame.height)/1.75
         ))
     }
 }
 
 private class SetupContainer: NSStackView {
-    private let pages: [NSView] = [SetupView_1(), SetupView_2(), SetupView_3(), SetupView_end()]
+    private let pages: [NSView] = [SetupView_welcome(), SetupView_preset(), SetupView_startAtLogin(), SetupView_update(), SetupView_end()]
     
     private var main: NSView = NSView()
     private var prevBtn: NSButton = NSButton()
@@ -174,7 +180,7 @@ private class SetupContainer: NSStackView {
     }
 }
 
-private class SetupView_1: NSStackView {
+private class SetupView_welcome: NSStackView {
     init() {
         super.init(frame: NSRect(x: 0, y: 0, width: setupSize.width, height: setupSize.height - 60))
         
@@ -215,7 +221,221 @@ private class SetupView_1: NSStackView {
     }
 }
 
-private class SetupView_2: NSStackView {
+private class SetupView_preset: NSStackView {
+    private let presets: [(name: String, items: [(module: ModuleType, widget: widget_t)])] = [
+        (name: "Default", items: [
+            (.CPU, .mini),
+            (.RAM, .mini),
+            (.disk, .mini),
+            (.network, .speed),
+            (.battery, .battery)
+        ]),
+        (name: "Basic", items: [
+            (.CPU, .mini),
+            (.RAM, .mini)
+        ]),
+        (name: "Recommended", items: [
+            (.CPU, .mini),
+            (.RAM, .barChart),
+            (.disk, .barChart),
+            (.network, .speed)
+        ]),
+        (name: "Extended", items: [
+            (.CPU, .lineChart),
+            (.GPU, .mini),
+            (.RAM, .barChart),
+            (.disk, .barChart),
+            (.sensors, .label),
+            (.network, .speed),
+            (.battery, .battery)
+        ])
+    ]
+    
+    private let allModules: [ModuleType] = [.CPU, .GPU, .RAM, .disk, .sensors, .network, .battery, .bluetooth, .clock]
+    private var radios: [NSButton] = []
+    private var bars: [NSView] = []
+    
+    init() {
+        super.init(frame: NSRect(x: 0, y: 0, width: setupSize.width, height: setupSize.height - 60))
+        
+        let container: NSGridView = NSGridView()
+        container.rowSpacing = 0
+        container.yPlacement = .center
+        container.xPlacement = .center
+        
+        let title: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: container.frame.width, height: 22))
+        title.alignment = .center
+        title.font = NSFont.systemFont(ofSize: 20, weight: .semibold)
+        title.stringValue = localizedString("Select preset")
+        title.toolTip = localizedString("Select preset")
+        title.isSelectable = false
+        
+        container.addRow(with: [title])
+        container.addRow(with: [self.content()])
+        
+        container.row(at: 0).height = 70
+        
+        self.addArrangedSubview(container)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func content() -> NSView {
+        let container = NSStackView()
+        container.orientation = .vertical
+        container.spacing = 10
+        container.alignment = .leading
+        
+        let message: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: setupSize.width - 80, height: 16))
+        message.alignment = .left
+        message.font = NSFont.systemFont(ofSize: 11, weight: .regular)
+        message.textColor = .secondaryLabelColor
+        message.stringValue = localizedString("select_preset_message")
+        message.isSelectable = false
+        container.addArrangedSubview(message)
+        
+        for (i, preset) in self.presets.enumerated() {
+            container.addArrangedSubview(self.option(index: i, state: preset.name == "Default", preset: preset))
+        }
+        
+        return container
+    }
+    
+    private func option(index: Int, state: Bool, preset: (name: String, items: [(module: ModuleType, widget: widget_t)])) -> NSView {
+        let row = NSStackView()
+        row.orientation = .horizontal
+        row.spacing = 10
+        row.alignment = .centerY
+        
+        let button: NSButton = NSButton()
+        button.setButtonType(.radio)
+        button.state = state ? .on : .off
+        button.title = localizedString(preset.name)
+        button.font = NSFont.systemFont(ofSize: 13, weight: .medium)
+        button.action = #selector(self.toggle)
+        button.isBordered = false
+        button.isTransparent = false
+        button.target = self
+        button.tag = index
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        self.radios.append(button)
+        
+        let images = preset.items.compactMap { self.widgetImage(module: $0.module, type: $0.widget) }
+        let bar = self.menuBarPreview(images)
+        bar.addGestureRecognizer(NSClickGestureRecognizer(target: self, action: #selector(self.boxClicked)))
+        self.bars.append(bar)
+        self.setSelected(bar, state)
+        
+        row.addArrangedSubview(button)
+        row.addArrangedSubview(bar)
+        row.addArrangedSubview(NSView())
+        
+        return row
+    }
+    
+    private func setSelected(_ bar: NSView, _ selected: Bool) {
+        bar.layer?.backgroundColor = (selected ? NSColor.controlAccentColor.withAlphaComponent(0.15) : NSColor(white: 0.5, alpha: 0.14)).cgColor
+        bar.layer?.borderWidth = selected ? 1.5 : 0
+        bar.layer?.borderColor = NSColor.controlAccentColor.cgColor
+    }
+    
+    private func widgetImage(module: ModuleType, type: widget_t) -> NSImage? {
+        guard let m = modules.first(where: { $0.config.name == module.stringValue }) else { return nil }
+        return m.menuBar.widgets.first(where: { $0.type == type })?.image
+    }
+    
+    private func menuBarPreview(_ images: [NSImage]) -> NSView {
+        let bar = NSView()
+        bar.wantsLayer = true
+        bar.layer?.cornerRadius = 6
+        bar.layer?.cornerCurve = .continuous
+        bar.layer?.masksToBounds = true
+        bar.layer?.backgroundColor = NSColor(white: 0.5, alpha: 0.14).cgColor
+        bar.translatesAutoresizingMaskIntoConstraints = false
+        bar.setContentHuggingPriority(.required, for: .horizontal)
+        
+        let stack = NSStackView()
+        stack.orientation = .horizontal
+        stack.spacing = Constants.Widget.spacing * 2
+        stack.edgeInsets = NSEdgeInsets(top: 0, left: 6, bottom: 0, right: 6)
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        
+        images.forEach { (image: NSImage) in
+            let imageView = NSImageView()
+            imageView.image = image
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+            imageView.widthAnchor.constraint(equalToConstant: image.size.width).isActive = true
+            imageView.heightAnchor.constraint(equalToConstant: image.size.height).isActive = true
+            stack.addArrangedSubview(imageView)
+        }
+        
+        bar.addSubview(stack)
+        
+        NSLayoutConstraint.activate([
+            bar.heightAnchor.constraint(equalToConstant: Constants.Widget.height + 10),
+            stack.leadingAnchor.constraint(equalTo: bar.leadingAnchor),
+            stack.trailingAnchor.constraint(equalTo: bar.trailingAnchor),
+            stack.centerYAnchor.constraint(equalTo: bar.centerYAnchor)
+        ])
+        
+        return bar
+    }
+    
+    @objc private func toggle(_ sender: NSButton) {
+        self.select(sender.tag)
+    }
+    
+    @objc private func boxClicked(_ gesture: NSClickGestureRecognizer) {
+        guard let bar = gesture.view, let index = self.bars.firstIndex(where: { $0 === bar }) else { return }
+        self.select(index)
+    }
+    
+    private func select(_ index: Int) {
+        guard self.presets.indices.contains(index) else { return }
+        
+        self.radios.enumerated().forEach { $1.state = $0 == index ? .on : .off }
+        self.bars.enumerated().forEach { self.setSelected($1, $0 == index) }
+        
+        var widgets: [ModuleType: widget_t] = [:]
+        self.presets[index].items.forEach { widgets[$0.module] = $0.widget }
+        
+        for module in self.allModules {
+            let name = module.stringValue
+            if let widget = widgets[module] {
+                Store.shared.set(key: "\(name)_state", value: true)
+                Store.shared.set(key: "\(name)_widget", value: widget.rawValue)
+            } else {
+                Store.shared.set(key: "\(name)_state", value: false)
+            }
+        }
+        
+        let mounted = (NSApp.delegate as? AppDelegate)?.modulesMounted ?? false
+        let names = self.allModules.map { $0.stringValue }
+        
+        modules.forEach { module in
+            let name = module.config.name
+            guard let index = names.firstIndex(of: name) else { return }
+            let widget = widgets[self.allModules[index]]
+            
+            if !mounted {
+                module.enabled = widget != nil && module.available
+                return
+            }
+            
+            if let widget = widget {
+                module.menuBar.widgets.forEach { $0.toggle($0.type == widget) }
+                NotificationCenter.default.post(name: .toggleModule, object: nil, userInfo: ["module": name, "state": true])
+            } else {
+                NotificationCenter.default.post(name: .toggleModule, object: nil, userInfo: ["module": name, "state": false])
+            }
+        }
+    }
+}
+
+private class SetupView_startAtLogin: NSStackView {
     init() {
         super.init(frame: NSRect(x: 0, y: 0, width: setupSize.width, height: setupSize.height - 60))
         
@@ -282,7 +502,7 @@ private class SetupView_2: NSStackView {
     }
 }
 
-private class SetupView_3: NSStackView {
+private class SetupView_update: NSStackView {
     private var value: AppUpdateInterval {
         get {
             let value = Store.shared.string(key: "update-interval", defaultValue: AppUpdateInterval.silent.rawValue)

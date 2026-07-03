@@ -109,6 +109,12 @@
 "Finish setup" = "Završi postavljanje";
 "Welcome to Stats" = "Stats dobrodošlica";
 "welcome_message" = "Hvala što koristiš Stats, besplatni program otvorenog koda za praćenje macOS sustava u traci izbornika.";
+"Select preset" = "Odaberi predestavku"; // gemma4:31b
+"select_preset_message" = "Odaberite početni skup modula. Sve možete kasnije prilagoditi u Postavkama."; // gemma4:31b
+"Default" = "Zadano"; // gemma4:31b
+"Basic" = "Osnovno"; // gemma4:31b
+"Recommended" = "Preporučeno"; // gemma4:31b
+"Extended" = "Prošireno"; // gemma4:31b
 "Start the application automatically when starting your Mac" = "Pokreni program automatski pri pokretanju računala";
 "Do not start the application automatically when starting your Mac" = "Nemoj pokrenuti program automatski pri pokretanju računala";
 "Do everything silently in the background (recommended)" = "Obavi sve tiho u pozadini (preporučuje se)";

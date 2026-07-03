@@ -109,6 +109,12 @@
 "Finish setup" = "สิ้นสุดการตั้งค่า";
 "Welcome to Stats" = "ยินดีต้อนรับเข้าสู่ Stats";
 "welcome_message" = "ขอบคุณที่ใช้ Stats ซอฟต์แวร์แบบโอเพ่นซอร์สและใช้งานฟรีเพื่อตรวจสอบระบบ Mac ของคุณ";
+"Select preset" = "เลือกพรีเซ็ต"; // gemma4:31b
+"select_preset_message" = "เลือกชุดโมดูลเริ่มต้น. คุณสามารถปรับแต่งทุกอย่างได้ในภายหลังในการตั้งค่า."; // gemma4:31b
+"Default" = "ค่าเริ่มต้น"; // gemma4:31b
+"Basic" = "พื้นฐาน"; // gemma4:31b
+"Recommended" = "แนะนำ"; // gemma4:31b
+"Extended" = "แบบขยาย"; // gemma4:31b
 "Start the application automatically when starting your Mac" = "เริ่มต้นแอปพลิเคชันโดยอัตโนมัติเมื่อเปิดเครื่อง Mac ของคุณ";
 "Do not start the application automatically when starting your Mac" = "ไม่ต้องเริ่มแอปพลิเคชันโดยอัตโนมัติเมื่อเปิดเครื่อง Mac ของคุณ";
 "Do everything silently in the background (recommended)" = "ทำทุกอย่างเงียบ ๆ ในแบคกราว (แนะนำ)";

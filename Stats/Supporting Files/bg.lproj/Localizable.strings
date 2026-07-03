@@ -109,6 +109,12 @@
 "Finish setup" = "Приключване на настройването";
 "Welcome to Stats" = "Добре дошли в Stats";
 "welcome_message" = "Благодарим Ви, че ползвате Stats, безплатен системен монитор за macOS с отворен код.";
+"Select preset" = "Изберете пресет"; // gemma4:31b
+"select_preset_message" = "Изберете начален комплект от модули. Можете да персонализирате всичко по-късно в Настройките."; // gemma4:31b
+"Default" = "По подразбиране"; // gemma4:31b
+"Basic" = "Основни"; // gemma4:31b
+"Recommended" = "Препоръчано"; // gemma4:31b
+"Extended" = "Разширен"; // gemma4:31b
 "Start the application automatically when starting your Mac" = "Стартирай приложението автоматично при стартиране на вашия Mac";
 "Do not start the application automatically when starting your Mac" = "Не стартирай приложението автоматично при стартиране на вашия Mac";
 "Do everything silently in the background (recommended)" = "Прави всичко тихо във фонов режим (препоръчително)";

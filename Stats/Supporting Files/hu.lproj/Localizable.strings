@@ -109,6 +109,12 @@
 "Finish setup" = "Beállítás befejezése";
 "Welcome to Stats" = "Üdvözlünk a Stats programban";
 "welcome_message" = "Köszönjük, hogy a Stats programot használod, ami egy ingyenes, nyílt forráskódú, macOS rendszer monitorozó alkalmazás a menüsorodba.";
+"Select preset" = "Válasszon előbeállítást"; // gemma4:31b
+"select_preset_message" = "Válasszon egy kezdő modulkészletet. Mindent később testreszabhat a Beállításokban."; // gemma4:31b
+"Default" = "Alapértelmezett"; // gemma4:31b
+"Basic" = "Alapvető"; // gemma4:31b
+"Recommended" = "Ajánlott"; // gemma4:31b
+"Extended" = "Bővített"; // gemma4:31b
 "Start the application automatically when starting your Mac" = "Az alkalmazás indítása a rendszer indulásakor";
 "Do not start the application automatically when starting your Mac" = "Ne indítsa az alkalmazást a rendszer indulásakor";
 "Do everything silently in the background (recommended)" = "Végezzen mindent csendben a háttérben (ajánlott)";

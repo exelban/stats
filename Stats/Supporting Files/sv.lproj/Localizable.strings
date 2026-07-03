@@ -109,6 +109,12 @@
 "Finish setup" = "Avsluta installationen";
 "Welcome to Stats" = "Välkommen till Stats";
 "welcome_message" = "Tack för att du använder Stats, ett gratis och öppen källkod macOS-systemövervakningsverktyg för din menyrad.";
+"Select preset" = "Välj förinställning"; // gemma4:31b
+"select_preset_message" = "Välj en startuppsättning av moduler. Du kan anpassa allt senare i Inställningar."; // gemma4:31b
+"Default" = "Standard"; // gemma4:31b
+"Basic" = "Grundläggande"; // gemma4:31b
+"Recommended" = "Rekommenderas"; // gemma4:31b
+"Extended" = "Utökad"; // gemma4:31b
 "Start the application automatically when starting your Mac" = "Starta applikationen automatiskt när du startar din Mac";
 "Do not start the application automatically when starting your Mac" = "Starta inte applikationen automatiskt när du startar din Mac";
 "Do everything silently in the background (recommended)" = "Gör allt tyst i bakgrunden (rekommenderas)";

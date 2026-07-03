@@ -109,6 +109,12 @@
 "Finish setup" = "Viimeistele asennus";
 "Welcome to Stats" = "Tervetuloa Stats:iin";
 "welcome_message" = "Kiitos, että käytät Statsia, ilmaista avoimen lähdekoodin macOS-järjestelmämonitoria valikkorivillesi.";
+"Select preset" = "Valitse esiasetus"; // gemma4:31b
+"select_preset_message" = "Valitse moduulien aloituspaketti. Voit muokata kaikkea myöhemmin Asetuksista."; // gemma4:31b
+"Default" = "Oletus"; // gemma4:31b
+"Basic" = "Perus"; // gemma4:31b
+"Recommended" = "Suositeltu"; // gemma4:31b
+"Extended" = "Laajennettu"; // gemma4:31b
 "Start the application automatically when starting your Mac" = "Käynnistä sovellus automaattisesti, kun käynnistät Macin";
 "Do not start the application automatically when starting your Mac" = "Älä käynnistä sovellusta automaattisesti, kun käynnistät Macin";
 "Do everything silently in the background (recommended)" = "Tee kaikki hiljaisesti taustalla (suositeltu)";

@@ -109,6 +109,12 @@
 "Finish setup" = "סיום ההגדרה"; // gemma4:31b
 "Welcome to Stats" = "ברוכים הבאים ל-Stats"; // translategemma:4b
 "welcome_message" = "תודה על השימוש ב-Stats, מנטר מערכת macOS חינמי ובקוד פתוח עבור סרגל התפריטים שלך."; // gemma4:31b
+"Select preset" = "בחר הגדרה מראש"; // gemma4:31b
+"select_preset_message" = "בחר סט התחלתי של מודולים. תוכל להתאים הכל אישית מאוחר יותר בהגדרות."; // gemma4:31b
+"Default" = "ברירת מחדל"; // gemma4:31b
+"Basic" = "בסיסי"; // gemma4:31b
+"Recommended" = "מומלץ"; // gemma4:31b
+"Extended" = "מורחב"; // gemma4:31b
 "Start the application automatically when starting your Mac" = "הפעל את האפליקציה באופן אוטומטי בעת הפעלת ה-Mac שלך"; // gemma4:31b
 "Do not start the application automatically when starting your Mac" = "אל תפעיל את האפליקציה באופן אוטומטי בעת הפעלת ה-Mac שלך"; // gemma4:31b
 "Do everything silently in the background (recommended)" = "לבצע הכל בשקט ברקע (מומלץ)"; // gemma4:31b

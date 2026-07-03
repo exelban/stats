@@ -109,6 +109,12 @@
 "Finish setup" = "إنهاء الإعداد";
 "Welcome to Stats" = "مرحبًا بك في الإحصاءات";
 "welcome_message" = "شكرًا لاستخدام الإحصاءات، أداة مراقبة نظام macOS المجانية ومفتوحة المصدر لشريط القوائم الخاص بك.";
+"Select preset" = "اختر الإعداد المسبق"; // gemma4:31b
+"select_preset_message" = "اختر مجموعة أولية من الوحدات. يمكنك تخصيص كل شيء لاحقاً في الإعدادات."; // gemma4:31b
+"Default" = "الافتراضي"; // gemma4:31b
+"Basic" = "أساسي"; // gemma4:31b
+"Recommended" = "موصى به"; // gemma4:31b
+"Extended" = "موسع"; // gemma4:31b
 "Start the application automatically when starting your Mac" = "بدء تشغيل التطبيق تلقائيًا عند بدء تشغيل Mac الخاص بك";
 "Do not start the application automatically when starting your Mac" = "عدم بدء تشغيل التطبيق تلقائيًا عند بدء تشغيل Mac الخاص بك";
 "Do everything silently in the background (recommended)" = "قم بعمل كل شيء بصمت في الخلفية (موصى به)";

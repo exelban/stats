@@ -109,6 +109,12 @@
 "Finish setup" = "Zaključi konfiguracijo";
 "Welcome to Stats" = "Dobrodošli v Stats";
 "welcome_message" = "Hvala, ker uporabljate Stats, brezplačni odprtokodni sistemski nadzornik sistema macOS za menijsko vrstico.";
+"Select preset" = "Izberi prednastavitev"; // gemma4:31b
+"select_preset_message" = "Izberite začetni nabor modulov. Vse lahko pozneje prilagodite v Nastavitvah."; // gemma4:31b
+"Default" = "Privzeto"; // gemma4:31b
+"Basic" = "Osnovno"; // gemma4:31b
+"Recommended" = "Priporočeno"; // gemma4:31b
+"Extended" = "Razširjeno"; // gemma4:31b
 "Start the application automatically when starting your Mac" = "Samodejni zagon programa ob zagonu računalnika Mac";
 "Do not start the application automatically when starting your Mac" = "Aplikacije ne zaženi samodejno ob zagonu računalnika Mac";
 "Do everything silently in the background (recommended)" = "Vse izvedi tiho v ozadju (priporočljivo)";

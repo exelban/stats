@@ -109,6 +109,12 @@
 "Finish setup" = "Voltooi configuratie"; // gemma4:31b
 "Welcome to Stats" = "Welkom bij Stats"; // translategemma:4b
 "welcome_message" = "Bedankt dat je Stats gebruikt, een gratis open-source macOS-systeemmonitor voor je menubalk."; // gemma4:31b
+"Select preset" = "Selecteer preset"; // gemma4:31b
+"select_preset_message" = "Kies een startset van modules. Je kunt later alles aanpassen in de Instellingen."; // gemma4:31b
+"Default" = "Standaard"; // gemma4:31b
+"Basic" = "Basis"; // gemma4:31b
+"Recommended" = "Aanbevolen"; // gemma4:31b
+"Extended" = "Uitgebreid"; // gemma4:31b
 "Start the application automatically when starting your Mac" = "Start de applicatie automatisch bij het opstarten van je Mac"; // gemma4:31b
 "Do not start the application automatically when starting your Mac" = "Start de applicatie niet automatisch bij het opstarten van je Mac"; // gemma4:31b
 "Do everything silently in the background (recommended)" = "Alles stil op de achtergrond doen (aanbevolen)"; // gemma4:31b

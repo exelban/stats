@@ -109,6 +109,12 @@
 "Finish setup" = "Lõpeta seadistamine";
 "Welcome to Stats" = "Tere tulemast Statsi";
 "welcome_message" = "Täname, et kasutate Statsi, tasuta avatud lähtekoodiga macOS-i süsteemimonitor menüüriba jaoks.";
+"Select preset" = "Vali etteseadistus"; // gemma4:31b
+"select_preset_message" = "Vali moodulite algne komplekt. Sa saad kõike hiljem seadetes kohandada."; // gemma4:31b
+"Default" = "Vaikimisi"; // gemma4:31b
+"Basic" = "Põhiline"; // gemma4:31b
+"Recommended" = "Soovitatav"; // gemma4:31b
+"Extended" = "Laiendatud"; // gemma4:31b
 "Start the application automatically when starting your Mac" = "Käivita rakendus automaatselt Maci käivitamisel";
 "Do not start the application automatically when starting your Mac" = "Ära käivita rakendust automaatselt Maci käivitamisel";
 "Do everything silently in the background (recommended)" = "Tee kõike vaikselt taustal (soovitatav)";

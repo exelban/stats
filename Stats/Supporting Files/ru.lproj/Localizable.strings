@@ -109,6 +109,12 @@
 "Finish setup" = "Завершить настройку";
 "Welcome to Stats" = "Добро пожаловать в Stats";
 "welcome_message" = "Спасибо за использование Stats, бесплатного системного монитора macOS с открытым исходным кодом для системного меню.";
+"Select preset" = "Выберите предустановку";
+"select_preset_message" = "Выберите начальный набор модулей. Все остальные параметры можно будет настроить позже в разделе «Настройки».";
+"Default" = "По умолчанию";
+"Basic" = "Базовый";
+"Recommended" = "Рекомендованный";
+"Extended" = "Расширенный";
 "Start the application automatically when starting your Mac" = "Запуск приложения автоматически при запуске Mac";
 "Do not start the application automatically when starting your Mac" = "Не запускать приложение автоматически при запуске Mac";
 "Do everything silently in the background (recommended)" = "Делать все тихо в фоновом режиме (рекомендуется)";

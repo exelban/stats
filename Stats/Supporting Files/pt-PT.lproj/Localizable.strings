@@ -109,6 +109,12 @@
 "Finish setup" = "Terminar a configuração";
 "Welcome to Stats" = "Bem-vindo ao Stats";
 "welcome_message" = "Obrigado por usar o Stats, um monitor de sistema macOS open source grátis para a tua barra de menus.";
+"Select preset" = "Selecionar predefinição"; // gemma4:31b
+"select_preset_message" = "Escolha um conjunto inicial de módulos. Pode personalizar tudo mais tarde nas Definições."; // gemma4:31b
+"Default" = "Predefinido"; // gemma4:31b
+"Basic" = "Básico"; // gemma4:31b
+"Recommended" = "Recomendado"; // gemma4:31b
+"Extended" = "Estendido"; // gemma4:31b
 "Start the application automatically when starting your Mac" = "Iniciar a aplicação automaticamente ao iniciar o teu Mac";
 "Do not start the application automatically when starting your Mac" = "Não iniciar a aplicação automaticamente ao iniciar o teu Mac";
 "Do everything silently in the background (recommended)" = "Fazer tudo silenciosamente em segundo plano (recomendado)";

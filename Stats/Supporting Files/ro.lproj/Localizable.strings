@@ -109,6 +109,12 @@
 "Finish setup" = "Finalizează configurarea"; // gemma4:31b
 "Welcome to Stats" = "Bun venit la Stats"; // gemma4:31b
 "welcome_message" = "Vă mulțumim că folosiți Stats, un monitor de sistem macOS gratuit și cu sursă deschisă pentru bara de meniu."; // gemma4:31b
+"Select preset" = "Selectați prestabilirea"; // gemma4:31b
+"select_preset_message" = "Alegeți un set inițial de module. Puteți personaliza totul mai târziu în Setări."; // gemma4:31b
+"Default" = "Implicit"; // gemma4:31b
+"Basic" = "De bază"; // gemma4:31b
+"Recommended" = "Recomandat"; // gemma4:31b
+"Extended" = "Extins"; // gemma4:31b
 "Start the application automatically when starting your Mac" = "Porniți aplicația automat la pornirea Mac-ului"; // gemma4:31b
 "Do not start the application automatically when starting your Mac" = "Nu lansați aplicația automat la pornirea Mac-ului"; // gemma4:31b
 "Do everything silently in the background (recommended)" = "Execută totul silențios în fundal (recomandat)"; // gemma4:31b

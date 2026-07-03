@@ -109,6 +109,12 @@
 "Finish setup" = "Finish setup";
 "Welcome to Stats" = "Welcome to Stats";
 "welcome_message" = "Thanks for using Stats, a free open source macOS system monitor for your menu bar.";
+"Select preset" = "Select preset";
+"select_preset_message" = "Choose a starting set of modules. You can customize everything later in the Settings.";
+"Default" = "Default";
+"Basic" = "Basic";
+"Recommended" = "Recommended";
+"Extended" = "Extended";
 "Start the application automatically when starting your Mac" = "Start the application automatically when starting your Mac";
 "Do not start the application automatically when starting your Mac" = "Do not start the application automatically when starting your Mac";
 "Do everything silently in the background (recommended)" = "Do everything silently in the background (recommended)";

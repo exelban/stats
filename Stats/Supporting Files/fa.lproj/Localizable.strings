@@ -109,6 +109,12 @@
 "Finish setup" = "پایان نصب";
 "Welcome to Stats" = "به Stats خوش آمدید";
 "welcome_message" = "ممنون از اینکه از Stats که یک اپ مانیتور کردن سیستم برای منو بار مک‌او‌اس هست استفاده می کنید.";
+"Select preset" = "انتخاب پیش‌فرض"; // gemma4:31b
+"select_preset_message" = "یک مجموعه اولیه از ماژول‌ها را انتخاب کنید. بعداً می‌توانید همه چیز را در تنظیمات شخصی‌سازی کنید."; // gemma4:31b
+"Default" = "پیش‌فرض"; // gemma4:31b
+"Basic" = "پایه"; // gemma4:31b
+"Recommended" = "پیشنهادی"; // gemma4:31b
+"Extended" = "گسترده"; // gemma4:31b
 "Start the application automatically when starting your Mac" = "اجرای خودکار در زمان راه‌اندازی مک";
 "Do not start the application automatically when starting your Mac" = "اجرا نشدن خودکار در زمان راه‌اندازی مک";
 "Do everything silently in the background (recommended)" = "همه‌چیز در حالت سکوت در پس‌زمینه انجام شود (پیشنهاد شده)";

@@ -109,6 +109,12 @@
 "Finish setup" = "Completa configurazione";
 "Welcome to Stats" = "Stats ti dà il benvenuto";
 "welcome_message" = "Grazie per aver scelto Stats, un sistema di monitoraggio del sistema dalla menu bar gratuito e open source per macOS.";
+"Select preset" = "Seleziona preimpostazione"; // gemma4:31b
+"select_preset_message" = "Scegli un set iniziale di moduli. Puoi personalizzare tutto in seguito nelle Impostazioni."; // gemma4:31b
+"Default" = "Predefinito"; // gemma4:31b
+"Basic" = "Base"; // gemma4:31b
+"Recommended" = "Consigliato"; // gemma4:31b
+"Extended" = "Esteso"; // gemma4:31b
 "Start the application automatically when starting your Mac" = "Avvia l'applicazione automaticamente all'accensione del Mac";
 "Do not start the application automatically when starting your Mac" = "Non avviare l'applicazione automaticamente all'accensione del Mac";
 "Do everything silently in the background (recommended)" = "Gestisci autonomamente in background (consigliato)";

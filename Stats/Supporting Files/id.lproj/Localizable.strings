@@ -109,6 +109,12 @@
 "Finish setup" = "Selesaikan penyiapan"; // gemma4:31b
 "Welcome to Stats" = "Selamat datang di Stats"; // translategemma:4b
 "welcome_message" = "Terima kasih telah menggunakan Stats, monitor sistem macOS sumber terbuka gratis untuk bilah menu Anda."; // gemma4:31b
+"Select preset" = "Pilih preset"; // gemma4:31b
+"select_preset_message" = "Pilih set awal modul. Anda dapat menyesuaikan semuanya nanti di Pengaturan."; // gemma4:31b
+"Default" = "Bawaan"; // gemma4:31b
+"Basic" = "Dasar"; // gemma4:31b
+"Recommended" = "Direkomendasikan"; // gemma4:31b
+"Extended" = "Diperluas"; // gemma4:31b
 "Start the application automatically when starting your Mac" = "Jalankan aplikasi secara otomatis saat memulai Mac Anda"; // gemma4:31b
 "Do not start the application automatically when starting your Mac" = "Jangan jalankan aplikasi secara otomatis saat memulai Mac Anda"; // gemma4:31b
 "Do everything silently in the background (recommended)" = "Lakukan semuanya secara senyap di latar belakang (direkomendasikan)"; // gemma4:31b

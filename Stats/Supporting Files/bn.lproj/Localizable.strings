@@ -109,6 +109,12 @@
 "Finish setup" = "সেটআপ সম্পন্ন করুন";
 "Welcome to Stats" = "Stats-এ স্বাগতম";
 "welcome_message" = "Stats ব্যবহার করার জন্য ধন্যবাদ। আপনার মেনু বারে ব্যবহারের জন্য এটি একটি বিনামূল্যের, ওপেন-সোর্স macOS সিস্টেম মনিটর।";
+"Select preset" = "প্রিসেট নির্বাচন করুন"; // gemma4:31b
+"select_preset_message" = "মডিউলগুলোর একটি প্রাথমিক সেট বেছে নিন। আপনি পরে সেটিংস-এ সবকিছু কাস্টমাইজ করতে পারবেন।"; // gemma4:31b
+"Default" = "পূর্বনির্ধারিত"; // gemma4:31b
+"Basic" = "মৌলিক"; // gemma4:31b
+"Recommended" = "সুপারিশকৃত"; // gemma4:31b
+"Extended" = "বর্ধিত"; // gemma4:31b
 "Start the application automatically when starting your Mac" = "Mac চালুর সময় অ্যাপটি স্বয়ংক্রিয়ভাবে শুরু করুন";
 "Do not start the application automatically when starting your Mac" = "Mac চালুর সময় অ্যাপটি স্বয়ংক্রিয়ভাবে শুরু করবেন না";
 "Do everything silently in the background (recommended)" = "পটভূমিতে নীরবে সবকিছু চালান (প্রস্তাবিত)";

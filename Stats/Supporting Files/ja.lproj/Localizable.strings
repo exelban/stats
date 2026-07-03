@@ -109,6 +109,12 @@
 "Finish setup" = "セットアップ完了";
 "Welcome to Stats" = "Stats へようこそ";
 "welcome_message" = "メニューバー用の無料のオープンソースmacOSシステムモニターであるStatsをご利用いただきありがとうございます。"; // gemma4:31b
+"Select preset" = "プリセットを選択"; // gemma4:31b
+"select_preset_message" = "モジュールの初期セットを選択してください。後で「設定」からすべてをカスタマイズできます。"; // gemma4:31b
+"Default" = "デフォルト"; // gemma4:31b
+"Basic" = "基本"; // gemma4:31b
+"Recommended" = "推奨"; // gemma4:31b
+"Extended" = "拡張"; // gemma4:31b
 "Start the application automatically when starting your Mac" = "Macの起動時にアプリを自動起動する";
 "Do not start the application automatically when starting your Mac" = "Macの起動時にアプリを自動起動しない";
 "Do everything silently in the background (recommended)" = "すべてをバックグラウンドで静かに実行する (推奨)"; // gemma4:31b

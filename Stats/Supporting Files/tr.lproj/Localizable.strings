@@ -109,6 +109,12 @@
 "Finish setup" = "Kurulumu bitir";
 "Welcome to Stats" = "Stats'a hoş geldiniz";
 "welcome_message" = "Stats'ı kullandığınız için teşekkürler, Stats MacOS sistem monitörü açık kaynaklı menü bar uygulamasıdır";
+"Select preset" = "Ön ayar seçin"; // gemma4:31b
+"select_preset_message" = "Bir başlangıç modül seti seçin. Her şeyi daha sonra Ayarlar'dan özelleştirebilirsiniz."; // gemma4:31b
+"Default" = "Varsayılan"; // gemma4:31b
+"Basic" = "Temel"; // gemma4:31b
+"Recommended" = "Önerilen"; // gemma4:31b
+"Extended" = "Genişletilmiş"; // gemma4:31b
 "Start the application automatically when starting your Mac" = "Mac'i açınca otomatik çalıştır";
 "Do not start the application automatically when starting your Mac" = "Mac'i açınca otomatik çalıştırma";
 "Do everything silently in the background (recommended)" = "Her şeyi arkada sessiz yap (önerilir)";

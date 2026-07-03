@@ -109,6 +109,12 @@
 "Finish setup" = "Fullfør oppsett";
 "Welcome to Stats" = "Velkommen til Stats";
 "welcome_message" = "Takk for at du bruker Stats, en fritt tilgjengelig systemovervåkningsapp for menylinjen i macOS.";
+"Select preset" = "Velg forhåndsinnstilling"; // gemma4:31b
+"select_preset_message" = "Velg et startsett med moduler. Du kan tilpasse alt senere i innstillingene."; // gemma4:31b
+"Default" = "Standard"; // gemma4:31b
+"Basic" = "Grunnleggende"; // gemma4:31b
+"Recommended" = "Anbefalt"; // gemma4:31b
+"Extended" = "Utvidet"; // gemma4:31b
 "Start the application automatically when starting your Mac" = "Start applikasjonen automatisk når du starter Mac-en din";
 "Do not start the application automatically when starting your Mac" = "Ikke start applikasjonen automatisk når du starter Mac-en din";
 "Do everything silently in the background (recommended)" = "Gjør alt stille i bakgrunnen (anbefalt)";

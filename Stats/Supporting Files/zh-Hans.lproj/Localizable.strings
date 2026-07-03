@@ -109,6 +109,12 @@
 "Finish setup" = "完成设置";
 "Welcome to Stats" = "欢迎使用Stats";
 "welcome_message" = "感谢你使用Stats，一个免费的开源macOS菜单栏系统监视器。";
+"Select preset" = "选择预设"; // gemma4:31b
+"select_preset_message" = "选择一组初始模块。您稍后可以在“设置”中自定义所有内容。"; // gemma4:31b
+"Default" = "默认"; // gemma4:31b
+"Basic" = "基础"; // gemma4:31b
+"Recommended" = "推荐"; // gemma4:31b
+"Extended" = "扩展"; // gemma4:31b
 "Start the application automatically when starting your Mac" = "在启动你的Mac时自动开启应用程序";
 "Do not start the application automatically when starting your Mac" = "在启动你的Mac时不要自动开启应用程序";
 "Do everything silently in the background (recommended)" = "在后台静默运行（推荐）";

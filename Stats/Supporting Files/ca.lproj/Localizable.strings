@@ -109,6 +109,12 @@
 "Finish setup" = "Finalitzar configuració";
 "Welcome to Stats" = "Benvingut/Benvinguda a Stats";
 "welcome_message" = "Gràcies per fer servir Stats, una aplicació de monitorització per a la teva barra de menús de macOS de codi lliure.";
+"Select preset" = "Selecciona la preconfiguració"; // gemma4:31b
+"select_preset_message" = "Tria un conjunt inicial de mòduls. Pots personalitzar-ho tot més tard als Ajustos."; // gemma4:31b
+"Default" = "Per defecte"; // gemma4:31b
+"Basic" = "Bàsic"; // gemma4:31b
+"Recommended" = "Recomanat"; // gemma4:31b
+"Extended" = "Estès"; // gemma4:31b
 "Start the application automatically when starting your Mac" = "Iniciar automàticament l'aplicació al iniciar el teu Mac";
 "Do not start the application automatically when starting your Mac" = "No iniciar automàticament l'aplicació al iniciar el teu Mac";
 "Do everything silently in the background (recommended)" = "Fer tot silenciosament al radere (recomanat)";

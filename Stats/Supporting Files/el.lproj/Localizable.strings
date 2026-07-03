@@ -109,6 +109,12 @@
 "Finish setup" = "Τέλος εγκαταστασης";
 "Welcome to Stats" = "Καλώς ήρθες στο Stats";
 "welcome_message" = "Ευχαριστούμε που χρησιμοποιείτε το Stats, ένα δωρεάν εργαλείο παρακολούθησης συστήματος macOS ανοιχτού κώδικα για τη γραμμή μενού σας."; // gemma4:31b
+"Select preset" = "Επιλογή προκαθορισμού"; // gemma4:31b
+"select_preset_message" = "Επιλέξτε ένα αρχικό σύνολο ενοτήτων. Μπορείτε να προσαρμόσετε τα πάντα αργότερα στις Ρυθμίσεις."; // gemma4:31b
+"Default" = "Προεπιλεγμένο"; // gemma4:31b
+"Basic" = "Βασικά"; // gemma4:31b
+"Recommended" = "Προτεινόμενο"; // gemma4:31b
+"Extended" = "Εκτεταμένη"; // gemma4:31b
 "Start the application automatically when starting your Mac" = "Εκκίνηση της εφαρμογής αυτόματα κατά την εκκίνηση του Mac σας"; // gemma4:31b
 "Do not start the application automatically when starting your Mac" = "Μην εκκινείτε την εφαρμογή αυτόματα κατά την εκκίνηση του Mac σας"; // gemma4:31b
 "Do everything silently in the background (recommended)" = "Κάντε τα πάντα αθόρυβα στο παρασκήνιο (συνιστάται)"; // translategemma:4b
