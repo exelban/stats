@@ -10,6 +10,7 @@
 //
 
 import Foundation
+import Security
 
 let helper = Helper()
 helper.run()
@@ -51,7 +52,11 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
     
     func listener(_ listener: NSXPCListener, shouldAcceptNewConnection newConnection: NSXPCConnection) -> Bool {
         do {
-            let isValid = try CodesignCheck.codeSigningMatches(pid: newConnection.processIdentifier)
+            guard let token = CodesignCheck.auditToken(for: newConnection) else {
+                NSLog("unable to read audit token, dropping")
+                return false
+            }
+            let isValid = try CodesignCheck.codeSigningMatches(auditToken: token)
             if !isValid {
                 NSLog("invalid connection, dropping")
                 return false
@@ -112,16 +117,27 @@ extension Helper {
         completion(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "0")
     }
     func setSMCPath(_ path: String) {
+        var isDirectory: ObjCBool = false
+        let fm = FileManager.default
+        guard fm.fileExists(atPath: path, isDirectory: &isDirectory),
+              !isDirectory.boolValue,
+              fm.isExecutableFile(atPath: path),
+              (try? fm.destinationOfSymbolicLink(atPath: path)) == nil else {
+            NSLog("rejected smc path: \(path)")
+            self.smc = nil
+            return
+        }
+        guard CodesignCheck.matchesSelf(path: path) else {
+            NSLog("rejected smc path (signature mismatch): \(path)")
+            self.smc = nil
+            return
+        }
         self.smc = path
     }
     
     func setFanMode(id: Int, mode: Int, completion: (String?) -> Void) {
-        smcQueue.sync {
-            guard let smc = self.smc else {
-                completion("missing smc tool")
-                return
-            }
-            let result = syncShell("\(smc) fan \(id) -m \(mode)")
+        self.smcQueue.sync {
+            let result = self.callSMC(["fan", "\(id)", "-m", "\(mode)"])
             
             if let error = result.error, !error.isEmpty {
                 NSLog("error set fan mode: \(error)")
@@ -134,13 +150,8 @@ extension Helper {
     }
     
     func setFanSpeed(id: Int, value: Int, completion: (String?) -> Void) {
-        smcQueue.sync {
-            guard let smc = self.smc else {
-                completion("missing smc tool")
-                return
-            }
-            
-            let result = syncShell("\(smc) fan \(id) -v \(value)")
+        self.smcQueue.sync {
+            let result = self.callSMC(["fan", "\(id)", "-v", "\(value)"])
             
             if let error = result.error, !error.isEmpty {
                 NSLog("error set fan speed: \(error)")
@@ -153,12 +164,8 @@ extension Helper {
     }
     
     func resetFanControl(completion: (String?) -> Void) {
-        smcQueue.sync {
-            guard let smc = self.smc else {
-                completion("missing smc tool")
-                return
-            }
-            let result = syncShell("\(smc) reset")
+        self.smcQueue.sync {
+            let result = self.callSMC(["reset"])
             if let error = result.error, !error.isEmpty {
                 NSLog("error reset fan control: \(error)")
                 completion(nil)
@@ -168,10 +175,17 @@ extension Helper {
         }
     }
     
-    public func syncShell(_ args: String) -> (output: String?, error: String?) {
+    public func callSMC(_ arguments: [String]) -> (output: String?, error: String?) {
+        guard let smc = self.smc else {
+            return (nil, "missing smc tool")
+        }
+        guard CodesignCheck.matchesSelf(path: smc) else {
+            return (nil, "smc tool failed signature validation")
+        }
+
         let task = Process()
-        task.launchPath = "/bin/sh"
-        task.arguments = ["-c", args]
+        task.executableURL = URL(fileURLWithPath: smc)
+        task.arguments = arguments
         
         let outputPipe = Pipe()
         let errorPipe = Pipe()
@@ -187,7 +201,7 @@ extension Helper {
         do {
             try task.run()
         } catch let err {
-            return (nil, "syncShell: \(err.localizedDescription)")
+            return (nil, "runSMC: \(err.localizedDescription)")
         }
         
         let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
@@ -216,8 +230,37 @@ enum CodesignCheckError: Error {
 }
 
 struct CodesignCheck {
-    public static func codeSigningMatches(pid: pid_t) throws -> Bool {
-        return try self.codeSigningCertificatesForSelf() == self.codeSigningCertificates(forPID: pid)
+    public static func auditToken(for connection: NSXPCConnection) -> audit_token_t? {
+        let raw = connection.value(forKey: "auditToken")
+        var token = audit_token_t()
+        if let value = raw as? NSValue {
+            withUnsafeMutableBytes(of: &token) { value.getValue($0.baseAddress!, size: $0.count) }
+            return token
+        }
+        if let data = raw as? Data, data.count == MemoryLayout<audit_token_t>.size {
+            _ = withUnsafeMutableBytes(of: &token) { data.copyBytes(to: $0) }
+            return token
+        }
+        return nil
+    }
+    
+    public static func codeSigningMatches(auditToken token: audit_token_t) throws -> Bool {
+        return try self.codeSigningCertificatesForSelf() == self.codeSigningCertificates(forAuditToken: token)
+    }
+    
+    public static func matchesSelf(path: String) -> Bool {
+        var staticCode: SecStaticCode?
+        guard SecStaticCodeCreateWithPath(URL(fileURLWithPath: path) as CFURL, [], &staticCode) == errSecSuccess,
+              let code = staticCode else {
+            return false
+        }
+        do {
+            let selfCerts = try self.codeSigningCertificatesForSelf()
+            let fileCerts = try self.codeSigningCertificates(forStaticCode: code)
+            return !selfCerts.isEmpty && selfCerts == fileCerts
+        } catch {
+            return false
+        }
     }
     
     private static func codeSigningCertificatesForSelf() throws -> [SecCertificate] {
@@ -225,8 +268,8 @@ struct CodesignCheck {
         return try codeSigningCertificates(forStaticCode: secStaticCode)
     }
     
-    private static func codeSigningCertificates(forPID pid: pid_t) throws -> [SecCertificate] {
-        guard let secStaticCode = try secStaticCode(forPID: pid) else { return [] }
+    private static func codeSigningCertificates(forAuditToken token: audit_token_t) throws -> [SecCertificate] {
+        guard let secStaticCode = try secStaticCode(forAuditToken: token) else { return [] }
         return try codeSigningCertificates(forStaticCode: secStaticCode)
     }
     
@@ -246,10 +289,11 @@ struct CodesignCheck {
         return try secStaticCode(forSecCode: secCode)
     }
     
-    private static func secStaticCode(forPID pid: pid_t) throws -> SecStaticCode? {
-        var secCodePID: SecCode?
-        try executeSecFunction { SecCodeCopyGuestWithAttributes(nil, [kSecGuestAttributePid: pid] as CFDictionary, [], &secCodePID) }
-        guard let secCode = secCodePID else {
+    private static func secStaticCode(forAuditToken token: audit_token_t) throws -> SecStaticCode? {
+        let tokenData = withUnsafeBytes(of: token) { Data($0) } as CFData
+        var secCodeToken: SecCode?
+        try executeSecFunction { SecCodeCopyGuestWithAttributes(nil, [kSecGuestAttributeAudit: tokenData] as CFDictionary, [], &secCodeToken) }
+        guard let secCode = secCodeToken else {
             throw CodesignCheckError.message("SecCode returned empty from SecCodeCopyGuestWithAttributes")
         }
         return try secStaticCode(forSecCode: secCode)

@@ -356,7 +356,7 @@ public class SMC {
     }
     
     // MARK: - fans
-
+    
     public func fanModeKey(_ id: Int) -> String {
         #if arch(arm64)
         if _fanModeKeyIsLower == nil {
@@ -368,7 +368,7 @@ public class SMC {
         return "F\(id)Md"
         #endif
     }
-
+    
     public func setFanMode(_ id: Int, mode: FanMode) {
         #if arch(arm64)
         if mode == .forced {
@@ -571,26 +571,26 @@ public class SMC {
         if write(modeVal) == kIOReturnSuccess {
             return true
         }
-
+        
         // Direct failed; try Ftst unlock (M1-M4)
         var ftstVal = SMCVal_t("Ftst")
         let ftstResult = read(&ftstVal)
         guard ftstResult == kIOReturnSuccess, ftstVal.dataSize > 0 else {
             return false
         }
-
+        
         if ftstVal.bytes[0] == 1 {
             return retryModeWrite(fanId: fanId, maxAttempts: 20)
         }
-
+        
         ftstVal.bytes[0] = 1
         if !writeWithRetry(ftstVal, maxAttempts: 100) {
             return false
         }
-
+        
         // Wait for thermalmonitord to yield control
         usleep(3_000_000)
-
+        
         return retryModeWrite(fanId: fanId, maxAttempts: 300)
     }
     
@@ -614,7 +614,7 @@ public class SMC {
             value.bytes[0] = 0
             return writeWithRetry(value)
         }
-
+        
         // Ftst absent (M5+): reset fan modes directly
         guard let count = getValue("FNum") else { return false }
         var success = true
