@@ -160,6 +160,13 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     
     private var lastDetailsReadTS: Date = .distantPast
     
+    private let detailsQueue = DispatchQueue(label: "eu.exelban.NetworkDetailsReader")
+    private var _detailsInProgress: Bool = false
+    private var detailsInProgress: Bool {
+        get { self.variablesQueue.sync { self._detailsInProgress } }
+        set { self.variablesQueue.sync { self._detailsInProgress = newValue } }
+    }
+    
     public override func setup() {
         self.reachability.reachable = { [weak self] in
             guard let self else { return }
@@ -210,7 +217,7 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     
     public override func read() {
         self.checkUsageReset()
-        self.getDetails()
+        self.requestDetails()
         
         let current: Bandwidth = self.reader == "interface" ? self.readInterfaceBandwidth() : self.readProcessBandwidth()
         
@@ -358,6 +365,18 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         return Bandwidth(upload: totalUpload, download: totalDownload)
     }
     
+    private func requestDetails() {
+        guard self.interfaceID != "", !self.detailsInProgress else { return }
+        if Date().timeIntervalSince(self.lastDetailsReadTS) < 15 { return }
+        
+        self.detailsInProgress = true
+        self.detailsQueue.async { [weak self] in
+            guard let self else { return }
+            self.getDetails()
+            self.detailsInProgress = false
+        }
+    }
+    
     public func getDetails() {
         guard self.interfaceID != "" else { return }
         
@@ -443,7 +462,7 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         }
         
         if self.usage.wifiDetails.ssid == nil || self.usage.wifiDetails.ssid == "" {
-            guard let res = process(path: "/usr/sbin/system_profiler", arguments: ["SPAirPortDataType", "-json"]) else {
+            guard let res = self.systemProfilerAirport(timeout: 5) else {
                 return
             }
             do {
@@ -464,6 +483,44 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
                 return
             }
         }
+    }
+    
+    private func systemProfilerAirport(timeout: TimeInterval) -> String? {
+        let task = Process()
+        task.launchPath = "/usr/sbin/system_profiler"
+        task.arguments = ["SPAirPortDataType", "-json"]
+        
+        let outputPipe = Pipe()
+        task.standardOutput = outputPipe
+        task.standardError = Pipe()
+        
+        do {
+            try task.run()
+        } catch let err {
+            error("read SPAirPortDataType: \(err)", log: self.log)
+            return nil
+        }
+        
+        var output: String?
+        let group = DispatchGroup()
+        group.enter()
+        DispatchQueue.global(qos: .utility).async {
+            let data = outputPipe.fileHandleForReading.readDataToEndOfFile()
+            output = String(data: data, encoding: .utf8)
+            group.leave()
+        }
+        
+        if group.wait(timeout: .now() + timeout) == .timedOut {
+            if task.isRunning {
+                task.terminate()
+            }
+            error("SPAirPortDataType timed out after \(Int(timeout))s, terminating", log: self.log)
+            return nil
+        }
+        
+        task.waitUntilExit()
+        guard let output, !output.isEmpty else { return nil }
+        return output
     }
     
     private func getLocalIP(_ pointer: UnsafeMutablePointer<ifaddrs>) {
