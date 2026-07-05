@@ -160,9 +160,11 @@ public class Portal: PortalWrapper {
                 }
                 
                 var usagePerCore: [ColorValue] = []
-                if let cores = SystemKit.shared.device.info.cpu?.cores, cores.count == value.usagePerCore.count {
+                if let cores = SystemKit.shared.device.info.cpu?.cores, !cores.isEmpty {
                     for i in 0..<value.usagePerCore.count {
-                        usagePerCore.append(ColorValue(value.usagePerCore[i], color: cores[i].type == .efficiency ? self.eCoresColor : self.pCoresColor))
+                        let core = cores.first(where: { $0.id == i })
+                        let color = core?.type == .efficiency ? self.eCoresColor : core?.type == .super ? self.sCoresColor : self.pCoresColor
+                        usagePerCore.append(ColorValue(value.usagePerCore[i], color: color))
                     }
                 } else {
                     for i in 0..<value.usagePerCore.count {
