@@ -14,7 +14,7 @@ import Kit
 
 internal class Popup: PopupWrapper {
     private var mainColorState: SColor = .secondBlue
-    private var mainColor: NSColor { self.readColorState.additional as? NSColor ?? NSColor.systemRed }
+    private var mainColor: NSColor { self.mainColorState.additional as? NSColor ?? NSColor.systemBlue }
     private var readColorState: SColor = .secondBlue
     private var readColor: NSColor { self.readColorState.additional as? NSColor ?? NSColor.systemRed }
     private var writeColorState: SColor = .secondRed

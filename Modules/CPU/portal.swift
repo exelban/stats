@@ -43,7 +43,7 @@ public class Portal: PortalWrapper {
     private var pCoresColorState: SColor = .indigo
     private var pCoresColor: NSColor { self.pCoresColorState.additional as? NSColor ?? NSColor.systemBlue }
     private var sCoresColorState: SColor = .orange
-    private var sCoresColor: NSColor { self.eCoresColorState.additional as? NSColor ?? NSColor.systemOrange }
+    private var sCoresColor: NSColor { self.sCoresColorState.additional as? NSColor ?? NSColor.systemOrange }
     
     public override func load() {
         self.loadColors()
