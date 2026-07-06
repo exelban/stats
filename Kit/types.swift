@@ -259,7 +259,7 @@ extension SColor: CaseIterable {
     public static var indigo: SColor { if #available(OSX 10.15, *) {
         return SColor(key: "indigo", value: "Indigo", additional: NSColor.systemIndigo)
     } else {
-        return SColor(key: "indigo", value: "Indigo", additional: NSColor(red: 75, green: 0, blue: 130, alpha: 1))
+        return SColor(key: "indigo", value: "Indigo", additional: NSColor(red: 75/255, green: 0, blue: 130/255, alpha: 1))
     } }
     
     public static var allCases: [SColor] {
@@ -292,8 +292,8 @@ extension SColor: CaseIterable {
 }
 
 internal class MonochromeColor {
-    static internal let red: NSColor = NSColor(red: (145), green: (145), blue: (145), alpha: 1)
-    static internal let blue: NSColor = NSColor(red: (113), green: (113), blue: (113), alpha: 1)
+    static internal let red: NSColor = NSColor(red: 145/255, green: 145/255, blue: 145/255, alpha: 1)
+    static internal let blue: NSColor = NSColor(red: 113/255, green: 113/255, blue: 113/255, alpha: 1)
 }
 
 public typealias colorZones = (orange: Double, red: Double)

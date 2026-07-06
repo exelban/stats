@@ -351,12 +351,15 @@ public class SWidget {
                 self.menuBarItem?.button?.action = #selector(self.togglePopup)
                 self.menuBarItem?.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
             })
-        } else if let item = self.menuBarItem {
-            if self.keepMenuBarPosition {
-                saveNSStatusItemPosition(id: "\(self.module)_\(self.type.rawValue)")
-            }
-            NSStatusBar.system.removeStatusItem(item)
-            self.menuBarItem = nil
+        } else {
+            DispatchQueue.main.async(execute: {
+                guard let item = self.menuBarItem else { return }
+                if self.keepMenuBarPosition {
+                    saveNSStatusItemPosition(id: "\(self.module)_\(self.type.rawValue)")
+                }
+                NSStatusBar.system.removeStatusItem(item)
+                self.menuBarItem = nil
+            })
         }
     }
     
@@ -503,7 +506,7 @@ public class MenuBar {
     private func recalculateWidth() {
         guard self.oneView, self.active else { return }
         
-        let w = self.activeWidgets.map({ $0.item.frame.width }).reduce(0, +) +
+        let w = self.activeWidgets.isEmpty ? 0 : self.activeWidgets.map({ $0.item.frame.width }).reduce(0, +) +
             (CGFloat(self.activeWidgets.count - 1) * Constants.Widget.spacing) +
             Constants.Widget.spacing * 2
         self.menuBarItem?.length = w

@@ -55,7 +55,7 @@ public class BarChart: WidgetWrapper {
                 self.colors = self.colors.filter{ !unsupportedColors.contains($0.key) }
             }
             if let color = configuration["Color"] as? String {
-                if let defaultColor = self.colors.first(where: { "\($0.self)" == color }) {
+                if let defaultColor = self.colors.first(where: { $0.key == color }) {
                     self.colorState = defaultColor
                 }
             }

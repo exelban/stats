@@ -39,7 +39,7 @@ public class StackWidget: WidgetWrapper {
     private var oneRowWidth: CGFloat = 45
     private var twoRowWidth: CGFloat = 32
     
-    private let orderTableView: OrderTableView
+    private let orderTableView: OrderTableView = OrderTableView()
     
     private var alignment: NSTextAlignment {
         if let alignmentPair = Alignments.first(where: { $0.key == self.alignmentState }) {
@@ -59,8 +59,6 @@ public class StackWidget: WidgetWrapper {
             }
         }
         
-        self.orderTableView = OrderTableView(&self.values)
-        
         super.init(.stack, title: title, frame: CGRect(
             x: 0,
             y: Constants.Widget.margin.y,
@@ -75,6 +73,12 @@ public class StackWidget: WidgetWrapper {
             self.alignmentState = Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_alignment", defaultValue: self.alignmentState)
         }
         
+        self.orderTableView.getList = { [weak self] in
+            self?.values ?? []
+        }
+        self.orderTableView.setList = { [weak self] newList in
+            self?.values = newList
+        }
         self.orderTableView.reorderCallback = { [weak self] in
             self?.display()
         }
@@ -322,11 +326,10 @@ private class OrderTableView: NSView, NSTableViewDelegate, NSTableViewDataSource
     private var dragDropType = NSPasteboard.PasteboardType(rawValue: "\(Bundle.main.bundleIdentifier!).sensors-row")
     
     fileprivate var reorderCallback: () -> Void = {}
-    private let list: UnsafeMutablePointer<[Stack_t]>
+    fileprivate var getList: () -> [Stack_t] = { [] }
+    fileprivate var setList: ([Stack_t]) -> Void = { _ in }
     
-    init(_ list: UnsafeMutablePointer<[Stack_t]>) {
-        self.list = list
-        
+    init() {
         super.init(frame: NSRect.zero)
         
         self.wantsLayer = true
@@ -378,12 +381,13 @@ private class OrderTableView: NSView, NSTableViewDelegate, NSTableViewDataSource
     }
     
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return list.pointee.count
+        return self.getList().count
     }
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        if !self.list.pointee.indices.contains(row) { return nil }
-        let item = self.list.pointee[row]
+        let list = self.getList()
+        if !list.indices.contains(row) { return nil }
+        let item = list[row]
         
         let text: NSTextField = NSTextField()
         text.drawsBackground = false
@@ -437,24 +441,29 @@ private class OrderTableView: NSView, NSTableViewDelegate, NSTableViewDataSource
         
         tableView.beginUpdates()
         for oldIndex in oldIndexes {
+            var list = self.getList()
             if oldIndex < row {
                 let currentIdx = oldIndex + oldIndexOffset
                 let newIdx = row - 1
                 
-                self.list.pointee[currentIdx].index = newIdx
-                self.list.pointee[newIdx].index = currentIdx
+                if list.indices.contains(currentIdx) && list.indices.contains(newIdx) {
+                    list[currentIdx].index = newIdx
+                    list[newIdx].index = currentIdx
+                }
                 
                 oldIndexOffset -= 1
             } else {
                 let currentIdx = oldIndex
                 let newIdx = row + newIndexOffset
                 
-                self.list.pointee[currentIdx].index = newIdx
-                self.list.pointee[newIdx].index = currentIdx
+                if list.indices.contains(currentIdx) && list.indices.contains(newIdx) {
+                    list[currentIdx].index = newIdx
+                    list[newIdx].index = currentIdx
+                }
                 
                 newIndexOffset += 1
             }
-            self.list.pointee = self.list.pointee.sorted(by: { $0.index < $1.index })
+            self.setList(list.sorted(by: { $0.index < $1.index }))
             self.reorderCallback()
             tableView.reloadData()
         }

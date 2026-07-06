@@ -78,7 +78,7 @@ public class LineChart: WidgetWrapper {
                 self.colors = self.colors.filter{ !unsupportedColors.contains($0.key) }
             }
             if let color = config!["Color"] as? String {
-                if let defaultColor = colors.first(where: { "\($0.self)" == color }) {
+                if let defaultColor = colors.first(where: { $0.key == color }) {
                     self.colorState = defaultColor
                 }
             }
