@@ -45,14 +45,23 @@ public class DotWidget: WidgetWrapper {
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
+        var value: NSColor = .systemGreen
+        self.queue.sync {
+            value = self.value
+        }
+        
         let circle = NSBezierPath(ovalIn: CGRect(x: Constants.Widget.margin.x, y: (self.frame.height - 8)/2, width: 8, height: 8))
-        self.value.set()
+        value.set()
         circle.fill()
     }
     
     public func setValue(_ value: NSColor) {
-        guard self.value != value else { return }
-        self.value = value
+        let updated = self.queue.sync { () -> Bool in
+            guard self.value != value else { return false }
+            self.value = value
+            return true
+        }
+        guard updated else { return }
         DispatchQueue.main.async(execute: {
             self.display()
         })

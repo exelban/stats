@@ -69,8 +69,12 @@ public class TextWidget: WidgetWrapper {
     }
     
     public func setValue(_ newValue: String) {
-        guard self.value != newValue else { return }
-        self.value = newValue
+        let updated = self.queue.sync { () -> Bool in
+            guard self.value != newValue else { return false }
+            self.value = newValue
+            return true
+        }
+        guard updated else { return }
         DispatchQueue.main.async(execute: {
             self.display()
         })

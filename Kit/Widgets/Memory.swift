@@ -66,6 +66,15 @@ public class MemoryWidget: WidgetWrapper {
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
+        var value: (String, String) = ("", "")
+        var percentage: Double = 0
+        var pressureLevel: RAMPressure = .normal
+        self.queue.sync {
+            value = self.value
+            percentage = self.percentage
+            pressureLevel = self.pressureLevel
+        }
+        
         let letterWidth: CGFloat = 8
         let rowHeight: CGFloat = self.frame.height / 2
         var width: CGFloat = self.width
@@ -101,12 +110,12 @@ public class MemoryWidget: WidgetWrapper {
         case .systemAccent: 
             freeColor = .controlAccentColor
             usedColor = .controlAccentColor
-        case .utilization: 
-            freeColor = (1 - self.percentage).usageColor()
-            usedColor = self.percentage.usageColor()
+        case .utilization:
+            freeColor = (1 - percentage).usageColor()
+            usedColor = percentage.usageColor()
         case .pressure:
-            usedColor = self.pressureLevel.pressureColor()
-            freeColor = self.pressureLevel.pressureColor()
+            usedColor = pressureLevel.pressureColor()
+            freeColor = pressureLevel.pressureColor()
         case .monochrome:
             freeColor = (isDarkMode ? NSColor.white : NSColor.black)
             usedColor = (isDarkMode ? NSColor.white : NSColor.black)
@@ -117,20 +126,22 @@ public class MemoryWidget: WidgetWrapper {
         
         attributes[NSAttributedString.Key.foregroundColor] = freeColor
         var rect = CGRect(x: x, y: freeY, width: width - x, height: rowHeight)
-        var str = NSAttributedString.init(string: self.value.0, attributes: attributes)
+        var str = NSAttributedString.init(string: value.0, attributes: attributes)
         str.draw(with: rect)
         
         attributes[NSAttributedString.Key.foregroundColor] = usedColor
         rect = CGRect(x: x, y: usedY, width: width - x, height: rowHeight)
-        str = NSAttributedString.init(string: self.value.1, attributes: attributes)
+        str = NSAttributedString.init(string: value.1, attributes: attributes)
         str.draw(with: rect)
         
         self.setWidth(width + (Constants.Widget.margin.x*2))
     }
     
     public func setValue(_ value: (String, String), usedPercentage: Double) {
-        self.value = value
-        self.percentage = usedPercentage
+        self.queue.sync {
+            self.value = value
+            self.percentage = usedPercentage
+        }
         
         DispatchQueue.main.async(execute: {
             self.display()
@@ -138,8 +149,12 @@ public class MemoryWidget: WidgetWrapper {
     }
     
     public func setPressure(_ newPressureLevel: RAMPressure) {
-        guard self.pressureLevel != newPressureLevel else { return }
-        self.pressureLevel = newPressureLevel
+        let updated = self.queue.sync { () -> Bool in
+            guard self.pressureLevel != newPressureLevel else { return false }
+            self.pressureLevel = newPressureLevel
+            return true
+        }
+        guard updated else { return }
         DispatchQueue.main.async(execute: {
             self.display()
         })

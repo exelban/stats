@@ -263,10 +263,11 @@ public class NetworkChart: WidgetWrapper {
     }
     
     public func setValue(upload: Double, download: Double) {
-        DispatchQueue.main.async(execute: {
+        self.queue.sync {
             self.points.remove(at: 0)
             self.points.append((upload, download))
-            
+        }
+        DispatchQueue.main.async(execute: {
             if self.window?.isVisible ?? false {
                 self.display()
             }
@@ -326,18 +327,26 @@ public class NetworkChart: WidgetWrapper {
     }
     
     @objc private func toggleLabel(_ sender: NSControl) {
-        self.labelState = controlState(sender)
+        let state = controlState(sender)
+        self.queue.sync {
+            self.labelState = state
+        }
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_label", value: self.labelState)
         self.display()
     }
     
     @objc private func toggleBox(_ sender: NSControl) {
-        self.boxState = controlState(sender)
+        let state = controlState(sender)
+        self.queue.sync {
+            self.boxState = state
+        }
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
         
         if self.frameState {
             self.frameSettingsView?.state = .off
-            self.frameState = false
+            self.queue.sync {
+                self.frameState = false
+            }
             Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_frame", value: self.frameState)
         }
         
@@ -345,12 +354,17 @@ public class NetworkChart: WidgetWrapper {
     }
     
     @objc private func toggleFrame(_ sender: NSControl) {
-        self.frameState = controlState(sender)
+        let state = controlState(sender)
+        self.queue.sync {
+            self.frameState = state
+        }
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_frame", value: self.frameState)
         
         if self.boxState {
             self.boxSettingsView?.state = .off
-            self.boxState = false
+            self.queue.sync {
+                self.boxState = false
+            }
             Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_box", value: self.boxState)
         }
         
@@ -359,28 +373,34 @@ public class NetworkChart: WidgetWrapper {
     
     @objc private func toggleHistoryCount(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String, let num = Int(key) else { return }
-        self.historyCount = num
-        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_historyCount", value: self.historyCount)
-        
-        if num < self.points.count {
-            self.points = Array(self.points.suffix(num))
-        } else if num > self.points.count {
-            self.points = Array(repeating: (0, 0), count: num - self.points.count) + self.points
+        self.queue.sync {
+            self.historyCount = num
+
+            if num < self.points.count {
+                self.points = Array(self.points.suffix(num))
+            } else if num > self.points.count {
+                self.points = Array(repeating: (0, 0), count: num - self.points.count) + self.points
+            }
         }
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_historyCount", value: self.historyCount)
         
         self.display()
     }
     
     @objc private func toggleDownloadColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
-        self.downloadColor = SColor.fromString(key, defaultValue: self.downloadColor)
+        self.queue.sync {
+            self.downloadColor = SColor.fromString(key, defaultValue: self.downloadColor)
+        }
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_downloadColor", value: self.downloadColor.key)
         self.display()
     }
     
     @objc private func toggleUploadColor(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
-        self.uploadColor = SColor.fromString(key, defaultValue: self.uploadColor)
+        self.queue.sync {
+            self.uploadColor = SColor.fromString(key, defaultValue: self.uploadColor)
+        }
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_uploadColor", value: self.uploadColor.key)
         self.display()
     }
@@ -388,13 +408,18 @@ public class NetworkChart: WidgetWrapper {
     @objc private func toggleScale(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String,
               let value = Scale.allCases.first(where: { $0.key == key }) else { return }
-        self.scaleState = value
+        self.queue.sync {
+            self.scaleState = value
+        }
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_scale", value: key)
         self.display()
     }
     
     @objc private func toggleReverseOrder(_ sender: NSControl) {
-        self.reverseOrderState = controlState(sender)
+        let state = controlState(sender)
+        self.queue.sync {
+            self.reverseOrderState = state
+        }
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_reverseOrder", value: self.reverseOrderState)
         self.display()
     }

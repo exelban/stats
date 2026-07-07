@@ -77,7 +77,10 @@ public class StackWidget: WidgetWrapper {
             self?.values ?? []
         }
         self.orderTableView.setList = { [weak self] newList in
-            self?.values = newList
+            guard let self else { return }
+            self.queue.sync {
+                self.values = newList
+            }
         }
         self.orderTableView.reorderCallback = { [weak self] in
             self?.display()
@@ -235,20 +238,22 @@ public class StackWidget: WidgetWrapper {
         DispatchQueue.main.async(execute: {
             var tableNeedsToBeUpdated: Bool = false
             
-            values.forEach { (p: Stack_t) in
-                if let idx = self.values.firstIndex(where: { $0.key == p.key }) {
-                    self.values[idx].value = p.value
-                    return
+            self.queue.sync {
+                values.forEach { (p: Stack_t) in
+                    if let idx = self.values.firstIndex(where: { $0.key == p.key }) {
+                        self.values[idx].value = p.value
+                        return
+                    }
+                    tableNeedsToBeUpdated = true
+                    self.values.append(p)
                 }
-                tableNeedsToBeUpdated = true
-                self.values.append(p)
+                
+                let diff = self.values.filter({ v in values.contains(where: { $0.key == v.key }) })
+                if diff.count != self.values.count {
+                    tableNeedsToBeUpdated = true
+                }
+                self.values = diff.sorted(by: { $0.index < $1.index })
             }
-            
-            let diff = self.values.filter({ v in values.contains(where: { $0.key == v.key }) })
-            if diff.count != self.values.count {
-                tableNeedsToBeUpdated = true
-            }
-            self.values = diff.sorted(by: { $0.index < $1.index })
             
             if tableNeedsToBeUpdated {
                 self.orderTableView.update()
@@ -293,19 +298,27 @@ public class StackWidget: WidgetWrapper {
     
     @objc private func changeDisplayMode(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
-        self.modeState = StackMode(rawValue: key) ?? .auto
+        self.queue.sync {
+            self.modeState = StackMode(rawValue: key) ?? .auto
+        }
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_mode", value: key)
         self.display()
     }
     
     @objc private func toggleSize(_ sender: NSControl) {
-        self.fixedSizeState = controlState(sender)
+        let state = controlState(sender)
+        self.queue.sync {
+            self.fixedSizeState = state
+        }
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_size", value: self.fixedSizeState)
         self.display()
     }
     
     @objc private func toggleMonospacedFont(_ sender: NSControl) {
-        self.monospacedFontState = controlState(sender)
+        let state = controlState(sender)
+        self.queue.sync {
+            self.monospacedFontState = state
+        }
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_monospacedFont", value: self.monospacedFontState)
         self.display()
     }
@@ -313,7 +326,9 @@ public class StackWidget: WidgetWrapper {
     @objc private func toggleAlignment(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String else { return }
         if let newAlignment = Alignments.first(where: { $0.key == key }) {
-            self.alignmentState = newAlignment.key
+            self.queue.sync {
+                self.alignmentState = newAlignment.key
+            }
         }
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_alignment", value: key)
         self.display()
@@ -436,37 +451,35 @@ private class OrderTableView: NSView, NSTableViewDelegate, NSTableViewDataSource
             }
         }
         
+        var list = self.getList()
         var oldIndexOffset = 0
         var newIndexOffset = 0
         
         tableView.beginUpdates()
         for oldIndex in oldIndexes {
-            var list = self.getList()
+            let currentIdx: Int
+            let newIdx: Int
+            
             if oldIndex < row {
-                let currentIdx = oldIndex + oldIndexOffset
-                let newIdx = row - 1
-                
-                if list.indices.contains(currentIdx) && list.indices.contains(newIdx) {
-                    list[currentIdx].index = newIdx
-                    list[newIdx].index = currentIdx
-                }
-                
+                currentIdx = oldIndex + oldIndexOffset
+                newIdx = row - 1
                 oldIndexOffset -= 1
             } else {
-                let currentIdx = oldIndex
-                let newIdx = row + newIndexOffset
-                
-                if list.indices.contains(currentIdx) && list.indices.contains(newIdx) {
-                    list[currentIdx].index = newIdx
-                    list[newIdx].index = currentIdx
-                }
-                
+                currentIdx = oldIndex
+                newIdx = row + newIndexOffset
                 newIndexOffset += 1
             }
-            self.setList(list.sorted(by: { $0.index < $1.index }))
-            self.reorderCallback()
-            tableView.reloadData()
+            
+            if list.indices.contains(currentIdx) && list.indices.contains(newIdx) {
+                list.insert(list.remove(at: currentIdx), at: newIdx)
+            }
         }
+        for i in list.indices {
+            list[i].index = i
+        }
+        self.setList(list)
+        self.reorderCallback()
+        tableView.reloadData()
         tableView.endUpdates()
         
         return true

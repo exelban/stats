@@ -148,16 +148,24 @@ public class Mini: WidgetWrapper {
     }
     
     public func setValue(_ newValue: Double) {
-        guard self._value != newValue else { return }
-        self._value = newValue
+        let updated = self.queue.sync { () -> Bool in
+            guard self._value != newValue else { return false }
+            self._value = newValue
+            return true
+        }
+        guard updated else { return }
         DispatchQueue.main.async(execute: {
             self.display()
         })
     }
     
     public func setPressure(_ newPressureLevel: RAMPressure) {
-        guard self._pressureLevel != newPressureLevel else { return }
-        self._pressureLevel = newPressureLevel
+        let updated = self.queue.sync { () -> Bool in
+            guard self._pressureLevel != newPressureLevel else { return false }
+            self._pressureLevel = newPressureLevel
+            return true
+        }
+        guard updated else { return }
         DispatchQueue.main.async(execute: {
             self.needsDisplay = true
         })
@@ -168,24 +176,36 @@ public class Mini: WidgetWrapper {
         if let new = newTitle {
             title = new
         }
-        guard self._label != title else { return }
-        self._label = title
+        let updated = self.queue.sync { () -> Bool in
+            guard self._label != title else { return false }
+            self._label = title
+            return true
+        }
+        guard updated else { return }
         DispatchQueue.main.async(execute: {
             self.needsDisplay = true
         })
     }
     
     public func setColorZones(_ newColorZones: colorZones) {
-        guard self._colorZones != newColorZones else { return }
-        self._colorZones = newColorZones
+        let updated = self.queue.sync { () -> Bool in
+            guard self._colorZones != newColorZones else { return false }
+            self._colorZones = newColorZones
+            return true
+        }
+        guard updated else { return }
         DispatchQueue.main.async(execute: {
             self.display()
         })
     }
     
     public func setSuffix(_ newSuffix: String) {
-        guard self._suffix != newSuffix else { return }
-        self._suffix = newSuffix
+        let updated = self.queue.sync { () -> Bool in
+            guard self._suffix != newSuffix else { return false }
+            self._suffix = newSuffix
+            return true
+        }
+        guard updated else { return }
         DispatchQueue.main.async(execute: {
             self.display()
         })

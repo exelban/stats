@@ -223,33 +223,42 @@ public class BarChart: WidgetWrapper {
     }
     
     public func setValue(_ newValue: [[ColorValue]]) {
-        DispatchQueue.main.async(execute: {
+        let updated = self.queue.sync { () -> Bool in
             let tolerance: CGFloat = 0.01
             let isDifferent = self._value.count != newValue.count || zip(self._value, newValue).contains { row1, row2 in
                 row1.count != row2.count || zip(row1, row2).contains { val1, val2 in
                     abs(val1.value - val2.value) > tolerance || val1.color != val2.color
                 }
             }
-            guard isDifferent else { return }
+            guard isDifferent else { return false }
             self._value = newValue
+            return true
+        }
+        if updated {
             self.redraw()
-        })
+        }
     }
     
     public func setPressure(_ newPressureLevel: RAMPressure) {
-        DispatchQueue.main.async(execute: {
-            guard self._pressureLevel != newPressureLevel else { return }
+        let updated = self.queue.sync { () -> Bool in
+            guard self._pressureLevel != newPressureLevel else { return false }
             self._pressureLevel = newPressureLevel
+            return true
+        }
+        if updated {
             self.redraw()
-        })
+        }
     }
     
     public func setColorZones(_ newColorZones: colorZones) {
-        DispatchQueue.main.async(execute: {
-            guard self._colorZones != newColorZones else { return }
+        let updated = self.queue.sync { () -> Bool in
+            guard self._colorZones != newColorZones else { return false }
             self._colorZones = newColorZones
+            return true
+        }
+        if updated {
             self.redraw()
-        })
+        }
     }
     
     // MARK: - Settings
