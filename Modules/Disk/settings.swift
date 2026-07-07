@@ -40,6 +40,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     private var baseValue: String = "byte"
     private var speedUnitValue: String = NetworkSpeedUnitAuto
     private var SMARTState: Bool = true
+    private var ATASMARTState: Bool = false
     private var textValue: String = "$capacity.free/$capacity.total"
     
     public var selectedDiskHandler: (String) -> Void = {_ in }
@@ -64,6 +65,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         self.baseValue = Store.shared.string(key: "\(self.title)_base", defaultValue: self.baseValue)
         self.speedUnitValue = networkSpeedUnit(from: Store.shared.string(key: "\(self.title)_speedUnit", defaultValue: self.speedUnitValue)).key
         self.SMARTState = Store.shared.bool(key: "\(self.title)_SMART", defaultValue: self.SMARTState)
+        self.ATASMARTState = Store.shared.bool(key: "\(self.title)_ATASMART", defaultValue: self.ATASMARTState)
         self.textValue = Store.shared.string(key: "\(self.title)_textWidgetValue", defaultValue: self.textValue)
         
         super.init(frame: NSRect.zero)
@@ -127,6 +129,10 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
             PreferencesRow(localizedString("SMART data"), component: switchView(
                 action: #selector(self.toggleSMART),
                 state: self.SMARTState
+            )),
+            PreferencesRow(localizedString("ATA SMART data"), component: switchView(
+                action: #selector(self.toggleATASMART),
+                state: self.ATASMARTState
             ))
         ]))
         
@@ -214,6 +220,11 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     @objc private func toggleSMART(_ sender: NSControl) {
         self.SMARTState = controlState(sender)
         Store.shared.set(key: "\(self.title)_SMART", value: self.SMARTState)
+        self.callback()
+    }
+    @objc private func toggleATASMART(_ sender: NSControl) {
+        self.ATASMARTState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_ATASMART", value: self.ATASMARTState)
         self.callback()
     }
     

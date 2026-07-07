@@ -341,6 +341,7 @@
 "Total written" = "Total escrito";
 "Drives" = "Discos"; // gemma4:31b
 "SMART data" = "Dados SMART"; // translategemma:4b
+"ATA SMART data" = "Dados ATA SMART"; // gemma4:31b
 "Power cycles" = "Ciclos de carga"; // gemma4:31b
 "Power on hours" = "Horas de funcionamento"; // gemma4:31b
 

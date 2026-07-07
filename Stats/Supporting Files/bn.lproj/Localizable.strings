@@ -341,6 +341,7 @@
 "Total written" = "মোট লেখা";
 "Drives" = "ড্রাইভসমূহ";
 "SMART data" = "SMART ডেটা";
+"ATA SMART data" = "ATA SMART ডেটা"; // gemma4:31b
 "Power cycles" = "পাওয়ার চক্র";
 "Power on hours" = "চালু থাকার সময়";
 

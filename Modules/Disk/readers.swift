@@ -51,9 +51,13 @@ internal class CapacityReader: Reader<Disks> {
     private var SMART: Bool {
         Store.shared.bool(key: "\(ModuleType.disk.stringValue)_SMART", defaultValue: true)
     }
+    private var ATASMART: Bool {
+        Store.shared.bool(key: "\(ModuleType.disk.stringValue)_ATASMART", defaultValue: false)
+    }
     
     private var purgableSpace: [URL: (Date, Int64)] = [:]
     private var smartTotals: [String: (read: Int64, written: Int64)] = [:]
+    private var smartEnableAttempted: Set<String> = []
     
     public override func read() {
         let keys: [URLResourceKey] = [.volumeNameKey]
@@ -188,7 +192,7 @@ internal class CapacityReader: Reader<Disks> {
         guard IOObjectConformsTo(disk, kIOBlockStorageDeviceClass) > 0 else { return nil }
         
         if let smart = self.getNVMeSMART(for: disk) { return smart }
-        if let smart = self.getATASMART(for: disk, BSDName: BSDName) { return smart }
+        if self.ATASMART, let smart = self.getATASMART(for: disk, BSDName: BSDName) { return smart }
         return nil
     }
     
@@ -281,10 +285,15 @@ internal class CapacityReader: Reader<Disks> {
         }
         
         guard let smart = smartInterface?.pointee else { return nil }
-        _ = smart.pointee.SMARTEnableDisableOperations(smartInterface, true)
         
         var smartData = ATASMARTData()
-        guard smart.pointee.SMARTReadData(smartInterface, &smartData) == kIOReturnSuccess else { return nil }
+        var readResult = smart.pointee.SMARTReadData(smartInterface, &smartData)
+        if readResult != kIOReturnSuccess && !self.smartEnableAttempted.contains(BSDName) {
+            self.smartEnableAttempted.insert(BSDName)
+            _ = smart.pointee.SMARTEnableDisableOperations(smartInterface, true)
+            readResult = smart.pointee.SMARTReadData(smartInterface, &smartData)
+        }
+        guard readResult == kIOReturnSuccess else { return nil }
         
         var attributes: [Int: (current: Int, raw: [UInt8])] = [:]
         withUnsafeBytes(of: &smartData) { buffer in
@@ -343,14 +352,20 @@ internal class CapacityReader: Reader<Disks> {
                     value |= UInt64(logBuffer[base + i]) << (8 * i)
                 }
                 guard (value & (UInt64(1) << 63)) != 0, (value & (UInt64(1) << 62)) != 0 else { return nil }
-                return value & 0x00FF_FFFF_FFFF_FFFF
+                return value & 0x0000_FFFF_FFFF_FFFF
             }
             
             if let written = deviceStatistic(page: 1, offset: 0x18) {
-                deviceWritten = Int64(written) * bytesPerLBA
+                let (bytes, overflow) = Int64(written).multipliedReportingOverflow(by: bytesPerLBA)
+                if !overflow {
+                    deviceWritten = bytes
+                }
             }
             if let read = deviceStatistic(page: 1, offset: 0x28) {
-                deviceRead = Int64(read) * bytesPerLBA
+                let (bytes, overflow) = Int64(read).multipliedReportingOverflow(by: bytesPerLBA)
+                if !overflow {
+                    deviceRead = bytes
+                }
             }
             if let used = deviceStatistic(page: 7, offset: 0x08) {
                 life = max(0, 100 - Int(used & 0xFF))

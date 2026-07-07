@@ -341,6 +341,7 @@
 "Total written" = "Celkový zápis"; // gemma4:31b
 "Drives" = "Disky"; // gemma4:31b
 "SMART data" = "SMART údaje"; // gemma4:31b
+"ATA SMART data" = "Údaje ATA SMART"; // gemma4:31b
 "Power cycles" = "Počet cyklov"; // gemma4:31b
 "Power on hours" = "Hodiny prevádzky"; // gemma4:31b
 

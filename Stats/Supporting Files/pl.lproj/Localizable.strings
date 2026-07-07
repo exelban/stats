@@ -341,6 +341,7 @@
 "Total written" = "Całkowity zapis";
 "Drives" = "Dyski";
 "SMART data" = "Dane SMART";
+"ATA SMART data" = "Dane ATA SMART";
 "Power cycles" = "Liczba cykli";
 "Power on hours" = "Godziny pracy";
 

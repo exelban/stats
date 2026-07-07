@@ -341,6 +341,7 @@
 "Total written" = "کل نوشته شده"; // gemma4:31b
 "Drives" = "درایوها"; // translategemma:4b
 "SMART data" = "داده‌های SMART"; // gemma4:31b
+"ATA SMART data" = "داده‌های ATA SMART"; // gemma4:31b
 "Power cycles" = "تعداد چرخه ها"; // gemma4:31b
 "Power on hours" = "ساعات کارکرد"; // gemma4:31b
 
