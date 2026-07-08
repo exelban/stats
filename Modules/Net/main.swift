@@ -54,12 +54,16 @@ public struct Network_wifi: Codable {
     mutating func reset() {
         self.countryCode = nil
         self.ssid = nil
+        self.bssid = nil
         self.RSSI = nil
         self.noise = nil
         self.standard = nil
         self.mode = nil
         self.security = nil
         self.channel = nil
+        self.channelBand = nil
+        self.channelWidth = nil
+        self.channelNumber = nil
     }
 }
 
