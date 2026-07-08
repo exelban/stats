@@ -102,7 +102,7 @@ public struct NetworkWidget: Widget {
                                 HStack {
                                     Text("Interface").font(.system(size: 12, weight: .regular)).foregroundColor(.secondary)
                                     Spacer()
-                                    Text(value.wifiDetails.ssid ?? interface.displayName)
+                                    Text(value.connectionType == .wifi ? (value.wifiDetails.ssid ?? interface.displayName) : interface.displayName)
                                 }
                             }
                             HStack {
