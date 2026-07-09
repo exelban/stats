@@ -119,14 +119,18 @@ internal class Preview: PreviewWrapper {
                 if let name = cpu.name {
                     titleValue = name
                 }
-                if let eCores = cpu.eCores, let pCores = cpu.pCores {
-                    titleValue.append(" (\(eCores)E/\(pCores)P)")
-                } else if let eCores = cpu.eCores {
-                    titleValue.append(" (\(eCores)E)")
-                } else if let pCores = cpu.pCores {
-                    titleValue.append(" (\(pCores)P)")
-                } else if let sCores = cpu.sCores {
-                    titleValue.append(" (\(sCores)S)")
+                var clusters: [String] = []
+                if let eCores = cpu.eCores {
+                    clusters.append("\(eCores)E")
+                }
+                if let pCores = cpu.pCores {
+                    clusters.append("\(pCores)P")
+                }
+                if let sCores = cpu.sCores {
+                    clusters.append("\(sCores)S")
+                }
+                if !clusters.isEmpty {
+                    titleValue.append(" (\(clusters.joined(separator: "/")))")
                 }
             }
             

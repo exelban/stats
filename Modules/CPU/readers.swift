@@ -200,7 +200,7 @@ public class ProcessReader: Reader<[TopProcess]> {
         }
         
         let task = Process()
-        task.launchPath = "/bin/ps"
+        task.executableURL = URL(fileURLWithPath: "/bin/ps")
         task.arguments = ["-Aceo pid,pcpu,comm", "-r"]
         
         let outputPipe = Pipe()
@@ -396,9 +396,9 @@ public class FrequencyReader: Reader<CPU_Frequency> {
                 }
             }
             
-            let eFreq: Double? = eCores.isEmpty ? nil : eCores.reduce(0, +) / Double(self.measurementCount)
-            let pFreq: Double? = pCores.isEmpty ? nil : pCores.reduce(0, +) / Double(self.measurementCount)
-            let sFreq: Double? = sCores.isEmpty ? nil : sCores.reduce(0, +) / Double(self.measurementCount)
+            let eFreq: Double? = eCores.isEmpty ? nil : eCores.reduce(0, +) / Double(eCores.count)
+            let pFreq: Double? = pCores.isEmpty ? nil : pCores.reduce(0, +) / Double(pCores.count)
+            let sFreq: Double? = sCores.isEmpty ? nil : sCores.reduce(0, +) / Double(sCores.count)
             
             var activeCores: Double = 0
             var totalFreq: Double = 0
@@ -465,7 +465,7 @@ public class FrequencyReader: Reader<CPU_Frequency> {
             channels.append(channel)
         }
         
-        let chan = channels[0]
+        guard let chan = channels.first else { return nil }
         for i in 1..<channels.count {
             IOReportMergeChannels(chan, channels[i], nil)
         }
@@ -547,7 +547,7 @@ public class LimitReader: Reader<CPU_Limit> {
     
     public override func read() {
         let task = Process()
-        task.launchPath = "/usr/bin/pmset"
+        task.executableURL = URL(fileURLWithPath: "/usr/bin/pmset")
         task.arguments = ["-g", "therm"]
         
         let outputPipe = Pipe()
@@ -566,7 +566,7 @@ public class LimitReader: Reader<CPU_Limit> {
         let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
         guard let str = String(data: outputData, encoding: .utf8) else { return }
         var lines = str.split(separator: "\n")
-        guard !lines.isEmpty else { return }
+        guard lines.count > 3 else { return }
         lines.removeFirst(3)
         
         lines.forEach { (line: Substring) in
@@ -596,7 +596,7 @@ public class AverageLoadReader: Reader<CPU_AverageLoad> {
     
     public override func read() {
         let task = Process()
-        task.launchPath = "/usr/bin/uptime"
+        task.executableURL = URL(fileURLWithPath: "/usr/bin/uptime")
         
         let outputPipe = Pipe()
         defer {

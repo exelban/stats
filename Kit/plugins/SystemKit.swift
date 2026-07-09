@@ -416,12 +416,7 @@ public class SystemKit {
                         }
                     }
                     
-                    let rawCPUId = props.object(forKey: "cpu-id") as? Data
-                    let id = rawCPUId?.withUnsafeBytes { pointer in
-                        return pointer.load(as: Int32.self)
-                    }
-                    
-                    list.append(core_s(id: id ?? -1, type: type))
+                    list.append(core_s(id: Int32(name.trimmed.dropFirst(3)) ?? -1, type: type))
                 } else if name.trimmed == "cpus" {
                     if isM5GenOrNewer {
                         eCores = (props.object(forKey: "e-core-count") as? Data)?.withUnsafeBytes { pointer in
@@ -449,6 +444,11 @@ public class SystemKit {
             IOObjectRelease(service)
         }
         IOObjectRelease(iterator)
+        
+        list.sort { $0.id < $1.id }
+        for i in list.indices {
+            list[i].id = Int32(i)
+        }
         
         return (eCores, pCores, sCores, list)
     }
