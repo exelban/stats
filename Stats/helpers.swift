@@ -325,4 +325,25 @@ extension AppDelegate {
             "center": window.frame.width/2
         ])
     }
+    
+    // Workaround for the WindowServer "Invalid window" log spam on macOS Tahoe (#3212, #2829).
+    //
+    // On Tahoe every layout pass on an NSStatusBarWindow schedules a tiling-constraints sync
+    // (-[NSWindow(NSFullScreen) _refreshTilingConstraints:]) that calls
+    // SLSPackagesSetWindowConstraints with the window number. A status bar window has no regular
+    // server-side window on Tahoe (the low 32 bits of its windowNumber are zero), so WindowServer
+    // rejects every call and logs "_CGXPackagesSetWindowConstraints: Invalid window" on each
+    // widget update. The gate (-[NSWindow(NSFullScreen) _needsTilingConstraintUpdate]) returns
+    // true whenever the app is inactive, which for a menu bar app is almost always.
+    //
+    // Overriding the gate on NSStatusBarWindow only (a status bar window can never be tiled)
+    // stops the sync from ever being scheduled; all other windows keep the default behavior.
+    internal func suppressStatusBarTilingConstraintUpdates() {
+        guard #available(macOS 26.0, *) else { return }
+        let selector = NSSelectorFromString("_needsTilingConstraintUpdate")
+        guard let cls = NSClassFromString("NSStatusBarWindow"),
+              let method = class_getInstanceMethod(cls, selector) else { return }
+        let block: @convention(block) (AnyObject) -> Bool = { _ in false }
+        class_addMethod(cls, selector, imp_implementationWithBlock(block), method_getTypeEncoding(method))
+    }
 }

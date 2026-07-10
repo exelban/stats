@@ -71,6 +71,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let startingPoint = self.launchStart ?? Date()
         
+        self.suppressStatusBarTilingConstraintUpdates()
         self.parseArguments()
         self.parseVersion()
         SMCHelper.shared.checkForUpdate()
