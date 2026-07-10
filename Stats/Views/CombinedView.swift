@@ -117,23 +117,23 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
     
     private func recalculate() {
         self.view.subviews.forEach({ $0.removeFromSuperview() })
-        
+
+        let visibleModules = self.activeModules.filter({ !$0.menuBar.activeWidgets.isEmpty })
         var w: CGFloat = 0
-        var i: Int = 0
-        self.activeModules.forEach { (m: Module) in
-            self.view.addSubview(m.menuBar.view)
-            self.view.subviews[i].setFrameOrigin(NSPoint(x: w, y: 0))
-            w += m.menuBar.view.frame.width + self.spacing
-            i += 1
-            
-            if self.separator && i < 2 * self.activeModules.count - 1 {
-                let separator = NSView(frame: NSRect(x: w, y: 3, width: 1, height: Constants.Widget.height-6))
-                separator.wantsLayer = true
-                separator.layer?.backgroundColor = (separator.isDarkMode ? NSColor.white : NSColor.black).cgColor
-                self.view.addSubview(separator)
-                w += 3 + self.spacing
-                i += 1
+        visibleModules.enumerated().forEach { (i, m) in
+            if i != 0 {
+                w += self.spacing
+                if self.separator {
+                    let separator = NSView(frame: NSRect(x: w, y: 3, width: 1, height: Constants.Widget.height-6))
+                    separator.wantsLayer = true
+                    separator.layer?.backgroundColor = (separator.isDarkMode ? NSColor.white : NSColor.black).cgColor
+                    self.view.addSubview(separator)
+                    w += 3 + self.spacing
+                }
             }
+            self.view.addSubview(m.menuBar.view)
+            m.menuBar.view.setFrameOrigin(NSPoint(x: w, y: 0))
+            w += m.menuBar.view.frame.width
         }
         self.view.setFrameSize(NSSize(width: w, height: self.view.frame.height))
         self.menuBarItem?.length = w
@@ -156,9 +156,14 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
             var x = window.frame.origin.x - windowCenter + window.frame.width/2
             let y = window.frame.origin.y - popup.contentView!.intrinsicContentSize.height - 3
             
-            let maxWidth = NSScreen.screens.map{ $0.frame.width }.reduce(0, +)
-            if x + popup.contentView!.intrinsicContentSize.width > maxWidth {
-                x = maxWidth - popup.contentView!.intrinsicContentSize.width - 3
+            let buttonPoint = NSPoint(x: window.frame.midX, y: window.frame.midY)
+            if let screen = NSScreen.screens.first(where: { $0.frame.contains(buttonPoint) }) ?? NSScreen.main {
+                if x + popup.contentView!.intrinsicContentSize.width > screen.frame.maxX {
+                    x = screen.frame.maxX - popup.contentView!.intrinsicContentSize.width - 3
+                }
+                if x < screen.frame.minX {
+                    x = screen.frame.minX + 3
+                }
             }
             
             popup.setFrameOrigin(NSPoint(x: x, y: y))

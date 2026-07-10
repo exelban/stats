@@ -34,7 +34,7 @@ open class PreviewWrapper: NSStackView {
 }
 
 open class Window: NSStackView {
-    private var config: UnsafePointer<module_c>
+    private var config: module_c
     private var widgets: [SWidget]
     
     private var widgetSelector: NSView?
@@ -62,8 +62,8 @@ open class Window: NSStackView {
         Store.shared.bool(key: "OneView", defaultValue: false)
     }
     private var oneViewState: Bool {
-        get { Store.shared.bool(key: "\(self.config.pointee.name)_oneView", defaultValue: false) }
-        set { Store.shared.set(key: "\(self.config.pointee.name)_oneView", value: newValue) }
+        get { Store.shared.bool(key: "\(self.config.name)_oneView", defaultValue: false) }
+        set { Store.shared.set(key: "\(self.config.name)_oneView", value: newValue) }
     }
     
     private var isPreviewAvailable: Bool
@@ -74,24 +74,24 @@ open class Window: NSStackView {
     private var settingsView: NSView? = nil
     
     init(
-        config: UnsafePointer<module_c>,
-        widgets: UnsafeMutablePointer<[SWidget]>,
+        config: module_c,
+        widgets: [SWidget],
         modulePreview: PreviewWrapper?,
         moduleSettings: Settings_v?,
         popupSettings: Popup_p?,
         notificationsSettings: NotificationsWrapper?
     ) {
         self.config = config
-        self.widgets = widgets.pointee
+        self.widgets = widgets
         self.modulePreview = modulePreview
         self.moduleSettings = moduleSettings
         self.popupSettings = popupSettings
         self.notificationsSettings = notificationsSettings
         
-        self.isPreviewAvailable = config.pointee.previewConfig["available"] as? Bool ?? false
+        self.isPreviewAvailable = config.previewConfig["available"] as? Bool ?? false
         
-        self.isPopupSettingsAvailable = config.pointee.settingsConfig["popup"] as? Bool ?? false
-        self.isNotificationsSettingsAvailable = config.pointee.settingsConfig["notifications"] as? Bool ?? false
+        self.isPopupSettingsAvailable = config.settingsConfig["popup"] as? Bool ?? false
+        self.isNotificationsSettingsAvailable = config.settingsConfig["notifications"] as? Bool ?? false
         
         super.init(frame: NSRect.zero)
         
@@ -157,8 +157,8 @@ open class Window: NSStackView {
             right: Constants.Settings.margin
         )
         
-        if self.config.pointee.name == "Remote" {
-            let widgetSelector = WidgetSelectorView(module: self.config.pointee.name, widgets: self.widgets, stateCallback: self.loadWidget)
+        if self.config.name == "Remote" {
+            let widgetSelector = WidgetSelectorView(module: self.config.name, widgets: self.widgets, stateCallback: self.loadWidget)
             self.widgetSelector = widgetSelector
             
             view.addArrangedSubview(widgetSelector)
@@ -245,7 +245,7 @@ open class Window: NSStackView {
             tabView.addTabViewItem(notificationsTab)
         }
         
-        let widgetSelector = WidgetSelectorView(module: self.config.pointee.name, widgets: self.widgets, stateCallback: self.loadWidget)
+        let widgetSelector = WidgetSelectorView(module: self.config.name, widgets: self.widgets, stateCallback: self.loadWidget)
         
         view.addArrangedSubview(widgetSelector)
         view.addArrangedSubview(segmentedControl)
@@ -325,7 +325,7 @@ open class Window: NSStackView {
     @objc private func toggleOneView(_ sender: NSControl) {
         guard !self.globalOneView else { return }
         self.oneViewState = controlState(sender)
-        NotificationCenter.default.post(name: .toggleOneView, object: nil, userInfo: ["module": self.config.pointee.name])
+        NotificationCenter.default.post(name: .toggleOneView, object: nil, userInfo: ["module": self.config.name])
     }
     
     @objc private func listenForOneView(_ notification: Notification) {
@@ -337,7 +337,7 @@ open class Window: NSStackView {
     }
     
     @objc private func listenForToggleView(_ notification: Notification) {
-        guard let moduleName = notification.userInfo?["module"], self.config.pointee.name == moduleName as? String else { return }
+        guard let moduleName = notification.userInfo?["module"], self.config.name == moduleName as? String else { return }
         self.toggleView()
     }
     

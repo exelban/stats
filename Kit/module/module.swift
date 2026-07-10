@@ -158,8 +158,8 @@ open class Module {
         }
         
         self.window = Window(
-            config: &self.config,
-            widgets: &self.menuBar.widgets,
+            config: self.config,
+            widgets: self.menuBar.widgets,
             modulePreview: self.previewView,
             moduleSettings: self.settingsView,
             popupSettings: self.popupView,
@@ -315,9 +315,14 @@ open class Module {
             var x = buttonOrigin.x - windowCenter + buttonCenter
             let y = buttonOrigin.y - popup.contentView!.intrinsicContentSize.height - 3
             
-            let maxWidth = NSScreen.screens.map{ $0.frame.width }.reduce(0, +)
-            if x + popup.contentView!.intrinsicContentSize.width > maxWidth {
-                x = maxWidth - popup.contentView!.intrinsicContentSize.width - 3
+            let buttonPoint = NSPoint(x: buttonOrigin.x + buttonCenter, y: buttonOrigin.y)
+            if let screen = NSScreen.screens.first(where: { $0.frame.contains(buttonPoint) }) ?? NSScreen.main {
+                if x + popup.contentView!.intrinsicContentSize.width > screen.frame.maxX {
+                    x = screen.frame.maxX - popup.contentView!.intrinsicContentSize.width - 3
+                }
+                if x < screen.frame.minX {
+                    x = screen.frame.minX + 3
+                }
             }
             
             popup.setFrameOrigin(NSPoint(x: x, y: y))
