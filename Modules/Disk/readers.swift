@@ -81,16 +81,21 @@ internal class CapacityReader: Reader<Disks> {
                         
                         if let d = self.list.first(where: { $0.BSDName == BSDName}), let idx = self.list.index(where: { $0.BSDName == BSDName}) {
                             if d.removable && !removableState {
+                                if d.parent != 0 { IOObjectRelease(d.parent) }
                                 self.list.remove(at: idx)
                                 continue
                             }
                             
-                            if let path = d.path {
-                                self.list.updateFreeSize(idx, newValue: self.freeDiskSpaceInBytes(path))
-                                self.list.updateSMARTData(idx, smart: self.getSMARTDetails(for: BSDName))
+                            if driveIdentityChanged(d, url, disk) {
+                                if d.parent != 0 { IOObjectRelease(d.parent) }
+                                self.list.remove(at: idx)
+                            } else {
+                                if let path = d.path {
+                                    self.list.updateFreeSize(idx, newValue: self.freeDiskSpaceInBytes(path))
+                                    self.list.updateSMARTData(idx, smart: self.getSMARTDetails(for: BSDName))
+                                }
+                                continue
                             }
-                            
-                            continue
                         }
                         
                         if var d = driveDetails(disk, removableState: removableState) {
@@ -99,7 +104,10 @@ internal class CapacityReader: Reader<Disks> {
                                 d.size = self.totalDiskSpaceInBytes(path)
                             }
                             d.smart = self.getSMARTDetails(for: BSDName)
-                            guard d.size != 0 else { continue }
+                            guard d.size != 0 else {
+                                if d.parent != 0 { IOObjectRelease(d.parent) }
+                                continue
+                            }
                             self.list.append(d)
                             self.list.sort()
                         }
@@ -110,6 +118,8 @@ internal class CapacityReader: Reader<Disks> {
         
         active.difference(from: self.list.map{ $0.BSDName }).forEach { (BSDName: String) in
             if let idx = self.list.index(where: { $0.BSDName == BSDName }) {
+                let parent = self.list.array[idx].parent
+                if parent != 0 { IOObjectRelease(parent) }
                 self.list.remove(at: idx)
             }
         }
@@ -182,10 +192,11 @@ internal class CapacityReader: Reader<Disks> {
         guard disk != kIOReturnSuccess else { return nil }
         defer { IOObjectRelease(disk) }
         
-        var parent = disk
         while IOObjectConformsTo(disk, kIOBlockStorageDeviceClass) == 0 {
+            var parent: io_registry_entry_t = 0
             let error = IORegistryEntryGetParentEntry(disk, kIOServicePlane, &parent)
             if error != kIOReturnSuccess || parent == kIOReturnSuccess { return nil }
+            IOObjectRelease(disk)
             disk = parent
         }
         
@@ -242,6 +253,8 @@ internal class CapacityReader: Reader<Disks> {
         
         let powerCycles = withUnsafeBytes(of: smartData.power_cycles) { $0.load(as: UInt32.self) }
         let powerOnHours = withUnsafeBytes(of: smartData.power_on_hours) { $0.load(as: UInt32.self) }
+        let unsafeShutdowns = withUnsafeBytes(of: smartData.unsafe_shutdowns) { $0.load(as: UInt32.self) }
+        let mediaErrors = withUnsafeBytes(of: smartData.media_errors) { $0.load(as: UInt32.self) }
         
         return smart_t(
             temperature: Int(UInt16(bigEndian: temperature) - 273),
@@ -249,7 +262,12 @@ internal class CapacityReader: Reader<Disks> {
             totalRead: dataUnitsRead * bytesPerDataUnit,
             totalWritten: dataUnitsWritten * bytesPerDataUnit,
             powerCycles: Int(powerCycles),
-            powerOnHours: Int(powerOnHours)
+            powerOnHours: Int(powerOnHours),
+            criticalWarning: Int(smartData.critical_warning),
+            availableSpare: Int(smartData.avail_spare),
+            spareThreshold: Int(smartData.spare_thresh),
+            unsafeShutdowns: Int(unsafeShutdowns),
+            mediaErrors: Int64(mediaErrors)
         )
     }
     
@@ -383,13 +401,17 @@ internal class CapacityReader: Reader<Disks> {
         let totalRead = deviceRead ?? self.smartTotals[BSDName]?.read ?? Int64(rawValue(242) ?? 0) * bytesPerLBA
         let totalWritten = deviceWritten ?? self.smartTotals[BSDName]?.written ?? Int64(rawValue(241) ?? 0) * bytesPerLBA
         
+        let errorCounts = [rawValue(5), rawValue(197), rawValue(198)].compactMap({ $0 })
+
         return smart_t(
             temperature: temperature,
             life: life,
             totalRead: totalRead,
             totalWritten: totalWritten,
             powerCycles: Int(rawValue(12, bytes: 4) ?? 0),
-            powerOnHours: Int(rawValue(9, bytes: 4) ?? 0)
+            powerOnHours: Int(rawValue(9, bytes: 4) ?? 0),
+            unsafeShutdowns: rawValue(174, bytes: 4).map({ Int($0) }),
+            mediaErrors: errorCounts.isEmpty ? nil : Int64(errorCounts.reduce(0, +))
         )
     }
     
@@ -439,12 +461,18 @@ internal class ActivityReader: Reader<Disks> {
                         
                         if let d = self.list.first(where: { $0.BSDName == BSDName}), let idx = self.list.index(where: { $0.BSDName == BSDName}) {
                             if d.removable && !removableState {
+                                if d.parent != 0 { IOObjectRelease(d.parent) }
                                 self.list.remove(at: idx)
                                 continue
                             }
                             
-                            self.driveStats(idx, d)
-                            continue
+                            if driveIdentityChanged(d, url, disk) {
+                                if d.parent != 0 { IOObjectRelease(d.parent) }
+                                self.list.remove(at: idx)
+                            } else {
+                                self.driveStats(idx, d)
+                                continue
+                            }
                         }
                         
                         if let d = driveDetails(disk, removableState: removableState) {
@@ -458,6 +486,8 @@ internal class ActivityReader: Reader<Disks> {
         
         active.difference(from: self.list.map{ $0.BSDName }).forEach { (BSDName: String) in
             if let idx = self.list.index(where: { $0.BSDName == BSDName }) {
+                let parent = self.list.array[idx].parent
+                if parent != 0 { IOObjectRelease(parent) }
                 self.list.remove(at: idx)
             }
         }
@@ -488,6 +518,18 @@ internal class ActivityReader: Reader<Disks> {
         
         return
     }
+}
+
+private func driveIdentityChanged(_ d: drive, _ url: URL, _ disk: DADisk) -> Bool {
+    if d.path?.path != url.path {
+        return true
+    }
+    if let description = DADiskCopyDescription(disk) as? [String: AnyObject],
+       let kind = description[kDADiskDescriptionVolumeKindKey as String] as? String,
+       kind != d.fileSystem {
+        return true
+    }
+    return false
 }
 
 private func driveDetails(_ disk: DADisk, removableState: Bool) -> drive? {
@@ -549,6 +591,12 @@ private func driveDetails(_ disk: DADisk, removableState: Bool) -> drive? {
             if let volumeKind = dict[kDADiskDescriptionVolumeKindKey as String] as? String {
                 d.fileSystem = volumeKind
             }
+            if let writable = dict[kDADiskDescriptionMediaWritableKey as String] as? Bool {
+                d.writable = writable
+            }
+            if let encrypted = dict[kDADiskDescriptionMediaEncryptedKey as String] as? Bool {
+                d.encrypted = encrypted
+            }
         }
     }
     
@@ -560,8 +608,12 @@ private func driveDetails(_ disk: DADisk, removableState: Bool) -> drive? {
     }
     
     let partitionLevel = d.BSDName.filter { "0"..."9" ~= $0 }.count
-    if let parent = getDeviceIOParent(DADiskCopyIOMedia(disk), level: Int(partitionLevel)) {
-        d.parent = parent
+    let media = DADiskCopyIOMedia(disk)
+    if media != 0 {
+        if let parent = getDeviceIOParent(media, level: Int(partitionLevel)) {
+            d.parent = parent
+        }
+        IOObjectRelease(media)
     }
     
     return d
@@ -575,9 +627,14 @@ public func getDeviceIOParent(_ obj: io_registry_entry_t, level: Int) -> io_regi
         return nil
     }
     
-    for _ in 1...level where IORegistryEntryGetParentEntry(parent, kIOServicePlane, &parent) != KERN_SUCCESS {
+    for _ in 1...level {
+        var next: io_registry_entry_t = 0
+        let result = IORegistryEntryGetParentEntry(parent, kIOServicePlane, &next)
         IOObjectRelease(parent)
-        return nil
+        if result != KERN_SUCCESS {
+            return nil
+        }
+        parent = next
     }
     
     return parent
@@ -667,7 +724,7 @@ public class ProcessReader: Reader<[Disk_process]> {
 
 private func runProcess(path: String, args: [String] = []) -> String? {
     let task = Process()
-    task.launchPath = path
+    task.executableURL = URL(fileURLWithPath: path)
     task.arguments = args
     
     let outputPipe = Pipe()

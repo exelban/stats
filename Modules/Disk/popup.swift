@@ -143,16 +143,11 @@ internal class Popup: PopupWrapper {
         }
         value.array.filter({ $0.popupState }).forEach { (drive: drive) in
             if let view = self.disks.subviews.filter({ $0 is DiskView }).map({ $0 as! DiskView }).first(where: { $0.uuid == drive.uuid }) {
-                view.update(free: drive.free, smart: drive.smart)
+                view.update(drive)
             } else {
                 self.disks.addArrangedSubview(DiskView(
                     width: Constants.Popup.width,
-                    uuid: drive.uuid,
-                    name: drive.mediaName,
-                    size: drive.size,
-                    free: drive.free,
-                    path: drive.path,
-                    smart: drive.smart,
+                    drive: drive,
                     resize: self.recalculateHeight
                 ))
             }
@@ -309,23 +304,23 @@ internal class DiskView: NSStackView {
         SColor.fromString(Store.shared.string(key: "\(ModuleType.disk.stringValue)_mainColor", defaultValue: SColor.secondBlue.key)).additional as! NSColor
     }
     
-    init(width: CGFloat, uuid: String, name: String, size: Int64 = 1, free: Int64 = 1, path: URL? = nil, smart: smart_t? = nil, resize: @escaping () -> Void) {
+    init(width: CGFloat, drive d: drive, resize: @escaping () -> Void) {
         self.sizeCallback = resize
-        self.uuid = uuid
-        self.name = name
+        self.uuid = d.uuid
+        self.name = d.mediaName
         self.width = width
-        self.size = size
+        self.size = d.size
         let innerWidth: CGFloat = width - (Constants.Popup.margins * 2)
-        self.nameView = NameView(width: innerWidth, uuid: uuid, name: name, path: path)
+        self.nameView = NameView(width: innerWidth, uuid: d.uuid, name: d.mediaName, path: d.path)
         self.chartView = ChartView(width: innerWidth)
         self.barView = BarChartView(frame: NSRect(x: 0, y: 0, width: innerWidth, height: 8), horizontal: true)
         self.barView.widthAnchor.constraint(equalToConstant: innerWidth).isActive = true
         self.barView.heightAnchor.constraint(equalToConstant: 8).isActive = true
-        if size != 0 {
-            self.barView.setValue(ColorValue(Double(size - free) / Double(size)))
+        if d.size != 0 {
+            self.barView.setValue(ColorValue(Double(d.size - d.free) / Double(d.size)))
         }
-        self.legendView = LegendView(width: innerWidth, id: "\(name)_\(path?.absoluteString ?? "")", size: size, free: free)
-        self.detailsView = DetailsView(width: innerWidth, id: "\(name)_\(path?.absoluteString ?? "")", smart: smart)
+        self.legendView = LegendView(width: innerWidth, id: "\(d.mediaName)_\(d.path?.absoluteString ?? "")", size: d.size, free: d.free)
+        self.detailsView = DetailsView(width: innerWidth, id: "\(d.mediaName)_\(d.path?.absoluteString ?? "")", details: d)
         
         super.init(frame: NSRect(x: 0, y: 0, width: width, height: 0))
         
@@ -360,12 +355,13 @@ internal class DiskView: NSStackView {
         self.layer?.backgroundColor = (isDarkMode ? NSColor(red: 17/255, green: 17/255, blue: 17/255, alpha: 0.25) : NSColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)).cgColor
     }
     
-    public func update(free: Int64, smart: smart_t?) {
-        self.legendView.update(free: free)
+    public func update(_ value: drive) {
+        self.legendView.update(free: value.free)
         if size != 0 {
-            self.barView.setValue(ColorValue(Double(self.size - free) / Double(self.size), color: self.mainColor))
+            self.barView.setValue(ColorValue(Double(self.size - value.free) / Double(self.size), color: self.mainColor))
         }
-        self.detailsView.update(smart: smart)
+        self.detailsView.update(details: value)
+        self.detailsView.update(smart: value.smart)
     }
     
     public func appear() {
@@ -716,11 +712,13 @@ private class LegendView: NSView {
 
 internal class DetailsView: NSStackView {
     private var smartHeight: CGFloat {
-        get { (22*6) + Constants.Popup.separatorHeight }
+        get { (22*8) + Constants.Popup.separatorHeight }
     }
     
     private var totalReadValueField: ValueField?
     private var totalWrittenValueField: ValueField?
+    private var fileSystemValueField: ValueField?
+    private var connectionTypeValueField: ValueField?
     
     private var smartTotalReadValueField: ValueField?
     private var smartTotalWrittenValueField: ValueField?
@@ -728,11 +726,13 @@ internal class DetailsView: NSStackView {
     private var healthValueField: ValueField?
     private var powerCyclesValueField: ValueField?
     private var powerOnHoursValueField: ValueField?
+    private var criticalWarningValueField: ValueField?
+    private var availableSpareValueField: ValueField?
     
     private let statsCache = PopupCache<stats>()
     private let smartCache = PopupCache<smart_t>()
     
-    public init(width: CGFloat, id: String, smart: smart_t? = nil) {
+    public init(width: CGFloat, id: String, details: drive? = nil) {
         super.init(frame: CGRect(x: 0, y: 0, width: width, height: 0))
         
         self.orientation = .vertical
@@ -741,6 +741,10 @@ internal class DetailsView: NSStackView {
         
         self.addArrangedSubview(self.initSpeed())
         self.addArrangedSubview(self.initSmart())
+        
+        if let details {
+            self.update(details: details)
+        }
         
         self.recalculateHeight()
     }
@@ -764,7 +768,7 @@ internal class DetailsView: NSStackView {
     }
     
     private func initSpeed() -> NSView {
-        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 44))
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 22*4))
         view.widthAnchor.constraint(equalToConstant: view.bounds.width).isActive = true
         view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
         let container: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
@@ -774,8 +778,14 @@ internal class DetailsView: NSStackView {
         self.totalReadValueField = popupRow(container, title: "\(localizedString("Total read")):", value: "0 KB").1
         self.totalWrittenValueField = popupRow(container, title: "\(localizedString("Total written")):", value: "0 KB").1
         
+        self.fileSystemValueField = popupRow(container, title: "\(localizedString("File system")):", value: localizedString("Unknown")).1
+        self.connectionTypeValueField = popupRow(container, title: "\(localizedString("Connection type")):", value: localizedString("Unknown")).1
+        
         self.totalReadValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
         self.totalWrittenValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
+        
+        self.fileSystemValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
+        self.connectionTypeValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
         
         view.addSubview(container)
         
@@ -797,6 +807,8 @@ internal class DetailsView: NSStackView {
         self.healthValueField = popupRow(container, title: "\(localizedString("Health")):", value: "0%").1
         self.powerCyclesValueField = popupRow(container, title: "\(localizedString("Power cycles")):", value: "0").1
         self.powerOnHoursValueField = popupRow(container, title: "\(localizedString("Power on hours")):", value: "0").1
+        self.criticalWarningValueField = popupRow(container, title: "\(localizedString("Critical warning")):", value: localizedString("Unknown")).1
+        self.availableSpareValueField = popupRow(container, title: "\(localizedString("Available spare")):", value: localizedString("Unknown")).1
         
         self.smartTotalReadValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
         self.smartTotalWrittenValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
@@ -804,6 +816,8 @@ internal class DetailsView: NSStackView {
         self.healthValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
         self.powerCyclesValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
         self.powerOnHoursValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
+        self.criticalWarningValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
+        self.availableSpareValueField?.font = NSFont.systemFont(ofSize: 11, weight: .regular)
         
         view.addSubview(separator)
         view.addSubview(container)
@@ -822,6 +836,11 @@ internal class DetailsView: NSStackView {
         self.totalWrittenValueField?.toolTip = "\(stats.writeBytes / (512 * 1000))"
     }
     
+    public func update(details d: drive) {
+        self.fileSystemValueField?.stringValue = d.fileSystem.isEmpty ? localizedString("Unknown") : d.fileSystem.uppercased()
+        self.connectionTypeValueField?.stringValue = d.connectionType.isEmpty ? localizedString("Unknown") : d.connectionType
+    }
+    
     public func update(smart: smart_t?) {
         guard let smart else { return }
         self.smartCache.apply(smart, visible: self.window?.isVisible ?? false, render: self.renderSmart)
@@ -838,6 +857,25 @@ internal class DetailsView: NSStackView {
         
         self.powerCyclesValueField?.stringValue = "\(smart.powerCycles)"
         self.powerOnHoursValueField?.stringValue = "\(smart.powerOnHours)"
+        
+        if let warning = smart.criticalWarning {
+            let list = smartCriticalWarnings(warning)
+            self.criticalWarningValueField?.stringValue = list.isEmpty ? localizedString("None") : list.joined(separator: ", ")
+            self.criticalWarningValueField?.textColor = list.isEmpty ? .textColor : .systemRed
+        } else {
+            self.criticalWarningValueField?.stringValue = localizedString("Unavailable")
+            self.criticalWarningValueField?.textColor = .textColor
+        }
+        
+        if let spare = smart.availableSpare {
+            self.availableSpareValueField?.stringValue = "\(spare)%"
+            if let threshold = smart.spareThreshold {
+                self.availableSpareValueField?.textColor = spare < threshold ? .systemRed : .textColor
+                self.availableSpareValueField?.toolTip = "\(localizedString("Threshold")): \(threshold)%"
+            }
+        } else {
+            self.availableSpareValueField?.stringValue = localizedString("Unavailable")
+        }
     }
     
     public func appear() {

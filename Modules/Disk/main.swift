@@ -28,6 +28,21 @@ public struct smart_t: Codable {
     var totalWritten: Int64 = 0
     var powerCycles: Int = 0
     var powerOnHours: Int = 0
+    var criticalWarning: Int? = nil
+    var availableSpare: Int? = nil
+    var spareThreshold: Int? = nil
+    var unsafeShutdowns: Int? = nil
+    var mediaErrors: Int64? = nil
+}
+
+internal func smartCriticalWarnings(_ value: Int) -> [String] {
+    var list: [String] = []
+    if value & 0x01 != 0 { list.append(localizedString("Spare below threshold")) }
+    if value & 0x02 != 0 { list.append(localizedString("Temperature out of range")) }
+    if value & 0x04 != 0 { list.append(localizedString("Reliability degraded")) }
+    if value & 0x08 != 0 { list.append(localizedString("Read-only mode")) }
+    if value & 0x10 != 0 { list.append(localizedString("Backup failed")) }
+    return list
 }
 
 public struct drive: Codable {
@@ -44,6 +59,8 @@ public struct drive: Codable {
     var path: URL?
     var connectionType: String = ""
     var fileSystem: String = ""
+    var writable: Bool = true
+    var encrypted: Bool = false
     
     var size: Int64 = 1
     var free: Int64 = 0

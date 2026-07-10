@@ -57,13 +57,22 @@ internal class Preview: PreviewWrapper {
     
     private var totalReadValueField: ValueField?
     private var totalWrittenValueField: ValueField?
-    
+    private var modelValueField: ValueField?
+    private var connectionTypeValueField: ValueField?
+    private var bsdNameValueField: ValueField?
+    private var encryptedValueField: ValueField?
+    private var writableValueField: ValueField?
+
     private var smartTotalReadValueField: ValueField?
     private var smartTotalWrittenValueField: ValueField?
     private var temperatureValueField: ValueField?
     private var healthValueField: ValueField?
     private var powerCyclesValueField: ValueField?
     private var powerOnHoursValueField: ValueField?
+    private var criticalWarningValueField: ValueField?
+    private var availableSpareValueField: ValueField?
+    private var unsafeShutdownsValueField: ValueField?
+    private var mediaErrorsValueField: ValueField?
     
     public init(_ module: ModuleType) {
         self.finder = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.apple.Finder")
@@ -248,6 +257,11 @@ internal class Preview: PreviewWrapper {
         self.writeSpeedValueField = previewRow(view, color: self.writeColor, title: "\(localizedString("Write")):", value: "0 KB/s")
         self.totalReadValueField = previewRow(view, title: "\(localizedString("Total read")):", value: "0 KB")
         self.totalWrittenValueField = previewRow(view, title: "\(localizedString("Total written")):", value: "0 KB")
+        self.modelValueField = previewRow(view, title: "\(localizedString("Model")):", value: localizedString("Unknown"))
+        self.connectionTypeValueField = previewRow(view, title: "\(localizedString("Connection type")):", value: localizedString("Unknown"))
+        self.bsdNameValueField = previewRow(view, title: "\(localizedString("BSD name")):", value: localizedString("Unknown"))
+        self.encryptedValueField = previewRow(view, title: "\(localizedString("Encrypted")):", value: localizedString("No"))
+        self.writableValueField = previewRow(view, title: "\(localizedString("Writable")):", value: localizedString("Yes"))
         
         return view
     }
@@ -264,6 +278,10 @@ internal class Preview: PreviewWrapper {
         self.healthValueField = previewRow(view, title: "\(localizedString("Health")):", value: "0%")
         self.powerCyclesValueField = previewRow(view, title: "\(localizedString("Power cycles")):", value: "0")
         self.powerOnHoursValueField = previewRow(view, title: "\(localizedString("Power on hours")):", value: "0")
+        self.criticalWarningValueField = previewRow(view, title: "\(localizedString("Critical warning")):", value: localizedString("Unknown"))
+        self.availableSpareValueField = previewRow(view, title: "\(localizedString("Available spare")):", value: localizedString("Unknown"))
+        self.unsafeShutdownsValueField = previewRow(view, title: "\(localizedString("Unsafe shutdowns")):", value: localizedString("Unknown"))
+        self.mediaErrorsValueField = previewRow(view, title: "\(localizedString("Media errors")):", value: localizedString("Unknown"))
         
         return view
     }
@@ -282,6 +300,12 @@ internal class Preview: PreviewWrapper {
                     
                     self.uri = update.path
                     
+                    self.modelValueField?.stringValue = update.model.isEmpty ? localizedString("Unknown") : update.model
+                    self.connectionTypeValueField?.stringValue = update.connectionType.isEmpty ? localizedString("Unknown") : update.connectionType
+                    self.bsdNameValueField?.stringValue = update.BSDName.isEmpty ? localizedString("Unknown") : update.BSDName
+                    self.encryptedValueField?.stringValue = localizedString(update.encrypted ? "Yes" : "No")
+                    self.writableValueField?.stringValue = localizedString(update.writable ? "Yes" : "No")
+                    
                     if let smart = update.smart {
                         self.smartTotalReadValueField?.toolTip = "\(smart.totalRead / (512 * 1000))"
                         self.smartTotalWrittenValueField?.toolTip = "\(smart.totalWritten / (512 * 1000))"
@@ -293,6 +317,35 @@ internal class Preview: PreviewWrapper {
                         
                         self.powerCyclesValueField?.stringValue = "\(smart.powerCycles)"
                         self.powerOnHoursValueField?.stringValue = "\(smart.powerOnHours)"
+                        
+                        if let warning = smart.criticalWarning {
+                            let list = smartCriticalWarnings(warning)
+                            self.criticalWarningValueField?.stringValue = list.isEmpty ? localizedString("None") : list.joined(separator: ", ")
+                            self.criticalWarningValueField?.textColor = list.isEmpty ? .textColor : .systemRed
+                        } else {
+                            self.criticalWarningValueField?.stringValue = localizedString("Unavailable")
+                            self.criticalWarningValueField?.textColor = .textColor
+                        }
+                        
+                        if let spare = smart.availableSpare {
+                            self.availableSpareValueField?.stringValue = "\(spare)%"
+                            if let threshold = smart.spareThreshold {
+                                self.availableSpareValueField?.textColor = spare < threshold ? .systemRed : .textColor
+                                self.availableSpareValueField?.toolTip = "\(localizedString("Threshold")): \(threshold)%"
+                            }
+                        } else {
+                            self.availableSpareValueField?.stringValue = localizedString("Unavailable")
+                        }
+                        
+                        self.unsafeShutdownsValueField?.stringValue = smart.unsafeShutdowns.map { "\($0)" } ?? localizedString("Unavailable")
+                        
+                        if let mediaErrors = smart.mediaErrors {
+                            self.mediaErrorsValueField?.stringValue = "\(mediaErrors)"
+                            self.mediaErrorsValueField?.textColor = mediaErrors > 0 ? .systemRed : .textColor
+                        } else {
+                            self.mediaErrorsValueField?.stringValue = localizedString("Unavailable")
+                            self.mediaErrorsValueField?.textColor = .textColor
+                        }
                     }
                 }
                 
