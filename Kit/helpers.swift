@@ -154,21 +154,20 @@ public struct Units {
             return (self.formatSpeedValue(value), "\(speedPrefix)\(stringBase)/s")
         }
         
-        switch bytes {
-        case 0..<1_000:
+        let value: Double = Double(bytes) * multiplier
+        switch value {
+        case ..<1_000:
             return ("0", "K\(stringBase)/s")
-        case 1_000..<(1_000 * 1_000):
-            return (String(format: "%.0f", kilobytes*multiplier), "K\(stringBase)/s")
-        case 1_000..<(1_000 * 1_000 * 100):
-            return (String(format: "%.1f", megabytes*multiplier), "M\(stringBase)/s")
-        case (1_000 * 1_000 * 100)..<(1_000 * 1_000 * 1_000):
-            return (String(format: "%.0f", megabytes*multiplier), "M\(stringBase)/s")
-        case (1_000 * 1_000 * 1_000)..<(1_000 * 1_000 * 1_000 * 1_000):
-            return (String(format: "%.1f", gigabytes*multiplier), "G\(stringBase)/s")
-        case (1_000 * 1_000 * 1_000 * 1_000)...Int64.max:
-            return (String(format: "%.1f", terabytes*multiplier), "T\(stringBase)/s")
+        case 1_000..<1_000_000:
+            return (String(format: "%.0f", value/1_000), "K\(stringBase)/s")
+        case 1_000_000..<100_000_000:
+            return (String(format: "%.1f", value/1_000_000), "M\(stringBase)/s")
+        case 100_000_000..<1_000_000_000:
+            return (String(format: "%.0f", value/1_000_000), "M\(stringBase)/s")
+        case 1_000_000_000..<1_000_000_000_000:
+            return (String(format: "%.1f", value/1_000_000_000), "G\(stringBase)/s")
         default:
-            return (String(format: "%.0f", kilobytes*multiplier), "K\(stringBase)B/s")
+            return (String(format: "%.1f", value/1_000_000_000_000), "T\(stringBase)/s")
         }
     }
     
@@ -650,12 +649,17 @@ public func toggleNSControlState(_ control: NSControl?, state: NSControl.StateVa
 
 public func syncShell(_ args: String) -> String {
     let task = Process()
-    task.launchPath = "/bin/sh"
+    task.executableURL = URL(fileURLWithPath: "/bin/sh")
     task.arguments = ["-c", args]
     let pipe = Pipe()
     
     task.standardOutput = pipe
-    task.launch()
+    do {
+        try task.run()
+    } catch let err {
+        error("syncShell: \(err.localizedDescription)")
+        return ""
+    }
     task.waitUntilExit()
     
     let data = pipe.fileHandleForReading.readDataToEndOfFile()
@@ -1003,7 +1007,7 @@ internal class WidgetLabelView: NSView {
 
 public func process(path: String, arguments: [String]) -> String? {
     let task = Process()
-    task.launchPath = path
+    task.executableURL = URL(fileURLWithPath: path)
     task.arguments = arguments
     
     let outputPipe = Pipe()
@@ -1877,7 +1881,7 @@ public class StepperInput: NSStackView, NSTextFieldDelegate, PreferencesSwitchWi
     }
     
     @objc private func onStepperChange(_ sender: NSStepper) {
-        let value = Int(sender.doubleValue*100)
+        let value = Int((sender.doubleValue*100).rounded())
         self.valueView.stringValue = "\(value)"
         self.callback(value)
     }
@@ -1945,7 +1949,7 @@ public class HelpHUD: NSPanel {
     public func show() {
         if self.contentView as? WKWebView == nil {
             let webView = WKWebView()
-            webView.setValue(false, forKey: "drawsBackground")
+            webView.underPageBackgroundColor = .clear
             webView.loadHTMLString("<html><body style='color: #ffffff;margin: 10px;'>\(self.text)</body></html>", baseURL: nil)
             self.contentView = webView
         }
