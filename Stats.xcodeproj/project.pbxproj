@@ -188,6 +188,7 @@
 		9AA64260244B274200416A33 /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA6425F244B274200416A33 /* popup.swift */; };
 		9AABEB7A243FD26200668CB0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AABEB79243FD26200668CB0 /* AppDelegate.swift */; };
 		9AAC5E41280ACC210043D892 /* RAM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC5E40280ACC210043D892 /* RAM.swift */; };
+		4A05F9BD83C04F70BFFF7F37 /* Kit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369463B2B7EA4AF0A895A9B6 /* Kit.swift */; };
 		9AB14B77248CEF3500DC6731 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9AF9EE192464A7B3005D2270 /* config.plist */; };
 		9AB14B78248CEF3B00DC6731 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9AF9EE12246492E8005D2270 /* config.plist */; };
 		9AB14B79248CEF4100DC6731 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9A3E17DC247A94C300449CD1 /* config.plist */; };
@@ -735,6 +736,7 @@
 		9AAC5E2A280ACC120043D892 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC5E2E280ACC120043D892 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9AAC5E40280ACC210043D892 /* RAM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RAM.swift; sourceTree = "<group>"; };
+		369463B2B7EA4AF0A895A9B6 /* Kit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kit.swift; sourceTree = "<group>"; };
 		9AB6D03826447CAA003215A5 /* reader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = reader.m; sourceTree = "<group>"; };
 		9AB7FD7B246B48DB00387FDA /* settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
 		9ABD6F7528561472009B8BC1 /* el */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el; path = el.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1296,6 +1298,7 @@
 			children = (
 				9AAC5E2E280ACC120043D892 /* Info.plist */,
 				9AAC5E40280ACC210043D892 /* RAM.swift */,
+				369463B2B7EA4AF0A895A9B6 /* Kit.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -2335,6 +2338,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AAC5E41280ACC210043D892 /* RAM.swift in Sources */,
+				4A05F9BD83C04F70BFFF7F37 /* Kit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
