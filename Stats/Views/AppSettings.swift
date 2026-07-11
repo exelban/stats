@@ -169,7 +169,8 @@ class ApplicationSettings: NSStackView {
             )),
             PreferencesRow(localizedString("Control"), component: self.remoteControlBtn!),
             PreferencesRow(localizedString("Update"), component: self.remoteUpdatesBtn!),
-            PreferencesRow(component: buttonView(#selector(self.logoutFromRemote), text: localizedString("Logout")))
+            PreferencesRow(component: buttonView(#selector(self.logoutFromRemote), text: localizedString("Logout"))),
+            PreferencesRow(component: buttonView(#selector(self.deregisterFromRemote), text: localizedString("Deregister")))
         ])
         scrollView.stackView.addArrangedSubview(self.remoteView!)
         self.remoteView?.setRowVisibility(1, newState: false)
@@ -510,6 +511,19 @@ class ApplicationSettings: NSStackView {
         SystemStats.shared.logout()
     }
     
+    @objc private func deregisterFromRemote() {
+        let alert = NSAlert()
+        alert.messageText = localizedString("Deregister")
+        alert.informativeText = localizedString("Deregister text")
+        alert.alertStyle = .warning
+        alert.addButton(withTitle: localizedString("Yes"))
+        alert.addButton(withTitle: localizedString("No"))
+        
+        if alert.runModal() == .alertFirstButtonReturn {
+            SystemStats.shared.deregister()
+        }
+    }
+    
     private func setRemoteSettings(_ auth: Bool) {
         DispatchQueue.main.async {
             if auth {
@@ -519,6 +533,7 @@ class ApplicationSettings: NSStackView {
                 self.remoteView?.setRowVisibility(4, newState: true)
                 self.remoteView?.setRowVisibility(5, newState: true)
                 self.remoteView?.setRowVisibility(6, newState: true)
+                self.remoteView?.setRowVisibility(7, newState: true)
                 self.remoteView?.setRowVisibility(0, newState: false)
             } else {
                 self.remoteView?.setRowVisibility(0, newState: true)
@@ -528,6 +543,7 @@ class ApplicationSettings: NSStackView {
                 self.remoteView?.setRowVisibility(4, newState: false)
                 self.remoteView?.setRowVisibility(5, newState: false)
                 self.remoteView?.setRowVisibility(6, newState: false)
+                self.remoteView?.setRowVisibility(7, newState: false)
             }
         }
     }

@@ -109,10 +109,8 @@ internal class UsageReader: Reader<Battery_Usage> {
                 
                 var ACwatts: Int = 0
                 if let ACDetails = IOPSCopyExternalPowerAdapterDetails() {
-                    if let ACList = ACDetails.takeRetainedValue() as? [String: Any] {
-                        guard let watts = ACList[kIOPSPowerAdapterWattsKey] as? Int else {
-                            return
-                        }
+                    if let ACList = ACDetails.takeRetainedValue() as? [String: Any],
+                       let watts = ACList[kIOPSPowerAdapterWattsKey] as? Int {
                         ACwatts = watts
                     }
                 }
@@ -218,7 +216,7 @@ public class ProcessReader: Reader<[TopProcess]> {
         }
         
         let task = Process()
-        task.launchPath = "/usr/bin/top"
+        task.executableURL = URL(fileURLWithPath: "/usr/bin/top")
         task.arguments = ["-o", "power", "-l", "2", "-n", "\(self.numberOfProcesses)", "-stats", "pid,command,power"]
         
         let outputPipe = Pipe()

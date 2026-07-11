@@ -70,22 +70,29 @@ public class DB {
     public func setup<T: Codable>(_ type: T.Type, _ key: String) {
         self.clean(key)
         if let raw = self.lldb?.findOne(key), let value = try? JSONDecoder().decode(type, from: Data(raw.utf8)) {
-            self.values[key] = value
+            self.queue.sync { self._values[key] = value }
         }
     }
     
     public func insert(key: String, value: Codable, ts: Bool = true, force: Bool = false) {
-        self.values[key] = value
+        self.queue.sync { self._values[key] = value }
         guard let blobData = try? JSONEncoder().encode(value), let str = String(data: blobData, encoding: .utf8) else { return }
         
         if ts {
             self.lldb?.insert("\(key)@\(Date().currentTimeSeconds())", value: str)
         }
         
-        if !force, let ts = self.writeTS[key], (Date().timeIntervalSince1970-ts.timeIntervalSince1970) < 30 { return }
+        let now = Date()
+        let shouldWrite: Bool = self.queue.sync {
+            if !force, let ts = self._writeTS[key], (now.timeIntervalSince1970-ts.timeIntervalSince1970) < 30 {
+                return false
+            }
+            self._writeTS[key] = now
+            return true
+        }
+        guard shouldWrite else { return }
         
         self.lldb?.insert(key, value: str)
-        self.writeTS[key] = Date()
     }
     
     public func findOne<T: Decodable>(_ dynamicType: T.Type, key: String) -> T? {

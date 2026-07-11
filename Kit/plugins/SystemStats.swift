@@ -183,6 +183,26 @@ public class SystemStats {
         NotificationCenter.default.post(name: .remoteState, object: nil, userInfo: ["auth": self.isAuthorized])
     }
     
+    public func deregister() {
+        guard let url = URL(string: "\(SystemStats.host)/v1/machine/\(SystemStats.shared.id.uuidString)/deregister") else { return }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("Bearer \(SystemStats.shared.auth.accessToken)", forHTTPHeaderField: "Authorization")
+        
+        self.session.dataTask(with: request) { [weak self] data, response, _ in
+            guard let self else { return }
+            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+                debug("Deregistered device: \(SystemStats.shared.id.uuidString)", log: self.log)
+            } else {
+                let statusCode = (response as? HTTPURLResponse)?.statusCode ?? -1
+                let bodyString = data.flatMap { String(data: $0, encoding: .utf8) } ?? ""
+                debug("Deregister remote failed (\(statusCode)): \(bodyString)", log: self.log)
+            }
+            self.logout()
+        }.resume()
+    }
+    
     public func send(key: String, value: Any) {
         guard self.monitoring && self.isAuthorized, let v = value as? RemoteType, let data = v.remote() else { return }
         let topic = "stats/\(self.id.uuidString)/metrics/\(key)"
@@ -846,12 +866,20 @@ class MQTTManager: NSObject {
     private let log: NextLog
     private var packetIdentifier: UInt16 = 1
     
+    private let stateQueue = DispatchQueue(label: "eu.exelban.Stats.Remote.MQTT")
+    private static let stateQueueKey = DispatchSpecificKey<Void>()
+    
     override init() {
         self.log = NextLog.shared.copy(category: "Remote MQTT")
         
         super.init()
         
-        self.session = URLSession(configuration: .default, delegate: self, delegateQueue: .main)
+        self.stateQueue.setSpecific(key: MQTTManager.stateQueueKey, value: ())
+        
+        let delegateQueue = OperationQueue()
+        delegateQueue.maxConcurrentOperationCount = 1
+        delegateQueue.underlyingQueue = self.stateQueue
+        self.session = URLSession(configuration: .default, delegate: self, delegateQueue: delegateQueue)
         
         self.reachability.reachable = { [weak self] in
             if SystemStats.shared.isAuthorized {
@@ -859,10 +887,15 @@ class MQTTManager: NSObject {
             }
         }
         self.reachability.unreachable = { [weak self] in
-            guard let self else { return }
-            if self.isConnected {
-                self.disconnect()
-            }
+            self?.disconnect()
+        }
+    }
+    
+    private func onStateQueue(_ block: @escaping () -> Void) {
+        if DispatchQueue.getSpecific(key: MQTTManager.stateQueueKey) != nil {
+            block()
+        } else {
+            self.stateQueue.async(execute: block)
         }
     }
     
@@ -872,44 +905,50 @@ class MQTTManager: NSObject {
     }
     
     public func connect() {
-        guard !self.isConnected && !self.isConnecting else { return }
-        self.isConnecting = true
-        
-        SystemStats.shared.auth.isAuthorized { [weak self] status in
-            guard let self else { return }
+        self.onStateQueue {
+            guard !self.isConnected && !self.isConnecting else { return }
+            self.isConnecting = true
             
-            if status {
-                self.webSocket?.cancel(with: .normalClosure, reason: nil)
-                self.webSocket = self.session?.webSocketTask(with: SystemStats.brokerHost, protocols: ["mqtt"])
-                self.webSocket?.resume()
-                self.receiveMessage()
-                self.isDisconnected = false
-                debug("MQTT WebSocket connecting...", log: self.log)
-            } else {
-                self.isConnecting = false
-                if SystemStats.shared.isAuthorized {
-                    SystemStats.shared.isAuthorized = false
-                    NotificationCenter.default.post(name: .remoteState, object: nil, userInfo: ["auth": false])
+            SystemStats.shared.auth.isAuthorized { [weak self] status in
+                guard let self else { return }
+                
+                self.onStateQueue {
+                    if status {
+                        self.webSocket?.cancel(with: .normalClosure, reason: nil)
+                        self.webSocket = self.session?.webSocketTask(with: SystemStats.brokerHost, protocols: ["mqtt"])
+                        self.webSocket?.resume()
+                        self.receiveMessage()
+                        self.isDisconnected = false
+                        debug("MQTT WebSocket connecting...", log: self.log)
+                    } else {
+                        self.isConnecting = false
+                        if SystemStats.shared.isAuthorized {
+                            SystemStats.shared.isAuthorized = false
+                            NotificationCenter.default.post(name: .remoteState, object: nil, userInfo: ["auth": false])
+                        }
+                        debug("Authorization failed, retrying connection...", log: self.log)
+                        self.reconnect()
+                    }
                 }
-                debug("Authorization failed, retrying connection...", log: self.log)
-                self.reconnect()
             }
         }
     }
     
     public func disconnect() {
-        if self.webSocket == nil && !self.isConnected { return }
-        self.isDisconnected = true
-        self.isConnecting = false
-        
-        self.sendStatus(false)
-        self.sendDisconnect()
-        
-        self.webSocket?.cancel(with: .normalClosure, reason: nil)
-        self.webSocket = nil
-        self.isConnected = false
-        self.stopPingTimer()
-        debug("MQTT disconnected gracefully", log: self.log)
+        self.onStateQueue {
+            if self.webSocket == nil && !self.isConnected { return }
+            self.isDisconnected = true
+            self.isConnecting = false
+            
+            self.sendStatus(false)
+            self.sendDisconnect()
+            
+            self.webSocket?.cancel(with: .normalClosure, reason: nil)
+            self.webSocket = nil
+            self.isConnected = false
+            self.stopPingTimer()
+            debug("MQTT disconnected gracefully", log: self.log)
+        }
     }
     
     private func reconnect() {
@@ -923,7 +962,7 @@ class MQTTManager: NSObject {
         
         debug("Waiting \(delay) seconds before next MQTT reconnection attempt...", log: self.log)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
+        self.stateQueue.asyncAfter(deadline: .now() + delay) { [weak self] in
             guard let self else { return }
             
             self.isReconnecting = false
@@ -978,12 +1017,14 @@ class MQTTManager: NSObject {
     }
     
     public func publish(topic: String, data: Data, retain: Bool = false) {
-        guard self.isConnected else { return }
-        
-        let publishPacket = createPublishPacket(topic: topic, payload: data, retain: retain)
-        self.webSocket?.send(.data(publishPacket)) { error in
-            if let error = error {
-                print("Error publishing MQTT message: \(error)")
+        self.onStateQueue {
+            guard self.isConnected else { return }
+            
+            let publishPacket = self.createPublishPacket(topic: topic, payload: data, retain: retain)
+            self.webSocket?.send(.data(publishPacket)) { error in
+                if let error = error {
+                    print("Error publishing MQTT message: \(error)")
+                }
             }
         }
     }
@@ -1093,7 +1134,7 @@ class MQTTManager: NSObject {
     }
     
     private func getNextPacketId() -> UInt16 {
-        self.packetIdentifier += 1
+        self.packetIdentifier &+= 1
         if self.packetIdentifier == 0 {
             self.packetIdentifier = 1
         }
@@ -1133,7 +1174,9 @@ class MQTTManager: NSObject {
             self.subscribeToTopics()
             self.sendStatus(true)
             debug("MQTT connected successfully", log: self.log)
-            self.registerCallback?()
+            DispatchQueue.main.async {
+                self.registerCallback?()
+            }
         } else {
             debug("MQTT connection failed with code: \(returnCode)", log: self.log)
         }
@@ -1167,7 +1210,7 @@ class MQTTManager: NSObject {
     
     private func startPingTimer() {
         self.stopPingTimer()
-        let timer = DispatchSource.makeTimerSource(queue: .global(qos: .utility))
+        let timer = DispatchSource.makeTimerSource(queue: self.stateQueue)
         timer.schedule(deadline: .now() + 450, repeating: 450)
         timer.setEventHandler { [weak self] in
             self?.sendPingRequest()
@@ -1182,7 +1225,7 @@ class MQTTManager: NSObject {
     }
     
     private func handleWebSocketError(_ error: Error) {
-        if let urlError = error as? URLError, urlError.code.rawValue == 401 {
+        if let response = self.webSocket?.response as? HTTPURLResponse, response.statusCode == 401 {
             SystemStats.shared.start()
         } else {
             self.reconnect()
@@ -1207,7 +1250,9 @@ class MQTTManager: NSObject {
         let base = "stats/\(SystemStats.shared.id.uuidString)/"
         if topic == base + "unregister" {
             self.publish(topic: topic, data: Data(), retain: true)
-            self.unregisterHandler?()
+            DispatchQueue.main.async {
+                self.unregisterHandler?()
+            }
             return
         }
         
@@ -1216,7 +1261,9 @@ class MQTTManager: NSObject {
         let commandName = String(topic.dropFirst(controlPrefix.count))
         guard !commandName.isEmpty, !commandName.contains("/") else { return }
         let payload = data.subdata(in: offset..<data.count)
-        self.commandCallback?(commandName, payload)
+        DispatchQueue.main.async {
+            self.commandCallback?(commandName, payload)
+        }
     }
 }
 

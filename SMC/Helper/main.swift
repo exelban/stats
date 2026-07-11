@@ -85,16 +85,20 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
     
     private func uninstallHelper() {
         let process = Process()
-        process.launchPath = "/bin/launchctl"
+        process.executableURL = URL(fileURLWithPath: "/bin/launchctl")
         process.qualityOfService = QualityOfService.userInitiated
         process.arguments = ["unload", "/Library/LaunchDaemons/eu.exelban.Stats.SMC.Helper.plist"]
-        process.launch()
-        process.waitUntilExit()
-        
-        if process.terminationStatus != .zero {
-            NSLog("termination code: \(process.terminationStatus)")
+        do {
+            try process.run()
+            process.waitUntilExit()
+            
+            if process.terminationStatus != .zero {
+                NSLog("termination code: \(process.terminationStatus)")
+            }
+            NSLog("unloaded from launchctl")
+        } catch let err {
+            NSLog("launchctl unload: \(err)")
         }
-        NSLog("unloaded from launchctl")
         
         do {
             try FileManager.default.removeItem(at: URL(fileURLWithPath: "/Library/LaunchDaemons/eu.exelban.Stats.SMC.Helper.plist"))
@@ -214,17 +218,19 @@ extension Helper {
     
     func uninstall() {
         let process = Process()
-        process.launchPath = "/Library/PrivilegedHelperTools/eu.exelban.Stats.SMC.Helper"
+        process.executableURL = URL(fileURLWithPath: "/Library/PrivilegedHelperTools/eu.exelban.Stats.SMC.Helper")
         process.qualityOfService = QualityOfService.userInitiated
         process.arguments = ["uninstall", String(getpid())]
-        process.launch()
+        do {
+            try process.run()
+        } catch let err {
+            NSLog("uninstall: \(err)")
+        }
         exit(0)
     }
 }
 
 // https://github.com/duanefields/VirtualKVM/blob/master/VirtualKVM/CodesignCheck.swift
-let kSecCSDefaultFlags = 0
-
 enum CodesignCheckError: Error {
     case message(String)
 }

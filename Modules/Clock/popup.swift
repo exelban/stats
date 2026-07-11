@@ -15,6 +15,7 @@ import Kit
 internal class Popup: PopupWrapper {
     private let orderTableView: OrderTableView = OrderTableView()
     private var list: [Clock_t] = []
+    private let cache = PopupCache<[Clock_t]>()
     
     private var calendarView: CalendarView? = nil
     private var calendarState: Bool = true
@@ -46,17 +47,19 @@ internal class Popup: PopupWrapper {
     }
     
     internal func callback(_ list: [Clock_t]) {
-        defer { self.recalculateHeight() }
-        
-        var sorted = list.sorted(by: { $0.popupIndex < $1.popupIndex })
-        var views = self.subviews.filter{ $0 is ClockView }.compactMap{ $0 as? ClockView }
-        
-        if sorted.count != self.orderTableView.list.count || self.orderTableView.window?.isVisible ?? false {
-            self.orderTableView.list = sorted
+        if list.count != self.orderTableView.list.count || self.orderTableView.window?.isVisible ?? false {
+            self.orderTableView.list = list.sorted(by: { $0.popupIndex < $1.popupIndex })
             self.orderTableView.update()
         }
         
-        sorted = sorted.filter({ $0.popupState })
+        self.cache.apply(list, visible: self.window?.isVisible ?? false, render: self.render)
+    }
+    
+    private func render(_ list: [Clock_t]) {
+        defer { self.recalculateHeight() }
+        
+        let sorted = list.sorted(by: { $0.popupIndex < $1.popupIndex }).filter({ $0.popupState })
+        var views = self.subviews.filter{ $0 is ClockView }.compactMap{ $0 as? ClockView }
         
         if sorted.count < views.count && !views.isEmpty {
             views.forEach{ $0.removeFromSuperview() }
@@ -112,6 +115,7 @@ internal class Popup: PopupWrapper {
         if self.calendarState {
             self.calendarView?.checkCurrentDay()
         }
+        self.cache.replay(render: self.render)
         self.subviews.compactMap { $0 as? ClockView }.forEach { $0.appear() }
     }
     
@@ -953,27 +957,28 @@ private class OrderTableView: NSView, NSTableViewDelegate, NSTableViewDataSource
         
         tableView.beginUpdates()
         for oldIndex in oldIndexes {
+            let currentIdx: Int
+            let newIdx: Int
+            
             if oldIndex < row {
-                let currentIdx = oldIndex + oldIndexOffset
-                let newIdx = row - 1
-                
-                self.list[currentIdx].popupIndex = newIdx
-                self.list[newIdx].popupIndex = currentIdx
-                
+                currentIdx = oldIndex + oldIndexOffset
+                newIdx = row - 1
                 oldIndexOffset -= 1
             } else {
-                let currentIdx = oldIndex
-                let newIdx = row + newIndexOffset
-                
-                self.list[currentIdx].popupIndex = newIdx
-                self.list[newIdx].popupIndex = currentIdx
-                
+                currentIdx = oldIndex
+                newIdx = row + newIndexOffset
                 newIndexOffset += 1
             }
-            self.list = self.list.sorted(by: { $0.popupIndex < $1.popupIndex })
-            self.reorderCallback()
-            tableView.reloadData()
+            
+            if self.list.indices.contains(currentIdx) && self.list.indices.contains(newIdx) {
+                self.list.insert(self.list.remove(at: currentIdx), at: newIdx)
+            }
         }
+        for i in self.list.indices {
+            self.list[i].popupIndex = i
+        }
+        self.reorderCallback()
+        tableView.reloadData()
         tableView.endUpdates()
         
         return true

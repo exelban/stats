@@ -40,7 +40,6 @@ public protocol Sensor_p {
     
     var group: SensorGroup { get }
     var type: SensorType { get }
-    var platforms: [Platform] { get }
     var isComputed: Bool { get }
     var average: Bool { get }
     
@@ -64,6 +63,12 @@ public class Sensors_List: Codable {
             self.queue.async(flags: .barrier) {
                 self.list = newValue
             }
+        }
+    }
+    
+    public func update(_ transform: ([Sensor_p]) -> [Sensor_p]) {
+        self.queue.sync(flags: .barrier) {
+            self.list = transform(self.list)
         }
     }
     

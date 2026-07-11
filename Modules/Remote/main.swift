@@ -384,6 +384,12 @@ public final class RemoteMachineStream: NSObject, URLSessionDataDelegate {
     private var stopped = false
     private var reconnectAttempts = 0
     
+    private let delegateQueue: OperationQueue = {
+        let queue = OperationQueue()
+        queue.maxConcurrentOperationCount = 1
+        return queue
+    }()
+    
     public init(machineID: String, onUpdate: @escaping (RemoteUpdate) -> Void) {
         self.machineID = machineID
         self.onUpdate = onUpdate
@@ -407,11 +413,16 @@ public final class RemoteMachineStream: NSObject, URLSessionDataDelegate {
     private func openConnection() {
         guard !self.stopped, SystemStats.shared.isAuthorized, let url = URL(string: "\(SystemStats.host)/v1/machine/\(self.machineID)/sse") else { return }
         
-        let config = URLSessionConfiguration.default
-        config.timeoutIntervalForRequest = .infinity
-        config.timeoutIntervalForResource = .infinity
-        let session = URLSession(configuration: config, delegate: self, delegateQueue: nil)
-        self.session = session
+        let session: URLSession
+        if let existing = self.session {
+            session = existing
+        } else {
+            let config = URLSessionConfiguration.default
+            config.timeoutIntervalForRequest = .infinity
+            config.timeoutIntervalForResource = .infinity
+            session = URLSession(configuration: config, delegate: self, delegateQueue: self.delegateQueue)
+            self.session = session
+        }
         
         var request = URLRequest(url: url)
         request.setValue("Bearer \(SystemStats.shared.auth.accessToken)", forHTTPHeaderField: "Authorization")
@@ -423,6 +434,7 @@ public final class RemoteMachineStream: NSObject, URLSessionDataDelegate {
     }
     
     public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        guard !self.stopped, dataTask === self.task else { return }
         self.buffer.append(data)
         let separator = Data("\n\n".utf8)
         while let range = self.buffer.range(of: separator) {
@@ -433,7 +445,7 @@ public final class RemoteMachineStream: NSObject, URLSessionDataDelegate {
     }
     
     public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        guard !self.stopped else { return }
+        guard !self.stopped, task === self.task else { return }
         let delay = min(pow(2.0, Double(self.reconnectAttempts)), 60.0)
         self.reconnectAttempts += 1
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
