@@ -132,6 +132,7 @@
 "Successfully updated" = "성공적으로 업데이트되었습니다";
 "Stats was updated to v" = "Stats가 v%0 버전으로 업데이트되었습니다";
 "Reset settings text" = "모든 애플리케이션 설정이 재설정되고 다시 시작됩니다. 계속 진행하시겠습니까?";
+"Deregister text" = "기기가 System Stats에서 등록 해제되며 로그아웃됩니다. 정말로 진행하시겠습니까?"; // gemma4:31b-it-qat
 "Support text" = "Stats를 사용해 주셔서 감사합니다!\n\n 이 오픈 소스 프로젝트를 유지 관리하고 개선하는 데는 시간과 리소스가 필요합니다. 여러분의 지원은 모든 사람에게 신뢰할 수 있는 무료 애플리케이션을 계속 제공하는 데 도움이 됩니다.\n\nStats가 도움이 된다면 기여를 고려해 주세요. 여러분의 작은 도움이 큰 힘이 됩니다!";
 
 // Settings
@@ -339,11 +340,26 @@
 "Disk usage" = "디스크 사용량";
 "Total read" = "총 읽기";
 "Total written" = "총 쓰기";
+"File system" = "파일 시스템"; // gemma4:31b-it-qat
+"Connection type" = "연결 유형"; // gemma4:31b-it-qat
+"BSD name" = "BSD 이름"; // gemma4:31b-it-qat
+"Encrypted" = "암호화됨"; // gemma4:31b-it-qat
+"Writable" = "쓰기 가능"; // gemma4:31b-it-qat
 "Drives" = "드라이브"; // translategemma:4b
 "SMART data" = "SMART 데이터"; // translategemma:4b
 "ATA SMART data" = "ATA SMART 데이터"; // gemma4:31b
 "Power cycles" = "전원 사이클 횟수"; // gemma4:31b
 "Power on hours" = "전원 켜짐 시간"; // gemma4:31b
+"Critical warning" = "심각한 경고"; // gemma4:31b-it-qat
+"Available spare" = "사용 가능한 여유분"; // gemma4:31b-it-qat
+"Unsafe shutdowns" = "비정상 종료"; // gemma4:31b-it-qat
+"Media errors" = "미디어 오류"; // gemma4:31b-it-qat
+"Threshold" = "임계값"; // gemma4:31b-it-qat
+"Spare below threshold" = "여유분 임계값 미만"; // gemma4:31b-it-qat
+"Temperature out of range" = "온도 범위 벗어남"; // gemma4:31b-it-qat
+"Reliability degraded" = "신뢰성 저하"; // gemma4:31b-it-qat
+"Read-only mode" = "읽기 전용 모드"; // gemma4:31b-it-qat
+"Backup failed" = "백업 실패"; // gemma4:31b-it-qat
 
 // Sensors
 "Celsius" = "섭씨";

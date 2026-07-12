@@ -132,6 +132,7 @@
 "Successfully updated" = "Úspěšně aktualizováno";
 "Stats was updated to v" = "Stats byly aktualizovány na v%0";
 "Reset settings text" = "Všechna nastavení aplikace budou resetována a aplikace bude restartována. Jste si jisti, že to chcete udělat?";
+"Deregister text" = "Počítač bude odregistrován ze System Stats a vy budete odhlášeni. Jste si jisti, že to chcete udělat?"; // gemma4:31b-it-qat
 "Support text" = "Děkujeme, že používáte Stats!\n\n Udržování a zlepšování tohoto open-source projektu vyžaduje čas a zdroje. Vaše podpora nám pomáhá nadále poskytovat bezplatnou a spolehlivou aplikaci pro každého.\n\nPokud vám Stats pomáhají, zvažte prosím možnost přispět. Každý malý kousek pomůže!";
 
 // Settings
@@ -339,11 +340,26 @@
 "Disk usage" = "Využití disku"; // gemma4:31b
 "Total read" = "Celkem přečteno"; // gemma4:31b
 "Total written" = "Celkem zapsáno"; // gemma4:31b
+"File system" = "Souborový systém"; // gemma4:31b-it-qat
+"Connection type" = "Typ připojení"; // gemma4:31b-it-qat
+"BSD name" = "Název BSD"; // gemma4:31b-it-qat
+"Encrypted" = "Zašifrováno"; // gemma4:31b-it-qat
+"Writable" = "Zapisovatelný"; // gemma4:31b-it-qat
 "Drives" = "Disky"; // gemma4:31b
 "SMART data" = "Data SMART"; // translategemma:4b
 "ATA SMART data" = "Data ATA SMART"; // gemma4:31b
 "Power cycles" = "Počet cyklů"; // gemma4:31b
 "Power on hours" = "Provozní hodiny"; // gemma4:31b
+"Critical warning" = "Kritické varování"; // gemma4:31b-it-qat
+"Available spare" = "Dostupná rezerva"; // gemma4:31b-it-qat
+"Unsafe shutdowns" = "Nekorektní vypnutí"; // gemma4:31b-it-qat
+"Media errors" = "Chyby média"; // gemma4:31b-it-qat
+"Threshold" = "Práh"; // gemma4:31b-it-qat
+"Spare below threshold" = "Rezerva pod prahem"; // gemma4:31b-it-qat
+"Temperature out of range" = "Teplota mimo rozsah"; // gemma4:31b-it-qat
+"Reliability degraded" = "Snížená spolehlivost"; // gemma4:31b-it-qat
+"Read-only mode" = "Režim pouze pro čtení"; // gemma4:31b-it-qat
+"Backup failed" = "Zálohování selhalo"; // gemma4:31b-it-qat
 
 // Sensors
 "Celsius" = "Celsia"; // gemma4:31b
@@ -388,7 +404,7 @@
 "Processes based" = "Podle procesů";
 "Reset data usage" = "Resetovat využití dat";
 "VPN mode" = "VPN režim";
-"Standard" = "Standard";
+"Standard" = "Standardní"; // gemma4:31b-it-qat
 "Security" = "Zabezpečení";
 "Channel" = "Kanál";
 "Autodetection" = "Automatická detekce";

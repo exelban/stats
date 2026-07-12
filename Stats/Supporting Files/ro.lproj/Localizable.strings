@@ -132,6 +132,7 @@
 "Successfully updated" = "Actualizat cu succes";
 "Stats was updated to v" = "Stats a fost actualizat la v%0";
 "Reset settings text" = "Toate setările aplicației vor fi resetate și aplicația va fi repornită. Sunteți sigur că doriți să faceți acest lucru?"; // gemma4:31b
+"Deregister text" = "Calculatorul va fi dezînregistrat din System Stats și veți fi deconectat. Sunteți sigur că doriți să faceți acest lucru?"; // gemma4:31b-it-qat
 "Support text" = "Vă mulțumim pentru utilizarea Stats!\n\n Menținerea și îmbunătățirea acestui proiect open-source necesită timp și resurse. Sprijinul dumneavoastră ne ajută să continuăm să oferim o aplicație gratuită și fiabilă pentru toată lumea.\n\nDacă Stats vă este util, vă rugăm să luați în considerare posibilitatea de a face o contribuție. Fiecare bănuț ajută!";
 
 // Settings
@@ -339,11 +340,26 @@
 "Disk usage" = "Utilizarea discului"; // gemma4:31b
 "Total read" = "Total citit"; // translategemma:4b
 "Total written" = "Total scris"; // translategemma:4b
+"File system" = "Sistem de fișiere"; // gemma4:31b-it-qat
+"Connection type" = "Tipul conexiunii"; // gemma4:31b-it-qat
+"BSD name" = "Nume BSD"; // gemma4:31b-it-qat
+"Encrypted" = "Criptat"; // gemma4:31b-it-qat
+"Writable" = "Scrisibil"; // gemma4:31b-it-qat
 "Drives" = "Discuri"; // gemma4:31b
 "SMART data" = "Date SMART"; // translategemma:4b
 "ATA SMART data" = "Date ATA SMART"; // gemma4:31b
 "Power cycles" = "Număr de cicluri"; // gemma4:31b
 "Power on hours" = "Ore de funcționare"; // gemma4:31b
+"Critical warning" = "Avertisment critic"; // gemma4:31b-it-qat
+"Available spare" = "Rezervă disponibilă"; // gemma4:31b-it-qat
+"Unsafe shutdowns" = "Opriri nesigure"; // gemma4:31b-it-qat
+"Media errors" = "Erori de suport"; // gemma4:31b-it-qat
+"Threshold" = "Prag"; // gemma4:31b-it-qat
+"Spare below threshold" = "Rezervă sub prag"; // gemma4:31b-it-qat
+"Temperature out of range" = "Temperatura în afara intervalului"; // gemma4:31b-it-qat
+"Reliability degraded" = "Fiabilitate degradată"; // gemma4:31b-it-qat
+"Read-only mode" = "Mod doar pentru citire"; // gemma4:31b-it-qat
+"Backup failed" = "Copierea de rezervă a eșuat"; // gemma4:31b-it-qat
 
 // Sensors
 "Celsius" = "Celcius"; // translategemma:4b
@@ -497,4 +513,4 @@
 "Magenta" = "Magenta";
 "Pink" = "Roz"; // translategemma:4b
 "Teal" = "Turcoaz"; // gemma4:31b
-"Indigo" = "Indigo";
+"Indigo" = "Indigou"; // gemma4:31b-it-qat

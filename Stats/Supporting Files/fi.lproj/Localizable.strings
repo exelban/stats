@@ -132,6 +132,7 @@
 "Successfully updated" = "Päivitys onnistui";
 "Stats was updated to v" = "Stats päivitettiin versioon v%0";
 "Reset settings text" = "Kaikki sovelluksen asetukset nollataan, ja sovellus käynnistetään uudelleen. Haluatko varmasti tehdä tämän?";
+"Deregister text" = "Laite poistetaan rekisteröinnistä System Statsista ja sinut kirjataan ulos. Oletko varma, että haluat tehdä tämän?"; // gemma4:31b-it-qat
 "Support text" = "Kiitos, että käytät Statsia!\n\n Tämän avoimen lähdekoodin projektin ylläpitäminen ja parantaminen vie aikaa ja resursseja. Tukesi auttaa meitä jatkossakin tarjoamaan ilmaisen ja luotettavan sovelluksen kaikille.\n\nJos Stats on mielestäsi hyödyllinen, harkitse lahjoituksen tekemistä. Jokainen pieni osa auttaa!";
 
 // Settings
@@ -339,11 +340,26 @@
 "Disk usage" = "Levyn käyttö";
 "Total read" = "Luettu yhteensä";
 "Total written" = "Kirjoitettu yhteensä";
+"File system" = "Tiedostojärjestelmä"; // gemma4:31b-it-qat
+"Connection type" = "Yhteystyyppi"; // gemma4:31b-it-qat
+"BSD name" = "BSD-nimi"; // gemma4:31b-it-qat
+"Encrypted" = "Salattu"; // gemma4:31b-it-qat
+"Writable" = "Kirjoitettavissa"; // gemma4:31b-it-qat
 "Drives" = "Levyt"; // gemma4:31b
 "SMART data" = "SMART-tiedot"; // gemma4:31b
 "ATA SMART data" = "ATA SMART -tiedot"; // gemma4:31b
 "Power cycles" = "Lataussyklien määrä"; // gemma4:31b
 "Power on hours" = "Käyttötunnit"; // gemma4:31b
+"Critical warning" = "Kriittinen varoitus"; // gemma4:31b-it-qat
+"Available spare" = "Vapaa reservi"; // gemma4:31b-it-qat
+"Unsafe shutdowns" = "Turvattomat sammutukset"; // gemma4:31b-it-qat
+"Media errors" = "Median virheet"; // gemma4:31b-it-qat
+"Threshold" = "Kynnys"; // gemma4:31b-it-qat
+"Spare below threshold" = "Reservi alle kynnyksen"; // gemma4:31b-it-qat
+"Temperature out of range" = "Lämpötila alueen ulkopuolella"; // gemma4:31b-it-qat
+"Reliability degraded" = "Luotettavuus heikentynyt"; // gemma4:31b-it-qat
+"Read-only mode" = "Vain luku -tila"; // gemma4:31b-it-qat
+"Backup failed" = "Varmuuskopiointi epäonnistui"; // gemma4:31b-it-qat
 
 // Sensors
 "Celsius" = "Celsius";

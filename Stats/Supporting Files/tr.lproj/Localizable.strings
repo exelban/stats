@@ -132,6 +132,7 @@
 "Successfully updated" = "Başarıyla güncellendi";
 "Stats was updated to v" = "Stats v%0 sürümüne güncellendi";
 "Reset settings text" = "Bütün uygulama ayarları sıfırlanacak ve uygulama yeniden başlatılacak. Bunu yapmak istediğinize emin misiniz?";
+"Deregister text" = "Bilgisayarın System Stats kaydı silinecek ve oturumunuz kapatılacak. Bunu yapmak istediğinizden emin misiniz?"; // gemma4:31b-it-qat
 "Support text" = "Stats'i kullandığınız için teşekkür ederiz.\n\n Bu açık kaynak projesini sürdürmek ve geliştirmek zaman ve kaynak gerektirir. Desteğiniz, herkes için ücretsiz ve güvenilir bir uygulama sağlamaya devam etmemize yardımcı olur.\n\nStats'ı yararlı buluyorsanız, lütfen katkıda bulunmayı düşünün. Her küçük parça yardımcı olur!";
 
 // Settings
@@ -339,11 +340,26 @@
 "Disk usage" = "Disk kullanımı";
 "Total read" = "Toplam okuma";
 "Total written" = "Toplam yazılan";
+"File system" = "Dosya sistemi"; // gemma4:31b-it-qat
+"Connection type" = "Bağlantı türü"; // gemma4:31b-it-qat
+"BSD name" = "BSD adı"; // gemma4:31b-it-qat
+"Encrypted" = "Şifreli"; // gemma4:31b-it-qat
+"Writable" = "Yazılabilir"; // gemma4:31b-it-qat
 "Drives" = "Sürücüler";
 "SMART data" = "SMART verisi";
 "ATA SMART data" = "ATA SMART verileri"; // gemma4:31b
 "Power cycles" = "Güç döngüleri"; // gemma4:31b
 "Power on hours" = "Çalışma saatleri"; // gemma4:31b
+"Critical warning" = "Kritik uyarı"; // gemma4:31b-it-qat
+"Available spare" = "Kullanılabilir yedek"; // gemma4:31b-it-qat
+"Unsafe shutdowns" = "Güvensiz kapatmalar"; // gemma4:31b-it-qat
+"Media errors" = "Medya hataları"; // gemma4:31b-it-qat
+"Threshold" = "Eşik"; // gemma4:31b-it-qat
+"Spare below threshold" = "Rezerv eşiğin altında"; // gemma4:31b-it-qat
+"Temperature out of range" = "Sıcaklık aralık dışında"; // gemma4:31b-it-qat
+"Reliability degraded" = "Güvenilirlik azaldı"; // gemma4:31b-it-qat
+"Read-only mode" = "Salt okunur modu"; // gemma4:31b-it-qat
+"Backup failed" = "Yedekleme başarısız oldu"; // gemma4:31b-it-qat
 
 // Sensors
 "Celsius" = "Santigrat";

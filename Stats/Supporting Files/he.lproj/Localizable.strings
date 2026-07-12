@@ -132,6 +132,7 @@
 "Successfully updated" = "עודכן בהצלחה";
 "Stats was updated to v" = "v%0עודכן ל Stats";
 "Reset settings text" = "?כל הגדרות התוכנה יתאפסו והתוכנה תופעל מחדש. האם אתם בטוחים שאתם רוצים לעשות את זה";
+"Deregister text" = "המחשב יבוטל רישומו מ-System Stats ותתנתק מהמערכת. האם אתה בטוח שברצונך לעשות זאת?"; // gemma4:31b-it-qat
 "Support text" = "תודה על השימוש בסטטיסטיקה!\n\n תחזוקה ושיפור של פרויקט קוד פתוח זה דורש זמן ומשאבים. התמיכה שלך עוזרת לנו להמשיך לספק אפליקציה חינמית ומהימנה לכולם.\n\nאם אתה מוצא שסטטיסטיקות מועילות, שקול לתרום. כל טיפה עוזרת!";
 
 // Settings
@@ -339,11 +340,26 @@
 "Disk usage" = "שימוש בדיסק"; // translategemma:4b
 "Total read" = "סך הקריאה"; // gemma4:31b
 "Total written" = "סה\"כ נכתב"; // gemma4:31b
+"File system" = "מערכת קבצים"; // gemma4:31b-it-qat
+"Connection type" = "סוג החיבור"; // gemma4:31b-it-qat
+"BSD name" = "שם BSD"; // gemma4:31b-it-qat
+"Encrypted" = "מוצפן"; // gemma4:31b-it-qat
+"Writable" = "ניתן לכתיבה"; // gemma4:31b-it-qat
 "Drives" = "כוננים"; // gemma4:31b
 "SMART data" = "נתוני SMART"; // gemma4:31b
 "ATA SMART data" = "נתוני ATA SMART"; // gemma4:31b
 "Power cycles" = "מחזורי טעינה"; // gemma4:31b
 "Power on hours" = "שעות הפעלה"; // gemma4:31b
+"Critical warning" = "אזהרה קריטית"; // gemma4:31b-it-qat
+"Available spare" = "רזרבה זמינה"; // gemma4:31b-it-qat
+"Unsafe shutdowns" = "כיבויים לא בטוחים"; // gemma4:31b-it-qat
+"Media errors" = "שגיאות מדיה"; // gemma4:31b-it-qat
+"Threshold" = "סף"; // gemma4:31b-it-qat
+"Spare below threshold" = "רזרבה מתחת לסף"; // gemma4:31b-it-qat
+"Temperature out of range" = "טמפרטורה מחוץ לטווח"; // gemma4:31b-it-qat
+"Reliability degraded" = "אמינות פגועה"; // gemma4:31b-it-qat
+"Read-only mode" = "מצב קריאה בלבד"; // gemma4:31b-it-qat
+"Backup failed" = "הגיבוי נכשל"; // gemma4:31b-it-qat
 
 // Sensors
 "Celsius" = "צלסיוס";

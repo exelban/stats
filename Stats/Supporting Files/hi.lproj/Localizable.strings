@@ -132,6 +132,7 @@
 "Successfully updated" = "सफलतापूर्वक अपडेट किया गया";
 "Stats was updated to v" = "आँकड़े v पर अपडेट किए गए थे";
 "Reset settings text" = "Aसभी एप्लिकेशन सेटिंग्स रीसेट हो जाएंगी और एप्लिकेशन को पुनरारंभ किया जाएगा। क्या आप वाकई ऐसा करना चाहते हैं?";
+"Deregister text" = "मशीन को System Stats से डीरजिस्टर कर दिया जाएगा और आप लॉग आउट हो जाएंगे। क्या आप वाकई ऐसा करना चाहते हैं?"; // gemma4:31b-it-qat
 "Support text" = "Stats का उपयोग करने के लिए धन्यवाद!\n\n इस ओपन-सोर्स प्रोजेक्ट को बनाए रखने और सुधारने में समय और संसाधन लगते हैं। आपका समर्थन हमें सभी के लिए एक निःशुल्क और विश्वसनीय एप्लिकेशन प्रदान करना जारी रखने में मदद करता है.\n\nयदि आपको Stats मददगार लगता है, तो कृपया योगदान देने पर विचार करें। हर छोटी-छोटी मदद मददगार होती है!";
 
 // Settings
@@ -339,11 +340,26 @@
 "Disk usage" = "डिस्क उपयोग";
 "Total read" = "कुल पढ़ा गया"; // gemma4:31b
 "Total written" = "कुल लिखा गया"; // gemma4:31b
+"File system" = "फ़ाइल सिस्टम"; // gemma4:31b-it-qat
+"Connection type" = "कनेक्शन का प्रकार"; // gemma4:31b-it-qat
+"BSD name" = "BSD नाम"; // gemma4:31b-it-qat
+"Encrypted" = "एन्क्रिप्टेड"; // gemma4:31b-it-qat
+"Writable" = "लिखने योग्य"; // gemma4:31b-it-qat
 "Drives" = "ड्राइव्स"; // gemma4:31b
 "SMART data" = "SMART डेटा"; // gemma4:31b
 "ATA SMART data" = "ATA SMART डेटा"; // gemma4:31b
 "Power cycles" = "पावर साइकल"; // gemma4:31b
 "Power on hours" = "संचालन के घंटे"; // gemma4:31b
+"Critical warning" = "गंभीर चेतावनी"; // gemma4:31b-it-qat
+"Available spare" = "उपलब्ध अतिरिक्त"; // gemma4:31b-it-qat
+"Unsafe shutdowns" = "असुरक्षित शटडाउन"; // gemma4:31b-it-qat
+"Media errors" = "मीडिया त्रुटियाँ"; // gemma4:31b-it-qat
+"Threshold" = "सीमा"; // gemma4:31b-it-qat
+"Spare below threshold" = "सीमा से नीचे शेष"; // gemma4:31b-it-qat
+"Temperature out of range" = "तापमान सीमा से बाहर"; // gemma4:31b-it-qat
+"Reliability degraded" = "विश्वसनीयता घटी हुई"; // gemma4:31b-it-qat
+"Read-only mode" = "केवल पढ़ने योग्य मोड"; // gemma4:31b-it-qat
+"Backup failed" = "बैकअप विफल रहा"; // gemma4:31b-it-qat
 
 // Sensors
 "Celsius" = "सेल्सियस";

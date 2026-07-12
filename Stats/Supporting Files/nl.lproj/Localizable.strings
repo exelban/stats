@@ -132,6 +132,7 @@
 "Successfully updated" = "Succesvol geüpdatet";
 "Stats was updated to v" = "Stats is bijgewerkt naar v%0";
 "Reset settings text" = "Alle applicatie instellingen worden gereset en de applicatie wordt opnieuw opgestart. Weet u zeker dat u dit wilt doen?";
+"Deregister text" = "De computer wordt afgemeld bij System Stats en u wordt uitgelogd. Weet u zeker dat u dit wilt doen?"; // gemma4:31b-it-qat
 "Support text" = "Bedankt voor het gebruik van Stats! Het onderhouden en verbeteren van dit open-source project kost tijd en middelen. Als je Stats nuttig vindt, overweeg dan alsjeblieft om een bijdrage te leveren. Alle beetjes helpen!";
 
 // Settings
@@ -339,11 +340,26 @@
 "Disk usage" = "Schijfgebruik"; // gemma4:31b
 "Total read" = "Totaal gelezen"; // translategemma:4b
 "Total written" = "Totaal geschreven";
+"File system" = "Bestandssysteem"; // gemma4:31b-it-qat
+"Connection type" = "Verbindingstype"; // gemma4:31b-it-qat
+"BSD name" = "BSD-naam"; // gemma4:31b-it-qat
+"Encrypted" = "Versleuteld"; // gemma4:31b-it-qat
+"Writable" = "Schrijfbaar"; // gemma4:31b-it-qat
 "Drives" = "Schijven"; // translategemma:4b
 "SMART data" = "SMART-gegevens"; // translategemma:4b
 "ATA SMART data" = "ATA SMART-gegevens"; // gemma4:31b
 "Power cycles" = "Aantal cycli"; // gemma4:31b
 "Power on hours" = "Uren ingeschakeld"; // gemma4:31b
+"Critical warning" = "Kritieke waarschuwing"; // gemma4:31b-it-qat
+"Available spare" = "Beschikbare reserve"; // gemma4:31b-it-qat
+"Unsafe shutdowns" = "Onveilige afsluitingen"; // gemma4:31b-it-qat
+"Media errors" = "Mediumfouten"; // gemma4:31b-it-qat
+"Threshold" = "Drempelwaarde"; // gemma4:31b-it-qat
+"Spare below threshold" = "Reserve onder drempelwaarde"; // gemma4:31b-it-qat
+"Temperature out of range" = "Temperatuur buiten bereik"; // gemma4:31b-it-qat
+"Reliability degraded" = "Betrouwbaarheid verslechterd"; // gemma4:31b-it-qat
+"Read-only mode" = "Alleen-lezenmodus"; // gemma4:31b-it-qat
+"Backup failed" = "Back-up mislukt"; // gemma4:31b-it-qat
 
 // Sensors
 "Celsius" = "Celsius";

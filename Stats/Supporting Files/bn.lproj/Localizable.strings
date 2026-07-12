@@ -132,6 +132,7 @@
 "Successfully updated" = "সফলভাবে আপডেট হয়েছে";
 "Stats was updated to v" = "Stats v%0 তে আপডেট হয়েছে";
 "Reset settings text" = "এই অ্যাপের সব সেটিংস পুনরায় সেট হয়ে যাবে এবং অ্যাপটি পুনরায় চালু হবে। আপনি কি এটি করতে চান?";
+"Deregister text" = "কম্পিউটারটি System Stats থেকে ডি-রেজিস্টার করা হবে এবং আপনি লগ আউট হয়ে যাবেন। আপনি কি নিশ্চিত যে আপনি এটি করতে চান?"; // gemma4:31b-it-qat
 "Support text" = "Stats ব্যবহার করার জন্য ধন্যবাদ!\n\nএই ওপেন-সোর্স প্রকল্পটি রক্ষণাবেক্ষণ ও উন্নত করতে সময় ও সম্পদ লাগে। আপনার সহায়তা আমাদের সবার জন্য একটি বিনামূল্যের ও নির্ভরযোগ্য অ্যাপ দিতে সাহায্য করে।\n\nStats যদি আপনার কাজে লাগে, তাহলে অবদান রাখার কথা বিবেচনা করুন। প্রতিটি ছোট অবদানই কাজে আসে!";
 
 // Settings
@@ -339,11 +340,26 @@
 "Disk usage" = "ডিস্ক ব্যবহার";
 "Total read" = "মোট পড়া";
 "Total written" = "মোট লেখা";
+"File system" = "ফাইল সিস্টেম"; // gemma4:31b-it-qat
+"Connection type" = "সংযোগের ধরন"; // gemma4:31b-it-qat
+"BSD name" = "BSD নাম"; // gemma4:31b-it-qat
+"Encrypted" = "এনক্রিপ্ট করা"; // gemma4:31b-it-qat
+"Writable" = "লিখনযোগ্য"; // gemma4:31b-it-qat
 "Drives" = "ড্রাইভসমূহ";
 "SMART data" = "SMART ডেটা";
 "ATA SMART data" = "ATA SMART ডেটা"; // gemma4:31b
 "Power cycles" = "পাওয়ার চক্র";
 "Power on hours" = "চালু থাকার সময়";
+"Critical warning" = "গুরুতর সতর্কবার্তা"; // gemma4:31b-it-qat
+"Available spare" = "উপলব্ধ অতিরিক্ত"; // gemma4:31b-it-qat
+"Unsafe shutdowns" = "অনিরাপদ শাটডাউন"; // gemma4:31b-it-qat
+"Media errors" = "মিডিয়া ত্রুটি"; // gemma4:31b-it-qat
+"Threshold" = "সীমা"; // gemma4:31b-it-qat
+"Spare below threshold" = "সীমার নিচে স্পেয়ার"; // gemma4:31b-it-qat
+"Temperature out of range" = "তাপমাত্রা সীমার বাইরে"; // gemma4:31b-it-qat
+"Reliability degraded" = "নির্ভরযোগ্যতা হ্রাসপ্রাপ্ত"; // gemma4:31b-it-qat
+"Read-only mode" = "শুধুমাত্র পড়ার মোড"; // gemma4:31b-it-qat
+"Backup failed" = "ব্যাকআপ ব্যর্থ হয়েছে"; // gemma4:31b-it-qat
 
 // Sensors
 "Celsius" = "সেলসিয়াস";

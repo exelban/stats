@@ -132,6 +132,7 @@
 "Successfully updated" = "Opdatering succesfuld";
 "Stats was updated to v" = "Stats er blevet opdateret til v%0";
 "Reset settings text" = "Alle programmets indstillinger vil blive nulstillet og programmet genstartes. Er du sikker på du vil fortsætte?";
+"Deregister text" = "Maskinen vil blive afregistreret fra System Stats, og du vil blive logget ud. Er du sikker på, at du ønsker at gøre dette?"; // gemma4:31b-it-qat
 "Support text" = "Tak, fordi du bruger Stats!\n\n Det tager tid og ressourcer at vedligeholde og forbedre dette open source-projekt. Din støtte hjælper os med at fortsætte med at levere en gratis og pålidelig applikation til alle.\n\nHvis du finder Stats nyttigt, kan du overveje at give et bidrag. Hver eneste lille smule hjælper!";
 
 // Settings
@@ -339,11 +340,26 @@
 "Disk usage" = "Disk brug";
 "Total read" = "Samlet læst"; // gemma4:31b
 "Total written" = "Total skrevet"; // gemma4:31b
+"File system" = "Filsystem"; // gemma4:31b-it-qat
+"Connection type" = "Forbindelsestype"; // gemma4:31b-it-qat
+"BSD name" = "BSD-navn"; // gemma4:31b-it-qat
+"Encrypted" = "Krypteret"; // gemma4:31b-it-qat
+"Writable" = "Skrivbar"; // gemma4:31b-it-qat
 "Drives" = "Drev"; // gemma4:31b
 "SMART data" = "SMART-data"; // translategemma:4b
-"ATA SMART data" = "ATA SMART data";
+"ATA SMART data" = "ATA SMART-data"; // gemma4:31b-it-qat
 "Power cycles" = "Strømcyklusser"; // gemma4:31b
 "Power on hours" = "Timer tændt"; // gemma4:31b
+"Critical warning" = "Kritisk advarsel"; // gemma4:31b-it-qat
+"Available spare" = "Tilgængelig reserve"; // gemma4:31b-it-qat
+"Unsafe shutdowns" = "Usikre nedlukninger"; // gemma4:31b-it-qat
+"Media errors" = "Mediefejl"; // gemma4:31b-it-qat
+"Threshold" = "Tærskel"; // gemma4:31b-it-qat
+"Spare below threshold" = "Reserve under tærskelværdi"; // gemma4:31b-it-qat
+"Temperature out of range" = "Temperatur uden for intervallet"; // gemma4:31b-it-qat
+"Reliability degraded" = "Nedsat pålidelighed"; // gemma4:31b-it-qat
+"Read-only mode" = "Skrivebeskyttet tilstand"; // gemma4:31b-it-qat
+"Backup failed" = "Backup mislykkedes"; // gemma4:31b-it-qat
 
 // Sensors
 "Celsius" = "Celsius";

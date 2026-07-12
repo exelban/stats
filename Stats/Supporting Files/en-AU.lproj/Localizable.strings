@@ -132,6 +132,7 @@
 "Successfully updated" = "Successfully updated";
 "Stats was updated to v" = "Stats was updated to v%0";
 "Reset settings text" = "All application settings will be reset and the application will be restarted. Are you sure you want to do this?";
+"Deregister text" = "The machine will be deregistered from System Stats and you will be logged out. Are you sure you want to do this?";
 "Support text" = "Thank you for using Stats!\n\n Maintaining and improving this open-source project takes time and resources. Your support helps us continue to provide a free and reliable application for everyone.\n\nIf you find Stats helpful, please consider making a contribution. Every little bit helps!";
 
 // Settings
@@ -339,11 +340,26 @@
 "Disk usage" = "Disk usage";
 "Total read" = "Total read";
 "Total written" = "Total written";
+"File system" = "File system";
+"Connection type" = "Connection type";
+"BSD name" = "BSD name";
+"Encrypted" = "Encrypted";
+"Writable" = "Writable";
 "Drives" = "Drives";
 "SMART data" = "SMART data";
 "ATA SMART data" = "ATA SMART data";
 "Power cycles" = "Power cycles";
 "Power on hours" = "Power on hours";
+"Critical warning" = "Critical warning";
+"Available spare" = "Available spare";
+"Unsafe shutdowns" = "Unsafe shutdowns";
+"Media errors" = "Media errors";
+"Threshold" = "Threshold";
+"Spare below threshold" = "Spare below threshold";
+"Temperature out of range" = "Temperature out of range";
+"Reliability degraded" = "Reliability degraded";
+"Read-only mode" = "Read-only mode";
+"Backup failed" = "Backup failed";
 
 // Sensors
 "Celsius" = "Celsius";

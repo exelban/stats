@@ -349,7 +349,7 @@ class i18n:
                 refs.append((self._lang_name_from_code(code), value))
         return refs
 
-    def _ollama_translate(self, text, target_lang, model="gemma4:31b", retries=2, references=None):
+    def _ollama_translate(self, text, target_lang, model, retries=2, references=None):
         url = "http://ai:11434/api/generate"
         tgt = self._normalize_lang_code(target_lang)
         lang = self._lang_name_from_code(tgt)
@@ -432,7 +432,7 @@ class i18n:
             return translated
         return translated.rstrip().rstrip(".。…").rstrip()
 
-    def translate(self, model="gemma4:31b", accept=False, recheck=False, omit=0):
+    def translate(self, model="gemma4:31b-it-qat", accept=False, recheck=False, omit=0):
         en_lines = self.en_file()
         en_dict = dictionary(en_lines)
         omit_keys = ["Swap"]
@@ -449,7 +449,6 @@ class i18n:
             l for l in self.languages
             if not self._normalize_lang_code(l).lower().startswith("en")
             and self._normalize_lang_code(l).lower() not in self.trusted_languages
-#            if self._normalize_lang_code(l).lower() in ("sk")
         ]
 
         if omit > 0:

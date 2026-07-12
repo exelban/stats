@@ -132,6 +132,7 @@
 "Successfully updated" = "Успешно обновяване";
 "Stats was updated to v" = "Stats е обновена до версия v%0";
 "Reset settings text" = "Всички настройки на приложението ще бъдат занулени и приложението ще се рестартира. Сигурни ли сте, че искате това?";
+"Deregister text" = "Компютърът ще бъде дерегистриран от System Stats и вие ще бъдете излогвани. Сигурни ли сте, че искате да направите това?"; // gemma4:31b-it-qat
 "Support text" = "Благодарим ви, че използвате Статистики!\n\n Поддържането и подобряването на този проект с отворен код изисква време и ресурси. Вашата подкрепа ни помага да продължим да предоставяме безплатно и надеждно приложение за всички.\n\nАко намирате Stats за полезно, моля, помислете дали да не дадете своя принос. Всяка малка част помага!";
 
 // Settings
@@ -339,11 +340,26 @@
 "Disk usage" = "Използване на диска"; // gemma4:31b
 "Total read" = "Общо прочитано"; // gemma4:31b
 "Total written" = "Общо записано"; // gemma4:31b
+"File system" = "Файлова система"; // gemma4:31b-it-qat
+"Connection type" = "Тип връзка"; // gemma4:31b-it-qat
+"BSD name" = "BSD име"; // gemma4:31b-it-qat
+"Encrypted" = "Криптиран"; // gemma4:31b-it-qat
+"Writable" = "Записваем"; // gemma4:31b-it-qat
 "Drives" = "Дискове"; // gemma4:31b
 "SMART data" = "SMART данни"; // gemma4:31b
 "ATA SMART data" = "ATA SMART данни"; // gemma4:31b
 "Power cycles" = "Брой цикли"; // gemma4:31b
 "Power on hours" = "Часове работа"; // gemma4:31b
+"Critical warning" = "Критично предупреждение"; // gemma4:31b-it-qat
+"Available spare" = "Наличен резерв"; // gemma4:31b-it-qat
+"Unsafe shutdowns" = "Небезопасни изключвания"; // gemma4:31b-it-qat
+"Media errors" = "Грешки на носителя"; // gemma4:31b-it-qat
+"Threshold" = "Праг"; // gemma4:31b-it-qat
+"Spare below threshold" = "Запас под прага"; // gemma4:31b-it-qat
+"Temperature out of range" = "Температура извън обхвата"; // gemma4:31b-it-qat
+"Reliability degraded" = "Намалена надеждност"; // gemma4:31b-it-qat
+"Read-only mode" = "Режим само за четене"; // gemma4:31b-it-qat
+"Backup failed" = "Резервното копиране се провали"; // gemma4:31b-it-qat
 
 // Sensors
 "Celsius" = "Целзиус";

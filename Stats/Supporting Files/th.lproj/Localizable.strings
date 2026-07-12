@@ -132,6 +132,7 @@
 "Successfully updated" = "อัพเดทสำเร็จ";
 "Stats was updated to v" = "Stats อัพเดทเป็น v%0";
 "Reset settings text" = "การตั้งค่าของแอพพลิเคชันทั้งหมดจะถูกรีเซ็ตและแอพพลิเคชันจะเริ่มต้นใหม่ คุณแน่ใจหรือไม่ว่าต้องการดำเนินการนี้?";
+"Deregister text" = "เครื่องจะถูกยกเลิกการลงทะเบียนจาก System Stats และคุณจะถูกออกจากระบบ คุณแน่ใจหรือไม่ว่าต้องการดำเนินการนี้?"; // gemma4:31b-it-qat
 "Support text" = "ขอขอบคุณที่ใช้ Stats!\n\n การบำรุงรักษาและปรับปรุงโครงการโอเพนซอร์สนี้ต้องใช้เวลาและทรัพยากร การสนับสนุนของคุณช่วยให้เราสามารถให้บริการแอปพลิเคชันฟรีและเชื่อถือได้สำหรับทุกคนต่อไปได้\n\n หากคุณพบว่า Stats มีประโยชน์ โปรดพิจารณาให้ความช่วยเหลือ ทุก ๆ ความช่วยเหลือเล็ก ๆ น้อย ๆ ล้วนมีประโยชน์!";
 
 // Settings
@@ -339,11 +340,26 @@
 "Disk usage" = "การใช้งานดิสก์"; // gemma4:31b
 "Total read" = "อ่านทั้งหมด"; // gemma4:31b
 "Total written" = "เขียนทั้งหมด"; // gemma4:31b
+"File system" = "ระบบไฟล์"; // gemma4:31b-it-qat
+"Connection type" = "ประเภทการเชื่อมต่อ"; // gemma4:31b-it-qat
+"BSD name" = "ชื่อ BSD"; // gemma4:31b-it-qat
+"Encrypted" = "เข้ารหัสแล้ว"; // gemma4:31b-it-qat
+"Writable" = "เขียนได้"; // gemma4:31b-it-qat
 "Drives" = "ไดรฟ์"; // gemma4:31b
 "SMART data" = "ข้อมูล SMART"; // translategemma:4b
 "ATA SMART data" = "ข้อมูล ATA SMART"; // gemma4:31b
 "Power cycles" = "จำนวนรอบการชาร์จ"; // gemma4:31b
 "Power on hours" = "ชั่วโมงการทำงาน"; // gemma4:31b
+"Critical warning" = "คำเตือนระดับวิกฤต"; // gemma4:31b-it-qat
+"Available spare" = "สำรองที่พร้อมใช้งาน"; // gemma4:31b-it-qat
+"Unsafe shutdowns" = "การปิดเครื่องที่ไม่ปลอดภัย"; // gemma4:31b-it-qat
+"Media errors" = "ข้อผิดพลาดของสื่อ"; // gemma4:31b-it-qat
+"Threshold" = "เกณฑ์"; // gemma4:31b-it-qat
+"Spare below threshold" = "ส่วนสำรองต่ำกว่าเกณฑ์"; // gemma4:31b-it-qat
+"Temperature out of range" = "อุณหภูมินอกช่วง"; // gemma4:31b-it-qat
+"Reliability degraded" = "ความน่าเชื่อถือลดลง"; // gemma4:31b-it-qat
+"Read-only mode" = "โหมดอ่านอย่างเดียว"; // gemma4:31b-it-qat
+"Backup failed" = "การสำรองข้อมูลล้มเหลว"; // gemma4:31b-it-qat
 
 // Sensors
 "Celsius" = "เซลเซียส";

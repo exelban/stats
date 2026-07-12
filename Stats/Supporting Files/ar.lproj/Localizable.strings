@@ -132,6 +132,7 @@
 "Successfully updated" = "تم التحديث بنجاح";
 "Stats was updated to v" = "تم تحديث الإحصاءات إلى الإصدار v%0";
 "Reset settings text" = "سيتم إعادة ضبط جميع إعدادات التطبيق وسيتم إعادة تشغيل التطبيق. هل تريد المتابعة؟";
+"Deregister text" = "سيتم إلغاء تسجيل الجهاز من System Stats وسيتم تسجيل خروجك. هل أنت متأكد أنك تريد القيام بذلك؟"; // gemma4:31b-it-qat
 "Support text" = "شكرًا لك على استخدامك ل Stats! \n\nيستغرق الحفاظ على هذا المشروع مفتوح المصدر وتحسينه وقتًا وموارد. دعمكم يساعدنا على الاستمرار في توفير تطبيق مجاني وموثوق للجميع. كل جزء صغير يساعدنا!";
 
 // Settings
@@ -339,11 +340,26 @@
 "Disk usage" = "استخدام القرص";
 "Total read" = "إجمالي القراءة";
 "Total written" = "إجمالي الكتابة";
+"File system" = "نظام الملفات"; // gemma4:31b-it-qat
+"Connection type" = "نوع الاتصال"; // gemma4:31b-it-qat
+"BSD name" = "اسم BSD"; // gemma4:31b-it-qat
+"Encrypted" = "مشفر"; // gemma4:31b-it-qat
+"Writable" = "قابل للكتابة"; // gemma4:31b-it-qat
 "Drives" = "محركات الأقراص"; // gemma4:31b
 "SMART data" = "بيانات SMART"; // gemma4:31b
 "ATA SMART data" = "بيانات ATA SMART"; // gemma4:31b
 "Power cycles" = "دورات الطاقة"; // gemma4:31b
 "Power on hours" = "ساعات التشغيل"; // gemma4:31b
+"Critical warning" = "تحذير حرج"; // gemma4:31b-it-qat
+"Available spare" = "الاحتياطي المتوفر"; // gemma4:31b-it-qat
+"Unsafe shutdowns" = "عمليات إيقاف تشغيل غير آمنة"; // gemma4:31b-it-qat
+"Media errors" = "أخطاء الوسائط"; // gemma4:31b-it-qat
+"Threshold" = "العتبة"; // gemma4:31b-it-qat
+"Spare below threshold" = "الاحتياطي أقل من الحد"; // gemma4:31b-it-qat
+"Temperature out of range" = "درجة الحرارة خارج النطاق"; // gemma4:31b-it-qat
+"Reliability degraded" = "موثوقية متدهورة"; // gemma4:31b-it-qat
+"Read-only mode" = "وضع القراءة فقط"; // gemma4:31b-it-qat
+"Backup failed" = "فشل النسخ الاحتياطي"; // gemma4:31b-it-qat
 
 // Sensors
 "Celsius" = "درجة مئوية";

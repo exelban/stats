@@ -132,6 +132,7 @@
 "Successfully updated" = "更新成功";
 "Stats was updated to v" = "Stats已更新到 v%0";
 "Reset settings text" = "应用程序的所有设置将会被重置，应用程序也将重新启动。你确定要这么做吗？";
+"Deregister text" = "这台机器将从 System Stats 中注销，并且您将被登出。您确定要这样做吗？"; // gemma4:31b-it-qat
 "Support text" = "感谢您使用Stats！\n\n 维护和改进这个开源项目需要花费时间和资源。您的支持能帮助我们继续给每个人提供这样免费且可靠的应用程序。\n\n如果您觉得Stats对您有帮助，请考虑给我们一份捐助。即使是一点一滴都有很大的帮助！";
 
 // Settings
@@ -339,11 +340,26 @@
 "Disk usage" = "磁盘使用";
 "Total read" = "总读取量";
 "Total written" = "总写入量";
+"File system" = "文件系统"; // gemma4:31b-it-qat
+"Connection type" = "连接类型"; // gemma4:31b-it-qat
+"BSD name" = "BSD 名称"; // gemma4:31b-it-qat
+"Encrypted" = "已加密"; // gemma4:31b-it-qat
+"Writable" = "可写"; // gemma4:31b-it-qat
 "Drives" = "驱动器";
 "SMART data" = "SMART数据";
 "ATA SMART data" = "ATA SMART 数据"; // gemma4:31b
 "Power cycles" = "电源循环次数"; // gemma4:31b
 "Power on hours" = "通电小时数"; // gemma4:31b
+"Critical warning" = "严重警告"; // gemma4:31b-it-qat
+"Available spare" = "可用备用"; // gemma4:31b-it-qat
+"Unsafe shutdowns" = "非正常关机"; // gemma4:31b-it-qat
+"Media errors" = "介质错误"; // gemma4:31b-it-qat
+"Threshold" = "阈值"; // gemma4:31b-it-qat
+"Spare below threshold" = "备用低于阈值"; // gemma4:31b-it-qat
+"Temperature out of range" = "温度超出范围"; // gemma4:31b-it-qat
+"Reliability degraded" = "可靠性降低"; // gemma4:31b-it-qat
+"Read-only mode" = "只读模式"; // gemma4:31b-it-qat
+"Backup failed" = "备份失败"; // gemma4:31b-it-qat
 
 // Sensors
 "Celsius" = "摄氏度";

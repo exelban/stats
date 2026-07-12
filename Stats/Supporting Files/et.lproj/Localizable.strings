@@ -132,6 +132,7 @@
 "Successfully updated" = "Edukalt värskendatud";
 "Stats was updated to v" = "Stats värskendati versioonile %0";
 "Reset settings text" = "Kõik rakenduse seaded lähtestatakse ja rakendus taaskäivitatakse. Kas olete kindel, et soovite seda teha?";
+"Deregister text" = "Arvuti deregistreeritakse System Statsist ja teid logitakse välja. Kas olete kindel, et soovite seda teha?"; // gemma4:31b-it-qat
 "Support text" = "Täname teid Statsi kasutamise eest!\n\n Selle avatud lähtekoodiga projekti hooldamine ja täiustamine nõuab aega ja ressursse. Teie toetus aitab meil jätkuvalt pakkuda kõigile tasuta ja usaldusväärset rakendust.\n\nJa kui Stats on teie arvates kasulik, siis palun kaaluge panuse andmist. Iga väike summa aitab!";
 
 // Settings
@@ -339,11 +340,26 @@
 "Disk usage" = "Kettakasutus";
 "Total read" = "Kokku lugemisi";
 "Total written" = "Kokku kirjutatud";
+"File system" = "Failisüsteem"; // gemma4:31b-it-qat
+"Connection type" = "Ühenduse tüüp"; // gemma4:31b-it-qat
+"BSD name" = "BSD nimi"; // gemma4:31b-it-qat
+"Encrypted" = "Krüpteeritud"; // gemma4:31b-it-qat
+"Writable" = "Kirjutatav"; // gemma4:31b-it-qat
 "Drives" = "Kettad";
 "SMART data" = "SMART-andmed";
 "ATA SMART data" = "ATA SMART andmed"; // gemma4:31b
 "Power cycles" = "Toitetsüklid"; // gemma4:31b
 "Power on hours" = "Töötunnid"; // gemma4:31b
+"Critical warning" = "Kriitiline hoiatus"; // gemma4:31b-it-qat
+"Available spare" = "Saadav reserv"; // gemma4:31b-it-qat
+"Unsafe shutdowns" = "Ebaohutud väljalülitused"; // gemma4:31b-it-qat
+"Media errors" = "Meediavigad"; // gemma4:31b-it-qat
+"Threshold" = "Lävus"; // gemma4:31b-it-qat
+"Spare below threshold" = "Varu allpool lävendi"; // gemma4:31b-it-qat
+"Temperature out of range" = "Temperatuur väljas diapazoonist"; // gemma4:31b-it-qat
+"Reliability degraded" = "Töökindlus halvenenud"; // gemma4:31b-it-qat
+"Read-only mode" = "Ainult lugemise režiim"; // gemma4:31b-it-qat
+"Backup failed" = "Varundamine ei õnnestunud"; // gemma4:31b-it-qat
 
 // Sensors
 "Celsius" = "Celsiuse"; // gemma4:31b

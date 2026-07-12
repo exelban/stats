@@ -132,6 +132,7 @@
 "Successfully updated" = "正常にアップデートされました";
 "Stats was updated to v" = "Stats v%0 にアップデートしました";
 "Reset settings text" = "アプリの設定をすべてリセットし、アプリを再起動します。本当に続けますか？";
+"Deregister text" = "このコンピュータはSystem Statsから登録解除され、ログアウトされます。本当に実行しますか？"; // gemma4:31b-it-qat
 "Support text" = "Statsをご利用いただきありがとうございます。Statsが役に立つと感じたら、寄付をご検討ください。少しでも役に立ちます！";
 
 // Settings
@@ -339,11 +340,26 @@
 "Disk usage" = "ディスク使用量"; // translategemma:4b
 "Total read" = "合計読み取り"; // gemma4:31b
 "Total written" = "総書き込み量";
+"File system" = "ファイルシステム"; // gemma4:31b-it-qat
+"Connection type" = "接続タイプ"; // gemma4:31b-it-qat
+"BSD name" = "BSD名"; // gemma4:31b-it-qat
+"Encrypted" = "暗号化済み"; // gemma4:31b-it-qat
+"Writable" = "書き込み可能"; // gemma4:31b-it-qat
 "Drives" = "ディスク"; // gemma4:31b
 "SMART data" = "SMARTデータ"; // translategemma:4b
 "ATA SMART data" = "ATA SMART データ"; // gemma4:31b
 "Power cycles" = "サイクル数"; // gemma4:31b
 "Power on hours" = "通電時間"; // gemma4:31b
+"Critical warning" = "重大な警告"; // gemma4:31b-it-qat
+"Available spare" = "利用可能な予備"; // gemma4:31b-it-qat
+"Unsafe shutdowns" = "不安全なシャットダウン"; // gemma4:31b-it-qat
+"Media errors" = "メディアエラー"; // gemma4:31b-it-qat
+"Threshold" = "しきい値"; // gemma4:31b-it-qat
+"Spare below threshold" = "予備がしきい値未満"; // gemma4:31b-it-qat
+"Temperature out of range" = "温度範囲外"; // gemma4:31b-it-qat
+"Reliability degraded" = "信頼性の低下"; // gemma4:31b-it-qat
+"Read-only mode" = "読み取り専用モード"; // gemma4:31b-it-qat
+"Backup failed" = "バックアップに失敗しました"; // gemma4:31b-it-qat
 
 // Sensors
 "Celsius" = "摂氏（℃）";

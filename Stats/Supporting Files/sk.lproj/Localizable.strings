@@ -132,6 +132,7 @@
 "Successfully updated" = "Úspešne aktualizované";
 "Stats was updated to v" = "Stats bol aktualizovaný na v%0";
 "Reset settings text" = "Všetky nastavenia aplikácie budú zresetované a aplikácia bude reštartovaná. Ste si istý, že chcete pokračovať?";
+"Deregister text" = "Počítač bude odregistrovaný zo System Stats a vy budete odhlásení. Ste si istí, že to chcete urobiť?"; // gemma4:31b-it-qat
 "Support text" = "Ďakujeme, že používate Stats!\n\n Udržiavanie a zlepšovanie tohto open-source projektu si vyžaduje čas a zdroje. Vaša podpora nám pomáha pokračovať v poskytovaní bezplatnej a spoľahlivej aplikácie pre každého.\n\nAk považujete Stats za užitočné, zvážte prosím možnosť prispieť. Každý malý kúsok pomôže!";
 
 // Settings
@@ -339,15 +340,30 @@
 "Disk usage" = "Využitie disku"; // gemma4:31b
 "Total read" = "Celkom prečítané"; // gemma4:31b
 "Total written" = "Celkový zápis"; // gemma4:31b
+"File system" = "Súborový systém"; // gemma4:31b-it-qat
+"Connection type" = "Typ pripojenia"; // gemma4:31b-it-qat
+"BSD name" = "Názov BSD"; // gemma4:31b-it-qat
+"Encrypted" = "Zašifrované"; // gemma4:31b-it-qat
+"Writable" = "Zapísateľný"; // gemma4:31b-it-qat
 "Drives" = "Disky"; // gemma4:31b
 "SMART data" = "SMART údaje"; // gemma4:31b
 "ATA SMART data" = "Údaje ATA SMART"; // gemma4:31b
 "Power cycles" = "Počet cyklov"; // gemma4:31b
 "Power on hours" = "Hodiny prevádzky"; // gemma4:31b
+"Critical warning" = "Kritické varovanie"; // gemma4:31b-it-qat
+"Available spare" = "Dostupná rezerva"; // gemma4:31b-it-qat
+"Unsafe shutdowns" = "Nebezpečné vypnutia"; // gemma4:31b-it-qat
+"Media errors" = "Chyby médií"; // gemma4:31b-it-qat
+"Threshold" = "Prah"; // gemma4:31b-it-qat
+"Spare below threshold" = "Rezerva pod prahom"; // gemma4:31b-it-qat
+"Temperature out of range" = "Teplota mimo rozsahu"; // gemma4:31b-it-qat
+"Reliability degraded" = "Znížená spolehlivosť"; // gemma4:31b-it-qat
+"Read-only mode" = "Režim iba na čítanie"; // gemma4:31b-it-qat
+"Backup failed" = "Zálohovanie zlyhalo"; // gemma4:31b-it-qat
 
 // Sensors
 "Celsius" = "Celzius"; // gemma4:31b
-"Fahrenheit" = "Fahrenheit";
+"Fahrenheit" = "Fahrenheita"; // gemma4:31b-it-qat
 "Save the fan speed" = "Uložiť rýchlosť ventilátora"; // gemma4:31b
 "Fan" = "Ventilátor"; // gemma4:31b
 "HID sensors" = "HID senzory"; // gemma4:31b
@@ -493,7 +509,7 @@
 "Second purple" = "Druhý fialový"; // gemma4:31b
 "Brown" = "Hnedý"; // gemma4:31b
 "Second brown" = "Druhý hnedý"; // gemma4:31b
-"Cyan" = "Cyan";
+"Cyan" = "Cyán"; // gemma4:31b-it-qat
 "Magenta" = "Purpurový"; // gemma4:31b
 "Pink" = "Ružová"; // gemma4:31b
 "Teal" = "Tyrkysová"; // gemma4:31b

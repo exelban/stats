@@ -132,6 +132,7 @@
 "Successfully updated" = "Aktualiziranje je uspjelo";
 "Stats was updated to v" = "Stats je aktualiziran na v%0";
 "Reset settings text" = "Sve postavke programa će se resetirati i program će se ponovo pokrenuti. Stvarno to želiš učiniti?";
+"Deregister text" = "Računalo će biti odregistrirano iz System Statsa i bit ćete odjavljeni. Jeste li sigurni da to želite učiniti?"; // gemma4:31b-it-qat
 "Support text" = "Hvala vam što koristite Stats!\n\n Održavanje i poboljšanje ovog projekta otvorenog koda zahtijeva vrijeme i resurse. Vaša nam podrška pomaže da nastavimo pružati besplatnu i pouzdanu aplikaciju za sve.\n\nAko smatrate da je statistika korisna, razmislite o davanju doprinosa. Svako malo pomaže!";
 
 // Settings
@@ -339,11 +340,26 @@
 "Disk usage" = "Korištenje diska"; // gemma4:31b
 "Total read" = "Ukupno pročitano"; // translategemma:4b
 "Total written" = "Ukupno zapisano"; // gemma4:31b
+"File system" = "Datotečni sustav"; // gemma4:31b-it-qat
+"Connection type" = "Vrsta veze"; // gemma4:31b-it-qat
+"BSD name" = "BSD naziv"; // gemma4:31b-it-qat
+"Encrypted" = "Šifrirano"; // gemma4:31b-it-qat
+"Writable" = "Upisivo"; // gemma4:31b-it-qat
 "Drives" = "Diskovi"; // gemma4:31b
 "SMART data" = "SMART podaci"; // gemma4:31b
 "ATA SMART data" = "ATA SMART podaci"; // gemma4:31b
 "Power cycles" = "Broj ciklusa"; // gemma4:31b
 "Power on hours" = "Sati rada"; // gemma4:31b
+"Critical warning" = "Kritično upozorenje"; // gemma4:31b-it-qat
+"Available spare" = "Dostupna rezerva"; // gemma4:31b-it-qat
+"Unsafe shutdowns" = "Nepravilna isključivanja"; // gemma4:31b-it-qat
+"Media errors" = "Pogreške medija"; // gemma4:31b-it-qat
+"Threshold" = "Prag"; // gemma4:31b-it-qat
+"Spare below threshold" = "Rezerva ispod praga"; // gemma4:31b-it-qat
+"Temperature out of range" = "Temperatura izvan raspona"; // gemma4:31b-it-qat
+"Reliability degraded" = "Smanjena pouzdanost"; // gemma4:31b-it-qat
+"Read-only mode" = "Način samo za čitanje"; // gemma4:31b-it-qat
+"Backup failed" = "Sigurnosna kopija nije uspjela"; // gemma4:31b-it-qat
 
 // Sensors
 "Celsius" = "Celzij";

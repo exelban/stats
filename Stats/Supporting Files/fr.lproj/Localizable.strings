@@ -66,7 +66,7 @@
 "Scaling" = "Échelle";
 "Linear" = "Linéaire";
 "Square" = "Carré";
-"Cube" = "Cube";
+"Cube" = "Cubique"; // gemma4:31b-it-qat
 "Logarithmic" = "Logarithmique";
 "Fixed scale" = "Fixe";
 "Cores" = "Cœurs";
@@ -132,6 +132,7 @@
 "Successfully updated" = "Mise à jour effectuée avec succès";
 "Stats was updated to v" = "Stats a été mis à jour à la version %0";
 "Reset settings text" = "Tous les paramètres de l'application seront réinitialisés et l'application redémarrera. Êtes-vous sûr de vouloir continuer ?";
+"Deregister text" = "L'ordinateur sera désenregistré de System Stats et vous serez déconnecté. Êtes-vous sûr de vouloir faire cela ?"; // gemma4:31b-it-qat
 "Support text" = "Merci d'utiliser Stats !\nLa maintenance et l'amélioration de ce projet open source nécessitent du temps et des ressources. Votre soutien nous aide à continuer à fournir une application gratuite et fiable pour tout le monde.\nSi vous trouvez Stats utile, veuillez envisager de faire une contribution. Chaque petit geste compte !";
 
 // Settings
@@ -174,7 +175,7 @@
 "Production year" = "Année de production";
 "Uptime" = "Temps de fonctionnement";
 "Number of cores" = "%0 cœurs";
-"Number of threads" = "%0 threads";
+"Number of threads" = "%0 fils"; // gemma4:31b-it-qat
 "Number of e-cores" = "%0 cœurs à haute effica­cité éner­gétique";
 "Number of p-cores" = "%0 cœurs de perfor­mance";
 "Number of s-cores" = "%0 super cœurs";
@@ -339,11 +340,26 @@
 "Disk usage" = "Utilisation du disque";
 "Total read" = "Lectures totales";
 "Total written" = "Écritures totales";
+"File system" = "Système de fichiers"; // gemma4:31b-it-qat
+"Connection type" = "Type de connexion"; // gemma4:31b-it-qat
+"BSD name" = "Nom BSD"; // gemma4:31b-it-qat
+"Encrypted" = "Chiffré"; // gemma4:31b-it-qat
+"Writable" = "Écritible"; // gemma4:31b-it-qat
 "Drives" = "Disques";
 "SMART data" = "Données SMART"; // translategemma:4b
 "ATA SMART data" = "Données ATA SMART"; // gemma4:31b
 "Power cycles" = "Nombre de cycles"; // gemma4:31b
 "Power on hours" = "Heures de fonctionnement"; // gemma4:31b
+"Critical warning" = "Avertissement critique"; // gemma4:31b-it-qat
+"Available spare" = "Réserve disponible"; // gemma4:31b-it-qat
+"Unsafe shutdowns" = "Arrêts non sécurisés"; // gemma4:31b-it-qat
+"Media errors" = "Erreurs de média"; // gemma4:31b-it-qat
+"Threshold" = "Seuil"; // gemma4:31b-it-qat
+"Spare below threshold" = "Réserve sous le seuil"; // gemma4:31b-it-qat
+"Temperature out of range" = "Température hors plage"; // gemma4:31b-it-qat
+"Reliability degraded" = "Fiabilité dégradée"; // gemma4:31b-it-qat
+"Read-only mode" = "Mode lecture seule"; // gemma4:31b-it-qat
+"Backup failed" = "Échec de la sauvegarde"; // gemma4:31b-it-qat
 
 // Sensors
 "Celsius" = "Celsius";

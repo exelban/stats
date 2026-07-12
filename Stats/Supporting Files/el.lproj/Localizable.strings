@@ -132,6 +132,7 @@
 "Successfully updated" = "Επιτυχής ενημέρωση";
 "Stats was updated to v" = "Το Stats ενημερώθηκε στην ε%0";
 "Reset settings text" = "Όλες οι ρυθμίσεις της εφαρμογής θα αρχικοποιηθούν και η εφαρμογή θα επανεκκινηθεί. Είστε σίγουροι;";
+"Deregister text" = "Ο υπολογιστής θα απαγραφεί από το System Stats και θα αποσυνδεθείτε. Είστε σίγουροι ότι θέλετε να το κάνετε αυτό;"; // gemma4:31b-it-qat
 "Support text" = "Σας ευχαριστούμε για τη χρήση των Stats!\n\n Η συντήρηση και η βελτίωση αυτού του έργου ανοιχτού κώδικα απαιτεί χρόνο και πόρους. Η υποστήριξή σας μας βοηθά να συνεχίσουμε να παρέχουμε μια δωρεάν και αξιόπιστη εφαρμογή για όλους.\n\nΕάν βρίσκετε το Stats χρήσιμο, παρακαλούμε σκεφτείτε να συνεισφέρετε. Κάθε μικρό ποσό βοηθάει!";
 
 // Settings
@@ -339,11 +340,26 @@
 "Disk usage" = "Χρήση δίσκου"; // translategemma:4b
 "Total read" = "Συνολική ανάγνωση"; // translategemma:4b
 "Total written" = "Συνολικά γραμμένα"; // gemma4:31b
+"File system" = "Σύστημα αρχείων"; // gemma4:31b-it-qat
+"Connection type" = "Τύπος σύνδεσης"; // gemma4:31b-it-qat
+"BSD name" = "Όνομα BSD"; // gemma4:31b-it-qat
+"Encrypted" = "Κρυπτογραφημένο"; // gemma4:31b-it-qat
+"Writable" = "Γράψιμος"; // gemma4:31b-it-qat
 "Drives" = "Δίσκοι"; // translategemma:4b
 "SMART data" = "SMART δεδομένα"; // gemma4:31b
 "ATA SMART data" = "Δεδομένα ATA SMART"; // gemma4:31b
 "Power cycles" = "Κύκλοι φόρτισης"; // gemma4:31b
 "Power on hours" = "Ώρες λειτουργίας"; // gemma4:31b
+"Critical warning" = "Κρίσιμη προειδοποίηση"; // gemma4:31b-it-qat
+"Available spare" = "Διαθέσιμο απόθεμα"; // gemma4:31b-it-qat
+"Unsafe shutdowns" = "Μη ασφαλείς απενεργοποιήσεις"; // gemma4:31b-it-qat
+"Media errors" = "Σφάλματα μέσου"; // gemma4:31b-it-qat
+"Threshold" = "Όριο"; // gemma4:31b-it-qat
+"Spare below threshold" = "Απόθεμα κάτω από το όριο"; // gemma4:31b-it-qat
+"Temperature out of range" = "Θερμοκρασία εκτός ορίων"; // gemma4:31b-it-qat
+"Reliability degraded" = "Μειωμένη αξιοπιστία"; // gemma4:31b-it-qat
+"Read-only mode" = "Λειτουργία μόνο για ανάγνωση"; // gemma4:31b-it-qat
+"Backup failed" = "Αποτυχία αντιγράφου ασφαλείας"; // gemma4:31b-it-qat
 
 // Sensors
 "Celsius" = "Κελσίου";

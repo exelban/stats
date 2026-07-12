@@ -132,6 +132,7 @@
 "Successfully updated" = "با موفقیت به‌روزرسانی شد";
 "Stats was updated to v" = "Stats به نسخه‌ی v%0 بروزسانی شد  ";
 "Reset settings text" = "تمام تنظیمات اپلیکیشن ریست خواهد شد و اپ دوباره راه‌اندازی خواهد شد، آیا از این کار مطمئنید؟";
+"Deregister text" = "دستگاه از System Stats لغو ثبت خواهد شد و شما خارج خواهید شد. آیا مطمئن هستید که می‌خواهید این کار را انجام دهید؟"; // gemma4:31b-it-qat
 "Support text" = "از اینکه از آمار استفاده می کنید متشکریم!\n\n نگهداری و بهبود این پروژه منبع باز زمان و منابع می طلبد. پشتیبانی شما به ما کمک می‌کند تا به ارائه یک برنامه رایگان و قابل اعتماد برای همه ادامه دهیم.\n\nاگر آمارها را مفید می‌دانید، لطفاً در نظر بگیرید. هر ذره کمک می کند!";
 
 // Settings
@@ -339,11 +340,26 @@
 "Disk usage" = "استفاده از دیسک"; // gemma4:31b
 "Total read" = "مجموع خوانده شده"; // gemma4:31b
 "Total written" = "کل نوشته شده"; // gemma4:31b
+"File system" = "سیستم فایل"; // gemma4:31b-it-qat
+"Connection type" = "نوع اتصال"; // gemma4:31b-it-qat
+"BSD name" = "نام BSD"; // gemma4:31b-it-qat
+"Encrypted" = "رمزگذاری شده"; // gemma4:31b-it-qat
+"Writable" = "قابل نوشتن"; // gemma4:31b-it-qat
 "Drives" = "درایوها"; // translategemma:4b
 "SMART data" = "داده‌های SMART"; // gemma4:31b
 "ATA SMART data" = "داده‌های ATA SMART"; // gemma4:31b
 "Power cycles" = "تعداد چرخه ها"; // gemma4:31b
 "Power on hours" = "ساعات کارکرد"; // gemma4:31b
+"Critical warning" = "هشدار بحرانی"; // gemma4:31b-it-qat
+"Available spare" = "رزرو موجود"; // gemma4:31b-it-qat
+"Unsafe shutdowns" = "خاموشی‌های غیر ایمن"; // gemma4:31b-it-qat
+"Media errors" = "خطاهای رسانه"; // gemma4:31b-it-qat
+"Threshold" = "آستانه"; // gemma4:31b-it-qat
+"Spare below threshold" = "رزرو پایین‌تر از آستانه"; // gemma4:31b-it-qat
+"Temperature out of range" = "دما خارج از محدوده"; // gemma4:31b-it-qat
+"Reliability degraded" = "قابلیت اطمینان کاهش یافته"; // gemma4:31b-it-qat
+"Read-only mode" = "حالت فقط خواندنی"; // gemma4:31b-it-qat
+"Backup failed" = "پشتیبان‌گیری ناموفق بود"; // gemma4:31b-it-qat
 
 // Sensors
 "Celsius" = "سلسیوس";

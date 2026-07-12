@@ -132,6 +132,7 @@
 "Successfully updated" = "Zaktualizowano pomyślnie";
 "Stats was updated to v" = "Stats został zaktualizowany do v%0";
 "Reset settings text" = "Wszystkie ustawienia aplikacji zostaną zresetowane, a aplikacja zostanie uruchomiona ponownie. Czy na pewno chcesz to zrobić?";
+"Deregister text" = "Komputer zostanie wyrejestrowany ze System Stats, a Ty zostaniesz wylogowany. Czy na pewno chcesz to zrobić?";
 "Support text" = "Dziękujemy za korzystanie ze Stats! \n\n Utrzymanie i ulepszanie tego open-source projektu wymaga czasu i zasobów. Twoje wsparcie pomaga nam nadal dostarczać bezpłatną i niezawodną aplikację dla każdego.\n\nJeśli uważasz, że Stats jest pomocny, rozważ dokonanie wpłaty. Każda drobnostka pomaga!";
 
 // Settings
@@ -339,11 +340,26 @@
 "Disk usage" = "Użycie dysku";
 "Total read" = "Całkowity odczyt";
 "Total written" = "Całkowity zapis";
+"File system" = "System plików";
+"Connection type" = "Typ połączenia";
+"BSD name" = "Nazwa BSD";
+"Encrypted" = "Zaszyfrowany";
+"Writable" = "Zapisywalny";
 "Drives" = "Dyski";
 "SMART data" = "Dane SMART";
 "ATA SMART data" = "Dane ATA SMART";
 "Power cycles" = "Liczba cykli";
 "Power on hours" = "Godziny pracy";
+"Critical warning" = "Ostrzeżenie krytyczne";
+"Available spare" = "Dostępna rezerwa";
+"Unsafe shutdowns" = "Niebezpieczne wyłączenia";
+"Media errors" = "Błędy nośnika";
+"Threshold" = "Próg";
+"Spare below threshold" = "Rezerwa poniżej progu";
+"Temperature out of range" = "Temperatura poza zakresem";
+"Reliability degraded" = "Obniżona niezawodność";
+"Read-only mode" = "Tryb tylko do odczytu";
+"Backup failed" = "Kopia zapasowa nie powiodła się";
 
 // Sensors
 "Celsius" = "Celsjusz";

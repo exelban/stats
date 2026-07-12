@@ -132,6 +132,7 @@
 "Successfully updated" = "Actualización completada con éxito";
 "Stats was updated to v" = "Stats se ha actualizado a v%0";
 "Reset settings text" = "Todos los ajustes de la aplicación serán restablecidos y la aplicación se reiniciará. ¿Seguro que quieres hacer esto?";
+"Deregister text" = "El equipo se desregistrará de System Stats y se cerrará tu sesión. ¿Estás seguro de que quieres hacer esto?"; // gemma4:31b-it-qat
 "Support text" = "Gracias por usar Stats. Mantener y mejorar este proyecto de código abierto requiere tiempo y recursos. Tu apoyo nos ayuda a seguir proporcionando una aplicación gratuita y fiable para todo el mundo.\nSi Stats te resulta útil, por favor, considera hacer una contribución. Todo ayuda.";
 
 // Settings
@@ -339,11 +340,26 @@
 "Disk usage" = "Uso del disco";
 "Total read" = "Total leído";
 "Total written" = "Total escrito";
+"File system" = "Sistema de archivos"; // gemma4:31b-it-qat
+"Connection type" = "Tipo de conexión"; // gemma4:31b-it-qat
+"BSD name" = "Nombre BSD"; // gemma4:31b-it-qat
+"Encrypted" = "Cifrado"; // gemma4:31b-it-qat
+"Writable" = "Escribible"; // gemma4:31b-it-qat
 "Drives" = "Unidades";
 "SMART data" = "Datos SMART"; // translategemma:4b
 "ATA SMART data" = "Datos ATA SMART"; // gemma4:31b
 "Power cycles" = "Ciclos de carga"; // gemma4:31b
 "Power on hours" = "Horas de encendido"; // gemma4:31b
+"Critical warning" = "Advertencia crítica"; // gemma4:31b-it-qat
+"Available spare" = "Reserva disponible"; // gemma4:31b-it-qat
+"Unsafe shutdowns" = "Apagados inseguros"; // gemma4:31b-it-qat
+"Media errors" = "Errores de medio"; // gemma4:31b-it-qat
+"Threshold" = "Umbral"; // gemma4:31b-it-qat
+"Spare below threshold" = "Reserva por debajo del umbral"; // gemma4:31b-it-qat
+"Temperature out of range" = "Temperatura fuera de rango"; // gemma4:31b-it-qat
+"Reliability degraded" = "Fiabilidad degradada"; // gemma4:31b-it-qat
+"Read-only mode" = "Modo de solo lectura"; // gemma4:31b-it-qat
+"Backup failed" = "Copia de seguridad fallida"; // gemma4:31b-it-qat
 
 // Sensors
 "Celsius" = "Celsius";

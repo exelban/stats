@@ -132,6 +132,7 @@
 "Successfully updated" = "Uspešno posodobljeno";
 "Stats was updated to v" = "Program Stats je bil posodobljen na v%0";
 "Reset settings text" = "Vse nastavitve aplikacije se bodo ponastavile in aplikacija se bo znova zagnala. Ali ste prepričani, da to storiti?";
+"Deregister text" = "Računalnik bo odjavljen iz System Stats in boste odjavljeni. Ali ste prepričani, da želite to storiti?"; // gemma4:31b-it-qat
 "Support text" = "Zahvaljujemo se vam za uporabo Stats!\n\n Vzdrževanje in izboljševanje tega odprtokodnega projekta zahteva čas in sredstva. Vaša podpora nam pomaga še naprej zagotavljati brezplačno in zanesljivo aplikacijo za vsakogar.\n\nČe vam je program Stats koristen, razmislite o prispevku. Vsaka malenkost šteje!";
 
 // Settings
@@ -339,11 +340,26 @@
 "Disk usage" = "Uporaba diska";
 "Total read" = "Skupaj prebrano";
 "Total written" = "Skupaj zapisano";
+"File system" = "Datkov sistem"; // gemma4:31b-it-qat
+"Connection type" = "Vrsta povezave"; // gemma4:31b-it-qat
+"BSD name" = "BSD ime"; // gemma4:31b-it-qat
+"Encrypted" = "Šifrirano"; // gemma4:31b-it-qat
+"Writable" = "Zapisljiv"; // gemma4:31b-it-qat
 "Drives" = "Pogoni";
 "SMART data" = "SMART podatki"; // gemma4:31b
 "ATA SMART data" = "Podatki ATA SMART"; // gemma4:31b
 "Power cycles" = "Število ciklov"; // gemma4:31b
 "Power on hours" = "Ure delovanja"; // gemma4:31b
+"Critical warning" = "Kritično opozorilo"; // gemma4:31b-it-qat
+"Available spare" = "Razpoložljiva rezerva"; // gemma4:31b-it-qat
+"Unsafe shutdowns" = "Nevarne izključitve"; // gemma4:31b-it-qat
+"Media errors" = "Napake nosilca"; // gemma4:31b-it-qat
+"Threshold" = "Prag"; // gemma4:31b-it-qat
+"Spare below threshold" = "Rezerve pod pragom"; // gemma4:31b-it-qat
+"Temperature out of range" = "Temperatura izven razpona"; // gemma4:31b-it-qat
+"Reliability degraded" = "Zmanjšana zanesljivost"; // gemma4:31b-it-qat
+"Read-only mode" = "Način samo za branje"; // gemma4:31b-it-qat
+"Backup failed" = "Varnostno kopiranje ni uspelo"; // gemma4:31b-it-qat
 
 // Sensors
 "Celsius" = "Celzija";

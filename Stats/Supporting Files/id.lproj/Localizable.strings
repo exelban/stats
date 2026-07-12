@@ -64,7 +64,7 @@
 "Units" = "Unit";
 "Fans" = "Kipas";
 "Scaling" = "Penskalaan"; // gemma4:31b
-"Linear" = "Linear";
+"Linear" = "Linier"; // gemma4:31b-it-qat
 "Square" = "Kotak"; // gemma4:31b
 "Cube" = "Kubus"; // translategemma:4b
 "Logarithmic" = "Logaritmik"; // translategemma:4b
@@ -132,6 +132,7 @@
 "Successfully updated" = "Pembaruan berhasil";
 "Stats was updated to v" = "Stats telah diperbarui v%0";
 "Reset settings text" = "Semua pengaturan aplikasi akan diatur ulang, dan aplikasi akan mengulang kembali. Anda yakin untuk melakukan ini?";
+"Deregister text" = "Komputer akan dideregistrasi dari System Stats dan Anda akan keluar. Apakah Anda yakin ingin melakukan ini?"; // gemma4:31b-it-qat
 "Support text" = "Terima kasih telah menggunakan Stats!\n\nMemelihara dan meningkatkan proyek sumber terbuka ini membutuhkan waktu dan sumber daya. Dukungan Anda membantu kami untuk terus menyediakan aplikasi yang gratis dan dapat diandalkan untuk semua orang.\n\nJika Anda merasa Stats bermanfaat, mohon pertimbangkan untuk memberikan kontribusi. Setiap hal kecil akan sangat membantu!";
 
 // Settings
@@ -339,11 +340,26 @@
 "Disk usage" = "Penggunaan disk"; // translategemma:4b
 "Total read" = "Total dibaca"; // translategemma:4b
 "Total written" = "Total ditulis"; // gemma4:31b
+"File system" = "Sistem berkas"; // gemma4:31b-it-qat
+"Connection type" = "Tipe koneksi"; // gemma4:31b-it-qat
+"BSD name" = "Nama BSD"; // gemma4:31b-it-qat
+"Encrypted" = "Terenkripsi"; // gemma4:31b-it-qat
+"Writable" = "Dapat ditulis"; // gemma4:31b-it-qat
 "Drives" = "Drive"; // translategemma:4b
 "SMART data" = "Data SMART"; // translategemma:4b
 "ATA SMART data" = "Data ATA SMART"; // gemma4:31b
 "Power cycles" = "Siklus daya"; // gemma4:31b
 "Power on hours" = "Jam menyala"; // gemma4:31b
+"Critical warning" = "Peringatan kritis"; // gemma4:31b-it-qat
+"Available spare" = "Cadangan tersedia"; // gemma4:31b-it-qat
+"Unsafe shutdowns" = "Penutupan tidak aman"; // gemma4:31b-it-qat
+"Media errors" = "Kesalahan media"; // gemma4:31b-it-qat
+"Threshold" = "Ambang batas"; // gemma4:31b-it-qat
+"Spare below threshold" = "Cadangan di bawah ambang batas"; // gemma4:31b-it-qat
+"Temperature out of range" = "Suhu di luar rentang"; // gemma4:31b-it-qat
+"Reliability degraded" = "Keandalan menurun"; // gemma4:31b-it-qat
+"Read-only mode" = "Mode hanya baca"; // gemma4:31b-it-qat
+"Backup failed" = "Pencadangan gagal"; // gemma4:31b-it-qat
 
 // Sensors
 "Celsius" = "Celsius";

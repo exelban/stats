@@ -132,6 +132,7 @@
 "Successfully updated" = "Sikeres frissítés";
 "Stats was updated to v" = "A Stats sikeresen frissítve lett a(z) v%0 verzióra";
 "Reset settings text" = "Minden alkalmazás beállítás alaphelyzetbe fog állni, és az alkalmazás újra fog indulni. Biztosan ezt szeretnéd?";
+"Deregister text" = "A gépet törlik a System Stats regisztrációjából, és kijelentkeztetik. Biztosan szeretné ezt zrobić?"; // gemma4:31b-it-qat
 "Support text" = "Köszönjük, hogy használja a Stats-t!\n\n A nyílt forráskódú projekt fenntartása és fejlesztése időt és erőforrásokat igényel. Az Ön támogatása segít nekünk abban, hogy továbbra is ingyenes és megbízható alkalmazást nyújtsunk mindenkinek.\n\nHa hasznosnak találja a Stats-t, kérjük, fontolja meg, hogy hozzájáruljon. Minden kis aprócska összeg segít!";
 
 // Settings
@@ -339,11 +340,26 @@
 "Disk usage" = "Lemez használat";
 "Total read" = "Összes olvasás"; // gemma4:31b
 "Total written" = "Összesen írt"; // gemma4:31b
+"File system" = "Fájlrendszer"; // gemma4:31b-it-qat
+"Connection type" = "Kapcsolat típusa"; // gemma4:31b-it-qat
+"BSD name" = "BSD név"; // gemma4:31b-it-qat
+"Encrypted" = "Titkosított"; // gemma4:31b-it-qat
+"Writable" = "Írható"; // gemma4:31b-it-qat
 "Drives" = "Meghajtók"; // gemma4:31b
 "SMART data" = "SMART adatok"; // translategemma:4b
 "ATA SMART data" = "ATA SMART adatok"; // gemma4:31b
 "Power cycles" = "Ciklusok száma"; // gemma4:31b
 "Power on hours" = "Működési órák"; // gemma4:31b
+"Critical warning" = "Kritikus figyelmeztetés"; // gemma4:31b-it-qat
+"Available spare" = "Elérhető tartalék"; // gemma4:31b-it-qat
+"Unsafe shutdowns" = "Nem biztonságos leállítások"; // gemma4:31b-it-qat
+"Media errors" = "Hordozó hibák"; // gemma4:31b-it-qat
+"Threshold" = "Küszöb"; // gemma4:31b-it-qat
+"Spare below threshold" = "Tartalék a küszöb alatt"; // gemma4:31b-it-qat
+"Temperature out of range" = "Hőmérséklet a tartámon kívül"; // gemma4:31b-it-qat
+"Reliability degraded" = "Romlott megbízhatóság"; // gemma4:31b-it-qat
+"Read-only mode" = "Csak olvasható mód"; // gemma4:31b-it-qat
+"Backup failed" = "A biztonsági mentés nem sikerült"; // gemma4:31b-it-qat
 
 // Sensors
 "Celsius" = "Celsziusz"; // gemma4:31b
