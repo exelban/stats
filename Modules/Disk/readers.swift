@@ -133,22 +133,22 @@ internal class CapacityReader: Reader<Disks> {
         
         var stat = statfs()
         if statfs(path.path, &stat) == 0 {
+            let total = Int64(stat.f_blocks) * Int64(stat.f_bsize)
+            let free = Int64(stat.f_bfree) * Int64(stat.f_bsize)
+            let used = total - free
+            
             var purgeable: Int64 = 0
-            if self.purgableSpace[path] == nil {
+            if let pair = self.purgableSpace[path], Date().timeIntervalSince(pair.0) <= 30 {
+                purgeable = pair.1
+            } else {
                 let value = CSDiskSpaceGetRecoveryEstimate(path as NSURL)
-                purgeable = Int64(value)
-                self.purgableSpace[path] = (Date(), purgeable)
-            } else if let pair = self.purgableSpace[path] {
-                let delta = Date().timeIntervalSince(pair.0)
-                if delta > 30 {
-                    let value = CSDiskSpaceGetRecoveryEstimate(path as NSURL)
+                if used > 0 && value <= UInt64(used) {
                     purgeable = Int64(value)
-                    self.purgableSpace[path] = (Date(), purgeable)
-                } else {
-                    purgeable = pair.1
                 }
+                self.purgableSpace[path] = (Date(), purgeable)
             }
-            return (Int64(stat.f_bfree) * Int64(stat.f_bsize)) + Int64(purgeable)
+            
+            return free + purgeable
         }
         
         do {
