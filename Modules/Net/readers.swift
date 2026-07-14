@@ -241,10 +241,10 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         // drop one-shot counter jumps (e.g. on reconnect) that exceed what the link can physically deliver
         let interval = self.interval ?? 1
         let maxDelta: Int64 = {
-            if let rate = self.usage.interface?.transmitRate, rate > 0 {
+            if let rate = self.usage.interface?.transmitRate, rate > 0, rate < Double(UInt32.max) / 1_000_000 {
                 return Int64(rate * 1_000_000 / 8 * 1.5 * interval) // 50% headroom over negotiated link rate
             }
-            return Int64(2_000_000_000 * interval) // 16 Gbps fallback when link rate is unknown
+            return Int64(12_500_000_000 * interval) // 100 Gbps fallback when link rate is unknown or saturated at the 32-bit ifi_baudrate limit
         }()
         if self.usage.bandwidth.upload > maxDelta { self.usage.bandwidth.upload = 0 }
         if self.usage.bandwidth.download > maxDelta { self.usage.bandwidth.download = 0 }
