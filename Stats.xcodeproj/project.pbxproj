@@ -88,7 +88,6 @@
 		5CFE492A29264DF1000F2856 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE492929264DF1000F2856 /* main.swift */; };
 		5CFE493929265055000F2856 /* protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE493829265055000F2856 /* protocol.swift */; };
 		5CFE493D2926513E000F2856 /* eu.exelban.Stats.SMC.Helper in Copy Files */ = {isa = PBXBuildFile; fileRef = 5CFE492729264DF1000F2856 /* eu.exelban.Stats.SMC.Helper */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		5CFE494229265418000F2856 /* uninstall.sh in Resources */ = {isa = PBXBuildFile; fileRef = 5CFE494129265418000F2856 /* uninstall.sh */; };
 		5CFE494429265421000F2856 /* changelog.py in Resources */ = {isa = PBXBuildFile; fileRef = 5CFE494329265421000F2856 /* changelog.py */; };
 		5E0C634F2FBDB7DE00D9BA3E /* Remote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E0C63472FBDB7DE00D9BA3E /* Remote.framework */; };
 		5E0C63502FBDB7DE00D9BA3E /* Remote.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5E0C63472FBDB7DE00D9BA3E /* Remote.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -98,6 +97,7 @@
 		5E0C63662FBE3F4E00D9BA3E /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E0C63652FBE3F4E00D9BA3E /* settings.swift */; };
 		5E0C63682FBE5F0000D9BA3E /* reader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E0C63672FBE5F0000D9BA3E /* reader.swift */; };
 		5E0C63702FBE4A0000D9BA3E /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E0C636F2FBE4A0000D9BA3E /* popup.swift */; };
+		5E6DF2573007B23A00D696BD /* uninstall.sh in Copy Files */ = {isa = PBXBuildFile; fileRef = 5CFE494129265418000F2856 /* uninstall.sh */; };
 		5EC1B2E52E2FEAFB007042A6 /* UnitedWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC1B2E42E2FEAFB007042A6 /* UnitedWidget.swift */; };
 		5EE8037F29C36BDD0063D37D /* portal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE8037E29C36BDD0063D37D /* portal.swift */; };
 		9A045EB72594F8D100ED58F2 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A045EB62594F8D100ED58F2 /* Dashboard.swift */; };
@@ -522,6 +522,7 @@
 			dstPath = Scripts;
 			dstSubfolderSpec = 7;
 			files = (
+				5E6DF2573007B23A00D696BD /* uninstall.sh in Copy Files */,
 				9AB3AFA8266D2E2D00DD079C /* updater.sh in Copy Files */,
 			);
 			name = "Copy Files";
@@ -2030,7 +2031,6 @@
 				5C0A2A8A292A5B4D009B4C1F /* SMJobBlessUtil.py in Resources */,
 				9A46BF36266D6E17001A1117 /* i18n.py in Resources */,
 				9A2848082666AB3000EC1F6D /* updater.sh in Resources */,
-				5CFE494229265418000F2856 /* uninstall.sh in Resources */,
 				5CFE494429265421000F2856 /* changelog.py in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
