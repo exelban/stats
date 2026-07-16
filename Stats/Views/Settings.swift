@@ -36,8 +36,8 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
     init() {
         super.init(
             contentRect: NSRect(
-                x: NSScreen.main!.frame.width - SettingsWindow.size.width,
-                y: NSScreen.main!.frame.height - SettingsWindow.size.height,
+                x: 0,
+                y: 0,
                 width: SettingsWindow.size.width,
                 height: SettingsWindow.size.height
             ),
@@ -228,9 +228,13 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
     }
     
     private func positionCenter() {
+        guard let screen = NSScreen.main else {
+            self.center()
+            return
+        }
         self.setFrameOrigin(NSPoint(
-            x: (NSScreen.main!.frame.width - SettingsWindow.size.width)/2,
-            y: ((NSScreen.main!.frame.height - SettingsWindow.size.height)/1.75)
+            x: (screen.frame.width - SettingsWindow.size.width)/2,
+            y: ((screen.frame.height - SettingsWindow.size.height)/1.75)
         ))
     }
 }

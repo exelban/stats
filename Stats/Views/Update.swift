@@ -20,8 +20,8 @@ internal class UpdateWindow: NSWindow, NSWindowDelegate {
     init() {
         super.init(
             contentRect: NSRect(
-                x: NSScreen.main!.frame.width - self.viewController.view.frame.width,
-                y: NSScreen.main!.frame.height - self.viewController.view.frame.height,
+                x: 0,
+                y: 0,
                 width: self.viewController.view.frame.width,
                 height: self.viewController.view.frame.height
             ),
@@ -59,9 +59,13 @@ internal class UpdateWindow: NSWindow, NSWindowDelegate {
     }
     
     private func positionCenter() {
+        guard let screen = NSScreen.main else {
+            self.center()
+            return
+        }
         self.setFrameOrigin(NSPoint(
-            x: (NSScreen.main!.frame.width - self.viewController.view.frame.width)/2,
-            y: (NSScreen.main!.frame.height - self.viewController.view.frame.height)/1.75
+            x: (screen.frame.width - self.viewController.view.frame.width)/2,
+            y: (screen.frame.height - self.viewController.view.frame.height)/1.75
         ))
     }
 }

@@ -157,6 +157,7 @@ internal class PopupViewController: NSViewController {
         
         self.popup.appear()
         self.visibilityCallback(true)
+        NotificationCenter.default.post(name: .popupVisibilityChanged, object: nil, userInfo: ["state": true])
     }
     
     override func viewWillDisappear() {
@@ -164,6 +165,7 @@ internal class PopupViewController: NSViewController {
         
         self.popup.disappear()
         self.visibilityCallback(false)
+        NotificationCenter.default.post(name: .popupVisibilityChanged, object: nil, userInfo: ["state": false])
     }
     
     fileprivate func setup(title: String, view: Popup_p?) {

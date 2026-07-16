@@ -124,6 +124,15 @@ extension AppDelegate {
             completion(NSBackgroundActivityScheduler.Result.finished)
         }
         
+        self.supportRetryActivity.interval = 60 * 30
+        self.supportRetryActivity.repeats = true
+        self.supportRetryActivity.schedule { (completion: @escaping NSBackgroundActivityScheduler.CompletionHandler) in
+            DispatchQueue.main.async {
+                self.tryToShowSupportWindow()
+            }
+            completion(NSBackgroundActivityScheduler.Result.finished)
+        }
+        
         if let updateInterval = AppUpdateInterval(rawValue: Store.shared.string(key: "update-interval", defaultValue: AppUpdateInterval.silent.rawValue)) {
             self.updateActivity.invalidate()
             self.updateActivity.repeats = true
@@ -227,7 +236,7 @@ extension AppDelegate {
     }
     
     public func checkIfShouldShowSupportWindow() {
-        if !Store.shared.exist(key: "setupProcess") || !Store.shared.exist(key: "runAtLoginInitialized") {
+        if !Store.shared.exist(key: "setupProcess") && !Store.shared.exist(key: "runAtLoginInitialized") {
             return
         }
         if SystemStats.shared.auth.hasCredentials() {
@@ -238,7 +247,11 @@ extension AppDelegate {
         let now = Int(Date().timeIntervalSince1970)
         if !Store.shared.exist(key: "support_ts") {
             Store.shared.set(key: "support_ts", value: now)
-            self.ensureSupportWindow().show()
+            return
+        }
+        
+        if Store.shared.bool(key: "support_pending", defaultValue: false) {
+            self.tryToShowSupportWindow()
             return
         }
         
@@ -249,8 +262,52 @@ extension AppDelegate {
             return
         }
         
-        Store.shared.set(key: "support_ts", value: now)
-        self.ensureSupportWindow().show()
+        self.markSupportPending()
+    }
+    
+    internal func markSupportPending() {
+        if !Store.shared.bool(key: "support_pending", defaultValue: false) {
+            Store.shared.set(key: "support_pending", value: true)
+            Store.shared.set(key: "support_pending_ts", value: Int(Date().timeIntervalSince1970))
+        }
+        self.tryToShowSupportWindow()
+    }
+    
+    public func tryToShowSupportWindow(interaction: Bool = false) {
+        guard Store.shared.bool(key: "support_pending", defaultValue: false) else { return }
+        
+        if SystemStats.shared.auth.hasCredentials() {
+            guard let plan = SystemStats.shared.plan else { return }
+            if plan != .free {
+                Store.shared.set(key: "support_pending", value: false)
+                return
+            }
+        }
+        
+        let now = Int(Date().timeIntervalSince1970)
+        let pendingTS = Store.shared.int(key: "support_pending_ts", defaultValue: now)
+        let pendingDays = (now - pendingTS) / (60 * 60 * 24)
+        
+        DispatchQueue.global(qos: .utility).async {
+            if UserContext.isScreenLocked() {
+                debug("the support window is delayed: the screen is locked")
+                return
+            }
+            if !interaction && UserContext.secondsSinceLastInput() > 60 {
+                debug("the support window is delayed: no recent user activity")
+                return
+            }
+            if !(interaction && pendingDays > 7), let reason = UserContext.busyReason() {
+                debug("the support window is delayed: \(reason)")
+                return
+            }
+            DispatchQueue.main.async {
+                guard Store.shared.bool(key: "support_pending", defaultValue: false) else { return }
+                Store.shared.set(key: "support_pending", value: false)
+                Store.shared.set(key: "support_ts", value: Int(Date().timeIntervalSince1970))
+                self.ensureSupportWindow().show()
+            }
+        }
     }
     
     private func showUpdateNotification(version: version_s) {
