@@ -18,11 +18,28 @@ To install it using Homebrew, open the Terminal app and type:
 brew install stats
 ```
 
+### Uninstall
+Run the uninstall script bundled with the app (requires administrator privileges to remove the SMC helper):
+```bash
+sh /Applications/Stats.app/Contents/Resources/Scripts/uninstall.sh
+```
+The script quits Stats and removes:
+
+   - the SMC helper (`/Library/LaunchDaemons/eu.exelban.Stats.SMC.Helper.plist` and `/Library/PrivilegedHelperTools/eu.exelban.Stats.SMC.Helper`)
+   - `Stats.app`
+   - application data and preferences (`~/Library/Application Support/Stats`, widget containers, and `eu.exelban.Stats` defaults)
+
+If the app has already been moved to the Trash, the script can be run directly from the repository:
+```bash
+curl -fsSL https://raw.githubusercontent.com/exelban/stats/master/Kit/scripts/uninstall.sh | sh
+```
+
 ### Legacy version
 Legacy version for older systems could be found [here](https://mac-stats.com/downloads).
 
 ## Requirements
-Stats is supported on the released macOS version starting from macOS 12 (Monterey).
+Stats is supported on macOS 12 (Monterey) and newer.
+Beta versions of macOS are not supported - only stable releases.
 
 ## Features
 Stats is an application that allows you to monitor your macOS system.
@@ -78,7 +95,7 @@ Most probably because it's a duplicated issue and there is an answer to the ques
 So, if your issue was closed without any response, most probably it already has a response.
 
 ### External API
-Stats uses some external APIs, such as:
+Stats does not collect any telemetry or analytics. The only external requests it makes are to the following APIs:
 
 - https://api.mac-stats.com – For update checks and retrieving the public IP address
 - https://api.github.com – Fallback for update checks
@@ -91,7 +108,16 @@ If you have concerns about these requests, you have a few options:
 - block both of these servers using any network filtering app (if you're reading this, you're likely using something like Little Snitch, so you can easily do this). In this case do not expect to receive any updates or see your public IP in the network module.
 
 ### How to contribute to the project?
-If you want to develop a new feature or you've found something that doesn't work, the first step is to open an issue so the feature or problem can be discussed. Pull requests should only be opened for existing issues and after discussion; otherwise, they may be closed automatically. There are a few cases where this can be skipped: for language changes, and for contributors who have already made significant contributions and whose implementations align well with the project.
+If you want to develop a new feature, or you've found something that doesn't work, the first step is to open an issue so the feature or problem can be discussed. Pull requests should only be opened for existing issues and after discussion; otherwise, they may be closed automatically. There are a few cases where this can be skipped: language changes, and contributors who have already made significant contributions and whose implementations align well with the project.
+
+## Open source, but not open contribution
+Stats is an open-source project: the full source code is available under the MIT license, and you are free to read it, learn from it, fork it, and build your own version of the app.
+
+However, it is not an open-contribution project. Stats is developed and maintained by a single person, and keeping the project stable and coherent takes priority over accepting every proposed change. Reviewing external code, testing it across different Macs and macOS versions, and maintaining it afterward often takes more time than writing it in the first place.
+
+For that reason, unsolicited pull requests are generally not accepted and may be closed without review. If you want to change or add something, please open an issue first so it can be discussed. The exceptions are translations and language fixes, which are always welcome, and contributions from people who have already made significant contributions to the project.
+
+The best ways to support the project are reporting bugs, improving translations, and proposing ideas through issues.
 
 ## Supported languages
 - English
@@ -129,6 +155,7 @@ If you want to develop a new feature or you've found something that doesn't work
 - Estonian (thanks to [postylem](https://github.com/postylem))
 - Hindi (thanks to [patiljignesh](https://github.com/patiljignesh))
 - Finnish (thanks to [eightscrow](https://github.com/eightscrow))
+- Bengali (thanks to [adnan29979](https://github.com/adnan29979))
 
 You can help by adding a new language or improving the existing translation.
 
