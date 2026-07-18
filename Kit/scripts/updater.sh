@@ -30,17 +30,32 @@ launch_app() {
     fi
 }
 
-copy_app() {
+install_app() {
+    local parent staging old
+    parent="$(/usr/bin/dirname "$APP_DST")"
+    staging="$(/usr/bin/mktemp -d "$parent/.Stats-update.XXXXXX")"
+
     if command -v ditto >/dev/null 2>&1; then
-        ditto "$APP_SRC" "$APP_DST"
+        ditto "$APP_SRC" "$staging/Stats.app"
     else
-        cp -Rf "$APP_SRC" "$APP_DST"
+        cp -Rf "$APP_SRC" "$staging/Stats.app"
+    fi
+
+    old=""
+    if [[ -e "$APP_DST" ]]; then
+        old="$(/usr/bin/mktemp -d "$parent/.Stats-old.XXXXXX")"
+        mv "$APP_DST" "$old/Stats.app"
+    fi
+    mv "$staging/Stats.app" "$APP_DST"
+
+    rm -rf "$staging"
+    if [[ -n "$old" ]]; then
+        rm -rf "$old"
     fi
 }
 
 if [[ "$STEP" == "2" ]]; then
-    rm -rf "$APP_DST"
-    copy_app
+    install_app
 
     launch_app "$APP_DST/Contents/MacOS/Stats" --dmg "$DMG_PATH"
 
@@ -52,8 +67,7 @@ elif [[ "$STEP" == "3" ]]; then
 
     echo "Done"
 else
-    rm -rf "$APP_DST"
-    copy_app
+    install_app
 
     launch_app "$APP_DST/Contents/MacOS/Stats" --dmg-path "$DMG_PATH" --mount-path "$MOUNT_PATH"
 
