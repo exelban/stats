@@ -15,6 +15,7 @@ import ServiceManagement
 import UserNotifications
 import WebKit
 import Metal
+import IOKit.pwr_mgt
 
 public struct LaunchAtLogin {
     private static let id = "\(Bundle.main.bundleIdentifier!).LaunchAtLogin"
@@ -2379,5 +2380,48 @@ public class SeparatorView: NSStackView {
         view.setContentHuggingPriority(.defaultLow, for: .horizontal)
         view.heightAnchor.constraint(equalToConstant: 1).isActive = true
         return view
+    }
+}
+
+public struct UserContext {
+    public static func isScreenLocked() -> Bool {
+        guard let dict = CGSessionCopyCurrentDictionary() as NSDictionary? else { return false }
+        return (dict["CGSSessionScreenIsLocked"] as? Bool) ?? false
+    }
+    
+    public static func secondsSinceLastInput() -> Double {
+        let types: [CGEventType] = [.keyDown, .mouseMoved, .leftMouseDown, .rightMouseDown, .otherMouseDown, .scrollWheel]
+        return types.map { CGEventSource.secondsSinceLastEventType(.combinedSessionState, eventType: $0) }.min() ?? 0
+    }
+    
+    public static func busyReason() -> String? {
+        if self.isFocusEnabled() {
+            return "focus is enabled"
+        }
+        if self.isDisplaySleepPrevented() {
+            return "display sleep is prevented"
+        }
+        return nil
+    }
+    
+    private static func isDisplaySleepPrevented() -> Bool {
+        var raw: Unmanaged<CFDictionary>?
+        guard IOPMCopyAssertionsStatus(&raw) == kIOReturnSuccess,
+              let dict = raw?.takeRetainedValue() as? [String: Int] else { return false }
+        let types = [kIOPMAssertionTypePreventUserIdleDisplaySleep as String, kIOPMAssertionTypeNoDisplaySleep as String]
+        return types.contains { (dict[$0] ?? 0) > 0 }
+    }
+    
+    private static func isFocusEnabled() -> Bool {
+        let path = NSHomeDirectory() + "/Library/DoNotDisturb/DB/Assertions.json"
+        if let data = FileManager.default.contents(atPath: path) {
+            guard let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                  let list = json["data"] as? [[String: Any]] else { return false }
+            return list.contains { entry in
+                guard let records = entry["storeAssertionRecords"] as? [[String: Any]] else { return false }
+                return !records.isEmpty
+            }
+        }
+        return CFPreferencesCopyAppValue("NSStatusItem Visible FocusModes" as CFString, "com.apple.controlcenter" as CFString) as? Bool ?? false
     }
 }
