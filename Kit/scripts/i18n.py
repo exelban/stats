@@ -51,8 +51,10 @@ class i18n:
 
     def __init__(self):
         if "Kit/scripts" in os.getcwd():
-            self.path = os.getcwd() + "/../../Stats/Supporting Files"
-        self.languages = list(filter(lambda x: x.endswith(".lproj"), os.listdir(self.path)))
+            self.path = os.path.realpath(os.path.join(os.getcwd(), "..", "..", "Stats", "Supporting Files"))
+        else:
+            self.path = os.path.realpath(os.path.join(os.getcwd(), "Stats", "Supporting Files"))
+        self.languages = list(filter(lambda x: x.endswith(".lproj") and ".." not in x, os.listdir(self.path)))
 
     def en_file(self):
         with open(f"{self.path}/en.lproj/Localizable.strings", "r") as f:
