@@ -236,6 +236,20 @@ public extension Double {
 }
 
 public extension NSView {
+    // idempotent: destroy/recreate per updateTrackingAreas call re-registers with WindowServer
+    // and storms cursor image rebuilds on macOS 26+
+    func ensureTrackingArea(
+        _ enabled: Bool = true,
+        options: NSTrackingArea.Options = [.activeAlways, .mouseEnteredAndExited, .mouseMoved, .inVisibleRect]
+    ) {
+        if enabled {
+            guard self.trackingAreas.isEmpty else { return }
+            self.addTrackingArea(NSTrackingArea(rect: .zero, options: options, owner: self, userInfo: nil))
+        } else if !self.trackingAreas.isEmpty {
+            self.trackingAreas.forEach({ self.removeTrackingArea($0) })
+        }
+    }
+
     var isDarkMode: Bool {
         switch effectiveAppearance.name {
         case .darkAqua, .vibrantDark, .accessibilityHighContrastDarkAqua, .accessibilityHighContrastVibrantDark:
