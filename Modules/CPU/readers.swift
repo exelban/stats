@@ -50,18 +50,18 @@ internal class LoadReader: Reader<CPU_Load> {
                 var total: Int32
                 if let prevCpuInfo = self.prevCpuInfo {
                     inUse = self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_USER)]
-                        - prevCpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_USER)]
-                        + self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_SYSTEM)]
-                        - prevCpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_SYSTEM)]
-                        + self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_NICE)]
-                        - prevCpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_NICE)]
-                    total = inUse + (self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_IDLE)]
-                        - prevCpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_IDLE)])
+                        &- prevCpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_USER)]
+                        &+ self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_SYSTEM)]
+                        &- prevCpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_SYSTEM)]
+                        &+ self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_NICE)]
+                        &- prevCpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_NICE)]
+                    total = inUse &+ (self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_IDLE)]
+                        &- prevCpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_IDLE)])
                 } else {
                     inUse = self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_USER)]
-                        + self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_SYSTEM)]
-                        + self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_NICE)]
-                    total = inUse + self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_IDLE)]
+                        &+ self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_SYSTEM)]
+                        &+ self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_NICE)]
+                    total = inUse &+ self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_IDLE)]
                 }
                 
                 if total != 0 {
