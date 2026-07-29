@@ -330,7 +330,11 @@ internal class Preview: PreviewWrapper {
                 if let v4 = value.raddr.v4, !v4.isEmpty {
                     var ip = v4
                     if let cc = value.raddr.countryCode, !cc.isEmpty {
-                        ip += " (\(cc))"
+                        if let flag = countryFlag(cc) {
+                            ip += " (\(flag) \(cc))"
+                        } else {
+                            ip += " (\(cc))"
+                        }
                     }
                     self.publicIPv4Field?.stringValue = ip
                     self.publicIPv4Field?.superview?.isHidden = false
@@ -341,7 +345,11 @@ internal class Preview: PreviewWrapper {
                 if let v6 = value.raddr.v6, !v6.isEmpty {
                     var ip = v6
                     if let cc = value.raddr.countryCode, !cc.isEmpty {
-                        ip += " (\(cc))"
+                        if let flag = countryFlag(cc) {
+                            ip += " (\(flag) \(cc))"
+                        } else {
+                            ip += " (\(cc))"
+                        }
                     }
                     self.publicIPv6Field?.stringValue = ip
                     self.publicIPv6Field?.superview?.isHidden = false

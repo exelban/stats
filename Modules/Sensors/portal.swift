@@ -12,9 +12,7 @@
 import AppKit
 import Kit
 
-public class Portal: NSStackView, Portal_p {
-    public var name: String
-    
+public class Portal: PortalWrapper {
     private var container: ScrollableStackView = ScrollableStackView()
     
     private var list: [String: NSView] = [:]
@@ -26,40 +24,9 @@ public class Portal: NSStackView, Portal_p {
         FanValue(rawValue: Store.shared.string(key: "Sensors_popup_fanValue", defaultValue: FanValue.percentage.rawValue)) ?? .percentage
     }
     
-    init(_ name: ModuleType) {
-        self.name = name.stringValue
-        
-        super.init(frame: NSRect( x: 0, y: 0, width: Constants.Popup.width, height: Constants.Popup.portalHeight))
-        
-        self.wantsLayer = true
-        self.layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
-        self.layer?.cornerRadius = 3
-        
-        self.orientation = .vertical
-        self.distribution = .fillEqually
-        self.widthAnchor.constraint(equalToConstant: Constants.Popup.width).isActive = true
-        self.spacing = Constants.Popup.spacing
-        self.edgeInsets = NSEdgeInsets(
-            top: Constants.Popup.spacing*2,
-            left: Constants.Popup.spacing*2,
-            bottom: Constants.Popup.spacing*2,
-            right: Constants.Popup.spacing
-        )
-        
+    public override func load() {
         self.container.stackView.spacing = 0
-        
-        self.addArrangedSubview(PortalHeader(self.name))
-        self.addArrangedSubview(self.container)
-        
-        self.heightAnchor.constraint(equalToConstant: Constants.Popup.portalHeight).isActive = true
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    public override func updateLayer() {
-        self.layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
+        self.body.addArrangedSubview(self.container)
     }
     
     public func setup(_ values: [Sensor_p]? = nil) {
@@ -74,7 +41,7 @@ public class Portal: NSStackView, Portal_p {
             self.list = [:]
         }
         
-        var width: CGFloat = self.frame.width - self.edgeInsets.left - self.edgeInsets.right
+        var width: CGFloat = Constants.Popup.width - self.body.edgeInsets.left - self.body.edgeInsets.right
         if list.count >= 4 {
             width -= self.container.scrollWidth ?? Constants.Popup.margins
         }

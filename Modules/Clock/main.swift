@@ -115,7 +115,7 @@ public class Clock: Module {
     private static var cachedList: (raw: Data, list: [Clock_t])? = nil
     
     public init() {
-        self.portalView = Portal(.clock, list: Clock.list)
+        self.portalView = Portal(.clock, height: 110)
         
         super.init(
             moduleType: .clock,

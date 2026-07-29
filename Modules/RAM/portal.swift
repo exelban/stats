@@ -13,7 +13,7 @@ import Cocoa
 import Kit
 
 public class Portal: PortalWrapper {
-    private var circle: PieChartView? = nil
+    private var circle: PieChartView = PieChartView(drawValue: true)
     
     private var usedField: NSTextField? = nil
     private var freeField: NSTextField? = nil
@@ -22,77 +22,49 @@ public class Portal: PortalWrapper {
     
     private var initialized: Bool = false
     
-    private var appColorState: SColor = .secondBlue
-    private var appColor: NSColor { self.appColorState.additional as? NSColor ?? NSColor.systemRed }
-    private var wiredColorState: SColor = .secondOrange
-    private var wiredColor: NSColor { self.wiredColorState.additional as? NSColor ?? NSColor.systemBlue }
-    private var compressedColorState: SColor = .pink
-    private var compressedColor: NSColor { self.compressedColorState.additional as? NSColor ?? NSColor.lightGray }
-    private var freeColorState: SColor = .lightGray
-    private var freeColor: NSColor { self.freeColorState.additional as? NSColor ?? NSColor.systemBlue }
+    private var appColor: NSColor {
+        SColor.fromString(Store.shared.string(key: "\(self.name)_appColor", defaultValue: SColor.secondBlue.key)).additional as! NSColor
+    }
+    private var wiredColor: NSColor {
+        SColor.fromString(Store.shared.string(key: "\(self.name)_wiredColor", defaultValue: SColor.secondOrange.key)).additional as! NSColor
+    }
+    private var compressedColor: NSColor {
+        SColor.fromString(Store.shared.string(key: "\(self.name)_compressedColor", defaultValue: SColor.pink.key)).additional as! NSColor
+    }
+    private var freeColor: NSColor {
+        SColor.fromString(Store.shared.string(key: "\(self.name)_freeColor", defaultValue: SColor.lightGray.key)).additional as! NSColor
+    }
     
     public override func load() {
-        self.loadColors()
+        let circle = self.circleView()
+        let details = self.detailsView()
         
-        let view = NSStackView()
-        view.orientation = .horizontal
-        view.distribution = .fillEqually
-        view.spacing = Constants.Popup.spacing*2
-        view.edgeInsets = NSEdgeInsets(
-            top: 0,
-            left: Constants.Popup.spacing*2,
-            bottom: 0,
-            right: Constants.Popup.spacing*2
-        )
-        
-        let chartsView = self.charts()
-        let detailsView = self.details()
-        
-        view.addArrangedSubview(chartsView)
-        view.addArrangedSubview(detailsView)
-        
-        self.addArrangedSubview(view)
-        
-        chartsView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        self.body.addArrangedSubview(circle)
+        self.body.addArrangedSubview(details)
     }
     
-    public func loadColors() {
-        self.appColorState = SColor.fromString(Store.shared.string(key: "\(self.name)_appColor", defaultValue: self.appColorState.key))
-        self.wiredColorState = SColor.fromString(Store.shared.string(key: "\(self.name)_wiredColor", defaultValue: self.wiredColorState.key))
-        self.compressedColorState = SColor.fromString(Store.shared.string(key: "\(self.name)_compressedColor", defaultValue: self.compressedColorState.key))
-        self.freeColorState = SColor.fromString(Store.shared.string(key: "\(self.name)_freeColor", defaultValue: self.freeColorState.key))
-    }
-    
-    private func charts() -> NSView {
+    private func circleView() -> NSView {
         let view = NSStackView()
-        view.orientation = .vertical
-        view.distribution = .fillEqually
-        view.spacing = Constants.Popup.spacing*2
-        view.edgeInsets = NSEdgeInsets(
-            top: Constants.Popup.spacing*4,
-            left: Constants.Popup.spacing*4,
-            bottom: Constants.Popup.spacing*4,
-            right: Constants.Popup.spacing*4
-        )
         
-        let chart = PieChartView(frame: NSRect.zero, segments: [], drawValue: true)
-        chart.toolTip = localizedString("Memory usage")
-        view.addArrangedSubview(chart)
-        self.circle = chart
+        view.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        view.edgeInsets = NSEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        
+        view.addArrangedSubview(self.circle)
         
         return view
     }
     
-    private func details() -> NSView {
+    private func detailsView() -> NSView {
         let view = NSStackView()
+        
         view.orientation = .vertical
         view.distribution = .fillEqually
         view.spacing = Constants.Popup.spacing*2
         
         self.usedField = portalRow(view, title: "\(localizedString("Used")):").1
         self.freeField = portalRow(view, title: "\(localizedString("Free")):").1
-        self.swapField = portalRow(view, title: "\(localizedString("Swap")):").1
-        self.pressureLevelField = portalRow(view, title: "\(localizedString("Memory pressure")):").1
+        self.swapField = portalRow(view, title: "Swap:").1
+        self.pressureLevelField = portalRow(view, title: "\(localizedString("Pressure")):").1
         
         return view
     }
@@ -111,14 +83,14 @@ public class Portal: PortalWrapper {
                     self.pressureLevelField?.toolTip = localizedString(level.value)
                 }
                 
-                self.circle?.toolTip = "\(localizedString("Memory usage")): \(Int(value.usage*100))%"
-                self.circle?.setValue(value.usage)
-                self.circle?.setSegments([
+                self.circle.toolTip = "\(localizedString("Memory usage")): \(Int(value.usage*100))%"
+                self.circle.setValue(value.usage)
+                self.circle.setSegments([
                     ColorValue(value.app/value.total, color: self.appColor),
                     ColorValue(value.wired/value.total, color: self.wiredColor),
                     ColorValue(value.compressed/value.total, color: self.compressedColor)
                 ])
-                self.circle?.setNonActiveSegmentColor(self.freeColor)
+                self.circle.setNonActiveSegmentColor(self.freeColor)
                 
                 self.initialized = true
             }

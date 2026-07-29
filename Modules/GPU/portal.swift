@@ -13,66 +13,42 @@ import Cocoa
 import Kit
 
 public class Portal: PortalWrapper {
-    private var circle: PieChartView = PieChartView()
+    private var circle: PieChartView = PieChartView(drawValue: true)
     
     private var usageField: NSTextField? = nil
-    private var renderField: NSTextField? = nil
-    private var tilerField: NSTextField? = nil
     private var aneField: NSTextField? = nil
+    private var fpsField: NSTextField? = nil
     
     private var initialized: Bool = false
     
     public override func load() {
-        let view = NSStackView()
-        view.orientation = .horizontal
-        view.distribution = .fillEqually
-        view.spacing = Constants.Popup.spacing*2
-        view.edgeInsets = NSEdgeInsets(
-            top: 0,
-            left: Constants.Popup.spacing*2,
-            bottom: 0,
-            right: Constants.Popup.spacing*2
-        )
+        let circle = self.circleView()
+        let details = self.detailsView()
         
-        let chartsView = self.charts()
-        let detailsView = self.details()
-        
-        view.addArrangedSubview(chartsView)
-        view.addArrangedSubview(detailsView)
-        
-        self.addArrangedSubview(view)
-        
-        chartsView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        self.body.addArrangedSubview(circle)
+        self.body.addArrangedSubview(details)
     }
     
-    private func charts() -> NSView {
-        let view = NSStackView()
-        view.orientation = .vertical
-        view.distribution = .fillEqually
-        view.spacing = Constants.Popup.spacing*2
-        view.edgeInsets = NSEdgeInsets(
-            top: Constants.Popup.spacing*4,
-            left: Constants.Popup.spacing*4,
-            bottom: Constants.Popup.spacing*4,
-            right: Constants.Popup.spacing*4
-        )
+    private func circleView() -> NSView {
+        let view: NSStackView = NSStackView()
         
-        self.circle.toolTip = localizedString("GPU usage")
+        view.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        view.edgeInsets = NSEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        
         view.addArrangedSubview(self.circle)
         
         return view
     }
     
-    private func details() -> NSView {
+    private func detailsView() -> NSView {
         let view = NSStackView()
         view.orientation = .vertical
         view.distribution = .fillEqually
         view.spacing = Constants.Popup.spacing*2
         
         self.usageField = portalRow(view, title: "\(localizedString("Usage")):").1
-        self.renderField = portalRow(view, title: "\(localizedString("Render")):").1
-        self.tilerField = portalRow(view, title: "\(localizedString("Tiler")):").1
         self.aneField = portalRow(view, title: "\(localizedString("ANE")):").1
+        self.fpsField = portalRow(view, title: "\(localizedString("FPS")):").1
         
         return view
     }
@@ -83,19 +59,16 @@ public class Portal: PortalWrapper {
                 if let value = value.utilization {
                     self.usageField?.stringValue = "\(Int(value*100))%"
                 }
-                if let value = value.renderUtilization {
-                    self.renderField?.stringValue = "\(Int(value*100))%"
-                }
-                if let value = value.tilerUtilization {
-                    self.tilerField?.stringValue = "\(Int(value*100))%"
-                }
                 if let value = value.aneUtilization {
                     self.aneField?.stringValue = "\(Int(value*100))%"
+                }
+                if let value = value.fps {
+                    self.fpsField?.stringValue = "\(Int(value.rounded()))"
                 }
                 
                 self.circle.toolTip = "\(localizedString("GPU usage")): \(Int(value.utilization!*100))%"
                 self.circle.setValue(value.utilization!)
-                self.circle.setText("\(Int(value.utilization!*100))%")
+                
                 self.initialized = true
             }
         })

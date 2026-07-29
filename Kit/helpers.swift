@@ -544,18 +544,13 @@ public func portalWithColorRow(_ v: NSStackView, color: NSColor, title: String) 
     view.distribution = .fillProportionally
     view.spacing = 1
     
-    let colorView: NSView = NSView()
-    colorView.widthAnchor.constraint(equalToConstant: 5).isActive = true
-    colorView.wantsLayer = true
-    colorView.layer?.backgroundColor = color.cgColor
-    colorView.layer?.cornerRadius = 2
+    let colorView: ColorBlock = ColorBlock(frame: NSRect(x: 3, y: 6, width: 10, height: 10), color: color)
     
     let labelView: LabelField = LabelField(title)
     labelView.font = NSFont.systemFont(ofSize: 11, weight: .regular)
     
     let valueView: ValueField = ValueField()
     valueView.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-    valueView.widthAnchor.constraint(equalToConstant: 40).isActive = true
     
     view.addArrangedSubview(colorView)
     view.addArrangedSubview(labelView)

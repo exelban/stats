@@ -250,7 +250,7 @@ private class Popup: NSStackView, Popup_p {
         self.orientation = .vertical
         self.distribution = .fill
         self.alignment = .width
-        self.spacing = Constants.Popup.spacing
+        self.spacing = Constants.Popup.spacing*3
         
         self.reinit()
         
@@ -277,13 +277,15 @@ private class Popup: NSStackView, Popup_p {
         self.subviews.forEach({ $0.removeFromSuperview() })
         
         let availableModules = modules.filter({ $0.enabled && $0.portal != nil })
+        var modulesHeight: CGFloat = 0
         availableModules.forEach { (m: Module) in
             if let p = m.portal {
+                modulesHeight += p.height
                 self.addArrangedSubview(p)
             }
         }
         
-        let h = CGFloat(availableModules.count) * Constants.Popup.portalHeight + (CGFloat(availableModules.count-1)*Constants.Popup.spacing)
+        let h = modulesHeight + (CGFloat(availableModules.count-1)*self.spacing)
         if h > 0 {
             self.setFrameSize(NSSize(width: self.frame.width, height: h))
             self.sizeCallback?(self.frame.size)

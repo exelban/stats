@@ -418,17 +418,25 @@ internal class BatteryView: NSView {
         
         guard let ctx = NSGraphicsContext.current?.cgContext else { return }
         
-        let w: CGFloat = min(self.frame.width, 130)
-        let h: CGFloat = min(self.frame.height, 60)
+        let scale: CGFloat = Swift.min(self.frame.width/130, self.frame.height/60, 1)
+        let w: CGFloat = 130 * scale
+        let h: CGFloat = 60 * scale
         let x: CGFloat = (self.frame.width - w)/2
         let y: CGFloat = (self.frame.size.height - h) / 2
-        let batteryFrame = NSBezierPath(roundedRect: NSRect(x: x+1, y: y+1, width: w-8, height: h-2), xRadius: 16, yRadius: 16)
+        let lineWidth: CGFloat = Swift.max(1, 2*scale)
+        let pointWidth: CGFloat = 7 * scale
+        let batteryFrame = NSBezierPath(roundedRect: NSRect(
+            x: x + lineWidth/2,
+            y: y + lineWidth/2,
+            width: w - pointWidth - lineWidth,
+            height: h - lineWidth
+        ), xRadius: 16*scale, yRadius: 16*scale)
         
         NSColor.secondaryLabelColor.set()
         
         let bPX: CGFloat = batteryFrame.bounds.origin.x + batteryFrame.bounds.width
-        let bPY: CGFloat = batteryFrame.bounds.origin.y + (batteryFrame.bounds.height/2) - 12
-        let batteryPoint = NSBezierPath(roundedRect: NSRect(x: bPX, y: bPY, width: 7, height: 24), xRadius: 6, yRadius: 6)
+        let bPY: CGFloat = batteryFrame.bounds.origin.y + (batteryFrame.bounds.height/2) - (12*scale)
+        let batteryPoint = NSBezierPath(roundedRect: NSRect(x: bPX, y: bPY, width: pointWidth, height: 24*scale), xRadius: 6*scale, yRadius: 6*scale)
         batteryPoint.fill()
         
         let batteryPointSeparator = NSBezierPath()
@@ -437,28 +445,29 @@ internal class BatteryView: NSView {
         ctx.saveGState()
         ctx.setBlendMode(.destinationOut)
         NSColor.textColor.set()
-        batteryPointSeparator.lineWidth = 6
+        batteryPointSeparator.lineWidth = 6*scale
         batteryPointSeparator.stroke()
         ctx.restoreGState()
         
-        batteryFrame.lineWidth = 2
+        batteryFrame.lineWidth = lineWidth
         batteryFrame.stroke()
         
         if self.percentage == 0 {
             return
         }
         
-        let innerHeight: CGFloat = h-10
-        let minWidth: CGFloat = 8
-        let track: CGFloat = w-16
+        let innerPadding: CGFloat = 5 * scale
+        let innerHeight: CGFloat = h - (innerPadding*2)
+        let minWidth: CGFloat = 8 * scale
+        let track: CGFloat = w - (16*scale)
         var fillWidth: CGFloat = 0
         if self.percentage > 0 {
             fillWidth = minWidth + (track - minWidth) * CGFloat(self.percentage)
         }
-        let fillRadius: CGFloat = Swift.min(12, fillWidth/2, innerHeight/2)
+        let fillRadius: CGFloat = Swift.min(12*scale, fillWidth/2, innerHeight/2)
         let inner = NSBezierPath(roundedRect: NSRect(
-            x: x+5,
-            y: y+5,
+            x: x + innerPadding,
+            y: y + innerPadding,
             width: fillWidth,
             height: innerHeight
         ), xRadius: fillRadius, yRadius: fillRadius)
@@ -474,19 +483,20 @@ internal class BatteryView: NSView {
                 y: batteryFrame.bounds.origin.y + (batteryFrame.bounds.height/2)
             )
             let symbolName: String = self.charging ? "bolt.fill" : "powerplug.fill"
+            let symbolSize: CGFloat = 24 * scale
             
             if self.percentage > 0.55 {
-                guard let body = self.coloredSymbol(symbolName, color: .white) else { return }
+                guard let body = self.coloredSymbol(symbolName, color: .white, size: symbolSize) else { return }
                 let size: NSSize = body.size
                 body.draw(in: NSRect(x: center.x - (size.width/2), y: center.y - (size.height/2), width: size.width, height: size.height))
                 return
             }
             
-            guard let outline = self.coloredSymbol(symbolName, color: .black),
-                  let body = self.coloredSymbol(symbolName, color: self.percentage.batteryColorV2()) else { return }
+            guard let outline = self.coloredSymbol(symbolName, color: .black, size: symbolSize),
+                  let body = self.coloredSymbol(symbolName, color: self.percentage.batteryColorV2(), size: symbolSize) else { return }
             
             let size: NSSize = body.size
-            let border: CGFloat = 2
+            let border: CGFloat = Swift.max(1, 2*scale)
             let origin = CGPoint(x: center.x - (size.width/2), y: center.y - (size.height/2))
             
             let steps: Int = 24
@@ -515,8 +525,8 @@ internal class BatteryView: NSView {
         })
     }
     
-    private func coloredSymbol(_ name: String, color: NSColor) -> NSImage? {
-        var config = NSImage.SymbolConfiguration(pointSize: 24, weight: .bold)
+    private func coloredSymbol(_ name: String, color: NSColor, size: CGFloat) -> NSImage? {
+        var config = NSImage.SymbolConfiguration(pointSize: size, weight: .bold)
         config = config.applying(NSImage.SymbolConfiguration(paletteColors: [color]))
         let image = NSImage(systemSymbolName: name, accessibilityDescription: nil)?.withSymbolConfiguration(config)
         image?.isTemplate = false

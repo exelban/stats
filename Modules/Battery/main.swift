@@ -56,7 +56,7 @@ public class Battery: Module {
     public init() {
         self.settingsView = Settings(.battery)
         self.popupView = Popup(.battery)
-        self.portalView = Portal(.battery)
+        self.portalView = Portal(.battery, height: 70)
         self.notificationsView = Notifications(.battery)
         
         super.init(

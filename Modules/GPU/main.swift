@@ -128,7 +128,7 @@ public class GPU: Module {
     public init() {
         self.popupView = Popup(.GPU)
         self.settingsView = Settings(.GPU)
-        self.portalView = Portal(.GPU)
+        self.portalView = Portal(.GPU, height: 70)
         self.notificationsView = Notifications(.GPU)
         self.previewView = Preview(.GPU)
         

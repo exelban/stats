@@ -12,46 +12,15 @@
 import AppKit
 import Kit
 
-public class Portal: NSStackView, Portal_p {
-    public var name: String
-    
-    private let container = ScrollableStackView()
+public class Portal: PortalWrapper {
+    private let container = ClockListView()
     private var list: [Clock_t] = []
     
-    init(_ module: ModuleType, list: [Clock_t]) {
-        self.name = module.stringValue
-        
-        super.init(frame: NSRect( x: 0, y: 0, width: Constants.Popup.width, height: Constants.Popup.portalHeight))
-        
-        self.wantsLayer = true
-        self.layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
-        self.layer?.cornerRadius = 3
-        
-        self.orientation = .vertical
-        self.distribution = .fill
-        self.spacing = Constants.Popup.spacing*2
-        self.edgeInsets = NSEdgeInsets(
-            top: Constants.Popup.spacing*2,
-            left: Constants.Popup.spacing*2,
-            bottom: Constants.Popup.spacing*2,
-            right: Constants.Popup.spacing*2
-        )
-        
+    public override func load() {
         self.container.stackView.spacing = 0
-        self.container.widthAnchor.constraint(equalToConstant: Constants.Popup.width).isActive = true
-        
-        self.addArrangedSubview(PortalHeader(name))
-        self.addArrangedSubview(self.container)
-        
-        self.callback(list)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    public override func updateLayer() {
-        self.layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
+        self.container.wantsLayer = true
+        self.container.layer?.cornerRadius = Constants.Popup.radius
+        self.body.addArrangedSubview(self.container)
     }
     
     public func callback(_ list: [Clock_t]) {
@@ -60,30 +29,37 @@ public class Portal: NSStackView, Portal_p {
         
         sorted = sorted.filter({ $0.popupState })
         
-        if sorted.count < views.count && !views.isEmpty {
-            views.forEach{ $0.removeFromSuperview() }
+        if sorted.count != views.count && !views.isEmpty {
+            self.container.stackView.subviews.forEach{ $0.removeFromSuperview() }
             views = []
         }
         
-        var width: CGFloat = self.frame.width - self.edgeInsets.left - self.edgeInsets.right
-        if sorted.count > 2 {
-            width -= self.container.scrollWidth ?? Constants.Popup.margins
-        }
-        
-        if sorted.count != views.count {
-            views.forEach { c in
-                c.widthAnchor.constraint(equalToConstant: width).isActive = true
-            }
-        }
+        let width: CGFloat = Constants.Popup.width - (Constants.Popup.spacing*2)
         
         sorted.forEach { (c: Clock_t) in
             if let view = views.first(where: { $0.clock.id == c.id }) {
                 view.update(c)
             } else {
-                self.container.stackView.addArrangedSubview(ClockView(width: width, clock: c))
+                if !self.container.stackView.arrangedSubviews.isEmpty {
+                    let separator = NSBox()
+                    separator.boxType = .separator
+                    self.container.stackView.addArrangedSubview(separator)
+                    separator.widthAnchor.constraint(equalTo: self.container.stackView.widthAnchor).isActive = true
+                }
+                let view = ClockView(width: width, clock: c, background: false, nameSize: 10, timeSize: 12)
+                self.container.stackView.addArrangedSubview(view)
+                view.widthAnchor.constraint(equalTo: self.container.stackView.widthAnchor).isActive = true
             }
         }
         
         self.list = sorted
+    }
+}
+
+private class ClockListView: ScrollableStackView {
+    override var wantsUpdateLayer: Bool { true }
+    
+    override func updateLayer() {
+        self.layer?.backgroundColor = (isDarkMode ? NSColor(red: 17/255, green: 17/255, blue: 17/255, alpha: 0.25) : NSColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)).cgColor
     }
 }
