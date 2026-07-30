@@ -1026,6 +1026,76 @@ public func process(path: String, arguments: [String]) -> String? {
     return output
 }
 
+public func process(path: String, arguments: [String], environment: [String: String]? = nil, timeout: TimeInterval) -> String? {
+    let task = Process()
+    task.executableURL = URL(fileURLWithPath: path)
+    task.arguments = arguments
+    if let environment {
+        task.environment = environment
+    }
+    
+    let inputPipe = Pipe()
+    let outputPipe = Pipe()
+    let errorPipe = Pipe()
+    task.standardInput = inputPipe
+    task.standardOutput = outputPipe
+    task.standardError = errorPipe
+    
+    let exited = DispatchGroup()
+    exited.enter()
+    task.terminationHandler = { _ in exited.leave() }
+    
+    do {
+        try task.run()
+    } catch let err {
+        task.terminationHandler = nil
+        exited.leave()
+        debug("\(path): \(err.localizedDescription)")
+        return nil
+    }
+    
+    var outputData = Data()
+    let drained = DispatchGroup()
+    drained.enter()
+    DispatchQueue.global(qos: .utility).async {
+        outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
+        drained.leave()
+    }
+    drained.enter()
+    DispatchQueue.global(qos: .utility).async {
+        _ = errorPipe.fileHandleForReading.readDataToEndOfFile()
+        drained.leave()
+    }
+    
+    var timedOut = false
+    if exited.wait(timeout: .now() + timeout) == .timedOut {
+        timedOut = true
+        task.terminate()
+        if exited.wait(timeout: .now() + 2) == .timedOut {
+            kill(task.processIdentifier, SIGKILL)
+            _ = exited.wait(timeout: .now() + 2)
+        }
+    }
+    
+    inputPipe.fileHandleForWriting.closeFile()
+    guard drained.wait(timeout: .now() + 2) == .success else {
+        error("\(path) did not exit within \(Int(timeout))s and could not be killed")
+        return nil
+    }
+    outputPipe.fileHandleForReading.closeFile()
+    errorPipe.fileHandleForReading.closeFile()
+    
+    if timedOut {
+        error("\(path) did not exit within \(Int(timeout))s, terminated")
+        return nil
+    }
+    
+    let output = String(data: outputData, encoding: .utf8)
+    guard let output, !output.isEmpty else { return nil }
+    
+    return output
+}
+
 public class SettingsContainerView: NSStackView {
     public init() {
         super.init(frame: NSRect.zero)
