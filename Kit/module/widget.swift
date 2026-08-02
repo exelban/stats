@@ -151,6 +151,7 @@ extension widget_t: CaseIterable {}
 public protocol widget_p: NSView {
     var widthHandler: (() -> Void)? { get set }
     var onClick: (() -> Void)? { get set }
+    var onOptionClick: (() -> Void)? { get set }
     
     func settings() -> NSView
 }
@@ -160,6 +161,7 @@ open class WidgetWrapper: NSView, widget_p {
     public var title: String
     public var widthHandler: (() -> Void)? = nil
     public var onClick: (() -> Void)? = nil
+    public var onOptionClick: (() -> Void)? = nil
     public var shadowSize: CGSize
     internal var queue: DispatchQueue
     
@@ -222,6 +224,10 @@ open class WidgetWrapper: NSView, widget_p {
     open func settings() -> NSView { return NSView() }
     
     open override func mouseDown(with event: NSEvent) {
+        if event.modifierFlags.contains(.option), let f = self.onOptionClick {
+            f()
+            return
+        }
         if let f = self.onClick {
             f()
             return
