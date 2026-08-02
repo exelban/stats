@@ -156,6 +156,7 @@ The best ways to support the project are reporting bugs, improving translations,
 - Hindi (thanks to [patiljignesh](https://github.com/patiljignesh))
 - Finnish (thanks to [eightscrow](https://github.com/eightscrow))
 - Bengali (thanks to [adnan29979](https://github.com/adnan29979))
+- Tamil (thanks to [sabapathy7](https://github.com/sabapathy7))
 
 You can help by adding a new language or improving the existing translation.
 
