@@ -415,11 +415,14 @@ private class SidebarView: NSStackView {
     
     private func supportView() -> NSViewController {
         let vc: NSViewController = NSViewController(nibName: nil, bundle: nil)
-        let view: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: 180, height: 54))
+        let view: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: 220, height: 54))
         view.spacing = 10
         view.edgeInsets = NSEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
         view.orientation = .horizontal
         
+        let systemStats = SupportButtonView(name: "System Stats", image: "AppIcon", action: {
+            NSWorkspace.shared.open(URL(string: "https://www.system-stats.com")!)
+        })
         let github = SupportButtonView(name: "GitHub Sponsors", image: "github", action: {
             NSWorkspace.shared.open(URL(string: "https://github.com/sponsors/exelban")!)
         })
@@ -433,6 +436,7 @@ private class SidebarView: NSStackView {
             NSWorkspace.shared.open(URL(string: "https://patreon.com/exelban")!)
         })
         
+        view.addArrangedSubview(systemStats)
         view.addArrangedSubview(github)
         view.addArrangedSubview(paypal)
         view.addArrangedSubview(koFi)

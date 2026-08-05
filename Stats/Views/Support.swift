@@ -116,6 +116,9 @@ private class SupportView: NSStackView {
         support.spacing = 20
         support.orientation = .horizontal
         
+        let systemStats = SupportButtonView(name: "System Stats", image: "AppIcon", action: {
+            NSWorkspace.shared.open(URL(string: "https://www.system-stats.com")!)
+        })
         let github = SupportButtonView(name: "GitHub Sponsors", image: "github", action: {
             NSWorkspace.shared.open(URL(string: "https://github.com/sponsors/exelban")!)
         })
@@ -129,6 +132,7 @@ private class SupportView: NSStackView {
             NSWorkspace.shared.open(URL(string: "https://patreon.com/exelban")!)
         })
         
+        support.addArrangedSubview(systemStats)
         support.addArrangedSubview(github)
         support.addArrangedSubview(paypal)
         support.addArrangedSubview(koFi)
