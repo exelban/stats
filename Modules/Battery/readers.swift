@@ -74,12 +74,8 @@ internal class UsageReader: Reader<Battery_Usage> {
                 self.usage.optimizedChargingEngaged = list["Optimized Battery Charging Engaged"] as? Int == 1
                 self.usage.level = Double(list[kIOPSCurrentCapacityKey] as? Int ?? 0) / 100
                 
-                if let time = list[kIOPSTimeToEmptyKey] as? Int {
-                    self.usage.timeToEmpty = Int(time)
-                }
-                if let time = list[kIOPSTimeToFullChargeKey] as? Int {
-                    self.usage.timeToCharge = Int(time)
-                }
+                self.usage.timeToEmpty = list[kIOPSTimeToEmptyKey] as? Int ?? 0
+                self.usage.timeToCharge = list[kIOPSTimeToFullChargeKey] as? Int ?? 0
                 
                 if self.usage.powerSource == "AC Power" {
                     self.usage.timeOnACPower = Date()
@@ -122,13 +118,18 @@ internal class UsageReader: Reader<Battery_Usage> {
                 
                 self.usage.batteryPower = SMC.shared.getValue("PPBR") ?? (self.usage.voltage * (Double(self.usage.current) / 1000))
                 self.usage.adapterPower = SMC.shared.getValue("PDTR") ?? 0
-                if let adapterDetails = self.getAdapterDetails() {
+                self.usage.adapterVoltage = 0
+                if !self.usage.isBatteryPowered, let adapterDetails = self.getAdapterDetails() {
                     self.usage.adapterVoltage = Double(adapterDetails["AdapterVoltage"] as? Int ?? 0) / 1000
                 }
                 
+                self.usage.chargingCurrent = 0
+                self.usage.chargingVoltage = 0
                 if let chargerData = self.getChargerData() {
-                    self.usage.chargingCurrent = chargerData["ChargingCurrent"] as? Int ?? 0
-                    self.usage.chargingVoltage = chargerData["ChargingVoltage"] as? Int ?? 0
+                    if !self.usage.isBatteryPowered {
+                        self.usage.chargingCurrent = chargerData["ChargingCurrent"] as? Int ?? 0
+                        self.usage.chargingVoltage = chargerData["ChargingVoltage"] as? Int ?? 0
+                    }
                     
                     if !self.usage.optimizedChargingEngaged && !self.usage.isBatteryPowered && !self.usage.isCharging && self.usage.level < 1,
                        let notChargingReason = chargerData["NotChargingReason"] as? Int, notChargingReason != 0 {

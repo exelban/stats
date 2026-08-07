@@ -124,12 +124,12 @@ public class Battery: Module {
                     ACStatus: !value.isBatteryPowered,
                     isCharging: value.isCharging,
                     optimizedCharging: value.optimizedChargingEngaged,
-                    time: value.timeToEmpty == 0 && value.timeToCharge != 0 ? value.timeToCharge : value.timeToEmpty
+                    time: value.isBatteryPowered ? value.timeToEmpty : value.timeToCharge
                 )
             case let widget as BatteryDetailsWidget:
                 widget.setValue(
                     percentage: value.level,
-                    time: value.timeToEmpty == 0 && value.timeToCharge != 0 ? value.timeToCharge : value.timeToEmpty
+                    time: value.isBatteryPowered ? value.timeToEmpty : value.timeToCharge
                 )
             default: break
             }

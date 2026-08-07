@@ -26,6 +26,7 @@ internal class Popup: PopupWrapper {
     private var currentField: NSTextField? = nil
     private var voltageField: NSTextField? = nil
     
+    private var batterySection: NSView? = nil
     private var barView: BarChartView = BarChartView(size: 10, horizontal: true)
     private var maxCapacityField: NSTextField? = nil
     private var designedCapacityField: NSTextField? = nil
@@ -36,8 +37,8 @@ internal class Popup: PopupWrapper {
     private var adapterView: NSView? = nil
     private var chargingStateField: StatusBadgeView? = nil
     private var adapterPowerField: NSTextField? = nil
-    private var chargingCurrentField: NSTextField? = nil
-    private var chargingVoltageField: NSTextField? = nil
+    private var adapterCurrentField: NSTextField? = nil
+    private var adapterVoltageField: NSTextField? = nil
     
     private var processesView: NSView? = nil
     private var processes: ProcessesView? = nil
@@ -160,10 +161,6 @@ internal class Popup: PopupWrapper {
         self.timeLabelField = time.0
         self.timeField = time.1
         
-        self.powerField = popupRow(view, title: "\(localizedString("Power")):", value: "0 W").1
-        self.currentField = popupRow(view, title: "\(localizedString("Current")):", value: "0 mA").1
-        self.voltageField = popupRow(view, title: "\(localizedString("Voltage")):", value: "0 V").1
-        
         return view
     }
     
@@ -243,9 +240,14 @@ internal class Popup: PopupWrapper {
         
         view.addArrangedSubview(health)
         
+        self.powerField = popupRow(view, title: "\(localizedString("Power")):", value: "0 W").1
+        self.currentField = popupRow(view, title: "\(localizedString("Current")):", value: "0 mA").1
+        self.voltageField = popupRow(view, title: "\(localizedString("Voltage")):", value: "0 V").1
         self.healthField = popupRow(view, title: "\(localizedString("Health")):", value: "").1
         self.cyclesField = popupRow(view, title: "\(localizedString("Cycles")):", value: "").1
         self.temperatureField = popupRow(view, title: "\(localizedString("Temperature")):", value: "").1
+        
+        self.batterySection = view
         
         return view
     }
@@ -257,7 +259,9 @@ internal class Popup: PopupWrapper {
         view.addArrangedSubview(SeparatorView(label: localizedString("Power adapter")))
         
         self.chargingStateField = popupBadgeRow(view, title: "\(localizedString("Is charging")):", ok: "Yes", notOk: "No").1
-        self.adapterPowerField = popupRow(view, title: "\(localizedString("Power")):", value: "").1
+        self.adapterPowerField = popupRow(view, title: "\(localizedString("Power")):", value: "0 W").1
+        self.adapterCurrentField = popupRow(view, title: "\(localizedString("Current")):", value: "0 mA").1
+        self.adapterVoltageField = popupRow(view, title: "\(localizedString("Voltage")):", value: "0 V").1
         
         self.adapterView = view
         
@@ -310,10 +314,6 @@ internal class Popup: PopupWrapper {
                 self.adapterView = nil
                 self.recalculateHeight()
             }
-            
-            self.powerField?.stringValue = "\(abs(value.batteryPower).roundTo(decimalPlaces: 2)) W"
-            self.currentField?.stringValue = "\(abs(value.current)) mA"
-            self.voltageField?.stringValue = "\(value.voltage.roundTo(decimalPlaces: 2)) V"
         } else {
             self.timeLabelField?.stringValue = "\(localizedString("Time to charge")):"
             if value.timeToCharge != -1 && value.timeToCharge != 0 {
@@ -323,18 +323,32 @@ internal class Popup: PopupWrapper {
             }
             
             if self.adapterView == nil {
-                self.insertArrangedSubview(self.initAdapter(), at: 3)
+                var index: Int = 3
+                if let section = self.batterySection, let i = self.arrangedSubviews.firstIndex(of: section) {
+                    index = i + 1
+                }
+                self.insertArrangedSubview(self.initAdapter(), at: index)
                 self.recalculateHeight()
             }
             
-            let current = value.adapterVoltage > 0 ? Int((value.adapterPower / value.adapterVoltage) * 1000) : 0
-            self.powerField?.stringValue = "\(value.adapterPower.roundTo(decimalPlaces: 2)) W"
-            self.currentField?.stringValue = "\(current) mA"
-            self.voltageField?.stringValue = "\(value.adapterVoltage.roundTo(decimalPlaces: 2)) V"
-            
             self.chargingStateField?.setStatus(value.isCharging)
-            self.adapterPowerField?.stringValue = "\(value.ACwatts) W"
+            
+            var power: String = value.adapterPower > 0 ? "\(value.adapterPower.roundTo(decimalPlaces: 2)) W" : ""
+            if value.ACwatts > 0 {
+                power = power.isEmpty ? "\(value.ACwatts) W" : "\(power) / \(value.ACwatts) W"
+            }
+            self.adapterPowerField?.stringValue = power.isEmpty ? "0 W" : power
+            
+            let adapterCurrent = value.adapterVoltage > 0 ? Int((value.adapterPower / value.adapterVoltage) * 1000) : 0
+            self.adapterCurrentField?.stringValue = "\(adapterCurrent) mA"
+            self.adapterCurrentField?.toolTip = "\(localizedString("Charging")): \(value.chargingCurrent) mA"
+            self.adapterVoltageField?.stringValue = "\(value.adapterVoltage.roundTo(decimalPlaces: 2)) V"
+            self.adapterVoltageField?.toolTip = "\(localizedString("Charging")): \((Double(value.chargingVoltage)/1000).roundTo(decimalPlaces: 2)) V"
         }
+        
+        self.powerField?.stringValue = "\(abs(value.batteryPower).roundTo(decimalPlaces: 2)) W"
+        self.currentField?.stringValue = "\(value.current) mA"
+        self.voltageField?.stringValue = "\(value.voltage.roundTo(decimalPlaces: 2)) V"
         
         if value.timeToEmpty == -1 || value.timeToCharge == -1 {
             self.timeField?.stringValue = localizedString("Calculating")
