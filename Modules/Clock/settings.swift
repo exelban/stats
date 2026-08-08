@@ -309,17 +309,17 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
         guard let id = sender.identifier, let i = Int(id.rawValue) else { return }
         self.list[i].enabled = sender.state == NSControl.StateValue.on
     }
-    @objc private func addNewClock(_ sender: Any) {
+    @objc private func addNewClock() {
         self.list.append(Clock_t(name: "\(localizedString("Clock")) \(self.list.count)", format: Clock.local.format, tz: Clock.local.tz))
         self.tableView.reloadData()
     }
-    @objc private func deleteClock(_ sender: Any) {
+    @objc private func deleteClock() {
         guard self.tableView.selectedRow != -1 else { return }
         self.list.remove(at: self.tableView.selectedRow)
         self.tableView.reloadData()
         self.deleteButton?.removeFromSuperview()
     }
-    @objc private func openFormatHelp(_ sender: NSButton) {
+    @objc private func openFormatHelp() {
         NSWorkspace.shared.open(URL(string: "https://www.nsdateformatter.com")!)
     }
     @objc func toggleNTPSync(_ sender: NSControl) {

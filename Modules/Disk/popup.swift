@@ -320,7 +320,7 @@ internal class DiskView: NSStackView {
             self.barView.setValue(ColorValue(Double(d.size - d.free) / Double(d.size)))
         }
         self.legendView = LegendView(width: innerWidth, id: "\(d.mediaName)_\(d.path?.absoluteString ?? "")", size: d.size, free: d.free)
-        self.detailsView = DetailsView(width: innerWidth, id: "\(d.mediaName)_\(d.path?.absoluteString ?? "")", details: d)
+        self.detailsView = DetailsView(width: innerWidth, details: d)
         
         super.init(frame: NSRect(x: 0, y: 0, width: width, height: 0))
         
@@ -732,7 +732,7 @@ internal class DetailsView: NSStackView {
     private let statsCache = PopupCache<stats>()
     private let smartCache = PopupCache<smart_t>()
     
-    public init(width: CGFloat, id: String, details: drive? = nil) {
+    public init(width: CGFloat, details: drive? = nil) {
         super.init(frame: CGRect(x: 0, y: 0, width: width, height: 0))
         
         self.orientation = .vertical

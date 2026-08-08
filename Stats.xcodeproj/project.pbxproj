@@ -76,7 +76,6 @@
 		5CD3A10229265130000F2856 /* eu.exelban.Stats.SMC.Helper.plist in Copy LaunchDaemons */ = {isa = PBXBuildFile; fileRef = 5CD3A10129265130000F2856 /* eu.exelban.Stats.SMC.Helper.plist */; };
 		5CE7E78C2C318512006BC92C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CE7E78B2C318512006BC92C /* WidgetKit.framework */; };
 		5CE7E78E2C318512006BC92C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CE7E78D2C318512006BC92C /* SwiftUI.framework */; };
-		5CE7E7972C318513006BC92C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CE7E7962C318513006BC92C /* Assets.xcassets */; };
 		5CE7E79C2C318513006BC92C /* WidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 5CE7E78A2C318512006BC92C /* WidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5CE7E7A42C318C33006BC92C /* widgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE7E7A32C318C33006BC92C /* widgets.swift */; };
 		5CF2210D2B1E7EAF006C583F /* notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF2210C2B1E7EAF006C583F /* notifications.swift */; };
@@ -606,7 +605,6 @@
 		5CE7E78A2C318512006BC92C /* WidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CE7E78B2C318512006BC92C /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		5CE7E78D2C318512006BC92C /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		5CE7E7962C318513006BC92C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5CE7E7982C318513006BC92C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5CE7E7992C318513006BC92C /* Widgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Widgets.entitlements; sourceTree = "<group>"; };
 		5CE7E7A32C318C33006BC92C /* widgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widgets.swift; sourceTree = "<group>"; };
@@ -951,7 +949,6 @@
 			children = (
 				5CE7E7992C318513006BC92C /* Widgets.entitlements */,
 				5CE7E7982C318513006BC92C /* Info.plist */,
-				5CE7E7962C318513006BC92C /* Assets.xcassets */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -1997,7 +1994,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5CE7E7972C318513006BC92C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2672,8 +2668,6 @@
 		5CE7E79E2C318513006BC92C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_ENTITLEMENTS = "Widgets/Supporting Files/Widgets.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -2712,8 +2706,6 @@
 		5CE7E79F2C318513006BC92C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_ENTITLEMENTS = "Widgets/Supporting Files/Widgets.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";

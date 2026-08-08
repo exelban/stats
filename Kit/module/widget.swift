@@ -76,8 +76,8 @@ public enum widget_t: String {
             preview = DotWidget(title: module, config: widgetConfig, preview: true)
             item = DotWidget(title: module, config: widgetConfig, preview: false)
         case .text:
-            preview = TextWidget(title: module, config: widgetConfig, preview: true)
-            item = TextWidget(title: module, config: widgetConfig, preview: false)
+            preview = TextWidget(title: module, preview: true)
+            item = TextWidget(title: module, preview: false)
         default: break
         }
         

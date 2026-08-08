@@ -632,14 +632,8 @@ public extension Array where Element: Hashable {
 }
 
 public func toggleNSControlState(_ control: NSControl?, state: NSControl.StateValue) {
-    if #available(OSX 10.15, *) {
-        if let checkbox = control as? NSSwitch {
-            checkbox.state = state
-        }
-    } else {
-        if let checkbox = control as? NSButton {
-            checkbox.state = state
-        }
+    if let checkbox = control as? NSSwitch {
+        checkbox.state = state
     }
 }
 
@@ -1548,14 +1542,7 @@ public class AppIcon: NSView {
 }
 
 public func controlState(_ sender: NSControl) -> Bool {
-    var state: NSControl.StateValue
-    
-    if #available(OSX 10.15, *) {
-        state = sender is NSSwitch ? (sender as! NSSwitch).state : .off
-    } else {
-        state = sender is NSButton ? (sender as! NSButton).state : .off
-    }
-    
+    let state: NSControl.StateValue = sender is NSSwitch ? (sender as! NSSwitch).state : .off
     return state == .on
 }
 
@@ -2055,9 +2042,9 @@ public class CPUeStressTest {
         let efficientCoreCount: Int = Int(SystemKit.shared.device.info.cpu?.eCores ?? 2)
         self.workers.removeAll()
         
-        for index in 0..<efficientCoreCount {
+        for _ in 0..<efficientCoreCount {
             let worker = DispatchWorkItem { [weak self] in
-                self?.test(threadIndex: index)
+                self?.test()
             }
             self.workers.append(worker)
             self.queue.async(execute: worker)
@@ -2070,7 +2057,7 @@ public class CPUeStressTest {
         self.workers.removeAll()
     }
     
-    private func test(threadIndex: Int) {
+    private func test() {
         pthread_set_qos_class_self_np(QOS_CLASS_BACKGROUND, 0)
         var x: Double = 1.0
         while self.isRunning {
@@ -2096,9 +2083,9 @@ public class CPUpStressTest {
         let performanceCoreCount: Int = Int(SystemKit.shared.device.info.cpu?.pCores ?? 4)
         self.workers.removeAll()
         
-        for index in 0..<performanceCoreCount {
+        for _ in 0..<performanceCoreCount {
             let worker = DispatchWorkItem { [weak self] in
-                self?.test(threadIndex: index)
+                self?.test()
             }
             self.workers.append(worker)
             self.queue.async(execute: worker)
@@ -2111,7 +2098,7 @@ public class CPUpStressTest {
         self.workers.removeAll()
     }
     
-    private func test(threadIndex: Int) {
+    private func test() {
         pthread_set_qos_class_self_np(QOS_CLASS_USER_INTERACTIVE, 0)
         var x: Double = 1.0
         while self.isRunning {

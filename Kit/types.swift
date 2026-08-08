@@ -220,47 +220,43 @@ public struct SColor: KeyValue_p, Equatable {
 }
 
 extension SColor: CaseIterable {
-    public static var utilization: SColor { return SColor(key: "utilization", value: "Based on utilization", additional: NSColor.black) }
-    public static var pressure: SColor { return SColor(key: "pressure", value: "Based on pressure", additional: NSColor.black) }
-    public static var cluster: SColor { return SColor(key: "cluster", value: "Based on cluster", additional: NSColor.controlAccentColor) }
+    public static var utilization: SColor { SColor(key: "utilization", value: "Based on utilization", additional: NSColor.black) }
+    public static var pressure: SColor { SColor(key: "pressure", value: "Based on pressure", additional: NSColor.black) }
+    public static var cluster: SColor { SColor(key: "cluster", value: "Based on cluster", additional: NSColor.controlAccentColor) }
     
-    public static var separator1: SColor { return SColor(key: "separator_1", value: "separator_1", additional: NSColor.black) }
+    public static var separator1: SColor { SColor(key: "separator_1", value: "separator_1", additional: NSColor.black) }
     
-    public static var systemAccent: SColor { return SColor(key: "system", value: "System accent", additional: NSColor.controlAccentColor) }
-    public static var monochrome: SColor { return SColor(key: "monochrome", value: "Monochrome accent", additional: NSColor.textColor) }
+    public static var systemAccent: SColor { SColor(key: "system", value: "System accent", additional: NSColor.controlAccentColor) }
+    public static var monochrome: SColor { SColor(key: "monochrome", value: "Monochrome accent", additional: NSColor.textColor) }
     
-    public static var separator2: SColor { return SColor(key: "separator_2", value: "separator_2", additional: NSColor.black) }
+    public static var separator2: SColor { SColor(key: "separator_2", value: "separator_2", additional: NSColor.black) }
     
-    public static var clear: SColor { return SColor(key: "clear", value: "Clear", additional: NSColor.clear) }
-    public static var white: SColor { return SColor(key: "white", value: "White", additional: NSColor.white) }
-    public static var black: SColor { return SColor(key: "black", value: "Black", additional: NSColor.black) }
-    public static var gray: SColor { return SColor(key: "gray", value: "Gray", additional: NSColor.gray) }
-    public static var secondGray: SColor { return SColor(key: "secondGray", value: "Second gray", additional: NSColor.systemGray) }
-    public static var darkGray: SColor { return SColor(key: "darkGray", value: "Dark gray", additional: NSColor.darkGray) }
-    public static var lightGray: SColor { return SColor(key: "lightGray", value: "Light gray", additional: NSColor.lightGray) }
-    public static var red: SColor { return SColor(key: "red", value: "Red", additional: NSColor.red) }
-    public static var secondRed: SColor { return SColor(key: "secondRed", value: "Second red", additional: NSColor.systemRed) }
-    public static var green: SColor { return SColor(key: "green", value: "Green", additional: NSColor.green) }
-    public static var secondGreen: SColor { return SColor(key: "secondGreen", value: "Second green", additional: NSColor.systemGreen) }
-    public static var blue: SColor { return SColor(key: "blue", value: "Blue", additional: NSColor.blue) }
-    public static var secondBlue: SColor { return SColor(key: "secondBlue", value: "Second blue", additional: NSColor.systemBlue) }
-    public static var yellow: SColor { return SColor(key: "yellow", value: "Yellow", additional: NSColor.yellow) }
-    public static var secondYellow: SColor { return SColor(key: "secondYellow", value: "Second yellow", additional: NSColor.systemYellow) }
-    public static var orange: SColor { return SColor(key: "orange", value: "Orange", additional: NSColor.orange) }
-    public static var secondOrange: SColor { return SColor(key: "secondOrange", value: "Second orange", additional: NSColor.systemOrange) }
-    public static var purple: SColor { return SColor(key: "purple", value: "Purple", additional: NSColor.purple) }
-    public static var secondPurple: SColor { return SColor(key: "secondPurple", value: "Second purple", additional: NSColor.systemPurple) }
-    public static var brown: SColor { return SColor(key: "brown", value: "Brown", additional: NSColor.brown) }
-    public static var secondBrown: SColor { return SColor(key: "secondBrown", value: "Second brown", additional: NSColor.systemBrown) }
-    public static var cyan: SColor { return SColor(key: "cyan", value: "Cyan", additional: NSColor.cyan) }
-    public static var magenta: SColor { return SColor(key: "magenta", value: "Magenta", additional: NSColor.magenta) }
-    public static var pink: SColor { return SColor(key: "pink", value: "Pink", additional: NSColor.systemPink) }
-    public static var teal: SColor { return SColor(key: "teal", value: "Teal", additional: NSColor.systemTeal) }
-    public static var indigo: SColor { if #available(OSX 10.15, *) {
-        return SColor(key: "indigo", value: "Indigo", additional: NSColor.systemIndigo)
-    } else {
-        return SColor(key: "indigo", value: "Indigo", additional: NSColor(red: 75/255, green: 0, blue: 130/255, alpha: 1))
-    } }
+    public static var clear: SColor { SColor(key: "clear", value: "Clear", additional: NSColor.clear) }
+    public static var white: SColor { SColor(key: "white", value: "White", additional: NSColor.white) }
+    public static var black: SColor { SColor(key: "black", value: "Black", additional: NSColor.black) }
+    public static var gray: SColor { SColor(key: "gray", value: "Gray", additional: NSColor.gray) }
+    public static var secondGray: SColor { SColor(key: "secondGray", value: "Second gray", additional: NSColor.systemGray) }
+    public static var darkGray: SColor { SColor(key: "darkGray", value: "Dark gray", additional: NSColor.darkGray) }
+    public static var lightGray: SColor { SColor(key: "lightGray", value: "Light gray", additional: NSColor.lightGray) }
+    public static var red: SColor { SColor(key: "red", value: "Red", additional: NSColor.red) }
+    public static var secondRed: SColor { SColor(key: "secondRed", value: "Second red", additional: NSColor.systemRed) }
+    public static var green: SColor { SColor(key: "green", value: "Green", additional: NSColor.green) }
+    public static var secondGreen: SColor { SColor(key: "secondGreen", value: "Second green", additional: NSColor.systemGreen) }
+    public static var blue: SColor { SColor(key: "blue", value: "Blue", additional: NSColor.blue) }
+    public static var secondBlue: SColor { SColor(key: "secondBlue", value: "Second blue", additional: NSColor.systemBlue) }
+    public static var yellow: SColor { SColor(key: "yellow", value: "Yellow", additional: NSColor.yellow) }
+    public static var secondYellow: SColor { SColor(key: "secondYellow", value: "Second yellow", additional: NSColor.systemYellow) }
+    public static var orange: SColor { SColor(key: "orange", value: "Orange", additional: NSColor.orange) }
+    public static var secondOrange: SColor { SColor(key: "secondOrange", value: "Second orange", additional: NSColor.systemOrange) }
+    public static var purple: SColor { SColor(key: "purple", value: "Purple", additional: NSColor.purple) }
+    public static var secondPurple: SColor { SColor(key: "secondPurple", value: "Second purple", additional: NSColor.systemPurple) }
+    public static var brown: SColor { SColor(key: "brown", value: "Brown", additional: NSColor.brown) }
+    public static var secondBrown: SColor { SColor(key: "secondBrown", value: "Second brown", additional: NSColor.systemBrown) }
+    public static var cyan: SColor { SColor(key: "cyan", value: "Cyan", additional: NSColor.cyan) }
+    public static var magenta: SColor { SColor(key: "magenta", value: "Magenta", additional: NSColor.magenta) }
+    public static var pink: SColor { SColor(key: "pink", value: "Pink", additional: NSColor.systemPink) }
+    public static var teal: SColor { SColor(key: "teal", value: "Teal", additional: NSColor.systemTeal) }
+    public static var indigo: SColor { SColor(key: "indigo", value: "Indigo", additional: NSColor.systemIndigo) }
     
     public static var allCases: [SColor] {
         return [.utilization, .pressure, .cluster, separator1,

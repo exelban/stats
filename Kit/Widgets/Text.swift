@@ -15,7 +15,7 @@ public class TextWidget: WidgetWrapper {
     private var value: String = ""
     private static let variableRegex = try? NSRegularExpression(pattern: "(\\$[a-zA-Z0-9_]+)(?:\\.([a-zA-Z0-9_]+))?")
     
-    public init(title: String, config: NSDictionary?, preview: Bool = false) {
+    public init(title: String, preview: Bool = false) {
         super.init(.text, title: title, frame: CGRect(
             x: 0,
             y: Constants.Widget.margin.y,
