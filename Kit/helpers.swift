@@ -2003,7 +2003,18 @@ public class HelpHUD: NSPanel {
         if self.contentView as? WKWebView == nil {
             let webView = WKWebView()
             webView.underPageBackgroundColor = .clear
-            webView.loadHTMLString("<html><body style='color: #ffffff;margin: 10px;'>\(self.text)</body></html>", baseURL: nil)
+            let style = """
+            :root { color-scheme: light dark; }
+            body {
+                margin: 10px;
+                font-family: -apple-system, 'Helvetica Neue', sans-serif;
+                color: #000000;
+            }
+            @media (prefers-color-scheme: dark) {
+                body { color: #ffffff; }
+            }
+            """
+            webView.loadHTMLString("<html><head><style>\(style)</style></head><body>\(self.text)</body></html>", baseURL: nil)
             self.contentView = webView
         }
         
