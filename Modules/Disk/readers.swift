@@ -82,16 +82,18 @@ internal class CapacityReader: Reader<Disks> {
                         if let d = self.list.first(where: { $0.BSDName == BSDName}), let idx = self.list.index(where: { $0.BSDName == BSDName}) {
                             if d.removable && !removableState {
                                 if d.parent != 0 { IOObjectRelease(d.parent) }
+                                if let path = d.path { self.purgableSpace.removeValue(forKey: path) }
                                 self.list.remove(at: idx)
                                 continue
                             }
                             
                             if driveIdentityChanged(d, url, disk) {
                                 if d.parent != 0 { IOObjectRelease(d.parent) }
+                                if let path = d.path { self.purgableSpace.removeValue(forKey: path) }
                                 self.list.remove(at: idx)
                             } else {
                                 if let path = d.path {
-                                    self.list.updateFreeSize(idx, newValue: self.freeDiskSpaceInBytes(path))
+                                    self.list.updateFreeSize(idx, newValue: self.diskSpaceInBytes(path, fileSystem: d.fileSystem).free)
                                     self.list.updateSMARTData(idx, smart: self.getSMARTDetails(for: BSDName))
                                 }
                                 continue
@@ -100,8 +102,9 @@ internal class CapacityReader: Reader<Disks> {
                         
                         if var d = driveDetails(disk, removableState: removableState) {
                             if let path = d.path {
-                                d.free = self.freeDiskSpaceInBytes(path)
-                                d.size = self.totalDiskSpaceInBytes(path)
+                                let space = self.diskSpaceInBytes(path, fileSystem: d.fileSystem)
+                                d.free = space.free
+                                d.size = space.total
                             }
                             d.smart = self.getSMARTDetails(for: BSDName)
                             guard d.size != 0 else {
@@ -118,8 +121,9 @@ internal class CapacityReader: Reader<Disks> {
         
         active.difference(from: self.list.map{ $0.BSDName }).forEach { (BSDName: String) in
             if let idx = self.list.index(where: { $0.BSDName == BSDName }) {
-                let parent = self.list.array[idx].parent
-                if parent != 0 { IOObjectRelease(parent) }
+                let d = self.list.array[idx]
+                if d.parent != 0 { IOObjectRelease(d.parent) }
+                if let path = d.path { self.purgableSpace.removeValue(forKey: path) }
                 self.list.remove(at: idx)
             }
         }
@@ -127,62 +131,53 @@ internal class CapacityReader: Reader<Disks> {
         self.callback(self.list)
         
     }
-    private func freeDiskSpaceInBytes(_ path: URL) -> Int64 {
+    private func diskSpaceInBytes(_ path: URL, fileSystem: String) -> (total: Int64, free: Int64) {
         var path = path
         path.removeAllCachedResourceValues()
         
         var stat = statfs()
         if statfs(path.path, &stat) == 0 {
             let total = Int64(stat.f_blocks) * Int64(stat.f_bsize)
-            let free = Int64(stat.f_bfree) * Int64(stat.f_bsize)
-            let used = total - free
+            let available = Int64(stat.f_bavail) * Int64(stat.f_bsize)
+            let used = total - available
             
             var purgeable: Int64 = 0
-            if let pair = self.purgableSpace[path], Date().timeIntervalSince(pair.0) <= 30 {
-                purgeable = pair.1
-            } else {
-                let value = CSDiskSpaceGetRecoveryEstimate(path as NSURL)
-                if used > 0 && value <= UInt64(used) {
-                    purgeable = Int64(value)
+            if fileSystem == "apfs" {
+                if let pair = self.purgableSpace[path], Date().timeIntervalSince(pair.0) <= 60 {
+                    purgeable = pair.1
+                } else {
+                    let value = CSDiskSpaceGetRecoveryEstimate(path as NSURL)
+                    if used > 0 && value <= UInt64(used) {
+                        purgeable = Int64(value)
+                    }
+                    self.purgableSpace[path] = (Date(), purgeable)
                 }
-                self.purgableSpace[path] = (Date(), purgeable)
             }
             
-            return free + purgeable
+            return (total, available + purgeable)
+        }
+        
+        var total: Int64 = 0
+        var free: Int64 = 0
+        
+        do {
+            let systemAttributes = try FileManager.default.attributesOfFileSystem(forPath: path.path)
+            total = (systemAttributes[FileAttributeKey.systemSize] as? NSNumber)?.int64Value ?? 0
+            free = (systemAttributes[FileAttributeKey.systemFreeSize] as? NSNumber)?.int64Value ?? 0
+        } catch let err {
+            error("error retrieving disk space: \(err.localizedDescription)", log: self.log)
         }
         
         do {
             let values = try path.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey])
             if let capacity = values.volumeAvailableCapacityForImportantUsage, capacity != 0 {
-                return capacity
-            }
-        } catch let err {
-            error("error retrieving free space #1: \(err.localizedDescription)", log: self.log)
-        }
-        
-        do {
-            let systemAttributes = try FileManager.default.attributesOfFileSystem(forPath: path.path)
-            if let freeSpace = (systemAttributes[FileAttributeKey.systemFreeSize] as? NSNumber)?.int64Value {
-                return freeSpace
+                free = capacity
             }
         } catch let err {
             error("error retrieving free space: \(err.localizedDescription)", log: self.log)
         }
         
-        return 0
-    }
-    
-    private func totalDiskSpaceInBytes(_ path: URL) -> Int64 {
-        do {
-            let systemAttributes = try FileManager.default.attributesOfFileSystem(forPath: path.path)
-            if let totalSpace = (systemAttributes[FileAttributeKey.systemSize] as? NSNumber)?.int64Value {
-                return totalSpace
-            }
-        } catch let err {
-            error("error retrieving total space: \(err.localizedDescription)", log: self.log)
-        }
-        
-        return 0
+        return (total, free)
     }
     
     private func getSMARTDetails(for BSDName: String) -> smart_t? {
@@ -402,7 +397,7 @@ internal class CapacityReader: Reader<Disks> {
         let totalWritten = deviceWritten ?? self.smartTotals[BSDName]?.written ?? Int64(rawValue(241) ?? 0) * bytesPerLBA
         
         let errorCounts = [rawValue(5), rawValue(197), rawValue(198)].compactMap({ $0 })
-
+        
         return smart_t(
             temperature: temperature,
             life: life,
