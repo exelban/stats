@@ -45,27 +45,22 @@ internal class LoadReader: Reader<CPU_Load> {
             self.CPUUsageLock.lock()
             self.usagePerCore = []
             
-            for i in 0 ..< Int32(numCPUs) {
-                var inUse: Int32
-                var total: Int32
-                if let prevCpuInfo = self.prevCpuInfo {
-                    inUse = self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_USER)]
-                        &- prevCpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_USER)]
-                        &+ self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_SYSTEM)]
-                        &- prevCpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_SYSTEM)]
-                        &+ self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_NICE)]
-                        &- prevCpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_NICE)]
-                    total = inUse &+ (self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_IDLE)]
-                        &- prevCpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_IDLE)])
-                } else {
-                    inUse = self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_USER)]
-                        &+ self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_SYSTEM)]
-                        &+ self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_NICE)]
-                    total = inUse &+ self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_IDLE)]
-                }
-                
-                if total != 0 {
-                    self.usagePerCore.append(Double(inUse) / Double(total))
+            if let prevCpuInfo = self.prevCpuInfo {
+                for i in 0 ..< Int32(self.numCPUs) {
+                    let user = UInt32(bitPattern: self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_USER)])
+                        &- UInt32(bitPattern: prevCpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_USER)])
+                    let system = UInt32(bitPattern: self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_SYSTEM)])
+                        &- UInt32(bitPattern: prevCpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_SYSTEM)])
+                    let nice = UInt32(bitPattern: self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_NICE)])
+                        &- UInt32(bitPattern: prevCpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_NICE)])
+                    let idle = UInt32(bitPattern: self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_IDLE)])
+                        &- UInt32(bitPattern: prevCpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_IDLE)])
+                    
+                    let inUse = UInt64(user) + UInt64(system) + UInt64(nice)
+                    let total = inUse + UInt64(idle)
+                    if total != 0 {
+                        self.usagePerCore.append(min(1, Double(inUse) / Double(total)))
+                    }
                 }
             }
             self.CPUUsageLock.unlock()
