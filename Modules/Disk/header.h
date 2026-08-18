@@ -29,6 +29,9 @@ struct nvme_smart_log {
     UInt32 power_on_hours[4];
     UInt32 unsafe_shutdowns[4];
     UInt32 media_errors[4];
+    UInt8  num_err_log_entries[16];
+    UInt32 warning_temp_time;
+    UInt32 critical_comp_time;
     UInt16 temp_sensor[8];
     UInt32 thm_temp1_trans_count;
     UInt32 thm_temp2_trans_count;
