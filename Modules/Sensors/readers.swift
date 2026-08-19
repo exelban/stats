@@ -17,8 +17,8 @@ internal class SensorsReader: Reader<Sensors_List> {
     
     internal var list: Sensors_List = Sensors_List()
     
-    private var lastRead: Date = Date()
-    private let firstRead: Date = Date()
+    private var lastRead: TimeInterval = ProcessInfo.processInfo.systemUptime
+    private let firstRead: TimeInterval = ProcessInfo.processInfo.systemUptime
     private var lastIOSensorsRead: Date? = nil
     
     private var HIDState: Bool {
@@ -229,8 +229,9 @@ internal class SensorsReader: Reader<Sensors_List> {
         }
         
         if let PSTRSensor = sensors.first(where: { $0.key == "PSTR"}), PSTRSensor.value > 0 {
-            let sinceLastRead = Date().timeIntervalSince(self.lastRead)
-            let sinceFirstRead = Date().timeIntervalSince(self.firstRead)
+            let now = ProcessInfo.processInfo.systemUptime
+            let sinceLastRead = now - self.lastRead
+            let sinceFirstRead = now - self.firstRead
             
             if let totalIdx = sensors.firstIndex(where: {$0.key == "Total System Consumption"}), sinceLastRead > 0 {
                 sensors[totalIdx].value += PSTRSensor.value * sinceLastRead / 3600
@@ -239,7 +240,7 @@ internal class SensorsReader: Reader<Sensors_List> {
                 }
             }
             
-            self.lastRead = Date()
+            self.lastRead = now
         }
         
         // cut off low dc in voltage
