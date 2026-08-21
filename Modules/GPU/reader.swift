@@ -255,7 +255,7 @@ internal class InfoReader: Reader<GPUs> {
     // MARK: - FPS
     
     private func setupFrames() {
-        let groups = ["DCP", "DCPEXT0", "DCPEXT1", "DCPEXT2", "DCPEXT3"]
+        let groups = ["DCP", "DCP0", "DCPEXT0", "DCPEXT1", "DCPEXT2", "DCPEXT3"]
         var merged: CFMutableDictionary? = nil
         
         for group in groups {
