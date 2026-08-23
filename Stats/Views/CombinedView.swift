@@ -187,12 +187,23 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
 }
 
 private class SeparatorLineView: NSView {
-    override func draw(_ dirtyRect: NSRect) {
-        (self.isDarkMode ? NSColor.white : NSColor.black).setFill()
-        dirtyRect.fill()
+    override var wantsUpdateLayer: Bool { true }
+    
+    override init(frame: NSRect) {
+        super.init(frame: frame)
+        self.wantsLayer = true
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func updateLayer() {
+        self.layer?.backgroundColor = (self.isDarkMode ? NSColor.white : NSColor.black).cgColor
     }
     
     override func viewDidChangeEffectiveAppearance() {
+        super.viewDidChangeEffectiveAppearance()
         self.needsDisplay = true
     }
 }
