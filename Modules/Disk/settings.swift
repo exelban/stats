@@ -36,6 +36,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     
     private var removableState: Bool = false
     private var updateIntervalValue: Int = 10
+    private var updateSMARTIntervalValue: Int = 30
     private var numberOfProcesses: Int = 5
     private var baseValue: String = "byte"
     private var speedUnitValue: String = NetworkSpeedUnitAuto
@@ -46,6 +47,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     public var selectedDiskHandler: (String) -> Void = {_ in }
     public var callback: (() -> Void) = {}
     public var setInterval: ((_ value: Int) -> Void) = {_ in }
+    public var setSMARTInterval: ((_ value: Int) -> Void) = {_ in }
     public var callbackWhenUpdateNumberOfProcesses: (() -> Void) = {}
     
     private var selectedDisk: String
@@ -61,6 +63,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         self.selectedDisk = Store.shared.string(key: "\(self.title)_disk", defaultValue: "")
         self.removableState = Store.shared.bool(key: "\(self.title)_removable", defaultValue: self.removableState)
         self.updateIntervalValue = Store.shared.int(key: "\(self.title)_updateInterval", defaultValue: self.updateIntervalValue)
+        self.updateSMARTIntervalValue = Store.shared.int(key: "\(self.title)_updateSMARTInterval", defaultValue: self.updateSMARTIntervalValue)
         self.numberOfProcesses = Store.shared.int(key: "\(self.title)_processes", defaultValue: self.numberOfProcesses)
         self.baseValue = Store.shared.string(key: "\(self.title)_base", defaultValue: self.baseValue)
         self.speedUnitValue = networkSpeedUnit(from: Store.shared.string(key: "\(self.title)_speedUnit", defaultValue: self.speedUnitValue)).key
@@ -125,12 +128,17 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
             ]))
         }
         
-        self.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("SMART data"), component: switchView(
+        self.addArrangedSubview(PreferencesSection(title: localizedString("SMART"), [
+            PreferencesRow(localizedString("SMART"), component: switchView(
                 action: #selector(self.toggleSMART),
                 state: self.SMARTState
             )),
-            PreferencesRow(localizedString("ATA SMART data"), component: switchView(
+            PreferencesRow(localizedString("Update interval"), component: selectView(
+                action: #selector(self.changeSMARTUpdateInterval),
+                items: ReaderUpdateIntervals,
+                selected: "\(self.updateSMARTIntervalValue)"
+            )),
+            PreferencesRow(localizedString("ATA SMART"), component: switchView(
                 action: #selector(self.toggleATASMART),
                 state: self.ATASMARTState
             ))
@@ -200,6 +208,12 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     @objc private func changeUpdateInterval(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String, let value = Int(key) else { return }
         self.setUpdateInterval(value: value)
+    }
+    @objc private func changeSMARTUpdateInterval(_ sender: NSMenuItem) {
+        guard let key = sender.representedObject as? String, let value = Int(key) else { return }
+        self.updateSMARTIntervalValue = value
+        Store.shared.set(key: "\(self.title)_updateSMARTInterval", value: value)
+        self.setSMARTInterval(value)
     }
     public func setUpdateInterval(value: Int) {
         self.updateIntervalValue = value

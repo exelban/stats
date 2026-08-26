@@ -305,48 +305,6 @@ internal class Preview: PreviewWrapper {
                     self.bsdNameValueField?.stringValue = update.BSDName.isEmpty ? localizedString("Unknown") : update.BSDName
                     self.encryptedValueField?.stringValue = localizedString(update.encrypted ? "Yes" : "No")
                     self.writableValueField?.stringValue = localizedString(update.writable ? "Yes" : "No")
-                    
-                    if let smart = update.smart {
-                        self.smartTotalReadValueField?.toolTip = "\(smart.totalRead / (512 * 1000))"
-                        self.smartTotalWrittenValueField?.toolTip = "\(smart.totalWritten / (512 * 1000))"
-                        self.smartTotalReadValueField?.stringValue = Units(bytes: smart.totalRead).getReadableMemory()
-                        self.smartTotalWrittenValueField?.stringValue = Units(bytes: smart.totalWritten).getReadableMemory()
-                        
-                        self.temperatureValueField?.stringValue = "\(temperature(Double(smart.temperature)))"
-                        self.healthValueField?.stringValue = "\(smart.life)%"
-                        
-                        self.powerCyclesValueField?.stringValue = "\(smart.powerCycles)"
-                        self.powerOnHoursValueField?.stringValue = "\(smart.powerOnHours)"
-                        
-                        if let warning = smart.criticalWarning {
-                            let list = smartCriticalWarnings(warning)
-                            self.criticalWarningValueField?.stringValue = list.isEmpty ? localizedString("None") : list.joined(separator: ", ")
-                            self.criticalWarningValueField?.textColor = list.isEmpty ? .textColor : .systemRed
-                        } else {
-                            self.criticalWarningValueField?.stringValue = localizedString("Unavailable")
-                            self.criticalWarningValueField?.textColor = .textColor
-                        }
-                        
-                        if let spare = smart.availableSpare {
-                            self.availableSpareValueField?.stringValue = "\(spare)%"
-                            if let threshold = smart.spareThreshold {
-                                self.availableSpareValueField?.textColor = spare < threshold ? .systemRed : .textColor
-                                self.availableSpareValueField?.toolTip = "\(localizedString("Threshold")): \(threshold)%"
-                            }
-                        } else {
-                            self.availableSpareValueField?.stringValue = localizedString("Unavailable")
-                        }
-                        
-                        self.unsafeShutdownsValueField?.stringValue = smart.unsafeShutdowns.map { "\($0)" } ?? localizedString("Unavailable")
-                        
-                        if let mediaErrors = smart.mediaErrors {
-                            self.mediaErrorsValueField?.stringValue = "\(mediaErrors)"
-                            self.mediaErrorsValueField?.textColor = mediaErrors > 0 ? .systemRed : .textColor
-                        } else {
-                            self.mediaErrorsValueField?.stringValue = localizedString("Unavailable")
-                            self.mediaErrorsValueField?.textColor = .textColor
-                        }
-                    }
                 }
                 
                 let drives = value.filter(where: { $0.uuid != self.main?.id })
@@ -426,6 +384,53 @@ internal class Preview: PreviewWrapper {
                 }
                 
                 self.initialized = true
+            }
+        })
+    }
+    
+    internal func smartCallback(_ value: Disks) {
+        DispatchQueue.main.async(execute: {
+            guard (self.window?.isVisible ?? false) || !self.initialized else { return }
+            guard let main = self.main, let smart = value.first(where: { $0.uuid == main.id })?.smart else { return }
+            
+            self.smartTotalReadValueField?.toolTip = "\(smart.totalRead / (512 * 1000))"
+            self.smartTotalWrittenValueField?.toolTip = "\(smart.totalWritten / (512 * 1000))"
+            self.smartTotalReadValueField?.stringValue = Units(bytes: smart.totalRead).getReadableMemory()
+            self.smartTotalWrittenValueField?.stringValue = Units(bytes: smart.totalWritten).getReadableMemory()
+            
+            self.temperatureValueField?.stringValue = "\(temperature(Double(smart.temperature)))"
+            self.healthValueField?.stringValue = "\(smart.life)%"
+            
+            self.powerCyclesValueField?.stringValue = "\(smart.powerCycles)"
+            self.powerOnHoursValueField?.stringValue = "\(smart.powerOnHours)"
+            
+            if let warning = smart.criticalWarning {
+                let list = smartCriticalWarnings(warning)
+                self.criticalWarningValueField?.stringValue = list.isEmpty ? localizedString("None") : list.joined(separator: ", ")
+                self.criticalWarningValueField?.textColor = list.isEmpty ? .textColor : .systemRed
+            } else {
+                self.criticalWarningValueField?.stringValue = localizedString("Unavailable")
+                self.criticalWarningValueField?.textColor = .textColor
+            }
+            
+            if let spare = smart.availableSpare {
+                self.availableSpareValueField?.stringValue = "\(spare)%"
+                if let threshold = smart.spareThreshold {
+                    self.availableSpareValueField?.textColor = spare < threshold ? .systemRed : .textColor
+                    self.availableSpareValueField?.toolTip = "\(localizedString("Threshold")): \(threshold)%"
+                }
+            } else {
+                self.availableSpareValueField?.stringValue = localizedString("Unavailable")
+            }
+            
+            self.unsafeShutdownsValueField?.stringValue = smart.unsafeShutdowns.map { "\($0)" } ?? localizedString("Unavailable")
+            
+            if let mediaErrors = smart.mediaErrors {
+                self.mediaErrorsValueField?.stringValue = "\(mediaErrors)"
+                self.mediaErrorsValueField?.textColor = mediaErrors > 0 ? .systemRed : .textColor
+            } else {
+                self.mediaErrorsValueField?.stringValue = localizedString("Unavailable")
+                self.mediaErrorsValueField?.textColor = .textColor
             }
         })
     }
