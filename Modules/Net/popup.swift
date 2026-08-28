@@ -180,7 +180,7 @@ internal class Popup: PopupWrapper {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 90))
         view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
         
-        let leftPart: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width / 2, height: view.frame.height))
+        let leftPart: NSView = NSView(frame: NSRect(x: isRTL ? view.frame.width / 2 : 0, y: 0, width: view.frame.width / 2, height: view.frame.height))
         let downloadFields = self.topValueView(leftPart, title: localizedString("Downloading"), color: self.downloadColor)
         self.downloadContainerView = leftPart
         self.downloadView = downloadFields.0
@@ -188,7 +188,7 @@ internal class Popup: PopupWrapper {
         self.downloadUnitField = downloadFields.2
         self.downloadStateView = downloadFields.3
         
-        let rightPart: NSView = NSView(frame: NSRect(x: view.frame.width / 2, y: 0, width: view.frame.width / 2, height: view.frame.height))
+        let rightPart: NSView = NSView(frame: NSRect(x: isRTL ? 0 : view.frame.width / 2, y: 0, width: view.frame.width / 2, height: view.frame.height))
         let uploadFields = self.topValueView(rightPart, title: localizedString("Uploading"), color: self.uploadColor)
         self.uploadContainerView = rightPart
         self.uploadView = uploadFields.0

@@ -289,7 +289,7 @@ private class SetupView_preset: NSStackView {
         container.alignment = .leading
         
         let message: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: setupSize.width - 80, height: 16))
-        message.alignment = .left
+        message.alignment = .natural
         message.font = NSFont.systemFont(ofSize: 11, weight: .regular)
         message.textColor = .secondaryLabelColor
         message.stringValue = localizedString("select_preset_message")

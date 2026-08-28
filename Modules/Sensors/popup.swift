@@ -552,7 +552,7 @@ internal class FanView: NSStackView {
         let value = self.fan.value
         let valueField: NSTextField = TextView()
         valueField.font = NSFont.systemFont(ofSize: 13, weight: .regular)
-        valueField.alignment = .right
+        valueField.alignment = .trailing
         valueField.stringValue = self.fanValue == .percentage ? "\(self.fan.percentage)%" : self.fan.formattedValue
         valueField.toolTip = "\(value)"
         

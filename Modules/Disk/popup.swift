@@ -482,14 +482,14 @@ internal class ChartView: NSStackView {
     private let readValueField: ValueField = {
         let field = ValueField("0 KB/s")
         field.font = NSFont.systemFont(ofSize: 11, weight: .regular)
-        field.alignment = .right
+        field.alignment = .trailing
         field.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return field
     }()
     private let writeValueField: ValueField = {
         let field = ValueField("0 KB/s")
         field.font = NSFont.systemFont(ofSize: 11, weight: .regular)
-        field.alignment = .right
+        field.alignment = .trailing
         field.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return field
     }()
@@ -631,14 +631,14 @@ private class LegendView: NSView {
         let height: CGFloat = 14
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
         
-        let legendField = TextView(frame: NSRect(x: 0, y: (view.frame.height-height)/2, width: view.frame.width - 40, height: height))
+        let legendField = TextView(frame: NSRect(x: isRTL ? 40 : 0, y: (view.frame.height-height)/2, width: view.frame.width - 40, height: height))
         legendField.font = NSFont.systemFont(ofSize: 11, weight: .light)
         legendField.stringValue = self.legend(free: free)
         legendField.cell?.truncatesLastVisibleLine = true
         
-        let percentageField = TextView(frame: NSRect(x: view.frame.width - 40, y: (view.frame.height-height)/2, width: 40, height: height))
+        let percentageField = TextView(frame: NSRect(x: isRTL ? 0 : view.frame.width - 40, y: (view.frame.height-height)/2, width: 40, height: height))
         percentageField.font = NSFont.systemFont(ofSize: 11, weight: .regular)
-        percentageField.alignment = .right
+        percentageField.alignment = .trailing
         percentageField.stringValue = self.percentage(free: free)
         
         view.addSubview(legendField)

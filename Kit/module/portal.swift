@@ -89,7 +89,7 @@ public class PortalHeader: NSStackView {
         title.textColor = .textColor
         title.backgroundColor = .clear
         title.canDrawSubviewsIntoLayer = true
-        title.alignment = .left
+        title.alignment = .natural
         title.font = NSFont.systemFont(ofSize: 12, weight: .medium)
         title.stringValue = localizedString(name)
         

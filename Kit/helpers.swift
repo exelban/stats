@@ -299,7 +299,7 @@ public class ValueField: NSTextField {
         
         self.stringValue = value
         self.textColor = .textColor
-        self.alignment = .right
+        self.alignment = .trailing
         self.font = NSFont.systemFont(ofSize: 13, weight: .regular)
         
         self.cell?.usesSingleLineMode = true
@@ -365,6 +365,16 @@ public class StatusBadgeView: NSStackView {
         self.status = value
         self.labelField.stringValue = self.label
         self.layer?.backgroundColor = self.color
+    }
+}
+
+public var isRTL: Bool {
+    NSApp.userInterfaceLayoutDirection == .rightToLeft
+}
+
+public extension NSTextAlignment {
+    static var trailing: NSTextAlignment {
+        isRTL ? .left : .right
     }
 }
 
@@ -446,10 +456,10 @@ public func popupBadgeRow(_ view: NSView? = nil, title: String, status: Bool? = 
     let rowView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: width, height: height))
     
     let labelWidth = title.widthOfString(usingFont: .systemFont(ofSize: 12, weight: .regular)) + 4
-    let labelView: LabelField = LabelField(frame: NSRect(x: 0, y: (height-16)/2, width: labelWidth, height: 16), title)
+    let labelView: LabelField = LabelField(frame: NSRect(x: isRTL ? width - labelWidth : 0, y: (height-16)/2, width: labelWidth, height: 16), title)
     
-    let badgeView = StatusBadgeView(frame: NSRect(x: rowView.frame.width - 50, y: (height-14)/2, width: 50, height: 14), status, ok: ok, notOk: notOk)
-    badgeView.autoresizingMask = [.minXMargin]
+    let badgeView = StatusBadgeView(frame: NSRect(x: isRTL ? 0 : rowView.frame.width - 50, y: (height-14)/2, width: 50, height: 14), status, ok: ok, notOk: notOk)
+    badgeView.autoresizingMask = isRTL ? [.maxXMargin] : [.minXMargin]
     
     rowView.addSubview(labelView)
     rowView.addSubview(badgeView)
@@ -472,8 +482,8 @@ public func popupRow(_ view: NSView? = nil, title: String, value: String, multil
     let rowView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: width, height: height))
     
     let labelWidth = title.widthOfString(usingFont: .systemFont(ofSize: 12, weight: .regular)) + 4
-    let labelView: LabelField = LabelField(frame: NSRect(x: 0, y: ((22-16)/2) + ((lines-1)*16), width: labelWidth, height: 16), title)
-    let valueView: ValueField = ValueField(frame: NSRect(x: labelWidth, y: (22-16)/2, width: rowView.frame.width - labelWidth, height: multiline ? 16*lines : 16), value)
+    let labelView: LabelField = LabelField(frame: NSRect(x: isRTL ? width - labelWidth : 0, y: ((22-16)/2) + ((lines-1)*16), width: labelWidth, height: 16), title)
+    let valueView: ValueField = ValueField(frame: NSRect(x: isRTL ? 0 : labelWidth, y: (22-16)/2, width: rowView.frame.width - labelWidth, height: multiline ? 16*lines : 16), value)
     
     if multiline {
         valueView.cell?.usesSingleLineMode = false
@@ -519,10 +529,11 @@ public func portalRow(_ v: NSStackView, title: String, value: String = "", isSel
 public func popupWithColorRow(_ view: NSView, color: NSColor, title: String, value: String) -> (ColorBlock, LabelField, ValueField) {
     let rowView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 22))
     
-    let colorView: ColorBlock = ColorBlock(frame: NSRect(x: 3, y: 6, width: 10, height: 10), color: color)
+    let width = rowView.frame.width
+    let colorView: ColorBlock = ColorBlock(frame: NSRect(x: isRTL ? width - 13 : 3, y: 6, width: 10, height: 10), color: color)
     let labelWidth = min(180, title.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .regular)) + 5)
-    let labelView: LabelField = LabelField(frame: NSRect(x: 18, y: (22-16)/2, width: labelWidth, height: 16), title)
-    let valueView: ValueField = ValueField(frame: NSRect(x: 18 + labelWidth, y: (22-16)/2, width: rowView.frame.width - labelWidth - 18, height: 16), value)
+    let labelView: LabelField = LabelField(frame: NSRect(x: isRTL ? width - 18 - labelWidth : 18, y: (22-16)/2, width: labelWidth, height: 16), title)
+    let valueView: ValueField = ValueField(frame: NSRect(x: isRTL ? 0 : 18 + labelWidth, y: (22-16)/2, width: width - labelWidth - 18, height: 16), value)
     
     rowView.addSubview(colorView)
     rowView.addSubview(labelView)

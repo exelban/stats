@@ -630,7 +630,7 @@ internal class ClockView: NSStackView {
         container.orientation = .vertical
         container.spacing = 2
         container.distribution = .fillEqually
-        container.alignment = .left
+        container.alignment = .leading
         
         self.nameField.font = NSFont.systemFont(ofSize: nameSize, weight: .medium)
         self.nameField.textColor = .tertiaryLabelColor
@@ -649,15 +649,15 @@ internal class ClockView: NSStackView {
         details.orientation = .vertical
         details.spacing = 2
         details.distribution = .fillEqually
-        details.alignment = .right
+        details.alignment = .trailing
         
         self.tzField.font = NSFont.systemFont(ofSize: nameSize, weight: .medium)
         self.tzField.textColor = .tertiaryLabelColor
-        self.tzField.alignment = .right
+        self.tzField.alignment = .trailing
         
         self.dateField.font = NSFont.systemFont(ofSize: nameSize, weight: .regular)
         self.dateField.textColor = .tertiaryLabelColor
-        self.dateField.alignment = .right
+        self.dateField.alignment = .trailing
         
         details.addArrangedSubview(self.tzField)
         details.addArrangedSubview(self.dateField)

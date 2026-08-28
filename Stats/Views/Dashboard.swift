@@ -229,11 +229,11 @@ class Dashboard: NSStackView {
         scrollView.stackView.addArrangedSubview(self.deviceView())
         
         scrollView.stackView.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Processor"), "", component: textView(self.processorValue, alignment: .right)),
-            PreferencesRow(localizedString("Memory"), component: textView(self.memoryValue, alignment: .right)),
-            PreferencesRow(localizedString("Graphics"), component: textView(self.graphicsValue, alignment: .right)),
-            PreferencesRow(localizedString("Disks"), component: textView(self.disksValue, alignment: .right)),
-            PreferencesRow(localizedString("Display"), "", component: textView(self.displaysValue, alignment: .right))
+            PreferencesRow(localizedString("Processor"), "", component: textView(self.processorValue, alignment: .trailing)),
+            PreferencesRow(localizedString("Memory"), component: textView(self.memoryValue, alignment: .trailing)),
+            PreferencesRow(localizedString("Graphics"), component: textView(self.graphicsValue, alignment: .trailing)),
+            PreferencesRow(localizedString("Disks"), component: textView(self.disksValue, alignment: .trailing)),
+            PreferencesRow(localizedString("Display"), "", component: textView(self.displaysValue, alignment: .trailing))
         ]))
         
         scrollView.stackView.addArrangedSubview(PreferencesSection([

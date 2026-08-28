@@ -306,7 +306,7 @@ public extension NSView {
         return button
     }
     
-    func textView(_ value: String, alignment: NSTextAlignment = .left) -> NSTextField {
+    func textView(_ value: String, alignment: NSTextAlignment = .natural) -> NSTextField {
         let field: NSTextField = TextView()
         field.font = NSFont.systemFont(ofSize: 13, weight: .regular)
         field.stringValue = value

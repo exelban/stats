@@ -72,7 +72,7 @@ public class ProcessesView: NSStackView {
             field.cell?.truncatesLastVisibleLine = true
             field.toolTip = v.title
             field.stringValue = v.title
-            field.alignment = .right
+            field.alignment = .trailing
             field.textColor = .tertiaryLabelColor
             field.font = NSFont.systemFont(ofSize: 11, weight: .medium)
             view.addArrangedSubview(field)
@@ -82,7 +82,7 @@ public class ProcessesView: NSStackView {
                     let container: NSView = NSView()
                     container.widthAnchor.constraint(equalToConstant: 60).isActive = true
                     container.heightAnchor.constraint(equalToConstant: ProcessView.height).isActive = true
-                    let colorBlock: ColorView = ColorView(frame: NSRect(x: 48, y: 5, width: 12, height: 12), color: color, state: true, radius: 4)
+                    let colorBlock: ColorView = ColorView(frame: NSRect(x: isRTL ? 0 : 48, y: 5, width: 12, height: 12), color: color, state: true, radius: 4)
                     colorBlock.toolTip = v.title
                     colorBlock.widthAnchor.constraint(equalToConstant: 12).isActive = true
                     colorBlock.heightAnchor.constraint(equalToConstant: 12).isActive = true

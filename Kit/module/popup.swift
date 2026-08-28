@@ -267,10 +267,7 @@ internal class PopupView: NSView {
         self.setFrameSize(size)
         self.foreground.setFrameSize(size)
         self.background.setFrameSize(size)
-        self.body.setFrameSize(NSSize(
-            width: size.width - (Constants.Popup.margins*2) + (isScrollVisible ? 20 : 0),
-            height: size.height - Constants.Popup.headerHeight - (Constants.Popup.margins*2)
-        ))
+        self.resizeBody(size, scrollVisible: isScrollVisible)
         self.header.setFrameOrigin(NSPoint(x: 0, y: size.height - Constants.Popup.headerHeight))
         
         if let view = view {
@@ -331,10 +328,7 @@ internal class PopupView: NSView {
         self.window?.setContentSize(windowSize)
         self.foreground.setFrameSize(windowSize)
         self.background.setFrameSize(windowSize)
-        self.body.setFrameSize(NSSize(
-            width: windowSize.width - (Constants.Popup.margins*2) + (isScrollVisible ? 20 : 0),
-            height: windowSize.height - Constants.Popup.headerHeight - (Constants.Popup.margins*2)
-        ))
+        self.resizeBody(windowSize, scrollVisible: isScrollVisible)
         self.header.setFrameOrigin(NSPoint(
             x: self.header.frame.origin.x,
             y: self.body.frame.height + (Constants.Popup.margins*2)
@@ -347,6 +341,17 @@ internal class PopupView: NSView {
                 y: self.body.documentVisibleRect.origin.y - (diff < 0 ? diff : 0)
             ))
         }
+    }
+    
+    private func resizeBody(_ windowSize: NSSize, scrollVisible: Bool) {
+        let offset: CGFloat = scrollVisible ? 20 : 0
+        let isRTL = self.body.userInterfaceLayoutDirection == .rightToLeft
+        self.body.frame = NSRect(
+            x: Constants.Popup.margins - (isRTL ? offset : 0),
+            y: Constants.Popup.margins,
+            width: windowSize.width - (Constants.Popup.margins*2) + offset,
+            height: windowSize.height - Constants.Popup.headerHeight - (Constants.Popup.margins*2)
+        )
     }
 }
 

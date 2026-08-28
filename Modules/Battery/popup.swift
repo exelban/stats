@@ -192,7 +192,7 @@ internal class Popup: PopupWrapper {
                     max.textColor = .tertiaryLabelColor
                     let designed = LabelField(localizedString("Designed capacity"), size: 8)
                     designed.textColor = .tertiaryLabelColor
-                    designed.alignment = .right
+                    designed.alignment = .trailing
                     
                     row.addArrangedSubview(max)
                     row.addArrangedSubview(NSView())
@@ -211,7 +211,7 @@ internal class Popup: PopupWrapper {
                     max.textColor = .secondaryLabelColor
                     let designed = LabelField("0 mAh", size: 11)
                     designed.textColor = .secondaryLabelColor
-                    designed.alignment = .right
+                    designed.alignment = .trailing
                     
                     self.maxCapacityField = max
                     self.designedCapacityField = designed
