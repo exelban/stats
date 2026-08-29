@@ -10,6 +10,7 @@
 //
 
 import Foundation
+import AppKit
 import Kit
 import CoreBluetooth
 import IOBluetooth
@@ -34,7 +35,7 @@ private struct ioDevice {
 internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBPeripheralDelegate {
     private var devices: [BLEDevice] = []
     private var devicesToRemove: [UUID] = []
-    private var manager: CBCentralManager!
+    private var manager: CBCentralManager?
     
     private var characteristicsDict: [UUID: CBCharacteristic] = [:]
     private var bleLevels: [UUID: KeyValue_t] = [:]
@@ -44,7 +45,57 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
     
     init(callback: @escaping (T?) -> Void = {_ in }) {
         super.init(.bluetooth, callback: callback)
-        self.manager = CBCentralManager(delegate: self, queue: nil)
+        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.willSleep), name: NSWorkspace.willSleepNotification, object: nil)
+        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.didWake), name: NSWorkspace.didWakeNotification, object: nil)
+    }
+    
+    deinit {
+        NSWorkspace.shared.notificationCenter.removeObserver(self)
+    }
+    
+    public override func start() {
+        super.start()
+        if self.manager == nil {
+            self.manager = CBCentralManager(delegate: self, queue: nil)
+        }
+    }
+    
+    public override func stop() {
+        super.stop()
+        self.releaseManager()
+    }
+    
+    public override func terminate() {
+        self.releaseManager()
+    }
+    
+    private func releaseManager() {
+        guard let manager = self.manager else { return }
+        if manager.isScanning {
+            manager.stopScan()
+        }
+        manager.delegate = nil
+        self.manager = nil
+        self.characteristicsDict = [:]
+        for i in self.devices.indices {
+            self.devices[i].peripheral = nil
+            self.devices[i].isPeripheralInitialized = false
+        }
+    }
+    
+    private func startScan(_ central: CBCentralManager) {
+        guard self.active, central.state == .poweredOn, !central.isScanning else { return }
+        central.scanForPeripherals(withServices: [DevicesReader.batteryServiceUUID], options: [CBCentralManagerScanOptionAllowDuplicatesKey: false])
+    }
+    
+    @objc private func willSleep() {
+        guard let manager = self.manager, manager.isScanning else { return }
+        manager.stopScan()
+    }
+    
+    @objc private func didWake() {
+        guard let manager = self.manager else { return }
+        self.startScan(manager)
     }
     
     public override func read() {
@@ -107,7 +158,7 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
             ))
         }
         
-        let peripherals = self.manager.retrievePeripherals(withIdentifiers: self.devices.compactMap({ $0.uuid }))
+        let peripherals = self.manager?.retrievePeripherals(withIdentifiers: self.devices.compactMap({ $0.uuid })) ?? []
         peripherals.forEach { (p: CBPeripheral) in
             guard let idx = self.devices.firstIndex(where: { $0.uuid == p.identifier }) else {
                 return
@@ -118,8 +169,8 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
             }
             
             if p.state == .disconnected {
-                if self.manager.isScanning {
-                    self.manager.connect(p, options: nil)
+                if let manager = self.manager, manager.state == .poweredOn {
+                    manager.connect(p, options: nil)
                 }
             } else if p.state == .disconnecting {
                 self.devicesToRemove.append(p.identifier)
@@ -324,10 +375,10 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
     // MARK: - CBCentralManager
     
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        if central.state == .poweredOff {
+        if central.state == .poweredOn && self.active {
+            self.startScan(central)
+        } else if central.isScanning {
             central.stopScan()
-        } else if central.state == .poweredOn {
-            central.scanForPeripherals(withServices: nil, options: nil)
         }
     }
     
