@@ -107,18 +107,60 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         set { self.variablesQueue.sync { self._usage = newValue } }
     }
     
+    private let virtualInterfacePrefixes = ["utun", "ipsec", "ppp", "tun", "tap", "gif", "stf", "wg"]
+    
     private var primaryInterface: String {
         get {
-            if let global = SCDynamicStoreCopyValue(nil, "State:/Network/Global/IPv4" as CFString), let name = global["PrimaryInterface"] as? String {
-                return name
+            guard let global = SCDynamicStoreCopyValue(nil, "State:/Network/Global/IPv4" as CFString), let name = global["PrimaryInterface"] as? String else {
+                return ""
             }
-            return ""
+            if self.isVirtualInterface(name), let physical = self.physicalInterface() {
+                return physical
+            }
+            return name
         }
     }
     
     private var interfaceID: String {
         get { Store.shared.string(key: "Network_interface", defaultValue: self.primaryInterface) }
         set { Store.shared.set(key: "Network_interface", value: newValue) }
+    }
+    private var lastInterfaceID: String = ""
+    
+    private func isVirtualInterface(_ name: String) -> Bool {
+        return self.virtualInterfacePrefixes.contains(where: { name.hasPrefix($0) })
+    }
+    
+    private func physicalInterface() -> String? {
+        if let setup = SCDynamicStoreCopyValue(nil, "Setup:/Network/Global/IPv4" as CFString), let order = setup["ServiceOrder"] as? [String] {
+            for serviceID in order {
+                guard let service = SCDynamicStoreCopyValue(nil, "State:/Network/Service/\(serviceID)/IPv4" as CFString) as? [String: Any],
+                      service["Router"] != nil, let name = service["InterfaceName"] as? String, !self.isVirtualInterface(name) else {
+                    continue
+                }
+                return name
+            }
+        }
+        
+        var interfaceAddresses: UnsafeMutablePointer<ifaddrs>? = nil
+        guard getifaddrs(&interfaceAddresses) == 0 else { return nil }
+        defer { freeifaddrs(interfaceAddresses) }
+        
+        var pointer = interfaceAddresses
+        while let current = pointer {
+            defer { pointer = current.pointee.ifa_next }
+            let flags = Int32(current.pointee.ifa_flags)
+            guard flags & IFF_UP != 0, flags & IFF_RUNNING != 0, flags & IFF_LOOPBACK == 0, flags & IFF_POINTOPOINT == 0,
+                  let addr = current.pointee.ifa_addr, addr.pointee.sa_family == UInt8(AF_INET) else {
+                continue
+            }
+            let name = String(cString: current.pointee.ifa_name)
+            if !self.isVirtualInterface(name) {
+                return name
+            }
+        }
+        
+        return nil
     }
     
     private var reader: String {
@@ -217,6 +259,14 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     
     public override func read() {
         self.checkUsageReset()
+        
+        let interfaceID = self.interfaceID
+        if interfaceID != self.lastInterfaceID {
+            self.lastInterfaceID = interfaceID
+            self.usage.bandwidth = Bandwidth()
+            self.lastDetailsReadTS = .distantPast
+        }
+        
         self.requestDetails()
         
         let current: Bandwidth
@@ -374,12 +424,15 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         let now = Date()
         if now.timeIntervalSince(self.lastDetailsReadTS) < 15 { return }
         
+        let interfaceID = self.interfaceID
+        var found = false
         for interface in SCNetworkInterfaceCopyAll() as NSArray {
-            if let bsdName = SCNetworkInterfaceGetBSDName(interface as! SCNetworkInterface), bsdName as String == self.interfaceID,
+            if let bsdName = SCNetworkInterfaceGetBSDName(interface as! SCNetworkInterface), bsdName as String == interfaceID,
                let type = SCNetworkInterfaceGetInterfaceType(interface as! SCNetworkInterface),
                let displayName = SCNetworkInterfaceGetLocalizedDisplayName(interface as! SCNetworkInterface),
                let address = SCNetworkInterfaceGetHardwareAddressString(interface as! SCNetworkInterface) {
                 self.usage.interface = Network_interface(displayName: displayName as String, BSDName: bsdName as String, address: address as String)
+                found = true
                 
                 switch type {
                 case kSCNetworkInterfaceTypeEthernet:
@@ -396,7 +449,7 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         
         if let prefs = SCPreferencesCreate(nil, "Stats" as CFString, nil), let services = SCNetworkServiceCopyAll(prefs) as? [SCNetworkService] {
             for service in services {
-                if let interface = SCNetworkServiceGetInterface(service), let name = SCNetworkInterfaceGetBSDName(interface), name as String == self.interfaceID,
+                if let interface = SCNetworkServiceGetInterface(service), let name = SCNetworkInterfaceGetBSDName(interface), name as String == interfaceID,
                    let serviceID = SCNetworkServiceGetServiceID(service) {
                     let key = "State:/Network/Service/\(serviceID)/DNS" as CFString
                     if let settings = SCDynamicStoreCopyValue(nil, key) as? [String: Any] {
@@ -406,7 +459,13 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
             }
         }
         
-        guard self.usage.interface != nil else { return }
+        guard found else {
+            self.usage.interface = nil
+            self.usage.connectionType = nil
+            self.usage.wifiDetails.reset()
+            self.lastDetailsReadTS = Date()
+            return
+        }
         
         if self.usage.connectionType != .wifi {
             self.usage.wifiDetails.reset()
