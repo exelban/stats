@@ -116,7 +116,8 @@ internal class UsageReader: Reader<Battery_Usage> {
                 }
                 self.usage.ACwatts = ACwatts
                 
-                self.usage.batteryPower = SMC.shared.getValue("PPBR") ?? (self.usage.voltage * (Double(self.usage.current) / 1000))
+                let calculatedPower = self.usage.voltage * (Double(self.usage.current) / 1000)
+                self.usage.batteryPower = isARM ? (SMC.shared.getValue("PPBR") ?? calculatedPower) : calculatedPower
                 self.usage.adapterPower = SMC.shared.getValue("PDTR") ?? 0
                 self.usage.adapterVoltage = 0
                 if !self.usage.isBatteryPowered, let adapterDetails = self.getAdapterDetails() {
