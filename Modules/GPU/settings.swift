@@ -12,6 +12,26 @@
 import Cocoa
 import Kit
 
+var textWidgetHelp = """
+<h2>Description</h2>
+You can use a combination of any of the variables.
+<h3>Examples:</h3>
+<ul>
+<li>$usage - $fps</li>
+<li>GPU: $usage ($temperature)</li>
+<li>Render: $render, Tiler: $tiler</li>
+</ul>
+<h2>Available variables</h2>
+<ul>
+<li><b>$usage</b>: <small>GPU utilization.</small></li>
+<li><b>$render</b>: <small>Render utilization.</small></li>
+<li><b>$tiler</b>: <small>Tiler utilization.</small></li>
+<li><b>$ane</b>: <small>Apple Neural Engine utilization.</small></li>
+<li><b>$fps</b>: <small>Frames per second.</small></li>
+<li><b>$temperature</b>: <small>GPU temperature.</small></li>
+</ul>
+"""
+
 internal class Settings: NSStackView, Settings_v {
     private var updateIntervalValue: Int = 1
     private var selectedGPU: String

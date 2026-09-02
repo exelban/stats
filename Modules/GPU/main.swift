@@ -125,6 +125,10 @@ public class GPU: Module {
         self.userDefaults?.bool(forKey: "systemWidgetsUpdates_state") ?? false
     }
     
+    private var textValue: String {
+        Store.shared.string(key: "\(self.name)_textWidgetValue", defaultValue: "$usage - $fps")
+    }
+    
     public init() {
         self.popupView = Popup(.GPU)
         self.settingsView = Settings(.GPU)
@@ -191,6 +195,28 @@ public class GPU: Module {
                 widget.setValue([
                     ColorValue(utilization, color: NSColor.systemBlue)
                 ])
+            case let widget as TextWidget:
+                var text = "\(self.textValue)"
+                let pairs = TextWidget.parseText(text)
+                pairs.forEach { pair in
+                    var replacement: String? = nil
+                    
+                    switch pair.key {
+                    case "$usage": replacement = "\(Int(utilization*100))%"
+                    case "$render": replacement = "\(Int((selectedGPU.renderUtilization ?? 0)*100))%"
+                    case "$tiler": replacement = "\(Int((selectedGPU.tilerUtilization ?? 0)*100))%"
+                    case "$ane": replacement = "\(Int((selectedGPU.aneUtilization ?? 0)*100))%"
+                    case "$fps": replacement = "\(Int((selectedGPU.fps ?? 0).rounded()))"
+                    case "$temperature": replacement = temperature(selectedGPU.temperature ?? 0)
+                    default: return
+                    }
+                    
+                    if let replacement {
+                        let key = pair.value.isEmpty ? pair.key : "\(pair.key).\(pair.value)"
+                        text = text.replacingOccurrences(of: key, with: replacement)
+                    }
+                }
+                widget.setValue(text)
             default: break
             }
         }
