@@ -1193,15 +1193,38 @@ public class SMCHelper {
         helper.version { installedHelperVersion in
             guard installedHelperVersion != helperVersion else { return }
             print("new version of SMC helper is detected (\(installedHelperVersion) -> \(helperVersion)), going to update...")
-            self.uninstall(silent: true)
-            self.install { state in
-                if case .enabled = state {
-                    print("the new version of SMC helper was successfully installed")
-                } else {
-                    print("error when installing a new version of the SMC helper")
-                }
+            self.reinstall()
+        }
+    }
+    
+    private func reinstall() {
+        let completion: (SMCHelperInstallState) -> Void = { state in
+            if case .enabled = state {
+                print("the new version of SMC helper was successfully installed")
+            } else {
+                print("error when installing a new version of the SMC helper")
             }
         }
+        
+        if #available(macOS 13, *) {
+            if let count = SMC.shared.getValue("FNum") {
+                for i in 0..<Int(count) {
+                    self.setFanMode(i, mode: 0)
+                }
+            }
+            SMAppService.daemon(plistName: self.plistName).unregister { error in
+                if let error {
+                    print("failed to unregister SMC helper daemon: \(error.localizedDescription)")
+                }
+                self.connection?.invalidate()
+                self.connection = nil
+                self.install(completion: completion)
+            }
+            return
+        }
+        
+        self.uninstall(silent: true)
+        self.install(completion: completion)
     }
     
     public func install(completion: @escaping (_ state: SMCHelperInstallState) -> Void) {
