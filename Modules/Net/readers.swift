@@ -877,6 +877,8 @@ internal class ConnectivityReader: Reader<Network_Connectivity> {
         set { self.variablesQueue.sync { self._isPinging = newValue } }
     }
     
+    private var _isPreparing: Bool = false
+    
     private var _latency: Double? = nil
     private var latency: Double? {
         get { self.variablesQueue.sync { self._latency } }
@@ -929,9 +931,18 @@ internal class ConnectivityReader: Reader<Network_Connectivity> {
     }
     
     private func prepare() {
+        let shouldPrepare: Bool = self.variablesQueue.sync {
+            if self._isPreparing { return false }
+            self._isPreparing = true
+            return true
+        }
+        guard shouldPrepare else { return }
+        
         DispatchQueue.global(qos: .background).async {
             self.addr = self.resolve()
+            self.closeConn()
             self.openConn()
+            self.variablesQueue.sync { self._isPreparing = false }
             self.read()
         }
     }
@@ -1136,19 +1147,24 @@ internal class ConnectivityReader: Reader<Network_Connectivity> {
         let unmanagedSocketInfo = Unmanaged.passRetained(info)
         self.socketInfo = unmanagedSocketInfo
         var context = CFSocketContext(version: 0, info: unmanagedSocketInfo.toOpaque(), retain: nil, release: nil, copyDescription: nil)
-        self.socket = CFSocketCreate(kCFAllocatorDefault, AF_INET, SOCK_DGRAM, IPPROTO_ICMP, CFSocketCallBackType.dataCallBack.rawValue, { _, callBackType, _, data, info in
+        guard let socket = CFSocketCreate(kCFAllocatorDefault, AF_INET, SOCK_DGRAM, IPPROTO_ICMP, CFSocketCallBackType.dataCallBack.rawValue, { _, callBackType, _, data, info in
             guard let info = info, let data = data else { return }
             if (callBackType as CFSocketCallBackType) == CFSocketCallBackType.dataCallBack {
                 let cfdata = Unmanaged<CFData>.fromOpaque(data).takeUnretainedValue()
                 let wrapper = Unmanaged<ConnectivityReaderWrapper>.fromOpaque(info).takeUnretainedValue()
                 wrapper.reader?.socketCallback(data: cfdata as Data)
             }
-        }, &context)
-        let handle = CFSocketGetNative(self.socket)
+        }, &context) else {
+            unmanagedSocketInfo.release()
+            self.socketInfo = nil
+            return
+        }
+        self.socket = socket
+        let handle = CFSocketGetNative(socket)
         var value: Int32 = 1
         let err = setsockopt(handle, SOL_SOCKET, SO_NOSIGPIPE, &value, socklen_t(MemoryLayout.size(ofValue: value)))
         guard err == 0 else { return }
-        self.socketSource = CFSocketCreateRunLoopSource(nil, self.socket, 0)
+        self.socketSource = CFSocketCreateRunLoopSource(nil, socket, 0)
         CFRunLoopAddSource(CFRunLoopGetMain(), self.socketSource, .commonModes)
     }
     
