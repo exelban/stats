@@ -786,12 +786,7 @@ public struct TopProcess: Codable, Process_p {
     public var name: String
     public var usage: Double
     public var icon: NSImage {
-        get {
-            if let app = NSRunningApplication(processIdentifier: pid_t(self.pid)), let icon = app.icon {
-                return icon
-            }
-            return Constants.defaultProcessIcon
-        }
+        get { ProcessIconCache.shared.icon(for: self.pid) }
     }
     
     public init(pid: Int, name: String, usage: Double) {

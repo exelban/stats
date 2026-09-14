@@ -121,12 +121,7 @@ public struct Network_Process: Codable, Process_p {
     public var download: Int
     public var upload: Int
     public var icon: NSImage {
-        get {
-            if let app = NSRunningApplication(processIdentifier: pid_t(self.pid)), let icon = app.icon {
-                return icon
-            }
-            return Constants.defaultProcessIcon
-        }
+        get { ProcessIconCache.shared.icon(for: self.pid) }
     }
     
     public init(pid: Int = 0, name: String = "", time: Date = Date(), download: Int = 0, upload: Int = 0) {

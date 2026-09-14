@@ -36,6 +36,26 @@ internal final class RegexCache {
     }
 }
 
+public final class ProcessIconCache {
+    public static let shared = ProcessIconCache()
+    
+    private let cache = NSCache<NSNumber, NSImage>()
+    
+    init() {
+        self.cache.countLimit = 256
+    }
+    
+    public func icon(for pid: Int) -> NSImage {
+        let key = NSNumber(value: pid)
+        if let cached = self.cache.object(forKey: key) {
+            return cached
+        }
+        let icon = NSRunningApplication(processIdentifier: pid_t(pid))?.icon ?? Constants.defaultProcessIcon
+        self.cache.setObject(icon, forKey: key)
+        return icon
+    }
+}
+
 extension String: @retroactive LocalizedError {
     public var errorDescription: String? { return self }
     

@@ -202,10 +202,7 @@ public struct Disk_process: Process_p, Codable {
     public var pid: Int
     public var name: String
     public var icon: NSImage {
-        if let app = NSRunningApplication(processIdentifier: pid_t(self.pid)) {
-            return app.icon ?? Constants.defaultProcessIcon
-        }
-        return Constants.defaultProcessIcon
+        ProcessIconCache.shared.icon(for: self.pid)
     }
     
     var read: Int

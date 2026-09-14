@@ -240,7 +240,9 @@ public class ProcessView: NSStackView {
         
         self.labelView.stringValue = process.name
         values.enumerated().forEach({ self.valueViews[$0.offset].stringValue = $0.element })
-        self.imageView.image = process.icon
+        if self.pid != process.pid || self.imageView.image == nil {
+            self.imageView.image = process.icon
+        }
         self.pid = process.pid
         self.toolTip = "pid: \(process.pid)"
     }
