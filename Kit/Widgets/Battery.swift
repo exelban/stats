@@ -12,6 +12,7 @@
 import Cocoa
 
 public class BatteryWidget: WidgetWrapper {
+    private let textCache = WidgetTextCache()
     private var additional: String = "none"
     private var timeFormat: String = "short"
     private var iconState: Bool = true
@@ -264,40 +265,39 @@ public class BatteryWidget: WidgetWrapper {
     }
     
     private func drawOneRow(value: String, x: CGFloat) -> CGFloat {
-        let attributes = [
-            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 12, weight: .regular),
-            NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
-            NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
-        ]
+        let dark = isDarkMode
+        let entry = self.textCache.entry(value, key: "one\(dark)") {
+            [
+                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 12, weight: .regular),
+                NSAttributedString.Key.foregroundColor: dark ? NSColor.white : NSColor.textColor,
+                NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
+            ]
+        }
         
-        let rowWidth = value.widthOfString(usingFont: .systemFont(ofSize: 12, weight: .regular))
-        let rect = CGRect(x: x, y: (Constants.Widget.height-13)/2, width: rowWidth, height: 12)
-        let str = NSAttributedString.init(string: value, attributes: attributes)
-        str.draw(with: rect)
+        let rect = CGRect(x: x, y: (Constants.Widget.height-13)/2, width: entry.width, height: 12)
+        entry.string.draw(with: rect)
         
-        return rowWidth
+        return entry.width
     }
     
     private func drawTwoRows(first: String, second: String, x: CGFloat) -> CGFloat {
-        let style = NSMutableParagraphStyle()
-        style.alignment = .center
-        let attributes = [
-            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .regular),
-            NSAttributedString.Key.foregroundColor: NSColor.textColor,
-            NSAttributedString.Key.paragraphStyle: style
-        ]
+        let attributes: () -> [NSAttributedString.Key: Any] = {
+            let style = NSMutableParagraphStyle()
+            style.alignment = .center
+            return [
+                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .regular),
+                NSAttributedString.Key.foregroundColor: NSColor.textColor,
+                NSAttributedString.Key.paragraphStyle: style
+            ]
+        }
         let rowHeight: CGFloat = self.frame.height / 2
         
-        let rowWidth = max(
-            first.widthOfString(usingFont: .systemFont(ofSize: 9, weight: .regular)),
-            second.widthOfString(usingFont: .systemFont(ofSize: 9, weight: .regular))
-        )
+        let top = self.textCache.entry(first, key: "two", attributes: attributes)
+        let bottom = self.textCache.entry(second, key: "two", attributes: attributes)
+        let rowWidth = max(top.width, bottom.width)
         
-        var str = NSAttributedString.init(string: first, attributes: attributes)
-        str.draw(with: CGRect(x: x, y: rowHeight+1, width: rowWidth, height: rowHeight))
-        
-        str = NSAttributedString.init(string: second, attributes: attributes)
-        str.draw(with: CGRect(x: x, y: 1, width: rowWidth, height: rowHeight))
+        top.string.draw(with: CGRect(x: x, y: rowHeight+1, width: rowWidth, height: rowHeight))
+        bottom.string.draw(with: CGRect(x: x, y: 1, width: rowWidth, height: rowHeight))
         
         return rowWidth
     }
@@ -488,6 +488,7 @@ public class BatteryWidget: WidgetWrapper {
 }
 
 public class BatteryDetailsWidget: WidgetWrapper {
+    private let textCache = WidgetTextCache()
     private var mode: String = "percentage"
     private var timeFormat: String = "short"
     
@@ -583,40 +584,39 @@ public class BatteryDetailsWidget: WidgetWrapper {
     }
     
     private func drawOneRow(value: String, x: CGFloat) -> CGFloat {
-        let attributes = [
-            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 12, weight: .regular),
-            NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
-            NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
-        ]
+        let dark = isDarkMode
+        let entry = self.textCache.entry(value, key: "one\(dark)") {
+            [
+                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 12, weight: .regular),
+                NSAttributedString.Key.foregroundColor: dark ? NSColor.white : NSColor.textColor,
+                NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
+            ]
+        }
         
-        let rowWidth = value.widthOfString(usingFont: .systemFont(ofSize: 12, weight: .regular))
-        let rect = CGRect(x: x, y: (Constants.Widget.height-12)/2, width: rowWidth, height: 12)
-        let str = NSAttributedString.init(string: value, attributes: attributes)
-        str.draw(with: rect)
+        let rect = CGRect(x: x, y: (Constants.Widget.height-12)/2, width: entry.width, height: 12)
+        entry.string.draw(with: rect)
         
-        return rowWidth
+        return entry.width
     }
     
     private func drawTwoRows(first: String, second: String, x: CGFloat) -> CGFloat {
-        let style = NSMutableParagraphStyle()
-        style.alignment = .center
-        let attributes = [
-            NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .regular),
-            NSAttributedString.Key.foregroundColor: NSColor.textColor,
-            NSAttributedString.Key.paragraphStyle: style
-        ]
+        let attributes: () -> [NSAttributedString.Key: Any] = {
+            let style = NSMutableParagraphStyle()
+            style.alignment = .center
+            return [
+                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .regular),
+                NSAttributedString.Key.foregroundColor: NSColor.textColor,
+                NSAttributedString.Key.paragraphStyle: style
+            ]
+        }
         let rowHeight: CGFloat = self.frame.height / 2
         
-        let rowWidth = max(
-            first.widthOfString(usingFont: .systemFont(ofSize: 9, weight: .regular)),
-            second.widthOfString(usingFont: .systemFont(ofSize: 9, weight: .regular))
-        )
+        let top = self.textCache.entry(first, key: "two", attributes: attributes)
+        let bottom = self.textCache.entry(second, key: "two", attributes: attributes)
+        let rowWidth = max(top.width, bottom.width)
         
-        var str = NSAttributedString.init(string: first, attributes: attributes)
-        str.draw(with: CGRect(x: x, y: rowHeight+1, width: rowWidth, height: rowHeight))
-        
-        str = NSAttributedString.init(string: second, attributes: attributes)
-        str.draw(with: CGRect(x: x, y: 1, width: rowWidth, height: rowHeight))
+        top.string.draw(with: CGRect(x: x, y: rowHeight+1, width: rowWidth, height: rowHeight))
+        bottom.string.draw(with: CGRect(x: x, y: 1, width: rowWidth, height: rowHeight))
         
         return rowWidth
     }

@@ -29,8 +29,16 @@ public class SpeedWidget: WidgetWrapper {
     private var symbols: (input: String, output: String) = ("I", "O")
     private var words: (input: String, output: String) = ("Input", "Output")
     
-    private var inputValue: Int64 = 0
-    private var outputValue: Int64 = 0
+    private var _inputValue: Int64 = 0
+    private var _outputValue: Int64 = 0
+    private var inputValue: Int64 {
+        get { self.queue.sync { self._inputValue } }
+        set { self.queue.sync { self._inputValue = newValue } }
+    }
+    private var outputValue: Int64 {
+        get { self.queue.sync { self._outputValue } }
+        set { self.queue.sync { self._outputValue = newValue } }
+    }
     
     private var width: CGFloat = 58
     
@@ -654,15 +662,19 @@ public class SpeedWidget: WidgetWrapper {
     }
     
     public func setValue(input: Int64, output: Int64) {
-        var updated: Bool = false
-        
-        if self.inputValue != input {
-            self.inputValue = abs(input)
-            updated = true
-        }
-        if self.outputValue != output {
-            self.outputValue = abs(output)
-            updated = true
+        let input = abs(input)
+        let output = abs(output)
+        let updated = self.queue.sync { () -> Bool in
+            var updated = false
+            if self._inputValue != input {
+                self._inputValue = input
+                updated = true
+            }
+            if self._outputValue != output {
+                self._outputValue = output
+                updated = true
+            }
+            return updated
         }
         
         if updated {
