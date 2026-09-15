@@ -65,6 +65,7 @@ internal class Popup: PopupWrapper {
         self.orientation = .vertical
         self.distribution = .fill
         self.spacing = 0
+        self.setClippingResistancePriority(.defaultLow, for: .vertical)
     }
     
     required init?(coder: NSCoder) {
@@ -72,7 +73,7 @@ internal class Popup: PopupWrapper {
     }
     
     private func recalculateHeight() {
-        let h = self.loginPrompt.window != nil ? self.loginPrompt.fittingSize.height : self.groups.fittingSize.height
+        let h = self.fittingSize.height
         if h > 0 && self.frame.size.height != h {
             self.setFrameSize(NSSize(width: self.frame.width, height: h))
             self.sizeCallback?(self.frame.size)
