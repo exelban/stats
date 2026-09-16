@@ -36,6 +36,72 @@ internal final class RegexCache {
     }
 }
 
+internal final class FormatterCache {
+    static let shared = FormatterCache()
+    
+    private var byteCount: [ByteCountFormatter.CountStyle: ByteCountFormatter] = [:]
+    private var number: [Int: NumberFormatter] = [:]
+    private var measurement: [Int: MeasurementFormatter] = [:]
+    private let lock = NSLock()
+    
+    func readableMemory(_ bytes: Int64, style: ByteCountFormatter.CountStyle) -> String {
+        self.lock.lock()
+        defer { self.lock.unlock() }
+        
+        let formatter: ByteCountFormatter
+        if let cached = self.byteCount[style] {
+            formatter = cached
+        } else {
+            formatter = ByteCountFormatter()
+            formatter.countStyle = style
+            formatter.includesUnit = true
+            formatter.isAdaptive = true
+            self.byteCount[style] = formatter
+        }
+        return formatter.string(fromByteCount: bytes)
+    }
+    
+    func decimal(_ value: Double, maximumFractionDigits: Int) -> String? {
+        self.lock.lock()
+        defer { self.lock.unlock() }
+        
+        let formatter: NumberFormatter
+        if let cached = self.number[maximumFractionDigits] {
+            formatter = cached
+        } else {
+            formatter = NumberFormatter()
+            formatter.numberStyle = .decimal
+            formatter.decimalSeparator = "."
+            formatter.usesGroupingSeparator = false
+            formatter.minimumFractionDigits = 0
+            formatter.maximumFractionDigits = maximumFractionDigits
+            
+            self.number[maximumFractionDigits] = formatter
+        }
+        return formatter.string(from: NSNumber(value: value))
+    }
+    
+    func temperature(_ measurement: Measurement<UnitTemperature>, fractionDigits: Int) -> String {
+        self.lock.lock()
+        defer { self.lock.unlock() }
+        
+        let formatter: MeasurementFormatter
+        if let cached = self.measurement[fractionDigits] {
+            formatter = cached
+        } else {
+            formatter = MeasurementFormatter()
+            formatter.locale = Locale(identifier: "en_US")
+            formatter.numberFormatter.maximumFractionDigits = fractionDigits
+            if fractionDigits != 0 {
+                formatter.numberFormatter.minimumFractionDigits = fractionDigits
+            }
+            formatter.unitOptions = .providedUnit
+            self.measurement[fractionDigits] = formatter
+        }
+        return formatter.string(from: measurement)
+    }
+}
+
 internal final class WidgetTextCache {
     struct Entry {
         let string: NSAttributedString
