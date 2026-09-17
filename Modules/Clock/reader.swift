@@ -16,6 +16,7 @@ internal class ClockReader: Reader<Date> {
     private let title: String = ModuleType.clock.stringValue
     
     private let queue = DispatchQueue(label: "eu.exelban.Stats.Clock.ntp.sync", qos: .default)
+    private let requestQueue = DispatchQueue(label: "eu.exelban.Stats.Clock.ntp.request", qos: .utility)
     private var _offset: TimeInterval = 0
     private var offset: TimeInterval {
         get { self.queue.sync { self._offset } }
@@ -55,11 +56,11 @@ internal class ClockReader: Reader<Date> {
         }
         
         let server = self.ntpServer
-        self.queue.async { [weak self] in
+        self.requestQueue.async { [weak self] in
             guard let self else { return }
             guard let serverDate = self.requestTime(server: server) else { return }
             let newOffset = serverDate.timeIntervalSince(Date())
-            self._offset = newOffset
+            self.offset = newOffset
             self.alignOffset = newOffset
         }
     }

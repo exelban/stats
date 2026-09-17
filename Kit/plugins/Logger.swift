@@ -35,14 +35,28 @@ public enum LogWriter: Int {
     case file
 }
 
-public protocol Writer: TextOutputStream {
+public protocol Writer: AnyObject {
     var type: LogWriter { get }
+    func write(_ string: String)
 }
 
 public class NextLog {
     public static let shared = NextLog()
     
-    private var writer: Writer = StderrOutputStream()
+    private let lock = NSLock()
+    private var _writer: Writer = StderrOutputStream()
+    private var writer: Writer {
+        get {
+            self.lock.lock()
+            defer { self.lock.unlock() }
+            return self._writer
+        }
+        set {
+            self.lock.lock()
+            self._writer = newValue
+            self.lock.unlock()
+        }
+    }
     private var category: String? = nil
     
     public init(writer: LogWriter = .stdout) {
@@ -126,44 +140,46 @@ public class NextLog {
 }
 
 extension NextLog {
-    private static var timestampFormatter: DateFormatter {
+    private static let timestampFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return formatter
-    }
+    }()
     
-    private struct StdoutOutputStream: Writer {
+    private final class StdoutOutputStream: Writer {
         public let type: LogWriter = .stdout
         
-        mutating func write(_ string: String) {
+        func write(_ string: String) {
             fputs(string, stdout)
         }
     }
     
-    private struct StderrOutputStream: Writer {
+    private final class StderrOutputStream: Writer {
         public let type: LogWriter = .stderr
         
-        mutating func write(_ string: String) {
+        func write(_ string: String) {
             fputs(string, stderr)
         }
     }
     
-    struct FileHandlerOutputStream: Writer {
+    final class FileHandlerOutputStream: Writer {
         public let type: LogWriter = .file
         
         private let fileHandle: FileHandle
         private let encoding: String.Encoding
+        private let lock = NSLock()
         
         init(_ fileHandle: FileHandle, encoding: String.Encoding = .utf8) {
             self.fileHandle = fileHandle
             self.encoding = encoding
         }
         
-        mutating func write(_ string: String) {
-            if let data = string.data(using: encoding) {
-                self.fileHandle.write(data)
-            }
+        func write(_ string: String) {
+            guard let data = string.data(using: encoding) else { return }
+            self.lock.lock()
+            self.fileHandle.write(data)
+            self.lock.unlock()
         }
     }
 }

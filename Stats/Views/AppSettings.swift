@@ -336,7 +336,7 @@ class ApplicationSettings: NSStackView {
             DispatchQueue.main.async(execute: {
                 if self.updateWindow == nil {
                     let w = UpdateWindow()
-                    w.onClose = { [weak self] in self?.updateWindow = nil }
+                    w.onClose = { [weak self = self] in self?.updateWindow = nil }
                     self.updateWindow = w
                 }
                 self.updateWindow?.open(version, settingButton: true)

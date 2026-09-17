@@ -10,6 +10,7 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 import CPU
 import GPU

@@ -221,7 +221,6 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         self.reachability.unreachable = { [weak self] in
             guard let self else { return }
             if self.active {
-                self.getWiFiDetails()
                 self.usage.reset()
                 self.callback(self.usage)
             }
@@ -483,14 +482,11 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     }
     
     private func getWiFiDetails() {
+        guard self.usage.connectionType == .wifi else { return }
+        
         if let interface = CWWiFiClient.shared().interface(withName: self.interfaceID) {
             if let ssid = interface.ssid() {
                 self.usage.wifiDetails.ssid = ssid
-            } else if let cfg = interface.configuration(),
-                      let set = (cfg.value(forKey: "networkProfiles") as? NSOrderedSet),
-                      let first = set.firstObject as? CWNetworkProfile,
-                      let raw = first.ssid, !raw.isEmpty {
-                self.usage.wifiDetails.ssid = raw.replacingOccurrences(of: "’", with: "'").replacingOccurrences(of: "‘", with: "'").trimmingCharacters(in: .whitespacesAndNewlines)
             }
             if let bssid = interface.bssid() {
                 self.usage.wifiDetails.bssid = bssid
@@ -545,16 +541,17 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     
     private func getLocalIP(_ pointer: UnsafeMutablePointer<ifaddrs>) {
         guard let ifaAddr = pointer.pointee.ifa_addr else { return }
-        var addr = ifaAddr.pointee
-        guard addr.sa_family == UInt8(AF_INET) || addr.sa_family == UInt8(AF_INET6) else { return}
+        let family = ifaAddr.pointee.sa_family
+        guard family == UInt8(AF_INET) || family == UInt8(AF_INET6) else { return }
         
         var ip = [CChar](repeating: 0, count: Int(NI_MAXHOST))
-        getnameinfo(&addr, socklen_t(addr.sa_len), &ip, socklen_t(ip.count), nil, socklen_t(0), NI_NUMERICHOST)
+        guard getnameinfo(ifaAddr, socklen_t(ifaAddr.pointee.sa_len), &ip, socklen_t(ip.count), nil, socklen_t(0), NI_NUMERICHOST) == 0 else { return }
         
         let ipStr = String(cString: ip)
-        if addr.sa_family == UInt8(AF_INET) && !ipStr.isEmpty {
+        guard !ipStr.isEmpty else { return }
+        if family == UInt8(AF_INET) {
             self.usage.laddr.v4 = ipStr
-        } else if addr.sa_family == UInt8(AF_INET6) && !ipStr.isEmpty {
+        } else {
             self.usage.laddr.v6 = ipStr
         }
     }

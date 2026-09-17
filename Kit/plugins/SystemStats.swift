@@ -909,7 +909,7 @@ class MQTTManager: NSObject {
             guard !self.isConnected && !self.isConnecting else { return }
             self.isConnecting = true
             
-            SystemStats.shared.auth.isAuthorized { [weak self] status in
+            SystemStats.shared.auth.isAuthorized { [weak self = self] status in
                 guard let self else { return }
                 
                 self.onStateQueue {

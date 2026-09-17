@@ -108,12 +108,12 @@ internal class InfoReader: Reader<GPUs> {
         for (index, accelerator) in accelerators.enumerated() {
             guard let IOClass = accelerator.object(forKey: "IOClass") as? String else {
                 error("IOClass not found", log: self.log)
-                return
+                continue
             }
-            
+
             guard let stats = accelerator["PerformanceStatistics"] as? [String: Any] else {
                 error("PerformanceStatistics not found", log: self.log)
-                return
+                continue
             }
             
             var id: String = ""
