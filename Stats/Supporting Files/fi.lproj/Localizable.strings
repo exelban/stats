@@ -50,7 +50,6 @@
 "Characters" = "Merkit";
 "Short" = "Lyhyt";
 "Long" = "Pitkä";
-"Statistics" = "Tilastot";
 "Max" = "Maksimi";
 "Min" = "Minimi";
 "Reset" = "Palauta";
@@ -98,6 +97,8 @@
 "15 sec" = "15 sek"; // gemma4:31b
 "30 sec" = "30 sek"; // gemma4:31b
 "60 sec" = "60 sek"; // gemma4:31b
+"Eject" = "Poista"; // qwen3.8:27b
+"Enable" = "Ota käyttöön"; // qwen3.8:27b
 
 // Setup
 "Stats Setup" = "Stats asennus";
@@ -146,6 +147,7 @@
 "Open Calendar" = "Avaa kalenteri"; // translategemma:4b
 "Toggle the module" = "Kytke moduuli"; // gemma4:31b
 "Open System Stats" = "Avaa System Stats"; // gemma4:31b
+"Close module settings" = "Sulje moduulin asetukset"; // qwen3.8:27b
 
 // Application settings
 "Check for updates" = "Tarkista päivitykset";
@@ -168,6 +170,7 @@
 "Spacing" = "Välistys"; // gemma4:31b
 "Choose file" = "Valitse tiedosto"; // translategemma:4b
 "Stress tests" = "Stressitestit"; // translategemma:4b
+"Keep the menubar items position" = "Säilytä valikkopalkin kohtien sijainti"; // qwen3.8:27b
 
 // Dashboard
 "Serial number" = "Sarjanumero";
@@ -185,8 +188,12 @@
 // Update
 "The latest version of Stats installed" = "Stats on päivitetty viimeisimpään versioon";
 "Downloading..." = "Ladataan...";
+"Installing..." = "Asennetaan..."; // qwen3.8:27b
+"Updating..." = "Päivitetään..."; // qwen3.8:27b
+"Stats will restart automatically" = "Stats käynnistyy uudelleen automaattisesti"; // qwen3.8:27b
 "Current version: " = "Nykyinen versio:  ";
 "Latest version: " = "Viimeisin versio:    ";
+"Changelog" = "Muutosloki"; // qwen3.8:27b
 
 // Widgets
 "Color" = "Väri";
@@ -230,7 +237,6 @@
 
 // Module Kit
 "Open module settings" = "Avaa moduulin asetukset";
-"Open widget settings" = "Avaa widgetin asetukset";
 "Update interval" = "Päivitysväli";
 "Usage history" = "Käytön historia";
 "Details" = "Tiedot";
@@ -247,6 +253,8 @@
 "Kill process" = "Lopeta prosessi";
 "Keyboard shortcut" = "Näppäimistön pikanäppäin"; // gemma4:31b
 "Listening..." = "Kuunnellaan..."; // gemma4:31b
+"Open in browser" = "Avaa selaimessa"; // qwen3.8:27b
+"Open module" = "Avaa moduuli"; // qwen3.8:27b
 
 // Modules
 "Number of top processes" = "Suosittujen prosessien määrä";
@@ -276,17 +284,20 @@
 "CPU usage threshold" = "Suorittimen käytön raja";
 "Efficiency cores" = "Tehokkuusytimet";
 "Performance cores" = "Suorituskykyytimet";
+"Super cores" = "Super-ytimet"; // qwen3.8:27b
 "System color" = "Järjestelmän väri";
 "User color" = "Käyttäjän väri";
 "Idle color" = "Lepotilan väri";
 "Cluster grouping" = "Ryhmien klusterointi";
 "Efficiency cores color" = "E-ytimien väri";
 "Performance cores color" = "P-ytimien väri";
+"Super cores color" = "Super-ytimien väri"; // qwen3.8:27b
 "Total load" = "Kokonaiskuorma";
 "System load" = "Järjestelmäkuorma";
 "User load" = "Käyttäjäkuorma";
 "Efficiency cores load" = "Tehokkuusytimien kuorma";
 "Performance cores load" = "Suorituskykyytimien kuorma";
+"Super cores load" = "Super-ydinten kuormitus"; // qwen3.8:27b
 "All cores" = "Kaikki ytimet"; // translategemma:4b
 "Load per core" = "Kuormitus ydintä kohti"; // gemma4:31b
 "Efficiency core" = "Tehokkuusydin"; // gemma4:31b
@@ -300,10 +311,18 @@
 "Model" = "Malli";
 "Status" = "Tila";
 "Utilization" = "Käyttöaste";
+"Render" = "Renderöinti"; // qwen3.8:27b
 "Render utilization" = "Renderöinnin käyttöaste";
+"Render utilization history" = "Renderöinnin käyttöasteen historia"; // qwen3.8:27b
+"Tiler" = "Laattoilija"; // qwen3.8:27b
 "Tiler utilization" = "Tilerin käyttöaste";
+"Tiler utilization history" = "Tilerin käyttöasteen historia"; // qwen3.8:27b
 "GPU usage threshold" = "GPU:n käytön raja";
 "GPU usage is" = "GPU:n käyttö on %0";
+"ANE utilization" = "ANE-käyttöaste"; // qwen3.8:27b
+"ANE utilization history" = "ANE:n käyttöhistoria"; // qwen3.8:27b
+"FPS history" = "FPS-historia"; // qwen3.8:27b
+"GPU utilization history" = "GPU-käyttöhistoria"; // qwen3.8:27b
 
 // RAM
 "Memory usage" = "Muistin käyttö";
@@ -325,6 +344,8 @@
 "Free memory (less than)" = "Vapaa muisti (alle)";
 "Swap size" = "Välimuistin koko";
 "Free RAM is" = "Vapaa RAM on %0";
+"Pressure" = "Paine"; // qwen3.8:27b
+"Pressure level" = "Painetaso"; // qwen3.8:27b
 
 // Disk
 "Show removable disks" = "Näytä irrotettavat levyt";
@@ -346,8 +367,6 @@
 "Encrypted" = "Salattu"; // gemma4:31b-it-qat
 "Writable" = "Kirjoitettavissa"; // gemma4:31b-it-qat
 "Drives" = "Levyt"; // gemma4:31b
-"SMART data" = "SMART-tiedot"; // gemma4:31b
-"ATA SMART data" = "ATA SMART -tiedot"; // gemma4:31b
 "Power cycles" = "Lataussyklien määrä"; // gemma4:31b
 "Power on hours" = "Käyttötunnit"; // gemma4:31b
 "Critical warning" = "Kriittinen varoitus"; // gemma4:31b-it-qat
@@ -360,6 +379,12 @@
 "Reliability degraded" = "Luotettavuus heikentynyt"; // gemma4:31b-it-qat
 "Read-only mode" = "Vain luku -tila"; // gemma4:31b-it-qat
 "Backup failed" = "Varmuuskopiointi epäonnistui"; // gemma4:31b-it-qat
+"All disks" = "Kaikki levyt"; // qwen3.8:27b
+"Disk details" = "Levytiedot"; // qwen3.8:27b
+"Main color" = "Pääväri"; // qwen3.8:27b
+"Read / Write history" = "Luku / kirjoitushistoria"; // qwen3.8:27b
+"mounted" = "liitetty"; // qwen3.8:27b
+"removable" = "irtonen"; // qwen3.8:27b
 
 // Sensors
 "Celsius" = "Celsius";
@@ -428,6 +453,14 @@
 "Internet connection lost" = "Internet-yhteys katkesi"; // gemma4:31b
 "Internet connection established" = "Internet-yhteys muodostettu"; // translategemma:4b
 "Show country code instead of emoji" = "Näytä maakoodi emojin sijaan"; // gemma4:31b
+"DNS Server" = "DNS-palvelin"; // qwen3.8:27b
+"Jitter" = "Jitter";
+"Noise" = "Melu"; // qwen3.8:27b
+"Signal" = "Signaali"; // qwen3.8:27b
+"Speed" = "Nopeus"; // qwen3.8:27b
+"Network interface changed" = "Verkkoliitäntä muuttui"; // qwen3.8:27b
+"WiFi network changed" = "WiFi-verkko muuttui"; // qwen3.8:27b
+"This will be visible in the text widget" = "Tämä näkyy tekstivihkeessä"; // qwen3.8:27b
 
 // Battery
 "Source" = "Lähde";
@@ -435,7 +468,6 @@
 "Battery Power" = "Akkuvirta";
 "Time" = "Aika";
 "Health" = "Kunto";
-"Amperage" = "Ampeerimäärä";
 "Voltage" = "Jännite";
 "Cycles" = "Sykliä";
 "Temperature" = "Lämpötila";
@@ -465,9 +497,11 @@
 "On battery" = "Akulla"; // gemma4:31b
 "Plugged in" = "Kytketty"; // gemma4:31b
 "Charging" = "Ladataan"; // gemma4:31b
+"Level" = "Taso"; // qwen3.8:27b
 
 // Bluetooth
 "No Bluetooth devices are available" = "Bluetooth-laitteita ei ole saatavilla";
+"Bluetooth threshold" = "Bluetooth-kynnysarvo"; // qwen3.8:27b
 
 // Clock
 "Time zone" = "Aikavyöhyke";
@@ -514,3 +548,24 @@
 "Pink" = "Vaaleanpunainen";
 "Teal" = "Sinivihreä";
 "Indigo" = "Indigo";
+
+// System Stats
+"Authorization" = "Valtuutus"; // qwen3.8:27b
+"Identificator" = "Tunniste"; // qwen3.8:27b
+"Plan" = "Suunnitelma"; // qwen3.8:27b
+"Monitoring" = "Seuranta"; // qwen3.8:27b
+"Control" = "Hallinta"; // qwen3.8:27b
+"Update" = "Päivitä"; // qwen3.8:27b
+"Sign in" = "Kirjaudu sisään"; // qwen3.8:27b
+"Sign out" = "Kirjaudu ulos"; // qwen3.8:27b
+"Deregister" = "Poista rekisteröinti"; // qwen3.8:27b
+"Hosts" = "Isäntäkonet"; // qwen3.8:27b
+"Machines" = "Koneet"; // qwen3.8:27b
+"No hosts yet" = "Ei vielä isäntäkoneita"; // qwen3.8:27b
+"No machines yet" = "Ei vielä koneita"; // qwen3.8:27b
+"Get notified when a device goes offline or hits a threshold" = "Saat ilmoituksen, kun laite poistuu verkosta tai ylittää rajan"; // qwen3.8:27b
+"It is not recommended to enable remote control unless you know what you are doing." = "Etäohjauksen käyttöönottoa ei suositella, ellei tiedä mitä tekee."; // qwen3.8:27b
+"Live CPU, RAM, disk and network metrics" = "Reaaliaikaiset CPU-, RAM-, levy- ja verkkometriikat"; // qwen3.8:27b
+"Login to System Stats to see your devices" = "Kirjaudu System Statsiin nähdäksesi laitteet"; // qwen3.8:27b
+"Monitor HTTP, ICMP and custom endpoints" = "Seuraa HTTP-, ICMP- ja mukautettuja päätepisteitä"; // qwen3.8:27b
+"Monitor and control your Macs from anywhere. Sign in to your System Stats account to see all your devices and hosts in one place." = "Seuraa ja hallitse Macit mistä tahansa. Kirjaudu System Stats -tiliisi nähdäksesi kaikki laitteet ja isäntäkonet yhdessä paikassa."; // qwen3.8:27b

@@ -50,7 +50,6 @@
 "Characters" = "字母";
 "Short" = "短";
 "Long" = "长";
-"Statistics" = "统计";
 "Max" = "最大";
 "Min" = "最小";
 "Reset" = "重置";
@@ -98,6 +97,8 @@
 "15 sec" = "15 秒";
 "30 sec" = "30 秒";
 "60 sec" = "60 秒";
+"Eject" = "弹出"; // qwen3.8:27b
+"Enable" = "启用"; // qwen3.8:27b
 
 // Setup
 "Stats Setup" = "Stats设置";
@@ -146,6 +147,7 @@
 "Open Calendar" = "打开日历";
 "Toggle the module" = "切换模块显示";
 "Open System Stats" = "打开 System Stats"; // gemma4:31b
+"Close module settings" = "关闭模块设置"; // qwen3.8:27b
 
 // Application settings
 "Check for updates" = "检查更新";
@@ -168,6 +170,7 @@
 "Spacing" = "间距";
 "Choose file" = "选择文件";
 "Stress tests" = "压力测试";
+"Keep the menubar items position" = "保持菜单栏项目的位置"; // qwen3.8:27b
 
 // Dashboard
 "Serial number" = "序列号";
@@ -185,8 +188,12 @@
 // Update
 "The latest version of Stats installed" = "已安装最新版Stats";
 "Downloading..." = "下载中...";
+"Installing..." = "正在安装..."; // qwen3.8:27b
+"Updating..." = "正在更新..."; // qwen3.8:27b
+"Stats will restart automatically" = "Stats 将自动重启"; // qwen3.8:27b
 "Current version: " = "当前版本：";
 "Latest version: " = "最新版本：";
+"Changelog" = "更新日志"; // qwen3.8:27b
 
 // Widgets
 "Color" = "颜色";
@@ -230,7 +237,6 @@
 
 // Module Kit
 "Open module settings" = "打开模块设置";
-"Open widget settings" = "打开小组件设置";
 "Update interval" = "更新间隔";
 "Usage history" = "负载历史";
 "Details" = "详细信息";
@@ -247,6 +253,8 @@
 "Kill process" = "结束进程";
 "Keyboard shortcut" = "键盘快捷键";
 "Listening..." = "监听中...";
+"Open in browser" = "在浏览器中打开"; // qwen3.8:27b
+"Open module" = "打开模块"; // qwen3.8:27b
 
 // Modules
 "Number of top processes" = "高占用进程数";
@@ -276,17 +284,20 @@
 "CPU usage threshold" = "CPU占用阈值";
 "Efficiency cores" = "能效核心";
 "Performance cores" = "性能核心";
+"Super cores" = "超级核心"; // qwen3.8:27b
 "System color" = "系统占用颜色";
 "User color" = "用户占用颜色";
 "Idle color" = "闲置颜色";
 "Cluster grouping" = "按集群分组";
 "Efficiency cores color" = "能效核心颜色";
 "Performance cores color" = "性能核心颜色";
+"Super cores color" = "超级核心颜色"; // qwen3.8:27b
 "Total load" = "总占用";
 "System load" = "系统占用";
 "User load" = "用户占用";
 "Efficiency cores load" = "能效核心占用";
 "Performance cores load" = "性能核心占用";
+"Super cores load" = "超级核心负载"; // qwen3.8:27b
 "All cores" = "所有核心";
 "Load per core" = "每核心负载"; // translategemma:4b
 "Efficiency core" = "能效核心"; // gemma4:31b
@@ -300,10 +311,18 @@
 "Model" = "型号";
 "Status" = "状态";
 "Utilization" = "利用率";
+"Render" = "渲染"; // qwen3.8:27b
 "Render utilization" = "渲染利用率";
+"Render utilization history" = "渲染使用率历史"; // qwen3.8:27b
+"Tiler" = "平铺"; // qwen3.8:27b
 "Tiler utilization" = "Tiler利用率";
+"Tiler utilization history" = "Tiler 利用率历史"; // qwen3.8:27b
 "GPU usage threshold" = "GPU占用阈值";
 "GPU usage is" = "GPU利用率是 %0";
+"ANE utilization" = "ANE 利用率"; // qwen3.8:27b
+"ANE utilization history" = "ANE 利用率历史"; // qwen3.8:27b
+"FPS history" = "FPS 历史"; // qwen3.8:27b
+"GPU utilization history" = "GPU 使用率历史"; // qwen3.8:27b
 
 // RAM
 "Memory usage" = "内存占用";
@@ -325,6 +344,8 @@
 "Free memory (less than)" = "可用内存（小于）";
 "Swap size" = "已使用交换";
 "Free RAM is" = "可有内存还有 %0";
+"Pressure" = "压力"; // qwen3.8:27b
+"Pressure level" = "压力水平"; // qwen3.8:27b
 
 // Disk
 "Show removable disks" = "显示可移动磁盘";
@@ -346,8 +367,6 @@
 "Encrypted" = "已加密"; // gemma4:31b-it-qat
 "Writable" = "可写"; // gemma4:31b-it-qat
 "Drives" = "驱动器";
-"SMART data" = "SMART数据";
-"ATA SMART data" = "ATA SMART 数据"; // gemma4:31b
 "Power cycles" = "电源循环次数"; // gemma4:31b
 "Power on hours" = "通电小时数"; // gemma4:31b
 "Critical warning" = "严重警告"; // gemma4:31b-it-qat
@@ -360,6 +379,12 @@
 "Reliability degraded" = "可靠性降低"; // gemma4:31b-it-qat
 "Read-only mode" = "只读模式"; // gemma4:31b-it-qat
 "Backup failed" = "备份失败"; // gemma4:31b-it-qat
+"All disks" = "所有磁盘"; // qwen3.8:27b
+"Disk details" = "磁盘详情"; // qwen3.8:27b
+"Main color" = "主色"; // qwen3.8:27b
+"Read / Write history" = "读取/写入历史"; // qwen3.8:27b
+"mounted" = "已挂载"; // qwen3.8:27b
+"removable" = "可移动"; // qwen3.8:27b
 
 // Sensors
 "Celsius" = "摄氏度";
@@ -428,6 +453,14 @@
 "Internet connection lost" = "互联网连接丢失";
 "Internet connection established" = "互联网连接已建立";
 "Show country code instead of emoji" = "显示国家代码而不是 emoji"; // gemma4:31b
+"DNS Server" = "DNS 服务器"; // qwen3.8:27b
+"Jitter" = "抖动"; // qwen3.8:27b
+"Noise" = "噪声"; // qwen3.8:27b
+"Signal" = "信号"; // qwen3.8:27b
+"Speed" = "速度"; // qwen3.8:27b
+"Network interface changed" = "网络接口已更改"; // qwen3.8:27b
+"WiFi network changed" = "WiFi 网络已更改"; // qwen3.8:27b
+"This will be visible in the text widget" = "这将在文本小部件中可见"; // qwen3.8:27b
 
 // Battery
 "Source" = "电源";
@@ -435,7 +468,6 @@
 "Battery Power" = "电池";
 "Time" = "时间";
 "Health" = "健康度";
-"Amperage" = "电流";
 "Voltage" = "电压";
 "Cycles" = "循环数";
 "Temperature" = "温度";
@@ -465,9 +497,11 @@
 "On battery" = "电池供电"; // gemma4:31b
 "Plugged in" = "已连接电源"; // gemma4:31b
 "Charging" = "充电中"; // gemma4:31b
+"Level" = "级别"; // qwen3.8:27b
 
 // Bluetooth
 "No Bluetooth devices are available" = "没有可用的蓝牙设备";
+"Bluetooth threshold" = "Bluetooth 阈值"; // qwen3.8:27b
 
 // Clock
 "Time zone" = "时区";
@@ -514,3 +548,24 @@
 "Pink" = "粉色";
 "Teal" = "蓝绿色";
 "Indigo" = "靛蓝色";
+
+// System Stats
+"Authorization" = "授权"; // qwen3.8:27b
+"Identificator" = "标识符"; // qwen3.8:27b
+"Plan" = "方案"; // qwen3.8:27b
+"Monitoring" = "监控"; // qwen3.8:27b
+"Control" = "控制"; // qwen3.8:27b
+"Update" = "更新"; // qwen3.8:27b
+"Sign in" = "登录"; // qwen3.8:27b
+"Sign out" = "退出登录"; // qwen3.8:27b
+"Deregister" = "注销"; // qwen3.8:27b
+"Hosts" = "主机"; // qwen3.8:27b
+"Machines" = "机器"; // qwen3.8:27b
+"No hosts yet" = "暂无主机"; // qwen3.8:27b
+"No machines yet" = "暂无机器"; // qwen3.8:27b
+"Get notified when a device goes offline or hits a threshold" = "设备离线或达到阈值时收到通知"; // qwen3.8:27b
+"It is not recommended to enable remote control unless you know what you are doing." = "不建议启用远程控制，除非您知道自己在做什么。"; // qwen3.8:27b
+"Live CPU, RAM, disk and network metrics" = "实时 CPU、RAM、磁盘和网络指标"; // qwen3.8:27b
+"Login to System Stats to see your devices" = "登录 System Stats 以查看您的设备"; // qwen3.8:27b
+"Monitor HTTP, ICMP and custom endpoints" = "监控 HTTP、ICMP 和自定义端点"; // qwen3.8:27b
+"Monitor and control your Macs from anywhere. Sign in to your System Stats account to see all your devices and hosts in one place." = "随时随地监控和控制你的 Mac。登录你的 System Stats 账户，即可在一个地方查看所有设备和主机。"; // qwen3.8:27b

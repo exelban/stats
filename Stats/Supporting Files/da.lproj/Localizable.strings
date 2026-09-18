@@ -50,7 +50,6 @@
 "Characters" = "Tegn";
 "Short" = "Kort";
 "Long" = "Lang";
-"Statistics" = "Statistik";
 "Max" = "Maks"; // translategemma:4b
 "Min" = "Mit"; // translategemma:4b
 "Reset" = "Nulstil";
@@ -98,6 +97,8 @@
 "15 sec" = "15 sek"; // translategemma:4b
 "30 sec" = "30 sek"; // translategemma:4b
 "60 sec" = "60 sek"; // gemma4:31b
+"Eject" = "Udskub"; // qwen3.8:27b
+"Enable" = "Aktivér"; // qwen3.8:27b
 
 // Setup
 "Stats Setup" = "Stats opsætning";
@@ -146,6 +147,7 @@
 "Open Calendar" = "Åbn kalender"; // translategemma:4b
 "Toggle the module" = "Skift modulet"; // gemma4:31b
 "Open System Stats" = "Åbn System Stats"; // gemma4:31b
+"Close module settings" = "Luk modulindstillinger"; // qwen3.8:27b
 
 // Application settings
 "Check for updates" = "Søg efter opdateringer";
@@ -168,6 +170,7 @@
 "Spacing" = "Mellemrum";
 "Choose file" = "Vælg fil"; // translategemma:4b
 "Stress tests" = "Stresstests"; // gemma4:31b
+"Keep the menubar items position" = "Bevar positionen på menubarens elementer"; // qwen3.8:27b
 
 // Dashboard
 "Serial number" = "Serienummer";
@@ -185,8 +188,12 @@
 // Update
 "The latest version of Stats installed" = "Den nyeste udgave af Stats er installeret";
 "Downloading..." = "Downloader...";
+"Installing..." = "Installerer..."; // qwen3.8:27b
+"Updating..." = "Opdaterer..."; // qwen3.8:27b
+"Stats will restart automatically" = "Stats genstarter automatisk"; // qwen3.8:27b
 "Current version: " = "Nuværende version:  ";
 "Latest version: " = "Nyeste version:    ";
+"Changelog" = "Ændringslog"; // qwen3.8:27b
 
 // Widgets
 "Color" = "Farve";
@@ -230,7 +237,6 @@
 
 // Module Kit
 "Open module settings" = "Åben indstillinger for moduler";
-"Open widget settings" = "Åben indstillinger for widgets";
 "Update interval" = "Opdateringsinterval";
 "Usage history" = "Brugshistorik";
 "Details" = "Detaljer";
@@ -247,6 +253,8 @@
 "Kill process" = "Afslut proces"; // translategemma:4b
 "Keyboard shortcut" = "Tastaturgenvej"; // translategemma:4b
 "Listening..." = "Lytter..."; // translategemma:4b
+"Open in browser" = "Åbn i browser"; // qwen3.8:27b
+"Open module" = "Åbn modul"; // qwen3.8:27b
 
 // Modules
 "Number of top processes" = "Antal topprocesser";
@@ -276,17 +284,20 @@
 "CPU usage threshold" = "Grænseværdi for CPU brug";
 "Efficiency cores" = "Efficiency kerner";
 "Performance cores" = "Performance kerner";
+"Super cores" = "Superkerner"; // qwen3.8:27b
 "System color" = "Systemets farve";
 "User color" = "Bruger farve";
 "Idle color" = "'Ikke i brug' farve";
 "Cluster grouping" = "Grupper efter type";
 "Efficiency cores color" = "Efficiency kerner farve";
 "Performance cores color" = "Performance kerner farve";
+"Super cores color" = "Superkerners farve"; // qwen3.8:27b
 "Total load" = "Samlet belastning"; // translategemma:4b
 "System load" = "Systembelastning"; // translategemma:4b
 "User load" = "Brugerbelastning"; // translategemma:4b
 "Efficiency cores load" = "Belastning af effektivitetskerner"; // gemma4:31b
 "Performance cores load" = "Belastning af performance-kerner"; // gemma4:31b
+"Super cores load" = "Superkerners belastning"; // qwen3.8:27b
 "All cores" = "Alle kerner"; // translategemma:4b
 "Load per core" = "Belastning per kerne"; // gemma4:31b
 "Efficiency core" = "Effektivitetskerne"; // gemma4:31b
@@ -300,10 +311,18 @@
 "Model" = "Model";
 "Status" = "Status";
 "Utilization" = "Brugsniveau";
+"Render" = "Rendering"; // qwen3.8:27b
 "Render utilization" = "Brug af rendering";
+"Render utilization history" = "Renderudnyttelseshistorik"; // qwen3.8:27b
+"Tiler" = "Tiler";
 "Tiler utilization" = "Brug af tiler";
+"Tiler utilization history" = "Tiler-udnyttelseshistorik"; // qwen3.8:27b
 "GPU usage threshold" = "Grænseværdi for GPU brug";
 "GPU usage is" = "GPU brug er %0";
+"ANE utilization" = "ANE-udnyttelse"; // qwen3.8:27b
+"ANE utilization history" = "ANE-udnyttelsehistorik"; // qwen3.8:27b
+"FPS history" = "FPS-historik"; // qwen3.8:27b
+"GPU utilization history" = "GPU-udnyttelsesgradshistorik"; // qwen3.8:27b
 
 // RAM
 "Memory usage" = "Hukommelse i brug";
@@ -325,6 +344,8 @@
 "Free memory (less than)" = "Fri hukommelse (mindre end)"; // gemma4:31b
 "Swap size" = "Swap-størrelse"; // gemma4:31b
 "Free RAM is" = "Fri RAM er %0"; // gemma4:31b
+"Pressure" = "Tryk"; // qwen3.8:27b
+"Pressure level" = "Trykniveau"; // qwen3.8:27b
 
 // Disk
 "Show removable disks" = "Vis eksterne diske";
@@ -346,8 +367,6 @@
 "Encrypted" = "Krypteret"; // gemma4:31b-it-qat
 "Writable" = "Skrivbar"; // gemma4:31b-it-qat
 "Drives" = "Drev"; // gemma4:31b
-"SMART data" = "SMART-data"; // translategemma:4b
-"ATA SMART data" = "ATA SMART-data"; // gemma4:31b-it-qat
 "Power cycles" = "Strømcyklusser"; // gemma4:31b
 "Power on hours" = "Timer tændt"; // gemma4:31b
 "Critical warning" = "Kritisk advarsel"; // gemma4:31b-it-qat
@@ -360,6 +379,12 @@
 "Reliability degraded" = "Nedsat pålidelighed"; // gemma4:31b-it-qat
 "Read-only mode" = "Skrivebeskyttet tilstand"; // gemma4:31b-it-qat
 "Backup failed" = "Backup mislykkedes"; // gemma4:31b-it-qat
+"All disks" = "Alle diske"; // qwen3.8:27b
+"Disk details" = "Diskdetaljer"; // qwen3.8:27b
+"Main color" = "Hovedfarve"; // qwen3.8:27b
+"Read / Write history" = "Læs / skriv-historik"; // qwen3.8:27b
+"mounted" = "monteret"; // qwen3.8:27b
+"removable" = "fjernbar"; // qwen3.8:27b
 
 // Sensors
 "Celsius" = "Celsius";
@@ -387,147 +412,10 @@
 "Right fan" = "Højre"; // gemma4:31b
 "Fastest fan" = "Hurtigste"; // gemma4:31b
 "Sensor to show" = "Sensor der skal vises"; // gemma4:31b
-"Celsius" = "Celsius";
-"Uploading" = "Upload";
-"Uploading" = "Upload";
-"Downloading" = "Download";
-"Public IP" = "Offentlig IP"; // gemma4:31b
-"Local IP" = "Lokal IP"; // gemma4:31b
-"Interface" = "Grænseflade"; // gemma4:31b
-"Physical address" = "Fysisk adresse"; // gemma4:31b
-"Refresh" = "Opdater"; // gemma4:31b
-"Network interface" = "Netværksgrænseflade"; // gemma4:31b
-"Total download" = "Samlet download"; // gemma4:31b
-"Total upload" = "Samlet upload"; // gemma4:31b
-"Reader type" = "Læsertype"; // gemma4:31b
-"Interface based" = "Interface-baseret"; // gemma4:31b
-"Processes based" = "Procesbaseret"; // gemma4:31b
-"Reset data usage" = "Nulstil dataforbrug"; // gemma4:31b
-"VPN mode" = "VPN-tilstand"; // gemma4:31b
-"Standard" = "Standard";
-"Security" = "Sikkerhed"; // gemma4:31b
-"Channel" = "Kanal"; // gemma4:31b
-"Autodetection" = "Autodetektering"; // gemma4:31b
-"Widget activation threshold" = "Tærskel for widget-aktivering"; // gemma4:31b
-"Internet connection" = "Internetforbindelse"; // gemma4:31b
-"Connectivity host" = "Forbindelseshost"; // gemma4:31b
-"Leave empty to disable the check" = "Efterlad tomt for at deaktivere kontrollen"; // gemma4:31b
-"Connectivity history" = "Forbindelseshistorik"; // gemma4:31b
-"Auto-refresh public IP address" = "Automatisk opdatering af offentlig IP-adresse"; // gemma4:31b
-"Every hour" = "Hver time"; // gemma4:31b
-"Every 12 hours" = "Hver 12. time"; // gemma4:31b
-"Every 24 hours" = "Hver 24. time"; // gemma4:31b
-"Last reset" = "Sidste nulstilling for %0 siden"; // gemma4:31b
-"Latency" = "Forsinkelse"; // gemma4:31b
-"Address" = "Adresse"; // gemma4:31b
-"WiFi network" = "WiFi-netværk"; // gemma4:31b
-"Local IP changed" = "Lokal IP er ændret"; // gemma4:31b
-"Public IP changed" = "Offentlig IP er ændret"; // gemma4:31b
-"Previous IP" = "Forrige IP: %0"; // gemma4:31b
-"New IP" = "Ny IP: %0"; // gemma4:31b
-"Internet connection lost" = "Internetforbindelse mistet"; // gemma4:31b
-"Internet connection established" = "Internetforbindelse etableret"; // gemma4:31b
-"Show country code instead of emoji" = "Vis landekode i stedet for emoji"; // gemma4:31b
-"Fahrenheit" = "Fahrenheit";
-"Save the fan speed" = "Gem blæserhastighed";
-"Source" = "Kilde"; // gemma4:31b
-"AC Power" = "AC-strøm"; // gemma4:31b
-"Battery Power" = "Batteristrøm"; // gemma4:31b
-"Time" = "Tid"; // gemma4:31b
-"Health" = "Tilstand"; // gemma4:31b
-"Amperage" = "Strømstyrke"; // gemma4:31b
-"Voltage" = "Spænding"; // gemma4:31b
-"Cycles" = "Cyklusser"; // gemma4:31b
-"Temperature" = "Temperatur"; // gemma4:31b
-"Power adapter" = "Strømadapter"; // gemma4:31b
-"Power" = "Strøm"; // gemma4:31b
-"Is charging" = "Oplader"; // gemma4:31b
-"Time to discharge" = "Tid til afladning"; // gemma4:31b
-"Time to charge" = "Tid til opladning"; // gemma4:31b
-"Calculating" = "Beregner"; // gemma4:31b
-"Fully charged" = "Fuldt opladet"; // gemma4:31b
-"Low level notification" = "Notifikation om lavt niveau"; // gemma4:31b
-"High level notification" = "Notifikation om højt niveau"; // gemma4:31b
-"Low battery" = "Lavt batteri"; // gemma4:31b
-"High battery" = "Højt batteriniveau"; // gemma4:31b
-"Battery remaining" = "%0% tilbage"; // gemma4:31b
-"Battery remaining to full charge" = "%0% til fuld opladning"; // gemma4:31b
-"Percentage" = "Procent"; // gemma4:31b
-"Percentage and time" = "Procent og tid"; // gemma4:31b
-"Time and percentage" = "Tid og procent"; // gemma4:31b
-"Time format" = "Tidsformat"; // gemma4:31b
-"Hide additional information when full" = "Skjul yderligere oplysninger, når fuldt opladet"; // gemma4:31b
-"Percentage inside the icon" = "Procent inde i ikonet"; // gemma4:31b
-"Charger state inside the battery" = "Opladerstatus inde i batteriet"; // gemma4:31b
-"Max capacity" = "Maksimal kapacitet"; // gemma4:31b
-"Designed capacity" = "Designet kapacitet"; // gemma4:31b
-"On hold" = "På vent"; // gemma4:31b
-"On battery" = "På batteri"; // gemma4:31b
-"Plugged in" = "Tilsluttet"; // gemma4:31b
-"Charging" = "Oplader"; // gemma4:31b
-"Fan" = "Blæser";
-"HID sensors" = "HID sensorer";
-"No Bluetooth devices are available" = "Ingen Bluetooth-enheder er tilgængelige"; // gemma4:31b
-"Synchronize fan's control" = "Synkroniser blæserkontrol";
-"Current" = "Strøm";
-"Time zone" = "Tidszone"; // gemma4:31b
-"Local" = "Lokal"; // gemma4:31b
-"Calendar" = "Kalender"; // gemma4:31b
-"Show week numbers" = "Vis ugenumre"; // gemma4:31b
-"Local time" = "Lokal tid"; // gemma4:31b
-"Add new clock" = "Tilføj nyt ur"; // gemma4:31b
-"Delete selected clock" = "Slet valgt ur"; // gemma4:31b
-"Help with datetime format" = "Hjælp til dato- og tidsformat"; // gemma4:31b
-"Sync with NTP server" = "Synkronisering med NTP-server"; // gemma4:31b
-"Previous month" = "Forrige måned"; // gemma4:31b
-"Next month" = "Næste måned"; // gemma4:31b
-"Energy" = "Energi";
-"Show unknown sensors" = "Vis ukendte sensorer";
-"Based on utilization" = "Baseret på udnyttelse"; // gemma4:31b
-"Based on pressure" = "Baseret på pres"; // gemma4:31b
-"Based on cluster" = "Baseret på klynge"; // gemma4:31b
-"System accent" = "Systemaccent"; // gemma4:31b
-"Monochrome accent" = "Monokrom accent"; // gemma4:31b
-"Clear" = "Gennemsigtig"; // gemma4:31b
-"White" = "Hvid"; // gemma4:31b
-"Black" = "Sort"; // gemma4:31b
-"Gray" = "Grå"; // gemma4:31b
-"Second gray" = "Anden grå"; // gemma4:31b
-"Dark gray" = "Mørkegrå"; // gemma4:31b
-"Light gray" = "Lys grå"; // gemma4:31b
-"Red" = "Rød"; // gemma4:31b
-"Second red" = "Anden rød"; // gemma4:31b
-"Green" = "Grøn"; // gemma4:31b
-"Second green" = "Anden grøn"; // gemma4:31b
-"Blue" = "Blå"; // gemma4:31b
-"Second blue" = "Anden blå"; // gemma4:31b
-"Yellow" = "Gul"; // gemma4:31b
-"Second yellow" = "Anden gul"; // gemma4:31b
-"Orange" = "Orange";
-"Second orange" = "Anden orange"; // gemma4:31b
-"Purple" = "Lilla"; // gemma4:31b
-"Second purple" = "Anden lilla"; // gemma4:31b
-"Brown" = "Brun"; // gemma4:31b
-"Second brown" = "Anden brun"; // gemma4:31b
-"Cyan" = "Cyan";
-"Magenta" = "Magenta";
-"Pink" = "Lyserød"; // gemma4:31b
-"Teal" = "Blågrøn"; // gemma4:31b
-"Indigo" = "Indigo";
-"Install fan helper" = "Tillad blæserkontrol";
-"Uninstall fan helper" = "Afinstaller blæserkontrol";
-"Fan value" = "Blæserværdi";
-"Turn off fan" = "Slå blæseren fra"; // translategemma:4b
-"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Du er ved at slukke for blæseren. Dette er ikke en anbefalet handling, da det kan skade din Mac. Er du sikker på du vil fortsætte?";
-"Sensor threshold" = "Sensorgrænse"; // translategemma:4b
-"Left fan" = "Venstre"; // translategemma:4b
-"Right fan" = "Korrekt"; // translategemma:4b
-"Fastest fan" = "Hurtigst"; // translategemma:4b
-"Sensor to show" = "Sensor til at vise"; // translategemma:4b
 
 // Network
 "Uploading" = "Upload";
-"Downloading" = "Download";
+"Downloading" = "Hent"; // qwen3.8:27b
 "Public IP" = "Offentlig IP";
 "Local IP" = "Lokal IP";
 "Interface" = "Grænseflade"; // translategemma:4b
@@ -565,6 +453,14 @@
 "Internet connection lost" = "Internetforbindelsen er mistet"; // translategemma:4b
 "Internet connection established" = "Internetforbindelse etableret"; // translategemma:4b
 "Show country code instead of emoji" = "Vis landekoden i stedet for emoji"; // translategemma:4b
+"DNS Server" = "DNS-server"; // qwen3.8:27b
+"Jitter" = "Jitter";
+"Noise" = "Støj"; // qwen3.8:27b
+"Signal" = "Signal";
+"Speed" = "Hastighed"; // qwen3.8:27b
+"Network interface changed" = "Netværksgrænseflade ændret"; // qwen3.8:27b
+"WiFi network changed" = "WiFi-netværk ændret"; // qwen3.8:27b
+"This will be visible in the text widget" = "Dette vil være synligt i tekstwidgeten"; // qwen3.8:27b
 
 // Battery
 "Source" = "Kilde";
@@ -572,7 +468,6 @@
 "Battery Power" = "Strøm fra batteri";
 "Time" = "Tid";
 "Health" = "Helbred";
-"Amperage" = "Ampere";
 "Voltage" = "Volt";
 "Cycles" = "Cykler";
 "Temperature" = "Temperatur";
@@ -596,9 +491,17 @@
 "Hide additional information when full" = "Skjul yderligere information når fuldt opladt";
 "Percentage inside the icon" = "Procenttegn i ikonet";
 "Charger state inside the battery" = "Tilstand af opladningssystemet inde i batteriet"; // translategemma:4b
+"Max capacity" = "Maksimal kapacitet"; // qwen3.8:27b
+"Designed capacity" = "Designet kapacitet"; // qwen3.8:27b
+"On hold" = "På vent"; // qwen3.8:27b
+"On battery" = "På batteri"; // qwen3.8:27b
+"Plugged in" = "Tilsluttet"; // qwen3.8:27b
+"Charging" = "Opladning"; // qwen3.8:27b
+"Level" = "Niveau"; // qwen3.8:27b
 
 // Bluetooth
 "No Bluetooth devices are available" = "Ingen tilgængelige Bluetoothenheder";
+"Bluetooth threshold" = "Bluetooth-tærskel"; // qwen3.8:27b
 
 // Clock
 "Time zone" = "Tidszone";
@@ -610,6 +513,8 @@
 "Delete selected clock" = "Slet det valgte ur"; // translategemma:4b
 "Help with datetime format" = "Hjælp med at formatere dato og tid"; // translategemma:4b
 "Sync with NTP server" = "Synkroniser med NTP-server"; // translategemma:4b
+"Previous month" = "Forrige måned"; // qwen3.8:27b
+"Next month" = "Næste måned"; // qwen3.8:27b
 
 // Colors
 "Based on utilization" = "Baseret på brug";
@@ -640,6 +545,27 @@
 "Second brown" = "Sekundær brun";
 "Cyan" = "Cyan";
 "Magenta" = "Magenta";
-"Pink" = "Pink";
+"Pink" = "Rosa"; // qwen3.8:27b
 "Teal" = "Blågrøn";
 "Indigo" = "Indigo";
+
+// System Stats
+"Authorization" = "Autorisation"; // qwen3.8:27b
+"Identificator" = "Identifikator"; // qwen3.8:27b
+"Plan" = "Plan";
+"Monitoring" = "Overvågning"; // qwen3.8:27b
+"Control" = "Kontrol"; // qwen3.8:27b
+"Update" = "Opdater"; // qwen3.8:27b
+"Sign in" = "Log ind"; // qwen3.8:27b
+"Sign out" = "Log ud"; // qwen3.8:27b
+"Deregister" = "Afmeld"; // qwen3.8:27b
+"Hosts" = "Værter"; // qwen3.8:27b
+"Machines" = "Maskiner"; // qwen3.8:27b
+"No hosts yet" = "Ingen værter endnu"; // qwen3.8:27b
+"No machines yet" = "Ingen maskiner endnu"; // qwen3.8:27b
+"Get notified when a device goes offline or hits a threshold" = "Få besked, når en enhed går offline eller rammer en tærskel"; // qwen3.8:27b
+"It is not recommended to enable remote control unless you know what you are doing." = "Det anbefales ikke at aktivere fjernbetjening, medmindre du ved, hvad du laver."; // qwen3.8:27b
+"Live CPU, RAM, disk and network metrics" = "Live CPU-, RAM-, disk- og netværksmålinger"; // qwen3.8:27b
+"Login to System Stats to see your devices" = "Log ind til System Stats for at se dine enheder"; // qwen3.8:27b
+"Monitor HTTP, ICMP and custom endpoints" = "Overvåg HTTP, ICMP og brugerdefinerede slutpunkter"; // qwen3.8:27b
+"Monitor and control your Macs from anywhere. Sign in to your System Stats account to see all your devices and hosts in one place." = "Overvåg og kontroller dine Macs hvor som helst. Log ind på din System Stats-konto for at se alle dine enheder og værter ét sted."; // qwen3.8:27b

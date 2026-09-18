@@ -50,7 +50,6 @@
 "Characters" = "حروف";
 "Short" = "قصير";
 "Long" = "طويل";
-"Statistics" = "إحصائيات";
 "Max" = "الأقصى";
 "Min" = "الأدنى";
 "Reset" = "إعادة";
@@ -98,6 +97,8 @@
 "15 sec" = "15 ثانية"; // translategemma:4b
 "30 sec" = "30 ثانية"; // translategemma:4b
 "60 sec" = "60 ثانية"; // translategemma:4b
+"Eject" = "إخراج"; // qwen3.8:27b
+"Enable" = "تفعيل"; // qwen3.8:27b
 
 // Setup
 "Stats Setup" = "إعدادات الإحصاءات";
@@ -146,6 +147,7 @@
 "Open Calendar" = "فتح التقويم"; // translategemma:4b
 "Toggle the module" = "تبديل الوحدة"; // gemma4:31b
 "Open System Stats" = "فتح System Stats"; // gemma4:31b
+"Close module settings" = "إغلاق إعدادات الوحدة"; // qwen3.8:27b
 
 // Application settings
 "Check for updates" = "التحقق من وجود تحديثات";
@@ -168,6 +170,7 @@
 "Spacing" = "التباعد";
 "Choose file" = "اختيار ملف"; // gemma4:31b
 "Stress tests" = "اختبارات الإجهاد"; // gemma4:31b
+"Keep the menubar items position" = "الحفاظ على موضع عناصر شريط القائمة"; // qwen3.8:27b
 
 // Dashboard
 "Serial number" = "الرقم التسلسلي";
@@ -185,8 +188,12 @@
 // Update
 "The latest version of Stats installed" = "تم تثبيت أحدث إصدار من الإحصاءات";
 "Downloading..." = "جار التحميل...";
+"Installing..." = "جارٍ التثبيت..."; // qwen3.8:27b
+"Updating..." = "جارٍ التحديث..."; // qwen3.8:27b
+"Stats will restart automatically" = "سيتم إعادة تشغيل Stats تلقائيًا"; // qwen3.8:27b
 "Current version: " = "الإصدار الحالي:  ";
 "Latest version: " = "الإصدار الأحدث:    ";
+"Changelog" = "سجل التغييرات"; // qwen3.8:27b
 
 // Widgets
 "Color" = "لون";
@@ -230,7 +237,6 @@
 
 // Module Kit
 "Open module settings" = "فتح إعدادات الوحدة";
-"Open widget settings" = "فتح إعدادات العنصر";
 "Update interval" = "فاصل التحديث";
 "Usage history" = "سجل الاستخدام";
 "Details" = "التفاصيل";
@@ -247,6 +253,8 @@
 "Kill process" = "إيقاف العملية";
 "Keyboard shortcut" = "اختصار لوحة المفاتيح"; // translategemma:4b
 "Listening..." = "جاري الاستماع..."; // gemma4:31b
+"Open in browser" = "افتح في المتصفح"; // qwen3.8:27b
+"Open module" = "فتح الوحدة"; // qwen3.8:27b
 
 // Modules
 "Number of top processes" = "عدد أعلى العمليات";
@@ -276,17 +284,20 @@
 "CPU usage threshold" = "عتبة استخدام المعالج";
 "Efficiency cores" = "نوى كفاءة";
 "Performance cores" = "نوى أداء";
+"Super cores" = "أنوية فائقة"; // qwen3.8:27b
 "System color" = "لون النظام";
 "User color" = "لون المستخدم";
 "Idle color" = "لون الخمول";
 "Cluster grouping" = "تجميع المجموعات";
 "Efficiency cores color" = "لون نوى الكفاءة";
 "Performance cores color" = "لون نوى الأداء";
+"Super cores color" = "لون النوى الفائقة"; // qwen3.8:27b
 "Total load" = "إجمالي الحمل";
 "System load" = "حمل النظام";
 "User load" = "حمل المستخدم";
 "Efficiency cores load" = "حمل نوى الكفاءة";
 "Performance cores load" = "حمل نوى الأداء";
+"Super cores load" = "حمل الأنوية الفائقة"; // qwen3.8:27b
 "All cores" = "كل الأنوية"; // gemma4:31b
 "Load per core" = "الحمل لكل نواة"; // gemma4:31b
 "Efficiency core" = "نواة الكفاءة"; // gemma4:31b
@@ -300,10 +311,18 @@
 "Model" = "النموذج";
 "Status" = "الحالة";
 "Utilization" = "استخدام";
+"Render" = "رندر"; // qwen3.8:27b
 "Render utilization" = "استخدام الرندر";
+"Render utilization history" = "سجل استخدام التصيير"; // qwen3.8:27b
+"Tiler" = "مُقسِّم"; // qwen3.8:27b
 "Tiler utilization" = "استخدام اللوح";
+"Tiler utilization history" = "سجل استخدام Tiler"; // qwen3.8:27b
 "GPU usage threshold" = "عتبة استخدام GPU";
 "GPU usage is" = "استخدام GPU %0";
+"ANE utilization" = "استخدام ANE"; // qwen3.8:27b
+"ANE utilization history" = "سجل استخدام ANE"; // qwen3.8:27b
+"FPS history" = "سجل FPS"; // qwen3.8:27b
+"GPU utilization history" = "سجل استخدام GPU"; // qwen3.8:27b
 
 // RAM
 "Memory usage" = "استخدام الذاكرة";
@@ -325,6 +344,8 @@
 "Free memory (less than)" = "الذاكرة المتبقية (أقل من)";
 "Swap size" = "حجم التبادل";
 "Free RAM is" = "الذاكرة العشوائية المتبقية هي %0";
+"Pressure" = "الضغط"; // qwen3.8:27b
+"Pressure level" = "مستوى الضغط"; // qwen3.8:27b
 
 // Disk
 "Show removable disks" = "عرض الأقراص القابلة للإزالة";
@@ -346,8 +367,6 @@
 "Encrypted" = "مشفر"; // gemma4:31b-it-qat
 "Writable" = "قابل للكتابة"; // gemma4:31b-it-qat
 "Drives" = "محركات الأقراص"; // gemma4:31b
-"SMART data" = "بيانات SMART"; // gemma4:31b
-"ATA SMART data" = "بيانات ATA SMART"; // gemma4:31b
 "Power cycles" = "دورات الطاقة"; // gemma4:31b
 "Power on hours" = "ساعات التشغيل"; // gemma4:31b
 "Critical warning" = "تحذير حرج"; // gemma4:31b-it-qat
@@ -360,6 +379,12 @@
 "Reliability degraded" = "موثوقية متدهورة"; // gemma4:31b-it-qat
 "Read-only mode" = "وضع القراءة فقط"; // gemma4:31b-it-qat
 "Backup failed" = "فشل النسخ الاحتياطي"; // gemma4:31b-it-qat
+"All disks" = "جميع الأقراص"; // qwen3.8:27b
+"Disk details" = "تفاصيل القرص"; // qwen3.8:27b
+"Main color" = "اللون الرئيسي"; // qwen3.8:27b
+"Read / Write history" = "سجل القراءة / الكتابة"; // qwen3.8:27b
+"mounted" = "مُثبَّت"; // qwen3.8:27b
+"removable" = "قابلة للإزالة"; // qwen3.8:27b
 
 // Sensors
 "Celsius" = "درجة مئوية";
@@ -428,6 +453,14 @@
 "Internet connection lost" = "فُقد الاتصال بالإنترنت"; // gemma4:31b
 "Internet connection established" = "تم إنشاء اتصال بالإنترنت"; // translategemma:4b
 "Show country code instead of emoji" = "إظهار رمز الدولة بدلاً من الرموز التعبيرية"; // gemma4:31b
+"DNS Server" = "خادم DNS"; // qwen3.8:27b
+"Jitter" = "الاهتزاز"; // qwen3.8:27b
+"Noise" = "الضوضاء"; // qwen3.8:27b
+"Signal" = "الإشارة"; // qwen3.8:27b
+"Speed" = "السرعة"; // qwen3.8:27b
+"Network interface changed" = "تغيّرت واجهة الشبكة"; // qwen3.8:27b
+"WiFi network changed" = "تغيّرت شبكة WiFi"; // qwen3.8:27b
+"This will be visible in the text widget" = "سيكون هذا مرئيًا في ويدجت النص"; // qwen3.8:27b
 
 // Battery
 "Source" = "المصدر";
@@ -435,7 +468,6 @@
 "Battery Power" = "بطارية";
 "Time" = "الوقت";
 "Health" = "الصحة";
-"Amperage" = "التيار";
 "Voltage" = "الجهد";
 "Cycles" = "الدورات";
 "Temperature" = "درجة الحرارة";
@@ -465,9 +497,11 @@
 "On battery" = "على البطارية"; // gemma4:31b
 "Plugged in" = "متصل"; // gemma4:31b
 "Charging" = "جاري الشحن"; // gemma4:31b
+"Level" = "المستوى"; // qwen3.8:27b
 
 // Bluetooth
 "No Bluetooth devices are available" = "لا توجد أجهزة بلوتوث متاحة";
+"Bluetooth threshold" = "حد Bluetooth"; // qwen3.8:27b
 
 // Clock
 "Time zone" = "المنطقة الزمنية";
@@ -514,3 +548,24 @@
 "Pink" = "زهري";
 "Teal" = "أزرق مخضر";
 "Indigo" = "نيلي";
+
+// System Stats
+"Authorization" = "التصريح"; // qwen3.8:27b
+"Identificator" = "المعرّف"; // qwen3.8:27b
+"Plan" = "الخطة"; // qwen3.8:27b
+"Monitoring" = "المراقبة"; // qwen3.8:27b
+"Control" = "التحكم"; // qwen3.8:27b
+"Update" = "تحديث"; // qwen3.8:27b
+"Sign in" = "تسجيل الدخول"; // qwen3.8:27b
+"Sign out" = "تسجيل الخروج"; // qwen3.8:27b
+"Deregister" = "إلغاء التسجيل"; // qwen3.8:27b
+"Hosts" = "المضيفات"; // qwen3.8:27b
+"Machines" = "الأجهزة"; // qwen3.8:27b
+"No hosts yet" = "لا توجد مضيفات بعد"; // qwen3.8:27b
+"No machines yet" = "لا توجد أجهزة بعد"; // qwen3.8:27b
+"Get notified when a device goes offline or hits a threshold" = "احصل على إشعار عندما يصبح الجهاز غير متصل أو يصل إلى حد معين"; // qwen3.8:27b
+"It is not recommended to enable remote control unless you know what you are doing." = "لا يُنصح بتفعيل التحكم عن بُعد إلا إذا كنت تعرف ما تفعله."; // qwen3.8:27b
+"Live CPU, RAM, disk and network metrics" = "مقاييس مباشرة لـ CPU وRAM والقرص والشبكة"; // qwen3.8:27b
+"Login to System Stats to see your devices" = "سجّل الدخول إلى System Stats لعرض أجهزتك"; // qwen3.8:27b
+"Monitor HTTP, ICMP and custom endpoints" = "مراقبة HTTP و ICMP ونقاط النهاية المخصصة"; // qwen3.8:27b
+"Monitor and control your Macs from anywhere. Sign in to your System Stats account to see all your devices and hosts in one place." = "راقب Macs وتحكّم بها من أي مكان. سجّل الدخول إلى حساب System Stats الخاص بك لعرض جميع أجهزتك ومضيفاتك في مكان واحد."; // qwen3.8:27b

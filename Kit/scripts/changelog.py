@@ -1,4 +1,5 @@
 import subprocess
+import sys
 import re
 
 
@@ -57,7 +58,7 @@ class Changelog:
             elif self.langPattern.match(line) or "translation" in line or "localization" in line:
                 lang.append(line)
             else:
-                print("Failed to detect commit {} type".format(line))
+                print("Failed to detect commit {} type".format(line), file=sys.stderr)
 
         return fix, feat, lang
 

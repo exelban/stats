@@ -50,7 +50,6 @@
 "Characters" = "चरित्र";
 "Short" = "लघु";
 "Long" = "लंबा";
-"Statistics" = "सांख्यिकी";
 "Max" = "अधिकतम";
 "Min" = "मिन";
 "Reset" = "रीसेट";
@@ -98,6 +97,8 @@
 "15 sec" = "15 सेकंड"; // translategemma:4b
 "30 sec" = "30 सेकंड"; // translategemma:4b
 "60 sec" = "60 सेकंड"; // translategemma:4b
+"Eject" = "निकालें"; // qwen3.8:27b
+"Enable" = "सक्रिय करें"; // qwen3.8:27b
 
 // Setup
 "Stats Setup" = "आँकड़े सेटअप";
@@ -146,6 +147,7 @@
 "Open Calendar" = "कैलेंडर खोलें"; // translategemma:4b
 "Toggle the module" = "मॉड्यूल को टॉगल करें"; // gemma4:31b
 "Open System Stats" = "System Stats खोलें"; // gemma4:31b
+"Close module settings" = "मॉड्यूल सेटिंग्स बंद करें"; // qwen3.8:27b
 
 // Application settings
 "Check for updates" = "अपडेट की जाँच करें";
@@ -168,6 +170,7 @@
 "Spacing" = "स्पेसिंग";
 "Choose file" = "फ़ाइल चुनें"; // translategemma:4b
 "Stress tests" = "तनाव परीक्षण"; // translategemma:4b
+"Keep the menubar items position" = "मेनबार आइटमों की स्थिति बनाए रखें"; // qwen3.8:27b
 
 // Dashboard
 "Serial number" = "सीरियल नंबर";
@@ -185,8 +188,12 @@
 // Update
 "The latest version of Stats installed" = "आँकड़े का नवीनतम संस्करण स्थापित है";
 "Downloading..." = "डाउनलोडिंग ...";
+"Installing..." = "स्थापना हो रही है..."; // qwen3.8:27b
+"Updating..." = "अपडेट हो रहा है..."; // qwen3.8:27b
+"Stats will restart automatically" = "Stats स्वतः पुनः प्रारंभ होगा"; // qwen3.8:27b
 "Current version: " = "वर्तमान संस्करण: ";
 "Latest version: " = "नवीनतम संस्करण: ";
+"Changelog" = "चेंजलॉग"; // qwen3.8:27b
 
 // Widgets
 "Color" = "रंग";
@@ -230,7 +237,6 @@
 
 // Module Kit
 "Open module settings" = "ओपन मॉड्यूल सेटिंग्स";
-"Open widget settings" = "विजेट सेटिंग्स खोलें";
 "Update interval" = "अद्यतन अंतराल";
 "Usage history" = "उपयोग इतिहास";
 "Details" = "विवरण";
@@ -247,6 +253,8 @@
 "Kill process" = "प्रोसेस समाप्त करें"; // gemma4:31b
 "Keyboard shortcut" = "कीबोर्ड शॉर्टकट"; // translategemma:4b
 "Listening..." = "सुन रहा है..."; // gemma4:31b
+"Open in browser" = "ब्राउज़र में खोलें"; // qwen3.8:27b
+"Open module" = "मॉड्यूल खोलें"; // qwen3.8:27b
 
 // Modules
 "Number of top processes" = "शीर्ष प्रक्रियाओं की संख्या";
@@ -276,17 +284,20 @@
 "CPU usage threshold" = "सीपीयू उपयोग सीमा";
 "Efficiency cores" = "दक्षता कोर";
 "Performance cores" = "प्रदर्शन कोर";
+"Super cores" = "सुपर कोर"; // qwen3.8:27b
 "System color" = "सिस्टम रंग";
 "User color" = "उपयोगकर्ता रंग";
 "Idle color" = "निष्क्रिय रंग";
 "Cluster grouping" = "क्लस्टर समूहीकरण";
 "Efficiency cores color" = "दक्षता कोर रंग";
 "Performance cores color" = "प्रदर्शन कोर रंग";
+"Super cores color" = "सुपर कोर रंग"; // qwen3.8:27b
 "Total load" = "कुल लोड"; // gemma4:31b
 "System load" = "सिस्टम लोड"; // gemma4:31b
 "User load" = "उपयोगकर्ता लोड"; // gemma4:31b
 "Efficiency cores load" = "ऊर्जा-कुशल कोर लोड"; // gemma4:31b
 "Performance cores load" = "प्रदर्शन कोर लोड"; // gemma4:31b
+"Super cores load" = "सुपर कोर लोड"; // qwen3.8:27b
 "All cores" = "सभी कोर"; // translategemma:4b
 "Load per core" = "प्रति कोर लोड"; // gemma4:31b
 "Efficiency core" = "दक्षता कोर"; // gemma4:31b
@@ -300,10 +311,18 @@
 "Model" = "मॉडल";
 "Status" = "स्थिति";
 "Utilization" = "उपयोग";
+"Render" = "रेंडर"; // qwen3.8:27b
 "Render utilization" = "उपयोग प्रस्तुत करें";
+"Render utilization history" = "रेंडर उपयोग इतिहास"; // qwen3.8:27b
+"Tiler" = "टाइलर"; // qwen3.8:27b
 "Tiler utilization" = "टाइलर उपयोग";
+"Tiler utilization history" = "टाइलर उपयोग इतिहास"; // qwen3.8:27b
 "GPU usage threshold" = "जीपीयू उपयोग सीमा";
 "GPU usage is" = "जीपीयू उपयोग %0 है";
+"ANE utilization" = "ANE उपयोग"; // qwen3.8:27b
+"ANE utilization history" = "ANE उपयोग इतिहास"; // qwen3.8:27b
+"FPS history" = "FPS इतिहास"; // qwen3.8:27b
+"GPU utilization history" = "GPU उपयोग इतिहास"; // qwen3.8:27b
 
 // RAM
 "Memory usage" = "मेमोरी उपयोग";
@@ -325,6 +344,8 @@
 "Free memory (less than)" = "खाली मेमोरी (से कम)"; // gemma4:31b
 "Swap size" = "Swap आकार"; // gemma4:31b
 "Free RAM is" = "खाली RAM %0 है"; // gemma4:31b
+"Pressure" = "दबाव"; // qwen3.8:27b
+"Pressure level" = "दबाव स्तर"; // qwen3.8:27b
 
 // Disk
 "Show removable disks" = "हटाने योग्य डिस्क दिखाएँ";
@@ -346,8 +367,6 @@
 "Encrypted" = "एन्क्रिप्टेड"; // gemma4:31b-it-qat
 "Writable" = "लिखने योग्य"; // gemma4:31b-it-qat
 "Drives" = "ड्राइव्स"; // gemma4:31b
-"SMART data" = "SMART डेटा"; // gemma4:31b
-"ATA SMART data" = "ATA SMART डेटा"; // gemma4:31b
 "Power cycles" = "पावर साइकल"; // gemma4:31b
 "Power on hours" = "संचालन के घंटे"; // gemma4:31b
 "Critical warning" = "गंभीर चेतावनी"; // gemma4:31b-it-qat
@@ -360,6 +379,12 @@
 "Reliability degraded" = "विश्वसनीयता घटी हुई"; // gemma4:31b-it-qat
 "Read-only mode" = "केवल पढ़ने योग्य मोड"; // gemma4:31b-it-qat
 "Backup failed" = "बैकअप विफल रहा"; // gemma4:31b-it-qat
+"All disks" = "सभी डिस्क"; // qwen3.8:27b
+"Disk details" = "डिस्क विवरण"; // qwen3.8:27b
+"Main color" = "मुख्य रंग"; // qwen3.8:27b
+"Read / Write history" = "पठन / लेखन इतिहास"; // qwen3.8:27b
+"mounted" = "माउंटेड"; // qwen3.8:27b
+"removable" = "हटाने योग्य"; // qwen3.8:27b
 
 // Sensors
 "Celsius" = "सेल्सियस";
@@ -428,6 +453,14 @@
 "Internet connection lost" = "इंटरनेट कनेक्शन टूट गया"; // gemma4:31b
 "Internet connection established" = "इंटरनेट कनेक्शन स्थापित हुआ"; // gemma4:31b
 "Show country code instead of emoji" = "इमोजी के बजाय देश का कोड दिखाएं"; // gemma4:31b
+"DNS Server" = "DNS सर्वर"; // qwen3.8:27b
+"Jitter" = "जिटर"; // qwen3.8:27b
+"Noise" = "शोर"; // qwen3.8:27b
+"Signal" = "सिग्नल"; // qwen3.8:27b
+"Speed" = "गति"; // qwen3.8:27b
+"Network interface changed" = "नेटवर्क इंटरफ़ेस बदला"; // qwen3.8:27b
+"WiFi network changed" = "WiFi नेटवर्क बदला"; // qwen3.8:27b
+"This will be visible in the text widget" = "यह टेक्स्ट विजेट में दिखाई देगा"; // qwen3.8:27b
 
 // Battery
 "Source" = "स्रोत";
@@ -435,7 +468,6 @@
 "Battery Power" = "बैटरी पावर";
 "Time" = "समय";
 "Health" = "स्वास्थ्य";
-"Amperage" = "एम्पीयरेज";
 "Voltage" = "वोल्टेज";
 "Cycles" = "चक्र";
 "Temperature" = "तापमान";
@@ -465,9 +497,11 @@
 "On battery" = "बैटरी पर"; // gemma4:31b
 "Plugged in" = "प्लग किया हुआ"; // gemma4:31b
 "Charging" = "चार्ज हो रहा है"; // gemma4:31b
+"Level" = "स्तर"; // qwen3.8:27b
 
 // Bluetooth
 "No Bluetooth devices are available" = "कोई ब्लूटूथ डिवाइस उपलब्ध नहीं हैं";
+"Bluetooth threshold" = "Bluetooth सीमा"; // qwen3.8:27b
 
 // Clock
 "Time zone" = "समय क्षेत्र";
@@ -514,3 +548,24 @@
 "Pink" = "गुलाबी";
 "Teal" = "टील";
 "Indigo" = "इंडिगो";
+
+// System Stats
+"Authorization" = "प्रमाणीकरण"; // qwen3.8:27b
+"Identificator" = "पहचानकर्ता"; // qwen3.8:27b
+"Plan" = "योजना"; // qwen3.8:27b
+"Monitoring" = "निगरानी"; // qwen3.8:27b
+"Control" = "नियंत्रण"; // qwen3.8:27b
+"Update" = "अपडेट"; // qwen3.8:27b
+"Sign in" = "साइन इन करें"; // qwen3.8:27b
+"Sign out" = "साइन आउट"; // qwen3.8:27b
+"Deregister" = "अपंजीकृत करें"; // qwen3.8:27b
+"Hosts" = "होस्ट"; // qwen3.8:27b
+"Machines" = "मशीनें"; // qwen3.8:27b
+"No hosts yet" = "अभी तक कोई होस्ट नहीं"; // qwen3.8:27b
+"No machines yet" = "अभी तक कोई मशीन नहीं"; // qwen3.8:27b
+"Get notified when a device goes offline or hits a threshold" = "जब कोई डिवाइस ऑफलाइन हो जाए या किसी सीमा को पार कर जाए तो सूचना प्राप्त करें"; // qwen3.8:27b
+"It is not recommended to enable remote control unless you know what you are doing." = "यदि आप यह नहीं जानते कि आप क्या कर रहे हैं, तो रिमोट कंट्रोल सक्षम करने की अनुशंसा नहीं की जाती।"; // qwen3.8:27b
+"Live CPU, RAM, disk and network metrics" = "लाइव CPU, RAM, डिस्क और नेटवर्क मेट्रिक्स"; // qwen3.8:27b
+"Login to System Stats to see your devices" = "अपने डिवाइस देखने के लिए System Stats में लॉगिन करें"; // qwen3.8:27b
+"Monitor HTTP, ICMP and custom endpoints" = "HTTP, ICMP और कस्टम एंडपॉइंट की निगरानी करें"; // qwen3.8:27b
+"Monitor and control your Macs from anywhere. Sign in to your System Stats account to see all your devices and hosts in one place." = "कहीं भी अपने Macs को मॉनिटर करें और नियंत्रित करें। अपने सभी devices और hosts को एक जगह देखने के लिए अपने System Stats खाते में साइन इन करें।"; // qwen3.8:27b

@@ -50,7 +50,6 @@
 "Characters" = "Znak";
 "Short" = "Krátký";
 "Long" = "Dlouhý";
-"Statistics" = "Statistiky";
 "Max" = "Max";
 "Min" = "Min";
 "Reset" = "Resetovat"; // gemma4:31b
@@ -98,6 +97,8 @@
 "15 sec" = "15 sek"; // gemma4:31b
 "30 sec" = "30 sek"; // gemma4:31b
 "60 sec" = "60 sek"; // gemma4:31b
+"Eject" = "Vyhodit"; // qwen3.8:27b
+"Enable" = "Povolit"; // qwen3.8:27b
 
 // Setup
 "Stats Setup" = "Nastavení Stats";
@@ -146,6 +147,7 @@
 "Open Calendar" = "Otevřít kalendář"; // translategemma:4b
 "Toggle the module" = "Přepnout modul"; // gemma4:31b
 "Open System Stats" = "Otevřít System Stats"; // gemma4:31b
+"Close module settings" = "Zavřít nastavení modulu"; // qwen3.8:27b
 
 // Application settings
 "Check for updates" = "Zkontrolovat aktualizace";
@@ -168,6 +170,7 @@
 "Spacing" = "Odsazení";
 "Choose file" = "Vybrat soubor"; // gemma4:31b
 "Stress tests" = "Stresové testy"; // gemma4:31b
+"Keep the menubar items position" = "Zachovat pozici položek lišty menu"; // qwen3.8:27b
 
 // Dashboard
 "Serial number" = "Sériové číslo";
@@ -185,8 +188,12 @@
 // Update
 "The latest version of Stats installed" = "Byla nainstalována nejnovější verze Stats";
 "Downloading..." = "Stahování...";
+"Installing..." = "Instalace..."; // qwen3.8:27b
+"Updating..." = "Aktualizace..."; // qwen3.8:27b
+"Stats will restart automatically" = "Stats se automaticky restartuje"; // qwen3.8:27b
 "Current version: " = "Aktuální verze: ";
 "Latest version: " = "Nejnovější verze: ";
+"Changelog" = "Přehled změn"; // qwen3.8:27b
 
 // Widgets
 "Color" = "Barva";
@@ -230,7 +237,6 @@
 
 // Module Kit
 "Open module settings" = "Otevřít nastavení modulu";
-"Open widget settings" = "Otevřít nastavení widgetu";
 "Update interval" = "Interval aktualizace";
 "Usage history" = "Historie použití";
 "Details" = "Detaily";
@@ -247,6 +253,8 @@
 "Kill process" = "Ukončit proces"; // gemma4:31b
 "Keyboard shortcut" = "Klávesová zkratka"; // gemma4:31b
 "Listening..." = "Poslouchám..."; // translategemma:4b
+"Open in browser" = "Otevřít v prohlížeči"; // qwen3.8:27b
+"Open module" = "Otevřít modul"; // qwen3.8:27b
 
 // Modules
 "Number of top processes" = "Počet prvních procesů";
@@ -276,17 +284,20 @@
 "CPU usage threshold" = "Prahová hodnota využití CPU";
 "Efficiency cores" = "Efektivní jádra";
 "Performance cores" = "Výkonná jádra";
+"Super cores" = "Super jádra"; // qwen3.8:27b
 "System color" = "Systémová barva";
 "User color" = "Barva uživatele";
 "Idle color" = "Barva nečinnosti";
 "Cluster grouping" = "Seskupení klastrů";
 "Efficiency cores color" = "Barva energeticky úsporných jader"; // gemma4:31b
 "Performance cores color" = "Barva výkonných jader"; // gemma4:31b
+"Super cores color" = "Barva super jader"; // qwen3.8:27b
 "Total load" = "Celkové zatížení"; // gemma4:31b
 "System load" = "Zatížení systému"; // gemma4:31b
 "User load" = "Uživatelské zatížení"; // gemma4:31b
 "Efficiency cores load" = "Zatížení efektivních jader"; // gemma4:31b
 "Performance cores load" = "Zatížení výkonných jader"; // gemma4:31b
+"Super cores load" = "Zatížení super jader"; // qwen3.8:27b
 "All cores" = "Všechna jádra"; // gemma4:31b
 "Load per core" = "Zatížení na jádro"; // gemma4:31b
 "Efficiency core" = "Efektivní jádro"; // gemma4:31b
@@ -300,10 +311,18 @@
 "Model" = "Model";
 "Status" = "Stav"; // translategemma:4b
 "Utilization" = "Využití";
+"Render" = "Vykreslení"; // qwen3.8:27b
 "Render utilization" = "Využití vykreslování";
+"Render utilization history" = "Historie využití vykreslování"; // qwen3.8:27b
+"Tiler" = "Dlaždič"; // qwen3.8:27b
 "Tiler utilization" = "Využití tilingu";
+"Tiler utilization history" = "Historie využití Tileru"; // qwen3.8:27b
 "GPU usage threshold" = "Prahová hodnota využití GPU";
 "GPU usage is" = "Využití GPU je %0";
+"ANE utilization" = "Využití ANE"; // qwen3.8:27b
+"ANE utilization history" = "Historie využití ANE"; // qwen3.8:27b
+"FPS history" = "Historie FPS"; // qwen3.8:27b
+"GPU utilization history" = "Historie využití GPU"; // qwen3.8:27b
 
 // RAM
 "Memory usage" = "Využití paměti";
@@ -325,6 +344,8 @@
 "Free memory (less than)" = "Volná paměť (méně než)"; // translategemma:4b
 "Swap size" = "Velikost swapu"; // gemma4:31b
 "Free RAM is" = "Volná RAM je %0"; // translategemma:4b
+"Pressure" = "Tlak"; // qwen3.8:27b
+"Pressure level" = "Úroveň tlaku"; // qwen3.8:27b
 
 // Disk
 "Show removable disks" = "Zobrazovat vyměnitelné disky";
@@ -346,8 +367,6 @@
 "Encrypted" = "Zašifrováno"; // gemma4:31b-it-qat
 "Writable" = "Zapisovatelný"; // gemma4:31b-it-qat
 "Drives" = "Disky"; // gemma4:31b
-"SMART data" = "Data SMART"; // translategemma:4b
-"ATA SMART data" = "Data ATA SMART"; // gemma4:31b
 "Power cycles" = "Počet cyklů"; // gemma4:31b
 "Power on hours" = "Provozní hodiny"; // gemma4:31b
 "Critical warning" = "Kritické varování"; // gemma4:31b-it-qat
@@ -360,10 +379,16 @@
 "Reliability degraded" = "Snížená spolehlivost"; // gemma4:31b-it-qat
 "Read-only mode" = "Režim pouze pro čtení"; // gemma4:31b-it-qat
 "Backup failed" = "Zálohování selhalo"; // gemma4:31b-it-qat
+"All disks" = "Všechny disky"; // qwen3.8:27b
+"Disk details" = "Podrobnosti disku"; // qwen3.8:27b
+"Main color" = "Hlavní barva"; // qwen3.8:27b
+"Read / Write history" = "Historie čtení / zápisu"; // qwen3.8:27b
+"mounted" = "namontovaný"; // qwen3.8:27b
+"removable" = "odnímatelný"; // qwen3.8:27b
 
 // Sensors
 "Celsius" = "Celsia"; // gemma4:31b
-"Fahrenheit" = "Fahrenheit";
+"Fahrenheit" = "Fahrenheita"; // qwen3.8:27b
 "Save the fan speed" = "Uložit rychlost ventilátoru";
 "Fan" = "Ventilátor";
 "HID sensors" = "HID senzory";
@@ -428,6 +453,14 @@
 "Internet connection lost" = "Ztraceno připojení k internetu"; // gemma4:31b
 "Internet connection established" = "Připojení k internetu navázáno"; // gemma4:31b
 "Show country code instead of emoji" = "Zobrazit kód země místo emoji"; // gemma4:31b
+"DNS Server" = "DNS server"; // qwen3.8:27b
+"Jitter" = "Jitter";
+"Noise" = "Hluk"; // qwen3.8:27b
+"Signal" = "Signál"; // qwen3.8:27b
+"Speed" = "Rychlost"; // qwen3.8:27b
+"Network interface changed" = "Síťové rozhraní změněno"; // qwen3.8:27b
+"WiFi network changed" = "Síť WiFi změněna"; // qwen3.8:27b
+"This will be visible in the text widget" = "Toto bude vidět v textovém widgetu"; // qwen3.8:27b
 
 // Battery
 "Source" = "Zdroj";
@@ -435,7 +468,6 @@
 "Battery Power" = "Napájení z baterie";
 "Time" = "Čas";
 "Health" = "Zdraví";
-"Amperage" = "Proud";
 "Voltage" = "Napětí";
 "Cycles" = "Počet cyklů";
 "Temperature" = "Teplota";
@@ -465,9 +497,11 @@
 "On battery" = "Na baterii"; // gemma4:31b
 "Plugged in" = "Připojen"; // gemma4:31b
 "Charging" = "Nabíjení"; // gemma4:31b
+"Level" = "Úroveň"; // qwen3.8:27b
 
 // Bluetooth
 "No Bluetooth devices are available" = "Žádná bluetooth zařízení nejsou k dispozici";
+"Bluetooth threshold" = "Prahová hodnota Bluetooth"; // qwen3.8:27b
 
 // Clock
 "Time zone" = "Časové pásmo"; // gemma4:31b
@@ -514,3 +548,24 @@
 "Pink" = "Růžová";
 "Teal" = "Šedozelená";
 "Indigo" = "Indigo";
+
+// System Stats
+"Authorization" = "Autorizace"; // qwen3.8:27b
+"Identificator" = "Identifikátor"; // qwen3.8:27b
+"Plan" = "Plán"; // qwen3.8:27b
+"Monitoring" = "Monitorování"; // qwen3.8:27b
+"Control" = "Ovládání"; // qwen3.8:27b
+"Update" = "Aktualizovat"; // qwen3.8:27b
+"Sign in" = "Přihlásit se"; // qwen3.8:27b
+"Sign out" = "Odhlásit se"; // qwen3.8:27b
+"Deregister" = "Odregistrovat"; // qwen3.8:27b
+"Hosts" = "Hostitelé"; // qwen3.8:27b
+"Machines" = "Stroje"; // qwen3.8:27b
+"No hosts yet" = "Zatím žádné hostitele"; // qwen3.8:27b
+"No machines yet" = "Zatím žádné počítače"; // qwen3.8:27b
+"Get notified when a device goes offline or hits a threshold" = "Získejte oznámení, když zařízení přestane být online nebo dosáhne prahu"; // qwen3.8:27b
+"It is not recommended to enable remote control unless you know what you are doing." = "Nedoporučuje se povolit dálkové ovládání, pokud nevíte, co děláte."; // qwen3.8:27b
+"Live CPU, RAM, disk and network metrics" = "Živé metriky CPU, RAM, disku a sítě"; // qwen3.8:27b
+"Login to System Stats to see your devices" = "Přihlaste se do System Stats, abyste viděli svá zařízení"; // qwen3.8:27b
+"Monitor HTTP, ICMP and custom endpoints" = "Sledovat HTTP, ICMP a vlastní koncové body"; // qwen3.8:27b
+"Monitor and control your Macs from anywhere. Sign in to your System Stats account to see all your devices and hosts in one place." = "Sledujte a ovládejte své Macs kdekoli. Přihlaste se ke svému účtu System Stats a zobrazte si všechna svá zařízení a hostitele na jednom místě."; // qwen3.8:27b

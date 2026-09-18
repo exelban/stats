@@ -26,15 +26,42 @@ def unescape(s):
 def dictionary(lines):
     parsed_lines = {}
     for i, line in enumerate(lines):
-        if line.startswith("//") or len(line) == 0 or line == "\n":
+        stripped = line.strip()
+        if not stripped or stripped.startswith("//"):
             continue
-        line = line.replace("\n", "")
-        pair = line.split(" = ")
+        m = KEY_RE.match(line)
+        if not m:
+            continue
+        rest = line[m.end():]
+        start = rest.find('"')
+        if start == -1:
+            continue
+        end = start + 1
+        while end < len(rest):
+            if rest[end] == "\\":
+                end += 2
+                continue
+            if rest[end] == '"':
+                break
+            end += 1
+        raw = rest[start + 1:end]
+        tag = None
+        tail = rest[end + 1:].strip()
+        if tail.startswith(";") and tail[1:].strip().startswith("//"):
+            tag = tail[1:].strip()[2:].strip() or None
         parsed_lines[i] = {
-            "key": pair[0].replace('"', ""),
-            "value": pair[1].replace('"', "").replace(';', "")
+            "key": unescape(m.group(1)),
+            "value": unescape(raw),
+            "tag": tag,
         }
     return parsed_lines
+
+
+def key_positions(parsed_lines):
+    positions = {}
+    for i in sorted(parsed_lines):
+        positions.setdefault(parsed_lines[i]["key"], []).append(i)
+    return positions
 
 
 class i18n:
@@ -47,7 +74,7 @@ class i18n:
         "rephrase or compress them."
     )
 
-    trusted_languages = ["pl", "uk", "ru"]
+    trusted_languages = []
 
     def __init__(self):
         if "Kit/scripts" in os.getcwd():
@@ -64,41 +91,89 @@ class i18n:
     def check(self):
         en_file = self.en_file()
         en_dict = dictionary(en_file)
+        en_by_key = {}
+        for item in en_dict.values():
+            en_by_key[item["key"]] = item["value"]
+        en_keys = set(en_by_key)
 
+        total_errors = 0
         for lang in self.languages:
             with open(f"{self.path}/{lang}/Localizable.strings", "r") as f:
                 file = f.readlines()
             name = lang.replace(".lproj", "")
             lang_dict = dictionary(file)
+            lang_key_positions = key_positions(lang_dict)
+            lang_keys = set(lang_key_positions)
+            is_en = name == "en"
 
-            for v in en_dict:
-                en_key = en_dict[v].get("key")
-                if v not in lang_dict:
-                    sys.exit(f"missing key `{en_key}` in `{name}` on line `{v}`")
-                lang_key = lang_dict[v].get("key")
-                if lang_key != en_key:
-                    sys.exit(f"missing or wrong key `{lang_key}` in `{name}` on line `{v}`, must be `{en_key}`")
+            errors = []
+            warnings = []
 
+            for k in sorted(en_keys - lang_keys):
+                errors.append(f"missing key \"{k}\"")
+
+            for k in sorted(lang_key_positions.items()):
+                key, positions = k
+                if len(positions) > 1:
+                    lines = ", ".join(str(p + 1) for p in positions)
+                    errors.append(f"duplicate key \"{key}\" on lines {lines}")
+
+            for k in sorted(lang_keys - en_keys):
+                warnings.append(f"extra key \"{k}\" not in en.lproj")
+
+            if not errors and not warnings:
+                continue
+
+            total_errors += len(errors)
+            print(f"\n=== {name} ===")
+            if errors:
+                print(f"  {len(errors)} error(s):")
+                for e in errors:
+                    print(f"    - {e}")
+            if warnings:
+                print(f"  {len(warnings)} warning(s):")
+                for w in warnings:
+                    print(f"    - {w}")
+
+        if total_errors:
+            sys.exit(f"\nFound {total_errors} error(s) across {len(self.languages)} language(s).")
         print(f"All fine, found {len(en_file)} lines in {len(self.languages)} languages.")
 
     def fix(self):
         en_file = self.en_file()
         en_dict = dictionary(en_file)
+        en_by_key = {}
+        for item in en_dict.values():
+            en_by_key[item["key"]] = item["value"]
 
-        for v in en_dict:
-            en_key = en_dict[v].get("key")
-            en_value = en_dict[v].get("value")
+        for lang in self.languages:
+            lang_path = f"{self.path}/{lang}/Localizable.strings"
+            with open(lang_path, "r") as f:
+                lines = f.readlines()
+            lang_dict = dictionary(lines)
+            lang_keys = {item["key"] for item in lang_dict.values()}
+            missing = en_by_key.keys() - lang_keys
 
-            for lang in self.languages:
-                lang_path = f"{self.path}/{lang}/Localizable.strings"
-                with open(lang_path, "r") as f:
-                    file = f.readlines()
-                lang_dict = dictionary(file)
+            if not missing:
+                continue
 
-                if v not in lang_dict or en_key != lang_dict[v].get("key"):
-                    file.insert(v, f"\"{en_key}\" = \"{en_value}\";\n")
-                    with open(lang_path, "w") as f:
-                        f.write("".join(file))
+            missing_by_index = {}
+            for i, item in en_dict.items():
+                if item["key"] in missing:
+                    missing_by_index[i] = item["key"]
+
+            new_lines = lines[:]
+            for i in sorted(missing_by_index):
+                k = missing_by_index[i]
+                line = f"\"{k}\" = \"{self._strings_escape(en_by_key[k])}\";\n"
+                if i < len(new_lines):
+                    new_lines.insert(i, line)
+                else:
+                    new_lines.append(line)
+
+            with open(lang_path, "w") as f:
+                f.write("".join(new_lines))
+            print(f"Added {len(missing)} missing key(s) to {lang.replace('.lproj', '')}")
 
         self.check()
 
@@ -432,7 +507,7 @@ class i18n:
             return translated
         return translated.rstrip().rstrip(".。…").rstrip()
 
-    def translate(self, model="gemma4:31b-it-qat", accept=False, recheck=False, omit=0):
+    def translate(self, model="qwen3.8:27b", accept=False, recheck=False, omit=0):
         en_lines = self.en_file()
         en_dict = dictionary(en_lines)
         omit_keys = ["Swap"]

@@ -50,10 +50,9 @@
 "Characters" = "Litery";
 "Short" = "Krótki";
 "Long" = "Długi";
-"Statistics" = "Statystyki";
 "Max" = "Max";
 "Min" = "Min";
-"Reset" = "Zresetować";
+"Reset" = "Zresetuj";
 "Alignment" = "Wyrównanie";
 "Left alignment" = "Do lewej";
 "Center alignment" = "Centrum";
@@ -86,10 +85,10 @@
 "Read" = "Odczyt";
 "Write" = "Zapis";
 "Frequency" = "Częstotliwość";
-"Save" = "Zapisać";
-"Run" = "Uruchomić";
-"Stop" = "Zatrzymać";
-"Uninstall" = "Odinstalować";
+"Save" = "Zapisz";
+"Run" = "Uruchom";
+"Stop" = "Zatrzymaj";
+"Uninstall" = "Odinstaluj";
 "1 sec" = "1 sek";
 "2 sec" = "2 sek";
 "3 sec" = "3 sek";
@@ -98,6 +97,8 @@
 "15 sec" = "15 sek";
 "30 sec" = "30 sek";
 "60 sec" = "60 sek";
+"Eject" = "Wyrzuć"; // qwen3.8:27b
+"Enable" = "Włącz"; // qwen3.8:27b
 
 // Setup
 "Stats Setup" = "Konfiguracja Stats";
@@ -146,6 +147,7 @@
 "Open Calendar" = "Otwórz kalendarz";
 "Toggle the module" = "Przełącz moduł";
 "Open System Stats" = "Otworzyć System Stats";
+"Close module settings" = "Zamknij ustawienia modułu"; // qwen3.8:27b
 
 // Application settings
 "Check for updates" = "Sprawdzaj aktualizacje";
@@ -168,6 +170,7 @@
 "Spacing" = "Rozstaw";
 "Choose file" = "Wybrać plik";
 "Stress tests" = "Testy obciążeniowe";
+"Keep the menubar items position" = "Zachowuj pozycję elementów paska menu"; // qwen3.8:27b
 
 // Dashboard
 "Serial number" = "Numer seryjny";
@@ -185,8 +188,12 @@
 // Update
 "The latest version of Stats installed" = "Najnowsza wersja Stats zainstalowana";
 "Downloading..." = "Pobieranie...";
+"Installing..." = "Instalowanie..."; // qwen3.8:27b
+"Updating..." = "Aktualizowanie..."; // qwen3.8:27b
+"Stats will restart automatically" = "Stats zostanie automatycznie uruchomiona ponownie"; // qwen3.8:27b
 "Current version: " = "Aktualna wersja: ";
 "Latest version: " = "Najnowsza wersja: ";
+"Changelog" = "Dziennik zmian"; // qwen3.8:27b
 
 // Widgets
 "Color" = "Kolor";
@@ -230,7 +237,6 @@
 
 // Module Kit
 "Open module settings" = "Otwórz ustawienia modułu";
-"Open widget settings" = "Otwórz ustawienia widgetu";
 "Update interval" = "Interwał odświeżania";
 "Usage history" = "Historia użycia";
 "Details" = "Szczegóły";
@@ -247,6 +253,8 @@
 "Kill process" = "Zamknąć proces";
 "Keyboard shortcut" = "Skrót klawiszowy";
 "Listening..." = "Oczekuje...";
+"Open in browser" = "Otwórz w przeglądarce"; // qwen3.8:27b
+"Open module" = "Otwórz moduł"; // qwen3.8:27b
 
 // Modules
 "Number of top processes" = "Liczba procesów";
@@ -276,17 +284,20 @@
 "CPU usage threshold" = "Próg wykorzystania procesora";
 "Efficiency cores" = "Rdzenie energooszczędne";
 "Performance cores" = "Rdzenie wydajnościowe";
+"Super cores" = "Super rdzenie"; // qwen3.8:27b
 "System color" = "Kolor systemu";
 "User color" = "Kolor użytkownika";
 "Idle color" = "Nieaktywny kolor";
 "Cluster grouping" = "Grupowanie klastrów";
 "Efficiency cores color" = "Kolor rdzeni energooszczędnych";
 "Performance cores color" = "Kolor rdzeni wydajnościowych";
+"Super cores color" = "Kolor rdzeni super"; // qwen3.8:27b
 "Total load" = "Całkowite obciążenie";
 "System load" = "Obciążenie systemu";
 "User load" = "Obciążenie użytkownika";
 "Efficiency cores load" = "Obciążenie rdzeni energooszczędnych";
 "Performance cores load" = "Obciążenie rdzeni wydajnościowych";
+"Super cores load" = "Obciążenie rdzeni super"; // qwen3.8:27b
 "All cores" = "Wszystkie rdzenie";
 "Load per core" = "Obciążenie na rdzeń";
 "Efficiency core" = "Rdzeń energooszczędny";
@@ -300,10 +311,18 @@
 "Model" = "Model";
 "Status" = "Stan";
 "Utilization" = "Wykorzystanie";
+"Render" = "Renderowanie"; // qwen3.8:27b
 "Render utilization" = "Wykorzystanie rendera";
+"Render utilization history" = "Historia wykorzystania renderowania"; // qwen3.8:27b
+"Tiler" = "Płytki"; // qwen3.8:27b
 "Tiler utilization" = "Wykorzystanie tilera";
+"Tiler utilization history" = "Historia wykorzystania Tiler"; // qwen3.8:27b
 "GPU usage threshold" = "Próg wykorzystania GPU";
 "GPU usage is" = "Użycie GPU %0";
+"ANE utilization" = "Wykorzystanie ANE"; // qwen3.8:27b
+"ANE utilization history" = "Historia wykorzystania ANE"; // qwen3.8:27b
+"FPS history" = "Historia FPS"; // qwen3.8:27b
+"GPU utilization history" = "Historia wykorzystania GPU"; // qwen3.8:27b
 
 // RAM
 "Memory usage" = "Użycie pamięci";
@@ -325,6 +344,8 @@
 "Free memory (less than)" = "Wolna pamięć (mniej niż)";
 "Swap size" = "Rozmiar swap";
 "Free RAM is" = "Wolna pamięć RAM %0";
+"Pressure" = "Ciśnienie"; // qwen3.8:27b
+"Pressure level" = "Poziom ciśnienia"; // qwen3.8:27b
 
 // Disk
 "Show removable disks" = "Pokaż dyski wymienne";
@@ -346,8 +367,6 @@
 "Encrypted" = "Zaszyfrowany";
 "Writable" = "Zapisywalny";
 "Drives" = "Dyski";
-"SMART data" = "Dane SMART";
-"ATA SMART data" = "Dane ATA SMART";
 "Power cycles" = "Liczba cykli";
 "Power on hours" = "Godziny pracy";
 "Critical warning" = "Ostrzeżenie krytyczne";
@@ -360,6 +379,12 @@
 "Reliability degraded" = "Obniżona niezawodność";
 "Read-only mode" = "Tryb tylko do odczytu";
 "Backup failed" = "Kopia zapasowa nie powiodła się";
+"All disks" = "Wszystkie dyski"; // qwen3.8:27b
+"Disk details" = "Szczegóły dysku"; // qwen3.8:27b
+"Main color" = "Główny kolor"; // qwen3.8:27b
+"Read / Write history" = "Historia odczytu / zapisu"; // qwen3.8:27b
+"mounted" = "zamontowany"; // qwen3.8:27b
+"removable" = "wyjmowalny"; // qwen3.8:27b
 
 // Sensors
 "Celsius" = "Celsjusz";
@@ -404,7 +429,7 @@
 "Processes based" = "Procesy";
 "Reset data usage" = "Resetuj użycie danych";
 "VPN mode" = "Tryb VPN";
-"Standard" = "Standard";
+"Standard" = "Standardowy"; // qwen3.8:27b
 "Security" = "Szyfrowanie";
 "Channel" = "Kanał";
 "Autodetection" = "Autodetekcja";
@@ -428,6 +453,14 @@
 "Internet connection lost" = "Utracono połączenie z internetem";
 "Internet connection established" = "Połączenie z internetem zostało przywrócone";
 "Show country code instead of emoji" = "Wyświetl kod kraju zamiast emoji";
+"DNS Server" = "Serwer DNS"; // qwen3.8:27b
+"Jitter" = "Zakłócenia"; // qwen3.8:27b
+"Noise" = "Szum"; // qwen3.8:27b
+"Signal" = "Sygnał"; // qwen3.8:27b
+"Speed" = "Prędkość"; // qwen3.8:27b
+"Network interface changed" = "Interfejs sieciowy zmieniony"; // qwen3.8:27b
+"WiFi network changed" = "Sieć Wi-Fi zmieniona"; // qwen3.8:27b
+"This will be visible in the text widget" = "To będzie widoczne w widżecie tekstowym"; // qwen3.8:27b
 
 // Battery
 "Source" = "Źródło";
@@ -435,7 +468,6 @@
 "Battery Power" = "Bateria";
 "Time" = "Czas";
 "Health" = "Zdrowie";
-"Amperage" = "Natężenie";
 "Voltage" = "Napięcie";
 "Cycles" = "Liczba cykli";
 "Temperature" = "Temperatura";
@@ -465,9 +497,11 @@
 "On battery" = "Na baterii";
 "Plugged in" = "Podłączony";
 "Charging" = "Ładowanie";
+"Level" = "Poziom"; // qwen3.8:27b
 
 // Bluetooth
 "No Bluetooth devices are available" = "Brak dostępnych urządzeń Bluetooth";
+"Bluetooth threshold" = "Próg Bluetooth"; // qwen3.8:27b
 
 // Clock
 "Time zone" = "Strefa czasowa";
@@ -514,3 +548,24 @@
 "Pink" = "Różowy";
 "Teal" = "Morski";
 "Indigo" = "Indygo";
+
+// System Stats
+"Authorization" = "Autoryzacja"; // qwen3.8:27b
+"Identificator" = "Identyfikator"; // qwen3.8:27b
+"Plan" = "Plan";
+"Monitoring" = "Monitorowanie"; // qwen3.8:27b
+"Control" = "Sterowanie"; // qwen3.8:27b
+"Update" = "Aktualizuj"; // qwen3.8:27b
+"Sign in" = "Zaloguj się"; // qwen3.8:27b
+"Sign out" = "Wyloguj się"; // qwen3.8:27b
+"Deregister" = "Odrejestruj"; // qwen3.8:27b
+"Hosts" = "Hosty"; // qwen3.8:27b
+"Machines" = "Maszyny"; // qwen3.8:27b
+"No hosts yet" = "Jeszcze brak hostów"; // qwen3.8:27b
+"No machines yet" = "Jeszcze brak maszyn"; // qwen3.8:27b
+"Get notified when a device goes offline or hits a threshold" = "Otrzymuj powiadomienia, gdy urządzenie traci połączenie lub osiągnie próg"; // qwen3.8:27b
+"It is not recommended to enable remote control unless you know what you are doing." = "Nie zaleca się włączania zdalnego sterowania, chyba że wiesz, co robisz."; // qwen3.8:27b
+"Live CPU, RAM, disk and network metrics" = "Na żywo metryki CPU, RAM, dysku i sieci"; // qwen3.8:27b
+"Login to System Stats to see your devices" = "Zaloguj się do System Stats, aby zobaczyć swoje urządzenia"; // qwen3.8:27b
+"Monitor HTTP, ICMP and custom endpoints" = "Monitoruj HTTP, ICMP oraz niestandardowe punkty końcowe"; // qwen3.8:27b
+"Monitor and control your Macs from anywhere. Sign in to your System Stats account to see all your devices and hosts in one place." = "Monitoruj i kontroluj swoje Maca z dowolnego miejsca. Zaloguj się na swoje konto System Stats, aby zobaczyć wszystkie swoje urządzenia i hosty w jednym miejscu."; // qwen3.8:27b

@@ -128,8 +128,8 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
             ]))
         }
         
-        self.addArrangedSubview(PreferencesSection(title: localizedString("SMART"), [
-            PreferencesRow(localizedString("SMART"), component: switchView(
+        self.addArrangedSubview(PreferencesSection(title: "SMART", [
+            PreferencesRow("SMART", component: switchView(
                 action: #selector(self.toggleSMART),
                 state: self.SMARTState
             )),
@@ -138,7 +138,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
                 items: ReaderUpdateIntervals,
                 selected: "\(self.updateSMARTIntervalValue)"
             )),
-            PreferencesRow(localizedString("ATA SMART"), component: switchView(
+            PreferencesRow("ATA SMART", component: switchView(
                 action: #selector(self.toggleATASMART),
                 state: self.ATASMARTState
             ))

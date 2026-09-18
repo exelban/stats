@@ -71,7 +71,7 @@ internal class InfoReader: Reader<GPUs> {
         self.setupANE()
         self.setupFrames()
         #endif
-
+        
         devices.forEach { (dict: NSDictionary) in
             guard let deviceID = dict["device-id"] as? Data, let vendorID = dict["vendor-id"] as? Data else {
                 error("device-id or vendor-id not found", log: self.log)
@@ -110,7 +110,7 @@ internal class InfoReader: Reader<GPUs> {
                 error("IOClass not found", log: self.log)
                 continue
             }
-
+            
             guard let stats = accelerator["PerformanceStatistics"] as? [String: Any] else {
                 error("PerformanceStatistics not found", log: self.log)
                 continue

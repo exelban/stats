@@ -95,7 +95,7 @@ internal class Preview: PreviewWrapper {
         splitView.distribution = .fillEqually
         splitView.alignment = .top
         splitView.addArrangedSubview(PreferencesSection(title: localizedString("Details"), [self.detailsView()]))
-        splitView.addArrangedSubview(PreferencesSection(title: localizedString("SMART"), [self.smartView()]))
+        splitView.addArrangedSubview(PreferencesSection(title: "SMART", [self.smartView()]))
         
         self.addArrangedSubview(splitView)
     }

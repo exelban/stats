@@ -50,7 +50,6 @@
 "Characters" = "অক্ষর";
 "Short" = "সংক্ষিপ্ত";
 "Long" = "দীর্ঘ";
-"Statistics" = "পরিসংখ্যান";
 "Max" = "সর্বোচ্চ";
 "Min" = "সর্বনিম্ন";
 "Reset" = "পুনরায় সেট করুন";
@@ -98,6 +97,8 @@
 "15 sec" = "15 সেকেন্ড";
 "30 sec" = "30 সেকেন্ড";
 "60 sec" = "60 সেকেন্ড";
+"Eject" = "বের করুন"; // qwen3.8:27b
+"Enable" = "সক্রিয় করুন"; // qwen3.8:27b
 
 // Setup
 "Stats Setup" = "Stats সেটআপ";
@@ -146,6 +147,7 @@
 "Open Calendar" = "ক্যালেন্ডার খুলুন";
 "Toggle the module" = "মডিউল চালু/বন্ধ করুন";
 "Open System Stats" = "System Stats খুলুন";
+"Close module settings" = "মডিউল সেটিংস বন্ধ করুন"; // qwen3.8:27b
 
 // Application settings
 "Check for updates" = "আপডেট পরীক্ষা করুন";
@@ -168,6 +170,7 @@
 "Spacing" = "ব্যবধান";
 "Choose file" = "ফাইল নির্বাচন করুন";
 "Stress tests" = "স্ট্রেস টেস্ট";
+"Keep the menubar items position" = "মেনুবার আইটেমগুলোর অবস্থান রক্ষা করুন"; // qwen3.8:27b
 
 // Dashboard
 "Serial number" = "ক্রমিক নম্বর";
@@ -185,8 +188,12 @@
 // Update
 "The latest version of Stats installed" = "Stats-এর সর্বশেষ সংস্করণ ইনস্টল করা আছে";
 "Downloading..." = "ডাউনলোড হচ্ছে...";
+"Installing..." = "ইনস্টল হচ্ছে..."; // qwen3.8:27b
+"Updating..." = "হালনাগাদ হচ্ছে..."; // qwen3.8:27b
+"Stats will restart automatically" = "Stats স্বয়ংক্রিয়ভাবে পুনরায় শুরু হবে"; // qwen3.8:27b
 "Current version: " = "বর্তমান সংস্করণ:  ";
 "Latest version: " = "সর্বশেষ সংস্করণ:    ";
+"Changelog" = "পরিবর্তন তালিকা"; // qwen3.8:27b
 
 // Widgets
 "Color" = "রঙ";
@@ -230,7 +237,6 @@
 
 // Module Kit
 "Open module settings" = "মডিউল সেটিংস খুলুন";
-"Open widget settings" = "উইজেট সেটিংস খুলুন";
 "Update interval" = "আপডেটের ব্যবধান";
 "Usage history" = "ব্যবহারের ইতিহাস";
 "Details" = "বিস্তারিত";
@@ -247,6 +253,8 @@
 "Kill process" = "প্রসেস শেষ করুন";
 "Keyboard shortcut" = "কীবোর্ড শর্টকাট";
 "Listening..." = "শুনছি...";
+"Open in browser" = "ব্রাউজারে খুলুন"; // qwen3.8:27b
+"Open module" = "মডিউল খুলুন"; // qwen3.8:27b
 
 // Modules
 "Number of top processes" = "শীর্ষ প্রসেসের সংখ্যা";
@@ -276,17 +284,20 @@
 "CPU usage threshold" = "CPU ব্যবহারের সীমা";
 "Efficiency cores" = "দক্ষতা কোর";
 "Performance cores" = "পারফরম্যান্স কোর";
+"Super cores" = "সুপার কোর"; // qwen3.8:27b
 "System color" = "সিস্টেম রঙ";
 "User color" = "ব্যবহারকারীর রঙ";
 "Idle color" = "নিষ্ক্রিয় রঙ";
 "Cluster grouping" = "ক্লাস্টার গ্রুপিং";
 "Efficiency cores color" = "দক্ষতা কোরের রঙ";
 "Performance cores color" = "পারফরম্যান্স কোরের রঙ";
+"Super cores color" = "সুপার কোর রং"; // qwen3.8:27b
 "Total load" = "মোট লোড";
 "System load" = "সিস্টেম লোড";
 "User load" = "ব্যবহারকারীর লোড";
 "Efficiency cores load" = "দক্ষতা কোরের লোড";
 "Performance cores load" = "পারফরম্যান্স কোরের লোড";
+"Super cores load" = "সুপার কোর লোড"; // qwen3.8:27b
 "All cores" = "সব কোর";
 "Load per core" = "প্রতিটি কোরের লোড";
 "Efficiency core" = "দক্ষতা কোর";
@@ -300,10 +311,18 @@
 "Model" = "মডেল";
 "Status" = "অবস্থা";
 "Utilization" = "ব্যবহার";
+"Render" = "রেন্ডার"; // qwen3.8:27b
 "Render utilization" = "রেন্ডার ব্যবহার";
+"Render utilization history" = "রেন্ডার ব্যবহারের ইতিহাস"; // qwen3.8:27b
+"Tiler" = "টাইলার"; // qwen3.8:27b
 "Tiler utilization" = "টাইলার ব্যবহার";
+"Tiler utilization history" = "Tiler ব্যবহারের ইতিহাস"; // qwen3.8:27b
 "GPU usage threshold" = "GPU ব্যবহারের সীমা";
 "GPU usage is" = "GPU ব্যবহার %0";
+"ANE utilization" = "ANE ব্যবহার"; // qwen3.8:27b
+"ANE utilization history" = "ANE ব্যবহারের ইতিহাস"; // qwen3.8:27b
+"FPS history" = "FPS ইতিহাস"; // qwen3.8:27b
+"GPU utilization history" = "GPU ব্যবহারের ইতিহাস"; // qwen3.8:27b
 
 // RAM
 "Memory usage" = "মেমোরি ব্যবহার";
@@ -325,6 +344,8 @@
 "Free memory (less than)" = "মুক্ত মেমোরি (এর কম)";
 "Swap size" = "Swap আকার";
 "Free RAM is" = "মুক্ত RAM %0";
+"Pressure" = "চাপ"; // qwen3.8:27b
+"Pressure level" = "চাপের মাত্রা"; // qwen3.8:27b
 
 // Disk
 "Show removable disks" = "অপসারণযোগ্য ডিস্ক দেখান";
@@ -346,8 +367,6 @@
 "Encrypted" = "এনক্রিপ্ট করা"; // gemma4:31b-it-qat
 "Writable" = "লিখনযোগ্য"; // gemma4:31b-it-qat
 "Drives" = "ড্রাইভসমূহ";
-"SMART data" = "SMART ডেটা";
-"ATA SMART data" = "ATA SMART ডেটা"; // gemma4:31b
 "Power cycles" = "পাওয়ার চক্র";
 "Power on hours" = "চালু থাকার সময়";
 "Critical warning" = "গুরুতর সতর্কবার্তা"; // gemma4:31b-it-qat
@@ -360,6 +379,12 @@
 "Reliability degraded" = "নির্ভরযোগ্যতা হ্রাসপ্রাপ্ত"; // gemma4:31b-it-qat
 "Read-only mode" = "শুধুমাত্র পড়ার মোড"; // gemma4:31b-it-qat
 "Backup failed" = "ব্যাকআপ ব্যর্থ হয়েছে"; // gemma4:31b-it-qat
+"All disks" = "সব ডিস্ক"; // qwen3.8:27b
+"Disk details" = "ডিস্কের বিস্তারিত"; // qwen3.8:27b
+"Main color" = "প্রধান রং"; // qwen3.8:27b
+"Read / Write history" = "পড়া / লেখা ইতিহাস"; // qwen3.8:27b
+"mounted" = "মাউন্ট করা"; // qwen3.8:27b
+"removable" = "সরানো যায় এমন"; // qwen3.8:27b
 
 // Sensors
 "Celsius" = "সেলসিয়াস";
@@ -428,6 +453,14 @@
 "Internet connection lost" = "ইন্টারনেট সংযোগ বিচ্ছিন্ন হয়েছে";
 "Internet connection established" = "ইন্টারনেট সংযোগ স্থাপিত হয়েছে";
 "Show country code instead of emoji" = "ইমোজির পরিবর্তে দেশের কোড দেখান";
+"DNS Server" = "DNS সার্ভার"; // qwen3.8:27b
+"Jitter" = "জিটার"; // qwen3.8:27b
+"Noise" = "শব্দ"; // qwen3.8:27b
+"Signal" = "সিগন্যাল"; // qwen3.8:27b
+"Speed" = "গতি"; // qwen3.8:27b
+"Network interface changed" = "নেটওয়ার্ক ইন্টারফেস পরিবর্তিত হয়েছে"; // qwen3.8:27b
+"WiFi network changed" = "WiFi নেটওয়ার্ক পরিবর্তিত হয়েছে"; // qwen3.8:27b
+"This will be visible in the text widget" = "এটি টেক্সট উইজেটে দৃশ্যমান হবে"; // qwen3.8:27b
 
 // Battery
 "Source" = "উৎস";
@@ -435,7 +468,6 @@
 "Battery Power" = "ব্যাটারি পাওয়ার";
 "Time" = "সময়";
 "Health" = "স্বাস্থ্য";
-"Amperage" = "অ্যাম্পেরেজ";
 "Voltage" = "ভোল্টেজ";
 "Cycles" = "চক্র";
 "Temperature" = "তাপমাত্রা";
@@ -465,69 +497,11 @@
 "On battery" = "ব্যাটারিতে"; // gemma4:31b
 "Plugged in" = "সংযুক্ত"; // gemma4:31b
 "Charging" = "চার্জ হচ্ছে"; // gemma4:31b
-"Not connected" = "সংযুক্ত নয়";
-"Low level notification" = "নিম্ন স্তরের বিজ্ঞপ্তি";
-"No Bluetooth devices are available" = "কোনো Bluetooth ডিভাইস উপলব্ধ নেই"; // gemma4:31b
-"High level notification" = "উচ্চ স্তরের বিজ্ঞপ্তি";
-"Low battery" = "কম ব্যাটারি";
-"Time zone" = "সময় অঞ্চল"; // gemma4:31b
-"Local" = "স্থানীয়"; // gemma4:31b
-"Calendar" = "ক্যালেন্ডার"; // gemma4:31b
-"Show week numbers" = "সপ্তাহের নম্বর দেখান"; // gemma4:31b
-"Local time" = "স্থানীয় সময়"; // gemma4:31b
-"Add new clock" = "নতুন ঘড়ি যুক্ত করুন"; // gemma4:31b
-"Delete selected clock" = "নির্বাচিত ঘড়িটি মুছে ফেলুন"; // gemma4:31b
-"Help with datetime format" = "তারিখ এবং সময়ের ফরম্যাট সংক্রান্ত সহায়তা"; // gemma4:31b
-"Sync with NTP server" = "NTP সার্ভারের সাথে সিঙ্ক্রোনাইজ করুন"; // gemma4:31b
-"Previous month" = "গত মাস"; // gemma4:31b
-"Next month" = "আগামী মাস"; // gemma4:31b
-"High battery" = "উচ্চ ব্যাটারি";
-"Battery remaining" = "%0% বাকি";
-"Based on utilization" = "ব্যবহারের ভিত্তিতে"; // gemma4:31b
-"Based on pressure" = "চাপের ভিত্তিতে"; // gemma4:31b
-"Based on cluster" = "ক্লাস্টারের ভিত্তিতে"; // gemma4:31b
-"System accent" = "সিস্টেম অ্যাকসেন্ট"; // gemma4:31b
-"Monochrome accent" = "মনোক্রোম অ্যাকসেন্ট"; // gemma4:31b
-"Clear" = "স্বচ্ছ"; // gemma4:31b
-"White" = "সাদা"; // gemma4:31b
-"Black" = "কালো"; // gemma4:31b
-"Gray" = "ধূসর"; // gemma4:31b
-"Second gray" = "দ্বিতীয় ধূসর"; // gemma4:31b
-"Dark gray" = "গাঢ় ধূসর"; // gemma4:31b
-"Light gray" = "হালকা ধূসর"; // gemma4:31b
-"Red" = "লাল"; // gemma4:31b
-"Second red" = "দ্বিতীয় লাল"; // gemma4:31b
-"Green" = "সবুজ"; // gemma4:31b
-"Second green" = "দ্বিতীয় সবুজ"; // gemma4:31b
-"Blue" = "নীল"; // gemma4:31b
-"Second blue" = "দ্বিতীয় নীল"; // gemma4:31b
-"Yellow" = "হলুদ"; // gemma4:31b
-"Second yellow" = "দ্বিতীয় হলুদ"; // gemma4:31b
-"Orange" = "কমলা"; // gemma4:31b
-"Second orange" = "দ্বিতীয় কমলা"; // gemma4:31b
-"Purple" = "বেগুনি"; // gemma4:31b
-"Second purple" = "দ্বিতীয় বেগুনি"; // gemma4:31b
-"Brown" = "বাদামী"; // gemma4:31b
-"Second brown" = "দ্বিতীয় বাদামী"; // gemma4:31b
-"Cyan" = "সায়ান"; // gemma4:31b
-"Magenta" = "ম্যাজেন্টা"; // gemma4:31b
-"Pink" = "গোলাপি"; // gemma4:31b
-"Teal" = "ফিরোজা"; // gemma4:31b
-"Indigo" = "ইন্ডিগো"; // gemma4:31b
-"Battery remaining to full charge" = "সম্পূর্ণ চার্জ হতে %0% বাকি";
-"Percentage" = "শতকরা";
-"Percentage and time" = "শতকরা এবং সময়";
-"Time and percentage" = "সময় এবং শতকরা";
-"Time format" = "সময়ের বিন্যাস";
-"Hide additional information when full" = "সম্পূর্ণ হলে অতিরিক্ত তথ্য লুকান";
-"Last charge" = "শেষ চার্জ";
-"Capacity" = "ধারণক্ষমতা";
-"current / maximum / designed" = "বর্তমান / সর্বোচ্চ / পরিকল্পিত";
-"Percentage inside the icon" = "আইকনের ভেতরে শতকরা";
-"Charger state inside the battery" = "ব্যাটারির ভেতরে চার্জারের অবস্থা";
+"Level" = "স্তর"; // qwen3.8:27b
 
 // Bluetooth
 "No Bluetooth devices are available" = "কোনো Bluetooth ডিভাইস পাওয়া যাচ্ছে না";
+"Bluetooth threshold" = "Bluetooth সীমা"; // qwen3.8:27b
 
 // Clock
 "Time zone" = "সময় অঞ্চল";
@@ -539,6 +513,8 @@
 "Delete selected clock" = "নির্বাচিত ঘড়ি মুছুন";
 "Help with datetime format" = "তারিখ ও সময়ের বিন্যাসে সাহায্য";
 "Sync with NTP server" = "NTP সার্ভারের সাথে সিঙ্ক্রোনাইজ করুন";
+"Previous month" = "গত মাস"; // qwen3.8:27b
+"Next month" = "পরবর্তী মাস"; // qwen3.8:27b
 
 // Colors
 "Based on utilization" = "ব্যবহারের ভিত্তিতে";
@@ -572,3 +548,24 @@
 "Pink" = "গোলাপি";
 "Teal" = "টিল";
 "Indigo" = "নীলাভ";
+
+// System Stats
+"Authorization" = "অনুমোদন"; // qwen3.8:27b
+"Identificator" = "পরিচিতি"; // qwen3.8:27b
+"Plan" = "প্ল্যান"; // qwen3.8:27b
+"Monitoring" = "নিরীক্ষণ"; // qwen3.8:27b
+"Control" = "নিয়ন্ত্রণ"; // qwen3.8:27b
+"Update" = "হালনাগাদ"; // qwen3.8:27b
+"Sign in" = "সাইন ইন"; // qwen3.8:27b
+"Sign out" = "সাইন আউট"; // qwen3.8:27b
+"Deregister" = "নিবন্ধন বাতিল"; // qwen3.8:27b
+"Hosts" = "হোস্ট"; // qwen3.8:27b
+"Machines" = "মেশিন"; // qwen3.8:27b
+"No hosts yet" = "এখনও কোনো হোস্ট নেই"; // qwen3.8:27b
+"No machines yet" = "এখনও কোনো মেশিন নেই"; // qwen3.8:27b
+"Get notified when a device goes offline or hits a threshold" = "কোনো ডিভাইস অফলাইন হলে বা একটি সীমা ছুঁয়ে গেলে নোটিফিকেশন পান"; // qwen3.8:27b
+"It is not recommended to enable remote control unless you know what you are doing." = "রিমোট কন্ট্রোল সক্রিয় করার পরামর্শ দেওয়া হয় না যদি না আপনি যা করছেন তা জানেন।"; // qwen3.8:27b
+"Live CPU, RAM, disk and network metrics" = "লাইভ CPU, RAM, ডিস্ক এবং নেটওয়ার্ক মেট্রিক্স"; // qwen3.8:27b
+"Login to System Stats to see your devices" = "System Stats-এ লগইন করে আপনার ডিভাইস দেখুন"; // qwen3.8:27b
+"Monitor HTTP, ICMP and custom endpoints" = "HTTP, ICMP এবং কাস্টম এন্ডপয়েন্ট মনিটর করুন"; // qwen3.8:27b
+"Monitor and control your Macs from anywhere. Sign in to your System Stats account to see all your devices and hosts in one place." = "যেকোনো জায়গা থেকে আপনার Mac-গুলো মনিটর ও নিয়ন্ত্রণ করুন। System Stats অ্যাকাউন্টে সাইন ইন করে এক জায়গায় আপনার সব ডিভাইস ও হোস্ট দেখুন।"; // qwen3.8:27b

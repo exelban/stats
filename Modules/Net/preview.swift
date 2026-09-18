@@ -194,7 +194,7 @@ internal class Preview: PreviewWrapper {
         self.macAddressField?.isSelectable = true
         self.ssidField = previewRow(view, title: "\(localizedString("Network")):", value: "")
         self.ssidField?.superview?.isHidden = true
-        self.bssidField = previewRow(view, title: "\(localizedString("BSSID")):", value: "")
+        self.bssidField = previewRow(view, title: "\("BSSID"):", value: "")
         self.bssidField?.isSelectable = true
         self.bssidField?.superview?.isHidden = true
         self.standardField = previewRow(view, title: "\(localizedString("Standard")):", value: "")

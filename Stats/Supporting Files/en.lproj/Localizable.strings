@@ -50,7 +50,6 @@
 "Characters" = "Character";
 "Short" = "Short";
 "Long" = "Long";
-"Statistics" = "Statistics";
 "Max" = "Max";
 "Min" = "Min";
 "Reset" = "Reset";
@@ -98,6 +97,8 @@
 "15 sec" = "15 sec";
 "30 sec" = "30 sec";
 "60 sec" = "60 sec";
+"Eject" = "Eject";
+"Enable" = "Enable";
 
 // Setup
 "Stats Setup" = "Stats Setup";
@@ -146,6 +147,7 @@
 "Open Calendar" = "Open Calendar";
 "Toggle the module" = "Toggle the module";
 "Open System Stats" = "Open System Stats";
+"Close module settings" = "Close module settings";
 
 // Application settings
 "Check for updates" = "Check for updates";
@@ -168,6 +170,7 @@
 "Spacing" = "Spacing";
 "Choose file" = "Choose file";
 "Stress tests" = "Stress tests";
+"Keep the menubar items position" = "Keep the menubar items position";
 
 // Dashboard
 "Serial number" = "Serial number";
@@ -185,8 +188,12 @@
 // Update
 "The latest version of Stats installed" = "The latest version of Stats is installed";
 "Downloading..." = "Downloading...";
+"Installing..." = "Installing...";
+"Updating..." = "Updating...";
+"Stats will restart automatically" = "Stats will restart automatically";
 "Current version: " = "Current version:  ";
 "Latest version: " = "Latest version:    ";
+"Changelog" = "Changelog";
 
 // Widgets
 "Color" = "Color";
@@ -230,7 +237,6 @@
 
 // Module Kit
 "Open module settings" = "Open module settings";
-"Open widget settings" = "Open widget settings";
 "Update interval" = "Update interval";
 "Usage history" = "Usage history";
 "Details" = "Details";
@@ -247,6 +253,8 @@
 "Kill process" = "Kill process";
 "Keyboard shortcut" = "Keyboard shortcut";
 "Listening..." = "Listening...";
+"Open in browser" = "Open in browser";
+"Open module" = "Open module";
 
 // Modules
 "Number of top processes" = "Number of top processes";
@@ -276,17 +284,20 @@
 "CPU usage threshold" = "CPU usage threshold";
 "Efficiency cores" = "Efficiency cores";
 "Performance cores" = "Performance cores";
+"Super cores" = "Super cores";
 "System color" = "System color";
 "User color" = "User color";
 "Idle color" = "Idle color";
 "Cluster grouping" = "Cluster grouping";
 "Efficiency cores color" = "Efficiency cores color";
 "Performance cores color" = "Performance cores color";
+"Super cores color" = "Super cores color";
 "Total load" = "Total load";
 "System load" = "System load";
 "User load" = "User load";
 "Efficiency cores load" = "Efficiency cores load";
 "Performance cores load" = "Performance cores load";
+"Super cores load" = "Super cores load";
 "All cores" = "All cores";
 "Load per core" = "Load per core";
 "Efficiency core" = "Efficiency core";
@@ -300,10 +311,18 @@
 "Model" = "Model";
 "Status" = "Status";
 "Utilization" = "Utilization";
+"Render" = "Render";
 "Render utilization" = "Render utilization";
+"Render utilization history" = "Render utilization history";
+"Tiler" = "Tiler";
 "Tiler utilization" = "Tiler utilization";
+"Tiler utilization history" = "Tiler utilization history";
 "GPU usage threshold" = "GPU usage threshold";
 "GPU usage is" = "GPU usage is %0";
+"ANE utilization" = "ANE utilization";
+"ANE utilization history" = "ANE utilization history";
+"FPS history" = "FPS history";
+"GPU utilization history" = "GPU utilization history";
 
 // RAM
 "Memory usage" = "Memory usage";
@@ -325,6 +344,8 @@
 "Free memory (less than)" = "Free memory (less than)";
 "Swap size" = "Swap size";
 "Free RAM is" = "Free RAM is %0";
+"Pressure" = "Pressure";
+"Pressure level" = "Pressure level";
 
 // Disk
 "Show removable disks" = "Show removable disks";
@@ -346,8 +367,6 @@
 "Encrypted" = "Encrypted";
 "Writable" = "Writable";
 "Drives" = "Drives";
-"SMART data" = "SMART data";
-"ATA SMART data" = "ATA SMART data";
 "Power cycles" = "Power cycles";
 "Power on hours" = "Power on hours";
 "Critical warning" = "Critical warning";
@@ -360,6 +379,12 @@
 "Reliability degraded" = "Reliability degraded";
 "Read-only mode" = "Read-only mode";
 "Backup failed" = "Backup failed";
+"All disks" = "All disks";
+"Disk details" = "Disk details";
+"Main color" = "Main color";
+"Read / Write history" = "Read / Write history";
+"mounted" = "mounted";
+"removable" = "removable";
 
 // Sensors
 "Celsius" = "Celsius";
@@ -428,6 +453,14 @@
 "Internet connection lost" = "Internet connection lost";
 "Internet connection established" = "Internet connection established";
 "Show country code instead of emoji" = "Show country code instead of emoji";
+"DNS Server" = "DNS Server";
+"Jitter" = "Jitter";
+"Noise" = "Noise";
+"Signal" = "Signal";
+"Speed" = "Speed";
+"Network interface changed" = "Network interface changed";
+"WiFi network changed" = "WiFi network changed";
+"This will be visible in the text widget" = "This will be visible in the text widget";
 
 // Battery
 "Source" = "Source";
@@ -435,7 +468,6 @@
 "Battery Power" = "Battery Power";
 "Time" = "Time";
 "Health" = "Health";
-"Amperage" = "Amperage";
 "Voltage" = "Voltage";
 "Cycles" = "Cycles";
 "Temperature" = "Temperature";
@@ -465,9 +497,11 @@
 "On battery" = "On battery";
 "Plugged in" = "Plugged in";
 "Charging" = "Charging";
+"Level" = "Level";
 
 // Bluetooth
 "No Bluetooth devices are available" = "No Bluetooth devices are available";
+"Bluetooth threshold" = "Bluetooth threshold";
 
 // Clock
 "Time zone" = "Time zone";
@@ -514,3 +548,24 @@
 "Pink" = "Pink";
 "Teal" = "Teal";
 "Indigo" = "Indigo";
+
+// System Stats
+"Authorization" = "Authorization";
+"Identificator" = "Identificator";
+"Plan" = "Plan";
+"Monitoring" = "Monitoring";
+"Control" = "Control";
+"Update" = "Update";
+"Sign in" = "Sign in";
+"Sign out" = "Sign out";
+"Deregister" = "Deregister";
+"Hosts" = "Hosts";
+"Machines" = "Machines";
+"No hosts yet" = "No hosts yet";
+"No machines yet" = "No machines yet";
+"Get notified when a device goes offline or hits a threshold" = "Get notified when a device goes offline or hits a threshold";
+"It is not recommended to enable remote control unless you know what you are doing." = "It is not recommended to enable remote control unless you know what you are doing.";
+"Live CPU, RAM, disk and network metrics" = "Live CPU, RAM, disk and network metrics";
+"Login to System Stats to see your devices" = "Login to System Stats to see your devices";
+"Monitor HTTP, ICMP and custom endpoints" = "Monitor HTTP, ICMP and custom endpoints";
+"Monitor and control your Macs from anywhere. Sign in to your System Stats account to see all your devices and hosts in one place." = "Monitor and control your Macs from anywhere. Sign in to your System Stats account to see all your devices and hosts in one place.";

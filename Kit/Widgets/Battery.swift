@@ -442,7 +442,7 @@ public class BatteryWidget: WidgetWrapper {
                 action: #selector(self.toggleColor),
                 state: self.colorState
             )),
-            PreferencesRow(localizedString("XL size"), component: switchView(
+            PreferencesRow("XL size", component: switchView(
                 action: #selector(self.toggleXLSize),
                 state: self.xlSizeState
             )),

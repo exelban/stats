@@ -50,7 +50,6 @@
 "Characters" = "Lletres";
 "Short" = "Curt";
 "Long" = "Llarg";
-"Statistics" = "Estadístiques";
 "Max" = "Màx";
 "Min" = "Mín";
 "Reset" = "Reinicialitza";
@@ -98,6 +97,8 @@
 "15 sec" = "15 seg"; // gemma4:31b
 "30 sec" = "30 seg"; // gemma4:31b
 "60 sec" = "60 seg"; // gemma4:31b
+"Eject" = "Ejectar"; // qwen3.8:27b
+"Enable" = "Activa"; // qwen3.8:27b
 
 // Setup
 "Stats Setup" = "Configuració de Stats";
@@ -146,6 +147,7 @@
 "Open Calendar" = "Obrir el calendari"; // gemma4:31b
 "Toggle the module" = "Alternar el mòdul"; // gemma4:31b
 "Open System Stats" = "Obrir System Stats"; // gemma4:31b
+"Close module settings" = "Tancar la configuració del mòdul"; // qwen3.8:27b
 
 // Application settings
 "Check for updates" = "Busca actualitzacions";
@@ -168,6 +170,7 @@
 "Spacing" = "Espaiat";
 "Choose file" = "Tria el fitxer"; // gemma4:31b
 "Stress tests" = "Proves d'estress"; // gemma4:31b
+"Keep the menubar items position" = "Mantenir la posició dels elements de la barra de menús"; // qwen3.8:27b
 
 // Dashboard
 "Serial number" = "Número de sèrie";
@@ -185,8 +188,12 @@
 // Update
 "The latest version of Stats installed" = "L'última versió d'Stats està instal·lada";
 "Downloading..." = "Baixant...";
+"Installing..." = "Instal·lant..."; // qwen3.8:27b
+"Updating..." = "Actualitzant..."; // qwen3.8:27b
+"Stats will restart automatically" = "Stats es reiniciarà automàticament"; // qwen3.8:27b
 "Current version: " = "Versió instal·lada: ";
 "Latest version: " = "Última versió: ";
+"Changelog" = "Registre de canvis"; // qwen3.8:27b
 
 // Widgets
 "Color" = "Color";
@@ -230,7 +237,6 @@
 
 // Module Kit
 "Open module settings" = "Obre la configuració del mòdul";
-"Open widget settings" = "Obre la configuració del widget";
 "Update interval" = "Freqüència de refresc";
 "Usage history" = "Historial d'ús";
 "Details" = "Detalls";
@@ -247,6 +253,8 @@
 "Kill process" = "Tanca procés";
 "Keyboard shortcut" = "Combinació de tecles"; // gemma4:31b
 "Listening..." = "Escoltant..."; // translategemma:4b
+"Open in browser" = "Obre al navegador"; // qwen3.8:27b
+"Open module" = "Obrir mòdul"; // qwen3.8:27b
 
 // Modules
 "Number of top processes" = "Nombre de processos principals";
@@ -276,17 +284,20 @@
 "CPU usage threshold" = "Límit d'ús de la CPU";
 "Efficiency cores" = "Nuclis d'eficiència";
 "Performance cores" = "Nuclis de rendiment";
+"Super cores" = "Super nuclis"; // qwen3.8:27b
 "System color" = "Color del sistema";
 "User color" = "Color de l'usuari";
 "Idle color" = "Sense color";
 "Cluster grouping" = "Agrupament en cluster";
 "Efficiency cores color" = "Color dels nuclis d'eficiència";
 "Performance cores color" = "Color dels nuclis de rendiment";
+"Super cores color" = "Color dels nuclis super"; // qwen3.8:27b
 "Total load" = "Càrrega total";
 "System load" = "Càrrega del sistema";
 "User load" = "Càrrega de l'usuari";
 "Efficiency cores load" = "Càrrega dels nuclis d'eficiència";
 "Performance cores load" = "Càrrega dels nuclis de rendiment";
+"Super cores load" = "Càrrega dels núcleos superiors"; // qwen3.8:27b
 "All cores" = "Tots els nuclos"; // gemma4:31b
 "Load per core" = "Carga per nucli"; // gemma4:31b
 "Efficiency core" = "Nucli d'eficiència"; // gemma4:31b
@@ -300,10 +311,18 @@
 "Model" = "Model";
 "Status" = "Estat";
 "Utilization" = "Ús";
+"Render" = "Render";
 "Render utilization" = "Utilització del Render";
+"Render utilization history" = "Historial d'ús de renderització"; // qwen3.8:27b
+"Tiler" = "Tilador"; // qwen3.8:27b
 "Tiler utilization" = "Utilització del Tiler";
+"Tiler utilization history" = "Historial d'ús del tiler"; // qwen3.8:27b
 "GPU usage threshold" = "Límit d'ús de la GPU";
 "GPU usage is" = "L'ús de la GPU és %0";
+"ANE utilization" = "Utilització de l'ANE"; // qwen3.8:27b
+"ANE utilization history" = "Historial d'ús de l'ANE"; // qwen3.8:27b
+"FPS history" = "Historial de FPS"; // qwen3.8:27b
+"GPU utilization history" = "Historial d'ús de la GPU"; // qwen3.8:27b
 
 // RAM
 "Memory usage" = "Ús de la memòria";
@@ -325,6 +344,8 @@
 "Free memory (less than)" = "Memòria lliure (menys de)";
 "Swap size" = "Tamany del Swap";
 "Free RAM is" = "La RAM lliure és %0";
+"Pressure" = "Pressió"; // qwen3.8:27b
+"Pressure level" = "Nivell de pressió"; // qwen3.8:27b
 
 // Disk
 "Show removable disks" = "Mostra els discs extraïbles";
@@ -346,8 +367,6 @@
 "Encrypted" = "Xifrat"; // gemma4:31b-it-qat
 "Writable" = "Escriptible"; // gemma4:31b-it-qat
 "Drives" = "Discos"; // translategemma:4b
-"SMART data" = "Dades SMART"; // translategemma:4b
-"ATA SMART data" = "Dades ATA SMART"; // gemma4:31b
 "Power cycles" = "Cicles d'alimentació"; // gemma4:31b
 "Power on hours" = "Hores de funcionament"; // gemma4:31b
 "Critical warning" = "Avís crític"; // gemma4:31b-it-qat
@@ -360,6 +379,12 @@
 "Reliability degraded" = "Fiabilitat degradada"; // gemma4:31b-it-qat
 "Read-only mode" = "Mode només de lectura"; // gemma4:31b-it-qat
 "Backup failed" = "Còpia de seguretat fallida"; // gemma4:31b-it-qat
+"All disks" = "Tots els discs"; // qwen3.8:27b
+"Disk details" = "Detalls del disc"; // qwen3.8:27b
+"Main color" = "Color principal"; // qwen3.8:27b
+"Read / Write history" = "Historial de lectura / escriptura"; // qwen3.8:27b
+"mounted" = "muntat"; // qwen3.8:27b
+"removable" = "amovible"; // qwen3.8:27b
 
 // Sensors
 "Celsius" = "Celsius";
@@ -428,6 +453,14 @@
 "Internet connection lost" = "Connexió a Internet perduda"; // gemma4:31b
 "Internet connection established" = "Connexió a internet establida"; // gemma4:31b
 "Show country code instead of emoji" = "Mostrar el codi de país en lloc de l'emoji"; // gemma4:31b
+"DNS Server" = "Servidor DNS"; // qwen3.8:27b
+"Jitter" = "Jitter";
+"Noise" = "Soroll"; // qwen3.8:27b
+"Signal" = "Senyal"; // qwen3.8:27b
+"Speed" = "Velocitat"; // qwen3.8:27b
+"Network interface changed" = "Interfície de xarxa canviada"; // qwen3.8:27b
+"WiFi network changed" = "Xarxa Wi-Fi canviada"; // qwen3.8:27b
+"This will be visible in the text widget" = "Això serà visible al widget de text"; // qwen3.8:27b
 
 // Battery
 "Source" = "Font";
@@ -435,7 +468,6 @@
 "Battery Power" = "Alimentat per bateria";
 "Time" = "Temps";
 "Health" = "Salut";
-"Amperage" = "Amperatge";
 "Voltage" = "Voltatge";
 "Cycles" = "Nombre de cicles";
 "Temperature" = "Temperatura";
@@ -465,9 +497,11 @@
 "On battery" = "Amb bateria"; // gemma4:31b
 "Plugged in" = "Connectat"; // gemma4:31b
 "Charging" = "Carregant"; // gemma4:31b
+"Level" = "Nivell"; // qwen3.8:27b
 
 // Bluetooth
 "No Bluetooth devices are available" = "No hi han dispositius Bluetooth disponibles";
+"Bluetooth threshold" = "Llindar de Bluetooth"; // qwen3.8:27b
 
 // Clock
 "Time zone" = "Zona horària";
@@ -514,3 +548,24 @@
 "Pink" = "Rosa";
 "Teal" = "Verd-blau";
 "Indigo" = "Indi";
+
+// System Stats
+"Authorization" = "Autorització"; // qwen3.8:27b
+"Identificator" = "Identificador"; // qwen3.8:27b
+"Plan" = "Pla"; // qwen3.8:27b
+"Monitoring" = "Monitorització"; // qwen3.8:27b
+"Control" = "Control";
+"Update" = "Actualitzar"; // qwen3.8:27b
+"Sign in" = "Inicia sessió"; // qwen3.8:27b
+"Sign out" = "Tanca la sessió"; // qwen3.8:27b
+"Deregister" = "Desregistrar"; // qwen3.8:27b
+"Hosts" = "Amfitrions"; // qwen3.8:27b
+"Machines" = "Màquines"; // qwen3.8:27b
+"No hosts yet" = "Encara no hi ha amfitrions"; // qwen3.8:27b
+"No machines yet" = "Encara no hi ha màquines"; // qwen3.8:27b
+"Get notified when a device goes offline or hits a threshold" = "Rebre notificacions quan un dispositiu es desconnecta o supera un llindar"; // qwen3.8:27b
+"It is not recommended to enable remote control unless you know what you are doing." = "No es recomana activar el control remot a menys que sàpigues què estàs fent."; // qwen3.8:27b
+"Live CPU, RAM, disk and network metrics" = "Mètriques en directe de CPU, RAM, disc i xarxa"; // qwen3.8:27b
+"Login to System Stats to see your devices" = "Inicia sessió a System Stats per veure els teus dispositius"; // qwen3.8:27b
+"Monitor HTTP, ICMP and custom endpoints" = "Supervisiona els endpoints HTTP, ICMP i personalitzats"; // qwen3.8:27b
+"Monitor and control your Macs from anywhere. Sign in to your System Stats account to see all your devices and hosts in one place." = "Supervisa i controla els teus Macs des de qualsevol lloc. Inicia sessió al teu compte de System Stats per veure tots els teus dispositius i amfitrions en un sol lloc."; // qwen3.8:27b

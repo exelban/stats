@@ -50,7 +50,6 @@
 "Characters" = "எழுத்துகள்";
 "Short" = "குறுகிய";
 "Long" = "நீளமான";
-"Statistics" = "புள்ளியியல்";
 "Max" = "அதிகபட்ச";
 "Min" = "குறைந்தபட்ச";
 "Reset" = "மீட்டமை";
@@ -98,6 +97,8 @@
 "15 sec" = "15 விநாடி";
 "30 sec" = "30 விநாடி";
 "60 sec" = "60 விநாடி";
+"Eject" = "வெளியேற்று"; // qwen3.8:27b
+"Enable" = "இயக்கு"; // qwen3.8:27b
 
 // Setup
 "Stats Setup" = "Stats அமைப்பு";
@@ -146,6 +147,7 @@
 "Open Calendar" = "நாட்காட்டியைத் திற";
 "Toggle the module" = "தொகுதியை மாற்று";
 "Open System Stats" = "System Stats-ஐத் திற";
+"Close module settings" = "மாதிரி அமைப்புகளை மூடு"; // qwen3.8:27b
 
 // Application settings
 "Check for updates" = "புதுப்பிப்புகளுக்குச் சோதி";
@@ -168,6 +170,7 @@
 "Spacing" = "விடைவெளி";
 "Choose file" = "கோப்பைத் தேர்ந்தெடு";
 "Stress tests" = "சுமை சோதனைகள்";
+"Keep the menubar items position" = "மெனுவார் பொருட்களின் நிலையை வைத்திருக்க"; // qwen3.8:27b
 
 // Dashboard
 "Serial number" = "வரிசை எண்";
@@ -185,8 +188,12 @@
 // Update
 "The latest version of Stats installed" = "Stats-ன் சமீபத்திய பதிப்பு நிறுவப்பட்டுள்ளது";
 "Downloading..." = "பதிவிறக்குகிறது...";
+"Installing..." = "நிறுவப்படுகிறது..."; // qwen3.8:27b
+"Updating..." = "புதுப்பிப்பது..."; // qwen3.8:27b
+"Stats will restart automatically" = "Stats தானாக மீண்டும் தொடங்கும்"; // qwen3.8:27b
 "Current version: " = "தற்போதைய பதிப்பு:  ";
 "Latest version: " = "சமீபத்திய பதிப்பு:    ";
+"Changelog" = "மாற்றப் பதிவு"; // qwen3.8:27b
 
 // Widgets
 "Color" = "நிறம்";
@@ -201,7 +208,7 @@
 "Display mode" = "காட்சி முறை";
 "One row" = "ஒரு வரிசை";
 "Two rows" = "இரண்டு வரிசைகள்";
-"Mini widget" = "Mini";
+"Mini widget" = "மினி"; // qwen3.8:27b
 "Line chart widget" = "வரைபட வரிசை";
 "Bar chart widget" = "பட்டை வரைபடம்";
 "Pie chart widget" = "பை வரைபடம்";
@@ -211,7 +218,7 @@
 "Stack widget" = "அடுக்கு";
 "Memory widget" = "நினைவகம்";
 "Static width" = "நிலையான அகலம்";
-"Tachometer widget" = "Tachometer";
+"Tachometer widget" = "டாகோமீட்டர்"; // qwen3.8:27b
 "State widget" = "நிலை widget";
 "Text widget" = "உரை widget";
 "Battery details widget" = "மின்கல விவரங்கள் widget";
@@ -230,15 +237,14 @@
 
 // Module Kit
 "Open module settings" = "தொகுதி அமைப்புகளைத் திற";
-"Open widget settings" = "Widget அமைப்புகளைத் திற";
 "Update interval" = "புதுப்பிப்பு இடைவெளி";
 "Usage history" = "பயன்பாடு வரலாறு";
 "Details" = "விவரங்கள்";
 "Top processes" = "முதன்மை செயல்முறைகள்";
 "Pictogram" = "படவுரு";
 "Module" = "தொகுதி";
-"Widgets" = "Widgets";
-"Popup" = "Popup";
+"Widgets" = "விட்ஜெட்கள்"; // qwen3.8:27b
+"Popup" = "முகப்பு"; // qwen3.8:27b
 "Notifications" = "அறிவிப்புகள்";
 "Merge widgets" = "Widgets-ஐ ஒன்றிணை";
 "No available widgets to configure" = "உள்ளமைக்க Widgets எதுவும் இல்லை";
@@ -247,6 +253,8 @@
 "Kill process" = "செயல்முறையை நிறுத்து";
 "Keyboard shortcut" = "விசைப்பலகை குறுக்குவழி";
 "Listening..." = "கேட்கிறது...";
+"Open in browser" = "உலாவியில் திற"; // qwen3.8:27b
+"Open module" = "மாதிரியை திற"; // qwen3.8:27b
 
 // Modules
 "Number of top processes" = "முதன்மை செயல்முறைகளின் எண்ணிக்கை";
@@ -276,17 +284,20 @@
 "CPU usage threshold" = "மையச் செயலக பயன்பாடு வரம்பு";
 "Efficiency cores" = "திறன் குவியங்கள்";
 "Performance cores" = "செயல்திறன் குவியங்கள்";
+"Super cores" = "சூப்பர் கோர்கள்"; // qwen3.8:27b
 "System color" = "கணினி நிறம்";
 "User color" = "பயனர் நிறம்";
 "Idle color" = "செயலற்ற நிறம்";
 "Cluster grouping" = "குழு பிரிவு";
 "Efficiency cores color" = "திறன் குவியங்களின் நிறம்";
 "Performance cores color" = "செயல்திறன் குவியங்களின் நிறம்";
+"Super cores color" = "சூப்பர் கோர்கள் வண்ணம்"; // qwen3.8:27b
 "Total load" = "மொத்த சுமை";
 "System load" = "கணினி சுமை";
 "User load" = "பயனர் சுமை";
 "Efficiency cores load" = "திறன் குவியங்களின் சுமை";
 "Performance cores load" = "செயல்திறன் குவியங்களின் சுமை";
+"Super cores load" = "சூப்பர் கோர்கள் ஏற்றம்"; // qwen3.8:27b
 "All cores" = "அனைத்து குவியங்கள்";
 "Load per core" = "குவியம்வாரி சுமை";
 "Efficiency core" = "திறன் குவியம்";
@@ -300,18 +311,26 @@
 "Model" = "மாதிரி";
 "Status" = "நிலை";
 "Utilization" = "பயன்பாடு";
+"Render" = "ரெண்டர்"; // qwen3.8:27b
 "Render utilization" = "Render பயன்பாடு";
+"Render utilization history" = "ரெண்டர் பயன்பாட்டு வரலாறு"; // qwen3.8:27b
+"Tiler" = "சீட்டுப்போடுபவர்"; // qwen3.8:27b
 "Tiler utilization" = "Tiler பயன்பாடு";
+"Tiler utilization history" = "Tiler பயன்பாட்டு வரலாறு"; // qwen3.8:27b
 "GPU usage threshold" = "GPU பயன்பாடு வரம்பு";
 "GPU usage is" = "GPU பயன்பாடு %0";
+"ANE utilization" = "ANE பயன்பாடு"; // qwen3.8:27b
+"ANE utilization history" = "ANE பயன்பாட்டு வரலாறு"; // qwen3.8:27b
+"FPS history" = "FPS வரலாறு"; // qwen3.8:27b
+"GPU utilization history" = "GPU பயன்பாட்டு வரலாறு"; // qwen3.8:27b
 
 // RAM
 "Memory usage" = "நினைவக பயன்பாடு";
 "Memory pressure" = "நினைவக அழுத்தம்";
 "Total" = "மொத்தம்";
 "Used" = "பயன்பாடில்";
-"App" = "App";
-"Wired" = "Wired";
+"App" = "பயன்பாடு"; // qwen3.8:27b
+"Wired" = "நிலையான"; // qwen3.8:27b
 "Compressed" = "சுருக்கப்பட்ட";
 "Free" = "காலி";
 "Swap" = "Swap";
@@ -325,6 +344,8 @@
 "Free memory (less than)" = "காலி நினைவகம் (குறைவாக)";
 "Swap size" = "Swap அளவு";
 "Free RAM is" = "காலி RAM %0";
+"Pressure" = "அழுத்தம்"; // qwen3.8:27b
+"Pressure level" = "அழுத்த நிலை"; // qwen3.8:27b
 
 // Disk
 "Show removable disks" = "அகற்றக்கூடிய வட்டுகளைக் காட்டு";
@@ -346,8 +367,6 @@
 "Encrypted" = "மறைகுறியாக்கப்பட்ட";
 "Writable" = "எழுதக்கூடிய";
 "Drives" = "இயக்கிகள்";
-"SMART data" = "SMART தரவு";
-"ATA SMART data" = "ATA SMART தரவு";
 "Power cycles" = "மின் சுழற்சிகள்";
 "Power on hours" = "இயக்க நேரம்";
 "Critical warning" = "கடுமையான எச்சரிக்கை";
@@ -360,6 +379,12 @@
 "Reliability degraded" = "நம்பகத்தன்மை குறைந்தது";
 "Read-only mode" = "வாசிப்பு மட்டும் முறை";
 "Backup failed" = "காப்புப்பிரதி தோல்வி";
+"All disks" = "அனைத்து வட்டுகள்"; // qwen3.8:27b
+"Disk details" = "டிஸ்க் விவரங்கள்"; // qwen3.8:27b
+"Main color" = "முதன்மை வண்ணம்"; // qwen3.8:27b
+"Read / Write history" = "படிப்பு / எழுத்து வரலாறு"; // qwen3.8:27b
+"mounted" = "இணைக்கப்பட்டது"; // qwen3.8:27b
+"removable" = "நீக்கக்கூடிய"; // qwen3.8:27b
 
 // Sensors
 "Celsius" = "செல்சியஸ்";
@@ -391,8 +416,8 @@
 // Network
 "Uploading" = "பதிவேற்றம்";
 "Downloading" = "பதிவிறக்கம்";
-"Public IP" = "Public IP";
-"Local IP" = "Local IP";
+"Public IP" = "பொது IP"; // qwen3.8:27b
+"Local IP" = "உள்ளூர் IP"; // qwen3.8:27b
 "Interface" = "இடைமுகம்";
 "Physical address" = "இயற்பியல் முகவரி";
 "Refresh" = "புதுப்பி";
@@ -428,6 +453,14 @@
 "Internet connection lost" = "இணைய இணைப்பு இழந்தது";
 "Internet connection established" = "இணைய இணைப்பு நிறுவப்பட்டது";
 "Show country code instead of emoji" = "Emoji-க்கு பதிலாக நாட்டுக் குறியீட்டைக் காட்டு";
+"DNS Server" = "DNS சர்வர்"; // qwen3.8:27b
+"Jitter" = "ஜிட்டர்"; // qwen3.8:27b
+"Noise" = "சத்தம்"; // qwen3.8:27b
+"Signal" = "சிக்னல்"; // qwen3.8:27b
+"Speed" = "வேகம்"; // qwen3.8:27b
+"Network interface changed" = "நெட்வொர்க் இடைமுகம் மாற்றப்பட்டது"; // qwen3.8:27b
+"WiFi network changed" = "WiFi நெட்வொர்க் மாறியது"; // qwen3.8:27b
+"This will be visible in the text widget" = "இது உரை விட்ஜெட்டில் காணப்படும்"; // qwen3.8:27b
 
 // Battery
 "Source" = "மூலம்";
@@ -435,11 +468,10 @@
 "Battery Power" = "மின்கல மின்சாரம்";
 "Time" = "நேரம்";
 "Health" = "ஆரோக்கியம்";
-"Amperage" = "மின்னோட்ட அளவு";
 "Voltage" = "மின்னழுத்தம்";
 "Cycles" = "முறைகள்";
 "Temperature" = "வெப்பநிலை";
-"Power adapter" = "Power adapter";
+"Power adapter" = "மின்适配器"; // qwen3.8:27b
 "Power" = "மின்னாற்றல்";
 "Is charging" = "மின்னேற்றுகிறது";
 "Time to discharge" = "மின்னிறக்க நேரம்";
@@ -465,9 +497,11 @@
 "On battery" = "மின்கலத்தில்";
 "Plugged in" = "சார்ஜரில் இணைக்கப்பட்டது";
 "Charging" = "மின்னேற்றுகிறது";
+"Level" = "நிலை"; // qwen3.8:27b
 
 // Bluetooth
 "No Bluetooth devices are available" = "Bluetooth சாதனங்கள் எதுவும் கிடைக்கவில்லை";
+"Bluetooth threshold" = "Bluetooth எல்லை"; // qwen3.8:27b
 
 // Clock
 "Time zone" = "நேர மண்டலம்";
@@ -512,5 +546,26 @@
 "Cyan" = "சியான்";
 "Magenta" = "மெஜந்தா";
 "Pink" = "இளஞ்சிவப்பு";
-"Teal" = "Teal";
-"Indigo" = "Indigo";
+"Teal" = "பச்சைநீலம்"; // qwen3.8:27b
+"Indigo" = "இண்டிகோ"; // qwen3.8:27b
+
+// System Stats
+"Authorization" = "அங்கீகாரம்"; // qwen3.8:27b
+"Identificator" = "அடையாளம்"; // qwen3.8:27b
+"Plan" = "திட்டம்"; // qwen3.8:27b
+"Monitoring" = "கண்காணிப்பு"; // qwen3.8:27b
+"Control" = "கட்டுப்பாடு"; // qwen3.8:27b
+"Update" = "புதுப்பி"; // qwen3.8:27b
+"Sign in" = "உள்நுழைய"; // qwen3.8:27b
+"Sign out" = "வெளியேறு"; // qwen3.8:27b
+"Deregister" = "பதிவு நீக்கு"; // qwen3.8:27b
+"Hosts" = "ஹோஸ்ட்கள்"; // qwen3.8:27b
+"Machines" = "கருவிகள்"; // qwen3.8:27b
+"No hosts yet" = "இன்னும் ஹோஸ்ட்கள் இல்லை"; // qwen3.8:27b
+"No machines yet" = "இன்னும் எந்த இயந்திரமும் இல்லை"; // qwen3.8:27b
+"Get notified when a device goes offline or hits a threshold" = "ஒரு சாதனம் ஆஃப்லைனாகும்போது அல்லது ஒரு வரம்பை அடையும்போது அறிவிப்பு பெறுங்கள்"; // qwen3.8:27b
+"It is not recommended to enable remote control unless you know what you are doing." = "நீங்கள் என்ன செய்கிறீர்கள் என்று தெரியாதவரை, தூர கட்டுப்பாட்டை இயக்குவது பரிந்துரைக்கப்படுவதில்லை."; // qwen3.8:27b
+"Live CPU, RAM, disk and network metrics" = "நேரலை CPU, RAM, டிஸ்க் மற்றும் நெட்வொர்க் அளவீடுகள்"; // qwen3.8:27b
+"Login to System Stats to see your devices" = "System Stats இல் உள்நுழைந்து உங்கள் சாதனங்களைக் காணவும்"; // qwen3.8:27b
+"Monitor HTTP, ICMP and custom endpoints" = "HTTP, ICMP மற்றும் தனிப்பயன் எண்ட்பாய்ண்டுகளை கண்காணிக்கவும்"; // qwen3.8:27b
+"Monitor and control your Macs from anywhere. Sign in to your System Stats account to see all your devices and hosts in one place." = "எங்கிருந்தாலும் உங்கள் Macs-ஐ கண்காணிக்கவும் மற்றும் கட்டுப்படுத்தவும். உங்கள் அனைத்து சாதனங்களையும் ஹோஸ்ட்களையும் ஒரே இடத்தில் காண, உங்கள் System Stats கணக்கில் உள்நுழையவும்."; // qwen3.8:27b

@@ -50,7 +50,6 @@
 "Characters" = "Karakter";
 "Short" = "Pendek";
 "Long" = "Panjang";
-"Statistics" = "Statistik";
 "Max" = "Maks";
 "Min" = "Minimal"; // translategemma:4b
 "Reset" = "Atur ulang";
@@ -98,6 +97,8 @@
 "15 sec" = "15 detik"; // translategemma:4b
 "30 sec" = "30 detik"; // translategemma:4b
 "60 sec" = "60 detik"; // translategemma:4b
+"Eject" = "Keluarkan"; // qwen3.8:27b
+"Enable" = "Aktifkan"; // qwen3.8:27b
 
 // Setup
 "Stats Setup" = "Pengaturan Stats"; // gemma4:31b
@@ -146,6 +147,7 @@
 "Open Calendar" = "Buka Kalender"; // translategemma:4b
 "Toggle the module" = "Alihkan modul"; // gemma4:31b
 "Open System Stats" = "Buka System Stats"; // gemma4:31b
+"Close module settings" = "Tutup pengaturan modul"; // qwen3.8:27b
 
 // Application settings
 "Check for updates" = "Periksa pembaruan";
@@ -168,6 +170,7 @@
 "Spacing" = "Jarak"; // translategemma:4b
 "Choose file" = "Pilih file"; // translategemma:4b
 "Stress tests" = "Uji stres"; // gemma4:31b
+"Keep the menubar items position" = "Pertahankan posisi item menubar"; // qwen3.8:27b
 
 // Dashboard
 "Serial number" = "Nomor serial";
@@ -185,8 +188,12 @@
 // Update
 "The latest version of Stats installed" = "Versi terbaru dari Stats telah dipasang";
 "Downloading..." = "Mengunduh...";
+"Installing..." = "Menginstal..."; // qwen3.8:27b
+"Updating..." = "Memperbarui..."; // qwen3.8:27b
+"Stats will restart automatically" = "Stats akan dimulai ulang secara otomatis"; // qwen3.8:27b
 "Current version: " = "Versi sekarang:  ";
 "Latest version: " = "Versi terbaru:    ";
+"Changelog" = "Catatan Perubahan"; // qwen3.8:27b
 
 // Widgets
 "Color" = "Warna";
@@ -230,7 +237,6 @@
 
 // Module Kit
 "Open module settings" = "Buka pengaturan modul";
-"Open widget settings" = "Buka pengaturan widget";
 "Update interval" = "Perbarui waktu jeda";
 "Usage history" = "Riwayat penggunaan";
 "Details" = "Rincian";
@@ -247,6 +253,8 @@
 "Kill process" = "Akhiri proses"; // gemma4:31b
 "Keyboard shortcut" = "Pintasan keyboard"; // gemma4:31b
 "Listening..." = "Mendengarkan..."; // gemma4:31b
+"Open in browser" = "Buka di browser"; // qwen3.8:27b
+"Open module" = "Buka modul"; // qwen3.8:27b
 
 // Modules
 "Number of top processes" = "Jumlah dari proses teratas";
@@ -276,17 +284,20 @@
 "CPU usage threshold" = "Ambang batas penggunaan CPU"; // gemma4:31b
 "Efficiency cores" = "Inti efisiensi"; // translategemma:4b
 "Performance cores" = "Inti performa"; // gemma4:31b
+"Super cores" = "Inti super"; // qwen3.8:27b
 "System color" = "Warna sistem"; // translategemma:4b
 "User color" = "Warna pengguna"; // translategemma:4b
 "Idle color" = "Warna idle"; // gemma4:31b
 "Cluster grouping" = "Pengelompokan klaster"; // translategemma:4b
 "Efficiency cores color" = "Warna inti efisiensi"; // gemma4:31b
 "Performance cores color" = "Warna inti performa"; // gemma4:31b
+"Super cores color" = "Warna core super"; // qwen3.8:27b
 "Total load" = "Beban total"; // gemma4:31b
 "System load" = "Beban sistem"; // translategemma:4b
 "User load" = "Beban pengguna"; // translategemma:4b
 "Efficiency cores load" = "Beban inti efisiensi"; // gemma4:31b
 "Performance cores load" = "Beban inti kinerja"; // gemma4:31b
+"Super cores load" = "Beban Inti Super"; // qwen3.8:27b
 "All cores" = "Semua inti"; // translategemma:4b
 "Load per core" = "Beban per inti"; // translategemma:4b
 "Efficiency core" = "Inti efisiensi"; // gemma4:31b
@@ -300,10 +311,18 @@
 "Model" = "Model";
 "Status" = "Status";
 "Utilization" = "Pemanfaatan";
+"Render" = "Render";
 "Render utilization" = "Pemanfaatan render";
+"Render utilization history" = "Riwayat utilisasi render"; // qwen3.8:27b
+"Tiler" = "Penata"; // qwen3.8:27b
 "Tiler utilization" = "Pemanfaatan tiler";
+"Tiler utilization history" = "Riwayat utilisasi Tiler"; // qwen3.8:27b
 "GPU usage threshold" = "Ambang batas penggunaan GPU"; // gemma4:31b
 "GPU usage is" = "Penggunaan GPU adalah %0"; // translategemma:4b
+"ANE utilization" = "Utilisasi ANE"; // qwen3.8:27b
+"ANE utilization history" = "Riwayat utilisasi ANE"; // qwen3.8:27b
+"FPS history" = "Riwayat FPS"; // qwen3.8:27b
+"GPU utilization history" = "Riwayat utilisasi GPU"; // qwen3.8:27b
 
 // RAM
 "Memory usage" = "Penggunaan memori";
@@ -325,6 +344,8 @@
 "Free memory (less than)" = "Memori bebas (kurang dari)"; // gemma4:31b
 "Swap size" = "Ukuran swap"; // gemma4:31b
 "Free RAM is" = "RAM bebas adalah %0"; // gemma4:31b
+"Pressure" = "Tekanan"; // qwen3.8:27b
+"Pressure level" = "Tingkat tekanan"; // qwen3.8:27b
 
 // Disk
 "Show removable disks" = "Tampilkan disk yang dapat dilepas";
@@ -346,8 +367,6 @@
 "Encrypted" = "Terenkripsi"; // gemma4:31b-it-qat
 "Writable" = "Dapat ditulis"; // gemma4:31b-it-qat
 "Drives" = "Drive"; // translategemma:4b
-"SMART data" = "Data SMART"; // translategemma:4b
-"ATA SMART data" = "Data ATA SMART"; // gemma4:31b
 "Power cycles" = "Siklus daya"; // gemma4:31b
 "Power on hours" = "Jam menyala"; // gemma4:31b
 "Critical warning" = "Peringatan kritis"; // gemma4:31b-it-qat
@@ -360,6 +379,12 @@
 "Reliability degraded" = "Keandalan menurun"; // gemma4:31b-it-qat
 "Read-only mode" = "Mode hanya baca"; // gemma4:31b-it-qat
 "Backup failed" = "Pencadangan gagal"; // gemma4:31b-it-qat
+"All disks" = "Semua disk"; // qwen3.8:27b
+"Disk details" = "Detail disk"; // qwen3.8:27b
+"Main color" = "Warna utama"; // qwen3.8:27b
+"Read / Write history" = "Riwayat baca / tulis"; // qwen3.8:27b
+"mounted" = "terpasang"; // qwen3.8:27b
+"removable" = "bisa dilepas"; // qwen3.8:27b
 
 // Sensors
 "Celsius" = "Celsius";
@@ -428,6 +453,14 @@
 "Internet connection lost" = "Koneksi internet terputus"; // translategemma:4b
 "Internet connection established" = "Koneksi internet terhubung"; // gemma4:31b
 "Show country code instead of emoji" = "Tampilkan kode negara alih-alih emoji"; // gemma4:31b
+"DNS Server" = "Server DNS"; // qwen3.8:27b
+"Jitter" = "Jitter";
+"Noise" = "Kebisingan"; // qwen3.8:27b
+"Signal" = "Sinyal"; // qwen3.8:27b
+"Speed" = "Kecepatan"; // qwen3.8:27b
+"Network interface changed" = "Antarmuka jaringan berubah"; // qwen3.8:27b
+"WiFi network changed" = "Jaringan WiFi berubah"; // qwen3.8:27b
+"This will be visible in the text widget" = "Ini akan terlihat di widget teks"; // qwen3.8:27b
 
 // Battery
 "Source" = "Sumber";
@@ -435,7 +468,6 @@
 "Battery Power" = "Daya baterai";
 "Time" = "Waktu";
 "Health" = "Kesehatan";
-"Amperage" = "Arus listrik";
 "Voltage" = "Voltase";
 "Cycles" = "Siklus";
 "Temperature" = "Suhu";
@@ -465,9 +497,11 @@
 "On battery" = "Menggunakan baterai"; // gemma4:31b
 "Plugged in" = "Tersambung"; // gemma4:31b
 "Charging" = "Mengisi daya"; // gemma4:31b
+"Level" = "Tingkat"; // qwen3.8:27b
 
 // Bluetooth
 "No Bluetooth devices are available" = "Tidak ada perangkat bluetooth yang tersedia";
+"Bluetooth threshold" = "Ambang Bluetooth"; // qwen3.8:27b
 
 // Clock
 "Time zone" = "Zona waktu"; // translategemma:4b
@@ -514,3 +548,24 @@
 "Pink" = "Merah muda"; // translategemma:4b
 "Teal" = "Toska"; // gemma4:31b
 "Indigo" = "Indigo";
+
+// System Stats
+"Authorization" = "Otorisasi"; // qwen3.8:27b
+"Identificator" = "Identifikator"; // qwen3.8:27b
+"Plan" = "Rencana"; // qwen3.8:27b
+"Monitoring" = "Pemantauan"; // qwen3.8:27b
+"Control" = "Kontrol"; // qwen3.8:27b
+"Update" = "Perbarui"; // qwen3.8:27b
+"Sign in" = "Masuk"; // qwen3.8:27b
+"Sign out" = "Keluar"; // qwen3.8:27b
+"Deregister" = "Batalkan pendaftaran"; // qwen3.8:27b
+"Hosts" = "Host"; // qwen3.8:27b
+"Machines" = "Mesin"; // qwen3.8:27b
+"No hosts yet" = "Belum ada host"; // qwen3.8:27b
+"No machines yet" = "Belum ada mesin"; // qwen3.8:27b
+"Get notified when a device goes offline or hits a threshold" = "Dapatkan notifikasi ketika perangkat offline atau mencapai ambang batas"; // qwen3.8:27b
+"It is not recommended to enable remote control unless you know what you are doing." = "Tidak disarankan untuk mengaktifkan kontrol jarak jauh kecuali Anda tahu apa yang Anda lakukan."; // qwen3.8:27b
+"Live CPU, RAM, disk and network metrics" = "Metrik langsung CPU, RAM, disk, dan jaringan"; // qwen3.8:27b
+"Login to System Stats to see your devices" = "Masuk ke System Stats untuk melihat perangkat Anda"; // qwen3.8:27b
+"Monitor HTTP, ICMP and custom endpoints" = "Pantau HTTP, ICMP dan endpoint kustom"; // qwen3.8:27b
+"Monitor and control your Macs from anywhere. Sign in to your System Stats account to see all your devices and hosts in one place." = "Pantau dan kendalikan Mac Anda dari mana saja. Masuk ke akun System Stats Anda untuk melihat semua perangkat dan host Anda di satu tempat."; // qwen3.8:27b

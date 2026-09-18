@@ -50,7 +50,6 @@
 "Characters" = "Märgid";
 "Short" = "Lühike";
 "Long" = "Pikk";
-"Statistics" = "Statistika";
 "Max" = "Maksimum";
 "Min" = "Miinimum";
 "Reset" = "Taasta";
@@ -98,6 +97,8 @@
 "15 sec" = "15 sekundit";
 "30 sec" = "30 sekundit";
 "60 sec" = "60 sekundit";
+"Eject" = "Eemalda"; // qwen3.8:27b
+"Enable" = "Luba"; // qwen3.8:27b
 
 // Setup
 "Stats Setup" = "Stats seadistamine";
@@ -146,6 +147,7 @@
 "Open Calendar" = "Ava kalender";
 "Toggle the module" = "Lülita moodul sisse";
 "Open System Stats" = "Ava System Stats"; // gemma4:31b
+"Close module settings" = "Sulge mooduli seaded"; // qwen3.8:27b
 
 // Application settings
 "Check for updates" = "Otsi värskendusi";
@@ -168,6 +170,7 @@
 "Spacing" = "Vahekaugus";
 "Choose file" = "Vali fail";
 "Stress tests" = "Stressitestid";
+"Keep the menubar items position" = "Hoida menüüriba elementide asukohta"; // qwen3.8:27b
 
 // Dashboard
 "Serial number" = "Seerianumber";
@@ -185,8 +188,12 @@
 // Update
 "The latest version of Stats installed" = "Uusim versioon on installitud";
 "Downloading..." = "Allalaadimine...";
+"Installing..." = "Paigaldamine..."; // qwen3.8:27b
+"Updating..." = "Uuendamine..."; // qwen3.8:27b
+"Stats will restart automatically" = "Stats taaskäivitub automaatselt"; // qwen3.8:27b
 "Current version: " = "Praegune versioon: ";
 "Latest version: " = "Uusim version: ";
+"Changelog" = "Muudatuste logi"; // qwen3.8:27b
 
 // Widgets
 "Color" = "Värv";
@@ -230,7 +237,6 @@
 
 // Module Kit
 "Open module settings" = "Ava mooduli sätted";
-"Open widget settings" = "Ava vidina seaded";
 "Update interval" = "Värskendamise intervall";
 "Usage history" = "Kasutusajalugu";
 "Details" = "Üksikasjad";
@@ -247,6 +253,8 @@
 "Kill process" = "Lõpeta protsess";
 "Keyboard shortcut" = "Kiirklahv";
 "Listening..." = "Kuulamine...";
+"Open in browser" = "Ava brauseris"; // qwen3.8:27b
+"Open module" = "Ava moodul"; // qwen3.8:27b
 
 // Modules
 "Number of top processes" = "Tipp-protsesside arv";
@@ -276,17 +284,20 @@
 "CPU usage threshold" = "CPU kasutuslävi";
 "Efficiency cores" = "Tõhusustuumad";
 "Performance cores" = "Jõudlustuumad";
+"Super cores" = "Super tuumad"; // qwen3.8:27b
 "System color" = "Süsteemi värv";
 "User color" = "Kasutaja värv";
 "Idle color" = "Ooteloleku värv";
 "Cluster grouping" = "Klastrite rühmitamine";
 "Efficiency cores color" = "Tõhusustuumade värv";
 "Performance cores color" = "Jõudlustuumade värv";
+"Super cores color" = "Super tuumade värv"; // qwen3.8:27b
 "Total load" = "Kokku koormus";
 "System load" = "Süsteemi koormus";
 "User load" = "Kasutajate koormus";
 "Efficiency cores load" = "Tõhusustuumade koormus";
 "Performance cores load" = "Jõudlustuumade koormus";
+"Super cores load" = "Super tuumade koormus"; // qwen3.8:27b
 "All cores" = "Kõik tuumad";
 "Load per core" = "Koormus tuuma kohta";
 "Efficiency core" = "Tõhusustuum";
@@ -300,10 +311,18 @@
 "Model" = "Mudel";
 "Status" = "Olek";
 "Utilization" = "Kasutus";
+"Render" = "Rendrits"; // qwen3.8:27b
 "Render utilization" = "Renderdamise kasutus";
+"Render utilization history" = "Renderduse kasutuse ajalugu"; // qwen3.8:27b
+"Tiler" = "Kiviplaat"; // qwen3.8:27b
 "Tiler utilization" = "Osapõhise renderdaja kasutus";
+"Tiler utilization history" = "Tileri kasutuse ajalugu"; // qwen3.8:27b
 "GPU usage threshold" = "GPU kasutuslävi";
 "GPU usage is" = "GPU kasutus on %0";
+"ANE utilization" = "ANE kasutus"; // qwen3.8:27b
+"ANE utilization history" = "ANE kasutusajalugu"; // qwen3.8:27b
+"FPS history" = "FPS-i ajalugu"; // qwen3.8:27b
+"GPU utilization history" = "GPU kasutuse ajalugu"; // qwen3.8:27b
 
 // RAM
 "Memory usage" = "Mälu kasutus";
@@ -325,6 +344,8 @@
 "Free memory (less than)" = "Vaba mälu (vähem kui)";
 "Swap size" = "Saalemälu suurus";
 "Free RAM is" = "Vaba RAM on %0";
+"Pressure" = "Rõhk"; // qwen3.8:27b
+"Pressure level" = "Rõhu tase"; // qwen3.8:27b
 
 // Disk
 "Show removable disks" = "Kuva irdkettad";
@@ -346,8 +367,6 @@
 "Encrypted" = "Krüpteeritud"; // gemma4:31b-it-qat
 "Writable" = "Kirjutatav"; // gemma4:31b-it-qat
 "Drives" = "Kettad";
-"SMART data" = "SMART-andmed";
-"ATA SMART data" = "ATA SMART andmed"; // gemma4:31b
 "Power cycles" = "Toitetsüklid"; // gemma4:31b
 "Power on hours" = "Töötunnid"; // gemma4:31b
 "Critical warning" = "Kriitiline hoiatus"; // gemma4:31b-it-qat
@@ -360,6 +379,12 @@
 "Reliability degraded" = "Töökindlus halvenenud"; // gemma4:31b-it-qat
 "Read-only mode" = "Ainult lugemise režiim"; // gemma4:31b-it-qat
 "Backup failed" = "Varundamine ei õnnestunud"; // gemma4:31b-it-qat
+"All disks" = "Kõik kettad"; // qwen3.8:27b
+"Disk details" = "Ketta üksikasjad"; // qwen3.8:27b
+"Main color" = "Peamine värv"; // qwen3.8:27b
+"Read / Write history" = "Lugemise / kirjutamise ajalugu"; // qwen3.8:27b
+"mounted" = "paigaldatud"; // qwen3.8:27b
+"removable" = "Eemaldatav"; // qwen3.8:27b
 
 // Sensors
 "Celsius" = "Celsiuse"; // gemma4:31b
@@ -404,7 +429,7 @@
 "Processes based" = "Protsessipõhine";
 "Reset data usage" = "Lähtesta andmekasutus";
 "VPN mode" = "VPN-režiim";
-"Standard" = "Standard";
+"Standard" = "Standardne"; // qwen3.8:27b
 "Security" = "Turvalisus";
 "Channel" = "Kanal";
 "Autodetection" = "Automaattuvastus";
@@ -428,6 +453,14 @@
 "Internet connection lost" = "Internetühendus katkenud";
 "Internet connection established" = "Internetühendus on loodud";
 "Show country code instead of emoji" = "Näita emoji asemel riigikoodi";
+"DNS Server" = "DNS server"; // qwen3.8:27b
+"Jitter" = "Võnkumine"; // qwen3.8:27b
+"Noise" = "Müra"; // qwen3.8:27b
+"Signal" = "Signaal"; // qwen3.8:27b
+"Speed" = "Kiirus"; // qwen3.8:27b
+"Network interface changed" = "Võrguliides muutunud"; // qwen3.8:27b
+"WiFi network changed" = "WiFi võrk muutus"; // qwen3.8:27b
+"This will be visible in the text widget" = "See on nähtav tekstivihikus"; // qwen3.8:27b
 
 // Battery
 "Source" = "Allikas";
@@ -435,7 +468,6 @@
 "Battery Power" = "Akutoide";
 "Time" = "Aeg";
 "Health" = "Tervis";
-"Amperage" = "Voolutugevus";
 "Voltage" = "Pinge";
 "Cycles" = "Tsüklid";
 "Temperature" = "Temperatuur";
@@ -465,9 +497,11 @@
 "On battery" = "Akul"; // gemma4:31b
 "Plugged in" = "Ühendatud"; // gemma4:31b
 "Charging" = "Laadimine"; // gemma4:31b
+"Level" = "Tase"; // qwen3.8:27b
 
 // Bluetooth
 "No Bluetooth devices are available" = "Ükski Bluetoothi seade pole saadaval";
+"Bluetooth threshold" = "Bluetoothi lävi"; // qwen3.8:27b
 
 // Clock
 "Time zone" = "Ajavöönd";
@@ -514,3 +548,24 @@
 "Pink" = "Roosa";
 "Teal" = "Türkiis"; // gemma4:31b
 "Indigo" = "Indigo";
+
+// System Stats
+"Authorization" = "Volitamine"; // qwen3.8:27b
+"Identificator" = "Idendifikaator"; // qwen3.8:27b
+"Plan" = "Plaan"; // qwen3.8:27b
+"Monitoring" = "Jälgimine"; // qwen3.8:27b
+"Control" = "Kontroll"; // qwen3.8:27b
+"Update" = "Uuenda"; // qwen3.8:27b
+"Sign in" = "Logi sisse"; // qwen3.8:27b
+"Sign out" = "Logi välja"; // qwen3.8:27b
+"Deregister" = "Deregistreeri"; // qwen3.8:27b
+"Hosts" = "Hostid"; // qwen3.8:27b
+"Machines" = "Masinad"; // qwen3.8:27b
+"No hosts yet" = "Pole veel hoste"; // qwen3.8:27b
+"No machines yet" = "Masinaid pole veel"; // qwen3.8:27b
+"Get notified when a device goes offline or hits a threshold" = "Teavita mind, kui seade on võrgust väljas või ületab piirmäära"; // qwen3.8:27b
+"It is not recommended to enable remote control unless you know what you are doing." = "Ei ole soovitatav lubada kaugjuhtimist, kui te ei tea, mida teete."; // qwen3.8:27b
+"Live CPU, RAM, disk and network metrics" = "Reaalajas CPU, RAM, ketta ja võrgu meetrikad"; // qwen3.8:27b
+"Login to System Stats to see your devices" = "Logi sisse System Stats et näha oma seadmeid"; // qwen3.8:27b
+"Monitor HTTP, ICMP and custom endpoints" = "Jälgi HTTP, ICMP ja kohandatud lõpppunkte"; // qwen3.8:27b
+"Monitor and control your Macs from anywhere. Sign in to your System Stats account to see all your devices and hosts in one place." = "Jälgige ja haldage oma Mac'isid kõikjal. Logige sisse oma System Statsi kontole, et näha kõiki oma seadmeid ja hoste ühes kohas."; // qwen3.8:27b

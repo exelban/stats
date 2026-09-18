@@ -50,7 +50,6 @@
 "Characters" = "Ký tự";
 "Short" = "Ngắn";
 "Long" = "Dài";
-"Statistics" = "Thống kê";
 "Max" = "Tối đa";
 "Min" = "Tối thiểu";
 "Reset" = "Đặt lại";
@@ -98,6 +97,8 @@
 "15 sec" = "15 giây";
 "30 sec" = "30 giây";
 "60 sec" = "60 giây";
+"Eject" = "Đổ đĩa"; // qwen3.8:27b
+"Enable" = "Bật"; // qwen3.8:27b
 
 // Setup
 "Stats Setup" = "Thiết lập Stats";
@@ -146,6 +147,7 @@
 "Open Calendar" = "Mở Lịch";
 "Toggle the module" = "Bật/tắt module";
 "Open System Stats" = "Mở System Stats"; // gemma4:31b
+"Close module settings" = "Đóng cài đặt mô-đun"; // qwen3.8:27b
 
 // Application settings
 "Check for updates" = "Kiểm tra cập nhật";
@@ -168,6 +170,7 @@
 "Spacing" = "Khoảng cách";
 "Choose file" = "Chọn tập tin";
 "Stress tests" = "Kiểm tra áp lực";
+"Keep the menubar items position" = "Giữ vị trí các mục thanh menu"; // qwen3.8:27b
 
 // Dashboard
 "Serial number" = "Số serial";
@@ -185,8 +188,12 @@
 // Update
 "The latest version of Stats installed" = "Phiên bản Stats mới nhất đã được cài đặt";
 "Downloading..." = "Đang tải xuống...";
+"Installing..." = "Đang cài đặt..."; // qwen3.8:27b
+"Updating..." = "Đang cập nhật..."; // qwen3.8:27b
+"Stats will restart automatically" = "Stats sẽ khởi động lại tự động"; // qwen3.8:27b
 "Current version: " = "Phiên bản hiện tại: ";
 "Latest version: " = "Phiên bản mới nhất: ";
+"Changelog" = "Nhật ký thay đổi"; // qwen3.8:27b
 
 // Widgets
 "Color" = "Màu sắc";
@@ -230,7 +237,6 @@
 
 // Module Kit
 "Open module settings" = "Mở cài đặt module";
-"Open widget settings" = "Mở cài đặt widget";
 "Update interval" = "Khoảng thời gian cập nhật";
 "Usage history" = "Lịch sử sử dụng";
 "Details" = "Chi tiết";
@@ -247,6 +253,8 @@
 "Kill process" = "Dừng tiến trình";
 "Keyboard shortcut" = "Phím tắt";
 "Listening..." = "Đang lắng nghe...";
+"Open in browser" = "Mở trong trình duyệt"; // qwen3.8:27b
+"Open module" = "Mở mô-đun"; // qwen3.8:27b
 
 // Modules
 "Number of top processes" = "Số lượng tiến trình hàng đầu";
@@ -276,17 +284,20 @@
 "CPU usage threshold" = "Ngưỡng sử dụng CPU";
 "Efficiency cores" = "Nhân tiết kiệm";
 "Performance cores" = "Nhân hiệu năng";
+"Super cores" = "Siêu nhân"; // qwen3.8:27b
 "System color" = "Màu hệ thống";
 "User color" = "Màu người dùng";
 "Idle color" = "Màu nhàn rỗi";
 "Cluster grouping" = "Nhóm cụm";
 "Efficiency cores color" = "Màu nhân tiết kiệm";
 "Performance cores color" = "Màu nhân hiệu năng";
+"Super cores color" = "Màu nhân Super"; // qwen3.8:27b
 "Total load" = "Tải tổng";
 "System load" = "Tải hệ thống";
 "User load" = "Tải người dùng";
 "Efficiency cores load" = "Tải nhân tiết kiệm";
 "Performance cores load" = "Tải nhân hiệu năng";
+"Super cores load" = "Tải nhân Super"; // qwen3.8:27b
 "All cores" = "Tất cả các nhân";
 "Load per core" = "Tải trên mỗi nhân"; // gemma4:31b
 "Efficiency core" = "Nhân hiệu quả"; // gemma4:31b
@@ -300,10 +311,18 @@
 "Model" = "Mô hình";
 "Status" = "Trạng thái";
 "Utilization" = "Sử dụng";
+"Render" = "Hiển thị"; // qwen3.8:27b
 "Render utilization" = "Mức sử dụng kết xuất";
+"Render utilization history" = "Lịch sử sử dụng Render"; // qwen3.8:27b
+"Tiler" = "Gạch"; // qwen3.8:27b
 "Tiler utilization" = "Mức sử dụng tiler";
+"Tiler utilization history" = "Lịch sử sử dụng Tiler"; // qwen3.8:27b
 "GPU usage threshold" = "Ngưỡng sử dụng GPU";
 "GPU usage is" = "Sử dụng GPU là %0";
+"ANE utilization" = "Tỷ lệ sử dụng ANE"; // qwen3.8:27b
+"ANE utilization history" = "Lịch sử mức sử dụng ANE"; // qwen3.8:27b
+"FPS history" = "Lịch sử FPS"; // qwen3.8:27b
+"GPU utilization history" = "Lịch sử sử dụng GPU"; // qwen3.8:27b
 
 // RAM
 "Memory usage" = "Sử dụng bộ nhớ";
@@ -325,6 +344,8 @@
 "Free memory (less than)" = "Bộ nhớ trống (nhỏ hơn)";
 "Swap size" = "Dung lượng bộ nhớ ảo";
 "Free RAM is" = "RAM trống là %0";
+"Pressure" = "Áp suất"; // qwen3.8:27b
+"Pressure level" = "Mức áp suất"; // qwen3.8:27b
 
 // Disk
 "Show removable disks" = "Hiển thị các ổ đĩa rời";
@@ -346,8 +367,6 @@
 "Encrypted" = "Đã mã hóa"; // gemma4:31b-it-qat
 "Writable" = "Có thể ghi"; // gemma4:31b-it-qat
 "Drives" = "Ổ đĩa";
-"SMART data" = "Dữ liệu SMART";
-"ATA SMART data" = "Dữ liệu ATA SMART"; // gemma4:31b
 "Power cycles" = "Số chu kỳ sạc"; // gemma4:31b
 "Power on hours" = "Số giờ bật nguồn"; // gemma4:31b
 "Critical warning" = "Cảnh báo nghiêm trọng"; // gemma4:31b-it-qat
@@ -360,6 +379,12 @@
 "Reliability degraded" = "Độ tin cậy suy giảm"; // gemma4:31b-it-qat
 "Read-only mode" = "Chế độ chỉ đọc"; // gemma4:31b-it-qat
 "Backup failed" = "Sao lưu thất bại"; // gemma4:31b-it-qat
+"All disks" = "Tất cả ổ đĩa"; // qwen3.8:27b
+"Disk details" = "Chi tiết ổ đĩa"; // qwen3.8:27b
+"Main color" = "Màu chính"; // qwen3.8:27b
+"Read / Write history" = "Lịch sử đọc / ghi"; // qwen3.8:27b
+"mounted" = "Đã gắn"; // qwen3.8:27b
+"removable" = "Tháo rời"; // qwen3.8:27b
 
 // Sensors
 "Celsius" = "Độ C";
@@ -428,6 +453,14 @@
 "Internet connection lost" = "Mất kết nối internet";
 "Internet connection established" = "Kết nối internet được thiết lập";
 "Show country code instead of emoji" = "Hiển thị mã quốc gia thay vì emoji"; // gemma4:31b
+"DNS Server" = "Máy chủ DNS"; // qwen3.8:27b
+"Jitter" = "Độ giật"; // qwen3.8:27b
+"Noise" = "Tiếng ồn"; // qwen3.8:27b
+"Signal" = "Tín hiệu"; // qwen3.8:27b
+"Speed" = "Tốc độ"; // qwen3.8:27b
+"Network interface changed" = "Giao diện mạng đã thay đổi"; // qwen3.8:27b
+"WiFi network changed" = "Mạng WiFi đã thay đổi"; // qwen3.8:27b
+"This will be visible in the text widget" = "Điều này sẽ hiển thị trong widget văn bản"; // qwen3.8:27b
 
 // Battery
 "Source" = "Nguồn";
@@ -435,7 +468,6 @@
 "Battery Power" = "Nguồn pin";
 "Time" = "Thời gian";
 "Health" = "Tình trạng";
-"Amperage" = "Cường độ dòng điện";
 "Voltage" = "Điện áp";
 "Cycles" = "Chu kỳ";
 "Temperature" = "Nhiệt độ";
@@ -465,9 +497,11 @@
 "On battery" = "Đang dùng pin"; // gemma4:31b
 "Plugged in" = "Đã kết nối"; // gemma4:31b
 "Charging" = "Đang sạc"; // gemma4:31b
+"Level" = "Mức"; // qwen3.8:27b
 
 // Bluetooth
 "No Bluetooth devices are available" = "Không có thiết bị Bluetooth nào khả dụng";
+"Bluetooth threshold" = "Ngưỡng Bluetooth"; // qwen3.8:27b
 
 // Clock
 "Time zone" = "Múi giờ";
@@ -514,3 +548,24 @@
 "Pink" = "Hồng";
 "Teal" = "Xanh lục lam";
 "Indigo" = "Chàm";
+
+// System Stats
+"Authorization" = "Xác thực"; // qwen3.8:27b
+"Identificator" = "Định danh"; // qwen3.8:27b
+"Plan" = "Gói"; // qwen3.8:27b
+"Monitoring" = "Giám sát"; // qwen3.8:27b
+"Control" = "Điều khiển"; // qwen3.8:27b
+"Update" = "Cập nhật"; // qwen3.8:27b
+"Sign in" = "Đăng nhập"; // qwen3.8:27b
+"Sign out" = "Đăng xuất"; // qwen3.8:27b
+"Deregister" = "Hủy đăng ký"; // qwen3.8:27b
+"Hosts" = "Máy chủ"; // qwen3.8:27b
+"Machines" = "Máy"; // qwen3.8:27b
+"No hosts yet" = "Chưa có host nào"; // qwen3.8:27b
+"No machines yet" = "Chưa có máy nào"; // qwen3.8:27b
+"Get notified when a device goes offline or hits a threshold" = "Nhận thông báo khi thiết bị ngoại tuyến hoặc chạm ngưỡng"; // qwen3.8:27b
+"It is not recommended to enable remote control unless you know what you are doing." = "Không khuyến nghị bật điều khiển từ xa trừ khi bạn biết mình đang làm gì."; // qwen3.8:27b
+"Live CPU, RAM, disk and network metrics" = "Chỉ số CPU, RAM, ổ đĩa và mạng thời gian thực"; // qwen3.8:27b
+"Login to System Stats to see your devices" = "Đăng nhập vào System Stats để xem các thiết bị của bạn"; // qwen3.8:27b
+"Monitor HTTP, ICMP and custom endpoints" = "Giám sát HTTP, ICMP và điểm cuối tùy chỉnh"; // qwen3.8:27b
+"Monitor and control your Macs from anywhere. Sign in to your System Stats account to see all your devices and hosts in one place." = "Giám sát và điều khiển các Mac của bạn từ bất kỳ đâu. Đăng nhập vào tài khoản System Stats của bạn để xem tất cả thiết bị và máy chủ của bạn ở một nơi."; // qwen3.8:27b

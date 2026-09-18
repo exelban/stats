@@ -253,7 +253,7 @@ private class HeroView: NSView {
             bullets.addArrangedSubview(self.bulletRow(line))
         }
         
-        let loginButton = NSButton(title: localizedString("Login"), target: self, action: #selector(self.loginAction))
+        let loginButton = NSButton(title: localizedString("Sign in"), target: self, action: #selector(self.loginAction))
         loginButton.bezelStyle = .rounded
         loginButton.keyEquivalent = "\r"
         loginButton.controlSize = .large

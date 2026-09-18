@@ -50,7 +50,6 @@
 "Characters" = "文字";
 "Short" = "ショート";
 "Long" = "ロング";
-"Statistics" = "統計";
 "Max" = "最大";
 "Min" = "最小";
 "Reset" = "リセット";
@@ -98,6 +97,8 @@
 "15 sec" = "15秒"; // gemma4:31b
 "30 sec" = "30秒"; // translategemma:4b
 "60 sec" = "60秒"; // translategemma:4b
+"Eject" = "取り外す"; // qwen3.8:27b
+"Enable" = "有効にする"; // qwen3.8:27b
 
 // Setup
 "Stats Setup" = "Stats セットアップ";
@@ -146,6 +147,7 @@
 "Open Calendar" = "カレンダーを開く";
 "Toggle the module" = "モジュールの切り替え";
 "Open System Stats" = "System Statsを開く"; // gemma4:31b
+"Close module settings" = "モジュール設定を閉じる"; // qwen3.8:27b
 
 // Application settings
 "Check for updates" = "アップデートの確認頻度";
@@ -168,6 +170,7 @@
 "Spacing" = "間隔"; // translategemma:4b
 "Choose file" = "ファイルを選択"; // gemma4:31b
 "Stress tests" = "ストレステスト"; // translategemma:4b
+"Keep the menubar items position" = "メニューバー項目の位置を保持する"; // qwen3.8:27b
 
 // Dashboard
 "Serial number" = "シリアル番号";
@@ -185,8 +188,12 @@
 // Update
 "The latest version of Stats installed" = "最新の Stats がインストールされています";
 "Downloading..." = "ダウンロード中...";
+"Installing..." = "インストール中..."; // qwen3.8:27b
+"Updating..." = "更新中..."; // qwen3.8:27b
+"Stats will restart automatically" = "Statsは自動的に再起動されます"; // qwen3.8:27b
 "Current version: " = "現在のバージョン: ";
 "Latest version: " = "最新のバージョン: ";
+"Changelog" = "変更履歴"; // qwen3.8:27b
 
 // Widgets
 "Color" = "カラー";
@@ -230,7 +237,6 @@
 
 // Module Kit
 "Open module settings" = "このモジュールの設定を開く";
-"Open widget settings" = "このウィジェットの設定を開く";
 "Update interval" = "更新間隔";
 "Usage history" = "履歴";
 "Details" = "詳細";
@@ -247,6 +253,8 @@
 "Kill process" = "プロセスを終了する";
 "Keyboard shortcut" = "キーボードショートカット"; // translategemma:4b
 "Listening..." = "入力待ち...";
+"Open in browser" = "ブラウザで開く"; // qwen3.8:27b
+"Open module" = "モジュールを開く"; // qwen3.8:27b
 
 // Modules
 "Number of top processes" = "表示する上位プロセスの数";
@@ -276,17 +284,20 @@
 "CPU usage threshold" = "CPU使用率のしきい値"; // gemma4:31b
 "Efficiency cores" = "高効率コア";
 "Performance cores" = "高性能コア";
+"Super cores" = "スーパーコア"; // qwen3.8:27b
 "System color" = "システムカラー"; // gemma4:31b
 "User color" = "ユーザーカラー"; // gemma4:31b
 "Idle color" = "アイドル時の色"; // gemma4:31b
 "Cluster grouping" = "クラスターのグループ化"; // gemma4:31b
 "Efficiency cores color" = "高効率コアの色";
 "Performance cores color" = "高性能コアの色";
+"Super cores color" = "スーパーコアの色"; // qwen3.8:27b
 "Total load" = "合計負荷"; // translategemma:4b
 "System load" = "システム負荷"; // translategemma:4b
 "User load" = "ユーザー負荷"; // translategemma:4b
 "Efficiency cores load" = "高効率コアの負荷";
 "Performance cores load" = "高性能コアの負荷";
+"Super cores load" = "スーパーコア負荷"; // qwen3.8:27b
 "All cores" = "全てのコア"; // gemma4:31b
 "Load per core" = "コアごとの負荷"; // translategemma:4b
 "Efficiency core" = "高効率コア";
@@ -300,10 +311,18 @@
 "Model" = "モデル";
 "Status" = "状態";
 "Utilization" = "使用率";
+"Render" = "描画"; // qwen3.8:27b
 "Render utilization" = "レンダリング";
+"Render utilization history" = "レンダリング使用率の履歴"; // qwen3.8:27b
+"Tiler" = "タイラー"; // qwen3.8:27b
 "Tiler utilization" = "タイルレンダリング";
+"Tiler utilization history" = "Tiler 使用率履歴"; // qwen3.8:27b
 "GPU usage threshold" = "GPU使用率のしきい値"; // gemma4:31b
 "GPU usage is" = "GPU使用率は%0です"; // gemma4:31b
+"ANE utilization" = "ANE 使用率"; // qwen3.8:27b
+"ANE utilization history" = "ANE 使用率の履歴"; // qwen3.8:27b
+"FPS history" = "FPS履歴"; // qwen3.8:27b
+"GPU utilization history" = "GPU使用率の履歴"; // qwen3.8:27b
 
 // RAM
 "Memory usage" = "メモリ使用率";
@@ -325,6 +344,8 @@
 "Free memory (less than)" = "空きメモリ (未満)"; // gemma4:31b
 "Swap size" = "スワップサイズ"; // translategemma:4b
 "Free RAM is" = "空きRAMは%0です"; // gemma4:31b
+"Pressure" = "気圧"; // qwen3.8:27b
+"Pressure level" = "圧力レベル"; // qwen3.8:27b
 
 // Disk
 "Show removable disks" = "リムーバブルディスクを表示";
@@ -346,8 +367,6 @@
 "Encrypted" = "暗号化済み"; // gemma4:31b-it-qat
 "Writable" = "書き込み可能"; // gemma4:31b-it-qat
 "Drives" = "ディスク"; // gemma4:31b
-"SMART data" = "SMARTデータ"; // translategemma:4b
-"ATA SMART data" = "ATA SMART データ"; // gemma4:31b
 "Power cycles" = "サイクル数"; // gemma4:31b
 "Power on hours" = "通電時間"; // gemma4:31b
 "Critical warning" = "重大な警告"; // gemma4:31b-it-qat
@@ -360,6 +379,12 @@
 "Reliability degraded" = "信頼性の低下"; // gemma4:31b-it-qat
 "Read-only mode" = "読み取り専用モード"; // gemma4:31b-it-qat
 "Backup failed" = "バックアップに失敗しました"; // gemma4:31b-it-qat
+"All disks" = "すべてのディスク"; // qwen3.8:27b
+"Disk details" = "ディスク詳細"; // qwen3.8:27b
+"Main color" = "メインカラー"; // qwen3.8:27b
+"Read / Write history" = "読み取り / 書き込み履歴"; // qwen3.8:27b
+"mounted" = "マウント済み"; // qwen3.8:27b
+"removable" = "取り外し可能"; // qwen3.8:27b
 
 // Sensors
 "Celsius" = "摂氏（℃）";
@@ -428,6 +453,14 @@
 "Internet connection lost" = "インターネット接続が切断されました"; // gemma4:31b
 "Internet connection established" = "インターネット接続が確立されました"; // translategemma:4b
 "Show country code instead of emoji" = "絵文字の代わりに国コードを表示"; // gemma4:31b
+"DNS Server" = "DNSサーバー"; // qwen3.8:27b
+"Jitter" = "ジッター"; // qwen3.8:27b
+"Noise" = "ノイズ"; // qwen3.8:27b
+"Signal" = "シグナル"; // qwen3.8:27b
+"Speed" = "速度"; // qwen3.8:27b
+"Network interface changed" = "ネットワークインターフェースが変更されました"; // qwen3.8:27b
+"WiFi network changed" = "WiFiネットワークが変更されました"; // qwen3.8:27b
+"This will be visible in the text widget" = "これはテキストウィジェットに表示されます"; // qwen3.8:27b
 
 // Battery
 "Source" = "電源";
@@ -435,7 +468,6 @@
 "Battery Power" = "バッテリー";
 "Time" = "バッテリー残り時間";
 "Health" = "状態";
-"Amperage" = "電流";
 "Voltage" = "電圧";
 "Cycles" = "サイクル数";
 "Temperature" = "温度";
@@ -465,9 +497,11 @@
 "On battery" = "バッテリー駆動"; // gemma4:31b
 "Plugged in" = "電源接続済み"; // gemma4:31b
 "Charging" = "充電中"; // gemma4:31b
+"Level" = "レベル"; // qwen3.8:27b
 
 // Bluetooth
 "No Bluetooth devices are available" = "利用可能な Bluetooth デバイスがありません";
+"Bluetooth threshold" = "ブルートゥース閾値"; // qwen3.8:27b
 
 // Clock
 "Time zone" = "タイムゾーン"; // translategemma:4b
@@ -514,3 +548,24 @@
 "Pink" = "システムピンク";
 "Teal" = "システムティール";
 "Indigo" = "システムインディゴ";
+
+// System Stats
+"Authorization" = "認証"; // qwen3.8:27b
+"Identificator" = "識別子"; // qwen3.8:27b
+"Plan" = "プラン"; // qwen3.8:27b
+"Monitoring" = "監視"; // qwen3.8:27b
+"Control" = "コントロール"; // qwen3.8:27b
+"Update" = "更新"; // qwen3.8:27b
+"Sign in" = "サインイン"; // qwen3.8:27b
+"Sign out" = "サインアウト"; // qwen3.8:27b
+"Deregister" = "登録解除"; // qwen3.8:27b
+"Hosts" = "ホスト"; // qwen3.8:27b
+"Machines" = "マシン"; // qwen3.8:27b
+"No hosts yet" = "まだホストがありません"; // qwen3.8:27b
+"No machines yet" = "まだマシンがありません"; // qwen3.8:27b
+"Get notified when a device goes offline or hits a threshold" = "デバイスがオフラインになったり、しきい値に達したりしたときに通知する"; // qwen3.8:27b
+"It is not recommended to enable remote control unless you know what you are doing." = "操作に十分な知識がある場合を除き、リモートコントロールを有効にすることは推奨されません。"; // qwen3.8:27b
+"Live CPU, RAM, disk and network metrics" = "リアルタイム CPU、RAM、ディスク、ネットワークメトリクス"; // qwen3.8:27b
+"Login to System Stats to see your devices" = "System Stats にログインして、お使いのデバイスを確認"; // qwen3.8:27b
+"Monitor HTTP, ICMP and custom endpoints" = "HTTP、ICMPおよびカスタムエンドポイントの監視"; // qwen3.8:27b
+"Monitor and control your Macs from anywhere. Sign in to your System Stats account to see all your devices and hosts in one place." = "どこからでも Mac を監視・制御できます。System Stats アカウントにサインインすると、すべてのデバイスとホストを一箇所で確認できます。"; // qwen3.8:27b

@@ -50,7 +50,6 @@
 "Characters" = "문자";
 "Short" = "짧은";
 "Long" = "긴";
-"Statistics" = "통계";
 "Max" = "최대";
 "Min" = "최소";
 "Reset" = "재설정";
@@ -98,6 +97,8 @@
 "15 sec" = "15초";
 "30 sec" = "30초";
 "60 sec" = "60초";
+"Eject" = "추출"; // qwen3.8:27b
+"Enable" = "사용"; // qwen3.8:27b
 
 // Setup
 "Stats Setup" = "Stats 설정";
@@ -146,6 +147,7 @@
 "Open Calendar" = "캘린더 열기";
 "Toggle the module" = "모듈 전환";
 "Open System Stats" = "System Stats 열기"; // gemma4:31b
+"Close module settings" = "모듈 설정 닫기"; // qwen3.8:27b
 
 // Application settings
 "Check for updates" = "업데이트 확인";
@@ -168,6 +170,7 @@
 "Spacing" = "간격";
 "Choose file" = "파일 선택";
 "Stress tests" = "스트레스 테스트 진행하기";
+"Keep the menubar items position" = "메뉴바 항목 위치 유지"; // qwen3.8:27b
 
 // Dashboard
 "Serial number" = "일련 번호";
@@ -185,8 +188,12 @@
 // Update
 "The latest version of Stats installed" = "최신 버전의 Stats가 설치되어 있습니다";
 "Downloading..." = "다운로드 중...";
+"Installing..." = "설치 중..."; // qwen3.8:27b
+"Updating..." = "업데이트 중..."; // qwen3.8:27b
+"Stats will restart automatically" = "Stats가 자동으로 다시 시작됩니다"; // qwen3.8:27b
 "Current version: " = "현재 버전:  ";
 "Latest version: " = "최신 버전:    ";
+"Changelog" = "변경 사항"; // qwen3.8:27b
 
 // Widgets
 "Color" = "색상";
@@ -230,7 +237,6 @@
 
 // Module Kit
 "Open module settings" = "모듈 설정 열기";
-"Open widget settings" = "위젯 설정 열기";
 "Update interval" = "업데이트 주기";
 "Usage history" = "사용 기록";
 "Details" = "세부 사항";
@@ -247,6 +253,8 @@
 "Kill process" = "프로세스 강제 종료";
 "Keyboard shortcut" = "키보드 단축키";
 "Listening..." = "듣는 중...";
+"Open in browser" = "브라우저에서 열기"; // qwen3.8:27b
+"Open module" = "모듈 열기"; // qwen3.8:27b
 
 // Modules
 "Number of top processes" = "상위 프로세스 수";
@@ -276,17 +284,20 @@
 "CPU usage threshold" = "CPU 사용량 임계값";
 "Efficiency cores" = "효율 코어";
 "Performance cores" = "성능 코어";
+"Super cores" = "슈퍼 코어"; // qwen3.8:27b
 "System color" = "시스템 색상";
 "User color" = "사용자 색상";
 "Idle color" = "대기 색상";
 "Cluster grouping" = "클러스터 묶기";
 "Efficiency cores color" = "효율 코어 색상";
 "Performance cores color" = "성능 코어 색상";
+"Super cores color" = "슈퍼 코어 색상"; // qwen3.8:27b
 "Total load" = "총 부하";
 "System load" = "시스템 부하";
 "User load" = "사용자 부하";
 "Efficiency cores load" = "효율 코어 부하";
 "Performance cores load" = "성능 코어 부하";
+"Super cores load" = "슈퍼 코어 부하"; // qwen3.8:27b
 "All cores" = "모든 코어";
 "Load per core" = "코어당 부하";
 "Efficiency core" = "효율 코어";
@@ -300,10 +311,18 @@
 "Model" = "모델";
 "Status" = "상태";
 "Utilization" = "사용률";
+"Render" = "렌더링"; // qwen3.8:27b
 "Render utilization" = "렌더 사용률";
+"Render utilization history" = "렌더링 사용률 이력"; // qwen3.8:27b
+"Tiler" = "타일러"; // qwen3.8:27b
 "Tiler utilization" = "타일 사용률";
+"Tiler utilization history" = "타일러 사용률 이력"; // qwen3.8:27b
 "GPU usage threshold" = "GPU 사용량 임계값";
 "GPU usage is" = "GPU 사용량 %0";
+"ANE utilization" = "ANE 사용률"; // qwen3.8:27b
+"ANE utilization history" = "ANE 사용률 이력"; // qwen3.8:27b
+"FPS history" = "FPS 이력"; // qwen3.8:27b
+"GPU utilization history" = "GPU 사용률 이력"; // qwen3.8:27b
 
 // RAM
 "Memory usage" = "메모리 사용량";
@@ -325,6 +344,8 @@
 "Free memory (less than)" = "여유 메모리 (설정값 아래로 떨어졌을 때)";
 "Swap size" = "스왑 크기"; // translategemma:4b
 "Free RAM is" = "여유 메모리 %0";
+"Pressure" = "기압"; // qwen3.8:27b
+"Pressure level" = "압력 수준"; // qwen3.8:27b
 
 // Disk
 "Show removable disks" = "이동식 디스크 표시";
@@ -346,8 +367,6 @@
 "Encrypted" = "암호화됨"; // gemma4:31b-it-qat
 "Writable" = "쓰기 가능"; // gemma4:31b-it-qat
 "Drives" = "드라이브"; // translategemma:4b
-"SMART data" = "SMART 데이터"; // translategemma:4b
-"ATA SMART data" = "ATA SMART 데이터"; // gemma4:31b
 "Power cycles" = "전원 사이클 횟수"; // gemma4:31b
 "Power on hours" = "전원 켜짐 시간"; // gemma4:31b
 "Critical warning" = "심각한 경고"; // gemma4:31b-it-qat
@@ -360,6 +379,12 @@
 "Reliability degraded" = "신뢰성 저하"; // gemma4:31b-it-qat
 "Read-only mode" = "읽기 전용 모드"; // gemma4:31b-it-qat
 "Backup failed" = "백업 실패"; // gemma4:31b-it-qat
+"All disks" = "모든 디스크"; // qwen3.8:27b
+"Disk details" = "디스크 세부 정보"; // qwen3.8:27b
+"Main color" = "주 색상"; // qwen3.8:27b
+"Read / Write history" = "읽기 / 쓰기 기록"; // qwen3.8:27b
+"mounted" = "마운트됨"; // qwen3.8:27b
+"removable" = "이동식"; // qwen3.8:27b
 
 // Sensors
 "Celsius" = "섭씨";
@@ -428,6 +453,14 @@
 "Internet connection lost" = "인터넷 연결 끊김"; // gemma4:31b
 "Internet connection established" = "인터넷 연결이 설정되었습니다"; // gemma4:31b
 "Show country code instead of emoji" = "이모티콘 대신 국가 코드 표시하기";
+"DNS Server" = "DNS 서버"; // qwen3.8:27b
+"Jitter" = "지터"; // qwen3.8:27b
+"Noise" = "소음"; // qwen3.8:27b
+"Signal" = "신호"; // qwen3.8:27b
+"Speed" = "속도"; // qwen3.8:27b
+"Network interface changed" = "네트워크 인터페이스가 변경됨"; // qwen3.8:27b
+"WiFi network changed" = "WiFi 네트워크가 변경됨"; // qwen3.8:27b
+"This will be visible in the text widget" = "이것은 텍스트 위젯에 표시됩니다"; // qwen3.8:27b
 
 // Battery
 "Source" = "공급원";
@@ -435,7 +468,6 @@
 "Battery Power" = "배터리 전원";
 "Time" = "시간";
 "Health" = "상태";
-"Amperage" = "전류";
 "Voltage" = "전압";
 "Cycles" = "사이클";
 "Temperature" = "온도";
@@ -465,9 +497,11 @@
 "On battery" = "배터리 사용 중"; // gemma4:31b
 "Plugged in" = "전원 연결됨"; // gemma4:31b
 "Charging" = "충전 중"; // gemma4:31b
+"Level" = "레벨"; // qwen3.8:27b
 
 // Bluetooth
 "No Bluetooth devices are available" = "사용 가능한 블루투스 장치가 없습니다";
+"Bluetooth threshold" = "Bluetooth 임계값"; // qwen3.8:27b
 
 // Clock
 "Time zone" = "시간대";
@@ -514,3 +548,24 @@
 "Pink" = "분홍";
 "Teal" = "암청색";
 "Indigo" = "남색";
+
+// System Stats
+"Authorization" = "인가"; // qwen3.8:27b
+"Identificator" = "식별자"; // qwen3.8:27b
+"Plan" = "플랜"; // qwen3.8:27b
+"Monitoring" = "모니터링"; // qwen3.8:27b
+"Control" = "제어"; // qwen3.8:27b
+"Update" = "업데이트"; // qwen3.8:27b
+"Sign in" = "로그인"; // qwen3.8:27b
+"Sign out" = "로그아웃"; // qwen3.8:27b
+"Deregister" = "등록 해제"; // qwen3.8:27b
+"Hosts" = "호스트"; // qwen3.8:27b
+"Machines" = "머신"; // qwen3.8:27b
+"No hosts yet" = "아직 호스트가 없습니다"; // qwen3.8:27b
+"No machines yet" = "아직 기기가 없습니다"; // qwen3.8:27b
+"Get notified when a device goes offline or hits a threshold" = "장치가 오프라인 상태가 되거나 임계값에 도달하면 알림을 받습니다"; // qwen3.8:27b
+"It is not recommended to enable remote control unless you know what you are doing." = "무엇을 하는지 알지 못한다면 원격 제어를 활성화하지 않는 것이 좋습니다."; // qwen3.8:27b
+"Live CPU, RAM, disk and network metrics" = "실시간 CPU, RAM, 디스크 및 네트워크 지표"; // qwen3.8:27b
+"Login to System Stats to see your devices" = "System Stats에 로그인하여 기기를 확인하세요"; // qwen3.8:27b
+"Monitor HTTP, ICMP and custom endpoints" = "HTTP, ICMP 및 사용자 정의 엔드포인트 모니터링"; // qwen3.8:27b
+"Monitor and control your Macs from anywhere. Sign in to your System Stats account to see all your devices and hosts in one place." = "어디서나 Mac을 모니터링하고 제어하세요. System Stats 계정에 로그인하여 모든 기기와 호스트를 한 곳에서 확인하세요."; // qwen3.8:27b

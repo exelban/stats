@@ -50,7 +50,6 @@
 "Characters" = "Символы";
 "Short" = "Короткий";
 "Long" = "Длинный";
-"Statistics" = "Статистика";
 "Max" = "Макс.";
 "Min" = "Мин.";
 "Reset" = "Сбросить";
@@ -98,6 +97,8 @@
 "15 sec" = "15 сек";
 "30 sec" = "30 сек";
 "60 sec" = "60 сек";
+"Eject" = "Извлечь"; // qwen3.8:27b
+"Enable" = "Включить"; // qwen3.8:27b
 
 // Setup
 "Stats Setup" = "Настройки Stats";
@@ -146,6 +147,7 @@
 "Open Calendar" = "Открыть календарь";
 "Toggle the module" = "Переключить модуль";
 "Open System Stats" = "Открыть System Stats";
+"Close module settings" = "Закрыть настройки модуля"; // qwen3.8:27b
 
 // Application settings
 "Check for updates" = "Проверять обновления";
@@ -168,6 +170,7 @@
 "Spacing" = "Интервал";
 "Choose file" = "Выбрать файл";
 "Stress tests" = "Стресс-тесты";
+"Keep the menubar items position" = "Сохранять расположение элементов строки меню"; // qwen3.8:27b
 
 // Dashboard
 "Serial number" = "Серийный номер";
@@ -185,8 +188,12 @@
 // Update
 "The latest version of Stats installed" = "Установлена последняя версия";
 "Downloading..." = "Скачивание...";
+"Installing..." = "Установка..."; // qwen3.8:27b
+"Updating..." = "Обновление..."; // qwen3.8:27b
+"Stats will restart automatically" = "Stats будет автоматически перезапущен"; // qwen3.8:27b
 "Current version: " = "Текущая версия:      ";
 "Latest version: " = "Последняя версия:  ";
+"Changelog" = "Журнал изменений"; // qwen3.8:27b
 
 // Widgets
 "Color" = "Цвет";
@@ -230,7 +237,6 @@
 
 // Module Kit
 "Open module settings" = "Открыть настройки модуля";
-"Open widget settings" = "Открыть настройки виджета";
 "Update interval" = "Интервал обновления";
 "Usage history" = "История использования";
 "Details" = "Подробности";
@@ -247,6 +253,8 @@
 "Kill process" = "Завершить процесс";
 "Keyboard shortcut" = "Сочетание клавиш";
 "Listening..." = "Слушание...";
+"Open in browser" = "Открыть в браузере"; // qwen3.8:27b
+"Open module" = "Открыть модуль"; // qwen3.8:27b
 
 // Modules
 "Number of top processes" = "Количество процессов";
@@ -276,17 +284,20 @@
 "CPU usage threshold" = "Порог использования процессора";
 "Efficiency cores" = "Энергоэффективные ядра";
 "Performance cores" = "Производительные ядра";
+"Super cores" = "Суперядра"; // qwen3.8:27b
 "System color" = "Системный цвет";
 "User color" = "Пользовательский цвет";
 "Idle color" = "Холостой цвет";
 "Cluster grouping" = "Кластерная группировка";
 "Efficiency cores color" = "Цвет энергоэффективных ядер";
 "Performance cores color" = "Цвет производительных ядер";
+"Super cores color" = "Цвет суперядер"; // qwen3.8:27b
 "Total load" = "Общая нагрузка";
 "System load" = "Системная нагрузка";
 "User load" = "Пользовательская нагрузка";
 "Efficiency cores load" = "Нагрузка энергоэффективных ядер";
 "Performance cores load" = "Нагрузка производительных ядер";
+"Super cores load" = "Нагрузка суперядер"; // qwen3.8:27b
 "All cores" = "Все ядра";
 "Load per core" = "Нагрузка на ядро";
 "Efficiency core" = "Ядро эффективности";
@@ -300,10 +311,18 @@
 "Model" = "Модель";
 "Status" = "Статус";
 "Utilization" = "Использование";
+"Render" = "Рендер"; // qwen3.8:27b
 "Render utilization" = "Использование render";
+"Render utilization history" = "История загрузки рендера"; // qwen3.8:27b
+"Tiler" = "Тайлер"; // qwen3.8:27b
 "Tiler utilization" = "Использование tiler";
+"Tiler utilization history" = "История загрузки Tiler"; // qwen3.8:27b
 "GPU usage threshold" = "Порог использования графического процессора";
 "GPU usage is" = "Использование графического процессора %0";
+"ANE utilization" = "Загрузка ANE"; // qwen3.8:27b
+"ANE utilization history" = "История загрузки ANE"; // qwen3.8:27b
+"FPS history" = "История FPS"; // qwen3.8:27b
+"GPU utilization history" = "История загрузки GPU"; // qwen3.8:27b
 
 // RAM
 "Memory usage" = "Нагрузка на память";
@@ -325,6 +344,8 @@
 "Free memory (less than)" = "Свободная память (менее чем)";
 "Swap size" = "Размер swap";
 "Free RAM is" = "Свободная оперативная память %0";
+"Pressure" = "Давление"; // qwen3.8:27b
+"Pressure level" = "Уровень давления"; // qwen3.8:27b
 
 // Disk
 "Show removable disks" = "Показать съемные диски";
@@ -346,8 +367,6 @@
 "Encrypted" = "Зашифрован";
 "Writable" = "Доступен для записи";
 "Drives" = "Диски";
-"SMART data" = "SMART данные";
-"ATA SMART data" = "ATA SMART данные";
 "Power cycles" = "Количество циклов";
 "Power on hours" = "Часы работы";
 "Critical warning" = "Критическое предупреждение";
@@ -360,6 +379,12 @@
 "Reliability degraded" = "Надёжность снижена";
 "Read-only mode" = "Режим только для чтения";
 "Backup failed" = "Ошибка резервного копирования";
+"All disks" = "Все диски"; // qwen3.8:27b
+"Disk details" = "Сведения о диске"; // qwen3.8:27b
+"Main color" = "Основной цвет"; // qwen3.8:27b
+"Read / Write history" = "История чтения / записи"; // qwen3.8:27b
+"mounted" = "подключён"; // qwen3.8:27b
+"removable" = "Съёмный"; // qwen3.8:27b
 
 // Sensors
 "Celsius" = "Цельсия";
@@ -373,12 +398,12 @@
 "Show unknown sensors" = "Показать неизвестные датчики";
 "Install fan helper" = "Установить помощник для вентилятора";
 "Uninstall fan helper" = "Удалить помощник для вентилятора";
-"Approve in System Settings ▸ Login Items" = "Approve in System Settings ▸ Login Items";
-"Fan helper needs your approval" = "Fan helper needs your approval";
-"To control the fans, enable Stats in System Settings ▸ Login Items." = "To control the fans, enable Stats in System Settings ▸ Login Items.";
-"Open Login Items" = "Open Login Items";
-"Could not enable the fan helper" = "Could not enable the fan helper";
-"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again.";
+"Approve in System Settings ▸ Login Items" = "Разрешить в Системных настройках ▸ Элементы входа"; // qwen3.8:27b
+"Fan helper needs your approval" = "Помощник вентилятора требует вашего разрешения"; // qwen3.8:27b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "Чтобы управлять вентиляторами, включите Stats в Системных настройках ▸ Элементы входа."; // qwen3.8:27b
+"Open Login Items" = "Открыть элементы входа"; // qwen3.8:27b
+"Could not enable the fan helper" = "Не удалось включить помощник вентилятора"; // qwen3.8:27b
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "Откройте Системные настройки ▸ Элементы входа, убедитесь, что Stats разрешён в фоновом режиме, затем повторите попытку."; // qwen3.8:27b
 "Fan value" = "Значение вентилятора";
 "Turn off fan" = "Выключить вентилятор";
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Вы собираетесь выключить вентилятор. Это не рекомендуемое действие, которое может сломать ваш Mac. Вы уверены, что хотите это сделать?";
@@ -428,6 +453,14 @@
 "Internet connection lost" = "Соединение с интернетом потеряно";
 "Internet connection established" = "Соединение с интернетом восстановлено";
 "Show country code instead of emoji" = "Отображать код страны вместо эмодзи";
+"DNS Server" = "Сервер DNS"; // qwen3.8:27b
+"Jitter" = "Джиттер"; // qwen3.8:27b
+"Noise" = "Шум"; // qwen3.8:27b
+"Signal" = "Сигнал"; // qwen3.8:27b
+"Speed" = "Скорость"; // qwen3.8:27b
+"Network interface changed" = "Сетевой интерфейс изменён"; // qwen3.8:27b
+"WiFi network changed" = "Сеть Wi-Fi изменена"; // qwen3.8:27b
+"This will be visible in the text widget" = "Это будет видно в текстовом виджете"; // qwen3.8:27b
 
 // Battery
 "Source" = "Источник";
@@ -435,7 +468,6 @@
 "Battery Power" = "Аккумулятор";
 "Time" = "Время";
 "Health" = "Состояние";
-"Amperage" = "Сила тока";
 "Voltage" = "Напряжение";
 "Cycles" = "Количество циклов";
 "Temperature" = "Температура";
@@ -459,15 +491,17 @@
 "Hide additional information when full" = "Скрыть дополнительную информацию при полном заряде";
 "Percentage inside the icon" = "Процент внутри виджета";
 "Charger state inside the battery" = "Состояние зарядки внутри аккумулятора";
-"Max capacity" = "Max capacity";
-"Designed capacity" = "Designed capacity";
-"On hold" = "On hold";
-"On battery" = "On battery";
-"Plugged in" = "Plugged in";
-"Charging" = "Charging";
+"Max capacity" = "Максимальная ёмкость"; // qwen3.8:27b
+"Designed capacity" = "Проектная ёмкость"; // qwen3.8:27b
+"On hold" = "Приостановлено"; // qwen3.8:27b
+"On battery" = "От батареи"; // qwen3.8:27b
+"Plugged in" = "Подключено"; // qwen3.8:27b
+"Charging" = "Зарядка"; // qwen3.8:27b
+"Level" = "Уровень"; // qwen3.8:27b
 
 // Bluetooth
 "No Bluetooth devices are available" = "Нет доступных устройств Bluetooth";
+"Bluetooth threshold" = "Порог Bluetooth"; // qwen3.8:27b
 
 // Clock
 "Time zone" = "Часовой пояс";
@@ -479,8 +513,8 @@
 "Delete selected clock" = "Удалить выбранные часы";
 "Help with datetime format" = "Помощь с форматом даты и времени";
 "Sync with NTP server" = "Синхронизация с сервером NTP";
-"Previous month" = "Previous month";
-"Next month" = "Next month";
+"Previous month" = "Предыдущий месяц"; // qwen3.8:27b
+"Next month" = "Следующий месяц"; // qwen3.8:27b
 
 // Colors
 "Based on utilization" = "На основе использования";
@@ -514,3 +548,24 @@
 "Pink" = "Розовый";
 "Teal" = "Бирюзовый";
 "Indigo" = "Индиго";
+
+// System Stats
+"Authorization" = "Авторизация"; // qwen3.8:27b
+"Identificator" = "Идентификатор"; // qwen3.8:27b
+"Plan" = "План"; // qwen3.8:27b
+"Monitoring" = "Мониторинг"; // qwen3.8:27b
+"Control" = "Управление"; // qwen3.8:27b
+"Update" = "Обновить"; // qwen3.8:27b
+"Sign in" = "Войти"; // qwen3.8:27b
+"Sign out" = "Выйти"; // qwen3.8:27b
+"Deregister" = "Отменить регистрацию"; // qwen3.8:27b
+"Hosts" = "Хосты"; // qwen3.8:27b
+"Machines" = "Устройства"; // qwen3.8:27b
+"No hosts yet" = "Пока нет хостов"; // qwen3.8:27b
+"No machines yet" = "Пока нет машин"; // qwen3.8:27b
+"Get notified when a device goes offline or hits a threshold" = "Уведомлять, когда устройство отключается или достигает порога"; // qwen3.8:27b
+"It is not recommended to enable remote control unless you know what you are doing." = "Не рекомендуется включать удалённое управление, если вы не знаете, что делаете."; // qwen3.8:27b
+"Live CPU, RAM, disk and network metrics" = "Живые метрики CPU, RAM, диска и сети"; // qwen3.8:27b
+"Login to System Stats to see your devices" = "Войдите в System Stats, чтобы увидеть ваши устройства"; // qwen3.8:27b
+"Monitor HTTP, ICMP and custom endpoints" = "Мониторинг HTTP, ICMP и пользовательских конечных точек"; // qwen3.8:27b
+"Monitor and control your Macs from anywhere. Sign in to your System Stats account to see all your devices and hosts in one place." = "Мониторинг и управление вашими Mac из любого места. Войдите в свой аккаунт System Stats, чтобы увидеть все свои устройства и хосты в одном месте."; // qwen3.8:27b

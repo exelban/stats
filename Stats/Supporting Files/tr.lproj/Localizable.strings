@@ -50,7 +50,6 @@
 "Characters" = "Karakter";
 "Short" = "Kısa";
 "Long" = "Uzun";
-"Statistics" = "İstatistikler";
 "Max" = "Maks.";
 "Min" = "Min."; // translategemma:4b
 "Reset" = "Sıfırla";
@@ -98,6 +97,8 @@
 "15 sec" = "15 sn";
 "30 sec" = "30 sn";
 "60 sec" = "60 sn";
+"Eject" = "Çıkar"; // qwen3.8:27b
+"Enable" = "Etkinleştir"; // qwen3.8:27b
 
 // Setup
 "Stats Setup" = "Stats kurulumu";
@@ -146,6 +147,7 @@
 "Open Calendar" = "Takvimi aç";
 "Toggle the module" = "Modülü aç/kapat";
 "Open System Stats" = "System Stats'ı aç"; // gemma4:31b
+"Close module settings" = "Modül ayarlarını kapat"; // qwen3.8:27b
 
 // Application settings
 "Check for updates" = "Güncellemeleri denetle";
@@ -168,6 +170,7 @@
 "Spacing" = "Aralık";
 "Choose file" = "Dosya seç";
 "Stress tests" = "Stres testleri";
+"Keep the menubar items position" = "Menü çubuğu öğelerinin konumunu koru"; // qwen3.8:27b
 
 // Dashboard
 "Serial number" = "Seri numarası";
@@ -185,8 +188,12 @@
 // Update
 "The latest version of Stats installed" = "Stats'ın en son sürümü yüklü";
 "Downloading..." = "İndiriliyor...";
+"Installing..." = "Yükleniyor..."; // qwen3.8:27b
+"Updating..." = "Güncelleniyor..."; // qwen3.8:27b
+"Stats will restart automatically" = "Stats otomatik olarak yeniden başlayacak"; // qwen3.8:27b
 "Current version: " = "Mevcut sürüm: ";
 "Latest version: " = "En son sürüm: ";
+"Changelog" = "Değişiklik geçmişi"; // qwen3.8:27b
 
 // Widgets
 "Color" = "Renk";
@@ -230,7 +237,6 @@
 
 // Module Kit
 "Open module settings" = "Modül ayarlarını aç";
-"Open widget settings" = "Widget ayarlarını aç";
 "Update interval" = "Güncelleme aralığı";
 "Usage history" = "Kullanım geçmişi";
 "Details" = "Ayrıntılar";
@@ -247,6 +253,8 @@
 "Kill process" = "İşlemi sonlandır";
 "Keyboard shortcut" = "Klavye kısayolu";
 "Listening..." = "Dinleniyor...";
+"Open in browser" = "Tarayıcıda aç"; // qwen3.8:27b
+"Open module" = "Modülü aç"; // qwen3.8:27b
 
 // Modules
 "Number of top processes" = "En yoğun işlem sayısı";
@@ -276,17 +284,20 @@
 "CPU usage threshold" = "CPU kullanım eşiği";
 "Efficiency cores" = "Verimlilik çekirdekleri";
 "Performance cores" = "Performans çekirdekleri";
+"Super cores" = "Süper çekirdekler"; // qwen3.8:27b
 "System color" = "Sistem rengi";
 "User color" = "Kullanıcı rengi";
 "Idle color" = "Boşta rengi";
 "Cluster grouping" = "Küme gruplaması";
 "Efficiency cores color" = "Verimlilik çekirdeklerinin rengi";
 "Performance cores color" = "Performans çekirdeklerinin rengi";
+"Super cores color" = "Süper çekirdekler rengi"; // qwen3.8:27b
 "Total load" = "Toplam yük";
 "System load" = "Sistem yükü";
 "User load" = "Kullanıcı yükü";
 "Efficiency cores load" = "Verimlilik çekirdeklerinin yükü";
 "Performance cores load" = "Performans çekirdeklerinin yükü";
+"Super cores load" = "Süper çekirdek yükü"; // qwen3.8:27b
 "All cores" = "Tüm çekirdekler";
 "Load per core" = "Çekirdek başına yük"; // gemma4:31b
 "Efficiency core" = "Verimlilik çekirdeği"; // gemma4:31b
@@ -300,10 +311,18 @@
 "Model" = "Model";
 "Status" = "Durum";
 "Utilization" = "Kullanım";
+"Render" = "Çizim"; // qwen3.8:27b
 "Render utilization" = "Render kullanımı";
+"Render utilization history" = "Render kullanım geçmişi"; // qwen3.8:27b
+"Tiler" = "Dizgi"; // qwen3.8:27b
 "Tiler utilization" = "Tiler kullanımı";
+"Tiler utilization history" = "Tiler kullanım geçmişi"; // qwen3.8:27b
 "GPU usage threshold" = "GPU kullanım eşiği";
 "GPU usage is" = "GPU kullanımı %0";
+"ANE utilization" = "ANE kullanımı"; // qwen3.8:27b
+"ANE utilization history" = "ANE kullanım geçmişi"; // qwen3.8:27b
+"FPS history" = "FPS geçmişi"; // qwen3.8:27b
+"GPU utilization history" = "GPU kullanım geçmişi"; // qwen3.8:27b
 
 // RAM
 "Memory usage" = "Bellek kullanımı";
@@ -325,6 +344,8 @@
 "Free memory (less than)" = "Boş bellek (şunun altında)";
 "Swap size" = "Swap boyutu";
 "Free RAM is" = "Boş RAM %0";
+"Pressure" = "Basınç"; // qwen3.8:27b
+"Pressure level" = "Basınç seviyesi"; // qwen3.8:27b
 
 // Disk
 "Show removable disks" = "Çıkarılabilir diskleri göster";
@@ -346,8 +367,6 @@
 "Encrypted" = "Şifreli"; // gemma4:31b-it-qat
 "Writable" = "Yazılabilir"; // gemma4:31b-it-qat
 "Drives" = "Sürücüler";
-"SMART data" = "SMART verisi";
-"ATA SMART data" = "ATA SMART verileri"; // gemma4:31b
 "Power cycles" = "Güç döngüleri"; // gemma4:31b
 "Power on hours" = "Çalışma süresi (saat)"; // gemma4:31b
 "Critical warning" = "Kritik uyarı"; // gemma4:31b-it-qat
@@ -360,6 +379,12 @@
 "Reliability degraded" = "Güvenilirlik azaldı"; // gemma4:31b-it-qat
 "Read-only mode" = "Salt okunur mod"; // gemma4:31b-it-qat
 "Backup failed" = "Yedekleme başarısız oldu"; // gemma4:31b-it-qat
+"All disks" = "Tüm diskler"; // qwen3.8:27b
+"Disk details" = "Disk detayları"; // qwen3.8:27b
+"Main color" = "Ana renk"; // qwen3.8:27b
+"Read / Write history" = "Okuma / Yazma geçmişi"; // qwen3.8:27b
+"mounted" = "Bağlı"; // qwen3.8:27b
+"removable" = "çıkarılabilir"; // qwen3.8:27b
 
 // Sensors
 "Celsius" = "Santigrat";
@@ -428,6 +453,14 @@
 "Internet connection lost" = "İnternet bağlantısı kesildi";
 "Internet connection established" = "İnternet bağlantısı kuruldu";
 "Show country code instead of emoji" = "Emoji yerine ülke kodunu göster"; // gemma4:31b
+"DNS Server" = "DNS Sunucusu"; // qwen3.8:27b
+"Jitter" = "Jitter";
+"Noise" = "Gürültü"; // qwen3.8:27b
+"Signal" = "Sinyal"; // qwen3.8:27b
+"Speed" = "Hız"; // qwen3.8:27b
+"Network interface changed" = "Ağ arayüzü değişti"; // qwen3.8:27b
+"WiFi network changed" = "WiFi ağı değişti"; // qwen3.8:27b
+"This will be visible in the text widget" = "Bu, metin widget'ında görünecek"; // qwen3.8:27b
 
 // Battery
 "Source" = "Kaynak";
@@ -435,7 +468,6 @@
 "Battery Power" = "Pil";
 "Time" = "Süre";
 "Health" = "Sağlık";
-"Amperage" = "Akım";
 "Voltage" = "Voltaj";
 "Cycles" = "Döngü sayısı";
 "Temperature" = "Sıcaklık";
@@ -465,9 +497,11 @@
 "On battery" = "Pille çalışıyor"; // gemma4:31b
 "Plugged in" = "Prize takılı"; // gemma4:31b
 "Charging" = "Şarj oluyor"; // gemma4:31b
+"Level" = "Seviye"; // qwen3.8:27b
 
 // Bluetooth
 "No Bluetooth devices are available" = "Kullanılabilir Bluetooth aygıtı yok";
+"Bluetooth threshold" = "Bluetooth eşiği"; // qwen3.8:27b
 
 // Clock
 "Time zone" = "Saat dilimi";
@@ -514,3 +548,24 @@
 "Pink" = "Pembe";
 "Teal" = "Deniz mavisi";
 "Indigo" = "Çivit mavisi";
+
+// System Stats
+"Authorization" = "Yetkilendirme"; // qwen3.8:27b
+"Identificator" = "Kimlik"; // qwen3.8:27b
+"Plan" = "Plan";
+"Monitoring" = "İzleme"; // qwen3.8:27b
+"Control" = "Kontrol"; // qwen3.8:27b
+"Update" = "Güncelle"; // qwen3.8:27b
+"Sign in" = "Oturum aç"; // qwen3.8:27b
+"Sign out" = "Oturumu kapat"; // qwen3.8:27b
+"Deregister" = "Kaydı Sil"; // qwen3.8:27b
+"Hosts" = "Konaklar"; // qwen3.8:27b
+"Machines" = "Makinalar"; // qwen3.8:27b
+"No hosts yet" = "Henüz host yok"; // qwen3.8:27b
+"No machines yet" = "Henüz bilgisayar yok"; // qwen3.8:27b
+"Get notified when a device goes offline or hits a threshold" = "Bir cihaz çevrimdışı olduğunda veya bir eşiğe ulaştığında bildirim alın"; // qwen3.8:27b
+"It is not recommended to enable remote control unless you know what you are doing." = "Ne yaptığınızı bilmiyorsanız, uzaktan kontrolü etkinleştirmek önerilmez."; // qwen3.8:27b
+"Live CPU, RAM, disk and network metrics" = "Canlı CPU, RAM, disk ve ağ metrikleri"; // qwen3.8:27b
+"Login to System Stats to see your devices" = "Cihazlarınızı görmek için System Stats'a giriş yapın"; // qwen3.8:27b
+"Monitor HTTP, ICMP and custom endpoints" = "HTTP, ICMP ve özel uç noktaları izle"; // qwen3.8:27b
+"Monitor and control your Macs from anywhere. Sign in to your System Stats account to see all your devices and hosts in one place." = "Mac'lerinizi her yerden izleyin ve yönetin. Tüm cihazlarınızı ve ana bilgisayarlarınızı tek bir yerde görmek için System Stats hesabınıza giriş yapın."; // qwen3.8:27b

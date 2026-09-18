@@ -50,7 +50,6 @@
 "Characters" = "Χαρακτήρες";
 "Short" = "Σύντομο";
 "Long" = "Μεγάλη";
-"Statistics" = "Στατιστικά";
 "Max" = "Μέγιστο";
 "Min" = "Ελάχιστο";
 "Reset" = "Επαναφορά";
@@ -98,6 +97,8 @@
 "15 sec" = "15 δευτ"; // gemma4:31b
 "30 sec" = "30 δευτ"; // gemma4:31b
 "60 sec" = "60 δευτ"; // gemma4:31b
+"Eject" = "Αποσύνδεση"; // qwen3.8:27b
+"Enable" = "Ενεργοποίηση"; // qwen3.8:27b
 
 // Setup
 "Stats Setup" = "Εγκατάσταση Stats";
@@ -146,6 +147,7 @@
 "Open Calendar" = "Άνοιγμα Ημερολογίου"; // translategemma:4b
 "Toggle the module" = "Εναλλαγή του μοδούλου"; // gemma4:31b
 "Open System Stats" = "Άνοιξε το System Stats"; // gemma4:31b
+"Close module settings" = "Κλείσιμο ρυθμίσεων μονάδας"; // qwen3.8:27b
 
 // Application settings
 "Check for updates" = "Έλεγχος για ενημερώσεις";
@@ -168,6 +170,7 @@
 "Spacing" = "Κενό";
 "Choose file" = "Επιλογή αρχείου"; // gemma4:31b
 "Stress tests" = "Δοκιμές καταπόνησης"; // gemma4:31b
+"Keep the menubar items position" = "Διατήρηση της θέσης των στοιχείων της μπάρας μενού"; // qwen3.8:27b
 
 // Dashboard
 "Serial number" = "Σειριακός αριθμός";
@@ -185,8 +188,12 @@
 // Update
 "The latest version of Stats installed" = "Η τελευταία έκδοση του Stats είναι εγκατεστημένη";
 "Downloading..." = "Λήψη...";
+"Installing..." = "Εγκατάσταση..."; // qwen3.8:27b
+"Updating..." = "Ενημέρωση..."; // qwen3.8:27b
+"Stats will restart automatically" = "Το Stats θα επανεκκινήσει αυτόματα"; // qwen3.8:27b
 "Current version: " = "Τρέχουσα έκδοση:  ";
 "Latest version: " = "Τελευταία έκδοση:    ";
+"Changelog" = "Ημερολόγιο αλλαγών"; // qwen3.8:27b
 
 // Widgets
 "Color" = "Χρώμα";
@@ -230,7 +237,6 @@
 
 // Module Kit
 "Open module settings" = "Άνοιγμα ρυθμίσεων ενότητας";
-"Open widget settings" = "Άνοιγμα ρυθμίσεων widget";
 "Update interval" = "Ενημέρωση μεσοδιαστήματος";
 "Usage history" = "Ιστορικό χρήσης";
 "Details" = "Λεπτομέρειες";
@@ -247,6 +253,8 @@
 "Kill process" = "Τερματισμός διαδικασίας"; // gemma4:31b
 "Keyboard shortcut" = "Συντόμευση πλήκτρων"; // gemma4:31b
 "Listening..." = "Ακούω..."; // translategemma:4b
+"Open in browser" = "Άνοιγμα σε περιηγητή"; // qwen3.8:27b
+"Open module" = "Άνοιγμα μονάδας"; // qwen3.8:27b
 
 // Modules
 "Number of top processes" = "Αριθμός κορυφαίων διεργασιών";
@@ -276,17 +284,20 @@
 "CPU usage threshold" = "Όριο χρήσης CPU"; // translategemma:4b
 "Efficiency cores" = "Ενεργειακά αποδοτικοί πύρηνες"; // gemma4:31b
 "Performance cores" = "Πύρηνες απόδοσης"; // gemma4:31b
+"Super cores" = "Υπερπυρήνες"; // qwen3.8:27b
 "System color" = "Χρώμα συστήματος"; // translategemma:4b
 "User color" = "Χρώμα χρήστη"; // translategemma:4b
 "Idle color" = "Χρώμα ανεργίας"; // gemma4:31b
 "Cluster grouping" = "Ομαδοποίηση συστοιχίων"; // gemma4:31b
 "Efficiency cores color" = "Χρώμα ενεργειακά αποδοτικών πυρήνων"; // gemma4:31b
 "Performance cores color" = "Χρώμα πυρήνων απόδοσης"; // gemma4:31b
+"Super cores color" = "Χρώμα υπερπυρήνων"; // qwen3.8:27b
 "Total load" = "Συνολικός φόρτος"; // gemma4:31b
 "System load" = "Φόρτος συστήματος"; // translategemma:4b
 "User load" = "Φόρτος χρήστη"; // gemma4:31b
 "Efficiency cores load" = "Φόρτος πυρήνων αποδοτικότητας"; // gemma4:31b
 "Performance cores load" = "Φόρτος πυρήνων απόδοσης"; // gemma4:31b
+"Super cores load" = "Φόρτος υπερπυρήνων"; // qwen3.8:27b
 "All cores" = "Όλοι οι πύρηνες"; // gemma4:31b
 "Load per core" = "Φόρτος ανά πυρήνα"; // gemma4:31b
 "Efficiency core" = "Πυρήνας αποδοτικότητας"; // gemma4:31b
@@ -300,10 +311,18 @@
 "Model" = "Μοντέλο";
 "Status" = "Κατάσταση";
 "Utilization" = "Χρήση";
+"Render" = "Απόδοση"; // qwen3.8:27b
 "Render utilization" = "Χρήση Render"; // gemma4:31b
+"Render utilization history" = "Ιστορικό χρήσης απόδοσης"; // qwen3.8:27b
+"Tiler" = "Πλακιδωτής"; // qwen3.8:27b
 "Tiler utilization" = "Χρήση Tiler"; // gemma4:31b
+"Tiler utilization history" = "Ιστορικό εκμετάλλευσης Διαμορφωτή"; // qwen3.8:27b
 "GPU usage threshold" = "Όριο χρήσης GPU"; // gemma4:31b
 "GPU usage is" = "Η χρήση της GPU είναι %0"; // gemma4:31b
+"ANE utilization" = "Εκμετάλλευση ANE"; // qwen3.8:27b
+"ANE utilization history" = "Ιστορικό χρήσης ANE"; // qwen3.8:27b
+"FPS history" = "Ιστορικό FPS"; // qwen3.8:27b
+"GPU utilization history" = "Ιστορικό χρήσης GPU"; // qwen3.8:27b
 
 // RAM
 "Memory usage" = "Χρήση μνήμης";
@@ -325,6 +344,8 @@
 "Free memory (less than)" = "Ελεύθερη μνήμη (λιγότερο από)"; // gemma4:31b
 "Swap size" = "Μέγεθος swap"; // gemma4:31b
 "Free RAM is" = "Ελεύθερη RAM είναι %0"; // gemma4:31b
+"Pressure" = "Πίεση"; // qwen3.8:27b
+"Pressure level" = "Επίπεδο πίεσης"; // qwen3.8:27b
 
 // Disk
 "Show removable disks" = "Εμφάνιση αφαιρούμενων δίσκων";
@@ -346,8 +367,6 @@
 "Encrypted" = "Κρυπτογραφημένο"; // gemma4:31b-it-qat
 "Writable" = "Γράψιμος"; // gemma4:31b-it-qat
 "Drives" = "Δίσκοι"; // translategemma:4b
-"SMART data" = "SMART δεδομένα"; // gemma4:31b
-"ATA SMART data" = "Δεδομένα ATA SMART"; // gemma4:31b
 "Power cycles" = "Κύκλοι φόρτισης"; // gemma4:31b
 "Power on hours" = "Ώρες λειτουργίας"; // gemma4:31b
 "Critical warning" = "Κρίσιμη προειδοποίηση"; // gemma4:31b-it-qat
@@ -360,6 +379,12 @@
 "Reliability degraded" = "Μειωμένη αξιοπιστία"; // gemma4:31b-it-qat
 "Read-only mode" = "Λειτουργία μόνο για ανάγνωση"; // gemma4:31b-it-qat
 "Backup failed" = "Αποτυχία αντιγράφου ασφαλείας"; // gemma4:31b-it-qat
+"All disks" = "Όλοι οι δίσκοι"; // qwen3.8:27b
+"Disk details" = "Λεπτομέρειες δίσκου"; // qwen3.8:27b
+"Main color" = "Κύριο χρώμα"; // qwen3.8:27b
+"Read / Write history" = "Ιστορικό ανάγνωσης / εγγραφής"; // qwen3.8:27b
+"mounted" = "συνδεδεμένο"; // qwen3.8:27b
+"removable" = "Αποσπώμενο"; // qwen3.8:27b
 
 // Sensors
 "Celsius" = "Κελσίου";
@@ -428,6 +453,14 @@
 "Internet connection lost" = "Χάθηκε η σύνδεση στο Διαδίκτυο"; // gemma4:31b
 "Internet connection established" = "Η σύνδεση στο Internet αποκαταστάθηκε"; // gemma4:31b
 "Show country code instead of emoji" = "Εμφάνιση κώδικα χώρας αντί για emoji"; // gemma4:31b
+"DNS Server" = "Εξυπηρετητής DNS"; // qwen3.8:27b
+"Jitter" = "Τρεμόπαιγμα"; // qwen3.8:27b
+"Noise" = "Θόρυβος"; // qwen3.8:27b
+"Signal" = "Σήμα"; // qwen3.8:27b
+"Speed" = "Ταχύτητα"; // qwen3.8:27b
+"Network interface changed" = "Το διαδρόμιο δικτύου άλλαξε"; // qwen3.8:27b
+"WiFi network changed" = "Το δίκτυο WiFi άλλαξε"; // qwen3.8:27b
+"This will be visible in the text widget" = "Αυτό θα είναι ορατό στο ουίτζετ κειμένου"; // qwen3.8:27b
 
 // Battery
 "Source" = "Πηγή";
@@ -435,7 +468,6 @@
 "Battery Power" = "Πηγή Μπαταρίας";
 "Time" = "Χρόνος";
 "Health" = "Υγεία";
-"Amperage" = "Ένταση";
 "Voltage" = "Τάση";
 "Cycles" = "Κύκλοι";
 "Temperature" = "Θερμοκρασία";
@@ -465,9 +497,11 @@
 "On battery" = "Με μπαταρία"; // gemma4:31b
 "Plugged in" = "Συνδεδεμένο"; // gemma4:31b
 "Charging" = "Φόρτιση"; // gemma4:31b
+"Level" = "Επίπεδο"; // qwen3.8:27b
 
 // Bluetooth
 "No Bluetooth devices are available" = "Καμία συσκευή Bluetooth δεν είναι διαθέσιμη";
+"Bluetooth threshold" = "Όριο Bluetooth"; // qwen3.8:27b
 
 // Clock
 "Time zone" = "Ζώνη ώρας"; // translategemma:4b
@@ -514,3 +548,24 @@
 "Pink" = "Ροζ";
 "Teal" = "Γαλαζοπράσινο";
 "Indigo" = "Βαθύ μπλε";
+
+// System Stats
+"Authorization" = "Εξουσιοδότηση"; // qwen3.8:27b
+"Identificator" = "Αναγνωριστικό"; // qwen3.8:27b
+"Plan" = "Σχέδιο"; // qwen3.8:27b
+"Monitoring" = "Παρακολούθηση"; // qwen3.8:27b
+"Control" = "Έλεγχος"; // qwen3.8:27b
+"Update" = "Ενημέρωση"; // qwen3.8:27b
+"Sign in" = "Σύνδεση"; // qwen3.8:27b
+"Sign out" = "Αποσύνδεση"; // qwen3.8:27b
+"Deregister" = "Αποεγγραφή"; // qwen3.8:27b
+"Hosts" = "Κυριερχικοί"; // qwen3.8:27b
+"Machines" = "Μηχανές"; // qwen3.8:27b
+"No hosts yet" = "Δεν υπάρχουν ακόμα ξενιστές"; // qwen3.8:27b
+"No machines yet" = "Καμία μηχανή ακόμα"; // qwen3.8:27b
+"Get notified when a device goes offline or hits a threshold" = "Λάβετε ειδοποίηση όταν μια συσκευή αποσυνδεθεί ή φτάσει ένα όριο"; // qwen3.8:27b
+"It is not recommended to enable remote control unless you know what you are doing." = "Δεν συνιστάται η ενεργοποίηση του απομακρυσμένου ελέγχου εκτός αν γνωρίζετε τι κάνετε."; // qwen3.8:27b
+"Live CPU, RAM, disk and network metrics" = "Ζωντανές μετρήσεις CPU, RAM, δίσκου και δικτύου"; // qwen3.8:27b
+"Login to System Stats to see your devices" = "Συνδεθείτε στο System Stats για να δείτε τις συσκευές σας"; // qwen3.8:27b
+"Monitor HTTP, ICMP and custom endpoints" = "Παρακολούθηση HTTP, ICMP και προσαρμοσμένων τελείων"; // qwen3.8:27b
+"Monitor and control your Macs from anywhere. Sign in to your System Stats account to see all your devices and hosts in one place." = "Παρακολουθείτε και ελέγχετε τα Mac σας από οπουδήποτε. Συνδεθείτε στον λογαριασμό σας System Stats για να δείτε όλες τις συσκευές και τους ξενιστές σας σε ένα σημείο."; // qwen3.8:27b

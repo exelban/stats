@@ -50,7 +50,6 @@
 "Characters" = "Litere";
 "Short" = "Scurt";
 "Long" = "Lung";
-"Statistics" = "Statistici";
 "Max" = "Max";
 "Min" = "Min";
 "Reset" = "Resetează"; // translategemma:4b
@@ -98,6 +97,8 @@
 "15 sec" = "15 secunde"; // translategemma:4b
 "30 sec" = "30 sec";
 "60 sec" = "60 secunde"; // translategemma:4b
+"Eject" = "Ejectare"; // qwen3.8:27b
+"Enable" = "Activează"; // qwen3.8:27b
 
 // Setup
 "Stats Setup" = "Configurare Stats"; // gemma4:31b
@@ -146,6 +147,7 @@
 "Open Calendar" = "Deschide calendarul"; // translategemma:4b
 "Toggle the module" = "Comută modulul"; // gemma4:31b
 "Open System Stats" = "Deschide System Stats"; // gemma4:31b
+"Close module settings" = "Închide setările modulului"; // qwen3.8:27b
 
 // Application settings
 "Check for updates" = "Verifică pentru actualizări";
@@ -168,6 +170,7 @@
 "Spacing" = "Spațiere"; // gemma4:31b
 "Choose file" = "Alegeți fișierul"; // gemma4:31b
 "Stress tests" = "Teste de stres"; // translategemma:4b
+"Keep the menubar items position" = "Păstrează poziția elementelor din bara de meniu"; // qwen3.8:27b
 
 // Dashboard
 "Serial number" = "Număr de serie";
@@ -185,8 +188,12 @@
 // Update
 "The latest version of Stats installed" = "Cea mai recentă versiune de Stats instalată";
 "Downloading..." = "Se descarcă...";
+"Installing..." = "Se instalează..."; // qwen3.8:27b
+"Updating..." = "Se actualizează..."; // qwen3.8:27b
+"Stats will restart automatically" = "Stats se va reporni automat"; // qwen3.8:27b
 "Current version: " = "Versiunea curentă: ";
 "Latest version: " = "Versiunea cea mai recentă: ";
+"Changelog" = "Jurnalul modificărilor"; // qwen3.8:27b
 
 // Widgets
 "Color" = "Culoare";
@@ -230,7 +237,6 @@
 
 // Module Kit
 "Open module settings" = "Deschide setăriile modulului";
-"Open widget settings" = "Deschide setările widgetului"; // gemma4:31b
 "Update interval" = "Intervalul de actualizare";
 "Usage history" = "Istoricul de folosință";
 "Details" = "Detalii";
@@ -247,6 +253,8 @@
 "Kill process" = "Încheie procesul"; // gemma4:31b
 "Keyboard shortcut" = "Scurtătură de tastatură"; // translategemma:4b
 "Listening..." = "Ascultă..."; // gemma4:31b
+"Open in browser" = "Deschide în browser"; // qwen3.8:27b
+"Open module" = "Deschide modul"; // qwen3.8:27b
 
 // Modules
 "Number of top processes" = "Numărul proceselor de vârf";
@@ -276,17 +284,20 @@
 "CPU usage threshold" = "Prag de utilizare CPU"; // gemma4:31b
 "Efficiency cores" = "Nuclee de eficiență"; // translategemma:4b
 "Performance cores" = "Nuclee de performanță"; // translategemma:4b
+"Super cores" = "Nuci super"; // qwen3.8:27b
 "System color" = "Culoare de sistem"; // gemma4:31b
 "User color" = "Culoare utilizator"; // gemma4:31b
 "Idle color" = "Culoare inactivă"; // gemma4:31b
 "Cluster grouping" = "Gruparea clusterelor"; // gemma4:31b
 "Efficiency cores color" = "Culoarea nucleelor de eficiență"; // gemma4:31b
 "Performance cores color" = "Culoare nuclee de performanță"; // gemma4:31b
+"Super cores color" = "Culoare nuclee Super"; // qwen3.8:27b
 "Total load" = "Sarcina totală"; // gemma4:31b
 "System load" = "Sarcina sistemului"; // gemma4:31b
 "User load" = "Sarcina utilizatorului"; // gemma4:31b
 "Efficiency cores load" = "Sarcina nucleelor de eficiență"; // gemma4:31b
 "Performance cores load" = "Sarcina nucleelor de performanță"; // gemma4:31b
+"Super cores load" = "Încărcarea nucleei super"; // qwen3.8:27b
 "All cores" = "Toate nucleele"; // translategemma:4b
 "Load per core" = "Sarcină per nucleu"; // gemma4:31b
 "Efficiency core" = "Nucleu de eficiență"; // gemma4:31b
@@ -300,10 +311,18 @@
 "Model" = "Modelul";
 "Status" = "Statutul";
 "Utilization" = "Gradul de utilizare";
+"Render" = "Randare"; // qwen3.8:27b
 "Render utilization" = "Utilizare render"; // gemma4:31b
+"Render utilization history" = "Istoricul utilizării randării"; // qwen3.8:27b
+"Tiler" = "Tiler";
 "Tiler utilization" = "Utilizare tiler"; // gemma4:31b
+"Tiler utilization history" = "Istoricul utilizării Tiler"; // qwen3.8:27b
 "GPU usage threshold" = "Prag de utilizare GPU"; // gemma4:31b
 "GPU usage is" = "Utilizarea GPU este %0"; // gemma4:31b
+"ANE utilization" = "Utilizare ANE"; // qwen3.8:27b
+"ANE utilization history" = "Istoricul utilizării ANE"; // qwen3.8:27b
+"FPS history" = "Istoric FPS"; // qwen3.8:27b
+"GPU utilization history" = "Istoricul utilizării GPU"; // qwen3.8:27b
 
 // RAM
 "Memory usage" = "Memoria folosită";
@@ -325,6 +344,8 @@
 "Free memory (less than)" = "Memorie liberă (mai puțin de)"; // gemma4:31b
 "Swap size" = "Dimensiune swap"; // gemma4:31b
 "Free RAM is" = "RAM liber este %0"; // gemma4:31b
+"Pressure" = "Presiune"; // qwen3.8:27b
+"Pressure level" = "Nivel de presiune"; // qwen3.8:27b
 
 // Disk
 "Show removable disks" = "Arată discurile detașabile";
@@ -346,8 +367,6 @@
 "Encrypted" = "Criptat"; // gemma4:31b-it-qat
 "Writable" = "Scrisibil"; // gemma4:31b-it-qat
 "Drives" = "Discuri"; // gemma4:31b
-"SMART data" = "Date SMART"; // translategemma:4b
-"ATA SMART data" = "Date ATA SMART"; // gemma4:31b
 "Power cycles" = "Număr de cicluri"; // gemma4:31b
 "Power on hours" = "Ore de funcționare"; // gemma4:31b
 "Critical warning" = "Avertisment critic"; // gemma4:31b-it-qat
@@ -360,6 +379,12 @@
 "Reliability degraded" = "Fiabilitate degradată"; // gemma4:31b-it-qat
 "Read-only mode" = "Mod doar pentru citire"; // gemma4:31b-it-qat
 "Backup failed" = "Copierea de rezervă a eșuat"; // gemma4:31b-it-qat
+"All disks" = "Toate discurile"; // qwen3.8:27b
+"Disk details" = "Detalii disc"; // qwen3.8:27b
+"Main color" = "Culoare principală"; // qwen3.8:27b
+"Read / Write history" = "Istoric citire / scriere"; // qwen3.8:27b
+"mounted" = "montat"; // qwen3.8:27b
+"removable" = "removabil"; // qwen3.8:27b
 
 // Sensors
 "Celsius" = "Celcius"; // translategemma:4b
@@ -428,6 +453,14 @@
 "Internet connection lost" = "Conexiunea la internet pierdută"; // gemma4:31b
 "Internet connection established" = "Conexiunea la internet a fost stabilită"; // translategemma:4b
 "Show country code instead of emoji" = "Afișează codul țării în loc de emoji"; // gemma4:31b
+"DNS Server" = "Server DNS"; // qwen3.8:27b
+"Jitter" = "Jitter";
+"Noise" = "Zgomot"; // qwen3.8:27b
+"Signal" = "Semnal"; // qwen3.8:27b
+"Speed" = "Viteză"; // qwen3.8:27b
+"Network interface changed" = "Interfața de rețea modificată"; // qwen3.8:27b
+"WiFi network changed" = "Rețea WiFi schimbată"; // qwen3.8:27b
+"This will be visible in the text widget" = "Acesta va fi vizibil în widgetul de text"; // qwen3.8:27b
 
 // Battery
 "Source" = "Sursă";
@@ -435,7 +468,6 @@
 "Battery Power" = "Puterea bateriei"; // gemma4:31b
 "Time" = "Timp";
 "Health" = "Sănătate";
-"Amperage" = "Amperaj";
 "Voltage" = "Voltaj";
 "Cycles" = "Cicluri";
 "Temperature" = "Temperatură";
@@ -465,9 +497,11 @@
 "On battery" = "La baterie"; // gemma4:31b
 "Plugged in" = "Conectat"; // gemma4:31b
 "Charging" = "Încărcare"; // gemma4:31b
+"Level" = "Nivel"; // qwen3.8:27b
 
 // Bluetooth
 "No Bluetooth devices are available" = "Nu sunt disponibile dispozitive Bluetooth"; // gemma4:31b
+"Bluetooth threshold" = "Prag Bluetooth"; // qwen3.8:27b
 
 // Clock
 "Time zone" = "Fus orar"; // translategemma:4b
@@ -514,3 +548,24 @@
 "Pink" = "Roz"; // translategemma:4b
 "Teal" = "Turcoaz"; // gemma4:31b
 "Indigo" = "Indigou"; // gemma4:31b-it-qat
+
+// System Stats
+"Authorization" = "Autorizare"; // qwen3.8:27b
+"Identificator" = "Identificator";
+"Plan" = "Plan";
+"Monitoring" = "Monitorizare"; // qwen3.8:27b
+"Control" = "Control";
+"Update" = "Actualizare"; // qwen3.8:27b
+"Sign in" = "Autentificare"; // qwen3.8:27b
+"Sign out" = "Deconectare"; // qwen3.8:27b
+"Deregister" = "Deregistrare"; // qwen3.8:27b
+"Hosts" = "Gazde"; // qwen3.8:27b
+"Machines" = "Mașini"; // qwen3.8:27b
+"No hosts yet" = "Nicio gazdă încă"; // qwen3.8:27b
+"No machines yet" = "Nicio mașină încă"; // qwen3.8:27b
+"Get notified when a device goes offline or hits a threshold" = "Primești o notificare când un dispozitiv devine offline sau atinge un prag"; // qwen3.8:27b
+"It is not recommended to enable remote control unless you know what you are doing." = "Nu este recomandat să activați controlul la distanță dacă nu știți ce faceți."; // qwen3.8:27b
+"Live CPU, RAM, disk and network metrics" = "Metrici în direct pentru CPU, RAM, disc și rețea"; // qwen3.8:27b
+"Login to System Stats to see your devices" = "Conectați-vă la System Stats pentru a vă vedea dispozitivele"; // qwen3.8:27b
+"Monitor HTTP, ICMP and custom endpoints" = "Monitorizează HTTP, ICMP și puncte de acces personalizate"; // qwen3.8:27b
+"Monitor and control your Macs from anywhere. Sign in to your System Stats account to see all your devices and hosts in one place." = "Monitorizați și controlați Mac-urile dvs. de oriunde. Conectați-vă la contul dvs. System Stats pentru a vă vedea toate dispozitivele și gazdele într-un singur loc."; // qwen3.8:27b

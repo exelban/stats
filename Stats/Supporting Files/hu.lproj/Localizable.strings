@@ -50,7 +50,6 @@
 "Characters" = "Karakterek";
 "Short" = "Rövid";
 "Long" = "Hosszú";
-"Statistics" = "Statisztikák";
 "Max" = "Max";
 "Min" = "Minimum"; // translategemma:4b
 "Reset" = "Visszaállít";
@@ -98,6 +97,8 @@
 "15 sec" = "15 mp"; // gemma4:31b
 "30 sec" = "30 mp"; // gemma4:31b
 "60 sec" = "60 mp"; // gemma4:31b
+"Eject" = "Kihelyezés"; // qwen3.8:27b
+"Enable" = "Engedélyezés"; // qwen3.8:27b
 
 // Setup
 "Stats Setup" = "A Stats beállítása";
@@ -146,6 +147,7 @@
 "Open Calendar" = "Naptár megnyitása"; // gemma4:31b
 "Toggle the module" = "Kapcsolja a modult"; // gemma4:31b
 "Open System Stats" = "System Stats megnyitása"; // gemma4:31b
+"Close module settings" = "Modulbeállítások bezárása"; // qwen3.8:27b
 
 // Application settings
 "Check for updates" = "Frissítések keresése";
@@ -168,6 +170,7 @@
 "Spacing" = "Helyköz";
 "Choose file" = "Fájl választása"; // gemma4:31b
 "Stress tests" = "Terhelési tesztek"; // gemma4:31b
+"Keep the menubar items position" = "Menüsáv-elemek pozíciójának megtartása"; // qwen3.8:27b
 
 // Dashboard
 "Serial number" = "Sorozatszám";
@@ -185,8 +188,12 @@
 // Update
 "The latest version of Stats installed" = "A Stats legújabb verziója van telepítve";
 "Downloading..." = "Letöltés...";
+"Installing..." = "Telepítés..."; // qwen3.8:27b
+"Updating..." = "Frissítés..."; // qwen3.8:27b
+"Stats will restart automatically" = "Stats automatikusan újraindul"; // qwen3.8:27b
 "Current version: " = "Jelenlegi verzió:  ";
 "Latest version: " = "Legújabb verzió:    ";
+"Changelog" = "Változások"; // qwen3.8:27b
 
 // Widgets
 "Color" = "Szín";
@@ -230,7 +237,6 @@
 
 // Module Kit
 "Open module settings" = "Modul beállításainak megnyitása";
-"Open widget settings" = "Modul beállításainak megnyitása";
 "Update interval" = "Frissítési időköz";
 "Usage history" = "Használati előzmények";
 "Details" = "Részletek";
@@ -247,6 +253,8 @@
 "Kill process" = "Folyamat leállítása"; // gemma4:31b
 "Keyboard shortcut" = "Billentyűparancs"; // translategemma:4b
 "Listening..." = "Figyel..."; // gemma4:31b
+"Open in browser" = "Megnyitás böngészőben"; // qwen3.8:27b
+"Open module" = "Modul megnyitása"; // qwen3.8:27b
 
 // Modules
 "Number of top processes" = "Top folyamatok száma";
@@ -276,17 +284,20 @@
 "CPU usage threshold" = "CPU használati küszöb";
 "Efficiency cores" = "Energiatakarékos magok";
 "Performance cores" = "Teljesítményre optimalizált magok";
+"Super cores" = "Szupermagok"; // qwen3.8:27b
 "System color" = "Rendszer színe";
 "User color" = "Felhasználó színe";
 "Idle color" = "Tétlenség színe";
 "Cluster grouping" = "Csoportosítás";
 "Efficiency cores color" = "Energiatakarékos magok színe";
 "Performance cores color" = "Teljesítmény magok színe";
+"Super cores color" = "Super magok színe"; // qwen3.8:27b
 "Total load" = "Teljes terheltség";
 "System load" = "Rendszer terheltség";
 "User load" = "Felhasználó terheltség";
 "Efficiency cores load" = "Energiatakarékos magok terheltsége";
 "Performance cores load" = "Teljesítmény magok terheltsége";
+"Super cores load" = "Super magok terhelése"; // qwen3.8:27b
 "All cores" = "Összes mag"; // gemma4:31b
 "Load per core" = "Terhelés magronként"; // gemma4:31b
 "Efficiency core" = "Hatékonysági mag"; // gemma4:31b
@@ -300,10 +311,18 @@
 "Model" = "Modell";
 "Status" = "Állapot";
 "Utilization" = "Felhasználás";
+"Render" = "Renderelés"; // qwen3.8:27b
 "Render utilization" = "Render használat";
+"Render utilization history" = "Render kihasználtsági előzmények"; // qwen3.8:27b
+"Tiler" = "Csempéző"; // qwen3.8:27b
 "Tiler utilization" = "Tiler használat";
+"Tiler utilization history" = "Tiler kihasználtsági előzmények"; // qwen3.8:27b
 "GPU usage threshold" = "GPU használati küszöb";
 "GPU usage is" = "%0 a GPU használat";
+"ANE utilization" = "ANE kihasználtság"; // qwen3.8:27b
+"ANE utilization history" = "ANE-kihasználtság-történet"; // qwen3.8:27b
+"FPS history" = "FPS előzmények"; // qwen3.8:27b
+"GPU utilization history" = "GPU kihasználtsági előzmények"; // qwen3.8:27b
 
 // RAM
 "Memory usage" = "Memóriahasználat";
@@ -325,6 +344,8 @@
 "Free memory (less than)" = "Szabad memória (kevesebb mint)";
 "Swap size" = "Swap mérete";
 "Free RAM is" = "%0 a szabad RAM";
+"Pressure" = "Nyomás"; // qwen3.8:27b
+"Pressure level" = "Nyomásszint"; // qwen3.8:27b
 
 // Disk
 "Show removable disks" = "Eltávolítható adattárolók megjelenítése";
@@ -346,8 +367,6 @@
 "Encrypted" = "Titkosított"; // gemma4:31b-it-qat
 "Writable" = "Írható"; // gemma4:31b-it-qat
 "Drives" = "Meghajtók"; // gemma4:31b
-"SMART data" = "SMART adatok"; // translategemma:4b
-"ATA SMART data" = "ATA SMART adatok"; // gemma4:31b
 "Power cycles" = "Ciklusok száma"; // gemma4:31b
 "Power on hours" = "Működési órák"; // gemma4:31b
 "Critical warning" = "Kritikus figyelmeztetés"; // gemma4:31b-it-qat
@@ -360,6 +379,12 @@
 "Reliability degraded" = "Romlott megbízhatóság"; // gemma4:31b-it-qat
 "Read-only mode" = "Csak olvasható mód"; // gemma4:31b-it-qat
 "Backup failed" = "A biztonsági mentés nem sikerült"; // gemma4:31b-it-qat
+"All disks" = "Minden lemez"; // qwen3.8:27b
+"Disk details" = "Lemez részletek"; // qwen3.8:27b
+"Main color" = "Fő szín"; // qwen3.8:27b
+"Read / Write history" = "Olvasás / írás előzmények"; // qwen3.8:27b
+"mounted" = "csatolva"; // qwen3.8:27b
+"removable" = "eltávolítható"; // qwen3.8:27b
 
 // Sensors
 "Celsius" = "Celsziusz"; // gemma4:31b
@@ -428,6 +453,14 @@
 "Internet connection lost" = "Internetkapcsolat megszakadt"; // gemma4:31b
 "Internet connection established" = "Internetkapcsolat létrehozva"; // gemma4:31b
 "Show country code instead of emoji" = "Mutassa az országkódot az emoji helyett"; // gemma4:31b
+"DNS Server" = "DNS szerver"; // qwen3.8:27b
+"Jitter" = "Jitter";
+"Noise" = "Zaj"; // qwen3.8:27b
+"Signal" = "Jel"; // qwen3.8:27b
+"Speed" = "Sebesség"; // qwen3.8:27b
+"Network interface changed" = "Hálózati interfész módosult"; // qwen3.8:27b
+"WiFi network changed" = "WiFi hálózat módosult"; // qwen3.8:27b
+"This will be visible in the text widget" = "Ez látható lesz a szöveges widgeten"; // qwen3.8:27b
 
 // Battery
 "Source" = "Forrás";
@@ -435,7 +468,6 @@
 "Battery Power" = "Akkumulátor tápellátás";
 "Time" = "Időtartam";
 "Health" = "Állapot";
-"Amperage" = "Áramerősség";
 "Voltage" = "Feszültség";
 "Cycles" = "Ciklusok";
 "Temperature" = "Hőmérséklet";
@@ -465,9 +497,11 @@
 "On battery" = "Akkumulátorról"; // gemma4:31b
 "Plugged in" = "Csatlakoztatva"; // gemma4:31b
 "Charging" = "Töltés"; // gemma4:31b
+"Level" = "Szint"; // qwen3.8:27b
 
 // Bluetooth
 "No Bluetooth devices are available" = "Nincs elérhető Bluetooth eszköz";
+"Bluetooth threshold" = "Bluetooth-küszöb"; // qwen3.8:27b
 
 // Clock
 "Time zone" = "Időzóna";
@@ -514,3 +548,24 @@
 "Pink" = "Rózsaszín";
 "Teal" = "Zöldeskék";
 "Indigo" = "Indigó";
+
+// System Stats
+"Authorization" = "Hitelesítés"; // qwen3.8:27b
+"Identificator" = "Azonosító"; // qwen3.8:27b
+"Plan" = "Csomag"; // qwen3.8:27b
+"Monitoring" = "Figyelés"; // qwen3.8:27b
+"Control" = "Vezérlés"; // qwen3.8:27b
+"Update" = "Frissítés"; // qwen3.8:27b
+"Sign in" = "Bejelentkezés"; // qwen3.8:27b
+"Sign out" = "Kijelentkezés"; // qwen3.8:27b
+"Deregister" = "Visszajelentkezés"; // qwen3.8:27b
+"Hosts" = "Gazdagépek"; // qwen3.8:27b
+"Machines" = "Gépek"; // qwen3.8:27b
+"No hosts yet" = "Még nincs host"; // qwen3.8:27b
+"No machines yet" = "Még nincsenek gépek"; // qwen3.8:27b
+"Get notified when a device goes offline or hits a threshold" = "Értesítést kapsz, amikor egy eszköz offline lesz vagy eléri a küszöbértéket"; // qwen3.8:27b
+"It is not recommended to enable remote control unless you know what you are doing." = "Nem ajánlott a távvezérlés engedélyezése, hacsak nem tudod, mit csinálsz."; // qwen3.8:27b
+"Live CPU, RAM, disk and network metrics" = "Élő CPU, RAM, lemez és hálózati metrikák"; // qwen3.8:27b
+"Login to System Stats to see your devices" = "Bejelentkezés a System Stats-ba az eszközöid megtekintéséhez"; // qwen3.8:27b
+"Monitor HTTP, ICMP and custom endpoints" = "HTTP, ICMP és egyedi végpontok figyelése"; // qwen3.8:27b
+"Monitor and control your Macs from anywhere. Sign in to your System Stats account to see all your devices and hosts in one place." = "Kövesd nyomon és irányítsd a Macjeidet bárhol. Jelentkezz be a System Stats fiókodba, hogy egy helyen lásd az összes eszközödet és hostodat."; // qwen3.8:27b

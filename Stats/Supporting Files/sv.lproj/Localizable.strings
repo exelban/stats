@@ -32,7 +32,7 @@
 // Words
 "Unknown" = "Okänd";
 "Version" = "Version";
-"Processor" = "Processor";
+"Processor" = "Processorn"; // qwen3.8:27b
 "Memory" = "Minne";
 "Graphics" = "Grafik";
 "Close" = "Stäng";
@@ -50,7 +50,6 @@
 "Characters" = "Tecken";
 "Short" = "Kort";
 "Long" = "Lång";
-"Statistics" = "Statistik";
 "Max" = "Max";
 "Min" = "Mitt"; // translategemma:4b
 "Reset" = "Återställ";
@@ -98,6 +97,8 @@
 "15 sec" = "15 sek"; // translategemma:4b
 "30 sec" = "30 sek"; // gemma4:31b
 "60 sec" = "60 sek"; // gemma4:31b
+"Eject" = "Avmontera"; // qwen3.8:27b
+"Enable" = "Aktivera"; // qwen3.8:27b
 
 // Setup
 "Stats Setup" = "Stats-installation";
@@ -146,6 +147,7 @@
 "Open Calendar" = "Öppna Kalender";
 "Toggle the module" = "Växla modulen"; // gemma4:31b
 "Open System Stats" = "Öppna System Stats"; // gemma4:31b
+"Close module settings" = "Stäng modulinställningar"; // qwen3.8:27b
 
 // Application settings
 "Check for updates" = "Sök efter uppdateringar";
@@ -168,6 +170,7 @@
 "Spacing" = "Mellanrum";
 "Choose file" = "Välj fil"; // translategemma:4b
 "Stress tests" = "Stresstester"; // gemma4:31b
+"Keep the menubar items position" = "Behåll positionen på elementen i menylisten"; // qwen3.8:27b
 
 // Dashboard
 "Serial number" = "Serienummer";
@@ -185,8 +188,12 @@
 // Update
 "The latest version of Stats installed" = "Den senaste versionen av Stats är installerad";
 "Downloading..." = "Laddar ner...";
+"Installing..." = "Installerar..."; // qwen3.8:27b
+"Updating..." = "Uppdaterar..."; // qwen3.8:27b
+"Stats will restart automatically" = "Stats startar om automatiskt"; // qwen3.8:27b
 "Current version: " = "Nuvarande version:  ";
 "Latest version: " = "Senaste version:    ";
+"Changelog" = "Ändringslogg"; // qwen3.8:27b
 
 // Widgets
 "Color" = "Färg";
@@ -230,7 +237,6 @@
 
 // Module Kit
 "Open module settings" = "Öppna modulinställningar";
-"Open widget settings" = "Öppna widgetinställningar";
 "Update interval" = "Uppdateringsintervall";
 "Usage history" = "Användningshistorik";
 "Details" = "Detaljer";
@@ -247,6 +253,8 @@
 "Kill process" = "Avsluta process";
 "Keyboard shortcut" = "Tangentbordsgenväg"; // translategemma:4b
 "Listening..." = "Lyssnar..."; // gemma4:31b
+"Open in browser" = "Öppna i webbläsare"; // qwen3.8:27b
+"Open module" = "Öppna modul"; // qwen3.8:27b
 
 // Modules
 "Number of top processes" = "Antal topprocesser";
@@ -276,17 +284,20 @@
 "CPU usage threshold" = "Tröskelvärde för CPU-användning";
 "Efficiency cores" = "Effektivitetskärnor";
 "Performance cores" = "Prestandakärnor";
+"Super cores" = "Superkärnor"; // qwen3.8:27b
 "System color" = "Systemfärg";
 "User color" = "Användarfärg";
 "Idle color" = "Overksamhetsfärg";
 "Cluster grouping" = "Klustergruppering";
 "Efficiency cores color" = "Effektivitetskärnors färg";
 "Performance cores color" = "Prestandakärnors färg";
+"Super cores color" = "Färg på superkärnor"; // qwen3.8:27b
 "Total load" = "Total belastning";
 "System load" = "Systembelastning";
 "User load" = "Användarbelastning";
 "Efficiency cores load" = "Effektivitetskärnors belastning";
 "Performance cores load" = "Prestandakärnors belastning";
+"Super cores load" = "Superkärnornas belastning"; // qwen3.8:27b
 "All cores" = "Alla kärnor";
 "Load per core" = "Belastning per kärna"; // gemma4:31b
 "Efficiency core" = "Effektivitetskärna"; // gemma4:31b
@@ -300,10 +311,18 @@
 "Model" = "Modell";
 "Status" = "Status";
 "Utilization" = "Användning";
+"Render" = "Rendering"; // qwen3.8:27b
 "Render utilization" = "Render-användning";
+"Render utilization history" = "Renderingutnyttjandehistorik"; // qwen3.8:27b
+"Tiler" = "Plattsättare"; // qwen3.8:27b
 "Tiler utilization" = "Tiler-användning";
+"Tiler utilization history" = "Tiler-utnyttjandehistorik"; // qwen3.8:27b
 "GPU usage threshold" = "Tröskelvärde för GPU-användning";
 "GPU usage is" = "GPU-användningen är %0";
+"ANE utilization" = "ANE-utnyttjande"; // qwen3.8:27b
+"ANE utilization history" = "ANE-användningshistorik"; // qwen3.8:27b
+"FPS history" = "FPS-historik"; // qwen3.8:27b
+"GPU utilization history" = "Historik över GPU-utnyttjande"; // qwen3.8:27b
 
 // RAM
 "Memory usage" = "Minnesanvändning";
@@ -325,6 +344,8 @@
 "Free memory (less than)" = "Ledigt minne (mindre än)";
 "Swap size" = "Växlingsstorlek";
 "Free RAM is" = "Ledigt RAM är %0";
+"Pressure" = "Tryck"; // qwen3.8:27b
+"Pressure level" = "Trycknivå"; // qwen3.8:27b
 
 // Disk
 "Show removable disks" = "Visa flyttbara diskar";
@@ -346,8 +367,6 @@
 "Encrypted" = "Krypterad"; // gemma4:31b-it-qat
 "Writable" = "Skrivbar"; // gemma4:31b-it-qat
 "Drives" = "Diskar"; // gemma4:31b
-"SMART data" = "SMART-data"; // translategemma:4b
-"ATA SMART data" = "ATA SMART-data"; // gemma4:31b
 "Power cycles" = "Antal cykler"; // gemma4:31b
 "Power on hours" = "Drifttimmar"; // gemma4:31b
 "Critical warning" = "Kritisk varning"; // gemma4:31b-it-qat
@@ -360,6 +379,12 @@
 "Reliability degraded" = "Försämrad tillförlitlighet"; // gemma4:31b-it-qat
 "Read-only mode" = "Skrivskyddat läge"; // gemma4:31b-it-qat
 "Backup failed" = "Säkerhetskopieringen misslyckades"; // gemma4:31b-it-qat
+"All disks" = "Alla diskar"; // qwen3.8:27b
+"Disk details" = "Diskdetaljer"; // qwen3.8:27b
+"Main color" = "Huvudfärg"; // qwen3.8:27b
+"Read / Write history" = "Läs-/skrivhistorik"; // qwen3.8:27b
+"mounted" = "Monterad"; // qwen3.8:27b
+"removable" = "Avtagbar"; // qwen3.8:27b
 
 // Sensors
 "Celsius" = "Celsius";
@@ -428,6 +453,14 @@
 "Internet connection lost" = "Internetanslutningen har förlorats"; // gemma4:31b
 "Internet connection established" = "Internetanslutning upprättad"; // gemma4:31b
 "Show country code instead of emoji" = "Visa landskod istället för emoji"; // translategemma:4b
+"DNS Server" = "DNS-server"; // qwen3.8:27b
+"Jitter" = "Jitter";
+"Noise" = "Brus"; // qwen3.8:27b
+"Signal" = "Signal";
+"Speed" = "Hastighet"; // qwen3.8:27b
+"Network interface changed" = "Nätverksgränssnittet ändrades"; // qwen3.8:27b
+"WiFi network changed" = "WiFi-nätverk ändrades"; // qwen3.8:27b
+"This will be visible in the text widget" = "Detta kommer att vara synligt i textwidgeten"; // qwen3.8:27b
 
 // Battery
 "Source" = "Källa";
@@ -435,7 +468,6 @@
 "Battery Power" = "Batteri";
 "Time" = "Tid";
 "Health" = "Hälsa";
-"Amperage" = "Strömstyrka";
 "Voltage" = "Spänning";
 "Cycles" = "Cyklar";
 "Temperature" = "Temperatur";
@@ -465,9 +497,11 @@
 "On battery" = "På batteri"; // gemma4:31b
 "Plugged in" = "Ansluten"; // gemma4:31b
 "Charging" = "Laddas"; // gemma4:31b
+"Level" = "Nivå"; // qwen3.8:27b
 
 // Bluetooth
 "No Bluetooth devices are available" = "Inga Bluetooth-enheter tillgängliga";
+"Bluetooth threshold" = "Bluetooth tröskel"; // qwen3.8:27b
 
 // Clock
 "Time zone" = "Tidszon";
@@ -514,3 +548,24 @@
 "Pink" = "Rosa";
 "Teal" = "Turkos";
 "Indigo" = "Indigo";
+
+// System Stats
+"Authorization" = "Auktorisation"; // qwen3.8:27b
+"Identificator" = "Identifierare"; // qwen3.8:27b
+"Plan" = "Plan";
+"Monitoring" = "Övervakning"; // qwen3.8:27b
+"Control" = "Kontroll"; // qwen3.8:27b
+"Update" = "Uppdatera"; // qwen3.8:27b
+"Sign in" = "Logga in"; // qwen3.8:27b
+"Sign out" = "Logga ut"; // qwen3.8:27b
+"Deregister" = "Avregistrera"; // qwen3.8:27b
+"Hosts" = "Värdar"; // qwen3.8:27b
+"Machines" = "Maskiner"; // qwen3.8:27b
+"No hosts yet" = "Inga värdar ännu"; // qwen3.8:27b
+"No machines yet" = "Inga maskiner ännu"; // qwen3.8:27b
+"Get notified when a device goes offline or hits a threshold" = "Få avisering när en enhet går offline eller når en tröskel"; // qwen3.8:27b
+"It is not recommended to enable remote control unless you know what you are doing." = "Det rekommenderas inte att aktivera fjärrstyrning om du inte vet vad du gör."; // qwen3.8:27b
+"Live CPU, RAM, disk and network metrics" = "Live CPU-, RAM-, disk- och nätverksmätvärden"; // qwen3.8:27b
+"Login to System Stats to see your devices" = "Logga in till System Stats för att se dina enheter"; // qwen3.8:27b
+"Monitor HTTP, ICMP and custom endpoints" = "Övervaka HTTP, ICMP och anpassade ändpunkter"; // qwen3.8:27b
+"Monitor and control your Macs from anywhere. Sign in to your System Stats account to see all your devices and hosts in one place." = "Övervaka och kontrollera dina Macar var som helst. Logga in på ditt System Stats-konto för att se alla dina enheter och värdar på ett ställe."; // qwen3.8:27b

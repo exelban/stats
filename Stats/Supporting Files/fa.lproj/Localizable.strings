@@ -50,7 +50,6 @@
 "Characters" = "کرکتر";
 "Short" = "کوتاه";
 "Long" = "بلند";
-"Statistics" = "آمار";
 "Max" = "حداکثر";
 "Min" = "حداقل";
 "Reset" = "ریست";
@@ -98,6 +97,8 @@
 "15 sec" = "۱۵ ثانیه"; // gemma4:31b
 "30 sec" = "۳۰ ثانیه"; // gemma4:31b
 "60 sec" = "۶۰ ثانیه"; // gemma4:31b
+"Eject" = "بیرون‌بردن"; // qwen3.8:27b
+"Enable" = "فعال کردن"; // qwen3.8:27b
 
 // Setup
 "Stats Setup" = "نصب Stats";
@@ -146,6 +147,7 @@
 "Open Calendar" = "باز کردن تقویم"; // translategemma:4b
 "Toggle the module" = "تغییر وضعیت ماژول"; // gemma4:31b
 "Open System Stats" = "باز کردن System Stats"; // gemma4:31b
+"Close module settings" = "بستن تنظیمات ماژول"; // qwen3.8:27b
 
 // Application settings
 "Check for updates" = "بررسی برای نسخه‌های جدید";
@@ -168,6 +170,7 @@
 "Spacing" = "فاصله"; // translategemma:4b
 "Choose file" = "انتخاب فایل"; // gemma4:31b
 "Stress tests" = "تست‌های استرس"; // gemma4:31b
+"Keep the menubar items position" = "حفظ جایگاه عناصر نوار منو"; // qwen3.8:27b
 
 // Dashboard
 "Serial number" = "سریال نامبر";
@@ -185,8 +188,12 @@
 // Update
 "The latest version of Stats installed" = "آخرین نسخه‌ی Stats نصب شده است";
 "Downloading..." = "دانلود...";
+"Installing..." = "در حال نصب..."; // qwen3.8:27b
+"Updating..." = "در حال به‌روزرسانی..."; // qwen3.8:27b
+"Stats will restart automatically" = "Stats به‌طور خودکار راه‌اندازی مجدد می‌شود"; // qwen3.8:27b
 "Current version: " = "نسخه فعلی:  ";
 "Latest version: " = "آخرین نسخه:    ";
+"Changelog" = "تغییرات"; // qwen3.8:27b
 
 // Widgets
 "Color" = "رنگ";
@@ -230,7 +237,6 @@
 
 // Module Kit
 "Open module settings" = "باز کردن تنظیمات ماژول‌ها";
-"Open widget settings" = "باز کردن تنظیمات ویجت‌ها";
 "Update interval" = "بروزرسانی زمان‌بندی";
 "Usage history" = "تاریخچه مصرف";
 "Details" = "جزئیات";
@@ -247,6 +253,8 @@
 "Kill process" = "پایان دادن به پروسه"; // gemma4:31b
 "Keyboard shortcut" = "میان‌بر صفحه‌کلید"; // gemma4:31b
 "Listening..." = "در حال گوش دادن..."; // translategemma:4b
+"Open in browser" = "باز کردن در مرورگر"; // qwen3.8:27b
+"Open module" = "باز کردن ماژول"; // qwen3.8:27b
 
 // Modules
 "Number of top processes" = "تعداد بالاترین پردازش‌ها";
@@ -276,17 +284,20 @@
 "CPU usage threshold" = "آستانه مصرف سی پی یو";
 "Efficiency cores" = "هسته‌های کم‌مصرف";
 "Performance cores" = "هسته‌های پرقدرت";
+"Super cores" = "هسته‌های سوپر"; // qwen3.8:27b
 "System color" = "رنگ سیستم";
 "User color" = "رنگ کاربر";
 "Idle color" = "رنگ بیکار";
 "Cluster grouping" = "گروه‌بندی کلاستر";
 "Efficiency cores color" = "رنگ هسته‌های کم‌مصرف"; // gemma4:31b
 "Performance cores color" = "رنگ هسته‌های پرقدرت"; // gemma4:31b
+"Super cores color" = "رنگ هسته‌های سوپر"; // qwen3.8:27b
 "Total load" = "بار کلی"; // gemma4:31b
 "System load" = "بار سیستم"; // translategemma:4b
 "User load" = "بار کاربر"; // translategemma:4b
 "Efficiency cores load" = "بار هسته‌های کم‌مصرف"; // gemma4:31b
 "Performance cores load" = "بار هسته‌های قدرتمند"; // gemma4:31b
+"Super cores load" = "بار هسته‌های سوپر"; // qwen3.8:27b
 "All cores" = "همه هسته‌ها"; // gemma4:31b
 "Load per core" = "بار به ازای هر هسته"; // gemma4:31b
 "Efficiency core" = "هسته کم‌مصرف"; // gemma4:31b
@@ -300,10 +311,18 @@
 "Model" = "مدل";
 "Status" = "وضعیت";
 "Utilization" = "استفاده";
+"Render" = "رندر"; // qwen3.8:27b
 "Render utilization" = "استفاده از رندر";
+"Render utilization history" = "تاریخچه استفاده از رندر"; // qwen3.8:27b
+"Tiler" = "کاشی‌بند"; // qwen3.8:27b
 "Tiler utilization" = "استفاده از تایلر";
+"Tiler utilization history" = "تاریخچه میزان استفاده از تایلر"; // qwen3.8:27b
 "GPU usage threshold" = "آستانه مصرف جی پی یو";
 "GPU usage is" = "مصرف جی پی یو %0";
+"ANE utilization" = "استفاده از ANE"; // qwen3.8:27b
+"ANE utilization history" = "تاریخچه بهره‌برداری ANE"; // qwen3.8:27b
+"FPS history" = "تاریخچه FPS"; // qwen3.8:27b
+"GPU utilization history" = "تاریخچه استفاده از GPU"; // qwen3.8:27b
 
 // RAM
 "Memory usage" = "مصرف حافظه";
@@ -325,6 +344,8 @@
 "Free memory (less than)" = "حافظه آزاد (کمتر از)"; // translategemma:4b
 "Swap size" = "حجم Swap"; // gemma4:31b
 "Free RAM is" = "RAM آزاد %0 است"; // gemma4:31b
+"Pressure" = "فشار"; // qwen3.8:27b
+"Pressure level" = "سطح فشار"; // qwen3.8:27b
 
 // Disk
 "Show removable disks" = "نمایش حافظه‌های متصل شده";
@@ -346,8 +367,6 @@
 "Encrypted" = "رمزگذاری شده"; // gemma4:31b-it-qat
 "Writable" = "قابل نوشتن"; // gemma4:31b-it-qat
 "Drives" = "درایوها"; // translategemma:4b
-"SMART data" = "داده‌های SMART"; // gemma4:31b
-"ATA SMART data" = "داده‌های ATA SMART"; // gemma4:31b
 "Power cycles" = "تعداد چرخه ها"; // gemma4:31b
 "Power on hours" = "ساعات کارکرد"; // gemma4:31b
 "Critical warning" = "هشدار بحرانی"; // gemma4:31b-it-qat
@@ -360,6 +379,12 @@
 "Reliability degraded" = "قابلیت اطمینان کاهش یافته"; // gemma4:31b-it-qat
 "Read-only mode" = "حالت فقط خواندنی"; // gemma4:31b-it-qat
 "Backup failed" = "پشتیبان‌گیری ناموفق بود"; // gemma4:31b-it-qat
+"All disks" = "همه دیسک‌ها"; // qwen3.8:27b
+"Disk details" = "جزئیات دیسک"; // qwen3.8:27b
+"Main color" = "رنگ اصلی"; // qwen3.8:27b
+"Read / Write history" = "تاریخچه خواندن / نوشتن"; // qwen3.8:27b
+"mounted" = "مونتاژ شده"; // qwen3.8:27b
+"removable" = "قابل جدا شدن"; // qwen3.8:27b
 
 // Sensors
 "Celsius" = "سلسیوس";
@@ -428,6 +453,14 @@
 "Internet connection lost" = "اتصال به اینترنت قطع شد"; // gemma4:31b
 "Internet connection established" = "اتصال اینترنت برقرار شد"; // translategemma:4b
 "Show country code instead of emoji" = "نمایش کد کشور به جای ایموجی"; // gemma4:31b
+"DNS Server" = "سرور DNS"; // qwen3.8:27b
+"Jitter" = "جیتر"; // qwen3.8:27b
+"Noise" = "نویز"; // qwen3.8:27b
+"Signal" = "سیگنال"; // qwen3.8:27b
+"Speed" = "سرعت"; // qwen3.8:27b
+"Network interface changed" = "رابط شبکه تغییر کرد"; // qwen3.8:27b
+"WiFi network changed" = "شبکه WiFi تغییر کرد"; // qwen3.8:27b
+"This will be visible in the text widget" = "این در ویجت متن قابل مشاهده خواهد بود"; // qwen3.8:27b
 
 // Battery
 "Source" = "منبع";
@@ -435,7 +468,6 @@
 "Battery Power" = "نیروی باتری";
 "Time" = "زمان";
 "Health" = "سلامت";
-"Amperage" = "آمپر";
 "Voltage" = "ولتاژ";
 "Cycles" = "دوره";
 "Temperature" = "دما";
@@ -465,9 +497,11 @@
 "On battery" = "روی باتری"; // gemma4:31b
 "Plugged in" = "متصل"; // gemma4:31b
 "Charging" = "در حال شارژ"; // gemma4:31b
+"Level" = "سطح"; // qwen3.8:27b
 
 // Bluetooth
 "No Bluetooth devices are available" = "هیچ دیوایس بلوتوثی در دسترس نیست";
+"Bluetooth threshold" = "آستانه Bluetooth"; // qwen3.8:27b
 
 // Clock
 "Time zone" = "منطقه زمانی"; // gemma4:31b
@@ -514,3 +548,24 @@
 "Pink" = "صورتی";
 "Teal" = "کله غازی";
 "Indigo" = "نیلی";
+
+// System Stats
+"Authorization" = "مجوز"; // qwen3.8:27b
+"Identificator" = "شناسه"; // qwen3.8:27b
+"Plan" = "برنامه"; // qwen3.8:27b
+"Monitoring" = "پایش"; // qwen3.8:27b
+"Control" = "کنترل"; // qwen3.8:27b
+"Update" = "به‌روزرسانی"; // qwen3.8:27b
+"Sign in" = "ورود"; // qwen3.8:27b
+"Sign out" = "خروج"; // qwen3.8:27b
+"Deregister" = "لغو ثبت"; // qwen3.8:27b
+"Hosts" = "میزبان‌ها"; // qwen3.8:27b
+"Machines" = "دستگاه‌ها"; // qwen3.8:27b
+"No hosts yet" = "هنوز میزبانی وجود ندارد"; // qwen3.8:27b
+"No machines yet" = "هنوز دستگاهی وجود ندارد"; // qwen3.8:27b
+"Get notified when a device goes offline or hits a threshold" = "خبردار شوید وقتی دستگاهی آفلاین شود یا به آستانه برسد"; // qwen3.8:27b
+"It is not recommended to enable remote control unless you know what you are doing." = "توصیه نمی‌شود که کنترل از راه دور را فعال کنید مگر اینکه بدانید چه کاری انجام می‌دهید."; // qwen3.8:27b
+"Live CPU, RAM, disk and network metrics" = "شاخص‌های زنده CPU، RAM، دیسک و شبکه"; // qwen3.8:27b
+"Login to System Stats to see your devices" = "برای مشاهده دستگاه‌های خود به System Stats وارد شوید"; // qwen3.8:27b
+"Monitor HTTP, ICMP and custom endpoints" = "پایش HTTP، ICMP و نقاط پایانی سفارشی"; // qwen3.8:27b
+"Monitor and control your Macs from anywhere. Sign in to your System Stats account to see all your devices and hosts in one place." = "Mac‌های خود را از هر جایی پایش و کنترل کنید. برای مشاهده همه دستگاه‌ها و میزبان‌های خود در یک مکان، وارد حساب System Stats خود شوید."; // qwen3.8:27b

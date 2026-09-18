@@ -50,7 +50,6 @@
 "Characters" = "Znak";
 "Short" = "Krátky";
 "Long" = "Dlhý";
-"Statistics" = "Štatistiky";
 "Max" = "Max";
 "Min" = "Minúta"; // translategemma:4b
 "Reset" = "Resetovať"; // gemma4:26b
@@ -98,6 +97,8 @@
 "15 sec" = "15 sek"; // gemma4:31b
 "30 sec" = "30 sek"; // gemma4:31b
 "60 sec" = "60 sek"; // gemma4:31b
+"Eject" = "Vyhodiť"; // qwen3.8:27b
+"Enable" = "Povoliť"; // qwen3.8:27b
 
 // Setup
 "Stats Setup" = "Nastavenie Stats";
@@ -146,6 +147,7 @@
 "Open Calendar" = "Otvoriť kalendár"; // translategemma:4b
 "Toggle the module" = "Prepnúť modul"; // gemma4:31b
 "Open System Stats" = "Otvoriť System Stats"; // gemma4:31b
+"Close module settings" = "Zavrieť nastavenia modulu"; // qwen3.8:27b
 
 // Application settings
 "Check for updates" = "Skontrolovať aktualizácie";
@@ -168,6 +170,7 @@
 "Spacing" = "Rozostup"; // translategemma:4b
 "Choose file" = "Vybrať súbor"; // gemma4:31b
 "Stress tests" = "Stresové testy"; // gemma4:31b
+"Keep the menubar items position" = "Udržiavať polohu položiek lišty menu"; // qwen3.8:27b
 
 // Dashboard
 "Serial number" = "Sériové číslo";
@@ -185,8 +188,12 @@
 // Update
 "The latest version of Stats installed" = "Bola nainštalovaná najnovšia verzia Stats";
 "Downloading..." = "Sťahovanie...";
+"Installing..." = "Inštalácia..."; // qwen3.8:27b
+"Updating..." = "Aktualizujem..."; // qwen3.8:27b
+"Stats will restart automatically" = "Stats sa automaticky reštartuje"; // qwen3.8:27b
 "Current version: " = "Aktuálna verzia: ";
 "Latest version: " = "Najnovšia verzia: ";
+"Changelog" = "Zoznam zmien"; // qwen3.8:27b
 
 // Widgets
 "Color" = "Farba";
@@ -230,7 +237,6 @@
 
 // Module Kit
 "Open module settings" = "Otvoriť nastavenia modulu";
-"Open widget settings" = "Otvoriť nastavenie widgetu";
 "Update interval" = "Interval aktualizácie";
 "Usage history" = "História využitia";
 "Details" = "Detaily";
@@ -247,6 +253,8 @@
 "Kill process" = "Ukončiť proces"; // gemma4:31b
 "Keyboard shortcut" = "Klávesnicová skratka"; // gemma4:31b
 "Listening..." = "Počúvam..."; // gemma4:31b
+"Open in browser" = "Otvoriť v prehliadači"; // qwen3.8:27b
+"Open module" = "Otvoriť modul"; // qwen3.8:27b
 
 // Modules
 "Number of top processes" = "Počet top procesov";
@@ -276,17 +284,20 @@
 "CPU usage threshold" = "Prahová hodnota využitia CPU";
 "Efficiency cores" = "Efektívne jadrá";
 "Performance cores" = "Výkonné jadrá";
+"Super cores" = "Super jadrá"; // qwen3.8:27b
 "System color" = "Systém";
 "User color" = "Používateľ";
 "Idle color" = "Nečinnosť";
 "Cluster grouping" = "Zoskupenie klastrov";
 "Efficiency cores color" = "Farba energeticky efektívnych jadier"; // gemma4:31b
 "Performance cores color" = "Farba výkonných jadier"; // gemma4:31b
+"Super cores color" = "Farba super jadier"; // qwen3.8:27b
 "Total load" = "Celkové vyťaženie"; // gemma4:31b
 "System load" = "Vyťaženie systému"; // gemma4:31b
 "User load" = "Používateľské zaťaženie"; // gemma4:31b
 "Efficiency cores load" = "Vyťaženie efektívnych jadier"; // gemma4:31b
 "Performance cores load" = "Vyťaženie výkonných jadier"; // gemma4:31b
+"Super cores load" = "Vyťaženie Super jadier"; // qwen3.8:27b
 "All cores" = "Všetky jadra"; // gemma4:31b
 "Load per core" = "Vyťaženie na jadro"; // gemma4:31b
 "Efficiency core" = "Efektívne jadro"; // gemma4:31b
@@ -300,10 +311,18 @@
 "Model" = "Štýl"; // translategemma:4b
 "Status" = "Stav"; // gemma4:31b
 "Utilization" = "Využitie";
+"Render" = "Vykreslenie"; // qwen3.8:27b
 "Render utilization" = "Využitie renderovania";
+"Render utilization history" = "História vyťaženia vykresľovania"; // qwen3.8:27b
+"Tiler" = "Dlaždič"; // qwen3.8:27b
 "Tiler utilization" = "Využitie tilingu";
+"Tiler utilization history" = "História vyťaženia tilera"; // qwen3.8:27b
 "GPU usage threshold" = "Prahová hodnota využitia GPU";
 "GPU usage is" = "Využitie GPU je %0";
+"ANE utilization" = "Využitie ANE"; // qwen3.8:27b
+"ANE utilization history" = "História využitia ANE"; // qwen3.8:27b
+"FPS history" = "História FPS"; // qwen3.8:27b
+"GPU utilization history" = "História vyťaženia GPU"; // qwen3.8:27b
 
 // RAM
 "Memory usage" = "Využitie pamäte";
@@ -325,6 +344,8 @@
 "Free memory (less than)" = "Voľná pamäť (menej ako)"; // translategemma:4b
 "Swap size" = "Veľkosť swapu"; // gemma4:31b
 "Free RAM is" = "Voľná RAM je %0"; // gemma4:31b
+"Pressure" = "Tlak"; // qwen3.8:27b
+"Pressure level" = "Úroveň tlaku"; // qwen3.8:27b
 
 // Disk
 "Show removable disks" = "Zobrazovať vymeniteľné disky";
@@ -346,8 +367,6 @@
 "Encrypted" = "Zašifrované"; // gemma4:31b-it-qat
 "Writable" = "Zapísateľný"; // gemma4:31b-it-qat
 "Drives" = "Disky"; // gemma4:31b
-"SMART data" = "SMART údaje"; // gemma4:31b
-"ATA SMART data" = "Údaje ATA SMART"; // gemma4:31b
 "Power cycles" = "Počet cyklov"; // gemma4:31b
 "Power on hours" = "Hodiny prevádzky"; // gemma4:31b
 "Critical warning" = "Kritické varovanie"; // gemma4:31b-it-qat
@@ -360,6 +379,12 @@
 "Reliability degraded" = "Znížená spolehlivosť"; // gemma4:31b-it-qat
 "Read-only mode" = "Režim iba na čítanie"; // gemma4:31b-it-qat
 "Backup failed" = "Zálohovanie zlyhalo"; // gemma4:31b-it-qat
+"All disks" = "Všetky disky"; // qwen3.8:27b
+"Disk details" = "Podrobnosti disku"; // qwen3.8:27b
+"Main color" = "Hlavná farba"; // qwen3.8:27b
+"Read / Write history" = "História čítania / zápisu"; // qwen3.8:27b
+"mounted" = "pripojené"; // qwen3.8:27b
+"removable" = "odnímateľný"; // qwen3.8:27b
 
 // Sensors
 "Celsius" = "Celzius"; // gemma4:31b
@@ -387,143 +412,6 @@
 "Right fan" = "Pravý"; // gemma4:31b
 "Fastest fan" = "Najrýchlejší"; // gemma4:31b
 "Sensor to show" = "Senzor na zobrazenie"; // gemma4:31b
-"Celsius" = "Celcius"; // translategemma:4b
-"Uploading" = "Upload";
-"Uploading" = "Nahrávanie"; // gemma4:31b
-"Downloading" = "Sťahovanie"; // gemma4:31b
-"Public IP" = "Verejná IP"; // gemma4:31b
-"Local IP" = "Lokálna IP"; // gemma4:31b
-"Interface" = "Rozhranie"; // gemma4:31b
-"Physical address" = "Fyzická adresa"; // gemma4:31b
-"Refresh" = "Aktualizovať"; // gemma4:31b
-"Network interface" = "Sieťové rozhranie"; // gemma4:31b
-"Total download" = "Celkom sťahané"; // gemma4:31b
-"Total upload" = "Celkom odoslané"; // gemma4:31b
-"Reader type" = "Typ čítania"; // gemma4:31b
-"Interface based" = "Na základe rozhrania"; // gemma4:31b
-"Processes based" = "Na základe procesov"; // gemma4:31b
-"Reset data usage" = "Resetovať spotrebu dát"; // gemma4:31b
-"VPN mode" = "Režim VPN"; // gemma4:31b
-"Standard" = "Štandard"; // gemma4:31b
-"Security" = "Šifrovanie"; // gemma4:31b
-"Channel" = "Kanál"; // gemma4:31b
-"Autodetection" = "Autodetekcia"; // gemma4:31b
-"Widget activation threshold" = "Prah aktivácie vidžetu"; // gemma4:31b
-"Internet connection" = "Internetové pripojenie"; // gemma4:31b
-"Connectivity host" = "Host pripojenia"; // gemma4:31b
-"Leave empty to disable the check" = "Nechajte prázdne, aby ste deaktivovali kontrolu"; // gemma4:31b
-"Connectivity history" = "História pripojenia"; // gemma4:31b
-"Auto-refresh public IP address" = "Automatické aktualizovanie verejnej IP adresy"; // gemma4:31b
-"Every hour" = "Každú hodinu"; // gemma4:31b
-"Every 12 hours" = "Každé 12 hodín"; // gemma4:31b
-"Every 24 hours" = "Každých 24 hodín"; // gemma4:31b
-"Last reset" = "Posledný reset pred %0"; // gemma4:31b
-"Latency" = "Latencia"; // gemma4:31b
-"Address" = "Adresa"; // gemma4:31b
-"WiFi network" = "Sieť WiFi"; // gemma4:31b
-"Local IP changed" = "Lokálna IP sa zmenila"; // gemma4:31b
-"Public IP changed" = "Verejná IP adresa sa zmenila"; // gemma4:31b
-"Previous IP" = "Predošlá IP: %0"; // gemma4:31b
-"New IP" = "Nová IP adresa: %0"; // gemma4:31b
-"Internet connection lost" = "Internetové pripojenie bolo stratené"; // gemma4:31b
-"Internet connection established" = "Internetové pripojenie nadviazané"; // gemma4:31b
-"Show country code instead of emoji" = "Zobrazovať kód krajiny namiesto emoji"; // gemma4:31b
-"Fahrenheit" = "Farenhajm"; // translategemma:4b
-"Save the fan speed" = "Uložiť rýchlosť ventilátora";
-"Source" = "Zdroj"; // gemma4:31b
-"AC Power" = "Sieťové napájanie"; // gemma4:31b
-"Battery Power" = "Napájanie batériou"; // gemma4:31b
-"Time" = "Čas"; // gemma4:31b
-"Health" = "Kondícia"; // gemma4:31b
-"Amperage" = "Sila prúdu"; // gemma4:31b
-"Voltage" = "Napätie"; // gemma4:31b
-"Cycles" = "Počet cyklov"; // gemma4:31b
-"Temperature" = "Teplota"; // gemma4:31b
-"Power adapter" = "Napájací adaptér"; // gemma4:31b
-"Power" = "Výkon"; // gemma4:31b
-"Is charging" = "Nabíja sa"; // gemma4:31b
-"Time to discharge" = "Čas do vybitia"; // gemma4:31b
-"Time to charge" = "Čas do nabitia"; // gemma4:31b
-"Calculating" = "Výpočet"; // gemma4:31b
-"Fully charged" = "Plne nabitá"; // gemma4:31b
-"Low level notification" = "Upozornenie o nízkej úrovni"; // gemma4:31b
-"High level notification" = "Oznámenie o vysokej úrovni"; // gemma4:31b
-"Low battery" = "Nízky stav batérie"; // gemma4:31b
-"High battery" = "Vysoká úroveň batérie"; // gemma4:31b
-"Battery remaining" = "%0% zostáva"; // gemma4:31b
-"Battery remaining to full charge" = "%0% do plného nabitia"; // gemma4:31b
-"Percentage" = "Percentá"; // gemma4:31b
-"Percentage and time" = "Percentá a čas"; // gemma4:31b
-"Time and percentage" = "Čas a percentá"; // gemma4:31b
-"Time format" = "Formát času"; // gemma4:31b
-"Hide additional information when full" = "Skryť dodatočné informácie pri plnom nabití"; // gemma4:31b
-"Percentage inside the icon" = "Percentuálny údaj vo vnútri ikony"; // gemma4:31b
-"Charger state inside the battery" = "Stav nabíjania vnútri batérie"; // gemma4:31b
-"Max capacity" = "Maximálna kapacita"; // gemma4:31b
-"Designed capacity" = "Navrhnutá kapacita"; // gemma4:31b
-"On hold" = "Pozastavené"; // gemma4:31b
-"On battery" = "Na batérii"; // gemma4:31b
-"Plugged in" = "Pripojený"; // gemma4:31b
-"Charging" = "Nabíjanie"; // gemma4:31b
-"Fan" = "Ventilátor";
-"HID sensors" = "HID senzory";
-"No Bluetooth devices are available" = "Žiadne Bluetooth zariadenia nie sú k dispozícii"; // gemma4:31b
-"Synchronize fan's control" = "Synchronizácia ovládania ventilátora";
-"Current" = "Prúd";
-"Time zone" = "Časové pásmo"; // gemma4:31b
-"Local" = "Lokálny"; // gemma4:31b
-"Calendar" = "Kalendár"; // gemma4:31b
-"Show week numbers" = "Zobraziť čísla týždňov"; // gemma4:31b
-"Local time" = "Miestny čas"; // gemma4:31b
-"Add new clock" = "Pridať nové hodiny"; // gemma4:31b
-"Delete selected clock" = "Odstrániť vybrané hodiny"; // gemma4:31b
-"Help with datetime format" = "Pomoc s formátom dátumu a času"; // gemma4:31b
-"Sync with NTP server" = "Synchronizácia s NTP serverom"; // gemma4:31b
-"Previous month" = "Predošlý mesiac"; // gemma4:31b
-"Next month" = "Nasledujúci mesiac"; // gemma4:31b
-"Energy" = "Energia";
-"Show unknown sensors" = "Zobraziť neznáme snímače";
-"Based on utilization" = "Na základe využitia"; // gemma4:31b
-"Based on pressure" = "Na základe tlaku"; // gemma4:31b
-"Based on cluster" = "Na základe klastra"; // gemma4:31b
-"System accent" = "Systémový akcent"; // gemma4:31b
-"Monochrome accent" = "Monochromatický akcent"; // gemma4:31b
-"Clear" = "Priehľadný"; // gemma4:31b
-"White" = "Biely"; // gemma4:31b
-"Black" = "Čierny"; // gemma4:31b
-"Gray" = "Sivý"; // gemma4:31b
-"Second gray" = "Druhý sivý"; // gemma4:31b
-"Dark gray" = "Tmavý sivý"; // gemma4:31b
-"Light gray" = "Svetlošivá"; // gemma4:31b
-"Red" = "Červená"; // gemma4:31b
-"Second red" = "Druhý červený"; // gemma4:31b
-"Green" = "Zelený"; // gemma4:31b
-"Second green" = "Druhý zelený"; // gemma4:31b
-"Blue" = "Modrá"; // gemma4:31b
-"Second blue" = "Druhá modrá"; // gemma4:31b
-"Yellow" = "Žltá"; // gemma4:31b
-"Second yellow" = "Druhý žltý"; // gemma4:31b
-"Orange" = "Oranžová"; // gemma4:31b
-"Second orange" = "Druhý oranžový"; // gemma4:31b
-"Purple" = "Fialová"; // gemma4:31b
-"Second purple" = "Druhý fialový"; // gemma4:31b
-"Brown" = "Hnedý"; // gemma4:31b
-"Second brown" = "Druhý hnedý"; // gemma4:31b
-"Cyan" = "Cyán"; // gemma4:31b-it-qat
-"Magenta" = "Purpurový"; // gemma4:31b
-"Pink" = "Ružová"; // gemma4:31b
-"Teal" = "Tyrkysová"; // gemma4:31b
-"Indigo" = "Indigo";
-"Install fan helper" = "Inštalácia pomocníka pre ventilátor";
-"Uninstall fan helper" = "Odinštalácia pomocníka ventilátora";
-"Fan value" = "Otáčky ventilátora";
-"Turn off fan" = "Vypnite ventilátor"; // translategemma:4b
-"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Chystáte sa vypnúť ventilátor. Toto nie je odporúčaná akcia, ktorá môže poškodiť váš Mac. Ste si istí, že to chcete urobiť?"; // translategemma:4b
-"Sensor threshold" = "Hranica detekčného senzora"; // translategemma:4b
-"Left fan" = "Vľavo"; // translategemma:4b
-"Right fan" = "Správne"; // translategemma:4b
-"Fastest fan" = "Najrýchlejšie"; // translategemma:4b
-"Sensor to show" = "Senzor zobrazí"; // translategemma:4b
 
 // Network
 "Uploading" = "Nahrávanie (upload)";
@@ -565,6 +453,14 @@
 "Internet connection lost" = "Ztráta internetového pripojenia"; // translategemma:4b
 "Internet connection established" = "Pripojenie k internetu bolo vytvorené"; // translategemma:4b
 "Show country code instead of emoji" = "Zobrazte kód krajiny namiesto emoji"; // translategemma:4b
+"DNS Server" = "DNS server"; // qwen3.8:27b
+"Jitter" = "Fluktuácia"; // qwen3.8:27b
+"Noise" = "Hluk"; // qwen3.8:27b
+"Signal" = "Signál"; // qwen3.8:27b
+"Speed" = "Rýchlosť"; // qwen3.8:27b
+"Network interface changed" = "Sieťové rozhranie sa zmenilo"; // qwen3.8:27b
+"WiFi network changed" = "Zmenená WiFi sieť"; // qwen3.8:27b
+"This will be visible in the text widget" = "Toto bude viditeľné v textovom widgeti"; // qwen3.8:27b
 
 // Battery
 "Source" = "Zdroj";
@@ -572,7 +468,6 @@
 "Battery Power" = "Napájanie z batérie";
 "Time" = "Čas";
 "Health" = "Zdravie";
-"Amperage" = "Prúd";
 "Voltage" = "Napätie";
 "Cycles" = "Počet cyklov";
 "Temperature" = "Teplota";
@@ -596,9 +491,17 @@
 "Hide additional information when full" = "Skryť ďalšie informácie, keď je plne nabitá";
 "Percentage inside the icon" = "Percentá vo vnútri ikony";
 "Charger state inside the battery" = "Stav nabíjačky vo vnútri batérie"; // translategemma:4b
+"Max capacity" = "Maximálna kapacita"; // qwen3.8:27b
+"Designed capacity" = "Zaprojektovaná kapacita"; // qwen3.8:27b
+"On hold" = "Pozastavené"; // qwen3.8:27b
+"On battery" = "Na batérii"; // qwen3.8:27b
+"Plugged in" = "Pripojené"; // qwen3.8:27b
+"Charging" = "Nabíjanie"; // qwen3.8:27b
+"Level" = "Úroveň"; // qwen3.8:27b
 
 // Bluetooth
 "No Bluetooth devices are available" = "Nie sú k dispozícii žiadne zariadenia Bluetooth";
+"Bluetooth threshold" = "Prah Bluetooth"; // qwen3.8:27b
 
 // Clock
 "Time zone" = "Časový pás"; // translategemma:4b
@@ -610,6 +513,8 @@
 "Delete selected clock" = "Odstrániť vybraný časovač"; // translategemma:4b
 "Help with datetime format" = "Pomoc s formátovaním dát a času"; // translategemma:4b
 "Sync with NTP server" = "Synchronizácia s NTP serverom"; // translategemma:4b
+"Previous month" = "Predchádzajúci mesiac"; // qwen3.8:27b
+"Next month" = "Príšly mesiac"; // qwen3.8:27b
 
 // Colors
 "Based on utilization" = "Na základe využívania";
@@ -643,3 +548,24 @@
 "Pink" = "Ružová";
 "Teal" = "Sivozelená";
 "Indigo" = "Indigo";
+
+// System Stats
+"Authorization" = "Autorizácia"; // qwen3.8:27b
+"Identificator" = "Identifikátor"; // qwen3.8:27b
+"Plan" = "Plán"; // qwen3.8:27b
+"Monitoring" = "Monitorovanie"; // qwen3.8:27b
+"Control" = "Ovládanie"; // qwen3.8:27b
+"Update" = "Aktualizovať"; // qwen3.8:27b
+"Sign in" = "Prihlásiť sa"; // qwen3.8:27b
+"Sign out" = "Odhlásiť sa"; // qwen3.8:27b
+"Deregister" = "Odhlásiť"; // qwen3.8:27b
+"Hosts" = "Hosty"; // qwen3.8:27b
+"Machines" = "Stroje"; // qwen3.8:27b
+"No hosts yet" = "Zatiaľ žiadne hosty"; // qwen3.8:27b
+"No machines yet" = "Zatiaľ žiadne stroje"; // qwen3.8:27b
+"Get notified when a device goes offline or hits a threshold" = "Dostať upozornenie, keď zariadenie stratí pripojenie alebo dosiahne prahovú hodnotu"; // qwen3.8:27b
+"It is not recommended to enable remote control unless you know what you are doing." = "Nedoporučuje sa povoliť diaľkové ovládanie, pokiaľ neviete, čo robíte."; // qwen3.8:27b
+"Live CPU, RAM, disk and network metrics" = "Živé metriky CPU, RAM, disku a siete"; // qwen3.8:27b
+"Login to System Stats to see your devices" = "Prihláste sa do System Stats a zobrazte si svoje zariadenia"; // qwen3.8:27b
+"Monitor HTTP, ICMP and custom endpoints" = "Monitorovať HTTP, ICMP a vlastné koncové body"; // qwen3.8:27b
+"Monitor and control your Macs from anywhere. Sign in to your System Stats account to see all your devices and hosts in one place." = "Sledujte a ovládajte svoje Macs kdekoľvek. Prihláste sa do svojho účtu System Stats a zobrazte si všetky svoje zariadenia a hostiteľov na jednom mieste."; // qwen3.8:27b

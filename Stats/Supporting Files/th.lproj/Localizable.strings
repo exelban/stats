@@ -50,7 +50,6 @@
 "Characters" = "ตัวอักษร";
 "Short" = "สั้น";
 "Long" = "ยาว";
-"Statistics" = "สถิติ";
 "Max" = "สูงสุด";
 "Min" = "ต่ำสุด";
 "Reset" = "รีเซ็ต";
@@ -98,6 +97,8 @@
 "15 sec" = "15 วินาที"; // translategemma:4b
 "30 sec" = "30 วินาที"; // translategemma:4b
 "60 sec" = "60 วินาที"; // translategemma:4b
+"Eject" = "ดีดออก"; // qwen3.8:27b
+"Enable" = "เปิดใช้งาน"; // qwen3.8:27b
 
 // Setup
 "Stats Setup" = "การตั้งค่าสถิติ";
@@ -146,6 +147,7 @@
 "Open Calendar" = "เปิดปฏิทิน"; // translategemma:4b
 "Toggle the module" = "สลับโมดูล"; // gemma4:31b
 "Open System Stats" = "เปิด System Stats"; // gemma4:31b
+"Close module settings" = "ปิดการตั้งค่าโมดูล"; // qwen3.8:27b
 
 // Application settings
 "Check for updates" = "ตรวจสอบการอัพเดท";
@@ -168,6 +170,7 @@
 "Spacing" = "ระยะห่าง"; // translategemma:4b
 "Choose file" = "เลือกไฟล์"; // translategemma:4b
 "Stress tests" = "การทดสอบความเครียด"; // translategemma:4b
+"Keep the menubar items position" = "คงตำแหน่งของรายการในแถบเมนู"; // qwen3.8:27b
 
 // Dashboard
 "Serial number" = "หมายเลขซีเรียล";
@@ -185,8 +188,12 @@
 // Update
 "The latest version of Stats installed" = "เวอร์ชันล่าสุดของ Stats ได้รับการติดตั้งแล้ว";
 "Downloading..." = "กำลังดาวน์โหลด...";
+"Installing..." = "กำลังติดตั้ง..."; // qwen3.8:27b
+"Updating..." = "กำลังอัปเดต..."; // qwen3.8:27b
+"Stats will restart automatically" = "Stats จะรีสตาร์ทโดยอัตโนมัติ"; // qwen3.8:27b
 "Current version: " = "เวอร์ชันปัจจุบัน: ";
 "Latest version: " = "เวอร์ชันล่าสุด: ";
+"Changelog" = "บันทึกการเปลี่ยนแปลง"; // qwen3.8:27b
 
 // Widgets
 "Color" = "สี";
@@ -230,7 +237,6 @@
 
 // Module Kit
 "Open module settings" = "เปิดการตั้งค่าโมดูล";
-"Open widget settings" = "เปิดการตั้งค่าวิดเจ็ต";
 "Update interval" = "ช่วงเวลาปรับปรุง";
 "Usage history" = "ประวัติการใช้งาน";
 "Details" = "รายละเอียด";
@@ -247,6 +253,8 @@
 "Kill process" = "ยุติกระบวนการ"; // gemma4:31b
 "Keyboard shortcut" = "ปุ่มลัดแป้นพิมพ์"; // gemma4:31b
 "Listening..." = "กำลังฟัง..."; // translategemma:4b
+"Open in browser" = "เปิดในเบราว์เซอร์"; // qwen3.8:27b
+"Open module" = "เปิดโมดูล"; // qwen3.8:27b
 
 // Modules
 "Number of top processes" = "จำนวนของกระบวนการสูงสุด";
@@ -276,17 +284,20 @@
 "CPU usage threshold" = "เกณฑ์การใช้งาน CPU";
 "Efficiency cores" = "cores ประสิทธิผล";
 "Performance cores" = "cores ประสิทธิภาพ";
+"Super cores" = "คอร์ซุปเปอร์"; // qwen3.8:27b
 "System color" = "สีของระบบ";
 "User color" = "สีของผู้ใช้";
 "Idle color" = "สีของว่างเปล่า";
 "Cluster grouping" = "การจัดกลุ่ม Cluster";
 "Efficiency cores color" = "สีของคอร์ประหยัดพลังงาน"; // gemma4:31b
 "Performance cores color" = "สีของคอร์ประสิทธิภาพ"; // translategemma:4b
+"Super cores color" = "สีซูเปอร์คอร์"; // qwen3.8:27b
 "Total load" = "ภาระทั้งหมด"; // gemma4:31b
 "System load" = "ภาระระบบ"; // gemma4:31b
 "User load" = "ภาระงานของผู้ใช้"; // gemma4:31b
 "Efficiency cores load" = "ภาระงานของคอร์ประหยัดพลังงาน"; // gemma4:31b
 "Performance cores load" = "ภาระการทำงานของคอร์ประสิทธิภาพ"; // gemma4:31b
+"Super cores load" = "โหลดคอร์ซูเปอร์"; // qwen3.8:27b
 "All cores" = "คอร์ทั้งหมด"; // gemma4:31b
 "Load per core" = "ภาระต่อคอร์"; // gemma4:31b
 "Efficiency core" = "คอร์ประหยัดพลังงาน"; // gemma4:31b
@@ -300,10 +311,18 @@
 "Model" = "โมเดล";
 "Status" = "สถานะ";
 "Utilization" = "ปริมาณการใช้งาน";
+"Render" = "เรนเดอร์"; // qwen3.8:27b
 "Render utilization" = "ปริมาณการใช้งาน Render";
+"Render utilization history" = "ประวัติการใช้งานเรนเดอร์"; // qwen3.8:27b
+"Tiler" = "ไทเลอร์"; // qwen3.8:27b
 "Tiler utilization" = "ปริมาณการใช้งาน Tiler";
+"Tiler utilization history" = "ประวัติการใช้งานไทเลอร์"; // qwen3.8:27b
 "GPU usage threshold" = "เกณฑ์การใช้งาน GPU";
 "GPU usage is" = "ปริมาณการใช้งาน GPU คือ %0";
+"ANE utilization" = "การใช้งาน ANE"; // qwen3.8:27b
+"ANE utilization history" = "ประวัติการใช้งาน ANE"; // qwen3.8:27b
+"FPS history" = "ประวัติ FPS"; // qwen3.8:27b
+"GPU utilization history" = "ประวัติการใช้งาน GPU"; // qwen3.8:27b
 
 // RAM
 "Memory usage" = "การใช้หน่วยความจำ";
@@ -325,6 +344,8 @@
 "Free memory (less than)" = "หน่วยความจำว่าง (น้อยกว่า)"; // gemma4:31b
 "Swap size" = "ขนาด Swap"; // gemma4:31b
 "Free RAM is" = "RAM ว่างคือ %0"; // gemma4:31b
+"Pressure" = "ความดัน"; // qwen3.8:27b
+"Pressure level" = "ระดับความดัน"; // qwen3.8:27b
 
 // Disk
 "Show removable disks" = "แสดงดิสก์ถอดได้";
@@ -346,8 +367,6 @@
 "Encrypted" = "เข้ารหัสแล้ว"; // gemma4:31b-it-qat
 "Writable" = "เขียนได้"; // gemma4:31b-it-qat
 "Drives" = "ไดรฟ์"; // gemma4:31b
-"SMART data" = "ข้อมูล SMART"; // translategemma:4b
-"ATA SMART data" = "ข้อมูล ATA SMART"; // gemma4:31b
 "Power cycles" = "จำนวนรอบการชาร์จ"; // gemma4:31b
 "Power on hours" = "ชั่วโมงการทำงาน"; // gemma4:31b
 "Critical warning" = "คำเตือนระดับวิกฤต"; // gemma4:31b-it-qat
@@ -360,6 +379,12 @@
 "Reliability degraded" = "ความน่าเชื่อถือลดลง"; // gemma4:31b-it-qat
 "Read-only mode" = "โหมดอ่านอย่างเดียว"; // gemma4:31b-it-qat
 "Backup failed" = "การสำรองข้อมูลล้มเหลว"; // gemma4:31b-it-qat
+"All disks" = "ดิสก์ทั้งหมด"; // qwen3.8:27b
+"Disk details" = "รายละเอียดดิสก์"; // qwen3.8:27b
+"Main color" = "สีหลัก"; // qwen3.8:27b
+"Read / Write history" = "ประวัติการอ่าน / เขียน"; // qwen3.8:27b
+"mounted" = "เชื่อมต่อแล้ว"; // qwen3.8:27b
+"removable" = "ถอดได้"; // qwen3.8:27b
 
 // Sensors
 "Celsius" = "เซลเซียส";
@@ -428,6 +453,14 @@
 "Internet connection lost" = "การเชื่อมต่ออินเทอร์เน็ตขาดหาย"; // gemma4:31b
 "Internet connection established" = "การเชื่อมต่ออินเทอร์เน็ตสำเร็จ"; // translategemma:4b
 "Show country code instead of emoji" = "แสดงรหัสประเทศแทนอีโมจิ"; // gemma4:31b
+"DNS Server" = "เซิร์ฟเวอร์ DNS"; // qwen3.8:27b
+"Jitter" = "ความผันผวน"; // qwen3.8:27b
+"Noise" = "เสียงรบกวน"; // qwen3.8:27b
+"Signal" = "สัญญาณ"; // qwen3.8:27b
+"Speed" = "ความเร็ว"; // qwen3.8:27b
+"Network interface changed" = "อินเทอร์เฟซเครือข่ายเปลี่ยนแล้ว"; // qwen3.8:27b
+"WiFi network changed" = "เครือข่าย WiFi เปลี่ยนแล้ว"; // qwen3.8:27b
+"This will be visible in the text widget" = "สิ่งนี้จะมองเห็นได้ในวิดเจ็ตข้อความ"; // qwen3.8:27b
 
 // Battery
 "Source" = "แหล่งที่มา";
@@ -435,7 +468,6 @@
 "Battery Power" = "พลังงานแบตเตอรี่";
 "Time" = "เวลา";
 "Health" = "สุขภาพ";
-"Amperage" = "กระแสไฟ";
 "Voltage" = "แรงดัน";
 "Cycles" = "รอบ";
 "Temperature" = "อุณหภูมิ";
@@ -465,9 +497,11 @@
 "On battery" = "ใช้แบตเตอรี่"; // gemma4:31b
 "Plugged in" = "เสียบปลั๊กอยู่"; // gemma4:31b
 "Charging" = "กำลังชาร์จ"; // gemma4:31b
+"Level" = "ระดับ"; // qwen3.8:27b
 
 // Bluetooth
 "No Bluetooth devices are available" = "ไม่มีอุปกรณ์ Bluetooth ที่ใช้งานได้";
+"Bluetooth threshold" = "เกณฑ์ Bluetooth"; // qwen3.8:27b
 
 // Clock
 "Time zone" = "เขตเวลา"; // translategemma:4b
@@ -514,3 +548,24 @@
 "Pink" = "ชมพู";
 "Teal" = "น้ำตาลเขียว";
 "Indigo" = "น้ำเงินม่วง";
+
+// System Stats
+"Authorization" = "การอนุญาต"; // qwen3.8:27b
+"Identificator" = "ตัวระบุ"; // qwen3.8:27b
+"Plan" = "แผน"; // qwen3.8:27b
+"Monitoring" = "การตรวจสอบ"; // qwen3.8:27b
+"Control" = "ควบคุม"; // qwen3.8:27b
+"Update" = "อัปเดต"; // qwen3.8:27b
+"Sign in" = "เข้าสู่ระบบ"; // qwen3.8:27b
+"Sign out" = "ออกจากระบบ"; // qwen3.8:27b
+"Deregister" = "ยกเลิกการลงทะเบียน"; // qwen3.8:27b
+"Hosts" = "โฮสต์"; // qwen3.8:27b
+"Machines" = "เครื่อง"; // qwen3.8:27b
+"No hosts yet" = "ยังไม่มีโฮสต์"; // qwen3.8:27b
+"No machines yet" = "ยังไม่มีเครื่อง"; // qwen3.8:27b
+"Get notified when a device goes offline or hits a threshold" = "รับการแจ้งเตือนเมื่ออุปกรณ์ออฟไลน์หรือถึงเกณฑ์"; // qwen3.8:27b
+"It is not recommended to enable remote control unless you know what you are doing." = "ไม่แนะนำให้เปิดใช้งานการควบคุมระยะไกล เว้นแต่คุณจะรู้ว่าคุณกำลังทำอะไรอยู่"; // qwen3.8:27b
+"Live CPU, RAM, disk and network metrics" = "เมตริกแบบเรียลไทม์ของ CPU, RAM, ดิสก์ และเครือข่าย"; // qwen3.8:27b
+"Login to System Stats to see your devices" = "เข้าสู่ระบบ System Stats เพื่อดูอุปกรณ์ของคุณ"; // qwen3.8:27b
+"Monitor HTTP, ICMP and custom endpoints" = "ตรวจสอบ HTTP, ICMP และจุดปลายทางที่กำหนดเอง"; // qwen3.8:27b
+"Monitor and control your Macs from anywhere. Sign in to your System Stats account to see all your devices and hosts in one place." = "ติดตามและควบคุม Mac ของคุณได้จากทุกที่. เข้าสู่ระบบบัญชี System Stats ของคุณเพื่อดูอุปกรณ์และโฮสต์ทั้งหมดของคุณในที่เดียว."; // qwen3.8:27b

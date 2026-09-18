@@ -47,8 +47,8 @@ public class Portal: PortalWrapper {
         view.spacing = Constants.Popup.spacing*2
         
         self.usageField = portalRow(view, title: "\(localizedString("Usage")):").1
-        self.aneField = portalRow(view, title: "\(localizedString("ANE")):").1
-        self.fpsField = portalRow(view, title: "\(localizedString("FPS")):").1
+        self.aneField = portalRow(view, title: "\("ANE"):").1
+        self.fpsField = portalRow(view, title: "\("FPS"):").1
         
         return view
     }
@@ -66,7 +66,7 @@ public class Portal: PortalWrapper {
                     self.fpsField?.stringValue = "\(Int(value.rounded()))"
                 }
                 
-                self.circle.toolTip = "\(localizedString("GPU usage")): \(Int(value.utilization!*100))%"
+                self.circle.toolTip = "\(localizedString("GPU utilization")): \(Int(value.utilization!*100))%"
                 self.circle.setValue(value.utilization!)
                 
                 self.initialized = true

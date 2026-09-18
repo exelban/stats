@@ -50,7 +50,6 @@
 "Characters" = "תווים";
 "Short" = "קצר";
 "Long" = "ארוך";
-"Statistics" = "סטטיסטיקה";
 "Max" = "מקסימום";
 "Min" = "מינימום";
 "Reset" = "ריסט";
@@ -98,6 +97,8 @@
 "15 sec" = "15 שניות"; // translategemma:4b
 "30 sec" = "30 שניות"; // translategemma:4b
 "60 sec" = "60 שניות"; // translategemma:4b
+"Eject" = "הוצאה"; // qwen3.8:27b
+"Enable" = "הפעלה"; // qwen3.8:27b
 
 // Setup
 "Stats Setup" = "הגדרות Stats"; // gemma4:31b
@@ -146,6 +147,7 @@
 "Open Calendar" = "פתח את לוח השנה"; // gemma4:31b
 "Toggle the module" = "החלף את המודול"; // gemma4:31b
 "Open System Stats" = "פתח את System Stats"; // gemma4:31b
+"Close module settings" = "סגור את הגדרות המודול"; // qwen3.8:27b
 
 // Application settings
 "Check for updates" = "בדוק עדכונים";
@@ -168,6 +170,7 @@
 "Spacing" = "רווח"; // gemma4:31b
 "Choose file" = "בחר קובץ"; // translategemma:4b
 "Stress tests" = "בדיקות מאמץ"; // gemma4:31b
+"Keep the menubar items position" = "לשמור על מיקום פריטי סרגל התפריט"; // qwen3.8:27b
 
 // Dashboard
 "Serial number" = "מספר סריאלי";
@@ -185,8 +188,12 @@
 // Update
 "The latest version of Stats installed" = "מותקנת Stats הגרסא האחרונה של";
 "Downloading..." = "...מוריד";
+"Installing..." = "מתקין..."; // qwen3.8:27b
+"Updating..." = "מעדכן..."; // qwen3.8:27b
+"Stats will restart automatically" = "Stats יתחיל מחדש אוטומטית"; // qwen3.8:27b
 "Current version: " = "  :גרסא נוכחית";
 "Latest version: " = "    :גרסא אחרונה";
+"Changelog" = "יומן שינויים"; // qwen3.8:27b
 
 // Widgets
 "Color" = "צבע";
@@ -230,7 +237,6 @@
 
 // Module Kit
 "Open module settings" = "פתח/י הגדרות מודל";
-"Open widget settings" = "פתח/י הגדרות יישומון";
 "Update interval" = "מרווח עדכון";
 "Usage history" = "היסטוריית שימוש";
 "Details" = "פרטים";
@@ -247,6 +253,8 @@
 "Kill process" = "סייים תהליך"; // gemma4:31b
 "Keyboard shortcut" = "קיצור מקלדת"; // translategemma:4b
 "Listening..." = "מאזין..."; // gemma4:31b
+"Open in browser" = "פתח בדפדפן"; // qwen3.8:27b
+"Open module" = "פתיחת מודול"; // qwen3.8:27b
 
 // Modules
 "Number of top processes" = "מספר התהליכים המובילים";
@@ -276,17 +284,20 @@
 "CPU usage threshold" = "סף שימוש ב-CPU"; // gemma4:31b
 "Efficiency cores" = "ליבות יעילות"; // gemma4:31b
 "Performance cores" = "ליבות ביצועים"; // gemma4:31b
+"Super cores" = "ליבות סופר"; // qwen3.8:27b
 "System color" = "צבע מערכת"; // translategemma:4b
 "User color" = "צבע משתמש"; // gemma4:31b
 "Idle color" = "צבע סרק"; // gemma4:31b
 "Cluster grouping" = "קיבוץ צבירים"; // gemma4:31b
 "Efficiency cores color" = "צבע ליבות היעילות"; // gemma4:31b
 "Performance cores color" = "צבע ליבות ביצועים"; // gemma4:31b
+"Super cores color" = "צבע ליבות על"; // qwen3.8:27b
 "Total load" = "עומס כולל"; // gemma4:31b
 "System load" = "עומס מערכת"; // translategemma:4b
 "User load" = "עומס משתמש"; // translategemma:4b
 "Efficiency cores load" = "עומס ליבות יעילות"; // gemma4:31b
 "Performance cores load" = "עומס ליבות ביצועים"; // gemma4:31b
+"Super cores load" = "עומס ליבות על"; // qwen3.8:27b
 "All cores" = "כל הליבות"; // translategemma:4b
 "Load per core" = "עומס לליבה"; // gemma4:31b
 "Efficiency core" = "ליבת יעילות"; // translategemma:4b
@@ -300,10 +311,18 @@
 "Model" = "דגם";
 "Status" = "מצב";
 "Utilization" = "ניצול";
+"Render" = "רינדור"; // qwen3.8:27b
 "Render utilization" = "ניצול רנדור";
+"Render utilization history" = "היסטוריית ניצול רינדור"; // qwen3.8:27b
+"Tiler" = "מַפְרִיס"; // qwen3.8:27b
 "Tiler utilization" = "ניצול ריצוף";
+"Tiler utilization history" = "היסטוריית ניצול טיילר"; // qwen3.8:27b
 "GPU usage threshold" = "סף שימוש ב-GPU"; // gemma4:31b
 "GPU usage is" = "שימוש ב-GPU הוא %0"; // gemma4:31b
+"ANE utilization" = "ניצול ANE"; // qwen3.8:27b
+"ANE utilization history" = "היסטוריית ניצול ANE"; // qwen3.8:27b
+"FPS history" = "היסטוריית FPS"; // qwen3.8:27b
+"GPU utilization history" = "היסטוריית ניצול GPU"; // qwen3.8:27b
 
 // RAM
 "Memory usage" = "שימוש בזכרון";
@@ -325,6 +344,8 @@
 "Free memory (less than)" = "זיכרון פנוי (פחות מ-)"; // gemma4:31b
 "Swap size" = "גודל Swap"; // gemma4:31b
 "Free RAM is" = "RAM פנוי %0"; // gemma4:31b
+"Pressure" = "לחץ"; // qwen3.8:27b
+"Pressure level" = "רמת לחץ"; // qwen3.8:27b
 
 // Disk
 "Show removable disks" = "הראה דיסקים הניתנים להסרה";
@@ -346,8 +367,6 @@
 "Encrypted" = "מוצפן"; // gemma4:31b-it-qat
 "Writable" = "ניתן לכתיבה"; // gemma4:31b-it-qat
 "Drives" = "כוננים"; // gemma4:31b
-"SMART data" = "נתוני SMART"; // gemma4:31b
-"ATA SMART data" = "נתוני ATA SMART"; // gemma4:31b
 "Power cycles" = "מחזורי טעינה"; // gemma4:31b
 "Power on hours" = "שעות הפעלה"; // gemma4:31b
 "Critical warning" = "אזהרה קריטית"; // gemma4:31b-it-qat
@@ -360,6 +379,12 @@
 "Reliability degraded" = "אמינות פגועה"; // gemma4:31b-it-qat
 "Read-only mode" = "מצב קריאה בלבד"; // gemma4:31b-it-qat
 "Backup failed" = "הגיבוי נכשל"; // gemma4:31b-it-qat
+"All disks" = "כל הכוננים"; // qwen3.8:27b
+"Disk details" = "פרטי דיסק"; // qwen3.8:27b
+"Main color" = "צבע ראשי"; // qwen3.8:27b
+"Read / Write history" = "היסטורית קריאה / כתיבה"; // qwen3.8:27b
+"mounted" = "מחובר"; // qwen3.8:27b
+"removable" = "ניתן להסרה"; // qwen3.8:27b
 
 // Sensors
 "Celsius" = "צלסיוס";
@@ -428,6 +453,14 @@
 "Internet connection lost" = "החיבור לאינטרנט אבד"; // gemma4:31b
 "Internet connection established" = "חיבור לאינטרנט נוצר"; // gemma4:31b
 "Show country code instead of emoji" = "להציג קוד מדינה במקום אימוג'י"; // gemma4:31b
+"DNS Server" = "שרת DNS"; // qwen3.8:27b
+"Jitter" = "ג'יטר"; // qwen3.8:27b
+"Noise" = "רעש"; // qwen3.8:27b
+"Signal" = "איתות"; // qwen3.8:27b
+"Speed" = "מהירות"; // qwen3.8:27b
+"Network interface changed" = "ממשק הרשת השתנה"; // qwen3.8:27b
+"WiFi network changed" = "רשת WiFi השתנתה"; // qwen3.8:27b
+"This will be visible in the text widget" = "זה יתראה בוידג'ט הטקסט"; // qwen3.8:27b
 
 // Battery
 "Source" = "מקור";
@@ -435,7 +468,6 @@
 "Battery Power" = "הספק בטרייה";
 "Time" = "זמן";
 "Health" = "בריאות";
-"Amperage" = "זרם";
 "Voltage" = "מתח";
 "Cycles" = "מחזורים";
 "Temperature" = "טמפרטורה";
@@ -465,9 +497,11 @@
 "On battery" = "בסוללה"; // gemma4:31b
 "Plugged in" = "מחובר"; // gemma4:31b
 "Charging" = "טעינה"; // gemma4:31b
+"Level" = "רמה"; // qwen3.8:27b
 
 // Bluetooth
 "No Bluetooth devices are available" = "לא קיימים מכשירים בלוטות׳ זמינים";
+"Bluetooth threshold" = "סף Bluetooth"; // qwen3.8:27b
 
 // Clock
 "Time zone" = "אזור זמן"; // translategemma:4b
@@ -514,3 +548,24 @@
 "Pink" = "ורוד";
 "Teal" = "ירוק-כחול";
 "Indigo" = "אינדיגו";
+
+// System Stats
+"Authorization" = "הרשאה"; // qwen3.8:27b
+"Identificator" = "מזהה"; // qwen3.8:27b
+"Plan" = "תוכנית"; // qwen3.8:27b
+"Monitoring" = "ניטור"; // qwen3.8:27b
+"Control" = "בקרה"; // qwen3.8:27b
+"Update" = "עדכון"; // qwen3.8:27b
+"Sign in" = "התחבר"; // qwen3.8:27b
+"Sign out" = "התנתקות"; // qwen3.8:27b
+"Deregister" = "ביטול רישום"; // qwen3.8:27b
+"Hosts" = "מארחים"; // qwen3.8:27b
+"Machines" = "מכשירים"; // qwen3.8:27b
+"No hosts yet" = "אין מארחים עדיין"; // qwen3.8:27b
+"No machines yet" = "אין מכשירים עדיין"; // qwen3.8:27b
+"Get notified when a device goes offline or hits a threshold" = "קבל התראה כשמתקן יוצא מקו או מגיע לסף"; // qwen3.8:27b
+"It is not recommended to enable remote control unless you know what you are doing." = "לא מומלץ להפעיל שליטה מרחוק אלא אם כן אתם יודעים מה אתם עושים."; // qwen3.8:27b
+"Live CPU, RAM, disk and network metrics" = "מדדים בזמן אמת של CPU, RAM, דיסק ורשת"; // qwen3.8:27b
+"Login to System Stats to see your devices" = "התחברות ל-System Stats כדי לראות את המכשירים שלך"; // qwen3.8:27b
+"Monitor HTTP, ICMP and custom endpoints" = "ניטור HTTP, ICMP ונקודות קצה מותאמות"; // qwen3.8:27b
+"Monitor and control your Macs from anywhere. Sign in to your System Stats account to see all your devices and hosts in one place." = "מעקב ושליטה במאקים שלך מכל מקום. התחבר לחשבון System Stats שלך כדי לראות את כל המכשירים והמארחים שלך במקום אחד."; // qwen3.8:27b
