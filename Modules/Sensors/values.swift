@@ -500,6 +500,18 @@ internal let SensorsList: [Sensor] = [
     Sensor(key: "Tg1c", name: "GPU 7", group: .GPU, type: .temperature, platforms: Platform.m5Gen, average: true),
     Sensor(key: "Tg1g", name: "GPU 8", group: .GPU, type: .temperature, platforms: Platform.m5Gen, average: true),
     
+    // A18 Pro
+    Sensor(key: "Te05", name: "CPU efficiency core 1", group: .CPU, type: .temperature, platforms: [Platform.a18Pro], average: true),
+    Sensor(key: "Te0S", name: "CPU efficiency core 2", group: .CPU, type: .temperature, platforms: [Platform.a18Pro], average: true),
+    
+    Sensor(key: "Tp05", name: "CPU performance core 1", group: .CPU, type: .temperature, platforms: [Platform.a18Pro], average: true),
+    Sensor(key: "Tp0D", name: "CPU performance core 2", group: .CPU, type: .temperature, platforms: [Platform.a18Pro], average: true),
+    
+    Sensor(key: "Tg05", name: "GPU 1", group: .GPU, type: .temperature, platforms: [Platform.a18Pro], average: true),
+    Sensor(key: "Tg0D", name: "GPU 2", group: .GPU, type: .temperature, platforms: [Platform.a18Pro], average: true),
+    Sensor(key: "Tg0L", name: "GPU 3", group: .GPU, type: .temperature, platforms: [Platform.a18Pro], average: true),
+    Sensor(key: "Tg0e", name: "GPU 4", group: .GPU, type: .temperature, platforms: [Platform.a18Pro], average: true),
+    
     // Apple Silicon
     Sensor(key: "TaLP", name: "Airflow left", group: .sensor, type: .temperature, platforms: Platform.apple),
     Sensor(key: "TaRF", name: "Airflow right", group: .sensor, type: .temperature, platforms: Platform.apple),
@@ -565,8 +577,8 @@ internal let SensorsList: [Sensor] = [
     Sensor(key: "PU1R", name: "Thunderbolt Left", group: .sensor, type: .power, platforms: Platform.all),
     Sensor(key: "PU2R", name: "Thunderbolt Right", group: .sensor, type: .power, platforms: Platform.all),
     
-    Sensor(key: "PDBR", name: "Power Delivery Brightness", group: .sensor, type: .power, platforms: [.m1, .m1Pro, .m1Max, .m1Ultra, .m4, .m4Pro, .m4Max, .m4Ultra]),
-    Sensor(key: "PBwo", name: "Display Backlight", group: .sensor, type: .power, platforms: Platform.m5Gen)
+    Sensor(key: "PDBR", name: "Power Delivery Brightness", group: .sensor, type: .power, platforms: Platform.m1Gen + Platform.m4Gen),
+    Sensor(key: "PBwo", name: "Display Backlight", group: .sensor, type: .power, platforms: Platform.m5Gen + [Platform.a18Pro])
 ]
 
 internal let HIDSensorsList: [Sensor] = [

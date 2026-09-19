@@ -39,19 +39,22 @@ public enum Platform: String, Codable {
     case m5Max
     case m5Ultra
     
+    case a18Pro
+    
     public static var apple: [Platform] {
         return [
             .m1, .m1Pro, .m1Max, .m1Ultra,
             .m2, .m2Pro, .m2Max, .m2Ultra,
             .m3, .m3Pro, .m3Max, .m3Ultra,
             .m4, .m4Pro, .m4Max, .m4Ultra,
-            .m5, .m5Pro, .m5Max, .m5Ultra
+            .m5, .m5Pro, .m5Max, .m5Ultra,
+            .a18Pro
         ]
     }
     
     public var generation: Int {
         switch self {
-        case .intel: return 0
+        case .intel, .a18Pro: return 0
         case .m1, .m1Pro, .m1Max, .m1Ultra: return 1
         case .m2, .m2Pro, .m2Max, .m2Ultra: return 2
         case .m3, .m3Pro, .m3Max, .m3Ultra: return 3
@@ -806,6 +809,8 @@ public class SystemKit {
                 } else {
                     return .m5
                 }
+            } else if name.contains("a18 pro") {
+                return .a18Pro
             }
         }
         return nil
