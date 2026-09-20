@@ -59,7 +59,7 @@
 "Right alignment" = "右揃え";
 "Dashboard" = "ダッシュボード";
 "Disabled" = "無効";
-"Silent" = "自動（サイレント）";
+"Silent" = "サイレント";
 "Units" = "単位";
 "Fans" = "ファン";
 "Scaling" = "スケーリング"; // translategemma:4b
@@ -125,7 +125,7 @@
 "Check for a new version every month (once a month)" = "毎月アップデートを確認する（月1回）";
 "Never check for updates (not recommended)" = "アップデートを確認しない（非推奨）";
 "The configuration is completed" = "設定が完了しました"; // translategemma:4b
-"finish_setup_message" = "すべての設定が完了しました！"; // gemma4:31b
+"finish_setup_message" = "すべての設定が完了しました！ \n Stats はオープンソースのツールであり、無料で、これからも無料です。 \n 気に入っていただけたら、プロジェクトの支援をお願いします！"; // gemma4:31b
 
 // Alerts
 "New version available" = "新しいバージョンが利用可能です";
@@ -134,7 +134,7 @@
 "Stats was updated to v" = "Stats v%0 にアップデートしました";
 "Reset settings text" = "アプリの設定をすべてリセットし、アプリを再起動します。本当に続けますか？";
 "Deregister text" = "このコンピュータはSystem Statsから登録解除され、ログアウトされます。本当に実行しますか？"; // gemma4:31b-it-qat
-"Support text" = "Statsをご利用いただきありがとうございます。Statsが役に立つと感じたら、寄付をご検討ください。少しでも役に立ちます！";
+"Support text" = "Statsをご利用いただきありがとうございます！\n\n オープンソースプロジェクトの維持と改善には、時間とリソースが必要です。皆様のご支援が、無料で信頼できるアプリを継続して提供するための力になっています。\n\nStatsが役に立っていると感じたら、寄付をご検討ください。少額でも大いに役立ちます！";
 
 // Settings
 "Open Activity Monitor" = "アクティビティモニタを開く";
@@ -311,11 +311,9 @@
 "Model" = "モデル";
 "Status" = "状態";
 "Utilization" = "使用率";
-"Render" = "描画"; // qwen3.8:27b
-"Render utilization" = "レンダリング";
-"Render utilization history" = "レンダリング使用率の履歴"; // qwen3.8:27b
-"Tiler" = "タイラー"; // qwen3.8:27b
-"Tiler utilization" = "タイルレンダリング";
+"Renderer utilization" = "レンダリング使用率";
+"Renderer utilization history" = "レンダリング使用率の履歴"; // qwen3.8:27b
+"Tiler utilization" = "Tiler 使用率";
 "Tiler utilization history" = "Tiler 使用率履歴"; // qwen3.8:27b
 "GPU usage threshold" = "GPU使用率のしきい値"; // gemma4:31b
 "GPU usage is" = "GPU使用率は%0です"; // gemma4:31b
@@ -344,7 +342,7 @@
 "Free memory (less than)" = "空きメモリ (未満)"; // gemma4:31b
 "Swap size" = "スワップサイズ"; // translategemma:4b
 "Free RAM is" = "空きRAMは%0です"; // gemma4:31b
-"Pressure" = "気圧"; // qwen3.8:27b
+"Pressure" = "圧力"; // qwen3.8:27b
 "Pressure level" = "圧力レベル"; // qwen3.8:27b
 
 // Disk
@@ -367,11 +365,11 @@
 "Encrypted" = "暗号化済み"; // gemma4:31b-it-qat
 "Writable" = "書き込み可能"; // gemma4:31b-it-qat
 "Drives" = "ディスク"; // gemma4:31b
-"Power cycles" = "サイクル数"; // gemma4:31b
+"Power cycles" = "電源サイクル数"; // gemma4:31b
 "Power on hours" = "通電時間"; // gemma4:31b
 "Critical warning" = "重大な警告"; // gemma4:31b-it-qat
 "Available spare" = "利用可能な予備"; // gemma4:31b-it-qat
-"Unsafe shutdowns" = "不安全なシャットダウン"; // gemma4:31b-it-qat
+"Unsafe shutdowns" = "異常シャットダウン"; // gemma4:31b-it-qat
 "Media errors" = "メディアエラー"; // gemma4:31b-it-qat
 "Threshold" = "しきい値"; // gemma4:31b-it-qat
 "Spare below threshold" = "予備がしきい値未満"; // gemma4:31b-it-qat
@@ -454,7 +452,6 @@
 "Internet connection established" = "インターネット接続が確立されました"; // translategemma:4b
 "Show country code instead of emoji" = "絵文字の代わりに国コードを表示"; // gemma4:31b
 "DNS Server" = "DNSサーバー"; // qwen3.8:27b
-"Jitter" = "ジッター"; // qwen3.8:27b
 "Noise" = "ノイズ"; // qwen3.8:27b
 "Signal" = "シグナル"; // qwen3.8:27b
 "Speed" = "速度"; // qwen3.8:27b
@@ -545,9 +542,9 @@
 "Second brown" = "システムブラウン";
 "Cyan" = "シアン";
 "Magenta" = "マゼンタ";
-"Pink" = "システムピンク";
-"Teal" = "システムティール";
-"Indigo" = "システムインディゴ";
+"Pink" = "ピンク";
+"Teal" = "ティール";
+"Indigo" = "インディゴ";
 
 // System Stats
 "Authorization" = "認証"; // qwen3.8:27b

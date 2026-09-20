@@ -51,7 +51,7 @@
 "Short" = "Kort";
 "Long" = "Lang";
 "Max" = "Maks"; // translategemma:4b
-"Min" = "Mit"; // translategemma:4b
+"Min" = "Min"; // translategemma:4b
 "Reset" = "Nulstil";
 "Alignment" = "Opstilling"; //As in text alignment
 "Left alignment" = "Venstrejusteret";
@@ -179,8 +179,8 @@
 "Uptime" = "Oppetid";
 "Number of cores" = "%0 kerner";
 "Number of threads" = "%0 tråde";
-"Number of e-cores" = "%0 efficiency kerner";
-"Number of p-cores" = "%0 performance kerner";
+"Number of e-cores" = "%0 effektivitetskerner";
+"Number of p-cores" = "%0 ydelseskerner";
 "Number of s-cores" = "%0 superkerner"; // translategemma:4b
 "Disks" = "Diske"; // gemma4:31b
 "Display" = "Skærm"; // translategemma:4b
@@ -207,10 +207,10 @@
 "Base" = "Basis"; // gemma4:31b
 "Display mode" = "Visningstilstand";
 "One row" = "Én række";
-"Two rows" = "Two rækker";
+"Two rows" = "To rækker";
 "Mini widget" = "Mini";
 "Line chart widget" = "Linjegraf";
-"Bar chart widget" = "Bjælegraf";
+"Bar chart widget" = "Søjlediagram";
 "Pie chart widget" = "Cirkeldiagram";
 "Network chart widget" = "Netværksgraf";
 "Speed widget" = "Hastighed";
@@ -282,8 +282,8 @@
 "5 minutes" = "5 minuter";
 "15 minutes" = "15 minuter";
 "CPU usage threshold" = "Grænseværdi for CPU brug";
-"Efficiency cores" = "Efficiency kerner";
-"Performance cores" = "Performance kerner";
+"Efficiency cores" = "Effektivitetskerner";
+"Performance cores" = "Ydelseskerner";
 "Super cores" = "Superkerner"; // qwen3.8:27b
 "System color" = "Systemets farve";
 "User color" = "Bruger farve";
@@ -311,11 +311,9 @@
 "Model" = "Model";
 "Status" = "Status";
 "Utilization" = "Brugsniveau";
-"Render" = "Rendering"; // qwen3.8:27b
-"Render utilization" = "Brug af rendering";
-"Render utilization history" = "Renderudnyttelseshistorik"; // qwen3.8:27b
-"Tiler" = "Tiler";
-"Tiler utilization" = "Brug af tiler";
+"Renderer utilization" = "Renderudnyttelse";
+"Renderer utilization history" = "Renderudnyttelseshistorik"; // qwen3.8:27b
+"Tiler utilization" = "Tilerudnyttelse";
 "Tiler utilization history" = "Tiler-udnyttelseshistorik"; // qwen3.8:27b
 "GPU usage threshold" = "Grænseværdi for GPU brug";
 "GPU usage is" = "GPU brug er %0";
@@ -329,7 +327,7 @@
 "Memory pressure" = "Hukommelsebelastning";
 "Total" = "Samlet"; // translategemma:4b
 "Used" = "Brugt";
-"App" = "Apps"; // gemma4:31b
+"App" = "App"; // gemma4:31b
 "Wired" = "Fastlåst"; // gemma4:31b
 "Compressed" = "Komprimeret";
 "Free" = "Ledig";
@@ -338,7 +336,7 @@
 "RAM utilization threshold" = "Grænseværdi for RAM udnyttelse";
 "RAM utilization is" = "RAM udnyttelse er %0";
 "App color" = "App farve";
-"Wired color" = "Brugt farve";
+"Wired color" = "Fastlåst farve";
 "Compressed color" = "Komprimeret farve";
 "Free color" = "Fri farve";
 "Free memory (less than)" = "Fri hukommelse (mindre end)"; // gemma4:31b
@@ -356,8 +354,8 @@
 "Switch view" = "Skift visning";
 "Disk utilization threshold" = "Grænseværdi for diskbrug";
 "Disk utilization is" = "Disk brug er %0";
-"Read color" = "Read farve";
-"Write color" = "Write farve";
+"Read color" = "Læsning farve";
+"Write color" = "Skrivning farve";
 "Disk usage" = "Disk brug";
 "Total read" = "Samlet læst"; // gemma4:31b
 "Total written" = "Total skrevet"; // gemma4:31b
@@ -415,7 +413,7 @@
 
 // Network
 "Uploading" = "Upload";
-"Downloading" = "Hent"; // qwen3.8:27b
+"Downloading" = "Hentning"; // qwen3.8:27b
 "Public IP" = "Offentlig IP";
 "Local IP" = "Lokal IP";
 "Interface" = "Grænseflade"; // translategemma:4b
@@ -446,7 +444,7 @@
 "Latency" = "Forsinkelse"; // translategemma:4b
 "Address" = "Adresse"; // translategemma:4b
 "WiFi network" = "WiFi-netværk"; // translategemma:4b
-"Local IP changed" = "Det lokale IP-adresse har ændret sig"; // translategemma:4b
+"Local IP changed" = "Den lokale IP-adresse har ændret sig"; // translategemma:4b
 "Public IP changed" = "Den offentlige IP-adresse er ændret"; // translategemma:4b
 "Previous IP" = "Tidligere IP-adresse: %0"; // translategemma:4b
 "New IP" = "Ny IP-adresse: %0"; // translategemma:4b
@@ -454,7 +452,6 @@
 "Internet connection established" = "Internetforbindelse etableret"; // translategemma:4b
 "Show country code instead of emoji" = "Vis landekoden i stedet for emoji"; // translategemma:4b
 "DNS Server" = "DNS-server"; // qwen3.8:27b
-"Jitter" = "Jitter";
 "Noise" = "Støj"; // qwen3.8:27b
 "Signal" = "Signal";
 "Speed" = "Hastighed"; // qwen3.8:27b

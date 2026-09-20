@@ -92,12 +92,12 @@ public struct GPUWidget: Widget {
                             Text("\(Int((value.utilization ?? 0)*100))%")
                         }
                         HStack {
-                            Text(localizedString("Render")).font(.system(size: 12, weight: .regular)).foregroundColor(.secondary)
+                            Text("Renderer").font(.system(size: 12, weight: .regular)).foregroundColor(.secondary)
                             Spacer()
                             Text("\(Int((value.renderUtilization ?? 0)*100))%")
                         }
                         HStack {
-                            Text(localizedString("Tiler")).font(.system(size: 12, weight: .regular)).foregroundColor(.secondary)
+                            Text("Tiler").font(.system(size: 12, weight: .regular)).foregroundColor(.secondary)
                             Spacer()
                             Text("\(Int((value.tilerUtilization ?? 0)*100))%")
                         }

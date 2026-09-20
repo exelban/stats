@@ -51,7 +51,7 @@
 "Short" = "Krátky";
 "Long" = "Dlhý";
 "Max" = "Max";
-"Min" = "Minúta"; // translategemma:4b
+"Min" = "Min"; // translategemma:4b
 "Reset" = "Resetovať"; // gemma4:26b
 "Alignment" = "Zarovnanie";
 "Left alignment" = "Zarovnať doľava";
@@ -118,7 +118,7 @@
 "Extended" = "Rozšírené"; // gemma4:31b
 "Start the application automatically when starting your Mac" = "Automaticky spustiť aplikáciu pri štarte systému";
 "Do not start the application automatically when starting your Mac" = "Nespúšťať aplikáciu automaticky pri štarte systému";
-"Do everything silently in the background (recommended)" = "Vykonávať všetko v tichosti na pozadí (odoporúčané)";
+"Do everything silently in the background (recommended)" = "Vykonávať všetko v tichosti na pozadí (odporúčané)";
 "Check for a new version on startup" = "Kontrola novej verzie pri spustení";
 "Check for a new version every day (once a day)" = "Kontrola novej verzie každý deň (raz denne)";
 "Check for a new version every week (once a week)" = "Kontrola novej verzie každý týždeň (raz týždenne)";
@@ -189,7 +189,7 @@
 "The latest version of Stats installed" = "Bola nainštalovaná najnovšia verzia Stats";
 "Downloading..." = "Sťahovanie...";
 "Installing..." = "Inštalácia..."; // qwen3.8:27b
-"Updating..." = "Aktualizujem..."; // qwen3.8:27b
+"Updating..." = "Aktualizovanie..."; // qwen3.8:27b
 "Stats will restart automatically" = "Stats sa automaticky reštartuje"; // qwen3.8:27b
 "Current version: " = "Aktuálna verzia: ";
 "Latest version: " = "Najnovšia verzia: ";
@@ -225,9 +225,9 @@
 "Show symbols" = "Zobraziť symboly";
 "Label widget" = "Popis";
 "Number of reads in the chart" = "Počet záznamov v grafe";
-"Color of download" = "Farba sťahovania (download)";
-"Color of upload" = "Farba nahrávania (upload)";
-"Monospaced font" = "Nerozložené písmo";
+"Color of download" = "Farba sťahovania";
+"Color of upload" = "Farba nahrávania";
+"Monospaced font" = "Monošírokové písmo";
 "Reverse order" = "Obrátený poriadok"; // gemma4:31b
 "Chart history" = "História grafu"; // translategemma:4b
 "Default color" = "Predvolené"; // gemma4:31b
@@ -240,11 +240,11 @@
 "Update interval" = "Interval aktualizácie";
 "Usage history" = "História využitia";
 "Details" = "Detaily";
-"Top processes" = "Top procesy";
+"Top processes" = "Najvyťaženejšie procesy";
 "Pictogram" = "Piktogram";
 "Module" = "Modul";
-"Widgets" = "Miniaplikácie";
-"Popup" = "Objaviť sa";
+"Widgets" = "Widgety";
+"Popup" = "Vyskakovacie okno";
 "Notifications" = "Upozornenia";
 "Merge widgets" = "Zlúčiť widgety";
 "No available widgets to configure" = "Žiadne dostupné widgety na konfiguráciu";
@@ -257,8 +257,8 @@
 "Open module" = "Otvoriť modul"; // qwen3.8:27b
 
 // Modules
-"Number of top processes" = "Počet top procesov";
-"Update interval for top processes" = "Interval aktualizácie pre top procesy";
+"Number of top processes" = "Počet najvyťaženejších procesov";
+"Update interval for top processes" = "Interval aktualizácie pre najvyťaženejšie procesy";
 "Chart color" = "Farba grafu";
 "Main chart scaling" = "Škálovanie hlavného grafu"; // gemma4:31b
 "Scale value" = "Hodnota škály"; // gemma4:31b
@@ -285,19 +285,19 @@
 "Efficiency cores" = "Efektívne jadrá";
 "Performance cores" = "Výkonné jadrá";
 "Super cores" = "Super jadrá"; // qwen3.8:27b
-"System color" = "Systém";
-"User color" = "Používateľ";
-"Idle color" = "Nečinnosť";
+"System color" = "Systémová farba";
+"User color" = "Farba používateľa";
+"Idle color" = "Farba nečinnosti";
 "Cluster grouping" = "Zoskupenie klastrov";
 "Efficiency cores color" = "Farba energeticky efektívnych jadier"; // gemma4:31b
 "Performance cores color" = "Farba výkonných jadier"; // gemma4:31b
 "Super cores color" = "Farba super jadier"; // qwen3.8:27b
 "Total load" = "Celkové vyťaženie"; // gemma4:31b
 "System load" = "Vyťaženie systému"; // gemma4:31b
-"User load" = "Používateľské zaťaženie"; // gemma4:31b
+"User load" = "Používateľské vyťaženie"; // gemma4:31b
 "Efficiency cores load" = "Vyťaženie efektívnych jadier"; // gemma4:31b
 "Performance cores load" = "Vyťaženie výkonných jadier"; // gemma4:31b
-"Super cores load" = "Vyťaženie Super jadier"; // qwen3.8:27b
+"Super cores load" = "Vyťaženie super jadier"; // qwen3.8:27b
 "All cores" = "Všetky jadra"; // gemma4:31b
 "Load per core" = "Vyťaženie na jadro"; // gemma4:31b
 "Efficiency core" = "Efektívne jadro"; // gemma4:31b
@@ -308,13 +308,11 @@
 "GPU to show" = "Zobraziť GPU";
 "Show GPU type" = "Zobraziť typ GPU";
 "GPU utilization" = "Využitie GPU";
-"Model" = "Štýl"; // translategemma:4b
+"Model" = "Model"; // translategemma:4b
 "Status" = "Stav"; // gemma4:31b
 "Utilization" = "Využitie";
-"Render" = "Vykreslenie"; // qwen3.8:27b
-"Render utilization" = "Využitie renderovania";
-"Render utilization history" = "História vyťaženia vykresľovania"; // qwen3.8:27b
-"Tiler" = "Dlaždič"; // qwen3.8:27b
+"Renderer utilization" = "Využitie renderovania";
+"Renderer utilization history" = "História vyťaženia vykresľovania"; // qwen3.8:27b
 "Tiler utilization" = "Využitie tilingu";
 "Tiler utilization history" = "História vyťaženia tilera"; // qwen3.8:27b
 "GPU usage threshold" = "Prahová hodnota využitia GPU";
@@ -337,10 +335,10 @@
 "Split the value (App/Wired/Compressed)" = "Rozdeliť hodnotu (Aplikačná/Pevná/Komprimovaná)";
 "RAM utilization threshold" = "Prahová hodnota využitia pamäte";
 "RAM utilization is" = "Využitie pamäte je %0";
-"App color" = "Aplikačná";
-"Wired color" = "Pevná";
-"Compressed color" = "Komprimovaná";
-"Free color" = "Voľná";
+"App color" = "Aplikačná farba";
+"Wired color" = "Pevná farba";
+"Compressed color" = "Komprimovaná farba";
+"Free color" = "Voľná farba";
 "Free memory (less than)" = "Voľná pamäť (menej ako)"; // translategemma:4b
 "Swap size" = "Veľkosť swapu"; // gemma4:31b
 "Free RAM is" = "Voľná RAM je %0"; // gemma4:31b
@@ -414,8 +412,8 @@
 "Sensor to show" = "Senzor na zobrazenie"; // gemma4:31b
 
 // Network
-"Uploading" = "Nahrávanie (upload)";
-"Downloading" = "Sťahovanie (download)";
+"Uploading" = "Nahrávanie";
+"Downloading" = "Sťahovanie";
 "Public IP" = "Verejná IP";
 "Local IP" = "Lokálna IP";
 "Interface" = "Rozhranie";
@@ -424,7 +422,7 @@
 "Network interface" = "Sieťové rozhranie";
 "Total download" = "Celkom stiahnuté";
 "Total upload" = "Celkom odoslané";
-"Reader type" = "Typ peehľadu";
+"Reader type" = "Typ čitateľa";
 "Interface based" = "Podľa rozhrania";
 "Processes based" = "Podľa procesov";
 "Reset data usage" = "Resetovať využitie dát";
@@ -442,19 +440,18 @@
 "Every hour" = "Každú hodinu"; // translategemma:4b
 "Every 12 hours" = "Každých 12 hodín"; // translategemma:4b
 "Every 24 hours" = "Každých 24 hodín"; // translategemma:4b
-"Last reset" = "Posledné zresetovanie bolo pred %0 dňami."; // translategemma:4b
+"Last reset" = "Posledné zresetovanie bolo pred %0."; // translategemma:4b
 "Latency" = "Latencia"; // translategemma:4b
 "Address" = "Adresa"; // translategemma:4b
 "WiFi network" = "WiFi sieť"; // translategemma:4b
 "Local IP changed" = "Lokálna IP adresa bola zmenená"; // translategemma:4b
-"Public IP changed" = "Veľmi verejná IP adresa bola zmenená"; // translategemma:4b
+"Public IP changed" = "Verejná IP adresa bola zmenená"; // translategemma:4b
 "Previous IP" = "Predchádzajúci IP: %0"; // translategemma:4b
 "New IP" = "Nová IP: %0"; // translategemma:4b
 "Internet connection lost" = "Ztráta internetového pripojenia"; // translategemma:4b
 "Internet connection established" = "Pripojenie k internetu bolo vytvorené"; // translategemma:4b
 "Show country code instead of emoji" = "Zobrazte kód krajiny namiesto emoji"; // translategemma:4b
 "DNS Server" = "DNS server"; // qwen3.8:27b
-"Jitter" = "Fluktuácia"; // qwen3.8:27b
 "Noise" = "Hluk"; // qwen3.8:27b
 "Signal" = "Signál"; // qwen3.8:27b
 "Speed" = "Rýchlosť"; // qwen3.8:27b
@@ -511,7 +508,7 @@
 "Local time" = "Miestny čas"; // translategemma:4b
 "Add new clock" = "Pridajte nové hodiny"; // translategemma:4b
 "Delete selected clock" = "Odstrániť vybraný časovač"; // translategemma:4b
-"Help with datetime format" = "Pomoc s formátovaním dát a času"; // translategemma:4b
+"Help with datetime format" = "Pomoc s formátovaním dátumu a času"; // translategemma:4b
 "Sync with NTP server" = "Synchronizácia s NTP serverom"; // translategemma:4b
 "Previous month" = "Predchádzajúci mesiac"; // qwen3.8:27b
 "Next month" = "Príšly mesiac"; // qwen3.8:27b

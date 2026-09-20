@@ -86,7 +86,7 @@ internal class Popup: PopupWrapper {
         usage.addSubview(self.usageCircle!)
         
         self.renderCircle = PieChartView(frame: NSRect(x: 0, y: 0, width: render.frame.width, height: render.frame.height), drawValue: true)
-        self.renderCircle!.toolTip = localizedString("Render utilization")
+        self.renderCircle!.toolTip = localizedString("Renderer utilization")
         render.addSubview(self.renderCircle!)
         
         self.tilerCircle = PieChartView(frame: NSRect(x: 0, y: 0, width: tiler.frame.width, height: tiler.frame.height), drawValue: true)
@@ -129,7 +129,7 @@ internal class Popup: PopupWrapper {
         self.modelField = popupRow(container, title: "\(localizedString("Model")):", value: "").1
         self.coresField = popupRow(container, title: "\(localizedString("Cores")):", value: localizedString("Unknown")).1
         self.utilizationField = popupRow(container, title: "\(localizedString("Utilization")):", value: "").1
-        self.renderField = popupRow(container, title: "\(localizedString("Render utilization")):", value: "").1
+        self.renderField = popupRow(container, title: "\(localizedString("Renderer utilization")):", value: "").1
         self.tilerField = popupRow(container, title: "\(localizedString("Tiler utilization")):", value: "").1
         self.aneField = popupRow(container, title: "\(localizedString("ANE utilization")):", value: "").1
         self.fpsField = popupRow(container, title: "\("FPS"):", value: "").1
@@ -163,7 +163,7 @@ internal class Popup: PopupWrapper {
             self.utilizationField?.stringValue = "\(Int(utilization*100))%"
         }
         if let utilization = value.renderUtilization {
-            self.renderCircle?.toolTip = "\(localizedString("Render utilization")): \(Int(utilization.rounded(toPlaces: 2) * 100))%"
+            self.renderCircle?.toolTip = "\(localizedString("Renderer utilization")): \(Int(utilization.rounded(toPlaces: 2) * 100))%"
             self.renderCircle?.setValue(utilization)
             self.renderCircle?.display()
             self.renderField?.stringValue = "\(Int(utilization*100))%"

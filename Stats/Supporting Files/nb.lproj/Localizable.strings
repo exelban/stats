@@ -51,7 +51,7 @@
 "Short" = "Kort";
 "Long" = "Lang";
 "Max" = "Maks";
-"Min" = "Mitt"; // translategemma:4b
+"Min" = "Min"; // translategemma:4b
 "Reset" = "Nullstill";
 "Alignment" = "Justering";
 "Left alignment" = "Venstre";
@@ -212,11 +212,11 @@
 "Line chart widget" = "Linjediagram";
 "Bar chart widget" = "Søylediagram";
 "Pie chart widget" = "Kakediagram";
-"Network chart widget" = "Linjediagram";
-"Speed widget" = "Tall";
+"Network chart widget" = "Nettverksdiagram";
+"Speed widget" = "Fart";
 "Battery widget" = "Batteri";
 "Stack widget" = "Bunke";
-"Memory widget" = "Tall";
+"Memory widget" = "Minne";
 "Static width" = "Statisk bredde";
 "Tachometer widget" = "Turteller"; // gemma4:31b
 "State widget" = "Tilstandsdiagram";
@@ -246,8 +246,8 @@
 "Widgets" = "Widgeter";
 "Popup" = "Pop-up"; // translategemma:4b
 "Notifications" = "Varsler";
-"Merge widgets" = "Slå sammen diagrammer";
-"No available widgets to configure" = "Ingen tilgjengelige diagrammer å konfigurere";
+"Merge widgets" = "Slå sammen widgeter";
+"No available widgets to configure" = "Ingen tilgjengelige widgeter å konfigurere";
 "No options to configure for the popup in this module" = "Ingen innstillinger å konfigurere for popup-en i denne modulen";
 "Process" = "Prosess"; // translategemma:4b
 "Kill process" = "Avslutt prosess"; // gemma4:31b
@@ -297,7 +297,7 @@
 "User load" = "Brukerbelastning"; // translategemma:4b
 "Efficiency cores load" = "Belastning for effektivitetskjerner"; // gemma4:31b
 "Performance cores load" = "Belastning for ytelseskjerner"; // gemma4:31b
-"Super cores load" = "Super cores last"; // qwen3.8:27b
+"Super cores load" = "Superkjerners last"; // qwen3.8:27b
 "All cores" = "Alle kjerner"; // translategemma:4b
 "Load per core" = "Belastning per kjerne"; // gemma4:31b
 "Efficiency core" = "Effektivitetskjerne"; // gemma4:31b
@@ -311,11 +311,9 @@
 "Model" = "Modell";
 "Status" = "Status";
 "Utilization" = "Bruk";
-"Render" = "Rendering"; // qwen3.8:27b
-"Render utilization" = "Renderbruk";
-"Render utilization history" = "Renderingutnyttelsehistorikk"; // qwen3.8:27b
-"Tiler" = "Flislegger"; // qwen3.8:27b
-"Tiler utilization" = "Rutebruk";
+"Renderer utilization" = "Renderbruk";
+"Renderer utilization history" = "Renderingutnyttelsehistorikk"; // qwen3.8:27b
+"Tiler utilization" = "Tilerbruk";
 "Tiler utilization history" = "Tilerutnyttelsehistorikk"; // qwen3.8:27b
 "GPU usage threshold" = "GPU-bruksgrense";
 "GPU usage is" = "GPU-bruk er %0";
@@ -338,7 +336,7 @@
 "RAM utilization threshold" = "RAM-bruksgrense";
 "RAM utilization is" = "RAM-bruk er %0";
 "App color" = "App-farge";
-"Wired color" = "Bundet farge";
+"Wired color" = "Opptatt farge";
 "Compressed color" = "Komprimert farge";
 "Free color" = "Ledig farge";
 "Free memory (less than)" = "Ledig minne (mindre enn)"; // gemma4:31b
@@ -349,8 +347,8 @@
 
 // Disk
 "Show removable disks" = "Vis utløsbare disker";
-"Used disk memory" = "Brukte %0 fra %1";
-"Free disk memory" = "Ledig %0 fra %1";
+"Used disk memory" = "%0 av %1 brukt";
+"Free disk memory" = "%0 av %1 ledig";
 "Disk to show" = "Disker å vise";
 "Open disk" = "Åpne disken";
 "Switch view" = "Bytt visning";
@@ -393,7 +391,7 @@
 "Fan" = "Vifte";
 "HID sensors" = "HID-sensorer";
 "Synchronize fan's control" = "Synkroniser viftekontroll";
-"Current" = "Nåværende";
+"Current" = "Strømstyrke";
 "Energy" = "Energi";
 "Show unknown sensors" = "Vis ukjente sensorer";
 "Install fan helper" = "Installer viftehjelper";
@@ -406,7 +404,7 @@
 "Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "Åpne Systeminnstillinger ▸ Innloggingselementer, sørg for at Stats er tillatt i bakgrunnen, og prøv deretter på nytt."; // gemma4:31b
 "Fan value" = "Vifteverdi";
 "Turn off fan" = "Slå av viften";
-"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Du slå nå av viften. Dette er en ikke-anbefalt handling som kan skade Mac-en din, er du sikker på at vil gjøre dette?";
+"You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Du skal nå slå av viften. Dette er en ikke-anbefalt handling som kan skade Mac-en din, er du sikker på at du vil gjøre dette?";
 "Sensor threshold" = "Sensorterskel"; // gemma4:31b
 "Left fan" = "Venstre"; // translategemma:4b
 "Right fan" = "Høyre"; // gemma4:31b
@@ -428,7 +426,7 @@
 "Interface based" = "Grensesnitt";
 "Processes based" = "Prosess";
 "Reset data usage" = "Nullstill databruk";
-"VPN mode" = "VPN-modues";
+"VPN mode" = "VPN-modus";
 "Standard" = "Standard";
 "Security" = "Sikkerhet";
 "Channel" = "Kanal";
@@ -454,7 +452,6 @@
 "Internet connection established" = "Internettforbindelse opprettet"; // gemma4:31b
 "Show country code instead of emoji" = "Vis landskode i stedet for emoji"; // gemma4:31b
 "DNS Server" = "DNS-server"; // qwen3.8:27b
-"Jitter" = "Jitter";
 "Noise" = "Støy"; // qwen3.8:27b
 "Signal" = "Signal";
 "Speed" = "Hastighet"; // qwen3.8:27b

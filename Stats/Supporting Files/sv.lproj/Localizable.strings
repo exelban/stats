@@ -51,7 +51,7 @@
 "Short" = "Kort";
 "Long" = "Lång";
 "Max" = "Max";
-"Min" = "Mitt"; // translategemma:4b
+"Min" = "Min"; // translategemma:4b
 "Reset" = "Återställ";
 "Alignment" = "Justering";
 "Left alignment" = "Vänster";
@@ -109,7 +109,7 @@
 "Finish" = "Avsluta";
 "Finish setup" = "Avsluta installationen";
 "Welcome to Stats" = "Välkommen till Stats";
-"welcome_message" = "Tack för att du använder Stats, ett gratis och öppen källkod macOS-systemövervakningsverktyg för din menyrad.";
+"welcome_message" = "Tack för att du använder Stats, ett gratis macOS-systemövervakningsverktyg med öppen källkod för din menyrad.";
 "Select preset" = "Välj förinställning"; // gemma4:31b
 "select_preset_message" = "Välj en startuppsättning av moduler. Du kan anpassa allt senare i Inställningar."; // gemma4:31b
 "Default" = "Standard"; // gemma4:31b
@@ -204,7 +204,7 @@
 "Colorize" = "Färglägg";
 "Colorize value" = "Färglägg värde";
 "Additional information" = "Mer information";
-"Base" = "Enhet";
+"Base" = "Bas";
 "Display mode" = "Visningsläge";
 "One row" = "En rad";
 "Two rows" = "Två rader";
@@ -219,7 +219,7 @@
 "Memory widget" = "Minne";
 "Static width" = "Fast bredd";
 "Tachometer widget" = "Varvräknare";
-"State widget" = "Statwidget";
+"State widget" = "Tillståndswidget";
 "Text widget" = "Textwidget"; // translategemma:4b
 "Battery details widget" = "Widget för batteridetaljer"; // gemma4:31b
 "Show symbols" = "Visa symboler";
@@ -271,7 +271,7 @@
 "CPU frequency" = "CPU-frekvens";
 "System" = "System";
 "User" = "Användare";
-"Idle" = "Overksam";
+"Idle" = "Inaktiv";
 "Show usage per core" = "Visa användning per kärna";
 "Show hyper-threading cores" = "Visa hypertrådskärnor";
 "Split the value (System/User)" = "Dela upp värdet (System/Användare)";
@@ -287,7 +287,7 @@
 "Super cores" = "Superkärnor"; // qwen3.8:27b
 "System color" = "Systemfärg";
 "User color" = "Användarfärg";
-"Idle color" = "Overksamhetsfärg";
+"Idle color" = "Inaktivitetsfärg";
 "Cluster grouping" = "Klustergruppering";
 "Efficiency cores color" = "Effektivitetskärnors färg";
 "Performance cores color" = "Prestandakärnors färg";
@@ -311,10 +311,8 @@
 "Model" = "Modell";
 "Status" = "Status";
 "Utilization" = "Användning";
-"Render" = "Rendering"; // qwen3.8:27b
-"Render utilization" = "Render-användning";
-"Render utilization history" = "Renderingutnyttjandehistorik"; // qwen3.8:27b
-"Tiler" = "Plattsättare"; // qwen3.8:27b
+"Renderer utilization" = "Render-användning";
+"Renderer utilization history" = "Render-användningshistorik"; // qwen3.8:27b
 "Tiler utilization" = "Tiler-användning";
 "Tiler utilization history" = "Tiler-utnyttjandehistorik"; // qwen3.8:27b
 "GPU usage threshold" = "Tröskelvärde för GPU-användning";
@@ -333,7 +331,7 @@
 "Wired" = "Resident minne";
 "Compressed" = "Komprimerat";
 "Free" = "Ledigt";
-"Swap" = "Växling";
+"Swap" = "Växlingsminne";
 "Split the value (App/Wired/Compressed)" = "Dela upp värdet (App/Resident/Komprimerat)";
 "RAM utilization threshold" = "Tröskelvärde för minnesanvändning";
 "RAM utilization is" = "Minnesanvändningen är %0";
@@ -342,7 +340,7 @@
 "Compressed color" = "Komprimerat minnesfärg";
 "Free color" = "Ledigt minnesfärg";
 "Free memory (less than)" = "Ledigt minne (mindre än)";
-"Swap size" = "Växlingsstorlek";
+"Swap size" = "Växlingsminnesstorlek";
 "Free RAM is" = "Ledigt RAM är %0";
 "Pressure" = "Tryck"; // qwen3.8:27b
 "Pressure level" = "Trycknivå"; // qwen3.8:27b
@@ -454,7 +452,6 @@
 "Internet connection established" = "Internetanslutning upprättad"; // gemma4:31b
 "Show country code instead of emoji" = "Visa landskod istället för emoji"; // translategemma:4b
 "DNS Server" = "DNS-server"; // qwen3.8:27b
-"Jitter" = "Jitter";
 "Noise" = "Brus"; // qwen3.8:27b
 "Signal" = "Signal";
 "Speed" = "Hastighet"; // qwen3.8:27b

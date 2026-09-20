@@ -47,21 +47,21 @@
 "None" = "कोई नहीं";
 "Dots" = "डॉट्स";
 "Arrows" = "तीर";
-"Characters" = "चरित्र";
+"Characters" = "अक्षर";
 "Short" = "लघु";
 "Long" = "लंबा";
 "Max" = "अधिकतम";
-"Min" = "मिन";
+"Min" = "न्यूनतम";
 "Reset" = "रीसेट";
 "Alignment" = "संरेखण";
 "Left alignment" = "बाएं";
 "Center alignment" = "केंद्र";
-"Right alignment" = "सही";
+"Right alignment" = "दायाँ";
 "Dashboard" = "डैशबोर्ड";
 "Disabled" = "अक्षम";
 "Silent" = "मौन";
 "Units" = "इकाइयाँ";
-"Fans" = "प्रशंसकों";
+"Fans" = "पंखे";
 "Scaling" = "स्केलिंग";
 "Linear" = "रैखिक";
 "Square" = "वर्ग";
@@ -131,17 +131,17 @@
 "New version available" = "नया संस्करण उपलब्ध है";
 "Click to install the new version of Stats" = "आँकड़े के नए संस्करण को स्थापित करने के लिए क्लिक करें";
 "Successfully updated" = "सफलतापूर्वक अपडेट किया गया";
-"Stats was updated to v" = "आँकड़े v पर अपडेट किए गए थे";
-"Reset settings text" = "Aसभी एप्लिकेशन सेटिंग्स रीसेट हो जाएंगी और एप्लिकेशन को पुनरारंभ किया जाएगा। क्या आप वाकई ऐसा करना चाहते हैं?";
+"Stats was updated to v" = "Stats को v%0 पर अपडेट किया गया";
+"Reset settings text" = "सभी एप्लिकेशन सेटिंग्स रीसेट हो जाएंगी और एप्लिकेशन को पुनरारंभ किया जाएगा। क्या आप वाकई ऐसा करना चाहते हैं?";
 "Deregister text" = "मशीन को System Stats से डीरजिस्टर कर दिया जाएगा और आप लॉग आउट हो जाएंगे। क्या आप वाकई ऐसा करना चाहते हैं?"; // gemma4:31b-it-qat
 "Support text" = "Stats का उपयोग करने के लिए धन्यवाद!\n\n इस ओपन-सोर्स प्रोजेक्ट को बनाए रखने और सुधारने में समय और संसाधन लगते हैं। आपका समर्थन हमें सभी के लिए एक निःशुल्क और विश्वसनीय एप्लिकेशन प्रदान करना जारी रखने में मदद करता है.\n\nयदि आपको Stats मददगार लगता है, तो कृपया योगदान देने पर विचार करें। हर छोटी-छोटी मदद मददगार होती है!";
 
 // Settings
 "Open Activity Monitor" = "ओपन एक्टिविटी मॉनिटर";
 "Report a bug" = "बग की रिपोर्ट करें";
-"Support the application" = "आवेदन का समर्थन करें";
-"Close application" = "आवेदन बंद करें";
-"Open application settings" = "ओपन एप्लिकेशन सेटिंग्स";
+"Support the application" = "एप्लिकेशन का समर्थन करें";
+"Close application" = "एप्लिकेशन बंद करें";
+"Open application settings" = "एप्लिकेशन सेटिंग्स खोलें";
 "Open dashboard" = "ओपन डैशबोर्ड";
 "No notifications available in this module" = "इस मॉड्यूल में कोई नोटिफिकेशन उपलब्ध नहीं हैं"; // gemma4:31b
 "Open Calendar" = "कैलेंडर खोलें"; // translategemma:4b
@@ -219,7 +219,7 @@
 "Memory widget" = "मेमोरी";
 "Static width" = "स्थैतिक चौड़ाई";
 "Tachometer widget" = "टैकोमीटर";
-"State widget" = "राज्य विजेट";
+"State widget" = "स्थिति विजेट";
 "Text widget" = "टेक्स्ट विजेट"; // translategemma:4b
 "Battery details widget" = "बैटरी विवरण विजेट"; // translategemma:4b
 "Show symbols" = "प्रतीक दिखाएँ";
@@ -311,10 +311,8 @@
 "Model" = "मॉडल";
 "Status" = "स्थिति";
 "Utilization" = "उपयोग";
-"Render" = "रेंडर"; // qwen3.8:27b
-"Render utilization" = "उपयोग प्रस्तुत करें";
-"Render utilization history" = "रेंडर उपयोग इतिहास"; // qwen3.8:27b
-"Tiler" = "टाइलर"; // qwen3.8:27b
+"Renderer utilization" = "रेंडर उपयोग";
+"Renderer utilization history" = "रेंडर उपयोग इतिहास"; // qwen3.8:27b
 "Tiler utilization" = "टाइलर उपयोग";
 "Tiler utilization history" = "टाइलर उपयोग इतिहास"; // qwen3.8:27b
 "GPU usage threshold" = "जीपीयू उपयोग सीमा";
@@ -356,8 +354,8 @@
 "Switch view" = "स्विच व्यू";
 "Disk utilization threshold" = "डिस्क उपयोग सीमा";
 "Disk utilization is" = "डिस्क उपयोग %0 है";
-"Read color" = "रंग पढ़ें";
-"Write color" = "रंग लिखें";
+"Read color" = "पठन का रंग";
+"Write color" = "लिखन का रंग";
 "Disk usage" = "डिस्क उपयोग";
 "Total read" = "कुल पढ़ा गया"; // gemma4:31b
 "Total written" = "कुल लिखा गया"; // gemma4:31b
@@ -388,11 +386,11 @@
 
 // Sensors
 "Celsius" = "सेल्सियस";
-"Fahrenheit" = "सेल्सियस";
+"Fahrenheit" = "फ़ारेनहाइट";
 "Save the fan speed" = "पंखे की गति बचाएं";
 "Fan" = "फैन";
 "HID sensors" = "एचआईडी सेंसर";
-"Synchronize fan's control" = "प्रशंसक के नियंत्रण को सिंक्रनाइज़ करें";
+"Synchronize fan's control" = "फैन के नियंत्रण को सिंक्रनाइज़ करें";
 "Current" = "वर्तमान";
 "Energy" = "ऊर्जा";
 "Show unknown sensors" = "अज्ञात सेंसर दिखाएं";
@@ -454,7 +452,6 @@
 "Internet connection established" = "इंटरनेट कनेक्शन स्थापित हुआ"; // gemma4:31b
 "Show country code instead of emoji" = "इमोजी के बजाय देश का कोड दिखाएं"; // gemma4:31b
 "DNS Server" = "DNS सर्वर"; // qwen3.8:27b
-"Jitter" = "जिटर"; // qwen3.8:27b
 "Noise" = "शोर"; // qwen3.8:27b
 "Signal" = "सिग्नल"; // qwen3.8:27b
 "Speed" = "गति"; // qwen3.8:27b
@@ -520,8 +517,8 @@
 "Based on utilization" = "उपयोग के आधार पर";
 "Based on pressure" = "दबाव के आधार पर";
 "Based on cluster" = "क्लस्टर पर आधारित";
-"System accent" = "सिस्टम उच्चारण";
-"Monochrome accent" = "सिस्टम उच्चारण";
+"System accent" = "सिस्टम एक्सेंट";
+"Monochrome accent" = "एक-रंगीन एक्सेंट";
 "Clear" = "स्पष्ट";
 "White" = "सफेद";
 "Black" = "काला";

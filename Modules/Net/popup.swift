@@ -274,7 +274,7 @@ internal class Popup: PopupWrapper {
         self.statusField = popupBadgeRow(view, title: "\(localizedString("Status")):").1
         self.connectivityField = popupBadgeRow(view, title: "\(localizedString("Internet connection")):").1
         self.latencyField = popupRow(view, title: "\(localizedString("Latency")):", value: "0 ms").1
-        self.jitterField = popupRow(view, title: "\(localizedString("Jitter")):", value: "0 ms").1
+        self.jitterField = popupRow(view, title: "\("Jitter"):", value: "0 ms").1
         
         return view
     }

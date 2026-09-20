@@ -131,17 +131,17 @@
 "New version available" = "نسخه‌ی جدید در دسترس است";
 "Click to install the new version of Stats" = "برای نصب نسخه‌ی جدید Stats کلیک کنید";
 "Successfully updated" = "با موفقیت به‌روزرسانی شد";
-"Stats was updated to v" = "Stats به نسخه‌ی v%0 بروزسانی شد  ";
+"Stats was updated to v" = "Stats به نسخه v%0 به‌روزرسانی شد";
 "Reset settings text" = "تمام تنظیمات اپلیکیشن ریست خواهد شد و اپ دوباره راه‌اندازی خواهد شد، آیا از این کار مطمئنید؟";
 "Deregister text" = "دستگاه از System Stats لغو ثبت خواهد شد و شما خارج خواهید شد. آیا مطمئن هستید که می‌خواهید این کار را انجام دهید؟"; // gemma4:31b-it-qat
-"Support text" = "از اینکه از آمار استفاده می کنید متشکریم!\n\n نگهداری و بهبود این پروژه منبع باز زمان و منابع می طلبد. پشتیبانی شما به ما کمک می‌کند تا به ارائه یک برنامه رایگان و قابل اعتماد برای همه ادامه دهیم.\n\nاگر آمارها را مفید می‌دانید، لطفاً در نظر بگیرید. هر ذره کمک می کند!";
+"Support text" = "از اینکه از Stats استفاده می کنید متشکریم!\n\nنگهداری و بهبود این پروژه منبع باز زمان و منابع می طلبد. پشتیبانی شما به ما کمک می‌کند تا به ارائه یک برنامه رایگان و قابل اعتماد برای همه ادامه دهیم.\n\nاگر آمارها را مفید می‌دانید، لطفاً در نظر بگیرید. هر ذره کمک می کند!";
 
 // Settings
 "Open Activity Monitor" = "باز کردن نظارت فعالیت‌ها";
 "Report a bug" = "گزارش باگ";
 "Support the application" = "حمایت از اپلیکیشن";
 "Close application" = "بستن اپلیکیشن";
-"Open application settings" = "بستن تنظیمات اپلیکیشن";
+"Open application settings" = "باز کردن تنظیمات اپلیکیشن";
 "Open dashboard" = "باز کردن داشبورد";
 "No notifications available in this module" = "در این ماژول هیچ اعلانی موجود نیست"; // gemma4:31b
 "Open Calendar" = "باز کردن تقویم"; // translategemma:4b
@@ -202,7 +202,7 @@
 "Frame" = "فریم";
 "Value" = "مقدار";
 "Colorize" = "رنگی";
-"Colorize value" = "مقدار رنگ";
+"Colorize value" = "رنگ‌آمیزی مقدار";
 "Additional information" = "اطلاعات بیشتر";
 "Base" = "پایه";
 "Display mode" = "حالت نمایش";
@@ -222,7 +222,7 @@
 "State widget" = "ویجت حالت";
 "Text widget" = "ویجت متن"; // gemma4:31b
 "Battery details widget" = "ویجت جزئیات باتری"; // gemma4:31b
-"Show symbols" = "ویجت نمادها";
+"Show symbols" = "نمایش نمادها";
 "Label widget" = "لیبل";
 "Number of reads in the chart" = "تعداد خواندن‌ها در نمودار";
 "Color of download" = "رنگ دانلود";
@@ -237,13 +237,13 @@
 
 // Module Kit
 "Open module settings" = "باز کردن تنظیمات ماژول‌ها";
-"Update interval" = "بروزرسانی زمان‌بندی";
+"Update interval" = "فاصله به‌روزرسانی";
 "Usage history" = "تاریخچه مصرف";
 "Details" = "جزئیات";
 "Top processes" = "بیشترین پردازش‌ها";
 "Pictogram" = "پیکتوگرام";
 "Module" = "مدول";
-"Widgets" = "بزارک ها";
+"Widgets" = "ویجت‌ها";
 "Popup" = "پنجره بازشو";
 "Notifications" = "اطلاعیه";
 "Merge widgets" = "ادغام ویجت‌ها";
@@ -258,7 +258,7 @@
 
 // Modules
 "Number of top processes" = "تعداد بالاترین پردازش‌ها";
-"Update interval for top processes" = " بروزرسانی زمان‌بندی برای بالاترین پردازش‌ها";
+"Update interval for top processes" = "فاصله به‌روزرسانی برای بالاترین پردازش‌ها";
 "Chart color" = "رنگ نمودار";
 "Main chart scaling" = "مقیاس‌بندی نمودار اصلی"; // translategemma:4b
 "Scale value" = "مقدار مقیاس"; // gemma4:31b
@@ -274,7 +274,7 @@
 "Idle" = "بیکار";
 "Show usage per core" = "نمایش مصرف براساس هسته";
 "Show hyper-threading cores" = "نمایش هسته‌های هایپرتردینگ";
-"Split the value (System/User)" = "جداسازی مقادیر (سیستم/کابر)";
+"Split the value (System/User)" = "جداسازی مقادیر (سیستم/کاربر)";
 "Scheduler limit" = "محدودیت برنامه";
 "Speed limit" = "محدودیت سرعت";
 "Average load" = "میانگین بار";
@@ -296,12 +296,12 @@
 "System load" = "بار سیستم"; // translategemma:4b
 "User load" = "بار کاربر"; // translategemma:4b
 "Efficiency cores load" = "بار هسته‌های کم‌مصرف"; // gemma4:31b
-"Performance cores load" = "بار هسته‌های قدرتمند"; // gemma4:31b
+"Performance cores load" = "بار هسته‌های پرقدرت"; // gemma4:31b
 "Super cores load" = "بار هسته‌های سوپر"; // qwen3.8:27b
 "All cores" = "همه هسته‌ها"; // gemma4:31b
 "Load per core" = "بار به ازای هر هسته"; // gemma4:31b
 "Efficiency core" = "هسته کم‌مصرف"; // gemma4:31b
-"Performance core" = "هسته عملکرد"; // translategemma:4b
+"Performance core" = "هسته پرقدرت"; // translategemma:4b
 "Super core" = "هسته سوپر"; // gemma4:31b
 
 // GPU
@@ -311,10 +311,8 @@
 "Model" = "مدل";
 "Status" = "وضعیت";
 "Utilization" = "استفاده";
-"Render" = "رندر"; // qwen3.8:27b
-"Render utilization" = "استفاده از رندر";
-"Render utilization history" = "تاریخچه استفاده از رندر"; // qwen3.8:27b
-"Tiler" = "کاشی‌بند"; // qwen3.8:27b
+"Renderer utilization" = "استفاده از رندر";
+"Renderer utilization history" = "تاریخچه استفاده از رندر"; // qwen3.8:27b
 "Tiler utilization" = "استفاده از تایلر";
 "Tiler utilization history" = "تاریخچه میزان استفاده از تایلر"; // qwen3.8:27b
 "GPU usage threshold" = "آستانه مصرف جی پی یو";
@@ -330,7 +328,7 @@
 "Total" = "کل";
 "Used" = "استفاده شده";
 "App" = "اپ‌ها";
-"Wired" = "سیستم‌بندی";
+"Wired" = "سیمی";
 "Compressed" = "فشرده شده";
 "Free" = "آزاد";
 "Swap" = "تبادل";
@@ -418,10 +416,10 @@
 "Downloading" = "دانلود";
 "Public IP" = "آی پی عمومی";
 "Local IP" = "آی پی محلی";
-"Interface" = "نوع اتصال";
+"Interface" = "رابط";
 "Physical address" = "آدرس فیزیکی";
 "Refresh" = "بروزرسانی";
-"Network interface" = "نوع اتصال شبکه";
+"Network interface" = "رابط شبکه";
 "Total download" = "کل دانلود‌ها";
 "Total upload" = "کل آپلود‌ها";
 "Reader type" = "حالت خواننده";
@@ -454,7 +452,6 @@
 "Internet connection established" = "اتصال اینترنت برقرار شد"; // translategemma:4b
 "Show country code instead of emoji" = "نمایش کد کشور به جای ایموجی"; // gemma4:31b
 "DNS Server" = "سرور DNS"; // qwen3.8:27b
-"Jitter" = "جیتر"; // qwen3.8:27b
 "Noise" = "نویز"; // qwen3.8:27b
 "Signal" = "سیگنال"; // qwen3.8:27b
 "Speed" = "سرعت"; // qwen3.8:27b
@@ -520,7 +517,7 @@
 "Based on utilization" = "بر اساس استفاده";
 "Based on pressure" = "بر اساس فشار";
 "Based on cluster" = "بر اساس کلاستر";
-"System accent" = "اکنست سیستم";
+"System accent" = "اکسنت سیستم";
 "Monochrome accent" = "اکسنت تک‌رنگ";
 "Clear" = "روشن";
 "White" = "سفید";

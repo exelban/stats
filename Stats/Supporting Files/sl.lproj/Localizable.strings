@@ -10,10 +10,10 @@
 //
 
 // Modules
-"CPU" = "CPE";
-"Open CPU settings" = "Odpri CPE nastavitve";
-"GPU" = "GPE";
-"Open GPU settings" = "Odpri GPE nastavitve";
+"CPU" = "CPU";
+"Open CPU settings" = "Odpri CPU nastavitve";
+"GPU" = "GPU";
+"Open GPU settings" = "Odpri GPU nastavitve";
 "RAM" = "RAM";
 "Open RAM settings" = "Odpri nastavitve pomnilnika";
 "Disk" = "Disk";
@@ -125,7 +125,7 @@
 "Check for a new version every month (once a month)" = "Za novo različico preveri vsak mesec (enkrat na mesec)";
 "Never check for updates (not recommended)" = "Nikoli ne preverjaj ali so na voljo nove posodobitve (ni priporočljivo)";
 "The configuration is completed" = "Konfiguracija je zaključena";
-"finish_setup_message" = "Vse je pripravljeno! \n Stats je odprtokodno orodje katero je brezplačno in vedno bo. \Če vam je všeč, lahko projekt podprete, kar je vedno dobrodošlo!";
+"finish_setup_message" = "Vse je pripravljeno! \n Stats je odprtokodno orodje, ki je brezplačno in bo vedno. \nČe vam je všeč, lahko projekt podprete, kar je vedno dobrodošlo!";
 
 // Alerts
 "New version available" = "Na voljo je nova različica";
@@ -145,7 +145,7 @@
 "Open dashboard" = "Odpri nadzorno ploščo";
 "No notifications available in this module" = "V tem modulu niso na voljo nobena obvestila";
 "Open Calendar" = "Odpri koledar";
-"Toggle the module" = "Preklopite modul"; // gemma4:31b
+"Toggle the module" = "Preklopi modul"; // gemma4:31b
 "Open System Stats" = "Odpri System Stats"; // gemma4:31b
 "Close module settings" = "Zapri nastavitve modula"; // qwen3.8:27b
 
@@ -198,7 +198,7 @@
 // Widgets
 "Color" = "Barva";
 "Label" = "Oznaka";
-"Box" = "Okno";
+"Box" = "Škatlica";
 "Frame" = "Okvir";
 "Value" = "Vrednost";
 "Colorize" = "Obarvaj";
@@ -215,7 +215,7 @@
 "Network chart widget" = "Mrežni diagram";
 "Speed widget" = "Hitrost";
 "Battery widget" = "Baterija";
-"Stack widget" = "Stek"; // gemma4:31b
+"Stack widget" = "Zloženo"; // gemma4:31b
 "Memory widget" = "Pomnilnik";
 "Static width" = "Statična širina";
 "Tachometer widget" = "Tahometer";
@@ -240,7 +240,7 @@
 "Update interval" = "Interval posodabljanja";
 "Usage history" = "Zgodovina uporabe";
 "Details" = "Podrobnosti";
-"Top processes" = "Glavni procesi";
+"Top processes" = "Najaktivnejši procesi";
 "Pictogram" = "Piktogram";
 "Module" = "Modul";
 "Widgets" = "Pripomočki";
@@ -250,15 +250,15 @@
 "No available widgets to configure" = "Ni razpoložljivih pripomočkov za konfiguracijo";
 "No options to configure for the popup in this module" = "V tem modulu ni možnosti za konfiguracijo pojavnega okna";
 "Process" = "Proces";
-"Kill process" = "Ubij proces";
+"Kill process" = "Prekini proces";
 "Keyboard shortcut" = "Bližnjica na tipkovnici";
 "Listening..." = "Posluša..."; // gemma4:31b
 "Open in browser" = "Odpri v brskalniku"; // qwen3.8:27b
 "Open module" = "Odpri modul"; // qwen3.8:27b
 
 // Modules
-"Number of top processes" = "Število glavnih procesov";
-"Update interval for top processes" = "Interval posodabljanja za glavne procese";
+"Number of top processes" = "Število najaktivnejših procesov";
+"Update interval for top processes" = "Interval posodabljanja najaktivnejših procesov";
 "Chart color" = "Barva grafa";
 "Main chart scaling" = "Skaliranje glavnega grafa";
 "Scale value" = "Vrednost skale";
@@ -266,9 +266,9 @@
 "Combined processes" = "Združeni procesi"; // gemma4:31b
 
 // CPU
-"CPU usage" = "CPE poraba";
-"CPU temperature" = "CPE temperatura";
-"CPU frequency" = "CPE frekvenca";
+"CPU usage" = "CPU poraba";
+"CPU temperature" = "CPU temperatura";
+"CPU frequency" = "CPU frekvenca";
 "System" = "Sistem";
 "User" = "Uporabnik";
 "Idle" = "Brez dela";
@@ -281,7 +281,7 @@
 "1 minute" = "1 minuta";
 "5 minutes" = "5 minut";
 "15 minutes" = "15 minut";
-"CPU usage threshold" = "Prag uporabe CPE";
+"CPU usage threshold" = "Prag uporabe CPU";
 "Efficiency cores" = "Učinkovita jedra";
 "Performance cores" = "Performančna jedra";
 "Super cores" = "Super jedra"; // qwen3.8:27b
@@ -301,24 +301,22 @@
 "All cores" = "Vsa jedra";
 "Load per core" = "Obremenitev na jedro"; // gemma4:31b
 "Efficiency core" = "Učinkovito jedro"; // gemma4:31b
-"Performance core" = "Zmogljivostno jedro"; // gemma4:31b
+"Performance core" = "Performančno jedro"; // gemma4:31b
 "Super core" = "Super jedro"; // gemma4:31b
 
 // GPU
-"GPU to show" = "GPE za prikaz";
-"Show GPU type" = "Prikaži vrsto GPE";
-"GPU utilization" = "GPE v uporabi";
+"GPU to show" = "GPU za prikaz";
+"Show GPU type" = "Prikaži vrsto GPU";
+"GPU utilization" = "Uporaba GPU";
 "Model" = "Model";
 "Status" = "Stanje";
 "Utilization" = "Uporaba";
-"Render" = "Render";
-"Render utilization" = "Izkoriščanje renderja";
-"Render utilization history" = "Zgodovina izkoriščenosti izrisa"; // qwen3.8:27b
-"Tiler" = "Ploščičar"; // qwen3.8:27b
+"Renderer utilization" = "Izkoriščanje renderja";
+"Renderer utilization history" = "Zgodovina izkoriščenosti izrisa"; // qwen3.8:27b
 "Tiler utilization" = "Uporaba ploščic";
 "Tiler utilization history" = "Zgodovina izkoriščenosti tilera"; // qwen3.8:27b
-"GPU usage threshold" = "Prag uporabe GPE";
-"GPU usage is" = "Uporaba GPE je %0";
+"GPU usage threshold" = "Prag uporabe GPU";
+"GPU usage is" = "Uporaba GPU je %0";
 "ANE utilization" = "Izkoriščenost ANE"; // qwen3.8:27b
 "ANE utilization history" = "Zgodovina izrabe ANE"; // qwen3.8:27b
 "FPS history" = "Zgodovina FPS"; // qwen3.8:27b
@@ -330,15 +328,15 @@
 "Total" = "Skupno";
 "Used" = "Porabljen";
 "App" = "Aplikacije";
-"Wired" = "Žični";
+"Wired" = "Pripeto";
 "Compressed" = "Stisnjen";
 "Free" = "Prost";
 "Swap" = "Swap";
-"Split the value (App/Wired/Compressed)" = "Razdelitev vrednosti (Aplikacijski/Žičen/Stisjen)";
+"Split the value (App/Wired/Compressed)" = "Razdelitev vrednosti (Aplikacije/Pripeto/Stisnjeno)";
 "RAM utilization threshold" = "Prag izkoriščenosti RAM-a";
 "RAM utilization is" = "Izkoriščenost pomnilnika RAM je %0";
 "App color" = "Aplikacijska barva";
-"Wired color" = "Žična barva";
+"Wired color" = "Pripeta barva";
 "Compressed color" = "Stisnjena barva";
 "Free color" = "Prosta barva";
 "Free memory (less than)" = "Prosti pomnilnik (manj kot)";
@@ -361,7 +359,7 @@
 "Disk usage" = "Uporaba diska";
 "Total read" = "Skupaj prebrano";
 "Total written" = "Skupaj zapisano";
-"File system" = "Datkov sistem"; // gemma4:31b-it-qat
+"File system" = "Datotečni sistem"; // gemma4:31b-it-qat
 "Connection type" = "Vrsta povezave"; // gemma4:31b-it-qat
 "BSD name" = "BSD ime"; // gemma4:31b-it-qat
 "Encrypted" = "Šifrirano"; // gemma4:31b-it-qat
@@ -454,7 +452,6 @@
 "Internet connection established" = "Povezava z internetom vzpostavljena"; // gemma4:31b
 "Show country code instead of emoji" = "Prikaži kodo države namesto emojija"; // gemma4:31b
 "DNS Server" = "DNS strežnik"; // qwen3.8:27b
-"Jitter" = "Jiter"; // qwen3.8:27b
 "Noise" = "Hrup"; // qwen3.8:27b
 "Signal" = "Signal";
 "Speed" = "Hitrost"; // qwen3.8:27b
@@ -468,7 +465,7 @@
 "Battery Power" = "Napajanje z baterijo";
 "Time" = "Čas";
 "Health" = "Zdravje";
-"Voltage" = "Voltaža";
+"Voltage" = "Napetost";
 "Cycles" = "Cikli";
 "Temperature" = "Temperatura";
 "Power adapter" = "Napajalnik";
@@ -476,7 +473,7 @@
 "Is charging" = "Se polni";
 "Time to discharge" = "Čas do prazne baterije";
 "Time to charge" = "Čas do polne baterije";
-"Calculating" = "Izračunavanje";
+"Calculating" = "Izračun";
 "Fully charged" = "Popolnoma napolnjena";
 "Low level notification" = "Obvestilo za nizko raven";
 "High level notification" = "Obvestilo za visoko raven";
@@ -488,7 +485,7 @@
 "Percentage and time" = "Odstotek in čas";
 "Time and percentage" = "Čas in odstotek";
 "Time format" = "Časovni format";
-"Hide additional information when full" = "Skrij dodatne informacije, ko je batarija polna";
+"Hide additional information when full" = "Skrij dodatne informacije, ko je baterija polna";
 "Percentage inside the icon" = "Odstotek znotraj ikone";
 "Charger state inside the battery" = "Stanje polnjenja v bateriji"; // gemma4:31b
 "Max capacity" = "Maksimalna kapaciteta"; // gemma4:31b

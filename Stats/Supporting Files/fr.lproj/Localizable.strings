@@ -143,7 +143,7 @@
 "Close application" = "Fermer l'application";
 "Open application settings" = "Ouvrir les paramètres de l'application";
 "Open dashboard" = "Ouvrir le tableau de bord";
-"No notifications available in this module" = "Aucune modification disponible pour ce module";
+"No notifications available in this module" = "Aucune notification disponible pour ce module";
 "Open Calendar" = "Ouvrir le calendrier"; // translategemma:4b
 "Toggle the module" = "Basculer le module"; // gemma4:31b
 "Open System Stats" = "Ouvrir System Stats"; // gemma4:31b
@@ -179,8 +179,8 @@
 "Uptime" = "Temps de fonctionnement";
 "Number of cores" = "%0 cœurs";
 "Number of threads" = "%0 fils"; // gemma4:31b-it-qat
-"Number of e-cores" = "%0 cœurs à haute effica­cité éner­gétique";
-"Number of p-cores" = "%0 cœurs de perfor­mance";
+"Number of e-cores" = "%0 cœurs à haute efficacité énergétique";
+"Number of p-cores" = "%0 cœurs de performance";
 "Number of s-cores" = "%0 super cœurs";
 "Disks" = "Disques"; // translategemma:4b
 "Display" = "Écran"; // gemma4:31b
@@ -282,26 +282,26 @@
 "5 minutes" = "5 minutes";
 "15 minutes" = "15 minutes";
 "CPU usage threshold" = "Seuil d'utilisation du CPU";
-"Efficiency cores" = "Cœurs à haute effica­cité éner­gétique";
-"Performance cores" = "Cœurs de perfor­mance";
+"Efficiency cores" = "Cœurs à haute efficacité énergétique";
+"Performance cores" = "Cœurs de performance";
 "Super cores" = "Super cœurs"; // qwen3.8:27b
 "System color" = "Couleur du système";
 "User color" = "Couleur de l'utilisateur";
 "Idle color" = "Couleur de l'inactivité";
 "Cluster grouping" = "Regroupement par cluster";
-"Efficiency cores color" = "Couleur des cœurs à haute effica­cité éner­gétique";
+"Efficiency cores color" = "Couleur des cœurs à haute efficacité énergétique";
 "Performance cores color" = "Couleur des cœurs de performance";
 "Super cores color" = "Couleur des cœurs super"; // qwen3.8:27b
 "Total load" = "Charge totale";
 "System load" = "Charge système";
 "User load" = "Charge utilisateur";
-"Efficiency cores load" = "Charge des cœurs à haute effica­cité éner­gétique";
+"Efficiency cores load" = "Charge des cœurs à haute efficacité énergétique";
 "Performance cores load" = "Charge des cœurs de performance";
 "Super cores load" = "Charge des cœurs super"; // qwen3.8:27b
 "All cores" = "Tous les cœurs"; // translategemma:4b
 "Load per core" = "Charge par cœur"; // translategemma:4b
-"Efficiency core" = "Cœur à haute effica­cité éner­gétique";
-"Performance core" = "Cœur de perfor­mance";
+"Efficiency core" = "Cœur à haute efficacité énergétique";
+"Performance core" = "Cœur de performance";
 "Super core" = "Super cœur";
 
 // GPU
@@ -311,11 +311,9 @@
 "Model" = "Modèle";
 "Status" = "Statut";
 "Utilization" = "Utilisation";
-"Render" = "Rendu"; // qwen3.8:27b
-"Render utilization" = "Utilisation du rendu";
-"Render utilization history" = "Historique d'utilisation du rendu"; // qwen3.8:27b
-"Tiler" = "Tiler";
-"Tiler utilization" = "Utilisation du tiler";
+"Renderer utilization" = "Utilisation du rendu";
+"Renderer utilization history" = "Historique d'utilisation du rendu"; // qwen3.8:27b
+"Tiler utilization" = "Utilisation du Tiler";
 "Tiler utilization history" = "Historique d'utilisation du Tiler"; // qwen3.8:27b
 "GPU usage threshold" = "Seuil d'utilisation du GPU";
 "GPU usage is" = "L'utilisation du GPU est de %0";
@@ -330,15 +328,15 @@
 "Total" = "Total";
 "Used" = "Utilisée";
 "App" = "Application";
-"Wired" = "Câblée";
+"Wired" = "Verrouillée";
 "Compressed" = "Compressée";
 "Free" = "Inactive";
 "Swap" = "Swap";
-"Split the value (App/Wired/Compressed)" = "Diviser la valeur (Application/Câblée/Compressée)";
+"Split the value (App/Wired/Compressed)" = "Diviser la valeur (Application/Verrouillée/Compressée)";
 "RAM utilization threshold" = "Seuil d'utilisation de la RAM";
 "RAM utilization is" = "L'utilisation de la RAM est de %0";
 "App color" = "Couleur des applications";
-"Wired color" = "Couleur de la mémoire câblée";
+"Wired color" = "Couleur de la mémoire verrouillée";
 "Compressed color" = "Couleur de la mémoire compressée";
 "Free color" = "Couleur de la mémoire inactive";
 "Free memory (less than)" = "Mémoire disponible (moins de)";
@@ -367,7 +365,7 @@
 "Encrypted" = "Chiffré"; // gemma4:31b-it-qat
 "Writable" = "Écritible"; // gemma4:31b-it-qat
 "Drives" = "Disques";
-"Power cycles" = "Nombre de cycles"; // gemma4:31b
+"Power cycles" = "Cycles d'alimentation"; // gemma4:31b
 "Power on hours" = "Heures de fonctionnement"; // gemma4:31b
 "Critical warning" = "Avertissement critique"; // gemma4:31b-it-qat
 "Available spare" = "Réserve disponible"; // gemma4:31b-it-qat
@@ -383,7 +381,7 @@
 "Disk details" = "Détails du disque"; // qwen3.8:27b
 "Main color" = "Couleur principale"; // qwen3.8:27b
 "Read / Write history" = "Historique de lecture / écriture"; // qwen3.8:27b
-"mounted" = "Monté"; // qwen3.8:27b
+"mounted" = "monté"; // qwen3.8:27b
 "removable" = "amovible"; // qwen3.8:27b
 
 // Sensors
@@ -454,7 +452,6 @@
 "Internet connection established" = "Connexion Internet établie"; // translategemma:4b
 "Show country code instead of emoji" = "Afficher le code du pays à la place des emojis";
 "DNS Server" = "Serveur DNS"; // qwen3.8:27b
-"Jitter" = "Gigue"; // qwen3.8:27b
 "Noise" = "Bruit"; // qwen3.8:27b
 "Signal" = "Signal";
 "Speed" = "Vitesse"; // qwen3.8:27b

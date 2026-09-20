@@ -23,7 +23,7 @@
 "Network" = "Мрежа";
 "Open Network settings" = "Настройки на мрежата";
 "Battery" = "Батерия";
-"Open Battery settings" = "Настройки на мрежата";
+"Open Battery settings" = "Настройки на батерията";
 "Bluetooth" = "Bluetooth";
 "Open Bluetooth settings" = "Настройки на bluetooth";
 "Clock" = "Часовник"; // translategemma:4b
@@ -134,7 +134,7 @@
 "Stats was updated to v" = "Stats е обновена до версия v%0";
 "Reset settings text" = "Всички настройки на приложението ще бъдат занулени и приложението ще се рестартира. Сигурни ли сте, че искате това?";
 "Deregister text" = "Компютърът ще бъде дерегистриран от System Stats и вие ще бъдете излогвани. Сигурни ли сте, че искате да направите това?"; // gemma4:31b-it-qat
-"Support text" = "Благодарим ви, че използвате Статистики!\n\n Поддържането и подобряването на този проект с отворен код изисква време и ресурси. Вашата подкрепа ни помага да продължим да предоставяме безплатно и надеждно приложение за всички.\n\nАко намирате Stats за полезно, моля, помислете дали да не дадете своя принос. Всяка малка част помага!";
+"Support text" = "Благодарим ви, че използвате Stats!\n\nПоддържането и подобряването на този проект с отворен код изисква време и ресурси. Вашата подкрепа ни помага да продължим да предоставяме безплатно и надеждно приложение за всички.\n\nАко намирате Stats за полезно, моля, помислете дали да не дадете своя принос. Всяка малка част помага!";
 
 // Settings
 "Open Activity Monitor" = "Отваряне на монитора на активностите";
@@ -202,7 +202,7 @@
 "Frame" = "Рамка";
 "Value" = "Стойност";
 "Colorize" = "Оцветяване";
-"Colorize value" = "Стойност на оцветяване";
+"Colorize value" = "Оцвети стойността";
 "Additional information" = "Допълнителна информация";
 "Base" = "Основа";
 "Display mode" = "Режим на преглед";
@@ -243,7 +243,7 @@
 "Top processes" = "Топ процеси";
 "Pictogram" = "Пиктограма";
 "Module" = "Модул";
-"Widgets" = "Джаджи";
+"Widgets" = "Уиджети";
 "Popup" = "Изскачащ прозорец";
 "Notifications" = "Известия";
 "Merge widgets" = "Сливане на уиджети";
@@ -289,7 +289,7 @@
 "User color" = "Потребителски цвят";
 "Idle color" = "Цвят при неактивност";
 "Cluster grouping" = "Групиране на клъстери"; // gemma4:31b
-"Efficiency cores color" = "Цвят на енергоефективните ядра"; // gemma4:31b
+"Efficiency cores color" = "Цвят на ефикасните ядра"; // gemma4:31b
 "Performance cores color" = "Цвят на производителните ядра"; // gemma4:31b
 "Super cores color" = "Цвят на супер ядрата"; // qwen3.8:27b
 "Total load" = "Общо натоварване"; // gemma4:31b
@@ -300,8 +300,8 @@
 "Super cores load" = "Натоварване на супер ядра"; // qwen3.8:27b
 "All cores" = "Всички ядра"; // translategemma:4b
 "Load per core" = "Натоварване на ядро"; // gemma4:31b
-"Efficiency core" = "Енергоефективно ядро"; // gemma4:31b
-"Performance core" = "Високопроизводително ядро"; // gemma4:31b
+"Efficiency core" = "Ефикасно ядро"; // gemma4:31b
+"Performance core" = "Производително ядро"; // gemma4:31b
 "Super core" = "Супер ядро"; // gemma4:31b
 
 // GPU
@@ -311,14 +311,12 @@
 "Model" = "Модел";
 "Status" = "Статус";
 "Utilization" = "Утилизация";
-"Render" = "Рендер"; // qwen3.8:27b
-"Render utilization" = "Използване на render"; // gemma4:31b
-"Render utilization history" = "История на натоварването на рендер"; // qwen3.8:27b
-"Tiler" = "Плочковане"; // qwen3.8:27b
+"Renderer utilization" = "Използване на рендерера"; // gemma4:31b
+"Renderer utilization history" = "История на натоварването на рендер"; // qwen3.8:27b
 "Tiler utilization" = "Използване на Tiler"; // gemma4:31b
 "Tiler utilization history" = "История на използването на Tiler"; // qwen3.8:27b
 "GPU usage threshold" = "Праг на използване на GPU"; // gemma4:31b
-"GPU usage is" = "Употребата на грфичната карта е %0";
+"GPU usage is" = "Употребата на графичната карта е %0";
 "ANE utilization" = "Използване на ANE"; // qwen3.8:27b
 "ANE utilization history" = "История на използването на ANE"; // qwen3.8:27b
 "FPS history" = "История на FPS"; // qwen3.8:27b
@@ -330,11 +328,11 @@
 "Total" = "Общо";
 "Used" = "Заета";
 "App" = "Приложения";
-"Wired" = "Фиксирана"; // gemma4:31b
-"Compressed" = "Компересирана";
+"Wired" = "Зарезервирана"; // gemma4:31b
+"Compressed" = "Компресирана";
 "Free" = "Свободна";
 "Swap" = "Swap";
-"Split the value (App/Wired/Compressed)" = "Разделете стойността (Приложения/Wired/Компересирана)";
+"Split the value (App/Wired/Compressed)" = "Разделете стойността (Приложения/Зарезервирана/Компресирана)";
 "RAM utilization threshold" = "Праг на утилизацията на паметта";
 "RAM utilization is" = "Утилизацията на паметта е %0";
 "App color" = "Цвят на приложението"; // translategemma:4b
@@ -430,7 +428,7 @@
 "Reset data usage" = "Зануляване";
 "VPN mode" = "VPN режим";
 "Standard" = "Стандарт"; // translategemma:4b
-"Security" = "Криптиране"; // gemma4:31b
+"Security" = "Сигурност"; // gemma4:31b
 "Channel" = "Канал";
 "Autodetection" = "Автоматично засичане";
 "Widget activation threshold" = "Праг за активация на виджета"; // gemma4:31b
@@ -454,7 +452,6 @@
 "Internet connection established" = "Интернет връзката е възстановена"; // gemma4:31b
 "Show country code instead of emoji" = "Показвай кода на страната вместо емоджи"; // gemma4:31b
 "DNS Server" = "DNS сървър"; // qwen3.8:27b
-"Jitter" = "Джитър"; // qwen3.8:27b
 "Noise" = "Шум"; // qwen3.8:27b
 "Signal" = "Сигнал"; // qwen3.8:27b
 "Speed" = "Скорост"; // qwen3.8:27b
@@ -464,7 +461,7 @@
 
 // Battery
 "Source" = "Източник";
-"AC Power" = "Зарядно";
+"AC Power" = "Мрежно захранване";
 "Battery Power" = "Батерия";
 "Time" = "Време";
 "Health" = "Здраве";
@@ -560,7 +557,7 @@
 "Sign out" = "Изход"; // qwen3.8:27b
 "Deregister" = "Отписване"; // qwen3.8:27b
 "Hosts" = "Хостове"; // qwen3.8:27b
-"Machines" = "Машина"; // qwen3.8:27b
+"Machines" = "Машини"; // qwen3.8:27b
 "No hosts yet" = "Все още няма хостове"; // qwen3.8:27b
 "No machines yet" = "Все още няма машини"; // qwen3.8:27b
 "Get notified when a device goes offline or hits a threshold" = "Получавайте уведомления, когато устройство загуби връзка или достигне праг"; // qwen3.8:27b

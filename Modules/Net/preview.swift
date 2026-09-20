@@ -176,7 +176,7 @@ internal class Preview: PreviewWrapper {
         self.statusField = previewBadgeRow(view, title: "\(localizedString("Status")):")
         self.connectivityField = previewBadgeRow(view, title: "\(localizedString("Internet connection")):")
         self.latencyField = previewRow(view, title: "\(localizedString("Latency")):", value: "0 ms")
-        self.jitterField = previewRow(view, title: "\(localizedString("Jitter")):", value: "0 ms")
+        self.jitterField = previewRow(view, title: "\("Jitter"):", value: "0 ms")
         
         return view
     }

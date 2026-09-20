@@ -159,7 +159,7 @@
 "Check for update" = "检查更新";
 "Show icon in dock" = "在程序坞显示图标";
 "Start at login" = "登录时打开";
-"Build number" = "版本号";
+"Build number" = "构建号";
 "Import settings" = "导入设置";
 "Export settings" = "导出设置";
 "Reset settings" = "初始化所有设置";
@@ -274,7 +274,7 @@
 "Idle" = "闲置";
 "Show usage per core" = "显示每个物理核心占用";
 "Show hyper-threading cores" = "显示超线程核心";
-"Split the value (System/User)" = "柱状图区分显示（系统/用户)";
+"Split the value (System/User)" = "区分显示（系统/用户）";
 "Scheduler limit" = "调度限制";
 "Speed limit" = "速度限制";
 "Average load" = "平均负载";
@@ -311,10 +311,8 @@
 "Model" = "型号";
 "Status" = "状态";
 "Utilization" = "利用率";
-"Render" = "渲染"; // qwen3.8:27b
-"Render utilization" = "渲染利用率";
-"Render utilization history" = "渲染使用率历史"; // qwen3.8:27b
-"Tiler" = "平铺"; // qwen3.8:27b
+"Renderer utilization" = "渲染利用率";
+"Renderer utilization history" = "渲染使用率历史"; // qwen3.8:27b
 "Tiler utilization" = "Tiler利用率";
 "Tiler utilization history" = "Tiler 利用率历史"; // qwen3.8:27b
 "GPU usage threshold" = "GPU占用阈值";
@@ -331,19 +329,19 @@
 "Used" = "已用";
 "App" = "App内存";
 "Wired" = "联动内存";
-"Compressed" = "被压缩";
+"Compressed" = "压缩内存";
 "Free" = "可用";
 "Swap" = "交换区";
-"Split the value (App/Wired/Compressed)" = "柱状图区分显示（App内存/联动内存/被压缩）";
+"Split the value (App/Wired/Compressed)" = "区分显示（App内存/联动内存/压缩内存）";
 "RAM utilization threshold" = "RAM占用阈值";
 "RAM utilization is" = "RAM利用率是 %0";
 "App color" = "App内存颜色";
 "Wired color" = "联动内存颜色";
-"Compressed color" = "被压缩内存颜色";
+"Compressed color" = "压缩内存颜色";
 "Free color" = "可用内存颜色";
 "Free memory (less than)" = "可用内存（小于）";
-"Swap size" = "已使用交换";
-"Free RAM is" = "可有内存还有 %0";
+"Swap size" = "交换大小";
+"Free RAM is" = "可用内存还有 %0";
 "Pressure" = "压力"; // qwen3.8:27b
 "Pressure level" = "压力水平"; // qwen3.8:27b
 
@@ -454,7 +452,6 @@
 "Internet connection established" = "互联网连接已建立";
 "Show country code instead of emoji" = "显示国家代码而不是 emoji"; // gemma4:31b
 "DNS Server" = "DNS 服务器"; // qwen3.8:27b
-"Jitter" = "抖动"; // qwen3.8:27b
 "Noise" = "噪声"; // qwen3.8:27b
 "Signal" = "信号"; // qwen3.8:27b
 "Speed" = "速度"; // qwen3.8:27b

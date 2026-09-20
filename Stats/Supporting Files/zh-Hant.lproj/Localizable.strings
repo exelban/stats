@@ -212,19 +212,19 @@
 "Line chart widget" = "線狀圖";
 "Bar chart widget" = "柱狀圖";
 "Pie chart widget" = "圓形圖";
-"Network chart widget" = "網狀圖";
+"Network chart widget" = "流量圖";
 "Speed widget" = "讀寫速度";
 "Battery widget" = "電池";
 "Stack widget" = "疊放";
 "Memory widget" = "容量";
 "Static width" = "靜態寬度";
 "Tachometer widget" = "轉速計";
-"State widget" = "State小工具";
+"State widget" = "狀態小工具";
 "Text widget" = "文字";
 "Battery details widget" = "電池詳細資訊";
 "Show symbols" = "顯示符號";
 "Label widget" = "標籤";
-"Number of reads in the chart" = "圖表顯示的未讀標記";
+"Number of reads in the chart" = "圖表顯示的讀取次數";
 "Color of download" = "下載的顯示色彩";
 "Color of upload" = "上傳的顯示色彩";
 "Monospaced font" = "等寬字體";
@@ -240,7 +240,7 @@
 "Update interval" = "更新頻率";
 "Usage history" = "負載歷程記錄";
 "Details" = "詳細資訊";
-"Top processes" = "高能耗程序";
+"Top processes" = "高占用程序";
 "Pictogram" = "標示";
 "Module" = "模組";
 "Widgets" = "小工具";
@@ -257,8 +257,8 @@
 "Open module" = "開啟模組"; // qwen3.8:27b
 
 // Modules
-"Number of top processes" = "高能耗程序數量";
-"Update interval for top processes" = "高能耗程序更新頻率";
+"Number of top processes" = "高占用程序數量";
+"Update interval for top processes" = "高占用程序更新頻率";
 "Chart color" = "圖表色彩";
 "Main chart scaling" = "主圖表縮放";
 "Scale value" = "縮放值";
@@ -269,7 +269,7 @@
 "CPU usage" = "CPU使用量";
 "CPU temperature" = "CPU溫度";
 "CPU frequency" = "CPU頻率";
-"System" = "根據系統";
+"System" = "系統";
 "User" = "使用者";
 "Idle" = "閒置";
 "Show usage per core" = "顯示每個核心的使用狀態";
@@ -291,7 +291,7 @@
 "Cluster grouping" = "依群集分組";
 "Efficiency cores color" = "節能核心色彩";
 "Performance cores color" = "效能核心色彩";
-"Super cores color" = "超級核心顏色"; // qwen3.8:27b
+"Super cores color" = "超級核心色彩"; // qwen3.8:27b
 "Total load" = "總占用";
 "System load" = "系統占用";
 "User load" = "使用者占用";
@@ -300,7 +300,7 @@
 "Super cores load" = "超級核心負載"; // qwen3.8:27b
 "All cores" = "總核心占用";
 "Load per core" = "每個核心的負載"; // gemma4:31b
-"Efficiency core" = "效率核心"; // gemma4:31b
+"Efficiency core" = "節能核心"; // gemma4:31b
 "Performance core" = "效能核心"; // translategemma:4b
 "Super core" = "超級核心"; // gemma4:31b
 
@@ -311,11 +311,9 @@
 "Model" = "型號";
 "Status" = "狀態";
 "Utilization" = "利用率";
-"Render" = "渲染"; // qwen3.8:27b
-"Render utilization" = "渲染利用率";
-"Render utilization history" = "渲染使用率歷史"; // qwen3.8:27b
-"Tiler" = "平鋪器"; // qwen3.8:27b
-"Tiler utilization" = "圖塊利用率";
+"Renderer utilization" = "渲染利用率";
+"Renderer utilization history" = "渲染使用率歷史"; // qwen3.8:27b
+"Tiler utilization" = "Tiler 使用率";
 "Tiler utilization history" = "Tiler 使用率歷史"; // qwen3.8:27b
 "GPU usage threshold" = "GPU使用量臨界值";
 "GPU usage is" = "GPU使用量：%0";
@@ -334,7 +332,7 @@
 "Compressed" = "已壓縮";
 "Free" = "可使用";
 "Swap" = "交換";
-"Split the value (App/Wired/Compressed)" = "分割值 (App/固定/壓縮)";
+"Split the value (App/Wired/Compressed)" = "分割值 (App/連動/壓縮)";
 "RAM utilization threshold" = "記憶體利用率臨界值";
 "RAM utilization is" = "記憶體利用率：%0";
 "App color" = "App色彩";
@@ -344,7 +342,7 @@
 "Free memory (less than)" = "可用記憶體 (小於)";
 "Swap size" = "已使用交換";
 "Free RAM is" = "可用記憶體剩餘 %0";
-"Pressure" = "氣壓"; // qwen3.8:27b
+"Pressure" = "壓力"; // qwen3.8:27b
 "Pressure level" = "壓力等級"; // qwen3.8:27b
 
 // Disk
@@ -381,7 +379,7 @@
 "Backup failed" = "備份失敗"; // gemma4:31b-it-qat
 "All disks" = "所有磁碟"; // qwen3.8:27b
 "Disk details" = "磁碟詳細資訊"; // qwen3.8:27b
-"Main color" = "主要顏色"; // qwen3.8:27b
+"Main color" = "主要色彩"; // qwen3.8:27b
 "Read / Write history" = "讀取 / 寫入歷史記錄"; // qwen3.8:27b
 "mounted" = "已掛載"; // qwen3.8:27b
 "removable" = "可移除"; // qwen3.8:27b
@@ -434,7 +432,7 @@
 "Channel" = "通道";
 "Autodetection" = "自動檢測";
 "Widget activation threshold" = "小工具啟動臨界值";
-"Internet connection" = "網際網路連線裝態";
+"Internet connection" = "網際網路連線狀態";
 "Connectivity host" = "連線能力測試主機（ICMP）";
 "Leave empty to disable the check" = "留空來停用檢查";
 "Connectivity history" = "連線歷程紀錄";
@@ -454,7 +452,6 @@
 "Internet connection established" = "網際網路連線已建立";
 "Show country code instead of emoji" = "顯示國家代碼而非表情符號"; // gemma4:31b
 "DNS Server" = "DNS 伺服器"; // qwen3.8:27b
-"Jitter" = "抖動"; // qwen3.8:27b
 "Noise" = "噪音"; // qwen3.8:27b
 "Signal" = "訊號"; // qwen3.8:27b
 "Speed" = "速度"; // qwen3.8:27b
@@ -505,7 +502,7 @@
 
 // Clock
 "Time zone" = "時區";
-"Local" = "目前位置";
+"Local" = "本地";
 "Calendar" = "日曆";
 "Show week numbers" = "顯示週數";
 "Local time" = "當地時間";

@@ -125,13 +125,13 @@
 "Check for a new version every month (once a month)" = "בדוק אם קיימת גרסה חדשה בכל חודש (פעם בחודש)"; // gemma4:31b
 "Never check for updates (not recommended)" = "לעולם לא לבדוק עדכונים (לא מומלץ)"; // gemma4:31b
 "The configuration is completed" = "ההגדרה הושלמה"; // translategemma:4b
-"finish_setup_message" = "הכל מוכן! \\n Stats הוא כלי קוד פתוח, הוא בחינם ותמיד יישאר כך. \\n אם אתם נהנים ממנו, תוכלו לתמוך בפרויקט, זה תמיד מוערך!"; // gemma4:31b
+"finish_setup_message" = "הכל מוכן! \n Stats הוא כלי קוד פתוח, הוא בחינם ותמיד יישאר כך. \n אם אתם נהנים ממנו, תוכלו לתמוך בפרויקט, זה תמיד מוערך!"; // gemma4:31b
 
 // Alerts
 "New version available" = "גרסא חדשה זמינה";
-"Click to install the new version of Stats" = "Stats לחץ כדי להתקין גרסא חדשה של";
+"Click to install the new version of Stats" = "לחץ כדי להתקין את גרסת ה-Stats החדשה";
 "Successfully updated" = "עודכן בהצלחה";
-"Stats was updated to v" = "v%0עודכן ל Stats";
+"Stats was updated to v" = "Stats עודכן לגרסה v%0";
 "Reset settings text" = "?כל הגדרות התוכנה יתאפסו והתוכנה תופעל מחדש. האם אתם בטוחים שאתם רוצים לעשות את זה";
 "Deregister text" = "המחשב יבוטל רישומו מ-System Stats ותתנתק מהמערכת. האם אתה בטוח שברצונך לעשות זאת?"; // gemma4:31b-it-qat
 "Support text" = "תודה על השימוש בסטטיסטיקה!\n\n תחזוקה ושיפור של פרויקט קוד פתוח זה דורש זמן ומשאבים. התמיכה שלך עוזרת לנו להמשיך לספק אפליקציה חינמית ומהימנה לכולם.\n\nאם אתה מוצא שסטטיסטיקות מועילות, שקול לתרום. כל טיפה עוזרת!";
@@ -157,7 +157,7 @@
 "Once per month" = "בכל חודש";
 "Never" = "אף פעם";
 "Check for update" = "בדיקת עדכון";
-"Show icon in dock" = "הצג סמל בשורת התפריטים";
+"Show icon in dock" = "הצג סמל בדאק";
 "Start at login" = "התחל בעלייה";
 "Build number" = "מספר בילד";
 "Import settings" = "ייבוא הגדרות"; // gemma4:31b
@@ -186,7 +186,7 @@
 "Display" = "תצוגה"; // translategemma:4b
 
 // Update
-"The latest version of Stats installed" = "מותקנת Stats הגרסא האחרונה של";
+"The latest version of Stats installed" = "גרסת ה-Stats האחרונה מותקנת";
 "Downloading..." = "...מוריד";
 "Installing..." = "מתקין..."; // qwen3.8:27b
 "Updating..." = "מעדכן..."; // qwen3.8:27b
@@ -210,14 +210,14 @@
 "Two rows" = "שתי שורות";
 "Mini widget" = "מיני";
 "Line chart widget" = "מגמת שורות";
-"Bar chart widget" = "טבלת עמודות";
-"Pie chart widget" = "טבלת עוגה";
+"Bar chart widget" = "גרף עמודות";
+"Pie chart widget" = "גרף עוגה";
 "Network chart widget" = "טבלת רשת";
 "Speed widget" = "מהירות";
 "Battery widget" = "בטרייה";
 "Stack widget" = "מחסנית"; // gemma4:31b
 "Memory widget" = "זכרון";
-"Static width" = "אורך סטאטי";
+"Static width" = "רוחב סטטי";
 "Tachometer widget" = "טכומטר";
 "State widget" = "ווידג'ט מצב"; // gemma4:31b
 "Text widget" = "ווידג'ט טקסט"; // gemma4:31b
@@ -291,7 +291,7 @@
 "Cluster grouping" = "קיבוץ צבירים"; // gemma4:31b
 "Efficiency cores color" = "צבע ליבות היעילות"; // gemma4:31b
 "Performance cores color" = "צבע ליבות ביצועים"; // gemma4:31b
-"Super cores color" = "צבע ליבות על"; // qwen3.8:27b
+"Super cores color" = "צבע ליבות סופר"; // qwen3.8:27b
 "Total load" = "עומס כולל"; // gemma4:31b
 "System load" = "עומס מערכת"; // translategemma:4b
 "User load" = "עומס משתמש"; // translategemma:4b
@@ -302,7 +302,7 @@
 "Load per core" = "עומס לליבה"; // gemma4:31b
 "Efficiency core" = "ליבת יעילות"; // translategemma:4b
 "Performance core" = "ליבת ביצועים"; // translategemma:4b
-"Super core" = "ליבת על"; // gemma4:31b
+"Super core" = "ליבת סופר"; // gemma4:31b
 
 // GPU
 "GPU to show" = "להראות GPU";
@@ -311,10 +311,8 @@
 "Model" = "דגם";
 "Status" = "מצב";
 "Utilization" = "ניצול";
-"Render" = "רינדור"; // qwen3.8:27b
-"Render utilization" = "ניצול רנדור";
-"Render utilization history" = "היסטוריית ניצול רינדור"; // qwen3.8:27b
-"Tiler" = "מַפְרִיס"; // qwen3.8:27b
+"Renderer utilization" = "ניצול רנדור";
+"Renderer utilization history" = "היסטוריית ניצול רינדור"; // qwen3.8:27b
 "Tiler utilization" = "ניצול ריצוף";
 "Tiler utilization history" = "היסטוריית ניצול טיילר"; // qwen3.8:27b
 "GPU usage threshold" = "סף שימוש ב-GPU"; // gemma4:31b
@@ -349,8 +347,8 @@
 
 // Disk
 "Show removable disks" = "הראה דיסקים הניתנים להסרה";
-"Used disk memory" = "0% מתוך %1 בשימוש";
-"Free disk memory" = "0% מתוך %1 פנויים";
+"Used disk memory" = "%0 מתוך %1 בשימוש";
+"Free disk memory" = "%0 מתוך %1 פנויים";
 "Disk to show" = "דיסק להראות";
 "Open disk" = "פתח/י דיסק";
 "Switch view" = "החלף תצוגה";
@@ -367,7 +365,7 @@
 "Encrypted" = "מוצפן"; // gemma4:31b-it-qat
 "Writable" = "ניתן לכתיבה"; // gemma4:31b-it-qat
 "Drives" = "כוננים"; // gemma4:31b
-"Power cycles" = "מחזורי טעינה"; // gemma4:31b
+"Power cycles" = "מחזורי הפעלה"; // gemma4:31b
 "Power on hours" = "שעות הפעלה"; // gemma4:31b
 "Critical warning" = "אזהרה קריטית"; // gemma4:31b-it-qat
 "Available spare" = "רזרבה זמינה"; // gemma4:31b-it-qat
@@ -426,7 +424,7 @@
 "Total upload" = "העלאה כוללת";
 "Reader type" = "מצב קריאה";
 "Interface based" = "מבוסס ממשק";
-"Processes based" = "מבוסס מעבד";
+"Processes based" = "מבוסס תהליכים";
 "Reset data usage" = "אפס את השימוש בנתונים";
 "VPN mode" = "VPN מצב";
 "Standard" = "סטנדרט"; // gemma4:31b
@@ -454,7 +452,6 @@
 "Internet connection established" = "חיבור לאינטרנט נוצר"; // gemma4:31b
 "Show country code instead of emoji" = "להציג קוד מדינה במקום אימוג'י"; // gemma4:31b
 "DNS Server" = "שרת DNS"; // qwen3.8:27b
-"Jitter" = "ג'יטר"; // qwen3.8:27b
 "Noise" = "רעש"; // qwen3.8:27b
 "Signal" = "איתות"; // qwen3.8:27b
 "Speed" = "מהירות"; // qwen3.8:27b

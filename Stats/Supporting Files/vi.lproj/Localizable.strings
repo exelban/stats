@@ -227,7 +227,7 @@
 "Number of reads in the chart" = "Số lần đọc trong biểu đồ";
 "Color of download" = "Màu tải xuống";
 "Color of upload" = "Màu tải lên";
-"Monospaced font" = "Phông chữ đơn cách";
+"Monospaced font" = "Phông chữ monospace";
 "Reverse order" = "Đảo ngược thứ tự";
 "Chart history" = "Lịch sử biểu đồ";
 "Default color" = "Màu mặc định";
@@ -300,9 +300,9 @@
 "Super cores load" = "Tải nhân Super"; // qwen3.8:27b
 "All cores" = "Tất cả các nhân";
 "Load per core" = "Tải trên mỗi nhân"; // gemma4:31b
-"Efficiency core" = "Nhân hiệu quả"; // gemma4:31b
+"Efficiency core" = "Nhân tiết kiệm"; // gemma4:31b
 "Performance core" = "Nhân hiệu năng"; // gemma4:31b
-"Super core" = "Siêu lõi"; // gemma4:31b
+"Super core" = "Siêu nhân"; // gemma4:31b
 
 // GPU
 "GPU to show" = "GPU hiển thị";
@@ -311,15 +311,13 @@
 "Model" = "Mô hình";
 "Status" = "Trạng thái";
 "Utilization" = "Sử dụng";
-"Render" = "Hiển thị"; // qwen3.8:27b
-"Render utilization" = "Mức sử dụng kết xuất";
-"Render utilization history" = "Lịch sử sử dụng Render"; // qwen3.8:27b
-"Tiler" = "Gạch"; // qwen3.8:27b
+"Renderer utilization" = "Mức sử dụng kết xuất";
+"Renderer utilization history" = "Lịch sử mức sử dụng kết xuất"; // qwen3.8:27b
 "Tiler utilization" = "Mức sử dụng tiler";
-"Tiler utilization history" = "Lịch sử sử dụng Tiler"; // qwen3.8:27b
+"Tiler utilization history" = "Lịch sử mức sử dụng Tiler"; // qwen3.8:27b
 "GPU usage threshold" = "Ngưỡng sử dụng GPU";
 "GPU usage is" = "Sử dụng GPU là %0";
-"ANE utilization" = "Tỷ lệ sử dụng ANE"; // qwen3.8:27b
+"ANE utilization" = "Mức sử dụng ANE"; // qwen3.8:27b
 "ANE utilization history" = "Lịch sử mức sử dụng ANE"; // qwen3.8:27b
 "FPS history" = "Lịch sử FPS"; // qwen3.8:27b
 "GPU utilization history" = "Lịch sử sử dụng GPU"; // qwen3.8:27b
@@ -367,7 +365,7 @@
 "Encrypted" = "Đã mã hóa"; // gemma4:31b-it-qat
 "Writable" = "Có thể ghi"; // gemma4:31b-it-qat
 "Drives" = "Ổ đĩa";
-"Power cycles" = "Số chu kỳ sạc"; // gemma4:31b
+"Power cycles" = "Số chu kỳ bật/tắt nguồn"; // gemma4:31b
 "Power on hours" = "Số giờ bật nguồn"; // gemma4:31b
 "Critical warning" = "Cảnh báo nghiêm trọng"; // gemma4:31b-it-qat
 "Available spare" = "Dự phòng khả dụng"; // gemma4:31b-it-qat
@@ -454,7 +452,6 @@
 "Internet connection established" = "Kết nối internet được thiết lập";
 "Show country code instead of emoji" = "Hiển thị mã quốc gia thay vì emoji"; // gemma4:31b
 "DNS Server" = "Máy chủ DNS"; // qwen3.8:27b
-"Jitter" = "Độ giật"; // qwen3.8:27b
 "Noise" = "Tiếng ồn"; // qwen3.8:27b
 "Signal" = "Tín hiệu"; // qwen3.8:27b
 "Speed" = "Tốc độ"; // qwen3.8:27b

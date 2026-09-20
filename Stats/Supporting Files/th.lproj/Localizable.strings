@@ -30,7 +30,7 @@
 "Open Clock settings" = "เปิดการตั้งค่านาฬิกา"; // translategemma:4b
 
 // Words
-"Unknown" = "ไม่ทราบที่มา";
+"Unknown" = "ไม่ทราบ";
 "Version" = "เวอร์ชัน";
 "Processor" = "หน่วยประมวลผล";
 "Memory" = "หน่วยความจำ";
@@ -59,7 +59,7 @@
 "Right alignment" = "จัดแนวขวา";
 "Dashboard" = "แดชบอร์ด";
 "Disabled" = "ปิดใช้งาน";
-"Silent" = "ไม่เสียง";
+"Silent" = "เงียบ";
 "Units" = "หน่วย";
 "Fans" = "พัดลม";
 "Scaling" = "ขนาด";
@@ -68,7 +68,7 @@
 "Cube" = "ลูกบาศก์";
 "Logarithmic" = "ลอการิทึม";
 "Fixed scale" = "คงที่"; // gemma4:31b
-"Cores" = "หน่วยความจำ";
+"Cores" = "คอร์";
 "Core" = "คอร์"; // gemma4:31b
 "Settings" = "การตั้งค่า";
 "Name" = "ชื่อ"; // translategemma:4b
@@ -134,7 +134,7 @@
 "Stats was updated to v" = "Stats อัพเดทเป็น v%0";
 "Reset settings text" = "การตั้งค่าของแอพพลิเคชันทั้งหมดจะถูกรีเซ็ตและแอพพลิเคชันจะเริ่มต้นใหม่ คุณแน่ใจหรือไม่ว่าต้องการดำเนินการนี้?";
 "Deregister text" = "เครื่องจะถูกยกเลิกการลงทะเบียนจาก System Stats และคุณจะถูกออกจากระบบ คุณแน่ใจหรือไม่ว่าต้องการดำเนินการนี้?"; // gemma4:31b-it-qat
-"Support text" = "ขอขอบคุณที่ใช้ Stats!\n\n การบำรุงรักษาและปรับปรุงโครงการโอเพนซอร์สนี้ต้องใช้เวลาและทรัพยากร การสนับสนุนของคุณช่วยให้เราสามารถให้บริการแอปพลิเคชันฟรีและเชื่อถือได้สำหรับทุกคนต่อไปได้\n\n หากคุณพบว่า Stats มีประโยชน์ โปรดพิจารณาให้ความช่วยเหลือ ทุก ๆ ความช่วยเหลือเล็ก ๆ น้อย ๆ ล้วนมีประโยชน์!";
+"Support text" = "ขอขอบคุณที่ใช้ Stats!\n\nการบำรุงรักษาและปรับปรุงโครงการโอเพนซอร์สนี้ต้องใช้เวลาและทรัพยากร การสนับสนุนของคุณช่วยให้เราสามารถให้บริการแอปพลิเคชันฟรีและเชื่อถือได้สำหรับทุกคนต่อไปได้\n\n หากคุณพบว่า Stats มีประโยชน์ โปรดพิจารณาให้ความช่วยเหลือ ทุก ๆ ความช่วยเหลือเล็ก ๆ น้อย ๆ ล้วนมีประโยชน์!";
 
 // Settings
 "Open Activity Monitor" = "เปิด Activity Monitor";
@@ -169,7 +169,7 @@
 "Combined details" = "รายละเอียดรวม"; // gemma4:31b
 "Spacing" = "ระยะห่าง"; // translategemma:4b
 "Choose file" = "เลือกไฟล์"; // translategemma:4b
-"Stress tests" = "การทดสอบความเครียด"; // translategemma:4b
+"Stress tests" = "สเตรสเทสต์"; // translategemma:4b
 "Keep the menubar items position" = "คงตำแหน่งของรายการในแถบเมนู"; // qwen3.8:27b
 
 // Dashboard
@@ -179,8 +179,8 @@
 "Uptime" = "ระยะเวลาที่เครื่องทำงาน";
 "Number of cores" = "%0 คอร์"; // translategemma:4b
 "Number of threads" = "%0 thread";
-"Number of e-cores" = "%0 cores ประสิทธิภาพ";
-"Number of p-cores" = "%0 cores ประสิทธิผล";
+"Number of e-cores" = "%0 cores ประสิทธิผล";
+"Number of p-cores" = "%0 cores ประสิทธิภาพ";
 "Number of s-cores" = "%0 ซูเปอร์คอร์"; // gemma4:31b
 "Disks" = "ดิสก์"; // gemma4:31b
 "Display" = "จอภาพ"; // gemma4:31b
@@ -202,7 +202,7 @@
 "Frame" = "เฟรม";
 "Value" = "ค่า";
 "Colorize" = "สีสัน";
-"Colorize value" = "สีสันค่า";
+"Colorize value" = "ใส่สีให้ค่า";
 "Additional information" = "ข้อมูลเพิ่มเติม";
 "Base" = "ฐาน";
 "Display mode" = "แสดงโหมด";
@@ -237,7 +237,7 @@
 
 // Module Kit
 "Open module settings" = "เปิดการตั้งค่าโมดูล";
-"Update interval" = "ช่วงเวลาปรับปรุง";
+"Update interval" = "ช่วงเวลาอัปเดต";
 "Usage history" = "ประวัติการใช้งาน";
 "Details" = "รายละเอียด";
 "Top processes" = "กระบวนการบนสุด";
@@ -258,7 +258,7 @@
 
 // Modules
 "Number of top processes" = "จำนวนของกระบวนการสูงสุด";
-"Update interval for top processes" = "ช่วงเวลาปรับปรุงสำหรับกระบวนการสูงสุด";
+"Update interval for top processes" = "ช่วงเวลาอัปเดตสำหรับกระบวนการสูงสุด";
 "Chart color" = "สีแผนภูมิ";
 "Main chart scaling" = "การปรับขนาดกราฟหลัก"; // translategemma:4b
 "Scale value" = "ค่ามาตราส่วน"; // gemma4:31b
@@ -311,10 +311,8 @@
 "Model" = "โมเดล";
 "Status" = "สถานะ";
 "Utilization" = "ปริมาณการใช้งาน";
-"Render" = "เรนเดอร์"; // qwen3.8:27b
-"Render utilization" = "ปริมาณการใช้งาน Render";
-"Render utilization history" = "ประวัติการใช้งานเรนเดอร์"; // qwen3.8:27b
-"Tiler" = "ไทเลอร์"; // qwen3.8:27b
+"Renderer utilization" = "ปริมาณการใช้งาน Render";
+"Renderer utilization history" = "ประวัติการใช้งานเรนเดอร์"; // qwen3.8:27b
 "Tiler utilization" = "ปริมาณการใช้งาน Tiler";
 "Tiler utilization history" = "ประวัติการใช้งานไทเลอร์"; // qwen3.8:27b
 "GPU usage threshold" = "เกณฑ์การใช้งาน GPU";
@@ -326,11 +324,11 @@
 
 // RAM
 "Memory usage" = "การใช้หน่วยความจำ";
-"Memory pressure" = "ความกดดันหน่วยของความจำ";
+"Memory pressure" = "ความดันหน่วยความจำ";
 "Total" = "รวม";
 "Used" = "ใช้งาน";
 "App" = "แอพ";
-"Wired" = "แบบมีสาย"; // translategemma:4b
+"Wired" = "Wired"; // translategemma:4b
 "Compressed" = "บีบอัด";
 "Free" = "ว่าง";
 "Swap" = "Swap";
@@ -367,7 +365,7 @@
 "Encrypted" = "เข้ารหัสแล้ว"; // gemma4:31b-it-qat
 "Writable" = "เขียนได้"; // gemma4:31b-it-qat
 "Drives" = "ไดรฟ์"; // gemma4:31b
-"Power cycles" = "จำนวนรอบการชาร์จ"; // gemma4:31b
+"Power cycles" = "จำนวนรอบเปิด-ปิดเครื่อง"; // gemma4:31b
 "Power on hours" = "ชั่วโมงการทำงาน"; // gemma4:31b
 "Critical warning" = "คำเตือนระดับวิกฤต"; // gemma4:31b-it-qat
 "Available spare" = "สำรองที่พร้อมใช้งาน"; // gemma4:31b-it-qat
@@ -454,7 +452,6 @@
 "Internet connection established" = "การเชื่อมต่ออินเทอร์เน็ตสำเร็จ"; // translategemma:4b
 "Show country code instead of emoji" = "แสดงรหัสประเทศแทนอีโมจิ"; // gemma4:31b
 "DNS Server" = "เซิร์ฟเวอร์ DNS"; // qwen3.8:27b
-"Jitter" = "ความผันผวน"; // qwen3.8:27b
 "Noise" = "เสียงรบกวน"; // qwen3.8:27b
 "Signal" = "สัญญาณ"; // qwen3.8:27b
 "Speed" = "ความเร็ว"; // qwen3.8:27b
@@ -471,10 +468,10 @@
 "Voltage" = "แรงดัน";
 "Cycles" = "รอบ";
 "Temperature" = "อุณหภูมิ";
-"Power adapter" = "แปลงพลังงาน";
+"Power adapter" = "อะแดปเตอร์ไฟ";
 "Power" = "พลังงาน";
 "Is charging" = "กำลังชาร์จ";
-"Time to discharge" = "เวลาในการชาร์จ";
+"Time to discharge" = "เวลาจนแบตเตอรี่หมด";
 "Time to charge" = "เวลาในการชาร์จ";
 "Calculating" = "การคำนวณ";
 "Fully charged" = "เต็มแล้ว";

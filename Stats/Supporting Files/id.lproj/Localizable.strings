@@ -16,7 +16,7 @@
 "Open GPU settings" = "Buka pengaturan GPU";
 "RAM" = "RAM";
 "Open RAM settings" = "Buka pengaturan RAM";
-"Disk" = "Hard disk"; // translategemma:4b
+"Disk" = "Disk"; // translategemma:4b
 "Open Disk settings" = "Buka pengaturan Disk";
 "Sensors" = "Sensor";
 "Open Sensors settings" = "Buka pengaturan sensor";
@@ -54,9 +54,9 @@
 "Min" = "Minimal"; // translategemma:4b
 "Reset" = "Atur ulang";
 "Alignment" = "Perataan"; // gemma4:31b
-"Left alignment" = "Alignment Kiri";
-"Center alignment" = "Alignment tengah";
-"Right alignment" = "Alignment kanan";
+"Left alignment" = "Perataan kiri";
+"Center alignment" = "Perataan tengah";
+"Right alignment" = "Perataan kanan";
 "Dashboard" = "Dasbor";
 "Disabled" = "Dinonaktifkan";
 "Silent" = "Hening";
@@ -64,7 +64,7 @@
 "Fans" = "Kipas";
 "Scaling" = "Penskalaan"; // gemma4:31b
 "Linear" = "Linier"; // gemma4:31b-it-qat
-"Square" = "Kotak"; // gemma4:31b
+"Square" = "Persegi"; // gemma4:31b
 "Cube" = "Kubus"; // translategemma:4b
 "Logarithmic" = "Logaritmik"; // translategemma:4b
 "Fixed scale" = "Tetap"; // gemma4:31b
@@ -125,13 +125,13 @@
 "Check for a new version every month (once a month)" = "Periksa versi baru setiap bulan (sekali sebulan)"; // gemma4:31b
 "Never check for updates (not recommended)" = "Jangan pernah periksa pembaruan (tidak direkomendasikan)"; // gemma4:31b
 "The configuration is completed" = "Konfigurasi telah selesai"; // gemma4:31b
-"finish_setup_message" = "Semuanya sudah siap! \\n Stats adalah alat open source, gratis dan akan selalu gratis. \\n Jika Anda menyukainya, Anda dapat mendukung proyek ini, hal ini selalu dihargai!"; // gemma4:31b
+"finish_setup_message" = "Semuanya sudah siap!\nStats adalah alat sumber terbuka, gratis dan akan selalu gratis.\nJika Anda menyukainya, Anda dapat mendukung proyek ini, hal ini selalu dihargai!"; // gemma4:31b
 
 // Alerts
 "New version available" = "Versi baru tersedia";
 "Click to install the new version of Stats" = "Klik untuk memasang versi baru dari Stats";
 "Successfully updated" = "Pembaruan berhasil";
-"Stats was updated to v" = "Stats telah diperbarui v%0";
+"Stats was updated to v" = "Stats telah diperbarui ke v%0";
 "Reset settings text" = "Semua pengaturan aplikasi akan diatur ulang, dan aplikasi akan mengulang kembali. Anda yakin untuk melakukan ini?";
 "Deregister text" = "Komputer akan dideregistrasi dari System Stats dan Anda akan keluar. Apakah Anda yakin ingin melakukan ini?"; // gemma4:31b-it-qat
 "Support text" = "Terima kasih telah menggunakan Stats!\n\nMemelihara dan meningkatkan proyek sumber terbuka ini membutuhkan waktu dan sumber daya. Dukungan Anda membantu kami untuk terus menyediakan aplikasi yang gratis dan dapat diandalkan untuk semua orang.\n\nJika Anda merasa Stats bermanfaat, mohon pertimbangkan untuk memberikan kontribusi. Setiap hal kecil akan sangat membantu!";
@@ -177,7 +177,7 @@
 "Model identifier" = "Pengidentifikasi model"; // translategemma:4b
 "Production year" = "Tahun produksi"; // translategemma:4b
 "Uptime" = "Waktu aktif";
-"Number of cores" = "%0 core";
+"Number of cores" = "%0 inti";
 "Number of threads" = "%0 thread";
 "Number of e-cores" = "%0 inti efisiensi"; // translategemma:4b
 "Number of p-cores" = "%0 inti performa"; // gemma4:31b
@@ -237,14 +237,14 @@
 
 // Module Kit
 "Open module settings" = "Buka pengaturan modul";
-"Update interval" = "Perbarui waktu jeda";
+"Update interval" = "Interval pembaruan";
 "Usage history" = "Riwayat penggunaan";
 "Details" = "Rincian";
 "Top processes" = "Proses teratas";
 "Pictogram" = "Piktogram";
 "Module" = "Modul";
 "Widgets" = "Widget"; // translategemma:4b
-"Popup" = "Muncul";
+"Popup" = "Popup";
 "Notifications" = "Notifikasi";
 "Merge widgets" = "Gabungkan widget";
 "No available widgets to configure" = "Tidak ada widget yang tersedia untuk dikonfigurasi";
@@ -258,7 +258,7 @@
 
 // Modules
 "Number of top processes" = "Jumlah dari proses teratas";
-"Update interval for top processes" = "Pembaruan waktu jeda dari proses teratas";
+"Update interval for top processes" = "Interval pembaruan untuk proses teratas";
 "Chart color" = "Warna bagan";
 "Main chart scaling" = "Penskalaan grafik utama"; // gemma4:31b
 "Scale value" = "Nilai skala"; // translategemma:4b
@@ -272,8 +272,8 @@
 "System" = "Sistem";
 "User" = "Pengguna";
 "Idle" = "Tidak berjalan";
-"Show usage per core" = "Tampilan penggunaan tiap core";
-"Show hyper-threading cores" = "Tampilkan hyper-threading core";
+"Show usage per core" = "Tampilan penggunaan tiap inti";
+"Show hyper-threading cores" = "Tampilkan inti hyper-threading";
 "Split the value (System/User)" = "Pisahkan nilai (Sistem/User)";
 "Scheduler limit" = "Batas penjadwal";
 "Speed limit" = "Batas kecepatan";
@@ -291,17 +291,17 @@
 "Cluster grouping" = "Pengelompokan klaster"; // translategemma:4b
 "Efficiency cores color" = "Warna inti efisiensi"; // gemma4:31b
 "Performance cores color" = "Warna inti performa"; // gemma4:31b
-"Super cores color" = "Warna core super"; // qwen3.8:27b
+"Super cores color" = "Warna inti super"; // qwen3.8:27b
 "Total load" = "Beban total"; // gemma4:31b
 "System load" = "Beban sistem"; // translategemma:4b
 "User load" = "Beban pengguna"; // translategemma:4b
 "Efficiency cores load" = "Beban inti efisiensi"; // gemma4:31b
-"Performance cores load" = "Beban inti kinerja"; // gemma4:31b
-"Super cores load" = "Beban Inti Super"; // qwen3.8:27b
+"Performance cores load" = "Beban inti performa"; // gemma4:31b
+"Super cores load" = "Beban inti super"; // qwen3.8:27b
 "All cores" = "Semua inti"; // translategemma:4b
 "Load per core" = "Beban per inti"; // translategemma:4b
 "Efficiency core" = "Inti efisiensi"; // gemma4:31b
-"Performance core" = "Inti kinerja"; // translategemma:4b
+"Performance core" = "Inti performa"; // translategemma:4b
 "Super core" = "Inti super"; // gemma4:31b
 
 // GPU
@@ -311,18 +311,16 @@
 "Model" = "Model";
 "Status" = "Status";
 "Utilization" = "Pemanfaatan";
-"Render" = "Render";
-"Render utilization" = "Pemanfaatan render";
-"Render utilization history" = "Riwayat utilisasi render"; // qwen3.8:27b
-"Tiler" = "Penata"; // qwen3.8:27b
+"Renderer utilization" = "Pemanfaatan render";
+"Renderer utilization history" = "Riwayat pemanfaatan render"; // qwen3.8:27b
 "Tiler utilization" = "Pemanfaatan tiler";
-"Tiler utilization history" = "Riwayat utilisasi Tiler"; // qwen3.8:27b
+"Tiler utilization history" = "Riwayat pemanfaatan Tiler"; // qwen3.8:27b
 "GPU usage threshold" = "Ambang batas penggunaan GPU"; // gemma4:31b
 "GPU usage is" = "Penggunaan GPU adalah %0"; // translategemma:4b
-"ANE utilization" = "Utilisasi ANE"; // qwen3.8:27b
-"ANE utilization history" = "Riwayat utilisasi ANE"; // qwen3.8:27b
+"ANE utilization" = "Pemanfaatan ANE"; // qwen3.8:27b
+"ANE utilization history" = "Riwayat pemanfaatan ANE"; // qwen3.8:27b
 "FPS history" = "Riwayat FPS"; // qwen3.8:27b
-"GPU utilization history" = "Riwayat utilisasi GPU"; // qwen3.8:27b
+"GPU utilization history" = "Riwayat pemanfaatan GPU"; // qwen3.8:27b
 
 // RAM
 "Memory usage" = "Penggunaan memori";
@@ -454,7 +452,6 @@
 "Internet connection established" = "Koneksi internet terhubung"; // gemma4:31b
 "Show country code instead of emoji" = "Tampilkan kode negara alih-alih emoji"; // gemma4:31b
 "DNS Server" = "Server DNS"; // qwen3.8:27b
-"Jitter" = "Jitter";
 "Noise" = "Kebisingan"; // qwen3.8:27b
 "Signal" = "Sinyal"; // qwen3.8:27b
 "Speed" = "Kecepatan"; // qwen3.8:27b
@@ -521,7 +518,7 @@
 "Based on pressure" = "Berdasarkan tekanan";
 "Based on cluster" = "Berdasarkan klaster"; // gemma4:31b
 "System accent" = "Aksen berdasarkan sistem";
-"Monochrome accent" = "Akses monokrom";
+"Monochrome accent" = "Aksen monokrom";
 "Clear" = "Bening";
 "White" = "Putih";
 "Black" = "Hitam";

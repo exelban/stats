@@ -142,7 +142,7 @@
 "Support the application" = "Поддержите приложение";
 "Close application" = "Закрыть приложение";
 "Open application settings" = "Открыть настройки приложения";
-"Open dashboard" = "Открыть dashboard";
+"Open dashboard" = "Открыть главную страницу";
 "No notifications available in this module" = "В этом модуле нет доступных уведомлений";
 "Open Calendar" = "Открыть календарь";
 "Toggle the module" = "Переключить модуль";
@@ -157,7 +157,7 @@
 "Once per month" = "Раз в месяц";
 "Never" = "Никогда";
 "Check for update" = "Проверить обновление";
-"Show icon in dock" = "Показать значок в dock";
+"Show icon in dock" = "Показать значок в Dock";
 "Start at login" = "Запуск при входе";
 "Build number" = "Номер сборки";
 "Import settings" = "Импортировать настройки";
@@ -181,7 +181,7 @@
 "Number of threads" = "%0 потоков";
 "Number of e-cores" = "%0 энергоэффективных ядер";
 "Number of p-cores" = "%0 производительных ядер";
-"Number of s-cores" = "%0: супер ядра";
+"Number of s-cores" = "%0 суперядер";
 "Disks" = "Диски";
 "Display" = "Монитор";
 
@@ -198,7 +198,7 @@
 // Widgets
 "Color" = "Цвет";
 "Label" = "Метка";
-"Box" = "Коробка"; // translategemma:4b
+"Box" = "Фон"; // translategemma:4b
 "Frame" = "Рамка";
 "Value" = "Значение";
 "Colorize" = "Раскрасить";
@@ -223,13 +223,13 @@
 "Text widget" = "Текст";
 "Battery details widget" = "Виджет сведений о батарее";
 "Show symbols" = "Показать символы";
-"Label widget" = "Этикетка";
+"Label widget" = "Метка";
 "Number of reads in the chart" = "Количество чтений на графике";
 "Color of download" = "Цвет загрузки";
 "Color of upload" = "Цвет выгрузки";
 "Monospaced font" = "Моноширинный шрифт";
 "Reverse order" = "Обратный порядок";
-"Chart history" = "Продолжительность графика";
+"Chart history" = "История графика";
 "Default color" = "По умолчанию";
 "Transparent when no activity" = "Прозрачный когда нет активности";
 "Constant color" = "Постоянный";
@@ -263,7 +263,7 @@
 "Main chart scaling" = "Масштабирование основного графика";
 "Scale value" = "Значение масштаба";
 "Text widget value" = "Значение текстового виджета";
-"Combined processes" = "Сгруппировать процессы";
+"Combined processes" = "Сгруппированные процессы";
 
 // CPU
 "CPU usage" = "Использование процессора";
@@ -300,9 +300,9 @@
 "Super cores load" = "Нагрузка суперядер"; // qwen3.8:27b
 "All cores" = "Все ядра";
 "Load per core" = "Нагрузка на ядро";
-"Efficiency core" = "Ядро эффективности";
-"Performance core" = "Ядро производительности";
-"Super core" = "Супер ядро";
+"Efficiency core" = "Энергоэффективное ядро";
+"Performance core" = "Производительное ядро";
+"Super core" = "Суперядро";
 
 // GPU
 "GPU to show" = "Активный графический процессор";
@@ -311,15 +311,13 @@
 "Model" = "Модель";
 "Status" = "Статус";
 "Utilization" = "Использование";
-"Render" = "Рендер"; // qwen3.8:27b
-"Render utilization" = "Использование render";
-"Render utilization history" = "История загрузки рендера"; // qwen3.8:27b
-"Tiler" = "Тайлер"; // qwen3.8:27b
-"Tiler utilization" = "Использование tiler";
+"Renderer utilization" = "Использование рендерера";
+"Renderer utilization history" = "История загрузки рендера"; // qwen3.8:27b
+"Tiler utilization" = "Использование тайлера";
 "Tiler utilization history" = "История загрузки Tiler"; // qwen3.8:27b
 "GPU usage threshold" = "Порог использования графического процессора";
 "GPU usage is" = "Использование графического процессора %0";
-"ANE utilization" = "Загрузка ANE"; // qwen3.8:27b
+"ANE utilization" = "Использование ANE"; // qwen3.8:27b
 "ANE utilization history" = "История загрузки ANE"; // qwen3.8:27b
 "FPS history" = "История FPS"; // qwen3.8:27b
 "GPU utilization history" = "История загрузки GPU"; // qwen3.8:27b
@@ -352,7 +350,7 @@
 "Used disk memory" = "Использовано %0 из %1";
 "Free disk memory" = "Свободно %0 из %1";
 "Disk to show" = "Активный диск";
-"Open disk" = "Открытый диск";
+"Open disk" = "Открыть диск";
 "Switch view" = "Переключить вид";
 "Disk utilization threshold" = "Порог использования диска";
 "Disk utilization is" = "Использование диска %0";
@@ -454,7 +452,6 @@
 "Internet connection established" = "Соединение с интернетом восстановлено";
 "Show country code instead of emoji" = "Отображать код страны вместо эмодзи";
 "DNS Server" = "Сервер DNS"; // qwen3.8:27b
-"Jitter" = "Джиттер"; // qwen3.8:27b
 "Noise" = "Шум"; // qwen3.8:27b
 "Signal" = "Сигнал"; // qwen3.8:27b
 "Speed" = "Скорость"; // qwen3.8:27b
@@ -464,7 +461,7 @@
 
 // Battery
 "Source" = "Источник";
-"AC Power" = "Сеть";
+"AC Power" = "Сетевое питание";
 "Battery Power" = "Аккумулятор";
 "Time" = "Время";
 "Health" = "Состояние";
@@ -489,7 +486,7 @@
 "Time and percentage" = "Время и проценты";
 "Time format" = "Формат времени";
 "Hide additional information when full" = "Скрыть дополнительную информацию при полном заряде";
-"Percentage inside the icon" = "Процент внутри виджета";
+"Percentage inside the icon" = "Процент внутри иконки";
 "Charger state inside the battery" = "Состояние зарядки внутри аккумулятора";
 "Max capacity" = "Максимальная ёмкость"; // qwen3.8:27b
 "Designed capacity" = "Проектная ёмкость"; // qwen3.8:27b

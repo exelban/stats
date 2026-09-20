@@ -111,7 +111,7 @@
 "Welcome to Stats" = "Welcome to Stats";
 "welcome_message" = "Thanks for using Stats, a free open source macOS system monitor for your menu bar.";
 "Select preset" = "Select preset";
-"select_preset_message" = "Choose a starting set of modules. You can customize everything later in the Settings.";
+"select_preset_message" = "Choose a starting set of modules. You can customise everything later in the Settings.";
 "Default" = "Default";
 "Basic" = "Basic";
 "Recommended" = "Recommended";
@@ -291,7 +291,7 @@
 "Cluster grouping" = "Cluster grouping";
 "Efficiency cores color" = "Efficiency cores colour";
 "Performance cores color" = "Performance cores colour";
-"Super cores color" = "Super cores color";
+"Super cores color" = "Super cores colour";
 "Total load" = "Total load";
 "System load" = "System load";
 "User load" = "User load";
@@ -311,18 +311,16 @@
 "Model" = "Model";
 "Status" = "Status";
 "Utilization" = "Utilisation";
-"Render" = "Render";
-"Render utilization" = "Render utilisation";
-"Render utilization history" = "Render utilization history";
-"Tiler" = "Tiler";
+"Renderer utilization" = "Render utilisation";
+"Renderer utilization history" = "Render utilisation history";
 "Tiler utilization" = "Tiler utilisation";
-"Tiler utilization history" = "Tiler utilization history";
+"Tiler utilization history" = "Tiler utilisation history";
 "GPU usage threshold" = "GPU usage threshold";
 "GPU usage is" = "GPU usage is %0";
-"ANE utilization" = "ANE utilization";
-"ANE utilization history" = "ANE utilization history";
+"ANE utilization" = "ANE utilisation";
+"ANE utilization history" = "ANE utilisation history";
 "FPS history" = "FPS history";
-"GPU utilization history" = "GPU utilization history";
+"GPU utilization history" = "GPU utilisation history";
 
 // RAM
 "Memory usage" = "Memory usage";
@@ -381,7 +379,7 @@
 "Backup failed" = "Backup failed";
 "All disks" = "All disks";
 "Disk details" = "Disk details";
-"Main color" = "Main color";
+"Main color" = "Main colour";
 "Read / Write history" = "Read / Write history";
 "mounted" = "mounted";
 "removable" = "removable";
@@ -454,7 +452,6 @@
 "Internet connection established" = "Internet connection established";
 "Show country code instead of emoji" = "Show country code instead of emoji";
 "DNS Server" = "DNS Server";
-"Jitter" = "Jitter";
 "Noise" = "Noise";
 "Signal" = "Signal";
 "Speed" = "Speed";
@@ -550,7 +547,7 @@
 "Indigo" = "Indigo";
 
 // System Stats
-"Authorization" = "Authorization";
+"Authorization" = "Authorisation";
 "Identificator" = "Identificator";
 "Plan" = "Plan";
 "Monitoring" = "Monitoring";

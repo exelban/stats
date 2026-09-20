@@ -204,7 +204,7 @@
 "Colorize" = "Renklendir";
 "Colorize value" = "Değeri renklendir";
 "Additional information" = "Ek bilgiler";
-"Base" = "Birim";
+"Base" = "Taban";
 "Display mode" = "Görünüm modu";
 "One row" = "Tek satır";
 "Two rows" = "İki satır";
@@ -311,10 +311,8 @@
 "Model" = "Model";
 "Status" = "Durum";
 "Utilization" = "Kullanım";
-"Render" = "Çizim"; // qwen3.8:27b
-"Render utilization" = "Render kullanımı";
-"Render utilization history" = "Render kullanım geçmişi"; // qwen3.8:27b
-"Tiler" = "Dizgi"; // qwen3.8:27b
+"Renderer utilization" = "Render kullanımı";
+"Renderer utilization history" = "Render kullanım geçmişi"; // qwen3.8:27b
 "Tiler utilization" = "Tiler kullanımı";
 "Tiler utilization history" = "Tiler kullanım geçmişi"; // qwen3.8:27b
 "GPU usage threshold" = "GPU kullanım eşiği";
@@ -330,15 +328,15 @@
 "Total" = "Toplam";
 "Used" = "Kullanılan";
 "App" = "Uygulama";
-"Wired" = "Kablolu";
+"Wired" = "Sabitlenmiş";
 "Compressed" = "Sıkıştırılmış";
 "Free" = "Boş";
 "Swap" = "Swap";
-"Split the value (App/Wired/Compressed)" = "Değeri böl (Uygulama/Kablolu/Sıkıştırılmış)";
+"Split the value (App/Wired/Compressed)" = "Değeri böl (Uygulama/Sabitlenmiş/Sıkıştırılmış)";
 "RAM utilization threshold" = "RAM kullanım eşiği";
 "RAM utilization is" = "RAM kullanımı %0";
 "App color" = "Uygulama rengi";
-"Wired color" = "Kablolu bellek rengi";
+"Wired color" = "Sabitlenmiş bellek rengi";
 "Compressed color" = "Sıkıştırılmış bellek rengi";
 "Free color" = "Boş bellek rengi";
 "Free memory (less than)" = "Boş bellek (şunun altında)";
@@ -366,7 +364,7 @@
 "BSD name" = "BSD adı"; // gemma4:31b-it-qat
 "Encrypted" = "Şifreli"; // gemma4:31b-it-qat
 "Writable" = "Yazılabilir"; // gemma4:31b-it-qat
-"Drives" = "Sürücüler";
+"Drives" = "Diskler";
 "Power cycles" = "Güç döngüleri"; // gemma4:31b
 "Power on hours" = "Çalışma süresi (saat)"; // gemma4:31b
 "Critical warning" = "Kritik uyarı"; // gemma4:31b-it-qat
@@ -454,7 +452,6 @@
 "Internet connection established" = "İnternet bağlantısı kuruldu";
 "Show country code instead of emoji" = "Emoji yerine ülke kodunu göster"; // gemma4:31b
 "DNS Server" = "DNS Sunucusu"; // qwen3.8:27b
-"Jitter" = "Jitter";
 "Noise" = "Gürültü"; // qwen3.8:27b
 "Signal" = "Sinyal"; // qwen3.8:27b
 "Speed" = "Hız"; // qwen3.8:27b
@@ -464,8 +461,8 @@
 
 // Battery
 "Source" = "Kaynak";
-"AC Power" = "Güç adaptörü";
-"Battery Power" = "Pil";
+"AC Power" = "Şebeke gücü";
+"Battery Power" = "Pil gücü";
 "Time" = "Süre";
 "Health" = "Sağlık";
 "Voltage" = "Voltaj";
@@ -522,7 +519,7 @@
 "Based on cluster" = "Kümeye göre";
 "System accent" = "Sistem vurgu rengi";
 "Monochrome accent" = "Tek renk vurgu";
-"Clear" = "Temizle";
+"Clear" = "Şeffaf";
 "White" = "Beyaz";
 "Black" = "Siyah";
 "Gray" = "Gri";
@@ -559,7 +556,7 @@
 "Sign in" = "Oturum aç"; // qwen3.8:27b
 "Sign out" = "Oturumu kapat"; // qwen3.8:27b
 "Deregister" = "Kaydı Sil"; // qwen3.8:27b
-"Hosts" = "Konaklar"; // qwen3.8:27b
+"Hosts" = "Hostlar"; // qwen3.8:27b
 "Machines" = "Makinalar"; // qwen3.8:27b
 "No hosts yet" = "Henüz host yok"; // qwen3.8:27b
 "No machines yet" = "Henüz bilgisayar yok"; // qwen3.8:27b

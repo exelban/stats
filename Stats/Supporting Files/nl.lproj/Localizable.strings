@@ -34,7 +34,7 @@
 "Version" = "Versie";
 "Processor" = "Processor";
 "Memory" = "Geheugen";
-"Graphics" = "Grafisch";
+"Graphics" = "Grafiek";
 "Close" = "Sluiten";
 "Download" = "Downloaden"; // gemma4:31b
 "Install" = "Installeren";
@@ -51,7 +51,7 @@
 "Short" = "Kort";
 "Long" = "Lang";
 "Max" = "Maximaal";
-"Min" = "Min";
+"Min" = "Minimaal";
 "Reset" = "Resetten"; // gemma4:31b
 "Alignment" = "Uitlijning";
 "Left alignment" = "Links";
@@ -125,15 +125,15 @@
 "Check for a new version every month (once a month)" = "Controleer elke maand op een nieuwe versie (één keer per maand)"; // gemma4:31b
 "Never check for updates (not recommended)" = "Nooit controleren op updates (niet aanbevolen)"; // gemma4:31b
 "The configuration is completed" = "De configuratie is voltooid"; // gemma4:31b
-"finish_setup_message" = "Alles is ingesteld! \\n Stats is een open source-tool, het is gratis en dat zal het altijd blijven. \\n Als je het leuk vindt, kun je het project ondersteunen, dat wordt altijd gewaardeerd!"; // gemma4:31b
+"finish_setup_message" = "Alles is ingesteld! \n Stats is een open source-tool, het is gratis en dat zal het altijd blijven. \n Als je het leuk vindt, kun je het project ondersteunen, dat wordt altijd gewaardeerd!"; // gemma4:31b
 
 // Alerts
 "New version available" = "Nieuwe versie beschikbaar";
 "Click to install the new version of Stats" = "Klik om de nieuwe versie van Stats te installeren";
-"Successfully updated" = "Succesvol geüpdatet";
+"Successfully updated" = "Succesvol bijgewerkt";
 "Stats was updated to v" = "Stats is bijgewerkt naar v%0";
-"Reset settings text" = "Alle applicatie instellingen worden gereset en de applicatie wordt opnieuw opgestart. Weet u zeker dat u dit wilt doen?";
-"Deregister text" = "De computer wordt afgemeld bij System Stats en u wordt uitgelogd. Weet u zeker dat u dit wilt doen?"; // gemma4:31b-it-qat
+"Reset settings text" = "Alle applicatie instellingen worden gereset en de applicatie wordt opnieuw opgestart. Weet je zeker dat je dit wilt doen?";
+"Deregister text" = "De computer wordt afgemeld bij System Stats en je wordt uitgelogd. Weet je zeker dat je dit wilt doen?"; // gemma4:31b-it-qat
 "Support text" = "Bedankt voor het gebruik van Stats! Het onderhouden en verbeteren van dit open-source project kost tijd en middelen. Als je Stats nuttig vindt, overweeg dan alsjeblieft om een bijdrage te leveren. Alle beetjes helpen!";
 
 // Settings
@@ -164,7 +164,7 @@
 "Export settings" = "Exporteer instellingen";
 "Reset settings" = "Instellingen resetten"; // gemma4:31b
 "Pause the Stats" = "Pauzeer de Stats"; // gemma4:31b
-"Resume the Stats" = "Hervat de statistieken";
+"Resume the Stats" = "Hervat de Stats";
 "Combined modules" = "Gecombineerde modules"; // translategemma:4b
 "Combined details" = "Gecombineerde details";
 "Spacing" = "Afstand"; // gemma4:31b
@@ -176,7 +176,7 @@
 "Serial number" = "Serienummer";
 "Model identifier" = "Modelidentificator"; // gemma4:31b
 "Production year" = "Productiejaar"; // gemma4:31b
-"Uptime" = "Beschikbaarheid";
+"Uptime" = "Bedrijfsduur";
 "Number of cores" = "%0 kernen"; // gemma4:31b
 "Number of threads" = "%0 draaden"; // qwen3.8:27b
 "Number of e-cores" = "%0 efficiëntiecores";
@@ -258,7 +258,7 @@
 
 // Modules
 "Number of top processes" = "Aantal topprocessen";
-"Update interval for top processes" = "Bewerk interval voor top processen";
+"Update interval for top processes" = "Bijwerkingsinterval voor topprocessen";
 "Chart color" = "Grafiekkleur";
 "Main chart scaling" = "Schaal van algemene grafiek";
 "Scale value" = "Schaalwaarde"; // gemma4:31b
@@ -311,11 +311,9 @@
 "Model" = "Model";
 "Status" = "Status";
 "Utilization" = "Gebruik";
-"Render" = "Renderen"; // qwen3.8:27b
-"Render utilization" = "Render-gebruik"; // gemma4:31b
-"Render utilization history" = "Renderbenuttinggeschiedenis"; // qwen3.8:27b
-"Tiler" = "Tegelaar"; // qwen3.8:27b
-"Tiler utilization" = "Gebruik van tegelrenderer";
+"Renderer utilization" = "Render-gebruik"; // gemma4:31b
+"Renderer utilization history" = "Renderbenuttinggeschiedenis"; // qwen3.8:27b
+"Tiler utilization" = "Tiler-gebruik";
 "Tiler utilization history" = "Tilerbenuttingsgeschiedenis"; // qwen3.8:27b
 "GPU usage threshold" = "GPU-gebruiksdrempel"; // gemma4:31b
 "GPU usage is" = "GPU-gebruik is %0"; // gemma4:31b
@@ -338,7 +336,7 @@
 "RAM utilization threshold" = "Drempelwaarde RAM-gebruik"; // gemma4:31b
 "RAM utilization is" = "RAM-gebruik is %0"; // gemma4:31b
 "App color" = "Kleur voor app";
-"Wired color" = "Kleur voor bedraad";
+"Wired color" = "Kleur voor vastgezet";
 "Compressed color" = "Kleur voor gecomprimeerd";
 "Free color" = "Kleur voor vrij";
 "Free memory (less than)" = "Vrij geheugen (minder dan)"; // translategemma:4b
@@ -454,7 +452,6 @@
 "Internet connection established" = "Internetverbinding tot stand gebracht";
 "Show country code instead of emoji" = "Toon landencode in plaats van een emoji";
 "DNS Server" = "DNS-server"; // qwen3.8:27b
-"Jitter" = "Jitter";
 "Noise" = "Ruis"; // qwen3.8:27b
 "Signal" = "Signaal"; // qwen3.8:27b
 "Speed" = "Snelheid"; // qwen3.8:27b
@@ -486,7 +483,7 @@
 "Battery remaining to full charge" = "%0% tot volledig opgeladen";
 "Percentage" = "Percentage";
 "Percentage and time" = "Percentage en tijd";
-"Time and percentage" = "Tijd and Percentage";
+"Time and percentage" = "Tijd en percentage";
 "Time format" = "Tijdsnotatie";
 "Hide additional information when full" = "Verberg aanvullende informatie wanneer batterij vol is";
 "Percentage inside the icon" = "Percentage binnen het icoon"; // translategemma:4b
@@ -544,7 +541,7 @@
 "Brown" = "Bruin";
 "Second brown" = "Tweede bruin";
 "Cyan" = "Cyaan";
-"Magenta" = "Paars";
+"Magenta" = "Magenta";
 "Pink" = "Roze";
 "Teal" = "Turkoois";
 "Indigo" = "Indigo";

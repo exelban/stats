@@ -109,7 +109,7 @@
 "Finish" = "Dokončit";
 "Finish setup" = "Dokončit nastavení";
 "Welcome to Stats" = "Vítejte ve Stats";
-"welcome_message" = "Děkujeme, že používáte Stats, bezplatný open source monitor systému macOS pro nástrojovou lištu.";
+"welcome_message" = "Děkujeme, že používáte Stats, bezplatný open source monitor systému macOS pro lištu menu.";
 "Select preset" = "Vybrat přednastavení"; // gemma4:31b
 "select_preset_message" = "Vyberte si počáteční sadu modulů. Vše si můžete později přizpůsobit v Nastavení."; // gemma4:31b
 "Default" = "Výchozí"; // gemma4:31b
@@ -125,7 +125,7 @@
 "Check for a new version every month (once a month)" = "Kontrola nové verze každý měsíc (jednou měsíčně)";
 "Never check for updates (not recommended)" = "Nikdy nekontrolovat aktualizace (nedoporučuje se)";
 "The configuration is completed" = "Konfigurace je dokončena";
-"finish_setup_message" = "Vše je připraveno! \n Statistiky jsou open source nástroj, který je zdarma a vždy bude. \n Pokud se vám líbí, můžete projekt podpořit, vždy se to cení!";
+"finish_setup_message" = "Vše je připraveno!\nStats je open source nástroj, který je zdarma a vždy bude.\nPokud se vám líbí, můžete projekt podpořit, vždy se to cení!";
 
 // Alerts
 "New version available" = "Nová verze k dispozici";
@@ -142,7 +142,7 @@
 "Support the application" = "Podpořte aplikaci";
 "Close application" = "Zavřít aplikaci";
 "Open application settings" = "Otevřít nastavení aplikace";
-"Open dashboard" = "Otevřít dashboard";
+"Open dashboard" = "Otevřít ovládací panel";
 "No notifications available in this module" = "V tomto modulu nejsou k dispozici žádná oznámení"; // gemma4:31b
 "Open Calendar" = "Otevřít kalendář"; // translategemma:4b
 "Toggle the module" = "Přepnout modul"; // gemma4:31b
@@ -162,7 +162,7 @@
 "Build number" = "Číslo sestavení";
 "Import settings" = "Importovat nastavení"; // gemma4:31b
 "Export settings" = "Exportovat nastavení"; // gemma4:31b
-"Reset settings" = "Obnovit nastavení";
+"Reset settings" = "Resetovat nastavení";
 "Pause the Stats" = "Pozastavit Stats";
 "Resume the Stats" = "Obnovit Stats";
 "Combined modules" = "Kombinace modulů";
@@ -240,11 +240,11 @@
 "Update interval" = "Interval aktualizace";
 "Usage history" = "Historie použití";
 "Details" = "Detaily";
-"Top processes" = "První procesy";
+"Top processes" = "Nejaktivnější procesy";
 "Pictogram" = "Piktogram";
 "Module" = "Modul";
 "Widgets" = "Widgety";
-"Popup" = "Vyskakovat";
+"Popup" = "Vyskakovací okno";
 "Notifications" = "Oznámení";
 "Merge widgets" = "Sloučit widgety";
 "No available widgets to configure" = "Žádné dostupné widgety ke konfiguraci";
@@ -257,8 +257,8 @@
 "Open module" = "Otevřít modul"; // qwen3.8:27b
 
 // Modules
-"Number of top processes" = "Počet prvních procesů";
-"Update interval for top processes" = "Interval aktualizace pro první procesy";
+"Number of top processes" = "Počet nejaktivnějších procesů";
+"Update interval for top processes" = "Interval aktualizace pro nejaktivnější procesy";
 "Chart color" = "Barva grafu";
 "Main chart scaling" = "Škálování hlavního grafu"; // gemma4:31b
 "Scale value" = "Hodnota měřítka"; // translategemma:4b
@@ -289,7 +289,7 @@
 "User color" = "Barva uživatele";
 "Idle color" = "Barva nečinnosti";
 "Cluster grouping" = "Seskupení klastrů";
-"Efficiency cores color" = "Barva energeticky úsporných jader"; // gemma4:31b
+"Efficiency cores color" = "Barva efektivních jader"; // gemma4:31b
 "Performance cores color" = "Barva výkonných jader"; // gemma4:31b
 "Super cores color" = "Barva super jader"; // qwen3.8:27b
 "Total load" = "Celkové zatížení"; // gemma4:31b
@@ -301,7 +301,7 @@
 "All cores" = "Všechna jádra"; // gemma4:31b
 "Load per core" = "Zatížení na jádro"; // gemma4:31b
 "Efficiency core" = "Efektivní jádro"; // gemma4:31b
-"Performance core" = "Výkonnostní jádro"; // gemma4:31b
+"Performance core" = "Výkonné jádro"; // gemma4:31b
 "Super core" = "Super jádro"; // gemma4:31b
 
 // GPU
@@ -311,10 +311,8 @@
 "Model" = "Model";
 "Status" = "Stav"; // translategemma:4b
 "Utilization" = "Využití";
-"Render" = "Vykreslení"; // qwen3.8:27b
-"Render utilization" = "Využití vykreslování";
-"Render utilization history" = "Historie využití vykreslování"; // qwen3.8:27b
-"Tiler" = "Dlaždič"; // qwen3.8:27b
+"Renderer utilization" = "Využití vykreslování";
+"Renderer utilization history" = "Historie využití vykreslování"; // qwen3.8:27b
 "Tiler utilization" = "Využití tilingu";
 "Tiler utilization history" = "Historie využití Tileru"; // qwen3.8:27b
 "GPU usage threshold" = "Prahová hodnota využití GPU";
@@ -331,10 +329,10 @@
 "Used" = "Využitá";
 "App" = "Aplikační";
 "Wired" = "Pevná";
-"Compressed" = "Komprese";
+"Compressed" = "Komprimovaná";
 "Free" = "Volná";
 "Swap" = "Odkládací";
-"Split the value (App/Wired/Compressed)" = "Rozdělit hodnotu (Aplikační/Pevná/Komprese)";
+"Split the value (App/Wired/Compressed)" = "Rozdělit hodnotu (Aplikační/Pevná/Komprimovaná)";
 "RAM utilization threshold" = "Prahová hodnota využití paměti";
 "RAM utilization is" = "Využití paměti je %0";
 "App color" = "Barva aplikační paměti";
@@ -398,12 +396,12 @@
 "Show unknown sensors" = "Zobrazit neznáme senzory";
 "Install fan helper" = "Nainstalovat pomocnou aplikaci ovládání ventilátorů";
 "Uninstall fan helper" = "Odinstalovat pomocnou aplikaci ventilátorů";
-"Approve in System Settings ▸ Login Items" = "Schválit v Nastavení systému ▸ Položky přihlášení"; // gemma4:31b
+"Approve in System Settings ▸ Login Items" = "Schválit v Nastavení systému ▸ Položky při přihlášení"; // gemma4:31b
 "Fan helper needs your approval" = "Pomocník pro ventilátor potřebuje váš souhlas"; // gemma4:31b
 "To control the fans, enable Stats in System Settings ▸ Login Items." = "Pro ovládání ventilátorů povolte Stats v Systemovém nastavení ▸ Položky při přihlášení."; // gemma4:31b
-"Open Login Items" = "Otevřít položky přihlášení"; // gemma4:31b
+"Open Login Items" = "Otevřít položky při přihlášení"; // gemma4:31b
 "Could not enable the fan helper" = "Nepodařilo se aktivovat pomocný nástroj pro ventilátor"; // gemma4:31b
-"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "Otevřete Nastavení systému ▸ Přístup při přihlášení, ujistěte se, že je Stats povoleno v pozadí, a poté zkuste znovu."; // gemma4:31b
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "Otevřete Nastavení systému ▸ Položky při přihlášení, ujistěte se, že je Stats povoleno v pozadí, a poté zkuste znovu."; // gemma4:31b
 "Fan value" = "Hodnota ventilátoru";
 "Turn off fan" = "Vypnout ventilátor"; // gemma4:31b
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "Chystáte se vypnout ventilátor. Toto není doporučený postup, který může poškodit váš Mac, jste si jistí, že to chcete udělat?"; // gemma4:31b
@@ -424,7 +422,7 @@
 "Network interface" = "Síťové rozhraní";
 "Total download" = "Celkem staženo";
 "Total upload" = "Celkem nahráno";
-"Reader type" = "Typ přehledu";
+"Reader type" = "Typ čteče";
 "Interface based" = "Podle rozhraní";
 "Processes based" = "Podle procesů";
 "Reset data usage" = "Resetovat využití dat";
@@ -454,7 +452,6 @@
 "Internet connection established" = "Připojení k internetu navázáno"; // gemma4:31b
 "Show country code instead of emoji" = "Zobrazit kód země místo emoji"; // gemma4:31b
 "DNS Server" = "DNS server"; // qwen3.8:27b
-"Jitter" = "Jitter";
 "Noise" = "Hluk"; // qwen3.8:27b
 "Signal" = "Signál"; // qwen3.8:27b
 "Speed" = "Rychlost"; // qwen3.8:27b

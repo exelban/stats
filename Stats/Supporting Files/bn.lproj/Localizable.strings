@@ -76,7 +76,7 @@
 "Turn off" = "বন্ধ করুন";
 "Normal" = "সাধারণ";
 "Warning" = "সতর্কতা";
-"Critical" = "জটিল";
+"Critical" = "গুরুতর";
 "Usage" = "ব্যবহার";
 "2 minutes" = "2 মিনিট";
 "3 minutes" = "3 মিনিট";
@@ -125,7 +125,7 @@
 "Check for a new version every month (once a month)" = "প্রতি মাসে নতুন সংস্করণ পরীক্ষা করুন (মাসে একবার)";
 "Never check for updates (not recommended)" = "আপডেট কখনো পরীক্ষা করবেন না (প্রস্তাবিত নয়)";
 "The configuration is completed" = "সেটআপ সম্পন্ন হয়েছে";
-"finish_setup_message" = "সবকিছু প্রস্তুত! \n Stats একটি ওপেন-সোর্স টুল; এটি বিনামূল্যে এবং সবসময়ই থাকবে। \n আপনি যদি এটি পছন্দ করেন, তাহলে প্রকল্পটিকে সমর্থন করতে পারেন। প্রতিটি সহায়তাই মূল্যবান!";
+"finish_setup_message" = "সবকিছু প্রস্তুত! \n Stats একটি ওপেন-সোর্স টুল; এটি বিনামূল্যে এবং সবসময়ই থাকবে। \n আপনি যদি এটি পছন্দ করেন, তাহলে প্রকল্পটিকে সমর্থন করতে পারেন। প্রতিটি সহায়তাই মূল্যবান!";
 
 // Alerts
 "New version available" = "নতুন সংস্করণ পাওয়া গেছে";
@@ -133,7 +133,7 @@
 "Successfully updated" = "সফলভাবে আপডেট হয়েছে";
 "Stats was updated to v" = "Stats v%0 তে আপডেট হয়েছে";
 "Reset settings text" = "এই অ্যাপের সব সেটিংস পুনরায় সেট হয়ে যাবে এবং অ্যাপটি পুনরায় চালু হবে। আপনি কি এটি করতে চান?";
-"Deregister text" = "কম্পিউটারটি System Stats থেকে ডি-রেজিস্টার করা হবে এবং আপনি লগ আউট হয়ে যাবেন। আপনি কি নিশ্চিত যে আপনি এটি করতে চান?"; // gemma4:31b-it-qat
+"Deregister text" = "কম্পিউটারটি System Stats থেকে ডি-রেজিস্টার করা হবে এবং আপনি লগ আউট হয়ে যাবেন। আপনি কি নিশ্চিত যে আপনি এটি করতে চান?"; // gemma4:31b-it-qat
 "Support text" = "Stats ব্যবহার করার জন্য ধন্যবাদ!\n\nএই ওপেন-সোর্স প্রকল্পটি রক্ষণাবেক্ষণ ও উন্নত করতে সময় ও সম্পদ লাগে। আপনার সহায়তা আমাদের সবার জন্য একটি বিনামূল্যের ও নির্ভরযোগ্য অ্যাপ দিতে সাহায্য করে।\n\nStats যদি আপনার কাজে লাগে, তাহলে অবদান রাখার কথা বিবেচনা করুন। প্রতিটি ছোট অবদানই কাজে আসে!";
 
 // Settings
@@ -311,10 +311,8 @@
 "Model" = "মডেল";
 "Status" = "অবস্থা";
 "Utilization" = "ব্যবহার";
-"Render" = "রেন্ডার"; // qwen3.8:27b
-"Render utilization" = "রেন্ডার ব্যবহার";
-"Render utilization history" = "রেন্ডার ব্যবহারের ইতিহাস"; // qwen3.8:27b
-"Tiler" = "টাইলার"; // qwen3.8:27b
+"Renderer utilization" = "রেন্ডার ব্যবহার";
+"Renderer utilization history" = "রেন্ডার ব্যবহারের ইতিহাস"; // qwen3.8:27b
 "Tiler utilization" = "টাইলার ব্যবহার";
 "Tiler utilization history" = "Tiler ব্যবহারের ইতিহাস"; // qwen3.8:27b
 "GPU usage threshold" = "GPU ব্যবহারের সীমা";
@@ -377,7 +375,7 @@
 "Spare below threshold" = "সীমার নিচে স্পেয়ার"; // gemma4:31b-it-qat
 "Temperature out of range" = "তাপমাত্রা সীমার বাইরে"; // gemma4:31b-it-qat
 "Reliability degraded" = "নির্ভরযোগ্যতা হ্রাসপ্রাপ্ত"; // gemma4:31b-it-qat
-"Read-only mode" = "শুধুমাত্র পড়ার মোড"; // gemma4:31b-it-qat
+"Read-only mode" = "শুধুমাত্র পড়ার মোড"; // gemma4:31b-it-qat
 "Backup failed" = "ব্যাকআপ ব্যর্থ হয়েছে"; // gemma4:31b-it-qat
 "All disks" = "সব ডিস্ক"; // qwen3.8:27b
 "Disk details" = "ডিস্কের বিস্তারিত"; // qwen3.8:27b
@@ -454,7 +452,6 @@
 "Internet connection established" = "ইন্টারনেট সংযোগ স্থাপিত হয়েছে";
 "Show country code instead of emoji" = "ইমোজির পরিবর্তে দেশের কোড দেখান";
 "DNS Server" = "DNS সার্ভার"; // qwen3.8:27b
-"Jitter" = "জিটার"; // qwen3.8:27b
 "Noise" = "শব্দ"; // qwen3.8:27b
 "Signal" = "সিগন্যাল"; // qwen3.8:27b
 "Speed" = "গতি"; // qwen3.8:27b
@@ -486,9 +483,9 @@
 "Battery remaining to full charge" = "পূর্ণ চার্জ হতে %0%"; // gemma4:31b
 "Percentage" = "শতাংশ"; // gemma4:31b
 "Percentage and time" = "শতাংশ এবং সময়"; // gemma4:31b
-"Time and percentage" = "সময় এবং শতাংশ"; // gemma4:31b
-"Time format" = "সময়ের ফরম্যাট"; // gemma4:31b
-"Hide additional information when full" = "পূর্ণ হলে অতিরিক্ত তথ্য লুকিয়ে রাখুন"; // gemma4:31b
+"Time and percentage" = "সময় এবং শতাংশ"; // gemma4:31b
+"Time format" = "সময়ের ফরম্যাট"; // gemma4:31b
+"Hide additional information when full" = "পূর্ণ হলে অতিরিক্ত তথ্য লুকিয়ে রাখুন"; // gemma4:31b
 "Percentage inside the icon" = "আইকনের ভেতরে শতাংশ"; // gemma4:31b
 "Charger state inside the battery" = "ব্যাটারির ভেতরে চার্জিং অবস্থা"; // gemma4:31b
 "Max capacity" = "সর্বোচ্চ ধারণক্ষমতা"; // gemma4:31b

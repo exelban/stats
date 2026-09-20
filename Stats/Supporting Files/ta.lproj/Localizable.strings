@@ -24,7 +24,7 @@
 "Open Network settings" = "வலைப்பின்னல் அமைப்புகளைத் திற";
 "Battery" = "மின்கலம்";
 "Open Battery settings" = "மின்கல அமைப்புகளைத் திற";
-"Bluetooth" = "ஊடலை";
+"Bluetooth" = "Bluetooth";
 "Open Bluetooth settings" = "ஊடலை அமைப்புகளைத் திற";
 "Clock" = "கடிகாரம்";
 "Open Clock settings" = "கடிகார அமைப்புகளைத் திற";
@@ -147,7 +147,7 @@
 "Open Calendar" = "நாட்காட்டியைத் திற";
 "Toggle the module" = "தொகுதியை மாற்று";
 "Open System Stats" = "System Stats-ஐத் திற";
-"Close module settings" = "மாதிரி அமைப்புகளை மூடு"; // qwen3.8:27b
+"Close module settings" = "தொகுதி அமைப்புகளை மூடு"; // qwen3.8:27b
 
 // Application settings
 "Check for updates" = "புதுப்பிப்புகளுக்குச் சோதி";
@@ -209,7 +209,7 @@
 "One row" = "ஒரு வரிசை";
 "Two rows" = "இரண்டு வரிசைகள்";
 "Mini widget" = "மினி"; // qwen3.8:27b
-"Line chart widget" = "வரைபட வரிசை";
+"Line chart widget" = "வரி வரைபடம்";
 "Bar chart widget" = "பட்டை வரைபடம்";
 "Pie chart widget" = "பை வரைபடம்";
 "Network chart widget" = "வலைப்பின்னல் வரைபடம்";
@@ -219,9 +219,9 @@
 "Memory widget" = "நினைவகம்";
 "Static width" = "நிலையான அகலம்";
 "Tachometer widget" = "டாகோமீட்டர்"; // qwen3.8:27b
-"State widget" = "நிலை widget";
-"Text widget" = "உரை widget";
-"Battery details widget" = "மின்கல விவரங்கள் widget";
+"State widget" = "நிலை விட்ஜெட்";
+"Text widget" = "உரை விட்ஜெட்";
+"Battery details widget" = "மின்கல விவரங்கள் விட்ஜெட்";
 "Show symbols" = "சின்னங்களைக் காட்டு";
 "Label widget" = "சிட்டை";
 "Number of reads in the chart" = "வரைபடத்தில் உள்ள படிப்புகள்";
@@ -231,7 +231,7 @@
 "Reverse order" = "தலைகீழ் வரிசை";
 "Chart history" = "வரைபட வரலாறு";
 "Default color" = "இயல்புநிலை";
-"Transparent when no activity" = "செயல்பாடு இல்லாதபோது நிலையற்றது";
+"Transparent when no activity" = "செயல்பாடு இல்லாதபோது சதையிலா";
 "Constant color" = "மாறா நிறம்";
 "Custom..." = "தனிப்பயன்...";
 
@@ -246,15 +246,15 @@
 "Widgets" = "விட்ஜெட்கள்"; // qwen3.8:27b
 "Popup" = "முகப்பு"; // qwen3.8:27b
 "Notifications" = "அறிவிப்புகள்";
-"Merge widgets" = "Widgets-ஐ ஒன்றிணை";
-"No available widgets to configure" = "உள்ளமைக்க Widgets எதுவும் இல்லை";
+"Merge widgets" = "விட்ஜெட்களை ஒன்றிணை";
+"No available widgets to configure" = "அமைக்க விட்ஜெட்கள் எதுவும் இல்லை";
 "No options to configure for the popup in this module" = "இந்த தொகுதியில் Popup-ஐ உள்ளமைக்க விருப்பங்கள் இல்லை";
 "Process" = "செயல்முறை";
 "Kill process" = "செயல்முறையை நிறுத்து";
 "Keyboard shortcut" = "விசைப்பலகை குறுக்குவழி";
 "Listening..." = "கேட்கிறது...";
 "Open in browser" = "உலாவியில் திற"; // qwen3.8:27b
-"Open module" = "மாதிரியை திற"; // qwen3.8:27b
+"Open module" = "தொகுதியை திற"; // qwen3.8:27b
 
 // Modules
 "Number of top processes" = "முதன்மை செயல்முறைகளின் எண்ணிக்கை";
@@ -262,7 +262,7 @@
 "Chart color" = "வரைபட நிறம்";
 "Main chart scaling" = "முதன்மை வரைபட அளவிடுதல்";
 "Scale value" = "அளவு மதிப்பு";
-"Text widget value" = "உரை Widget மதிப்பு";
+"Text widget value" = "உரை விட்ஜெட் மதிப்பு";
 "Combined processes" = "ஒன்றிணைக்கப்பட்ட செயல்முறைகள்";
 
 // CPU
@@ -311,10 +311,8 @@
 "Model" = "மாதிரி";
 "Status" = "நிலை";
 "Utilization" = "பயன்பாடு";
-"Render" = "ரெண்டர்"; // qwen3.8:27b
-"Render utilization" = "Render பயன்பாடு";
-"Render utilization history" = "ரெண்டர் பயன்பாட்டு வரலாறு"; // qwen3.8:27b
-"Tiler" = "சீட்டுப்போடுபவர்"; // qwen3.8:27b
+"Renderer utilization" = "Render பயன்பாடு";
+"Renderer utilization history" = "ரெண்டர் பயன்பாட்டு வரலாறு"; // qwen3.8:27b
 "Tiler utilization" = "Tiler பயன்பாடு";
 "Tiler utilization history" = "Tiler பயன்பாட்டு வரலாறு"; // qwen3.8:27b
 "GPU usage threshold" = "GPU பயன்பாடு வரம்பு";
@@ -330,7 +328,7 @@
 "Total" = "மொத்தம்";
 "Used" = "பயன்பாடில்";
 "App" = "பயன்பாடு"; // qwen3.8:27b
-"Wired" = "நிலையான"; // qwen3.8:27b
+"Wired" = "Wired"; // qwen3.8:27b
 "Compressed" = "சுருக்கப்பட்ட";
 "Free" = "காலி";
 "Swap" = "Swap";
@@ -349,8 +347,8 @@
 
 // Disk
 "Show removable disks" = "அகற்றக்கூடிய வட்டுகளைக் காட்டு";
-"Used disk memory" = "%0 இல் %1 பயன்பாட்டில்";
-"Free disk memory" = "%0 இல் %1 காலி";
+"Used disk memory" = "%1 இல் %0 பயன்பாட்டில்";
+"Free disk memory" = "%1 இல் %0 காலி";
 "Disk to show" = "காட்ட வட்டு";
 "Open disk" = "வட்டைத் திற";
 "Switch view" = "காட்சியை மாற்று";
@@ -372,7 +370,7 @@
 "Critical warning" = "கடுமையான எச்சரிக்கை";
 "Available spare" = "கிடைக்கும் இடைமாற்று";
 "Unsafe shutdowns" = "பாதுகாப்பற்ற முடக்கங்கள்";
-"Media errors" = "வன்பொருள் பிழைகள்";
+"Media errors" = "மீடியா பிழைகள்";
 "Threshold" = "வரம்பு";
 "Spare below threshold" = "இடைமாற்று வரம்பிற்குக் கீழே";
 "Temperature out of range" = "வெப்பநிலை வரம்பிற்கு வெளியே";
@@ -435,7 +433,7 @@
 "Autodetection" = "தானியங்கு கண்டறிதல்";
 "Widget activation threshold" = "Widget செயல்படுத்தல் வரம்பு";
 "Internet connection" = "இணைய இணைப்பு";
-"Connectivity host" = "இணைப்பு புரவலன்";
+"Connectivity host" = "இணைப்பு ஹோஸ்ட்";
 "Leave empty to disable the check" = "சோதனையை முடக்க காலியாக விடவும்";
 "Connectivity history" = "இணைப்பு வரலாறு";
 "Auto-refresh public IP address" = "Public IP முகவரியை தானாகப் புதுப்பி";
@@ -454,7 +452,6 @@
 "Internet connection established" = "இணைய இணைப்பு நிறுவப்பட்டது";
 "Show country code instead of emoji" = "Emoji-க்கு பதிலாக நாட்டுக் குறியீட்டைக் காட்டு";
 "DNS Server" = "DNS சர்வர்"; // qwen3.8:27b
-"Jitter" = "ஜிட்டர்"; // qwen3.8:27b
 "Noise" = "சத்தம்"; // qwen3.8:27b
 "Signal" = "சிக்னல்"; // qwen3.8:27b
 "Speed" = "வேகம்"; // qwen3.8:27b
@@ -471,7 +468,7 @@
 "Voltage" = "மின்னழுத்தம்";
 "Cycles" = "முறைகள்";
 "Temperature" = "வெப்பநிலை";
-"Power adapter" = "மின்适配器"; // qwen3.8:27b
+"Power adapter" = "அடாப்டர்"; // qwen3.8:27b
 "Power" = "மின்னாற்றல்";
 "Is charging" = "மின்னேற்றுகிறது";
 "Time to discharge" = "மின்னிறக்க நேரம்";

@@ -132,8 +132,8 @@
 "Click to install the new version of Stats" = "Kattintson a Stats új verziójának telepítéséhez";
 "Successfully updated" = "Sikeres frissítés";
 "Stats was updated to v" = "A Stats sikeresen frissítve lett a(z) v%0 verzióra";
-"Reset settings text" = "Minden alkalmazás beállítás alaphelyzetbe fog állni, és az alkalmazás újra fog indulni. Biztosan ezt szeretnéd?";
-"Deregister text" = "A gépet törlik a System Stats regisztrációjából, és kijelentkeztetik. Biztosan szeretné ezt zrobić?"; // gemma4:31b-it-qat
+"Reset settings text" = "Minden alkalmazásbeállítás alaphelyzetbe fog állni, és az alkalmazás újra fog indulni. Biztosan ezt szeretné?";
+"Deregister text" = "A gépet törlik a System Stats regisztrációjából, és kijelentkeztetik. Biztosan szeretné ezt megtenni?"; // gemma4:31b-it-qat
 "Support text" = "Köszönjük, hogy használja a Stats-t!\n\n A nyílt forráskódú projekt fenntartása és fejlesztése időt és erőforrásokat igényel. Az Ön támogatása segít nekünk abban, hogy továbbra is ingyenes és megbízható alkalmazást nyújtsunk mindenkinek.\n\nHa hasznosnak találja a Stats-t, kérjük, fontolja meg, hogy hozzájáruljon. Minden kis aprócska összeg segít!";
 
 // Settings
@@ -159,7 +159,7 @@
 "Check for update" = "Frissítés keresése";
 "Show icon in dock" = "Ikon megjelenítése a Dockban";
 "Start at login" = "Alkalmazás indítása bejelentkezéskor";
-"Build number" = "Verziószám";
+"Build number" = "Build száma";
 "Import settings" = "Beállítások importálása"; // gemma4:31b
 "Export settings" = "Beállítások exportálása"; // gemma4:31b
 "Reset settings" = "Beállítások alaphelyzetbe állítása";
@@ -176,7 +176,7 @@
 "Serial number" = "Sorozatszám";
 "Model identifier" = "Modell azonosító"; // translategemma:4b
 "Production year" = "Gyártási év"; // gemma4:31b
-"Uptime" = "Indítás óta eltel idő";
+"Uptime" = "Indítás óta eltelt idő";
 "Number of cores" = "%0 mag";
 "Number of threads" = "%0 szál";
 "Number of e-cores" = "%0 energiatakarékos mag";
@@ -204,7 +204,7 @@
 "Colorize" = "Színezés";
 "Colorize value" = "Érték színezése";
 "Additional information" = "További információk megjelenítése";
-"Base" = "Mértékegység";
+"Base" = "Alap";
 "Display mode" = "Megjelenítés mód";
 "One row" = "Egy sor";
 "Two rows" = "Két sor";
@@ -244,11 +244,11 @@
 "Pictogram" = "Piktogram";
 "Module" = "Modul";
 "Widgets" = "Widgetek";
-"Popup" = "Felugrik";
+"Popup" = "Felugró ablak";
 "Notifications" = "Értesítések";
 "Merge widgets" = "Widgetek egyesítése";
 "No available widgets to configure" = "Nincs elérhető widget a beállításhoz";
-"No options to configure for the popup in this module" = "A modul lenyíló ablakához nem tartozik beállítás";
+"No options to configure for the popup in this module" = "A modul felugró ablakához nem tartozik beállítás";
 "Process" = "Folyamat"; // translategemma:4b
 "Kill process" = "Folyamat leállítása"; // gemma4:31b
 "Keyboard shortcut" = "Billentyűparancs"; // translategemma:4b
@@ -299,7 +299,7 @@
 "Performance cores load" = "Teljesítmény magok terheltsége";
 "Super cores load" = "Super magok terhelése"; // qwen3.8:27b
 "All cores" = "Összes mag"; // gemma4:31b
-"Load per core" = "Terhelés magronként"; // gemma4:31b
+"Load per core" = "Terhelés magonként"; // gemma4:31b
 "Efficiency core" = "Hatékonysági mag"; // gemma4:31b
 "Performance core" = "Teljesítményű mag"; // gemma4:31b
 "Super core" = "Szuper mag"; // gemma4:31b
@@ -311,10 +311,8 @@
 "Model" = "Modell";
 "Status" = "Állapot";
 "Utilization" = "Felhasználás";
-"Render" = "Renderelés"; // qwen3.8:27b
-"Render utilization" = "Render használat";
-"Render utilization history" = "Render kihasználtsági előzmények"; // qwen3.8:27b
-"Tiler" = "Csempéző"; // qwen3.8:27b
+"Renderer utilization" = "Render használat";
+"Renderer utilization history" = "Render kihasználtsági előzmények"; // qwen3.8:27b
 "Tiler utilization" = "Tiler használat";
 "Tiler utilization history" = "Tiler kihasználtsági előzmények"; // qwen3.8:27b
 "GPU usage threshold" = "GPU használati küszöb";
@@ -367,7 +365,7 @@
 "Encrypted" = "Titkosított"; // gemma4:31b-it-qat
 "Writable" = "Írható"; // gemma4:31b-it-qat
 "Drives" = "Meghajtók"; // gemma4:31b
-"Power cycles" = "Ciklusok száma"; // gemma4:31b
+"Power cycles" = "Beindítási ciklusok száma"; // gemma4:31b
 "Power on hours" = "Működési órák"; // gemma4:31b
 "Critical warning" = "Kritikus figyelmeztetés"; // gemma4:31b-it-qat
 "Available spare" = "Elérhető tartalék"; // gemma4:31b-it-qat
@@ -375,7 +373,7 @@
 "Media errors" = "Hordozó hibák"; // gemma4:31b-it-qat
 "Threshold" = "Küszöb"; // gemma4:31b-it-qat
 "Spare below threshold" = "Tartalék a küszöb alatt"; // gemma4:31b-it-qat
-"Temperature out of range" = "Hőmérséklet a tartámon kívül"; // gemma4:31b-it-qat
+"Temperature out of range" = "Hőmérséklet a tartományon kívül"; // gemma4:31b-it-qat
 "Reliability degraded" = "Romlott megbízhatóság"; // gemma4:31b-it-qat
 "Read-only mode" = "Csak olvasható mód"; // gemma4:31b-it-qat
 "Backup failed" = "A biztonsági mentés nem sikerült"; // gemma4:31b-it-qat
@@ -416,8 +414,8 @@
 // Network
 "Uploading" = "Feltöltés";
 "Downloading" = "Letöltés";
-"Public IP" = "Publikus IP";
-"Local IP" = "Helyi IP";
+"Public IP" = "Nyilvános IP";
+"Local IP" = "Lokális IP";
 "Interface" = "Interfész";
 "Physical address" = "Fizikai cím";
 "Refresh" = "Frissítés";
@@ -454,7 +452,6 @@
 "Internet connection established" = "Internetkapcsolat létrehozva"; // gemma4:31b
 "Show country code instead of emoji" = "Mutassa az országkódot az emoji helyett"; // gemma4:31b
 "DNS Server" = "DNS szerver"; // qwen3.8:27b
-"Jitter" = "Jitter";
 "Noise" = "Zaj"; // qwen3.8:27b
 "Signal" = "Jel"; // qwen3.8:27b
 "Speed" = "Sebesség"; // qwen3.8:27b
@@ -558,8 +555,8 @@
 "Update" = "Frissítés"; // qwen3.8:27b
 "Sign in" = "Bejelentkezés"; // qwen3.8:27b
 "Sign out" = "Kijelentkezés"; // qwen3.8:27b
-"Deregister" = "Visszajelentkezés"; // qwen3.8:27b
-"Hosts" = "Gazdagépek"; // qwen3.8:27b
+"Deregister" = "Regisztráció törlése"; // qwen3.8:27b
+"Hosts" = "Hostok"; // qwen3.8:27b
 "Machines" = "Gépek"; // qwen3.8:27b
 "No hosts yet" = "Még nincs host"; // qwen3.8:27b
 "No machines yet" = "Még nincsenek gépek"; // qwen3.8:27b

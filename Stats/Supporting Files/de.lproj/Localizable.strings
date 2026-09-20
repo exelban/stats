@@ -142,7 +142,7 @@
 "Support the application" = "Die App unterstützen";
 "Close application" = "App schließen";
 "Open application settings" = "App-Einstellungen öffnen";
-"Open dashboard" = "Dashboard öffnen";
+"Open dashboard" = "Übersicht öffnen";
 "No notifications available in this module" = "In diesem Modul sind keine Benachrichtigungen verfügbar";
 "Open Calendar" = "Kalender öffnen";
 "Toggle the module" = "Modul umschalten";
@@ -284,7 +284,7 @@
 "CPU usage threshold" = "CPU-Auslastungsschwelle";
 "Efficiency cores" = "Effizienzkerne";
 "Performance cores" = "Leistungskerne";
-"Super cores" = "Super-Kerne"; // qwen3.8:27b
+"Super cores" = "Superkerne"; // qwen3.8:27b
 "System color" = "Systemfarbe";
 "User color" = "Benutzerfarbe";
 "Idle color" = "Leerlauffarbe";
@@ -311,10 +311,8 @@
 "Model" = "Modell";
 "Status" = "Status";
 "Utilization" = "Auslastung";
-"Render" = "Rendering"; // qwen3.8:27b
-"Render utilization" = "Render-Auslastung";
-"Render utilization history" = "Render-Auslastungsverlauf"; // qwen3.8:27b
-"Tiler" = "Kacheler"; // qwen3.8:27b
+"Renderer utilization" = "Render-Auslastung";
+"Renderer utilization history" = "Render-Auslastungsverlauf"; // qwen3.8:27b
 "Tiler utilization" = "Tiler-Auslastung";
 "Tiler utilization history" = "Tiler-Auslastungsverlauf"; // qwen3.8:27b
 "GPU usage threshold" = "GPU-Auslastungsschwelle";
@@ -367,7 +365,7 @@
 "Encrypted" = "Verschlüsselt"; // gemma4:31b-it-qat
 "Writable" = "Beschreibbar"; // gemma4:31b-it-qat
 "Drives" = "Laufwerke";
-"Power cycles" = "Ladezyklen"; // gemma4:31b
+"Power cycles" = "Einschaltzyklen"; // gemma4:31b
 "Power on hours" = "Betriebsstunden"; // gemma4:31b
 "Critical warning" = "Kritische Warnung"; // gemma4:31b-it-qat
 "Available spare" = "Verfügbare Reserve"; // gemma4:31b-it-qat
@@ -454,7 +452,6 @@
 "Internet connection established" = "Internetverbindung hergestellt";
 "Show country code instead of emoji" = "Ländercode statt Emoji anzeigen"; // gemma4:31b
 "DNS Server" = "DNS-Server"; // qwen3.8:27b
-"Jitter" = "Jitter";
 "Noise" = "Lärm"; // qwen3.8:27b
 "Signal" = "Signal";
 "Speed" = "Geschwindigkeit"; // qwen3.8:27b
@@ -482,8 +479,8 @@
 "High level notification" = "Benachrichtigung bei hohem Ladezustand";
 "Low battery" = "Niedriger Ladezustand";
 "High battery" = "Hoher Ladezustand";
-"Battery remaining" = "%0 % verbleibend";
-"Battery remaining to full charge" = "%0 % bis zur vollständigen Ladung";
+"Battery remaining" = "%0% verbleibend";
+"Battery remaining to full charge" = "%0% bis zur vollständigen Ladung";
 "Percentage" = "Prozent";
 "Percentage and time" = "Prozent und Zeit";
 "Time and percentage" = "Zeit und Prozent";
@@ -558,9 +555,9 @@
 "Update" = "Aktualisieren"; // qwen3.8:27b
 "Sign in" = "Anmelden"; // qwen3.8:27b
 "Sign out" = "Abmelden"; // qwen3.8:27b
-"Deregister" = "Abmelden"; // qwen3.8:27b
+"Deregister" = "Deregistrieren"; // qwen3.8:27b
 "Hosts" = "Hosts";
-"Machines" = "Geräte"; // qwen3.8:27b
+"Machines" = "Rechner"; // qwen3.8:27b
 "No hosts yet" = "Noch keine Hosts"; // qwen3.8:27b
 "No machines yet" = "Noch keine Rechner"; // qwen3.8:27b
 "Get notified when a device goes offline or hits a threshold" = "Benachrichtigung erhalten, wenn ein Gerät offline geht oder einen Schwellenwert erreicht"; // qwen3.8:27b

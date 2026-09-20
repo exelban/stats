@@ -311,10 +311,8 @@
 "Model" = "Model";
 "Status" = "Status";
 "Utilization" = "Utilization";
-"Render" = "Render";
-"Render utilization" = "Render utilization";
-"Render utilization history" = "Render utilization history";
-"Tiler" = "Tiler";
+"Renderer utilization" = "Renderer utilization";
+"Renderer utilization history" = "Renderer utilization history";
 "Tiler utilization" = "Tiler utilization";
 "Tiler utilization history" = "Tiler utilization history";
 "GPU usage threshold" = "GPU usage threshold";
@@ -454,7 +452,6 @@
 "Internet connection established" = "Internet connection established";
 "Show country code instead of emoji" = "Show country code instead of emoji";
 "DNS Server" = "DNS Server";
-"Jitter" = "Jitter";
 "Noise" = "Noise";
 "Signal" = "Signal";
 "Speed" = "Speed";

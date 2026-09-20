@@ -64,7 +64,7 @@
 "Fans" = "Ventole";
 "Scaling" = "Ridimensionamento";
 "Linear" = "Lineare";
-"Square" = "Quadratico";
+"Square" = "Quadrato";
 "Cube" = "Cubico";
 "Logarithmic" = "Logaritmico";
 "Fixed scale" = "Scala fissa";
@@ -179,8 +179,8 @@
 "Uptime" = "Tempo di attività";
 "Number of cores" = "%0 core";
 "Number of threads" = "%0 thread";
-"Number of e-cores" = "%0 efficiency core";
-"Number of p-cores" = "%0 performance core";
+"Number of e-cores" = "%0 nuclei di efficienza";
+"Number of p-cores" = "%0 nuclei di prestazioni";
 "Number of s-cores" = "%0 super core"; // gemma4:31b
 "Disks" = "Dischi"; // translategemma:4b
 "Display" = "Monitor"; // gemma4:31b
@@ -246,9 +246,9 @@
 "Widgets" = "Widget"; // gemma4:31b
 "Popup" = "Finestra a comparsa"; // gemma4:31b
 "Notifications" = "Notifiche";
-"Merge widgets" = "Combina moduli";
-"No available widgets to configure" = "Nessun modulo disponibile";
-"No options to configure for the popup in this module" = "Nessuna opzione da configurare per le notifiche in questo modulo";
+"Merge widgets" = "Combina widget";
+"No available widgets to configure" = "Nessun widget disponibile";
+"No options to configure for the popup in this module" = "Nessuna opzione da configurare per la finestra a comparsa in questo modulo";
 "Process" = "Processo";
 "Kill process" = "Chiudi processo";
 "Keyboard shortcut" = "Scorciatoia da tastiera"; // gemma4:31b
@@ -282,27 +282,27 @@
 "5 minutes" = "5 minuti";
 "15 minutes" = "15 minuti";
 "CPU usage threshold" = "Soglia di utilizzo CPU";
-"Efficiency cores" = "Efficiency core";
-"Performance cores" = "Performance core";
+"Efficiency cores" = "Nuclei di efficienza";
+"Performance cores" = "Nuclei di prestazioni";
 "Super cores" = "Nuclei super"; // qwen3.8:27b
 "System color" = "Colore sistema";
 "User color" = "Colore utente";
 "Idle color" = "Colore inattivo";
 "Cluster grouping" = "Raggruppamento cluster";
-"Efficiency cores color" = "Colore per efficiency core";
-"Performance cores color" = "Colore per performance core";
+"Efficiency cores color" = "Colore nuclei di efficienza";
+"Performance cores color" = "Colore nuclei di prestazioni";
 "Super cores color" = "Colore nuclei super"; // qwen3.8:27b
 "Total load" = "Carico totale";
 "System load" = "Carico sistema";
 "User load" = "Carico utente";
-"Efficiency cores load" = "Carico efficiency core";
-"Performance cores load" = "Carico performance core";
+"Efficiency cores load" = "Carico nuclei di efficienza";
+"Performance cores load" = "Carico nuclei di prestazioni";
 "Super cores load" = "Carico nuclei super"; // qwen3.8:27b
 "All cores" = "Tutti i core";
 "Load per core" = "Carico per core"; // gemma4:31b
 "Efficiency core" = "Core di efficienza"; // gemma4:31b
 "Performance core" = "Core ad alte prestazioni"; // gemma4:31b
-"Super core" = "Estremamente performante"; // translategemma:4b
+"Super core" = "Nucleo super"; // translategemma:4b
 
 // GPU
 "GPU to show" = "GPU da mostrare";
@@ -311,11 +311,9 @@
 "Model" = "Modello";
 "Status" = "Stato";
 "Utilization" = "Utilizzo";
-"Render" = "Rendering"; // qwen3.8:27b
-"Render utilization" = "Utilizzo rendering";
-"Render utilization history" = "Cronologia dell'utilizzo del rendering"; // qwen3.8:27b
-"Tiler" = "Piastrellatore"; // qwen3.8:27b
-"Tiler utilization" = "Utilizzo tassellamento";
+"Renderer utilization" = "Utilizzo rendering";
+"Renderer utilization history" = "Cronologia dell'utilizzo del rendering"; // qwen3.8:27b
+"Tiler utilization" = "Utilizzo Tiler";
 "Tiler utilization history" = "Cronologia di utilizzo del Tiler"; // qwen3.8:27b
 "GPU usage threshold" = "Soglia di utilizzo GPU";
 "GPU usage is" = "Utilizzo GPU %0";
@@ -326,19 +324,19 @@
 
 // RAM
 "Memory usage" = "Memoria utilizzata";
-"Memory pressure" = "Compressione memoria";
+"Memory pressure" = "Pressione memoria";
 "Total" = "Totale";
 "Used" = "Usata";
 "App" = "Applicazioni"; // gemma4:31b
-"Wired" = "Cablata";
+"Wired" = "Fissa";
 "Compressed" = "Compressa";
 "Free" = "Libera";
 "Swap" = "Swap";
-"Split the value (App/Wired/Compressed)" = "Dividi il valore (App/Wired/Compressa)";
+"Split the value (App/Wired/Compressed)" = "Dividi il valore (App/Fissa/Compressa)";
 "RAM utilization threshold" = "Soglia utilizzo RAM";
 "RAM utilization is" = "Utilizzo RAM %0";
 "App color" = "Colore App";
-"Wired color" = "Colore Cablata";
+"Wired color" = "Colore memoria fissa";
 "Compressed color" = "Colore Compressa";
 "Free color" = "Colore Libera";
 "Free memory (less than)" = "Memoria libera (meno di)";
@@ -398,9 +396,9 @@
 "Show unknown sensors" = "Mostra sensori sconosciuti";
 "Install fan helper" = "Installa estensione ventole";
 "Uninstall fan helper" = "Disinstalla estensione ventole";
-"Approve in System Settings ▸ Login Items" = "Approva in Regolazioni di Sistema ▸ Elementi login"; // gemma4:31b
+"Approve in System Settings ▸ Login Items" = "Approva in Impostazioni di Sistema ▸ Elementi login"; // gemma4:31b
 "Fan helper needs your approval" = "L'assistente della ventola richiede la tua approvazione"; // gemma4:31b
-"To control the fans, enable Stats in System Settings ▸ Login Items." = "Per controllare le ventole, abilita Stats in Regolazioni di Sistema ▸ Elementi login."; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "Per controllare le ventole, abilita Stats in Impostazioni di Sistema ▸ Elementi login."; // gemma4:31b
 "Open Login Items" = "Apri Elementi login"; // gemma4:31b
 "Could not enable the fan helper" = "Impossibile abilitare l'assistente per la ventola"; // gemma4:31b
 "Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "Apri Impostazioni di Sistema ▸ Elementi login, assicurati che Stats sia consentito in background, poi riprova."; // gemma4:31b
@@ -427,7 +425,7 @@
 "Reader type" = "Tipo di lettore";
 "Interface based" = "Basato sull'interfaccia";
 "Processes based" = "Basato sui processi";
-"Reset data usage" = "Ripristina l'utilizzo dei dati";
+"Reset data usage" = "Resetta l'utilizzo dei dati";
 "VPN mode" = "Modalità VPN";
 "Standard" = "Standard";
 "Security" = "Sicurezza";
@@ -454,7 +452,6 @@
 "Internet connection established" = "Connessione a Internet stabilita"; // translategemma:4b
 "Show country code instead of emoji" = "Mostra il codice paese invece dell'emoji"; // gemma4:31b
 "DNS Server" = "Server DNS"; // qwen3.8:27b
-"Jitter" = "Jitter";
 "Noise" = "Rumore"; // qwen3.8:27b
 "Signal" = "Segnale"; // qwen3.8:27b
 "Speed" = "Velocità"; // qwen3.8:27b

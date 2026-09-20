@@ -46,13 +46,13 @@
 "Manual" = "يدوي";
 "None" = "لا شيء";
 "Dots" = "نقاط";
-"Arrows" = "سهم";
+"Arrows" = "أسهم";
 "Characters" = "حروف";
 "Short" = "قصير";
 "Long" = "طويل";
 "Max" = "الأقصى";
 "Min" = "الأدنى";
-"Reset" = "إعادة";
+"Reset" = "إعادة تعيين";
 "Alignment" = "المحاذاة";
 "Left alignment" = "يسار";
 "Center alignment" = "وسط";
@@ -69,7 +69,7 @@
 "Logarithmic" = "لوغاريتمي";
 "Fixed scale" = "مقاس ثابت";
 "Cores" = "نوى";
-"Core" = "الجوهر";
+"Core" = "نواة";
 "Settings" = "الإعدادات";
 "Name" = "الاسم";
 "Format" = "التنسيق";
@@ -218,7 +218,7 @@
 "Stack widget" = "عداد تراكمي";
 "Memory widget" = "عداد ذاكرة";
 "Static width" = "عرض ثابت";
-"Tachometer widget" = "عداد سرعة";
+"Tachometer widget" = "العداد";
 "State widget" = "عداد حالة";
 "Text widget" = "أداة النص"; // gemma4:31b
 "Battery details widget" = "أداة تفاصيل البطارية"; // gemma4:31b
@@ -273,7 +273,7 @@
 "User" = "المستخدم";
 "Idle" = "الخمول";
 "Show usage per core" = "عرض الاستخدام لكل نواة";
-"Show hyper-threading cores" = "عرض نوى التناوب الهجين";
+"Show hyper-threading cores" = "عرض نوى الخيوط الفائقة";
 "Split the value (System/User)" = "تقسيم القيمة (نظام/مستخدم)";
 "Scheduler limit" = "حد المجدول";
 "Speed limit" = "حد السرعة";
@@ -311,11 +311,9 @@
 "Model" = "النموذج";
 "Status" = "الحالة";
 "Utilization" = "استخدام";
-"Render" = "رندر"; // qwen3.8:27b
-"Render utilization" = "استخدام الرندر";
-"Render utilization history" = "سجل استخدام التصيير"; // qwen3.8:27b
-"Tiler" = "مُقسِّم"; // qwen3.8:27b
-"Tiler utilization" = "استخدام اللوح";
+"Renderer utilization" = "استخدام التصيير";
+"Renderer utilization history" = "سجل استخدام التصيير"; // qwen3.8:27b
+"Tiler utilization" = "استخدام Tiler";
 "Tiler utilization history" = "سجل استخدام Tiler"; // qwen3.8:27b
 "GPU usage threshold" = "عتبة استخدام GPU";
 "GPU usage is" = "استخدام GPU %0";
@@ -330,7 +328,7 @@
 "Total" = "الإجمالي";
 "Used" = "المستخدمة";
 "App" = "التطبيق";
-"Wired" = "المسلكة";
+"Wired" = "المثبتة";
 "Compressed" = "المضغوطة";
 "Free" = "المتبقية";
 "Swap" = "التبادل";
@@ -414,7 +412,7 @@
 "Sensor to show" = "المستشعر المراد عرضه"; // gemma4:31b
 
 // Network
-"Uploading" = "تحميل";
+"Uploading" = "رفع";
 "Downloading" = "تنزيل";
 "Public IP" = "عنوان IP العام";
 "Local IP" = "عنوان IP المحلي";
@@ -433,7 +431,7 @@
 "Security" = "أمان";
 "Channel" = "قناة";
 "Autodetection" = "الكشف التلقائي";
-"Widget activation threshold" = "عتبة تنشيط الودجة";
+"Widget activation threshold" = "عتبة تفعيل الودجت";
 "Internet connection" = "اتصال بالإنترنت";
 "Connectivity host" = "مضيف الاتصال";
 "Leave empty to disable the check" = "اتركه فارغًا لتعطيل الفحص";
@@ -454,7 +452,6 @@
 "Internet connection established" = "تم إنشاء اتصال بالإنترنت"; // translategemma:4b
 "Show country code instead of emoji" = "إظهار رمز الدولة بدلاً من الرموز التعبيرية"; // gemma4:31b
 "DNS Server" = "خادم DNS"; // qwen3.8:27b
-"Jitter" = "الاهتزاز"; // qwen3.8:27b
 "Noise" = "الضوضاء"; // qwen3.8:27b
 "Signal" = "الإشارة"; // qwen3.8:27b
 "Speed" = "السرعة"; // qwen3.8:27b
@@ -501,7 +498,7 @@
 
 // Bluetooth
 "No Bluetooth devices are available" = "لا توجد أجهزة بلوتوث متاحة";
-"Bluetooth threshold" = "حد Bluetooth"; // qwen3.8:27b
+"Bluetooth threshold" = "عتبة Bluetooth"; // qwen3.8:27b
 
 // Clock
 "Time zone" = "المنطقة الزمنية";
@@ -522,7 +519,7 @@
 "Based on cluster" = "بناءً على التجمع";
 "System accent" = "لون النظام";
 "Monochrome accent" = "لون مونوكروم";
-"Clear" = "واضح";
+"Clear" = "شفاف";
 "White" = "أبيض";
 "Black" = "أسود";
 "Gray" = "رمادي";

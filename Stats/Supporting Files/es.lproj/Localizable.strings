@@ -177,10 +177,10 @@
 "Model identifier" = "Identificación del modelo";
 "Production year" = "Año de fabricación";
 "Uptime" = "Tiempo de actividad";
-"Number of cores" = "Número núcleos";
-"Number of threads" = "Número de hilos";
-"Number of e-cores" = "Número de núcleos de eficiencia";
-"Number of p-cores" = "Número de núcleos de rendimiento";
+"Number of cores" = "%0 núcleos";
+"Number of threads" = "%0 hilos";
+"Number of e-cores" = "%0 núcleos de eficiencia";
+"Number of p-cores" = "%0 núcleos de rendimiento";
 "Number of s-cores" = "%0 supernúcleos"; // gemma4:31b
 "Disks" = "Discos"; // translategemma:4b
 "Display" = "Pantalla"; // translategemma:4b
@@ -311,14 +311,12 @@
 "Model" = "Modelo";
 "Status" = "Estado";
 "Utilization" = "Utilización";
-"Render" = "Renderizado"; // qwen3.8:27b
-"Render utilization" = "Utilización de render";
-"Render utilization history" = "Historial de utilización de render"; // qwen3.8:27b
-"Tiler" = "Mosaico"; // qwen3.8:27b
+"Renderer utilization" = "Utilización de render";
+"Renderer utilization history" = "Historial de utilización de render"; // qwen3.8:27b
 "Tiler utilization" = "Utilización de tiler";
 "Tiler utilization history" = "Historial de utilización de Tiler"; // qwen3.8:27b
 "GPU usage threshold" = "Umbral de uso de la GPU";
-"GPU usage is" = "El uso de GPU es";
+"GPU usage is" = "El uso de GPU es %0";
 "ANE utilization" = "Utilización de ANE"; // qwen3.8:27b
 "ANE utilization history" = "Historial de utilización de ANE"; // qwen3.8:27b
 "FPS history" = "Historial de FPS"; // qwen3.8:27b
@@ -349,13 +347,13 @@
 
 // Disk
 "Show removable disks" = "Mostrar los discos extraíbles";
-"Used disk memory" = "Memoria de disco utilizada";
-"Free disk memory" = "Memoria de disco libre";
+"Used disk memory" = "%0 de %1 en uso";
+"Free disk memory" = "%0 de %1 libre";
 "Disk to show" = "Disco a mostrar";
 "Open disk" = "Abrir disco";
 "Switch view" = "Cambiar vista";
 "Disk utilization threshold" = "Umbral de utilización de disco";
-"Disk utilization is" = "La utilización de disco es";
+"Disk utilization is" = "La utilización de disco es %0";
 "Read color" = "Color de lectura";
 "Write color" = "Color de escritura";
 "Disk usage" = "Uso del disco";
@@ -442,7 +440,7 @@
 "Every hour" = "Cada hora";
 "Every 12 hours" = "Cada 12 horas";
 "Every 24 hours" = "Cada 24 horas";
-"Last reset" = "Último reinicio";
+"Last reset" = "Último reinicio: hace %0";
 "Latency" = "Latencia";
 "Address" = "Dirección"; // translategemma:4b
 "WiFi network" = "Red WiFi"; // gemma4:31b
@@ -454,7 +452,6 @@
 "Internet connection established" = "Conexión a Internet establecida"; // translategemma:4b
 "Show country code instead of emoji" = "Mostrar código de país en lugar de emoji"; // gemma4:31b
 "DNS Server" = "Servidor DNS"; // qwen3.8:27b
-"Jitter" = "Jitter";
 "Noise" = "Ruido"; // qwen3.8:27b
 "Signal" = "Señal"; // qwen3.8:27b
 "Speed" = "Velocidad"; // qwen3.8:27b
@@ -482,8 +479,8 @@
 "High level notification" = "Notificación de nivel alto";
 "Low battery" = "Batería baja";
 "High battery" = "Batería alta";
-"Battery remaining" = "Batería restante";
-"Battery remaining to full charge" = "Batería restante hasta carga completa";
+"Battery remaining" = "%0% restante";
+"Battery remaining to full charge" = "%0% hasta la carga completa";
 "Percentage" = "Porcentaje";
 "Percentage and time" = "Porcentaje y tiempo";
 "Time and percentage" = "Tiempo y porcentaje";

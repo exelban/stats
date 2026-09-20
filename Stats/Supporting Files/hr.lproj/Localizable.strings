@@ -108,7 +108,7 @@
 "Next page" = "Sljedeća stranica";
 "Finish" = "Završi";
 "Finish setup" = "Završi postavljanje";
-"Welcome to Stats" = "Stats dobrodošlica";
+"Welcome to Stats" = "Dobrodošli u Stats";
 "welcome_message" = "Hvala što koristiš Stats, besplatni program otvorenog koda za praćenje macOS sustava u traci izbornika.";
 "Select preset" = "Odaberi predestavku"; // gemma4:31b
 "select_preset_message" = "Odaberite početni skup modula. Sve možete kasnije prilagoditi u Postavkama."; // gemma4:31b
@@ -134,7 +134,7 @@
 "Stats was updated to v" = "Stats je aktualiziran na v%0";
 "Reset settings text" = "Sve postavke programa će se resetirati i program će se ponovo pokrenuti. Stvarno to želiš učiniti?";
 "Deregister text" = "Računalo će biti odregistrirano iz System Statsa i bit ćete odjavljeni. Jeste li sigurni da to želite učiniti?"; // gemma4:31b-it-qat
-"Support text" = "Hvala vam što koristite Stats!\n\n Održavanje i poboljšanje ovog projekta otvorenog koda zahtijeva vrijeme i resurse. Vaša nam podrška pomaže da nastavimo pružati besplatnu i pouzdanu aplikaciju za sve.\n\nAko smatrate da je statistika korisna, razmislite o davanju doprinosa. Svako malo pomaže!";
+"Support text" = "Hvala vam što koristite Stats!\n\nOdržavanje i poboljšanje ovog projekta otvorenog koda zahtijeva vrijeme i resurse. Vaša nam podrška pomaže da nastavimo pružati besplatnu i pouzdanu aplikaciju za sve.\n\nAko smatrate da je Stats koristan, razmislite o davanju doprinosa. Svako malo pomaže!";
 
 // Settings
 "Open Activity Monitor" = "Otvori program „Praćenje aktivnosti”";
@@ -178,7 +178,7 @@
 "Production year" = "Godina proizvodnje"; // translategemma:4b
 "Uptime" = "Vrijeme rada";
 "Number of cores" = "Broj jezgri: %0";
-"Number of threads" = "Broj komponenti procesa: %0";
+"Number of threads" = "Broj nitki: %0";
 "Number of e-cores" = "%0 energetski učinkovitih jezgara"; // gemma4:31b
 "Number of p-cores" = "%0 performansne jezgre"; // gemma4:31b
 "Number of s-cores" = "%0 super jezgre"; // gemma4:31b
@@ -187,7 +187,7 @@
 
 // Update
 "The latest version of Stats installed" = "Instalirana je najnovija verzija programa Stats";
-"Downloading..." = "Preuzimanje …";
+"Downloading..." = "Preuzimanje...";
 "Installing..." = "Instaliranje..."; // qwen3.8:27b
 "Updating..." = "Ažuriranje..."; // qwen3.8:27b
 "Stats will restart automatically" = "Stats će se automatski ponovno pokrenuti"; // qwen3.8:27b
@@ -240,11 +240,11 @@
 "Update interval" = "Interval aktualiziranja";
 "Usage history" = "Povijest korištenja";
 "Details" = "Detalji";
-"Top processes" = "Glavni procesi";
+"Top processes" = "Najaktivniji procesi";
 "Pictogram" = "Piktogram";
 "Module" = "Modul";
 "Widgets" = "Widgeti";
-"Popup" = "Iskočiti";
+"Popup" = "Skočni prozor";
 "Notifications" = "Obavijesti";
 "Merge widgets" = "Spoji programčiće";
 "No available widgets to configure" = "Nema dostupnih widgeta za konfiguraciju";
@@ -257,9 +257,9 @@
 "Open module" = "Otvori modul"; // qwen3.8:27b
 
 // Modules
-"Number of top processes" = "Broj glavnih procesa";
-"Update interval for top processes" = "Interval aktualiziranja za glavne procese";
-"Chart color" = "Boja karte";
+"Number of top processes" = "Broj najaktivnijih procesa";
+"Update interval for top processes" = "Interval aktualiziranja za najaktivnije procese";
+"Chart color" = "Boja grafikona";
 "Main chart scaling" = "Skaliranje glavnog grafikona"; // gemma4:31b
 "Scale value" = "Vrijednost skale"; // gemma4:31b
 "Text widget value" = "Vrijednost tekstualnog vidžeta"; // gemma4:31b
@@ -295,7 +295,7 @@
 "Total load" = "Ukupno opterećenje"; // gemma4:31b
 "System load" = "Opterećenje sustava"; // gemma4:31b
 "User load" = "Korisničko opterećenje"; // gemma4:31b
-"Efficiency cores load" = "Opterećenje energoefikasnih jezgara"; // gemma4:31b
+"Efficiency cores load" = "Opterećenje energetski učinkovitih jezgara"; // gemma4:31b
 "Performance cores load" = "Opterećenje jezgara performansi"; // gemma4:31b
 "Super cores load" = "Opterećenje super jezgara"; // qwen3.8:27b
 "All cores" = "Sve jezgre"; // translategemma:4b
@@ -311,15 +311,13 @@
 "Model" = "Model";
 "Status" = "Stanje";
 "Utilization" = "Korištenje";
-"Render" = "Izrada"; // qwen3.8:27b
-"Render utilization" = "Korištenje iscrtavača";
-"Render utilization history" = "Povijest iskorištenosti renderiranja"; // qwen3.8:27b
-"Tiler" = "Pločica"; // qwen3.8:27b
+"Renderer utilization" = "Korištenje iscrtavača";
+"Renderer utilization history" = "Povijest iskorištenosti iscrtavača"; // qwen3.8:27b
 "Tiler utilization" = "Korištenje popločivanja";
 "Tiler utilization history" = "Povijest iskorištenosti tilera"; // qwen3.8:27b
 "GPU usage threshold" = "Prag korištenja grafičkog procesora";
 "GPU usage is" = "Korištenje grafičkog procesora je %0";
-"ANE utilization" = "Iskorištenost ANE"; // qwen3.8:27b
+"ANE utilization" = "Korištenje ANE"; // qwen3.8:27b
 "ANE utilization history" = "Povijest iskorištenosti ANE-a"; // qwen3.8:27b
 "FPS history" = "Povijest FPS-a"; // qwen3.8:27b
 "GPU utilization history" = "Povijest iskorištenosti GPU-a"; // qwen3.8:27b
@@ -338,7 +336,7 @@
 "RAM utilization threshold" = "Prag korištenja radne memorije";
 "RAM utilization is" = "Korištenje radne memorije je %0";
 "App color" = "Boja aplikacije"; // translategemma:4b
-"Wired color" = "Boja fiksne memorije"; // gemma4:31b
+"Wired color" = "Boja rezidentne memorije"; // gemma4:31b
 "Compressed color" = "Boja komprimirane memorije"; // gemma4:31b
 "Free color" = "Boja slobodnog prostora"; // gemma4:31b
 "Free memory (less than)" = "Slobodna memorija (manje od)"; // gemma4:31b
@@ -454,7 +452,6 @@
 "Internet connection established" = "Internet veza uspostavljena"; // gemma4:31b
 "Show country code instead of emoji" = "Prikaži kod države umjesto emojija"; // gemma4:31b
 "DNS Server" = "DNS poslužitelj"; // qwen3.8:27b
-"Jitter" = "Jitter";
 "Noise" = "Šum"; // qwen3.8:27b
 "Signal" = "Signal";
 "Speed" = "Brzina"; // qwen3.8:27b
@@ -547,7 +544,7 @@
 "Magenta" = "Purpurna"; // qwen3.8:27b
 "Pink" = "Ružičasta";
 "Teal" = "Tamnotirkizna";
-"Indigo" = "Modra";
+"Indigo" = "Indigo";
 
 // System Stats
 "Authorization" = "Ovlaštenje"; // qwen3.8:27b

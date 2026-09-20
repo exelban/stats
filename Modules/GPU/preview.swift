@@ -69,7 +69,7 @@ internal class Preview: PreviewWrapper {
         let secondSplitView = NSStackView()
         secondSplitView.orientation = .horizontal
         secondSplitView.distribution = .fillEqually
-        secondSplitView.addArrangedSubview(PreferencesSection(title: localizedString("Render utilization history"), [renderHistoryView]))
+        secondSplitView.addArrangedSubview(PreferencesSection(title: localizedString("Renderer utilization history"), [renderHistoryView]))
         secondSplitView.addArrangedSubview(PreferencesSection(title: localizedString("Tiler utilization history"), [tilerHistoryView]))
         
         self.addArrangedSubview(firstSplitView)
@@ -135,7 +135,7 @@ internal class Preview: PreviewWrapper {
                     let utilization = self.barView(title: localizedString("GPU utilization"))
                     self.utilizationBar = utilization.1
                     self.utilizationField = utilization.2
-                    let render = self.barView(title: localizedString("Render utilization"))
+                    let render = self.barView(title: localizedString("Renderer utilization"))
                     self.renderBar = render.1
                     self.renderField = render.2
                     

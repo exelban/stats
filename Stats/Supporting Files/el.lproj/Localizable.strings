@@ -107,7 +107,7 @@
 "Next" = "Επόμενο";
 "Next page" = "Επόμενη σελίδα";
 "Finish" = "Τέλος";
-"Finish setup" = "Τέλος εγκαταστασης";
+"Finish setup" = "Τέλος εγκατάστασης";
 "Welcome to Stats" = "Καλώς ήρθες στο Stats";
 "welcome_message" = "Ευχαριστούμε που χρησιμοποιείτε το Stats, ένα δωρεάν εργαλείο παρακολούθησης συστήματος macOS ανοιχτού κώδικα για τη γραμμή μενού σας."; // gemma4:31b
 "Select preset" = "Επιλογή προκαθορισμού"; // gemma4:31b
@@ -125,13 +125,13 @@
 "Check for a new version every month (once a month)" = "Έλεγχος για νέα έκδοση κάθε μήνα (μία φορά τον μήνα)"; // gemma4:31b
 "Never check for updates (not recommended)" = "Ποτέ μην ελέγχετε για ενημερώσεις (δεν συνιστάται)"; // gemma4:31b
 "The configuration is completed" = "Η διαμόρφωση ολοκληρώθηκε"; // gemma4:31b
-"finish_setup_message" = "Όλα είναι έτοιμα! \\n Το Stats είναι ένα εργαλείο ανοιχτού κώδικα, είναι δωρεάν και θα παραμείνει έτσι. \\n Αν σας αρέσει, μπορείτε να υποστηρίξετε το έργο, εκτιμάται πάντα!"; // gemma4:31b
+"finish_setup_message" = "Όλα είναι έτοιμα! \n Το Stats είναι ένα εργαλείο ανοιχτού κώδικα, είναι δωρεάν και θα παραμείνει έτσι. \n Αν σας αρέσει, μπορείτε να υποστηρίξετε το έργο, εκτιμάται πάντα!"; // gemma4:31b
 
 // Alerts
 "New version available" = "Νέα έκδοση διαθέσιμη";
 "Click to install the new version of Stats" = "Πάτησε εδώ για την εγκατάσταση της νέας έκδοσης του Stats";
 "Successfully updated" = "Επιτυχής ενημέρωση";
-"Stats was updated to v" = "Το Stats ενημερώθηκε στην ε%0";
+"Stats was updated to v" = "Το Stats ενημερώθηκε στην έκδοση %0";
 "Reset settings text" = "Όλες οι ρυθμίσεις της εφαρμογής θα αρχικοποιηθούν και η εφαρμογή θα επανεκκινηθεί. Είστε σίγουροι;";
 "Deregister text" = "Ο υπολογιστής θα απαγραφεί από το System Stats και θα αποσυνδεθείτε. Είστε σίγουροι ότι θέλετε να το κάνετε αυτό;"; // gemma4:31b-it-qat
 "Support text" = "Σας ευχαριστούμε για τη χρήση των Stats!\n\n Η συντήρηση και η βελτίωση αυτού του έργου ανοιχτού κώδικα απαιτεί χρόνο και πόρους. Η υποστήριξή σας μας βοηθά να συνεχίσουμε να παρέχουμε μια δωρεάν και αξιόπιστη εφαρμογή για όλους.\n\nΕάν βρίσκετε το Stats χρήσιμο, παρακαλούμε σκεφτείτε να συνεισφέρετε. Κάθε μικρό ποσό βοηθάει!";
@@ -143,9 +143,9 @@
 "Close application" = "Κλείσιμο εφαρμογής";
 "Open application settings" = "Άνοιγμα ρυθμίσεων εφαρμογής";
 "Open dashboard" = "Άνοιγμα ταμπλό";
-"No notifications available in this module" = "Δεν υπάρχουν διαθέσιμες ειδοποιήσεις σε αυτό το μοδούλο"; // gemma4:31b
+"No notifications available in this module" = "Δεν υπάρχουν διαθέσιμες ειδοποιήσεις σε αυτήν τη μονάδα"; // gemma4:31b
 "Open Calendar" = "Άνοιγμα Ημερολογίου"; // translategemma:4b
-"Toggle the module" = "Εναλλαγή του μοδούλου"; // gemma4:31b
+"Toggle the module" = "Εναλλαγή της μονάδας"; // gemma4:31b
 "Open System Stats" = "Άνοιξε το System Stats"; // gemma4:31b
 "Close module settings" = "Κλείσιμο ρυθμίσεων μονάδας"; // qwen3.8:27b
 
@@ -179,8 +179,8 @@
 "Uptime" = "Χρόνος Δραστηριότητας";
 "Number of cores" = "%0 πυρήνες";
 "Number of threads" = "%0 νήματα"; // gemma4:31b
-"Number of e-cores" = "%0 πυρήνες απόδοσης";
-"Number of p-cores" = "%0 πυρήνες επίδοσης";
+"Number of e-cores" = "%0 πυρήνες αποδοτικότητας";
+"Number of p-cores" = "%0 πυρήνες απόδοσης";
 "Number of s-cores" = "%0 υπερπύρηνες"; // gemma4:31b
 "Disks" = "Δίσκοι"; // translategemma:4b
 "Display" = "Οθόνη"; // translategemma:4b
@@ -242,7 +242,7 @@
 "Details" = "Λεπτομέρειες";
 "Top processes" = "Κορυφαίες διεργασίες";
 "Pictogram" = "Εικονόγραμμα";
-"Module" = "Μονάδα μέτρησης";
+"Module" = "Μονάδα";
 "Widgets" = "Βιτζετ"; // gemma4:31b
 "Popup" = "Αναδυόμενο παράθυρο";
 "Notifications" = "Ειδοποιήσεις";
@@ -272,7 +272,7 @@
 "System" = "Σύστημα";
 "User" = "Χρήστης";
 "Idle" = "Αδράνεια";
-"Show usage per core" = "Εμφάνιση κατανάλωσης ανά επεξεργαστή";
+"Show usage per core" = "Εμφάνιση κατανάλωσης ανά πυρήνα";
 "Show hyper-threading cores" = "Εμφάνιση των hyper-threading πυρήνων";
 "Split the value (System/User)" = "Διαχωρισμός των τιμών (Συστήματος/Χρήστη)";
 "Scheduler limit" = "Όριο χρονοπρογραμματιστή";
@@ -282,14 +282,14 @@
 "5 minutes" = "5 λεπτά";
 "15 minutes" = "15 λεπτά";
 "CPU usage threshold" = "Όριο χρήσης CPU"; // translategemma:4b
-"Efficiency cores" = "Ενεργειακά αποδοτικοί πύρηνες"; // gemma4:31b
+"Efficiency cores" = "Πυρήνες αποδοτικότητας"; // gemma4:31b
 "Performance cores" = "Πύρηνες απόδοσης"; // gemma4:31b
 "Super cores" = "Υπερπυρήνες"; // qwen3.8:27b
 "System color" = "Χρώμα συστήματος"; // translategemma:4b
 "User color" = "Χρώμα χρήστη"; // translategemma:4b
 "Idle color" = "Χρώμα ανεργίας"; // gemma4:31b
 "Cluster grouping" = "Ομαδοποίηση συστοιχίων"; // gemma4:31b
-"Efficiency cores color" = "Χρώμα ενεργειακά αποδοτικών πυρήνων"; // gemma4:31b
+"Efficiency cores color" = "Χρώμα πυρήνων αποδοτικότητας"; // gemma4:31b
 "Performance cores color" = "Χρώμα πυρήνων απόδοσης"; // gemma4:31b
 "Super cores color" = "Χρώμα υπερπυρήνων"; // qwen3.8:27b
 "Total load" = "Συνολικός φόρτος"; // gemma4:31b
@@ -311,15 +311,13 @@
 "Model" = "Μοντέλο";
 "Status" = "Κατάσταση";
 "Utilization" = "Χρήση";
-"Render" = "Απόδοση"; // qwen3.8:27b
-"Render utilization" = "Χρήση Render"; // gemma4:31b
-"Render utilization history" = "Ιστορικό χρήσης απόδοσης"; // qwen3.8:27b
-"Tiler" = "Πλακιδωτής"; // qwen3.8:27b
+"Renderer utilization" = "Χρήση Render"; // gemma4:31b
+"Renderer utilization history" = "Ιστορικό χρήσης Render"; // qwen3.8:27b
 "Tiler utilization" = "Χρήση Tiler"; // gemma4:31b
-"Tiler utilization history" = "Ιστορικό εκμετάλλευσης Διαμορφωτή"; // qwen3.8:27b
+"Tiler utilization history" = "Ιστορικό χρήσης Tiler"; // qwen3.8:27b
 "GPU usage threshold" = "Όριο χρήσης GPU"; // gemma4:31b
 "GPU usage is" = "Η χρήση της GPU είναι %0"; // gemma4:31b
-"ANE utilization" = "Εκμετάλλευση ANE"; // qwen3.8:27b
+"ANE utilization" = "Χρήση ANE"; // qwen3.8:27b
 "ANE utilization history" = "Ιστορικό χρήσης ANE"; // qwen3.8:27b
 "FPS history" = "Ιστορικό FPS"; // qwen3.8:27b
 "GPU utilization history" = "Ιστορικό χρήσης GPU"; // qwen3.8:27b
@@ -367,7 +365,7 @@
 "Encrypted" = "Κρυπτογραφημένο"; // gemma4:31b-it-qat
 "Writable" = "Γράψιμος"; // gemma4:31b-it-qat
 "Drives" = "Δίσκοι"; // translategemma:4b
-"Power cycles" = "Κύκλοι φόρτισης"; // gemma4:31b
+"Power cycles" = "Κύκλοι τροφοδοσίας"; // gemma4:31b
 "Power on hours" = "Ώρες λειτουργίας"; // gemma4:31b
 "Critical warning" = "Κρίσιμη προειδοποίηση"; // gemma4:31b-it-qat
 "Available spare" = "Διαθέσιμο απόθεμα"; // gemma4:31b-it-qat
@@ -398,10 +396,10 @@
 "Show unknown sensors" = "Εμφάνιση άγνωστους αισθητήρες";
 "Install fan helper" = "Εγκατάσταση fan helper";
 "Uninstall fan helper" = "Απεγκατάσταση fan helper";
-"Approve in System Settings ▸ Login Items" = "Εγκρίνετε στις Ρυθμίσεις συστήματος ▸ Αντικείμενα σύνθεσης"; // gemma4:31b
+"Approve in System Settings ▸ Login Items" = "Εγκρίνετε στις Ρυθμίσεις συστήματος ▸ Αντικείμενα σύνδεσης"; // gemma4:31b
 "Fan helper needs your approval" = "Ο βοηθός ανεμιστήρα χρειάζεται την έγκρισή σας"; // gemma4:31b
-"To control the fans, enable Stats in System Settings ▸ Login Items." = "Για να ελέγξετε τους ανεμιστήρες, ενεργοποιήστε το Stats στις Ρυθμίσεις συστήματος ▸ Αντικείμενα σύνθεσης."; // gemma4:31b
-"Open Login Items" = "Άνοιξε τα Αντικείμενα σύνθεσης"; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "Για να ελέγξετε τους ανεμιστήρες, ενεργοποιήστε το Stats στις Ρυθμίσεις συστήματος ▸ Αντικείμενα σύνδεσης."; // gemma4:31b
+"Open Login Items" = "Ανοίξτε τα Αντικείμενα σύνδεσης"; // gemma4:31b
 "Could not enable the fan helper" = "Δεν ήταν δυνατή η ενεργοποίηση του βοηθητικού προγράμματος του ανεμιστήρα"; // gemma4:31b
 "Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "Ανοίξτε τις Ρυθμίσεις συστήματος ▸ Αντικείμενα σύνδεσης, βεβαιωθείτε ότι το Stats είναι επιτρεπτό στο παρασκήνιο, και στη συνέχεια δοκιμάστε ξανά."; // gemma4:31b
 "Fan value" = "Τιμή ανεμιστήρα"; // gemma4:31b
@@ -454,7 +452,6 @@
 "Internet connection established" = "Η σύνδεση στο Internet αποκαταστάθηκε"; // gemma4:31b
 "Show country code instead of emoji" = "Εμφάνιση κώδικα χώρας αντί για emoji"; // gemma4:31b
 "DNS Server" = "Εξυπηρετητής DNS"; // qwen3.8:27b
-"Jitter" = "Τρεμόπαιγμα"; // qwen3.8:27b
 "Noise" = "Θόρυβος"; // qwen3.8:27b
 "Signal" = "Σήμα"; // qwen3.8:27b
 "Speed" = "Ταχύτητα"; // qwen3.8:27b
@@ -559,7 +556,7 @@
 "Sign in" = "Σύνδεση"; // qwen3.8:27b
 "Sign out" = "Αποσύνδεση"; // qwen3.8:27b
 "Deregister" = "Αποεγγραφή"; // qwen3.8:27b
-"Hosts" = "Κυριερχικοί"; // qwen3.8:27b
+"Hosts" = "Ξενιστές"; // qwen3.8:27b
 "Machines" = "Μηχανές"; // qwen3.8:27b
 "No hosts yet" = "Δεν υπάρχουν ακόμα ξενιστές"; // qwen3.8:27b
 "No machines yet" = "Καμία μηχανή ακόμα"; // qwen3.8:27b

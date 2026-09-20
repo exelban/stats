@@ -159,7 +159,7 @@
 "Check for update" = "Tarkista päivitys";
 "Show icon in dock" = "Näytä kuvake telakassa";
 "Start at login" = "Käynnistä kirjautumisen yhteydessä";
-"Build number" = "Kokoonpanon numero";
+"Build number" = "Build-numero";
 "Import settings" = "Tuo asetukset";
 "Export settings" = "Vie asetukset";
 "Reset settings" = "Nollaa asetukset";
@@ -220,7 +220,7 @@
 "Static width" = "Staattinen leveys";
 "Tachometer widget" = "Tachometri";
 "State widget" = "Tila";
-"Text widget" = "Tekstiwidgetti"; // gemma4:31b
+"Text widget" = "Tekstiwidget"; // gemma4:31b
 "Battery details widget" = "Akun tiedot -widget"; // translategemma:4b
 "Show symbols" = "Näytä symbolit";
 "Label widget" = "Tunniste";
@@ -240,7 +240,7 @@
 "Update interval" = "Päivitysväli";
 "Usage history" = "Käytön historia";
 "Details" = "Tiedot";
-"Top processes" = "Suosituimmat prosessit";
+"Top processes" = "Eniten kuormittavat prosessit";
 "Pictogram" = "Piktogrammi";
 "Module" = "Moduuli";
 "Widgets" = "Widgetit";
@@ -257,8 +257,8 @@
 "Open module" = "Avaa moduuli"; // qwen3.8:27b
 
 // Modules
-"Number of top processes" = "Suosittujen prosessien määrä";
-"Update interval for top processes" = "Suosittujen prosessien päivitysväli";
+"Number of top processes" = "Eniten kuormittavien prosessien määrä";
+"Update interval for top processes" = "Eniten kuormittavien prosessien päivitysväli";
 "Chart color" = "Kaavion väri";
 "Main chart scaling" = "Pääkaavion skaalaus";
 "Scale value" = "Skaalausarvo";
@@ -283,25 +283,25 @@
 "15 minutes" = "15 minuuttia";
 "CPU usage threshold" = "Suorittimen käytön raja";
 "Efficiency cores" = "Tehokkuusytimet";
-"Performance cores" = "Suorituskykyytimet";
+"Performance cores" = "Suorituskyky-ytimet";
 "Super cores" = "Super-ytimet"; // qwen3.8:27b
 "System color" = "Järjestelmän väri";
 "User color" = "Käyttäjän väri";
 "Idle color" = "Lepotilan väri";
 "Cluster grouping" = "Ryhmien klusterointi";
-"Efficiency cores color" = "E-ytimien väri";
-"Performance cores color" = "P-ytimien väri";
+"Efficiency cores color" = "Tehokkuusytimien väri";
+"Performance cores color" = "Suorituskyky-ytimien väri";
 "Super cores color" = "Super-ytimien väri"; // qwen3.8:27b
 "Total load" = "Kokonaiskuorma";
 "System load" = "Järjestelmäkuorma";
 "User load" = "Käyttäjäkuorma";
 "Efficiency cores load" = "Tehokkuusytimien kuorma";
-"Performance cores load" = "Suorituskykyytimien kuorma";
-"Super cores load" = "Super-ydinten kuormitus"; // qwen3.8:27b
+"Performance cores load" = "Suorituskyky-ytimien kuorma";
+"Super cores load" = "Super-ytimien kuorma"; // qwen3.8:27b
 "All cores" = "Kaikki ytimet"; // translategemma:4b
 "Load per core" = "Kuormitus ydintä kohti"; // gemma4:31b
 "Efficiency core" = "Tehokkuusydin"; // gemma4:31b
-"Performance core" = "Suorituskykyydin"; // gemma4:31b
+"Performance core" = "Suorituskyky-ydin"; // gemma4:31b
 "Super core" = "Superydin"; // gemma4:31b
 
 // GPU
@@ -311,10 +311,8 @@
 "Model" = "Malli";
 "Status" = "Tila";
 "Utilization" = "Käyttöaste";
-"Render" = "Renderöinti"; // qwen3.8:27b
-"Render utilization" = "Renderöinnin käyttöaste";
-"Render utilization history" = "Renderöinnin käyttöasteen historia"; // qwen3.8:27b
-"Tiler" = "Laattoilija"; // qwen3.8:27b
+"Renderer utilization" = "Renderöinnin käyttöaste";
+"Renderer utilization history" = "Renderöinnin käyttöasteen historia"; // qwen3.8:27b
 "Tiler utilization" = "Tilerin käyttöaste";
 "Tiler utilization history" = "Tilerin käyttöasteen historia"; // qwen3.8:27b
 "GPU usage threshold" = "GPU:n käytön raja";
@@ -330,19 +328,19 @@
 "Total" = "Kokonaismäärä";
 "Used" = "Käytetty";
 "App" = "Sovellus";
-"Wired" = "Johdettu";
+"Wired" = "Sidottu";
 "Compressed" = "Pakatut";
 "Free" = "Vapaa";
-"Swap" = "Välimuisti";
-"Split the value (App/Wired/Compressed)" = "Jaa arvo (Sovellus/Johdettu/Pakatut)";
+"Swap" = "Swap";
+"Split the value (App/Wired/Compressed)" = "Jaa arvo (Sovellus/Sidottu/Pakatut)";
 "RAM utilization threshold" = "RAMin käytön raja";
 "RAM utilization is" = "RAMin käyttö on %0";
 "App color" = "Sovelluksen väri";
-"Wired color" = "Johdettujen väri";
+"Wired color" = "Sidotun väri";
 "Compressed color" = "Pakattujen väri";
 "Free color" = "Vapaan väri";
 "Free memory (less than)" = "Vapaa muisti (alle)";
-"Swap size" = "Välimuistin koko";
+"Swap size" = "Swapin koko";
 "Free RAM is" = "Vapaa RAM on %0";
 "Pressure" = "Paine"; // qwen3.8:27b
 "Pressure level" = "Painetaso"; // qwen3.8:27b
@@ -356,7 +354,7 @@
 "Switch view" = "Vaihda näkymää";
 "Disk utilization threshold" = "Levyn käytön raja";
 "Disk utilization is" = "Levyn käyttö on %0";
-"Read color" = "Luvun väri";
+"Read color" = "Luettujen väri";
 "Write color" = "Kirjoituksen väri";
 "Disk usage" = "Levyn käyttö";
 "Total read" = "Luettu yhteensä";
@@ -367,7 +365,7 @@
 "Encrypted" = "Salattu"; // gemma4:31b-it-qat
 "Writable" = "Kirjoitettavissa"; // gemma4:31b-it-qat
 "Drives" = "Levyt"; // gemma4:31b
-"Power cycles" = "Lataussyklien määrä"; // gemma4:31b
+"Power cycles" = "Käynnistysyklien määrä"; // gemma4:31b
 "Power on hours" = "Käyttötunnit"; // gemma4:31b
 "Critical warning" = "Kriittinen varoitus"; // gemma4:31b-it-qat
 "Available spare" = "Vapaa reservi"; // gemma4:31b-it-qat
@@ -454,13 +452,12 @@
 "Internet connection established" = "Internet-yhteys muodostettu"; // translategemma:4b
 "Show country code instead of emoji" = "Näytä maakoodi emojin sijaan"; // gemma4:31b
 "DNS Server" = "DNS-palvelin"; // qwen3.8:27b
-"Jitter" = "Jitter";
 "Noise" = "Melu"; // qwen3.8:27b
 "Signal" = "Signaali"; // qwen3.8:27b
 "Speed" = "Nopeus"; // qwen3.8:27b
 "Network interface changed" = "Verkkoliitäntä muuttui"; // qwen3.8:27b
 "WiFi network changed" = "WiFi-verkko muuttui"; // qwen3.8:27b
-"This will be visible in the text widget" = "Tämä näkyy tekstivihkeessä"; // qwen3.8:27b
+"This will be visible in the text widget" = "Tämä näkyy tekstiwidgetissa"; // qwen3.8:27b
 
 // Battery
 "Source" = "Lähde";
@@ -480,7 +477,7 @@
 "Fully charged" = "Täyteen ladattu";
 "Low level notification" = "Matala tason ilmoitus";
 "High level notification" = "Korkea tason ilmoitus";
-"Low battery" = "Akku Vähissä";
+"Low battery" = "Akku vähissä";
 "High battery" = "Akun varaus korkea";
 "Battery remaining" = "%0% jäljellä";
 "Battery remaining to full charge" = "%0% täyteen lataukseen";
@@ -522,7 +519,7 @@
 "Based on cluster" = "Perustuu klusteriin";
 "System accent" = "Järjestelmän korostus";
 "Monochrome accent" = "Yksivärinen korostus";
-"Clear" = "Kirkas";
+"Clear" = "Läpinäkyvä";
 "White" = "Valkoinen";
 "Black" = "Musta";
 "Gray" = "Harmaa";
@@ -559,7 +556,7 @@
 "Sign in" = "Kirjaudu sisään"; // qwen3.8:27b
 "Sign out" = "Kirjaudu ulos"; // qwen3.8:27b
 "Deregister" = "Poista rekisteröinti"; // qwen3.8:27b
-"Hosts" = "Isäntäkonet"; // qwen3.8:27b
+"Hosts" = "Isäntäkoneet"; // qwen3.8:27b
 "Machines" = "Koneet"; // qwen3.8:27b
 "No hosts yet" = "Ei vielä isäntäkoneita"; // qwen3.8:27b
 "No machines yet" = "Ei vielä koneita"; // qwen3.8:27b
@@ -568,4 +565,4 @@
 "Live CPU, RAM, disk and network metrics" = "Reaaliaikaiset CPU-, RAM-, levy- ja verkkometriikat"; // qwen3.8:27b
 "Login to System Stats to see your devices" = "Kirjaudu System Statsiin nähdäksesi laitteet"; // qwen3.8:27b
 "Monitor HTTP, ICMP and custom endpoints" = "Seuraa HTTP-, ICMP- ja mukautettuja päätepisteitä"; // qwen3.8:27b
-"Monitor and control your Macs from anywhere. Sign in to your System Stats account to see all your devices and hosts in one place." = "Seuraa ja hallitse Macit mistä tahansa. Kirjaudu System Stats -tiliisi nähdäksesi kaikki laitteet ja isäntäkonet yhdessä paikassa."; // qwen3.8:27b
+"Monitor and control your Macs from anywhere. Sign in to your System Stats account to see all your devices and hosts in one place." = "Seuraa ja hallitse Macit mistä tahansa. Kirjaudu System Stats -tiliisi nähdäksesi kaikki laitteet ja isäntäkoneet yhdessä paikassa."; // qwen3.8:27b

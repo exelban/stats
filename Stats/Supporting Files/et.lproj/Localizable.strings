@@ -311,10 +311,8 @@
 "Model" = "Mudel";
 "Status" = "Olek";
 "Utilization" = "Kasutus";
-"Render" = "Rendrits"; // qwen3.8:27b
-"Render utilization" = "Renderdamise kasutus";
-"Render utilization history" = "Renderduse kasutuse ajalugu"; // qwen3.8:27b
-"Tiler" = "Kiviplaat"; // qwen3.8:27b
+"Renderer utilization" = "Renderdamise kasutus";
+"Renderer utilization history" = "Renderduse kasutuse ajalugu"; // qwen3.8:27b
 "Tiler utilization" = "Osapõhise renderdaja kasutus";
 "Tiler utilization history" = "Tileri kasutuse ajalugu"; // qwen3.8:27b
 "GPU usage threshold" = "GPU kasutuslävi";
@@ -349,8 +347,8 @@
 
 // Disk
 "Show removable disks" = "Kuva irdkettad";
-"Used disk memory" = "Kasutatud kettamälu";
-"Free disk memory" = "Vaba kettamälu";
+"Used disk memory" = "%0 / %1 kasutusel";
+"Free disk memory" = "%0 / %1 vaba";
 "Disk to show" = "Ketas, mida näidata";
 "Open disk" = "Ava ketas";
 "Switch view" = "Vaate vahetamine";
@@ -454,7 +452,6 @@
 "Internet connection established" = "Internetühendus on loodud";
 "Show country code instead of emoji" = "Näita emoji asemel riigikoodi";
 "DNS Server" = "DNS server"; // qwen3.8:27b
-"Jitter" = "Võnkumine"; // qwen3.8:27b
 "Noise" = "Müra"; // qwen3.8:27b
 "Signal" = "Signaal"; // qwen3.8:27b
 "Speed" = "Kiirus"; // qwen3.8:27b

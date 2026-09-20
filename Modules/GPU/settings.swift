@@ -24,7 +24,7 @@ You can use a combination of any of the variables.
 <h2>Available variables</h2>
 <ul>
 <li><b>$usage</b>: <small>GPU utilization.</small></li>
-<li><b>$render</b>: <small>Render utilization.</small></li>
+<li><b>$render</b>: <small>Renderer utilization.</small></li>
 <li><b>$tiler</b>: <small>Tiler utilization.</small></li>
 <li><b>$ane</b>: <small>Apple Neural Engine utilization.</small></li>
 <li><b>$fps</b>: <small>Frames per second.</small></li>
