@@ -42,6 +42,17 @@ struct Battery_Usage: Codable {
     var timeToEmpty: Int = 0
     var timeToCharge: Int = 0
     var timeOnACPower: Date? = nil
+    
+    var ups: UPS_Usage? = nil
+}
+
+struct UPS_Usage: Codable {
+    var name: String = ""
+    var powerSource: String = ""
+    var isBatteryPowered: Bool = false
+    var isCharged: Bool = false
+    var isCharging: Bool = false
+    var level: Double = 0
 }
 
 public class Battery: Module {
