@@ -199,6 +199,7 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     }
     
     private let wifiClient = CWWiFiClient.shared()
+    private var listeningForWifiEvents: Bool = false
     
     private var lastDetailsReadTS: Date = .distantPast
     
@@ -243,15 +244,24 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         }
         
         self.checkUsageReset()
-        
-        self.wifiClient.delegate = self
-        self.startListeningForWifiEvents()
     }
     
     public override func terminate() {
         self.reachability.stop()
         self.reachability.reachable = {}
         self.reachability.unreachable = {}
+        self.stopListeningForWifiEvents()
+        self.wifiClient.delegate = nil
+    }
+    
+    public override func start() {
+        super.start()
+        self.wifiClient.delegate = self
+        self.startListeningForWifiEvents()
+    }
+    
+    public override func stop() {
+        super.stop()
         self.stopListeningForWifiEvents()
         self.wifiClient.delegate = nil
     }
@@ -681,16 +691,20 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     }
     
     private func startListeningForWifiEvents() {
+        guard !self.listeningForWifiEvents else { return }
         do {
             try self.wifiClient.startMonitoringEvent(with: .ssidDidChange)
+            self.listeningForWifiEvents = true
         } catch let err as NSError {
             error("failed to start monitoring Wi-Fi events: \(err.localizedDescription)")
         }
     }
     
     private func stopListeningForWifiEvents() {
+        guard self.listeningForWifiEvents else { return }
         do {
             try self.wifiClient.stopMonitoringEvent(with: .ssidDidChange)
+            self.listeningForWifiEvents = false
         } catch let err as NSError {
             error("failed to stop monitoring Wi-Fi events: \(err.localizedDescription)")
         }
