@@ -17,6 +17,8 @@ import WebKit
 import Metal
 import IOKit.pwr_mgt
 
+public let machHostPort: mach_port_t = mach_host_self()
+
 public struct LaunchAtLogin {
     private static let id = "\(Bundle.main.bundleIdentifier!).LaunchAtLogin"
     

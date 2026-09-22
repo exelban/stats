@@ -40,7 +40,7 @@ internal class LoadReader: Reader<CPU_Load> {
     }
     
     public override func read() {
-        let result: kern_return_t = host_processor_info(mach_host_self(), PROCESSOR_CPU_LOAD_INFO, &self.numCPUsU, &self.cpuInfo, &self.numCpuInfo)
+        let result: kern_return_t = host_processor_info(machHostPort, PROCESSOR_CPU_LOAD_INFO, &self.numCPUsU, &self.cpuInfo, &self.numCpuInfo)
         if result == KERN_SUCCESS {
             self.CPUUsageLock.lock()
             self.usagePerCore = []
@@ -165,7 +165,7 @@ internal class LoadReader: Reader<CPU_Load> {
         
         let result: kern_return_t = withUnsafeMutablePointer(to: &cpuLoadInfo) {
             $0.withMemoryRebound(to: integer_t.self, capacity: count) {
-                host_statistics(mach_host_self(), HOST_CPU_LOAD_INFO, $0, &size)
+                host_statistics(machHostPort, HOST_CPU_LOAD_INFO, $0, &size)
             }
         }
         if result != KERN_SUCCESS {

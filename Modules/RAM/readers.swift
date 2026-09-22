@@ -21,7 +21,7 @@ internal class UsageReader: Reader<RAM_Usage> {
         
         let kerr: kern_return_t = withUnsafeMutablePointer(to: &stats) {
             $0.withMemoryRebound(to: integer_t.self, capacity: Int(count)) {
-                host_info(mach_host_self(), HOST_BASIC_INFO, $0, &count)
+                host_info(machHostPort, HOST_BASIC_INFO, $0, &count)
             }
         }
         
@@ -40,7 +40,7 @@ internal class UsageReader: Reader<RAM_Usage> {
         
         let result: kern_return_t = withUnsafeMutablePointer(to: &stats) {
             $0.withMemoryRebound(to: integer_t.self, capacity: 1) {
-                host_statistics64(mach_host_self(), HOST_VM_INFO64, $0, &count)
+                host_statistics64(machHostPort, HOST_VM_INFO64, $0, &count)
             }
         }
         

@@ -19,6 +19,7 @@ NSDictionary*AppleSiliconSensors(int32_t page, int32_t usage, int32_t type) {
     IOHIDEventSystemClientSetMatching(system, (__bridge CFDictionaryRef)dictionary);
     CFArrayRef services = IOHIDEventSystemClientCopyServices(system);
     if (services == nil) {
+        CFRelease(system);
         return nil;
     }
     
