@@ -85,15 +85,14 @@ class Notifications: NotificationsWrapper {
     
     internal func usageCallback(_ value: Network_Usage) {
         if !self.interfaceInit {
-            self.interface = value.interface?.BSDName
-            self.interfaceInit = true
+            if let name = value.interface?.BSDName {
+                self.interface = name
+                self.interfaceInit = true
+            }
         }
         if !self.localIPInit {
-            if let v4 = value.laddr.v4 {
-                self.localIP = v4
-                self.localIPInit = true
-            } else if let v6 = value.laddr.v6 {
-                self.localIP = v6
+            if let ip = self.validLocalIP(value.laddr) {
+                self.localIP = ip
                 self.localIPInit = true
             }
         }
@@ -107,37 +106,33 @@ class Notifications: NotificationsWrapper {
             }
         }
         if !self.wifiInit {
-            self.wifi = value.wifiDetails.ssid
-            self.wifiInit = true
+            if let ssid = value.wifiDetails.ssid, isUsableSSID(ssid) {
+                self.wifi = ssid
+                self.wifiInit = true
+            }
         }
         
         if self.interfaceState {
-            if value.interface?.BSDName != self.interface {
+            if let name = value.interface?.BSDName, name != self.interface {
                 self.newNotification(id: self.interfaceID, title: localizedString("Network interface changed"), subtitle: nil)
+                self.interface = name
             }
-            self.interface = value.interface?.BSDName
         }
         
         if self.localIPState {
-            let addr = value.laddr.v4 ?? value.laddr.v6
-            if addr != self.localIP {
+            let addr = self.validLocalIP(value.laddr)
+            if let addr, addr != self.localIP {
                 self.localIPCount += 1
                 if self.localIPCount >= self.localIPThreshold {
-                    var subtitle = ""
+                    var subtitle = localizedString("New IP", addr)
                     if let prev = self.localIP {
-                        subtitle = localizedString("Previous IP", prev)
-                    }
-                    if let new = addr {
-                        if !subtitle.isEmpty {
-                            subtitle += "\n"
-                        }
-                        subtitle += localizedString("New IP", new)
+                        subtitle = localizedString("Previous IP", prev) + "\n" + subtitle
                     }
                     self.newNotification(id: self.localID, title: localizedString("Local IP changed"), subtitle: subtitle)
                     self.localIP = addr
                     self.localIPCount = 0
                 }
-            } else {
+            } else if addr == self.localIP {
                 self.localIPCount = 0
             }
         }
@@ -167,11 +162,23 @@ class Notifications: NotificationsWrapper {
         }
         
         if self.wifiState {
-            if value.wifiDetails.ssid != self.wifi {
-                self.newNotification(id: self.wifiID, title: localizedString("WiFi network changed"), subtitle: nil)
+            if let ssid = value.wifiDetails.ssid, isUsableSSID(ssid) {
+                if ssid != self.wifi {
+                    self.newNotification(id: self.wifiID, title: localizedString("WiFi network changed"), subtitle: nil)
+                }
+                self.wifi = ssid
             }
-            self.wifi = value.wifiDetails.ssid
         }
+    }
+    
+    private func validLocalIP(_ addr: Network_addr) -> String? {
+        if let v4 = addr.v4, !v4.isEmpty {
+            return v4
+        }
+        if let v6 = addr.v6, !v6.isEmpty, !v6.hasPrefix("fe80::") {
+            return v6
+        }
+        return nil
     }
     
     internal func connectivityCallback(_ value: Network_Connectivity) {
