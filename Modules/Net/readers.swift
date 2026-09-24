@@ -13,6 +13,7 @@ import Cocoa
 import Kit
 import SystemConfiguration
 import CoreWLAN
+import CoreLocation
 
 // swiftlint:disable control_statement
 extension CWPHYMode: @retroactive CustomStringConvertible {
@@ -98,7 +99,12 @@ extension CWChannel {
     }
 }
 
-internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
+func isUsableSSID(_ ssid: String?) -> Bool {
+    guard let ssid else { return false }
+    return !ssid.isEmpty && ssid != "<redacted>"
+}
+
+internal class UsageReader: Reader<Network_Usage>, CWEventDelegate, CLLocationManagerDelegate {
     private var reachability: Reachability = Reachability(start: true)
     private let variablesQueue = DispatchQueue(label: "eu.exelban.NetworkUsageReader")
     private var _usage: Network_Usage = Network_Usage()
@@ -201,6 +207,15 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     private let wifiClient = CWWiFiClient.shared()
     private var listeningForWifiEvents: Bool = false
     
+    private var locationManager: CLLocationManager?
+    private var requestedLocationAuthorization = false
+    
+    private let wifiFallbackQueue = DispatchQueue(label: "eu.exelban.NetworkWiFiFallback", qos: .utility)
+    private var wifiFallbackGeneration: UInt = 0
+    private var wifiFallbackInProgress = false
+    private var wifiFallbackNextAttempt: Date = .distantPast
+    private var wifiFallbackRetryDelay: TimeInterval = 30
+    
     private var lastDetailsReadTS: Date = .distantPast
     
     private let detailsQueue = DispatchQueue(label: "eu.exelban.NetworkDetailsReader")
@@ -222,6 +237,7 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         self.reachability.unreachable = { [weak self] in
             guard let self else { return }
             if self.active {
+                self.resetWiFiDetailsFallback()
                 self.usage.reset()
                 self.callback(self.usage)
             }
@@ -247,6 +263,7 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     }
     
     public override func terminate() {
+        self.resetWiFiDetailsFallback()
         self.reachability.stop()
         self.reachability.reachable = {}
         self.reachability.unreachable = {}
@@ -262,6 +279,7 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     
     public override func stop() {
         super.stop()
+        self.resetWiFiDetailsFallback()
         self.stopListeningForWifiEvents()
         self.wifiClient.delegate = nil
     }
@@ -272,6 +290,7 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
         let interfaceID = self.interfaceID
         if interfaceID != self.lastInterfaceID {
             self.lastInterfaceID = interfaceID
+            self.resetWiFiDetailsFallback()
             self.usage.bandwidth = Bandwidth()
             self.lastDetailsReadTS = .distantPast
         }
@@ -480,7 +499,7 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
             self.usage.wifiDetails.reset()
         }
         
-        if self.usage.wifiDetails.ssid != nil && (self.usage.wifiDetails.ssid == "" || self.usage.wifiDetails.ssid == "<redacted>") {
+        if !isUsableSSID(self.usage.wifiDetails.ssid) {
             self.usage.wifiDetails.ssid = nil
         }
         
@@ -493,9 +512,15 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     
     private func getWiFiDetails() {
         guard self.usage.connectionType == .wifi else { return }
+        let interfaceID = self.interfaceID
         
-        if let interface = CWWiFiClient.shared().interface(withName: self.interfaceID) {
-            if let ssid = interface.ssid() {
+        if let interface = CWWiFiClient.shared().interface(withName: interfaceID) {
+            self.requestWiFiLocationAuthorization(ifNeeded: interface.wlanChannel() != nil &&
+                (!isUsableSSID(interface.ssid()) || interface.bssid() == nil))
+            if let ssid = interface.ssid(), isUsableSSID(ssid) {
+                if ssid != self.usage.wifiDetails.ssid {
+                    self.resetWiFiDetailsFallback()
+                }
                 self.usage.wifiDetails.ssid = ssid
             }
             if let bssid = interface.bssid() {
@@ -521,28 +546,120 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
             }
         }
         
-        if self.usage.wifiDetails.ssid == nil || self.usage.wifiDetails.ssid == "" {
-            guard let res = self.systemProfilerAirport(timeout: 5) else {
-                return
+        if !isUsableSSID(self.usage.wifiDetails.ssid) {
+            self.requestWiFiDetailsFallback(for: interfaceID)
+        }
+    }
+    
+    private func requestWiFiLocationAuthorization(ifNeeded: Bool) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self, self.active, self.usage.connectionType == .wifi else { return }
+            if self.locationManager == nil {
+                let manager = CLLocationManager()
+                self.locationManager = manager
+                manager.delegate = self
             }
-            do {
-                if let json = try JSONSerialization.jsonObject(with: Data(res.utf8), options: []) as? [String: Any] {
-                    if let arr = json["SPAirPortDataType"] as? [[String: Any]],
-                       let airport = arr.first(where: { $0["spairport_airport_interfaces"] != nil }),
-                       let interfaces = airport["spairport_airport_interfaces"] as? [[String: Any]],
-                       let interface = interfaces.first(where: { $0["_name"] as? String == self.interfaceID }),
-                       let obj = interface["spairport_current_network_information"] as? [String: Any] {
-                        
-                        self.usage.wifiDetails.ssid = obj["_name"] as? String
-                        self.usage.wifiDetails.countryCode = obj["spairport_network_country_code"] as? String
-                        self.usage.wifiDetails.standard = obj["spairport_network_phymode"] as? String
-                    }
-                }
-            } catch let err as NSError {
-                error("error to parse system_profiler SPAirPortDataType: \(err.localizedDescription)")
-                return
+            guard ifNeeded, let manager = self.locationManager else { return }
+            switch manager.authorizationStatus {
+            case .notDetermined:
+                guard !self.requestedLocationAuthorization else { return }
+                self.requestedLocationAuthorization = true
+                manager.requestWhenInUseAuthorization()
+            case .denied, .restricted:
+                // Respect a denial of the system prompt in this session.
+                guard !self.requestedLocationAuthorization else { return }
+                self.showWiFiLocationPermissionAlert()
+            default:
+                break
             }
         }
+    }
+    
+    private func showWiFiLocationPermissionAlert() {
+        let key = "Network_locationPermissionAlertShown"
+        guard !Store.shared.bool(key: key, defaultValue: false) else { return }
+        
+        Store.shared.set(key: key, value: true)
+        
+        let alert = NSAlert()
+        alert.alertStyle = .informational
+        alert.messageText = localizedString("Allow access to Wi-Fi details")
+        alert.informativeText = localizedString("Wi-Fi location permission description")
+        alert.addButton(withTitle: localizedString("Open Location Settings"))
+        alert.addButton(withTitle: localizedString("Cancel"))
+        NSApplication.shared.activate(ignoringOtherApps: true)
+        if alert.runModal() == .alertFirstButtonReturn,
+           let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_LocationServices") {
+            NSWorkspace.shared.open(url)
+        }
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        guard manager.authorizationStatus != .notDetermined else { return }
+        self.detailsQueue.async { [weak self] in
+            guard let self, self.active else { return }
+            self.resetWiFiDetailsFallback()
+            self.getWiFiDetails()
+        }
+    }
+    
+    private func resetWiFiDetailsFallback() {
+        self.variablesQueue.sync {
+            self.wifiFallbackGeneration &+= 1
+            self.wifiFallbackNextAttempt = .distantPast
+            self.wifiFallbackRetryDelay = 30
+            self._usage.wifiDetails.reset()
+        }
+    }
+    
+    private func requestWiFiDetailsFallback(for interfaceID: String) {
+        guard self.active, !interfaceID.isEmpty else { return }
+        let generation: UInt? = self.variablesQueue.sync {
+            guard !self.wifiFallbackInProgress, Date() >= self.wifiFallbackNextAttempt,
+                  !isUsableSSID(self._usage.wifiDetails.ssid) else { return nil }
+            self.wifiFallbackInProgress = true
+            return self.wifiFallbackGeneration
+        }
+        guard let generation else { return }
+        
+        self.wifiFallbackQueue.async { [weak self] in
+            guard let self else { return }
+            let details = self.readWiFiDetailsFallback(for: interfaceID)
+            let active = self.active
+            let currentInterfaceID = self.interfaceID
+            self.variablesQueue.sync {
+                self.wifiFallbackInProgress = false
+                guard self.wifiFallbackGeneration == generation, active,
+                      currentInterfaceID == interfaceID, self._usage.connectionType == .wifi,
+                      self._usage.interface?.BSDName == interfaceID else { return }
+                if let details, isUsableSSID(details.ssid) {
+                    if !isUsableSSID(self._usage.wifiDetails.ssid) {
+                        self._usage.wifiDetails.ssid = details.ssid
+                        self._usage.wifiDetails.countryCode = details.countryCode
+                        self._usage.wifiDetails.standard = details.standard
+                    }
+                    self.wifiFallbackRetryDelay = 30
+                } else {
+                    self.wifiFallbackNextAttempt = Date().addingTimeInterval(self.wifiFallbackRetryDelay)
+                    self.wifiFallbackRetryDelay = min(self.wifiFallbackRetryDelay * 2, 300)
+                }
+            }
+        }
+    }
+    
+    private func readWiFiDetailsFallback(for interfaceID: String) -> Network_wifi? {
+        guard let output = self.systemProfilerAirport(timeout: 5),
+              let json = try? JSONSerialization.jsonObject(with: Data(output.utf8)) as? [String: Any],
+              let airport = (json["SPAirPortDataType"] as? [[String: Any]])?.first(where: { $0["spairport_airport_interfaces"] != nil }),
+              let interfaces = airport["spairport_airport_interfaces"] as? [[String: Any]],
+              let interface = interfaces.first(where: { $0["_name"] as? String == interfaceID }),
+              let network = interface["spairport_current_network_information"] as? [String: Any],
+              let ssid = network["_name"] as? String, isUsableSSID(ssid) else { return nil }
+        var details = Network_wifi()
+        details.ssid = ssid
+        details.countryCode = network["spairport_network_country_code"] as? String
+        details.standard = network["spairport_network_phymode"] as? String
+        return details
     }
     
     private func systemProfilerAirport(timeout: TimeInterval) -> String? {
@@ -711,6 +828,8 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate {
     }
     
     public func ssidDidChangeForWiFiInterface(withName interfaceName: String) {
+        guard interfaceName == self.interfaceID else { return }
+        self.resetWiFiDetailsFallback()
         self.getWiFiDetails()
     }
 }

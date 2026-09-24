@@ -37,6 +37,10 @@
 	<string>This permission allows obtaining battery level of Bluetooth devices</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2020 Serhiy Mytrovtsiy. All rights reserved.</string>
+	<key>NSLocationUsageDescription</key>
+	<string>This permission allows displaying the connected Wi-Fi network name and BSSID.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This permission allows displaying the connected Wi-Fi network name and BSSID.</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>NSUserNotificationAlertStyle</key>
