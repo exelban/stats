@@ -31,6 +31,7 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
     
     private var toggleButton: NSControl? = nil
     private var activeModuleName: String? = nil
+    private var visibleModuleName: String? = nil
     private var settingsPreviewButton: NSView? = nil
     
     init() {
@@ -104,10 +105,33 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
     }
     
     func windowWillClose(_ notification: Notification) {
+        self.updateReaderVisibility(visible: false)
         let onClose = self.onClose
         DispatchQueue.main.async {
             onClose?()
         }
+    }
+
+    override func setIsVisible(_ flag: Bool) {
+        super.setIsVisible(flag)
+        self.updateReaderVisibility(visible: flag && !self.isMiniaturized)
+    }
+
+    func windowDidMiniaturize(_ notification: Notification) {
+        self.updateReaderVisibility(visible: false)
+    }
+
+    func windowDidDeminiaturize(_ notification: Notification) {
+        self.updateReaderVisibility()
+    }
+
+    private func updateReaderVisibility(visible: Bool? = nil) {
+        let name = (visible ?? (self.isVisible && !self.isMiniaturized)) ? self.activeModuleName : nil
+        guard name != self.visibleModuleName else { return }
+        self.visibleModuleName = name
+        var info: [String: Any] = ["state": name != nil]
+        if let name { info["module"] = name }
+        NotificationCenter.default.post(name: .openWindow, object: self, userInfo: info)
     }
     
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
@@ -180,6 +204,7 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
             if name == "Combined modules" { name = "Dashboard" }
             self.sidebarView.openMenu(name)
         }
+        self.updateReaderVisibility()
     }
     
     @objc private func menuCallback(_ notification: Notification) {
@@ -193,24 +218,24 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
                 toggleNSControlState(self.toggleButton, state: detectedModule.enabled ? .on : .off)
                 self.toggleButton?.isHidden = false
                 self.settingsPreviewButton?.isHidden = !detectedModule.config.hasPreview
-                NotificationCenter.default.post(name: .openWindow, object: nil, userInfo: ["module": detectedModule.config.name, "state": true])
             } else if title == "Dashboard" {
+                self.activeModuleName = nil
                 view = self.dashboard
                 self.toggleButton?.isHidden = true
                 self.settingsPreviewButton?.isHidden = true
-                NotificationCenter.default.post(name: .openWindow, object: nil, userInfo: ["state": false])
             } else if title == "Settings" {
+                self.activeModuleName = nil
                 self.settings.viewWillAppear()
                 view = self.settings
                 self.toggleButton?.isHidden = true
                 self.settingsPreviewButton?.isHidden = true
-                NotificationCenter.default.post(name: .openWindow, object: nil, userInfo: ["state": false])
             }
             
             self.title = localizedString(title)
             
             self.mainView.setView(view)
             self.sidebarView.openMenu(title)
+            self.updateReaderVisibility()
         }
     }
     

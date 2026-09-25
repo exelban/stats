@@ -131,7 +131,7 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
     open func terminate() {}
     
     open func start() {
-        if (self.popup || self.preview) && self.locked {
+        if (self.popup || self.preview || self.sleep) && self.locked {
             DispatchQueue.global(qos: .background).async {
                 self.read()
             }
@@ -245,7 +245,9 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
         self.sleep = state
 
         if state {
-            self.pause()
+            if self.locked {
+                self.pause()
+            }
         } else {
             self.start()
         }

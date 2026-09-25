@@ -82,11 +82,13 @@ internal class Popup: PopupWrapper {
     
     public func authorizationStatus(_ status: Bool) {
         if !status {
+            self.stopStreams()
             self.addArrangedSubview(self.loginPrompt)
             self.groups.removeFromSuperview()
         } else {
             self.loginPrompt.removeFromSuperview()
             self.addArrangedSubview(self.groups)
+            self.syncStreams()
         }
         self.recalculateHeight()
     }

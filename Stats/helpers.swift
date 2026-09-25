@@ -80,7 +80,6 @@ extension AppDelegate {
         }
         
         if !Store.shared.exist(key: key) {
-            Store.shared.reset()
             debug("Previous version not detected. Current version (\(currentVersion) set")
         } else {
             let prevVersion = Store.shared.string(key: key, defaultValue: "")

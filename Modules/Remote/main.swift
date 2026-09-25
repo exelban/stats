@@ -211,6 +211,8 @@ public class Remote: Module {
             self.popupView.authorizationStatus(auth)
             if auth {
                 self.dataReader?.read()
+            } else {
+                self.dataReader?.cancelPendingRead()
             }
         }
     }
@@ -253,110 +255,61 @@ public class Remote: Module {
 }
 
 extension SystemStats {
-    internal func fetchMachines() async -> [RemoteMachine] {
-        await self.fetchListAsync(path: "/v1/machine")
+    internal func fetchMachines() async throws -> [RemoteMachine] {
+        try await self.fetchListAsync(path: "/v1/machine")
     }
-    internal func fetchHosts(historyWindow: String = "") async -> [RemoteHost] {
+    internal func fetchHosts(historyWindow: String = "") async throws -> [RemoteHost] {
         let path = historyWindow.isEmpty ? "/v1/host" : "/v1/host?history=\(historyWindow)"
-        return await self.fetchListAsync(path: path)
+        return try await self.fetchListAsync(path: path)
     }
-    internal func fetchGroups() async -> [RemoteGroup] {
-        await self.fetchListAsync(path: "/v1/group")
+    internal func fetchGroups() async throws -> [RemoteGroup] {
+        try await self.fetchListAsync(path: "/v1/group")
     }
-    internal func fetchAccountOrder() async -> RemoteAccountOrder {
-        guard let request = self.authorizedGET("/v1/account") else {
-            return RemoteAccountOrder(machines: [], hosts: [])
-        }
-        guard let (data, response) = try? await self.session.data(for: request),
-              let http = response as? HTTPURLResponse, http.statusCode == 200,
-              let account = try? JSONDecoder().decode(RemoteAccountResponse.self, from: data) else {
-            return RemoteAccountOrder(machines: [], hosts: [])
-        }
+    internal func fetchAccountOrder() async throws -> RemoteAccountOrder {
+        let data = try await self.fetchData(path: "/v1/account")
+        let account = try JSONDecoder().decode(RemoteAccountResponse.self, from: data)
         return RemoteAccountOrder(machines: account.settings?.order ?? [], hosts: account.settings?.hostsOrder ?? [])
     }
     
-    private func fetchListAsync<T: Decodable>(path: String) async -> [T] {
-        guard let request = self.authorizedGET(path) else { return [] }
-        guard let (data, response) = try? await self.session.data(for: request),
-              let http = response as? HTTPURLResponse, http.statusCode == 200 else { return [] }
-        if let list = try? JSONDecoder().decode([T].self, from: data) { return list }
-        debug("fetch \(path) decode failed: \(String(data: data, encoding: .utf8) ?? "")")
-        return []
+    private func fetchListAsync<T: Decodable>(path: String) async throws -> [T] {
+        try JSONDecoder().decode([T].self, from: await self.fetchData(path: path))
     }
     
-    private func authorizedGET(_ path: String) -> URLRequest? {
-        guard self.isAuthorized, let url = URL(string: "\(SystemStats.host)\(path)") else { return nil }
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("Bearer \(self.auth.accessToken)", forHTTPHeaderField: "Authorization")
-        return request
+    private func fetchData(path: String) async throws -> Data {
+        guard let url = URL(string: "\(SystemStats.host)\(path)") else { throw URLError(.badURL) }
+        let (data, response) = try await self.authorizedData(for: URLRequest(url: url))
+        guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+            throw URLError(.badServerResponse)
+        }
+        return data
     }
     
     internal func fetchMachines(completion: @escaping ([RemoteMachine]) -> Void) {
-        self.fetchList(path: "/v1/machine", completion: completion)
+        Task {
+            let list = (try? await self.fetchMachines()) ?? []
+            await MainActor.run { completion(list) }
+        }
     }
     
     internal func fetchHosts(historyWindow: String? = nil, completion: @escaping ([RemoteHost]) -> Void) {
-        var path = "/v1/host"
-        if let window = historyWindow, !window.isEmpty {
-            path += "?history=\(window)"
+        Task {
+            let list = (try? await self.fetchHosts(historyWindow: historyWindow ?? "")) ?? []
+            await MainActor.run { completion(list) }
         }
-        self.fetchList(path: path, completion: completion)
     }
     
     internal func fetchGroups(completion: @escaping ([RemoteGroup]) -> Void) {
-        self.fetchList(path: "/v1/group", completion: completion)
+        Task {
+            let list = (try? await self.fetchGroups()) ?? []
+            await MainActor.run { completion(list) }
+        }
     }
     
     internal func fetchAccountOrder(completion: @escaping (RemoteAccountOrder) -> Void) {
-        guard self.isAuthorized, let url = URL(string: "\(SystemStats.host)/v1/account") else {
-            DispatchQueue.main.async { completion(RemoteAccountOrder(machines: [], hosts: [])) }
-            return
+        Task {
+            let order = (try? await self.fetchAccountOrder()) ?? RemoteAccountOrder(machines: [], hosts: [])
+            await MainActor.run { completion(order) }
         }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("Bearer \(self.auth.accessToken)", forHTTPHeaderField: "Authorization")
-        
-        self.session.dataTask(with: request) { data, response, _ in
-            guard let data, let http = response as? HTTPURLResponse, http.statusCode == 200,
-                  let account = try? JSONDecoder().decode(RemoteAccountResponse.self, from: data) else {
-                DispatchQueue.main.async { completion(RemoteAccountOrder(machines: [], hosts: [])) }
-                return
-            }
-            let order = RemoteAccountOrder(
-                machines: account.settings?.order ?? [],
-                hosts: account.settings?.hostsOrder ?? []
-            )
-            DispatchQueue.main.async { completion(order) }
-        }.resume()
-    }
-    
-    internal func fetchList<T: Decodable>(path: String, completion: @escaping ([T]) -> Void) {
-        guard self.isAuthorized, let url = URL(string: "\(SystemStats.host)\(path)") else {
-            DispatchQueue.main.async { completion([]) }
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("Bearer \(self.auth.accessToken)", forHTTPHeaderField: "Authorization")
-        
-        self.session.dataTask(with: request) { data, response, _ in
-            guard let data, let http = response as? HTTPURLResponse, http.statusCode == 200 else {
-                DispatchQueue.main.async { completion([]) }
-                return
-            }
-            
-            if let list = try? JSONDecoder().decode([T].self, from: data) {
-                DispatchQueue.main.async { completion(list) }
-                return
-            }
-            
-            let body = String(data: data, encoding: .utf8) ?? ""
-            debug("fetch \(path) decode failed: \(body)")
-            DispatchQueue.main.async { completion([]) }
-        }.resume()
     }
 }
 
@@ -380,15 +333,15 @@ public final class RemoteMachineStream: NSObject, URLSessionDataDelegate {
     
     private var session: URLSession?
     private var task: URLSessionDataTask?
+    private var authorizationTask: Task<Void, Never>?
+    private var connectionGeneration: UInt = 0
+    private var rejectedToken: String?
+    private var retriedAuthorization = false
     private var buffer = Data()
     private var stopped = false
     private var reconnectAttempts = 0
     
-    private let delegateQueue: OperationQueue = {
-        let queue = OperationQueue()
-        queue.maxConcurrentOperationCount = 1
-        return queue
-    }()
+    private let delegateQueue = OperationQueue.main
     
     public init(machineID: String, onUpdate: @escaping (RemoteUpdate) -> Void) {
         self.machineID = machineID
@@ -398,11 +351,16 @@ public final class RemoteMachineStream: NSObject, URLSessionDataDelegate {
     
     public func start() {
         self.stopped = false
+        self.retriedAuthorization = false
+        self.rejectedToken = nil
         self.openConnection()
     }
     
     public func stop() {
         self.stopped = true
+        self.connectionGeneration &+= 1
+        self.authorizationTask?.cancel()
+        self.authorizationTask = nil
         self.task?.cancel()
         self.task = nil
         self.session?.invalidateAndCancel()
@@ -411,8 +369,29 @@ public final class RemoteMachineStream: NSObject, URLSessionDataDelegate {
     }
     
     private func openConnection() {
-        guard !self.stopped, SystemStats.shared.isAuthorized, let url = URL(string: "\(SystemStats.host)/v1/machine/\(self.machineID)/sse") else { return }
-        
+        guard !self.stopped, let url = URL(string: "\(SystemStats.host)/v1/machine/\(self.machineID)/sse") else { return }
+        self.connectionGeneration &+= 1
+        let generation = self.connectionGeneration
+        self.authorizationTask?.cancel()
+        var request = URLRequest(url: url)
+        request.setValue("text/event-stream", forHTTPHeaderField: "Accept")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let rejectedToken = self.rejectedToken
+        self.authorizationTask = Task { @MainActor [weak self] in
+            do {
+                let authorized = try await SystemStats.shared.authorizedRequest(request, rejectedToken: rejectedToken)
+                guard let self, !self.stopped, self.connectionGeneration == generation, !Task.isCancelled else { return }
+                self.rejectedToken = nil
+                self.connect(authorized)
+            } catch {
+                guard let self, !self.stopped, self.connectionGeneration == generation, !Task.isCancelled else { return }
+                if error is RemoteAuthError || error is CancellationError { return }
+                self.scheduleReconnect()
+            }
+        }
+    }
+    
+    private func connect(_ request: URLRequest) {
         let session: URLSession
         if let existing = self.session {
             session = existing
@@ -424,13 +403,42 @@ public final class RemoteMachineStream: NSObject, URLSessionDataDelegate {
             self.session = session
         }
         
-        var request = URLRequest(url: url)
-        request.setValue("Bearer \(SystemStats.shared.auth.accessToken)", forHTTPHeaderField: "Authorization")
-        request.setValue("text/event-stream", forHTTPHeaderField: "Accept")
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        self.buffer.removeAll()
         let task = session.dataTask(with: request)
         self.task = task
         task.resume()
+    }
+    
+    public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse,
+                           completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
+        guard !self.stopped, dataTask === self.task else {
+            completionHandler(.cancel)
+            return
+        }
+        guard let http = response as? HTTPURLResponse else {
+            completionHandler(.cancel)
+            return
+        }
+        if http.statusCode == 401 {
+            completionHandler(.cancel)
+            self.task = nil
+            guard !self.retriedAuthorization else {
+                self.stop()
+                return
+            }
+            self.retriedAuthorization = true
+            self.rejectedToken = String((dataTask.originalRequest?.value(forHTTPHeaderField: "Authorization") ?? "").dropFirst(7))
+            self.openConnection()
+            return
+        }
+        guard http.statusCode == 200 else {
+            completionHandler(.cancel)
+            if [403, 404, 410].contains(http.statusCode) { self.stop() }
+            return
+        }
+        self.retriedAuthorization = false
+        self.reconnectAttempts = 0
+        completionHandler(.allow)
     }
     
     public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
@@ -446,10 +454,16 @@ public final class RemoteMachineStream: NSObject, URLSessionDataDelegate {
     
     public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         guard !self.stopped, task === self.task else { return }
+        self.task = nil
+        self.scheduleReconnect()
+    }
+    
+    private func scheduleReconnect() {
         let delay = min(pow(2.0, Double(self.reconnectAttempts)), 60.0)
         self.reconnectAttempts += 1
+        let generation = self.connectionGeneration
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
-            guard let self, !self.stopped else { return }
+            guard let self, !self.stopped, self.connectionGeneration == generation else { return }
             self.openConnection()
         }
     }
