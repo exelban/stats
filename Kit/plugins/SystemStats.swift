@@ -8,6 +8,7 @@
 //
 //  Copyright © 2025 Serhiy Mytrovtsiy. All rights reserved.
 //
+// swiftlint:disable file_length
 
 import Foundation
 import Cocoa
@@ -35,6 +36,9 @@ public class SystemStats {
         get { Store.shared.bool(key: "remote_monitoring", defaultValue: true) }
         set {
             Store.shared.set(key: "remote_monitoring", value: newValue)
+            if !newValue {
+                self.mqtt.discardMetrics()
+            }
             if newValue {
                 self.start()
                 self.registerDevice(omitCooldown: true)
@@ -176,8 +180,12 @@ public class SystemStats {
     }
     
     public func logout() {
-        self.mqtt.disconnect()
+        guard Thread.isMainThread else {
+            DispatchQueue.main.async { self.logout() }
+            return
+        }
         self.auth.logout()
+        self.mqtt.disconnect()
         self.isAuthorized = false
         debug("Logout successfully from Stats Remote", log: self.log)
         NotificationCenter.default.post(name: .remoteState, object: nil, userInfo: ["auth": self.isAuthorized])
@@ -190,8 +198,9 @@ public class SystemStats {
         request.httpMethod = "POST"
         request.setValue("Bearer \(SystemStats.shared.auth.accessToken)", forHTTPHeaderField: "Authorization")
         
-        self.session.dataTask(with: request) { [weak self] data, response, _ in
+        self.authorizedData(for: request) { [weak self] data, response, error in
             guard let self else { return }
+            if error is CancellationError { return }
             if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
                 debug("Deregistered device: \(SystemStats.shared.id.uuidString)", log: self.log)
             } else {
@@ -200,13 +209,12 @@ public class SystemStats {
                 debug("Deregister remote failed (\(statusCode)): \(bodyString)", log: self.log)
             }
             self.logout()
-        }.resume()
+        }
     }
     
     public func send(key: String, value: Any) {
         guard self.monitoring && self.isAuthorized, let v = value as? RemoteType, let data = v.remote() else { return }
-        let topic = "stats/\(self.id.uuidString)/metrics/\(key)"
-        self.mqtt.publish(topic: topic, data: data)
+        self.mqtt.publishMetric(key: key, data: data)
     }
     
     @objc private func successLogin() {
@@ -217,14 +225,65 @@ public class SystemStats {
     }
     
     public func start() {
-        self.auth.isAuthorized { [weak self] status in
-            guard let self else { return }
-            
-            self.isAuthorized = status
-            NotificationCenter.default.post(name: .remoteState, object: nil, userInfo: ["auth": self.isAuthorized])
-            
-            if status {
-                self.mqtt.connect()
+        self.mqtt.connect()
+    }
+    
+    fileprivate func authorize(rejectedToken: String? = nil, completion: @escaping (Result<String, Error>) -> Void) {
+        let generation = self.auth.generation
+        self.auth.authorize(rejectedToken: rejectedToken) { [weak self] result in
+            DispatchQueue.main.async {
+                guard let self, self.auth.generation == generation else {
+                    completion(.failure(CancellationError()))
+                    return
+                }
+                let authorized: Bool?
+                switch result {
+                case .success: authorized = true
+                case .failure(RemoteAuthError.unauthorized): authorized = false
+                case .failure: authorized = nil
+                }
+                if let authorized, self.isAuthorized != authorized {
+                    self.isAuthorized = authorized
+                    NotificationCenter.default.post(name: .remoteState, object: nil, userInfo: ["auth": authorized])
+                }
+                completion(result)
+            }
+        }
+    }
+    
+    public func authorizedRequest(_ request: URLRequest, rejectedToken: String? = nil) async throws -> URLRequest {
+        let generation = self.auth.generation
+        let token: String = try await withCheckedThrowingContinuation { continuation in
+            self.authorize(rejectedToken: rejectedToken) { continuation.resume(with: $0) }
+        }
+        try Task.checkCancellation()
+        guard self.auth.generation == generation else { throw CancellationError() }
+        var request = request
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        return request
+    }
+    
+    public func authorizedData(for request: URLRequest) async throws -> (Data, URLResponse) {
+        let generation = self.auth.generation
+        var request = try await self.authorizedRequest(request)
+        var result = try await self.session.data(for: request)
+        guard self.auth.generation == generation else { throw CancellationError() }
+        if (result.1 as? HTTPURLResponse)?.statusCode == 401 {
+            let token = String((request.value(forHTTPHeaderField: "Authorization") ?? "").dropFirst(7))
+            request = try await self.authorizedRequest(request, rejectedToken: token)
+            result = try await self.session.data(for: request)
+            guard self.auth.generation == generation else { throw CancellationError() }
+        }
+        return result
+    }
+    
+    private func authorizedData(for request: URLRequest, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
+        Task {
+            do {
+                let (data, response) = try await self.authorizedData(for: request)
+                completion(data, response, nil)
+            } catch {
+                completion(nil, nil, error)
             }
         }
     }
@@ -294,7 +353,7 @@ public class SystemStats {
         guard let body = try? JSONEncoder().encode(payload) else { return }
         request.httpBody = body
         
-        self.session.dataTask(with: request) { [weak self] data, response, _ in
+        self.authorizedData(for: request) { [weak self] data, response, _ in
             guard let self, let httpResponse = response as? HTTPURLResponse else { return }
             if httpResponse.statusCode == 200 {
                 debug("Registered device: \(SystemStats.shared.id.uuidString)", log: self.log)
@@ -303,7 +362,7 @@ public class SystemStats {
                 let bodyString = data.flatMap { String(data: $0, encoding: .utf8) } ?? ""
                 debug("Register remote failed (\(httpResponse.statusCode)): \(bodyString)", log: self.log)
             }
-        }.resume()
+        }
     }
     
     private func fetchAccount() {
@@ -317,7 +376,7 @@ public class SystemStats {
             let plan: AccountPlan
         }
         
-        self.session.dataTask(with: request) { [weak self] data, response, _ in
+        self.authorizedData(for: request) { [weak self] data, response, _ in
             guard let self, let httpResponse = response as? HTTPURLResponse else { return }
             if httpResponse.statusCode == 200, let data,
                let account = try? JSONDecoder().decode(AccountResponse.self, from: data) {
@@ -328,7 +387,7 @@ public class SystemStats {
                 let bodyString = data.flatMap { String(data: $0, encoding: .utf8) } ?? ""
                 debug("Fetch account failed (\(httpResponse.statusCode)): \(bodyString)", log: self.log)
             }
-        }.resume()
+        }
     }
     
     private func command(cmd: String, payload: Data?) {
@@ -497,14 +556,41 @@ extension SystemStats {
 
 // MARK: - Auth
 
+public enum RemoteAuthError: Error {
+    case unauthorized
+}
+
 public class RemoteAuth {
+    private let credentialLock = NSRecursiveLock()
+    private var credentialGeneration: UInt = 0
+    fileprivate var generation: UInt {
+        self.credentialLock.lock()
+        defer { self.credentialLock.unlock() }
+        return self.credentialGeneration
+    }
     public var accessToken: String {
-        get { RemoteKeychain.read("access_token") ?? "" }
-        set { RemoteKeychain.write(newValue, for: "access_token") }
+        get {
+            self.credentialLock.lock()
+            defer { self.credentialLock.unlock() }
+            return RemoteKeychain.read("access_token") ?? ""
+        }
+        set {
+            self.credentialLock.lock()
+            defer { self.credentialLock.unlock() }
+            RemoteKeychain.write(newValue, for: "access_token")
+        }
     }
     private var refreshToken: String {
-        get { RemoteKeychain.read("refresh_token") ?? "" }
-        set { RemoteKeychain.write(newValue, for: "refresh_token") }
+        get {
+            self.credentialLock.lock()
+            defer { self.credentialLock.unlock() }
+            return RemoteKeychain.read("refresh_token") ?? ""
+        }
+        set {
+            self.credentialLock.lock()
+            defer { self.credentialLock.unlock() }
+            RemoteKeychain.write(newValue, for: "refresh_token")
+        }
     }
     private var clientID: String = "stats"
     
@@ -513,15 +599,8 @@ public class RemoteAuth {
     private var interval: Int = 5
     private var repeater: Repeater?
     
-    private var lastValidationTime: Date?
-    private var validationAttempts: Int = 0
-    private let baseCooldown: TimeInterval = 2.0
-    private let maxCooldown: TimeInterval = 60.0
-    private let cooldownLock = NSLock()
-    
     private var isRefreshing = false
-    private var refreshCompletions: [(Bool?) -> Void] = []
-    private let refreshLock = NSLock()
+    private var refreshCompletions: [(Result<String, Error>) -> Void] = []
     
     private let session: URLSession = {
         let config = URLSessionConfiguration.default
@@ -550,27 +629,20 @@ public class RemoteAuth {
     }
     
     public func isAuthorized(completion: @escaping (Bool) -> Void) {
-        if !self.hasCredentials() {
-            completion(false)
-            return
+        self.authorize { result in
+            if case .success = result { completion(true) } else { completion(false) }
         }
-        
-        if !self.accessToken.isEmpty && !self.isTokenExpired() {
-            DispatchQueue.main.async {
-                completion(true)
-            }
-            return
-        }
-        
-        self.validate(completion)
     }
     public func hasCredentials() -> Bool {
+        self.credentialLock.lock()
+        defer { self.credentialLock.unlock() }
         return !self.accessToken.isEmpty && !self.refreshToken.isEmpty
     }
     
     public func login(completion: @escaping (URL?) -> Void) {
+        let generation = self.generation
         self.registerDevice { [weak self] device in
-            guard let self else {
+            guard let self, self.generation == generation else {
                 completion(nil)
                 return
             }
@@ -585,18 +657,14 @@ public class RemoteAuth {
             self.interval = device.interval ?? 5
             
             self.repeater = Repeater(seconds: self.interval) { [weak self] in
-                guard let self else { return }
-                self.pollForToken { [weak self] error in
-                    guard let self else { return }
+                guard let self, self.generation == generation else { return }
+                self.pollForToken(generation: generation) { [weak self] error in
+                    guard let self, self.generation == generation else { return }
                     guard error == nil else {
                         print(error?.localizedDescription ?? "error pooling for token")
                         self.repeater?.pause()
                         self.repeater = nil
                         return
-                    }
-                    if !self.accessToken.isEmpty {
-                        self.repeater?.pause()
-                        self.repeater = nil
                     }
                 }
             }
@@ -605,114 +673,90 @@ public class RemoteAuth {
     }
     
     public func logout() {
+        self.credentialLock.lock()
+        self.credentialGeneration &+= 1
         self.accessToken = ""
         self.refreshToken = ""
+        let completions = self.refreshCompletions
+        self.refreshCompletions.removeAll()
+        self.isRefreshing = false
+        self.credentialLock.unlock()
+        self.repeater?.pause()
+        self.repeater = nil
+        completions.forEach { $0(.failure(CancellationError())) }
     }
     
-    private func validate(_ completion: @escaping (Bool) -> Void) {
-        guard !self.accessToken.isEmpty && !self.refreshToken.isEmpty, let url = URL(string: "\(SystemStats.authHost)/me") else {
-            completion(false)
+    fileprivate func authorize(rejectedToken: String? = nil, completion: @escaping (Result<String, Error>) -> Void) {
+        self.credentialLock.lock()
+        let token = self.accessToken
+        let refreshToken = self.refreshToken
+        guard !token.isEmpty && !refreshToken.isEmpty else {
+            self.credentialLock.unlock()
+            completion(.failure(RemoteAuthError.unauthorized))
             return
         }
-        
-        let now = Date()
-        self.cooldownLock.lock()
-        let dynamicCooldown = min(self.baseCooldown * pow(2.0, Double(self.validationAttempts)), self.maxCooldown)
-        if let lastTime = self.lastValidationTime, now.timeIntervalSince(lastTime) < dynamicCooldown {
-            let remainingTime = dynamicCooldown - now.timeIntervalSince(lastTime)
-            self.cooldownLock.unlock()
-            DispatchQueue.main.asyncAfter(deadline: .now() + remainingTime) { [weak self] in
-                guard let self else {
-                    completion(false)
-                    return
-                }
-                self.validate(completion)
-            }
+        // Another request may already have replaced the token rejected by the server.
+        if rejectedToken != token && !self.isTokenExpired() {
+            self.credentialLock.unlock()
+            completion(.success(token))
             return
         }
-        self.lastValidationTime = now
-        self.validationAttempts += 1
-        self.cooldownLock.unlock()
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("Bearer \(self.accessToken)", forHTTPHeaderField: "Authorization")
-        
-        self.session.dataTask(with: request) { [weak self] _, response, error in
-            guard let self = self, error == nil, let httpResponse = response as? HTTPURLResponse else {
-                completion(false)
-                return
-            }
-            
-            if httpResponse.statusCode == 401 {
-                self.refreshTokenFunc { ok in
-                    if ok == true {
-                        self.cooldownLock.lock()
-                        self.validationAttempts = 0
-                        self.lastValidationTime = nil
-                        self.cooldownLock.unlock()
-                    }
-                    completion(ok ?? false)
-                }
-            } else if httpResponse.statusCode == 200 {
-                self.cooldownLock.lock()
-                self.validationAttempts = 0
-                self.lastValidationTime = nil
-                self.cooldownLock.unlock()
-                completion(true)
-            } else {
-                completion(false)
-            }
-        }.resume()
-    }
-    
-    private func refreshTokenFunc(completion: @escaping (Bool?) -> Void) {
-        self.refreshLock.lock()
         self.refreshCompletions.append(completion)
-        if self.isRefreshing {
-            self.refreshLock.unlock()
+        guard !self.isRefreshing else {
+            self.credentialLock.unlock()
             return
         }
         self.isRefreshing = true
-        self.refreshLock.unlock()
+        let generation = self.credentialGeneration
+        self.credentialLock.unlock()
         
-        guard let url = URL(string: "\(SystemStats.authHost)/token") else {
-            self.completeRefresh(nil)
-            return
-        }
-        
-        var request = URLRequest(url: url)
+        var request = URLRequest(url: SystemStats.authHost.appendingPathComponent("token"))
         request.httpMethod = "POST"
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        
         request.httpBody = RemoteAuth.formBody([
             ("grant_type", "refresh_token"),
-            ("refresh_token", self.refreshToken),
+            ("refresh_token", refreshToken),
             ("device_id", SystemStats.shared.id.uuidString)
         ])
         
         self.session.dataTask(with: request) { [weak self] data, response, error in
             guard let self else { return }
-            guard error == nil, let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200,
-                  let data = data, let token = try? JSONDecoder().decode(TokenResponse.self, from: data) else {
-                self.completeRefresh(nil)
-                return
+            let result: Result<TokenResponse, Error>
+            if let error {
+                result = .failure(error)
+            } else if let http = response as? HTTPURLResponse, http.statusCode == 400 || http.statusCode == 401 {
+                result = .failure(RemoteAuthError.unauthorized)
+            } else if let http = response as? HTTPURLResponse, http.statusCode == 200,
+                      let data, let token = try? JSONDecoder().decode(TokenResponse.self, from: data),
+                      !token.access_token.isEmpty, !token.refresh_token.isEmpty {
+                result = .success(token)
+            } else {
+                result = .failure(URLError(.badServerResponse))
             }
-            self.accessToken = token.access_token
-            self.refreshToken = token.refresh_token
-            self.completeRefresh(true)
+            self.completeRefresh(result, generation: generation)
         }.resume()
     }
     
-    private func completeRefresh(_ result: Bool?) {
-        self.refreshLock.lock()
+    private func completeRefresh(_ result: Result<TokenResponse, Error>, generation: UInt) {
+        self.credentialLock.lock()
+        guard generation == self.credentialGeneration else {
+            self.credentialLock.unlock()
+            return
+        }
+        let authorization: Result<String, Error>
+        switch result {
+        case .success(let token):
+            self.accessToken = token.access_token
+            self.refreshToken = token.refresh_token
+            authorization = .success(token.access_token)
+        case .failure(let error):
+            authorization = .failure(error)
+        }
         let completions = self.refreshCompletions
         self.refreshCompletions.removeAll()
         self.isRefreshing = false
-        self.refreshLock.unlock()
-        for completion in completions {
-            completion(result)
-        }
+        self.credentialLock.unlock()
+        completions.forEach { $0(authorization) }
     }
     
     private func registerDevice(completion: @escaping (DeviceResponse?) -> Void) {
@@ -740,7 +784,7 @@ public class RemoteAuth {
         }.resume()
     }
     
-    private func pollForToken(completion: @escaping (Error?) -> Void) {
+    private func pollForToken(generation: UInt, completion: @escaping (Error?) -> Void) {
         guard let url = URL(string: "\(SystemStats.authHost)/token") else {
             completion(nil)
             return
@@ -761,6 +805,10 @@ public class RemoteAuth {
                 completion(nil)
                 return
             }
+            guard self.generation == generation else {
+                completion(CancellationError())
+                return
+            }
             if let error = error {
                 completion(error)
                 return
@@ -779,9 +827,21 @@ public class RemoteAuth {
                 
                 do {
                     let result = try JSONDecoder().decode(TokenResponse.self, from: data)
+                    self.credentialLock.lock()
+                    guard self.credentialGeneration == generation else {
+                        self.credentialLock.unlock()
+                        completion(CancellationError())
+                        return
+                    }
                     self.accessToken = result.access_token
                     self.refreshToken = result.refresh_token
-                    NotificationCenter.default.post(name: .remoteLoginSuccess, object: nil)
+                    self.credentialLock.unlock()
+                    self.repeater?.pause()
+                    self.repeater = nil
+                    DispatchQueue.main.async {
+                        guard self.generation == generation else { return }
+                        NotificationCenter.default.post(name: .remoteLoginSuccess, object: nil)
+                    }
                     completion(nil)
                 } catch {
                     completion(error)
@@ -836,6 +896,48 @@ public class RemoteAuth {
 
 // MARK: - MQTT
 
+final class RemoteMetricBatch {
+    private let queue: DispatchQueue
+    private let publish: (Data) -> Void
+    private var pending: [String: String] = [:]
+    private var flush: DispatchWorkItem?
+    
+    init(queue: DispatchQueue, publish: @escaping (Data) -> Void) {
+        self.queue = queue
+        self.publish = publish
+    }
+    
+    deinit {
+        self.flush?.cancel()
+    }
+    
+    func append(key: String, data: Data) {
+        guard let value = String(data: data, encoding: .utf8) else { return }
+        
+        self.pending[key] = value
+        guard self.flush == nil else { return }
+        
+        let work = DispatchWorkItem { [weak self] in
+            guard let self else { return }
+            
+            let data = try? JSONEncoder().encode(self.pending)
+            self.pending.removeAll(keepingCapacity: true)
+            self.flush = nil
+            if let data {
+                self.publish(data)
+            }
+        }
+        self.flush = work
+        self.queue.asyncAfter(deadline: .now() + .milliseconds(500), execute: work)
+    }
+    
+    func cancel() {
+        self.flush?.cancel()
+        self.flush = nil
+        self.pending.removeAll()
+    }
+}
+
 enum MQTTPacketType: UInt8 {
     case connect = 1
     case connack = 2
@@ -859,6 +961,8 @@ class MQTTManager: NSObject {
     private var isConnecting = false
     private var isDisconnected = false
     private var isReconnecting = false
+    private var connectionGeneration: UInt = 0
+    private var connectionToken: String?
     private var reconnectAttempts = 0
     private var maxReconnectDelay: TimeInterval = 60.0
     private var pingTimer: DispatchSourceTimer?
@@ -868,6 +972,12 @@ class MQTTManager: NSObject {
     
     private let stateQueue = DispatchQueue(label: "eu.exelban.Stats.Remote.MQTT")
     private static let stateQueueKey = DispatchSpecificKey<Void>()
+    
+    private lazy var metrics = RemoteMetricBatch(queue: self.stateQueue) { [weak self] data in
+        guard let self, SystemStats.shared.monitoring && SystemStats.shared.isAuthorized else { return }
+        
+        self.publish(topic: "stats/\(SystemStats.shared.id.uuidString)/metrics", data: data)
+    }
     
     override init() {
         self.log = NextLog.shared.copy(category: "Remote MQTT")
@@ -882,7 +992,8 @@ class MQTTManager: NSObject {
         self.session = URLSession(configuration: .default, delegate: self, delegateQueue: delegateQueue)
         
         self.reachability.reachable = { [weak self] in
-            if SystemStats.shared.isAuthorized {
+            if SystemStats.shared.auth.hasCredentials(),
+               SystemStats.shared.monitoring || SystemStats.shared.control || SystemStats.shared.update {
                 self?.connect()
             }
         }
@@ -904,28 +1015,31 @@ class MQTTManager: NSObject {
         self.session = nil
     }
     
-    public func connect() {
+    public func connect(rejectedToken: String? = nil) {
         self.onStateQueue {
             guard !self.isConnected && !self.isConnecting else { return }
+            self.isDisconnected = false
             self.isConnecting = true
+            let generation = self.connectionGeneration
+            let authGeneration = SystemStats.shared.auth.generation
             
-            SystemStats.shared.auth.isAuthorized { [weak self = self] status in
+            SystemStats.shared.authorize(rejectedToken: rejectedToken) { [weak self = self] result in
                 guard let self else { return }
                 
                 self.onStateQueue {
-                    if status {
+                    guard generation == self.connectionGeneration,
+                          authGeneration == SystemStats.shared.auth.generation, !self.isDisconnected else { return }
+                    switch result {
+                    case .success(let token):
+                        self.connectionToken = token
                         self.webSocket?.cancel(with: .normalClosure, reason: nil)
                         self.webSocket = self.session?.webSocketTask(with: SystemStats.brokerHost, protocols: ["mqtt"])
                         self.webSocket?.resume()
                         self.receiveMessage()
-                        self.isDisconnected = false
                         debug("MQTT WebSocket connecting...", log: self.log)
-                    } else {
+                    case .failure(let error):
                         self.isConnecting = false
-                        if SystemStats.shared.isAuthorized {
-                            SystemStats.shared.isAuthorized = false
-                            NotificationCenter.default.post(name: .remoteState, object: nil, userInfo: ["auth": false])
-                        }
+                        if error is RemoteAuthError || error is CancellationError { return }
                         debug("Authorization failed, retrying connection...", log: self.log)
                         self.reconnect()
                     }
@@ -936,9 +1050,12 @@ class MQTTManager: NSObject {
     
     public func disconnect() {
         self.onStateQueue {
-            if self.webSocket == nil && !self.isConnected { return }
+            self.metrics.cancel()
+            self.connectionGeneration &+= 1
             self.isDisconnected = true
             self.isConnecting = false
+            self.isReconnecting = false
+            self.reconnectAttempts = 0
             
             self.sendStatus(false)
             self.sendDisconnect()
@@ -961,9 +1078,10 @@ class MQTTManager: NSObject {
         let delay = self.reconnectAttempts >= delays.count ? self.maxReconnectDelay : delays[delayIndex]
         
         debug("Waiting \(delay) seconds before next MQTT reconnection attempt...", log: self.log)
+        let generation = self.connectionGeneration
         
         self.stateQueue.asyncAfter(deadline: .now() + delay) { [weak self] in
-            guard let self else { return }
+            guard let self, self.connectionGeneration == generation else { return }
             
             self.isReconnecting = false
             
@@ -987,7 +1105,8 @@ class MQTTManager: NSObject {
     }
     
     private func sendConnect() {
-        let connectPacket = createConnectPacket(username: SystemStats.shared.id.uuidString, password: SystemStats.shared.auth.accessToken)
+        guard let token = self.connectionToken else { return }
+        let connectPacket = createConnectPacket(username: SystemStats.shared.id.uuidString, password: token)
         self.webSocket?.send(.data(connectPacket)) { error in
             if let error = error {
                 print("Error sending MQTT CONNECT: \(error)")
@@ -1026,6 +1145,20 @@ class MQTTManager: NSObject {
                     print("Error publishing MQTT message: \(error)")
                 }
             }
+        }
+    }
+    
+    public func publishMetric(key: String, data: Data) {
+        self.onStateQueue {
+            guard self.isConnected && SystemStats.shared.monitoring && SystemStats.shared.isAuthorized else { return }
+            
+            self.metrics.append(key: key, data: data)
+        }
+    }
+    
+    public func discardMetrics() {
+        self.onStateQueue {
+            self.metrics.cancel()
         }
     }
     
@@ -1188,22 +1321,29 @@ class MQTTManager: NSObject {
     }
     
     private func receiveMessage() {
-        self.webSocket?.receive { [weak self] result in
-            switch result {
-            case .failure:
-                self?.isConnected = false
-                self?.isConnecting = false
-                self?.handleWebSocketError()
-            case .success(let message):
-                switch message {
-                case .data(let data):
-                    self?.handleMQTTPacket(data)
-                case .string:
-                    break
-                @unknown default:
-                    break
+        guard let socket = self.webSocket else { return }
+        socket.receive { [weak self] result in
+            guard let self else { return }
+            
+            self.onStateQueue {
+                guard socket === self.webSocket else { return }
+                switch result {
+                case .failure:
+                    self.metrics.cancel()
+                    self.isConnected = false
+                    self.isConnecting = false
+                    self.handleWebSocketError()
+                case .success(let message):
+                    switch message {
+                    case .data(let data):
+                        self.handleMQTTPacket(data)
+                    case .string:
+                        break
+                    @unknown default:
+                        break
+                    }
+                    self.receiveMessage()
                 }
-                self?.receiveMessage()
             }
         }
     }
@@ -1226,7 +1366,7 @@ class MQTTManager: NSObject {
     
     private func handleWebSocketError() {
         if let response = self.webSocket?.response as? HTTPURLResponse, response.statusCode == 401 {
-            SystemStats.shared.start()
+            self.connect(rejectedToken: self.connectionToken)
         } else {
             self.reconnect()
         }
@@ -1269,11 +1409,14 @@ class MQTTManager: NSObject {
 
 extension MQTTManager: URLSessionWebSocketDelegate {
     func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didOpenWithProtocol protocol: String?) {
+        guard webSocketTask === self.webSocket else { return }
         debug("MQTT WebSocket opened, sending CONNECT", log: self.log)
         self.sendConnect()
     }
     
     func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didCloseWith closeCode: URLSessionWebSocketTask.CloseCode, reason: Data?) {
+        guard webSocketTask === self.webSocket else { return }
+        self.metrics.cancel()
         self.stopPingTimer()
         self.sendStatus(false)
         self.isConnected = false
@@ -1284,6 +1427,7 @@ extension MQTTManager: URLSessionWebSocketDelegate {
     
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         guard task === self.webSocket else { return }
+        self.metrics.cancel()
         if let error = error {
             if let response = task.response as? HTTPURLResponse {
                 debug("MQTT WebSocket failed: \(error.localizedDescription), status: \(response.statusCode)", log: self.log)
