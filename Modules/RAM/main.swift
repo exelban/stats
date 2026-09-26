@@ -11,7 +11,6 @@
 
 import Cocoa
 import Kit
-import WidgetKit
 
 public struct RAM_Usage: Codable, RemoteType {
     var total: Double
@@ -242,11 +241,7 @@ public class RAM: Module {
         }
         
         if self.systemWidgetsUpdatesState {
-            if isWidgetActive(self.userDefaults, [RAM_entry.kind, "UnitedWidget"]), let blobData = try? JSONEncoder().encode(value) {
-                self.userDefaults?.set(blobData, forKey: "RAM@UsageReader")
-            }
-            WidgetCenter.shared.reloadTimelines(ofKind: RAM_entry.kind)
-            WidgetCenter.shared.reloadTimelines(ofKind: "UnitedWidget")
+            SystemWidgetUpdates.shared.update(value, key: "RAM@UsageReader", kinds: [RAM_entry.kind, "UnitedWidget"], defaults: self.userDefaults)
         }
     }
 }

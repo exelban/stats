@@ -11,7 +11,6 @@
 
 import Cocoa
 import Kit
-import WidgetKit
 
 public struct stats: Codable {
     var read: Int64 = 0
@@ -372,11 +371,7 @@ public class Disk: Module {
         }
         
         if self.systemWidgetsUpdatesState {
-            if isWidgetActive(self.userDefaults, [Disk_entry.kind, "UnitedWidget"]), let blobData = try? JSONEncoder().encode(d) {
-                self.userDefaults?.set(blobData, forKey: "Disk@CapacityReader")
-            }
-            WidgetCenter.shared.reloadTimelines(ofKind: Disk_entry.kind)
-            WidgetCenter.shared.reloadTimelines(ofKind: "UnitedWidget")
+            SystemWidgetUpdates.shared.update(d, key: "Disk@CapacityReader", kinds: [Disk_entry.kind, "UnitedWidget"], defaults: self.userDefaults)
         }
     }
     

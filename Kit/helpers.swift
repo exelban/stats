@@ -16,6 +16,7 @@ import UserNotifications
 import WebKit
 import Metal
 import IOKit.pwr_mgt
+import WidgetKit
 
 public let machHostPort: mach_port_t = mach_host_self()
 
@@ -2228,15 +2229,86 @@ public class GPUStressTest {
     }
 }
 
-public func isWidgetActive(_ defaults: UserDefaults?, _ widgets: [String]) -> Bool {
-    for name in widgets {
-        guard let lastUpdate = defaults?.double(forKey: name) else { return false }
-        let timeSinceUpdate = Date().timeIntervalSince1970 - lastUpdate
-        if timeSinceUpdate < 60 {
-            return true
+public final class SystemWidgetUpdates {
+    public static let shared = SystemWidgetUpdates()
+    
+    private let queue = DispatchQueue(label: "eu.exelban.Stats.SystemWidgetUpdates", qos: .utility)
+    private let encoder = JSONEncoder()
+    private let interval: TimeInterval
+    private var pending: [String: () -> [String]] = [:]
+    private var configuredKinds: Set<String> = []
+    private var nextConfigurationCheck: TimeInterval = 0
+    private var checkingConfigurations = false
+    
+    init(interval: TimeInterval = 5) {
+        self.interval = interval
+        self.encoder.outputFormatting = .sortedKeys
+    }
+    
+    public func update<T: Encodable>(_ value: T, key: String, kinds: [String], defaults: UserDefaults?) {
+        guard let defaults else { return }
+        self.queue.async {
+            guard defaults.bool(forKey: "systemWidgetsUpdates_state") else { return }
+            self.refreshConfigurations()
+            guard !self.activeKinds(kinds, defaults: defaults).isEmpty else { return }
+            
+            let schedule = self.pending.isEmpty
+            self.pending[key] = {
+                guard defaults.bool(forKey: "systemWidgetsUpdates_state") else { return [] }
+                let activeKinds = self.activeKinds(kinds, defaults: defaults)
+                guard !activeKinds.isEmpty, let data = try? self.encoder.encode(value), data != defaults.data(forKey: key) else { return [] }
+                defaults.set(data, forKey: key)
+                return activeKinds
+            }
+            if schedule {
+                self.queue.asyncAfter(deadline: .now() + self.interval) {
+                    self.flush()
+                }
+            }
         }
     }
-    return false
+    
+    private func activeKinds(_ kinds: [String], defaults: UserDefaults) -> [String] {
+        kinds.filter { self.configuredKinds.contains($0) || SystemWidgetUpdates.isWidgetActive(defaults, [$0]) }
+    }
+    
+    private func refreshConfigurations() {
+        let now = ProcessInfo.processInfo.systemUptime
+        guard !self.checkingConfigurations, now >= self.nextConfigurationCheck else { return }
+        self.checkingConfigurations = true
+        self.nextConfigurationCheck = now + 60
+        WidgetCenter.shared.getCurrentConfigurations { result in
+            self.queue.async {
+                self.checkingConfigurations = false
+                if case let .success(configurations) = result {
+                    self.configuredKinds = Set(configurations.map { $0.kind })
+                }
+            }
+        }
+    }
+    
+    private func flush() {
+        let updates = self.pending
+        self.pending.removeAll(keepingCapacity: true)
+        var kinds: Set<String> = []
+        for update in updates.values {
+            kinds.formUnion(update())
+        }
+        for kind in kinds {
+            WidgetCenter.shared.reloadTimelines(ofKind: kind)
+        }
+    }
+    
+    static func isWidgetActive(_ defaults: UserDefaults?, _ widgets: [String]) -> Bool {
+        for name in widgets {
+            guard let lastUpdate = defaults?.double(forKey: name) else { return false }
+            let timeSinceUpdate = Date().timeIntervalSince1970 - lastUpdate
+            if timeSinceUpdate < 60 {
+                return true
+            }
+        }
+        return false
+    }
 }
 
 public func countryFlag(_ code: String) -> String? {

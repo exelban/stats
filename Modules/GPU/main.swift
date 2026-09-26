@@ -11,7 +11,6 @@
 
 import Cocoa
 import Kit
-import WidgetKit
 
 public typealias GPU_type = String
 public enum GPU_types: GPU_type {
@@ -222,11 +221,7 @@ public class GPU: Module {
         }
         
         if self.systemWidgetsUpdatesState {
-            if isWidgetActive(self.userDefaults, [GPU_entry.kind, "UnitedWidget"]), let blobData = try? JSONEncoder().encode(selectedGPU) {
-                self.userDefaults?.set(blobData, forKey: "GPU@InfoReader")
-            }
-            WidgetCenter.shared.reloadTimelines(ofKind: GPU_entry.kind)
-            WidgetCenter.shared.reloadTimelines(ofKind: "UnitedWidget")
+            SystemWidgetUpdates.shared.update(selectedGPU, key: "GPU@InfoReader", kinds: [GPU_entry.kind, "UnitedWidget"], defaults: self.userDefaults)
         }
     }
 }

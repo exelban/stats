@@ -8,7 +8,6 @@
 
 import Cocoa
 import Kit
-import WidgetKit
 
 public struct CPU_Load: Codable, RemoteType {
     public var totalUsage: Double = 0
@@ -262,11 +261,7 @@ public class CPU: Module {
         }
         
         if self.systemWidgetsUpdatesState {
-            if isWidgetActive(self.userDefaults, [CPU_entry.kind, "UnitedWidget"]), let blobData = try? JSONEncoder().encode(value) {
-                self.userDefaults?.set(blobData, forKey: "CPU@LoadReader")
-            }
-            WidgetCenter.shared.reloadTimelines(ofKind: CPU_entry.kind)
-            WidgetCenter.shared.reloadTimelines(ofKind: "UnitedWidget")
+            SystemWidgetUpdates.shared.update(value, key: "CPU@LoadReader", kinds: [CPU_entry.kind, "UnitedWidget"], defaults: self.userDefaults)
         }
     }
 }

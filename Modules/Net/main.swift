@@ -12,7 +12,6 @@
 import Cocoa
 import Kit
 import SystemConfiguration
-import WidgetKit
 
 public enum Network_t: String, Codable {
     case wifi
@@ -340,10 +339,7 @@ public class Network: Module {
         }
         
         if self.systemWidgetsUpdatesState {
-            if isWidgetActive(self.userDefaults, [Network_entry.kind]), let blobData = try? JSONEncoder().encode(raw) {
-                self.userDefaults?.set(blobData, forKey: "Network@UsageReader")
-            }
-            WidgetCenter.shared.reloadTimelines(ofKind: Network_entry.kind)
+            SystemWidgetUpdates.shared.update(raw, key: "Network@UsageReader", kinds: [Network_entry.kind], defaults: self.userDefaults)
         }
     }
     
