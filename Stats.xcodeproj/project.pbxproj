@@ -98,6 +98,7 @@
 		5E0C63702FBE4A0000D9BA3E /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E0C636F2FBE4A0000D9BA3E /* popup.swift */; };
 		5E6DF2573007B23A00D696BD /* uninstall.sh in Copy Files */ = {isa = PBXBuildFile; fileRef = 5CFE494129265418000F2856 /* uninstall.sh */; };
 		5EC1B2E52E2FEAFB007042A6 /* UnitedWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC1B2E42E2FEAFB007042A6 /* UnitedWidget.swift */; };
+		5EE5C0B93062FEA400E7DAB4 /* install.sh in Resources */ = {isa = PBXBuildFile; fileRef = 5EE5C0B83062FEA400E7DAB4 /* install.sh */; };
 		5EE8037F29C36BDD0063D37D /* portal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE8037E29C36BDD0063D37D /* portal.swift */; };
 		9A045EB72594F8D100ED58F2 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A045EB62594F8D100ED58F2 /* Dashboard.swift */; };
 		9A11AAD6266FD77F000C1C05 /* Bluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A11AACF266FD77F000C1C05 /* Bluetooth.framework */; };
@@ -628,6 +629,7 @@
 		5E0C63672FBE5F0000D9BA3E /* reader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = reader.swift; sourceTree = "<group>"; };
 		5E0C636F2FBE4A0000D9BA3E /* popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = popup.swift; sourceTree = "<group>"; };
 		5EC1B2E42E2FEAFB007042A6 /* UnitedWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitedWidget.swift; sourceTree = "<group>"; };
+		5EE5C0B83062FEA400E7DAB4 /* install.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = install.sh; sourceTree = "<group>"; };
 		5EE8037E29C36BDD0063D37D /* portal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = portal.swift; sourceTree = "<group>"; };
 		62BA5F74254810C8009D0AC2 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		63A07F97275018DF00352C46 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1176,6 +1178,7 @@
 			isa = PBXGroup;
 			children = (
 				9A2848012666AB2F00EC1F6D /* updater.sh */,
+				5EE5C0B83062FEA400E7DAB4 /* install.sh */,
 				5CFE494129265418000F2856 /* uninstall.sh */,
 				9A46BF35266D6E17001A1117 /* i18n.py */,
 				5CFE494329265421000F2856 /* changelog.py */,
@@ -2030,6 +2033,7 @@
 				9A46BF36266D6E17001A1117 /* i18n.py in Resources */,
 				9A2848082666AB3000EC1F6D /* updater.sh in Resources */,
 				5CFE494429265421000F2856 /* changelog.py in Resources */,
+				5EE5C0B93062FEA400E7DAB4 /* install.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

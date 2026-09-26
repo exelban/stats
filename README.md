@@ -18,20 +18,18 @@ To install it using Homebrew, open the Terminal app and type:
 brew install stats
 ```
 
+### Headless (SSH)
+To install Stats remotely over SSH and set it up as a remote monitoring agent, run:
+```bash
+curl -fsSL https://cdn.mac-stats.com/install.sh | bash
+```
+The script installs the app, enables the Remote module and prints a URL with an authorization code - open it on any device and sign in to your System Stats account to authorize the machine. After that Stats starts streaming metrics to your account and is registered to launch automatically at login and restart if it stops.
+The Mac needs an active user session (a locked screen is fine) to run the app; on a fully headless machine Stats will start at the next login.
+
 ### Uninstall
 Run the uninstall script bundled with the app (requires administrator privileges to remove the SMC helper):
 ```bash
 sh /Applications/Stats.app/Contents/Resources/Scripts/uninstall.sh
-```
-The script quits Stats and removes:
-
-   - the SMC helper (`/Library/LaunchDaemons/eu.exelban.Stats.SMC.Helper.plist` and `/Library/PrivilegedHelperTools/eu.exelban.Stats.SMC.Helper`)
-   - `Stats.app`
-   - application data and preferences (`~/Library/Application Support/Stats`, widget containers, and `eu.exelban.Stats` defaults)
-
-If the app has already been moved to the Trash, the script can be run directly from the repository:
-```bash
-curl -fsSL https://raw.githubusercontent.com/exelban/stats/master/Kit/scripts/uninstall.sh | sh
 ```
 
 ### Legacy version
