@@ -4,17 +4,34 @@ on:
   push:
     paths:
       - '.github/workflows/i18n.yaml'
+      - 'Kit/scripts/i18n.py'
       - '**/*.strings'
+      - '**/*.swift'
   pull_request:
     paths:
       - '.github/workflows/i18n.yaml'
+      - 'Kit/scripts/i18n.py'
       - '**/*.strings'
+      - '**/*.swift'
 
 jobs:
-  i18n:
+  check:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
       - run: python3 Kit/scripts/i18n.py
+
+  scan:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - run: python3 Kit/scripts/i18n.py scan
