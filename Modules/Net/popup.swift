@@ -87,6 +87,9 @@ internal class Popup: PopupWrapper {
     private var latency: [Double] = []
     private var jitter: [Double] = []
     
+    public var locationPermissionAction: (() -> Void)?
+    private var locationPermissionButton: NSButton?
+    
     private var base: DataSizeBase {
         DataSizeBase(rawValue: Store.shared.string(key: "\(self.title)_base", defaultValue: "byte")) ?? .byte
     }
@@ -297,6 +300,15 @@ internal class Popup: PopupWrapper {
         self.macAddressField?.isSelectable = true
         
         let ssid = popupRow(view, title: "\(localizedString("Network")):", value: localizedString("Unknown"))
+        
+        let permissionButton = NSButton(title: localizedString("Open Location Settings"), target: self, action: #selector(self.requestLocationPermission))
+        permissionButton.bezelStyle = .rounded
+        permissionButton.controlSize = .small
+        permissionButton.font = .systemFont(ofSize: 11)
+        permissionButton.isHidden = true
+        
+        ssid.2.addSubview(permissionButton)
+        self.locationPermissionButton = permissionButton
         let standard = popupRow(view, title: "\(localizedString("Standard")):", value: localizedString("Unavailable"))
         let channel = popupRow(view, title: "\(localizedString("Channel")):", value: localizedString("Unavailable"))
         let speed = popupRow(view, title: "\(localizedString("Speed")):", value: localizedString("Unknown"))
@@ -400,6 +412,10 @@ internal class Popup: PopupWrapper {
         })
     }
     
+    @objc private func requestLocationPermission() {
+        self.locationPermissionAction?()
+    }
+    
     public func usageCallback(_ value: Network_Usage) {
         self.apply(value, to: self.usageCache, render: self.renderUsage)
         
@@ -446,7 +462,8 @@ internal class Popup: PopupWrapper {
         }
         
         if value.connectionType == .wifi {
-            if let view = self.ssidView, view.superview == nil && value.wifiDetails.ssid != nil {
+            let accessRequired = value.wifiLocationAuthorization == .notDetermined || value.wifiLocationAuthorization == .denied
+            if let view = self.ssidView, view.superview == nil {
                 self.interfaceView?.addArrangedSubview(view)
                 resized = true
             }
@@ -462,6 +479,17 @@ internal class Popup: PopupWrapper {
             self.ssidField?.stringValue = value.wifiDetails.ssid ?? localizedString("Unknown")
             if let v = value.wifiDetails.RSSI {
                 self.ssidField?.stringValue += " (\(v))"
+            }
+            self.locationPermissionButton?.title = localizedString(value.wifiLocationAuthorization == .notDetermined ? "Allow access to Wi-Fi details" : "Open Location Settings")
+            self.locationPermissionButton?.isHidden = !accessRequired
+            self.ssidField?.isHidden = accessRequired
+            if accessRequired, let button = self.locationPermissionButton, let field = self.ssidField {
+                button.sizeToFit()
+                button.frame.size.width = min(button.frame.width, field.frame.width)
+                button.frame.origin = NSPoint(
+                    x: isRTL ? field.frame.minX : field.frame.maxX - button.frame.width,
+                    y: ((self.ssidView?.bounds.height ?? 22) - button.frame.height) / 2
+                )
             }
             self.standardField?.stringValue = value.wifiDetails.standard ?? localizedString("Unknown")
             self.channelField?.stringValue = value.wifiDetails.channel ?? localizedString("Unknown")
