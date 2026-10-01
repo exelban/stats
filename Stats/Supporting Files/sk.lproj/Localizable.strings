@@ -414,7 +414,6 @@
 // Network
 "Allow access to Wi-Fi details" = "Povoliť prístup k podrobnostiam Wi-Fi";
 "Open Location Settings" = "Otvoriť nastavenie polohy";
-"Wi-Fi location permission description" = "Aplikácia Stats potrebuje prístup k polohe, aby zobrazila názov vašej siete Wi-Fi. Povoľte služby na určovanie polohy a povoľte Stats v Nastavenia systému → Ochrana osobných údajov a zabezpečenie → Služby na určovanie polohy. Rýchlosť siete a spotreba dát fungujú bez tohto povolenia.";
 "Uploading" = "Nahrávanie";
 "Downloading" = "Sťahovanie";
 "Public IP" = "Verejná IP";

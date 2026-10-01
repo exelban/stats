@@ -414,7 +414,6 @@
 // Network
 "Allow access to Wi-Fi details" = "Wi-Fi விவரங்களுக்கான அணுகலை அனுமதி";
 "Open Location Settings" = "இட அமைப்புகளைத் திற";
-"Wi-Fi location permission description" = "உங்கள் Wi-Fi நெட்வொர்க்கின் பெயரைக் காட்ட Stats-க்கு இடம் அணுகல் தேவை. இடம் சேவைகளை இயக்கவும், மற்றும் System Settings → தனியுரிமை மற்றும் பாதுகாப்பு → இடம் சேவைகள் இல் Stats-ஐ அனுமதிக்கவும். நெட்வொர்க் வேகமும் டேட்டா பயன்பாடும் இந்த அனுமதியின்றி வேலை செய்கின்றன.";
 "Uploading" = "பதிவேற்றம்";
 "Downloading" = "பதிவிறக்கம்";
 "Public IP" = "பொது IP"; // qwen3.8:27b

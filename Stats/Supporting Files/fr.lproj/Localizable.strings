@@ -414,7 +414,6 @@
 // Network
 "Allow access to Wi-Fi details" = "Autoriser l'accès aux détails Wi-Fi";
 "Open Location Settings" = "Ouvrir les paramètres de localisation";
-"Wi-Fi location permission description" = "Stats a besoin d'un accès à la position pour afficher le nom de votre réseau Wi-Fi. Activez les Services de localisation et autorisez Stats dans Réglages Système → Confidentialité et sécurité → Services de localisation. La vitesse du réseau et l'utilisation des données fonctionnent sans cette autorisation.";
 "Uploading" = "Envoi";
 "Downloading" = "Téléchargement";
 "Public IP" = "IP publique";

@@ -414,7 +414,6 @@
 // Network
 "Allow access to Wi-Fi details" = "Tillad adgang til Wi-Fi detaljer";
 "Open Location Settings" = "Åbn indstillinger for placering";
-"Wi-Fi location permission description" = "Stats har brug for adgang til din placering for at vise dit Wi-Fi-netværksnavn. Skift placeringsfunktioner til og tillad Stats i Systemindstillinger → Privatliv & sikkerhed → Placeringsfunktioner. Netværksfart og dataplus fungerer uden denne tilladelse.";
 "Uploading" = "Upload";
 "Downloading" = "Hentning"; // qwen3.8:27b
 "Public IP" = "Offentlig IP";

@@ -414,7 +414,6 @@
 // Network
 "Allow access to Wi-Fi details" = "Allow access to Wi-Fi details";
 "Open Location Settings" = "Open Location Settings";
-"Wi-Fi location permission description" = "Stats needs Location access to display your Wi-Fi network name. Enable Location Services and allow Stats in System Settings → Privacy & Security → Location Services. Network speed and data usage work without this permission.";
 "Uploading" = "Upload";
 "Downloading" = "Download";
 "Public IP" = "Public IP";

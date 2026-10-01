@@ -414,7 +414,6 @@
 // Network
 "Allow access to Wi-Fi details" = "Salli pääsy Wi-Fi-tietoihin";
 "Open Location Settings" = "Avaa sijaintiasetukset";
-"Wi-Fi location permission description" = "Stats tarvitsee sijaintitiedon, näittääkseen Wi-Fi-verkkosi nimen. Ota sijaintipalvelut käyttöön ja salli Stats Järjestelmäasetukset → Tietosuoja ja turvallisuus → Sijaintipalvelut. Verkon nopeus ja datankäyttö toimivat ilman tätä lupaa.";
 "Uploading" = "Lähetys";
 "Downloading" = "Lataus";
 "Public IP" = "Julkinen IP";

@@ -414,7 +414,6 @@
 // Network
 "Allow access to Wi-Fi details" = "Dozvoli pristup detaljima Wi-Fi-ja";
 "Open Location Settings" = "Otvori postavke lokacije";
-"Wi-Fi location permission description" = "Statsu je potreban pristup lokaciji za prikaz naziva vaše Wi-Fi mreže. Uključite usluge za određivanje lokacije i dozvolite Statsu u Sistemske postavke → Privatnost i sigurnost → Usluge za određivanje lokacije. Brzina mreže i potrošnja podataka rade bez ove dozvole.";
 "Uploading" = "Slanje";
 "Downloading" = "Primanje";
 "Public IP" = "Javni IP";

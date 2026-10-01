@@ -414,7 +414,6 @@
 // Network
 "Allow access to Wi-Fi details" = "Zugriff auf Wi-Fi-Details erlauben";
 "Open Location Settings" = "Ortungseinstellungen öffnen";
-"Wi-Fi location permission description" = "Stats benötigt Zugriff auf die Ortung, um den Namen Ihres Wi-Fi-Netzwerks anzuzeigen. Aktivieren Sie die Ortungsdienste und erlauben Sie Stats in Systemeinstellungen → Datenschutz & Sicherheit → Ortungsdienste. Netzgeschwindigkeit und Datennutzung funktionieren ohne diese Berechtigung.";
 "Uploading" = "Hochladen"; // translategemma:4b
 "Downloading" = "Herunterladen"; // translategemma:4b
 "Public IP" = "Öffentliche IP";

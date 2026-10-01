@@ -414,7 +414,6 @@
 // Network
 "Allow access to Wi-Fi details" = "允許存取 Wi-Fi 詳細資訊";
 "Open Location Settings" = "打開位置設定";
-"Wi-Fi location permission description" = "Stats 需要存取位置資訊才能顯示您的 Wi-Fi 網路名稱。開啟「定位服務」，並在「系統設定」→「隱私與安全性」→「定位服務」中允許 Stats。即使沒有此許可，網路速度與數據使用量仍可正常運作。";
 "Uploading" = "上傳";
 "Downloading" = "下載";
 "Public IP" = "公用IP";

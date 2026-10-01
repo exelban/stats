@@ -414,7 +414,6 @@
 // Network
 "Allow access to Wi-Fi details" = "Toegang tot Wi-Fi details toestaan";
 "Open Location Settings" = "Locatie-instellingen openen";
-"Wi-Fi location permission description" = "Stats heeft toegang tot locatie nodig om de naam van je Wi-Fi-netwerk te tonen. Schakel Locatiediensten in en geef Stats toestemming in Systeeminstellingen → Gegevensbescherming & beveiliging → Locatiediensten. Netwerksnelheid en gegevensgebruik werken zonder deze toestemming.";
 "Uploading" = "Uploaden";
 "Downloading" = "Downloaden";
 "Public IP" = "Openbaar IP-adres";

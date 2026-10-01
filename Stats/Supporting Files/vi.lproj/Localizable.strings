@@ -414,7 +414,6 @@
 // Network
 "Allow access to Wi-Fi details" = "Cho phép truy cập chi tiết Wi-Fi";
 "Open Location Settings" = "Mở cài đặt vị trí";
-"Wi-Fi location permission description" = "Stats cần quyền truy cập vị trí để hiển thị tên mạng Wi-Fi của bạn. Bật Dịch vụ vị trí và cho phép Stats trong Cài đặt Hệ thống → Quyền riêng tư & Bảo mật → Dịch vụ vị trí. Tốc độ mạng và mức sử dụng dữ liệu hoạt động mà không cần quyền này.";
 "Uploading" = "Đang tải lên";
 "Downloading" = "Đang tải xuống";
 "Public IP" = "IP công khai";

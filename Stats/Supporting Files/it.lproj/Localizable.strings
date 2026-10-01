@@ -414,7 +414,6 @@
 // Network
 "Allow access to Wi-Fi details" = "Consenti l'accesso ai dettagli Wi-Fi";
 "Open Location Settings" = "Apri impostazioni posizione";
-"Wi-Fi location permission description" = "Stats ha bisogno dell'accesso alla posizione per mostrare il nome della tua rete Wi-Fi. Attiva i Servizi di localizzazione e consenti a Stats in Impostazioni di Sistema → Privacy e sicurezza → Servizi di localizzazione. La velocità di rete e l'utilizzo dei dati funzionano senza questa autorizzazione.";
 "Uploading" = "Caricamento"; // translategemma:4b
 "Downloading" = "Scarica"; // translategemma:4b
 "Public IP" = "IP Pubblico";
