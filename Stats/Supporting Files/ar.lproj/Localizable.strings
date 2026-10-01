@@ -412,6 +412,9 @@
 "Sensor to show" = "المستشعر المراد عرضه"; // gemma4:31b
 
 // Network
+"Allow access to Wi-Fi details" = "السماح بالوصول إلى تفاصيل Wi-Fi";
+"Open Location Settings" = "فتح إعدادات الموقع";
+"Wi-Fi location permission description" = "يحتاج Stats إلى إذن تحديد الموقع لعرض اسم شبكة Wi-Fi الخاصة بك. فعّل خدمات تحديد الموقع، واسمح لـStats في إعدادات النظام → الخصوصية والأمان → خدمات تحديد الموقع. تعمل سرعة الشبكة واستخدام البيانات دون هذا الإذن.";
 "Uploading" = "رفع";
 "Downloading" = "تنزيل";
 "Public IP" = "عنوان IP العام";

@@ -412,6 +412,9 @@
 "Sensor to show" = "חיישן להצגה"; // translategemma:4b
 
 // Network
+"Allow access to Wi-Fi details" = "הרש/י גישה לפרטי Wi-Fi";
+"Open Location Settings" = "פתח/י הגדרות מיקום";
+"Wi-Fi location permission description" = "Stats נדרש גישה למיקום כדי להציג את שם רשת ה-Wi-Fi שלך. הפעל את שירותי המיקום והרש/י ל-Stats בהגדרות המערכת → פרטיות ואבטחה → שירותי מיקום. מהירות הרשת וצריכת הנתונים עובדות גם ללא הרשאה זו.";
 "Uploading" = "העלאה";
 "Downloading" = "הורדה";
 "Public IP" = "כתובת רשת ציבורית";

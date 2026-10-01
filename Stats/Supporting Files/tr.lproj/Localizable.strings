@@ -412,6 +412,9 @@
 "Sensor to show" = "Gösterilecek sensör";
 
 // Network
+"Allow access to Wi-Fi details" = "Wi-Fi ayrıntılarına erişime izin ver";
+"Open Location Settings" = "Konum ayarlarını aç";
+"Wi-Fi location permission description" = "Stats, Wi-Fi ağ adınızı göstermek için konuma erişime ihtiyaç duyar. Konum Hizmetlerini etkinleştirin ve Sistem Ayarları → Gizlilik ve Güvenlik → Konum Hizmetleri bölümünde Stats'e izin verin. Ağ hızı ve veri kullanımı bu izinsiz de çalışır.";
 "Uploading" = "Yükleme";
 "Downloading" = "İndirme";
 "Public IP" = "Genel IP";

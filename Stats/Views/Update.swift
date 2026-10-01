@@ -318,11 +318,11 @@ private class UpdateView: NSView {
         title.alignment = .center
         title.stringValue = localizedString("Installing...")
         
-        let state: NSTextField = TextView()
+        let state = NSTextField(wrappingLabelWithString: localizedString("Stats will restart automatically"))
         state.font = NSFont.systemFont(ofSize: 12, weight: .regular)
         state.alignment = .center
         state.textColor = .secondaryLabelColor
-        state.stringValue = localizedString("Stats will restart automatically")
+        state.isSelectable = false
         
         view.addArrangedSubview(spinner)
         view.setCustomSpacing(12, after: spinner)
@@ -331,8 +331,10 @@ private class UpdateView: NSView {
         self.addSubview(view)
         
         NSLayoutConstraint.activate([
-            view.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            view.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+            view.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.Settings.margin),
+            view.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.Settings.margin),
+            view.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            state.widthAnchor.constraint(equalTo: view.widthAnchor)
         ])
         
         let path = self.path

@@ -412,6 +412,9 @@
 "Sensor to show" = "Sensor som skal vises"; // gemma4:31b
 
 // Network
+"Allow access to Wi-Fi details" = "Tillat tilgang til Wi-Fi detaljer";
+"Open Location Settings" = "Åpne posisjonsinnstillinger";
+"Wi-Fi location permission description" = "Stats trenger tilgang til posisjonen din for å vise Wi-Fi-nettverknavnet ditt. Skru på posisjonstjenester og tillat Stats i Systeminnstillinger → Personvern og sikkerhet → Posisjonstjenester. Nettverkshastighet og databruk fungerer uten denne tillatelsen.";
 "Uploading" = "Opplasting";
 "Downloading" = "Nedlasting";
 "Public IP" = "Offentlig IP";

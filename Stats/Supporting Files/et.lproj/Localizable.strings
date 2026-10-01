@@ -412,6 +412,9 @@
 "Sensor to show" = "Sensor näitamiseks";
 
 // Network
+"Allow access to Wi-Fi details" = "Luba ligipääs Wi-Fi üksikasjadele";
+"Open Location Settings" = "Ava asukoha seaded";
+"Wi-Fi location permission description" = "Stats vajab asukoha ligipääsu, et näidata teie Wi-Fi võrgu nime. Lülitage sisse asukoha teenused ja lubage Stats Süsteemi seaded → Privaatsus ja turvalisus → Asukoha teenused. Võrgukiirus ja andmekasutus töötavad ilma selle õiguseta.";
 "Uploading" = "Üleslaadimine";
 "Downloading" = "Allalaadimine";
 "Public IP" = "Avalik IP";

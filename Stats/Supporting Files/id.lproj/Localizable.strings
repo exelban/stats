@@ -412,6 +412,9 @@
 "Sensor to show" = "Sensor yang ditampilkan"; // gemma4:31b
 
 // Network
+"Allow access to Wi-Fi details" = "Izinkan akses ke detail Wi-Fi";
+"Open Location Settings" = "Buka pengaturan lokasi";
+"Wi-Fi location permission description" = "Stats memerlukan akses lokasi untuk menampilkan nama jaringan Wi-Fi Anda. Aktifkan Layanan Lokasi dan izinkan Stats di Pengaturan Sistem → Privasi & Keamanan → Layanan Lokasi. Kecepatan jaringan dan penggunaan data berfungsi tanpa izin ini.";
 "Uploading" = "Unggah";
 "Downloading" = "Unduh";
 "Public IP" = "IP Publik";

@@ -412,6 +412,9 @@
 "Sensor to show" = "표시할 센서";
 
 // Network
+"Allow access to Wi-Fi details" = "Wi-Fi 상세 정보에 대한 액세스 허용";
+"Open Location Settings" = "위치 설정 열기";
+"Wi-Fi location permission description" = "Stats는 Wi-Fi 네트워크 이름을 표시하려면 위치 정보에 대한 액세스가 필요합니다. 위치 서비스를 활성화하고 시스템 설정 → 개인 정보 및 보안 → 위치 서비스에서 Stats를 허용하세요. 네트워크 속도와 데이터 사용량은 이 권한 없이도 작동합니다.";
 "Uploading" = "업로드";
 "Downloading" = "다운로드";
 "Public IP" = "공개 IP";

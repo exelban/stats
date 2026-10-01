@@ -412,6 +412,9 @@
 "Sensor to show" = "表示するセンサー"; // gemma4:31b
 
 // Network
+"Allow access to Wi-Fi details" = "Wi-Fi 詳細へのアクセスを許可";
+"Open Location Settings" = "位置情報の設定を開く";
+"Wi-Fi location permission description" = "Stats は Wi-Fi ネットワーク名を表示するために位置情報へのアクセスが必要です。位置情報サービスを使用可能に設定し、「システム設定」→「プライバシーとセキュリティ」→「位置情報サービス」で Stats を許可してください。ネットワークの速度とデータの使用量は、このアクセス許可がなくても動作します。";
 "Uploading" = "送信";
 "Downloading" = "受信";
 "Public IP" = "パブリック IP";

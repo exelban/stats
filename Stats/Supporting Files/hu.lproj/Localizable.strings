@@ -412,6 +412,9 @@
 "Sensor to show" = "Megmutatandó szenzor"; // gemma4:31b
 
 // Network
+"Allow access to Wi-Fi details" = "Wi-Fi részletek elérésének engedélyezése";
+"Open Location Settings" = "Helymeghatározási beállítások megnyitása";
+"Wi-Fi location permission description" = "A Statsnak helymeghatározáshoz való hozzáférésre van szüksége a Wi-Fi hálózat nevének megjelenítéséhez. Engedélyezze a helymeghatározási szolgáltatásokat, és engedje meg a Statst a Rendszerbeállítások → Adatvédelem és biztonság → Helymeghatározási szolgáltatások menüpontban. A hálózati sebesség és az adatforgalom e jogosultság nélkül is működik.";
 "Uploading" = "Feltöltés";
 "Downloading" = "Letöltés";
 "Public IP" = "Nyilvános IP";

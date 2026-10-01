@@ -412,6 +412,9 @@
 "Sensor to show" = "Aktywny czujnik";
 
 // Network
+"Allow access to Wi-Fi details" = "Zezwól na dostęp do szczegółów Wi-Fi";
+"Open Location Settings" = "Otwórz ustawienia lokalizacji";
+"Wi-Fi location permission description" = "Aplikacja Stats potrzebuje dostępu do lokalizacji, aby wyświetlić nazwę Twojej sieci Wi-Fi. Włącz usługi lokalizacji i zezwól na Stats w Ustawieniach systemowych → Prywatność i zabezpieczenia → Usługi lokalizacji. Prędkość sieci i zużycie danych działają bez tego pozwolenia.";
 "Uploading" = "Wysyłanie";
 "Downloading" = "Pobieranie";
 "Public IP" = "Publiczny IP";

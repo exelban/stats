@@ -412,6 +412,9 @@
 "Sensor to show" = "要显示的传感器";
 
 // Network
+"Allow access to Wi-Fi details" = "允许访问 Wi-Fi 详细信息";
+"Open Location Settings" = "打开位置设置";
+"Wi-Fi location permission description" = "Stats 需要访问位置信息才能显示您的 Wi-Fi 网络名称。启用定位服务，并在「系统设置」→「隐私与安全性」→「定位服务」中允许 Stats。即使没有此权限，网络速度和数据使用情况也能正常工作。";
 "Uploading" = "上传";
 "Downloading" = "下载";
 "Public IP" = "公网IP";

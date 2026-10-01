@@ -412,6 +412,9 @@
 "Sensor to show" = "Sensor a mostrar"; // gemma4:31b
 
 // Network
+"Allow access to Wi-Fi details" = "Permitir acesso aos detalhes do Wi-Fi";
+"Open Location Settings" = "Abrir definições de localização";
+"Wi-Fi location permission description" = "O Stats precisa de acesso à localização para mostrar o nome da sua rede Wi-Fi. Ative os Serviços de Localização e permita o Stats em Definições do Sistema → Privacidade e Segurança → Serviços de Localização. A velocidade da rede e a utilização de dados funcionam sem esta permissão.";
 "Uploading" = "Enviando";
 "Downloading" = "Descarregando";
 "Public IP" = "IP Público";
