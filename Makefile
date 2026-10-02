@@ -7,13 +7,13 @@ ZIP_PATH = "$(BUILD_PATH)/$(APP).zip"
 WIDGET_PATH = "$(BUILD_PATH)/$(APP).app/Contents/PlugIns/WidgetsExtension.appex"
 
 .SILENT: archive notarize sign verify prepare-dmg prepare-dSYM clean next-version check history disk smc leveldb
-.PHONY: build archive notarize sign verify prepare-dmg prepare-dSYM clean next-version check history open smc leveldb
+.PHONY: build archive notarize sign verify prepare-dmg prepare-dSYM clean next-version check history open smc leveldb test-smc
 
-build: clean next-version archive notarize sign verify prepare-dmg prepare-dSYM open
+build: test-smc clean next-version archive notarize sign verify prepare-dmg prepare-dSYM open
 
 # --- MAIN WORLFLOW FUNCTIONS --- #
 
-archive: clean
+archive: test-smc clean
 	osascript -e 'display notification "Exporting application archive..." with title "Build the Stats"'
 	echo "Exporting application archive..."
 
@@ -108,6 +108,9 @@ prepare-dSYM:
 	echo "Created zip with dSYMs"
 
 # --- HELPERS --- #
+
+test-smc:
+	python3 Kit/scripts/run-smc-tests.py
 
 clean:
 	rm -rf $(BUILD_PATH)

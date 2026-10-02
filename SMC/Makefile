@@ -1,7 +1,7 @@
-.PHONY: build
+.PHONY: build test-smc
 .SILENT: build
 
-build:
+build: test-smc
 	rm -rf ./build
 
 	xcodebuild \
@@ -15,3 +15,6 @@ build:
 	cp ./build/smc.xcarchive/Products/usr/local/bin/smc ./
 
 	rm -rf ./build
+
+test-smc:
+	python3 ../Kit/scripts/run-smc-tests.py
