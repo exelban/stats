@@ -166,6 +166,7 @@
 "Pause the Stats" = "หยุด Stats";
 "Resume the Stats" = "เริ่มต้น Stats";
 "Combined modules" = "โมดูลผสม";
+"Show icon instead of widgets" = "แสดงไอคอนแทนวิดเจ็ต";
 "Combined details" = "รายละเอียดรวม"; // gemma4:31b
 "Spacing" = "ระยะห่าง"; // translategemma:4b
 "Choose file" = "เลือกไฟล์"; // translategemma:4b

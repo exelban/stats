@@ -166,6 +166,7 @@
 "Pause the Stats" = "Keskeytä Stats";
 "Resume the Stats" = "Jatka Statsin käyttöä";
 "Combined modules" = "Yhdistetyt moduulit";
+"Show icon instead of widgets" = "Näytä kuvake widgettien sijaan";
 "Combined details" = "Yhdistetyt tiedot";
 "Spacing" = "Välistys"; // gemma4:31b
 "Choose file" = "Valitse tiedosto"; // translategemma:4b

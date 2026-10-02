@@ -26,6 +26,10 @@ class ApplicationSettings: NSStackView {
         get { Store.shared.bool(key: "CombinedModules", defaultValue: false) }
         set { Store.shared.set(key: "CombinedModules", value: newValue) }
     }
+    private var combinedModulesIcon: Bool {
+        get { Store.shared.bool(key: "CombinedModules_icon", defaultValue: false) }
+        set { Store.shared.set(key: "CombinedModules_icon", value: newValue) }
+    }
     private var combinedModulesSpacing: String {
         get { Store.shared.string(key: "CombinedModules_spacing", defaultValue: "none") }
         set { Store.shared.set(key: "CombinedModules_spacing", value: newValue) }
@@ -131,6 +135,10 @@ class ApplicationSettings: NSStackView {
                 action: #selector(self.toggleCombinedModules),
                 state: self.combinedModulesState
             )),
+            PreferencesRow(localizedString("Show icon instead of widgets"), component: switchView(
+                action: #selector(self.toggleCombinedModulesIcon),
+                state: self.combinedModulesIcon
+            )),
             PreferencesRow(component: self.moduleSelector),
             PreferencesRow(localizedString("Spacing"), component: selectView(
                 action: #selector(self.toggleCombinedModulesSpacing),
@@ -147,10 +155,7 @@ class ApplicationSettings: NSStackView {
             ))
         ])
         scrollView.stackView.addArrangedSubview(self.combinedModulesView!)
-        self.combinedModulesView?.setRowVisibility(1, newState: self.combinedModulesState)
-        self.combinedModulesView?.setRowVisibility(2, newState: self.combinedModulesState)
-        self.combinedModulesView?.setRowVisibility(3, newState: self.combinedModulesState)
-        self.combinedModulesView?.setRowVisibility(4, newState: self.combinedModulesState)
+        self.updateCombinedModulesSettings()
         
         self.remoteControlBtn = switchView(
             action: #selector(self.toggleRemoteControlState),
@@ -374,13 +379,21 @@ class ApplicationSettings: NSStackView {
     
     @objc private func toggleCombinedModules(_ sender: NSButton) {
         self.combinedModulesState = sender.state == NSControl.StateValue.on
-        self.combinedModulesView?.setRowVisibility(1, newState: self.combinedModulesState)
-        self.combinedModulesView?.setRowVisibility(2, newState: self.combinedModulesState)
-        self.combinedModulesView?.setRowVisibility(3, newState: self.combinedModulesState)
-        self.combinedModulesView?.setRowVisibility(4, newState: self.combinedModulesState)
-        self.combinedModulesView?.setRowVisibility(5, newState: self.combinedModulesState)
-        self.combinedModulesView?.setRowVisibility(6, newState: self.combinedModulesState)
+        self.updateCombinedModulesSettings()
         NotificationCenter.default.post(name: .toggleOneView, object: nil, userInfo: nil)
+    }
+    
+    private func updateCombinedModulesSettings() {
+        self.combinedModulesView?.setRowVisibility(1, newState: self.combinedModulesState)
+        for row in 2...5 {
+            self.combinedModulesView?.setRowVisibility(row, newState: self.combinedModulesState && !self.combinedModulesIcon)
+        }
+    }
+    
+    @objc private func toggleCombinedModulesIcon(_ sender: NSButton) {
+        self.combinedModulesIcon = sender.state == NSControl.StateValue.on
+        self.updateCombinedModulesSettings()
+        NotificationCenter.default.post(name: .moduleRearrange, object: nil, userInfo: nil)
     }
     
     @objc private func toggleCombinedModulesSpacing(_ sender: NSMenuItem) {

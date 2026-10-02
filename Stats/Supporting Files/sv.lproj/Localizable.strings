@@ -166,6 +166,7 @@
 "Pause the Stats" = "Pausa Stats";
 "Resume the Stats" = "Återuppta Stats";
 "Combined modules" = "Kombinerade moduler";
+"Show icon instead of widgets" = "Visa ikon istället för widgetar";
 "Combined details" = "Kombinerade detaljer";
 "Spacing" = "Mellanrum";
 "Choose file" = "Välj fil"; // translategemma:4b

@@ -328,11 +328,9 @@ public class SWidget {
     
     public func setMenuBarItem(state: Bool) {
         if state {
-            if self.keepMenuBarPosition {
-                restoreNSStatusItemPosition(id: "\(self.module)_\(self.type.rawValue)")
-            }
             DispatchQueue.main.async(execute: {
                 guard self.menuBarItem == nil else { return }
+                restoreNSStatusItemPosition(id: "\(self.module)_\(self.type.rawValue)")
                 self.menuBarItem = NSStatusBar.system.statusItem(withLength: self.item.frame.width)
                 DispatchQueue.main.async(execute: {
                     self.menuBarItem?.autosaveName = "\(self.module)_\(self.type.rawValue)"
@@ -353,9 +351,10 @@ public class SWidget {
                 self.menuBarItem?.button?.sendAction(on: [.leftMouseDown, .rightMouseDown])
             })
         } else {
+            let preservePosition = self.keepMenuBarPosition || Store.shared.bool(key: "CombinedModules", defaultValue: false)
             DispatchQueue.main.async(execute: {
                 guard let item = self.menuBarItem else { return }
-                if self.keepMenuBarPosition {
+                if preservePosition {
                     saveNSStatusItemPosition(id: "\(self.module)_\(self.type.rawValue)")
                 }
                 NSStatusBar.system.removeStatusItem(item)
@@ -545,11 +544,13 @@ public class MenuBar {
         if self.combinedModules {
             self.oneView = true
             self.setupMenuBarItem(false)
-        } else if self.active {
-            self.oneView = Store.shared.bool(key: "\(self.moduleName)_oneView", defaultValue: self.oneView)
-            self.setupMenuBarItem(self.oneView)
+        } else {
+            self.oneView = Store.shared.bool(key: "\(self.moduleName)_oneView", defaultValue: false)
+            self.setupMenuBarItem(self.oneView && self.active)
         }
         
+        guard self.active else { return }
+
         self.activeWidgets.forEach { (w: SWidget) in
             w.enable()
         }

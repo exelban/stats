@@ -166,6 +166,7 @@
 "Pause the Stats" = "Sæt Stats på pause";
 "Resume the Stats" = "Genoptag Stats";
 "Combined modules" = "Kombinerede moduler";
+"Show icon instead of widgets" = "Vis ikon i stedet for widgets";
 "Combined details" = "Kombinerede detaljer"; // gemma4:31b
 "Spacing" = "Mellemrum";
 "Choose file" = "Vælg fil"; // translategemma:4b

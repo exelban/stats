@@ -166,6 +166,7 @@
 "Pause the Stats" = "Metti in pausa Stats";
 "Resume the Stats" = "Riprendi Stats";
 "Combined modules" = "Moduli combinati";
+"Show icon instead of widgets" = "Mostra l’icona al posto dei widget";
 "Combined details" = "Dettagli combinati";
 "Spacing" = "Spazio";
 "Choose file" = "Scegli file"; // gemma4:31b

@@ -166,6 +166,7 @@
 "Pause the Stats" = "متوقف کردن Stats";
 "Resume the Stats" = "ادامه‌ی کار Stats";
 "Combined modules" = "ماژول‌های ترکیبی"; // translategemma:4b
+"Show icon instead of widgets" = "نمایش نماد به‌جای ابزارک‌ها";
 "Combined details" = "جزئیات ترکیبی"; // translategemma:4b
 "Spacing" = "فاصله"; // translategemma:4b
 "Choose file" = "انتخاب فایل"; // gemma4:31b

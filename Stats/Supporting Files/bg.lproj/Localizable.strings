@@ -166,6 +166,7 @@
 "Pause the Stats" = "Паузиране на Stats";
 "Resume the Stats" = "Продължаване на Stats";
 "Combined modules" = "Комбинирани модули"; // translategemma:4b
+"Show icon instead of widgets" = "Показване на икона вместо уиджети";
 "Combined details" = "Комбинирани подробности"; // gemma4:31b
 "Spacing" = "Интервал"; // gemma4:31b
 "Choose file" = "Изберете файл"; // translategemma:4b

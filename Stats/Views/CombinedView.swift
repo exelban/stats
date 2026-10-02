@@ -20,6 +20,9 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
     private var status: Bool {
         Store.shared.bool(key: "CombinedModules", defaultValue: false)
     }
+    private var iconOnly: Bool {
+        Store.shared.bool(key: "CombinedModules_icon", defaultValue: false)
+    }
     private var spacing: CGFloat {
         CGFloat(Int(Store.shared.string(key: "CombinedModules_spacing", defaultValue: "")) ?? 0)
     }
@@ -90,7 +93,15 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
     }
     
     private func recalculate() {
+        guard self.status, self.menuBarItem != nil else { return }
         self.view.subviews.forEach({ $0.removeFromSuperview() })
+        
+        if self.iconOnly {
+            self.view.addSubview(AppIcon())
+            self.view.setFrameSize(NSSize(width: AppIcon.size.width, height: self.view.frame.height))
+            self.menuBarItem?.length = AppIcon.size.width
+            return
+        }
         
         let visibleModules = self.activeModules.filter({ !$0.menuBar.activeWidgets.isEmpty })
         var w: CGFloat = 0
@@ -114,7 +125,7 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
     private func visibilityCallback(_ state: Bool) {}
     
     @objc private func handleClick() {
-        if self.combinedModulesPopup {
+        if self.iconOnly || self.combinedModulesPopup {
             self.togglePopup()
         } else {
             self.openModulePopup()

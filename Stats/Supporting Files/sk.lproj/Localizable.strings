@@ -166,6 +166,7 @@
 "Pause the Stats" = "Pozastaviť Stats";
 "Resume the Stats" = "Obnoviť Stats";
 "Combined modules" = "Kombinovať moduly";
+"Show icon instead of widgets" = "Zobraziť ikonu namiesto widgetov";
 "Combined details" = "Kombinované detaily"; // gemma4:31b
 "Spacing" = "Rozostup"; // translategemma:4b
 "Choose file" = "Vybrať súbor"; // gemma4:31b

@@ -166,6 +166,7 @@
 "Pause the Stats" = "Pausar Stats";
 "Resume the Stats" = "Reanudar Stats";
 "Combined modules" = "Combinar módulos";
+"Show icon instead of widgets" = "Mostrar el icono en lugar de los widgets";
 "Combined details" = "Detalles combinados"; // translategemma:4b
 "Spacing" = "Espaciado";
 "Choose file" = "Seleccionar archivo"; // translategemma:4b

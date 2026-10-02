@@ -166,6 +166,7 @@
 "Pause the Stats" = "Pauzeer de Stats"; // gemma4:31b
 "Resume the Stats" = "Hervat de Stats";
 "Combined modules" = "Gecombineerde modules"; // translategemma:4b
+"Show icon instead of widgets" = "Toon pictogram in plaats van widgets";
 "Combined details" = "Gecombineerde details";
 "Spacing" = "Afstand"; // gemma4:31b
 "Choose file" = "Kies bestand"; // translategemma:4b
