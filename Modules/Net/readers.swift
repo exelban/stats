@@ -265,6 +265,9 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate, CLLocationMa
     }
     
     public override func start() {
+        self.variablesQueue.sync {
+            self._usage.wifiLocationAuthorization = nil
+        }
         super.start()
         self.wifiClient.delegate = self
         self.startListeningForWifiEvents()
@@ -512,14 +515,19 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate, CLLocationMa
         let interfaceID = self.interfaceID
         
         if let interface = CWWiFiClient.shared().interface(withName: interfaceID) {
-            if let ssid = interface.ssid(), isUsableSSID(ssid) {
-                if ssid != self.usage.wifiDetails.ssid {
-                    self.resetWiFiDetails()
+            if self.usage.wifiLocationAuthorization == .authorized {
+                if let ssid = interface.ssid(), isUsableSSID(ssid) {
+                    if ssid != self.usage.wifiDetails.ssid {
+                        self.resetWiFiDetails()
+                    }
+                    self.usage.wifiDetails.ssid = ssid
                 }
-                self.usage.wifiDetails.ssid = ssid
-            }
-            if let bssid = interface.bssid() {
-                self.usage.wifiDetails.bssid = bssid
+                if let bssid = interface.bssid() {
+                    self.usage.wifiDetails.bssid = bssid
+                }
+            } else {
+                self.usage.wifiDetails.ssid = nil
+                self.usage.wifiDetails.bssid = nil
             }
             if let cc = interface.countryCode() {
                 self.usage.wifiDetails.countryCode = cc
