@@ -345,6 +345,11 @@ internal let SensorsList: [Sensor] = [
     Sensor(key: "TC0P", name: "CPU proximity", group: .CPU, type: .temperature, platforms: Platform.all),
     Sensor(key: "TCAD", name: "CPU package", group: .CPU, type: .temperature, platforms: Platform.all),
     
+    Sensor(key: "TCAC", name: "CPU A core die", group: .CPU, type: .temperature, platforms: [.intel], average: true),
+    Sensor(key: "TCBC", name: "CPU B core die", group: .CPU, type: .temperature, platforms: [.intel], average: true),
+    Sensor(key: "TCAH", name: "CPU A heatsink", group: .CPU, type: .temperature, platforms: [.intel]),
+    Sensor(key: "TCBH", name: "CPU B heatsink", group: .CPU, type: .temperature, platforms: [.intel]),
+    
     Sensor(key: "TC%c", name: "CPU core %", group: .CPU, type: .temperature, platforms: Platform.all, average: true),
     Sensor(key: "TC%C", name: "CPU Core %", group: .CPU, type: .temperature, platforms: Platform.all, average: true),
     
@@ -370,6 +375,15 @@ internal let SensorsList: [Sensor] = [
     Sensor(key: "TN0D", name: "Northbridge diode", group: .system, type: .temperature, platforms: Platform.all),
     Sensor(key: "TN0H", name: "Northbridge heatsink", group: .system, type: .temperature, platforms: Platform.all),
     Sensor(key: "TN0P", name: "Northbridge proximity", group: .system, type: .temperature, platforms: Platform.all),
+    
+    Sensor(key: "TMA1", name: "Memory riser A slot 1", group: .system, type: .temperature, platforms: [.intel]),
+    Sensor(key: "TMA2", name: "Memory riser A slot 2", group: .system, type: .temperature, platforms: [.intel]),
+    Sensor(key: "TMA3", name: "Memory riser A slot 3", group: .system, type: .temperature, platforms: [.intel]),
+    Sensor(key: "TMA4", name: "Memory riser A slot 4", group: .system, type: .temperature, platforms: [.intel]),
+    Sensor(key: "TMB1", name: "Memory riser B slot 1", group: .system, type: .temperature, platforms: [.intel]),
+    Sensor(key: "TMB2", name: "Memory riser B slot 2", group: .system, type: .temperature, platforms: [.intel]),
+    Sensor(key: "TMB3", name: "Memory riser B slot 3", group: .system, type: .temperature, platforms: [.intel]),
+    Sensor(key: "TMB4", name: "Memory riser B slot 4", group: .system, type: .temperature, platforms: [.intel]),
     
     // Apple Silicon
     Sensor(key: "Tp09", name: "CPU efficiency core 1", group: .CPU, type: .temperature, platforms: Platform.m1Gen, average: true),
@@ -552,6 +566,10 @@ internal let SensorsList: [Sensor] = [
     
     // Power
     Sensor(key: "PC0C", name: "CPU Core", group: .CPU, type: .power, platforms: Platform.all),
+    Sensor(key: "PCAB", name: "CPU A core power (PCAB)", group: .CPU, type: .power, platforms: [.intel]),
+    Sensor(key: "PCAC", name: "CPU A core power (PCAC)", group: .CPU, type: .power, platforms: [.intel]),
+    Sensor(key: "PCBB", name: "CPU B core power (PCBB)", group: .CPU, type: .power, platforms: [.intel]),
+    Sensor(key: "PCBC", name: "CPU B core power (PCBC)", group: .CPU, type: .power, platforms: [.intel]),
     Sensor(key: "PCAM", name: "CPU Core (IMON)", group: .CPU, type: .power, platforms: Platform.all),
     Sensor(key: "PCPC", name: "CPU Package", group: .CPU, type: .power, platforms: Platform.all),
     Sensor(key: "PCTR", name: "CPU Total", group: .CPU, type: .power, platforms: Platform.all),
@@ -573,6 +591,7 @@ internal let SensorsList: [Sensor] = [
     Sensor(key: "PDTR", name: "DC In", group: .sensor, type: .power, platforms: Platform.all),
     Sensor(key: "PMTR", name: "Memory Total", group: .sensor, type: .power, platforms: Platform.all),
     Sensor(key: "PSTR", name: "System Total", group: .sensor, type: .power, platforms: Platform.all),
+    Sensor(key: "PN0C", name: "Northbridge", group: .system, type: .power, platforms: [.intel]),
     
     Sensor(key: "PU1R", name: "Thunderbolt Left", group: .sensor, type: .power, platforms: Platform.all),
     Sensor(key: "PU2R", name: "Thunderbolt Right", group: .sensor, type: .power, platforms: Platform.all),
