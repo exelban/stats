@@ -1,0 +1,103 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Build and sign only: skip notarization and release publishing"
+        type: boolean
+        default: true
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release:
+    runs-on: macos-15
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Generate changelog
+        run: python3 Kit/scripts/changelog.py > CHANGELOG.md
+
+      - name: Import signing certificate
+        uses: Apple-Actions/import-certificate@v1
+        with:
+          certificate-base64: ${{ secrets.DISTRIBUTION_CERTIFICATE }}
+          password: ${{ secrets.DISTRIBUTION_CERTIFICATE_PASSWORD }}
+
+      - name: Create keychain
+        uses: Apple-Actions/create-keychain@v1
+        with:
+          keychain-name: "release"
+          keychain-password: "release"
+          certificate-password: ${{ secrets.DISTRIBUTION_CERTIFICATE_PASSWORD }}
+          keychain-ref: "release.keychain-db"
+
+      - name: Archive
+        run: xcodebuild -scheme Stats -destination 'platform=macOS' -configuration Release archive -archivePath build/Stats.xcarchive
+
+      - name: Export
+        run: xcodebuild -exportArchive -exportOptionsPlist exportOptions.plist -archivePath build/Stats.xcarchive -exportPath build
+
+      - name: Notarize
+        if: inputs.dry_run != true
+        run: |
+          xcrun notarytool submit build/Stats.zip \
+            --apple-id "${{ secrets.APPLE_ID }}" \
+            --team-id "${{ secrets.APPLE_TEAM_ID }}" \
+            --password "${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}" \
+            --wait
+
+      - name: Staple
+        if: inputs.dry_run != true
+        run: xcrun stapler staple build/Stats.app
+
+      - name: Verify signatures
+        run: |
+          codesign --verify --strict "build/Stats.app/Contents/PlugIns/WidgetsExtension.appex"
+          app=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" build/Stats.app/Contents/Info.plist)
+          widget=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "build/Stats.app/Contents/PlugIns/WidgetsExtension.appex/Contents/Info.plist")
+          echo "app: $app, widget: $widget"
+          [ "$app" = "$widget" ] || { echo "ERROR: widget version does not match app version"; exit 1; }
+
+      - name: Verify gatekeeper
+        if: inputs.dry_run != true
+        run: spctl -a -t exec -vvv build/Stats.app
+
+      - name: DMG
+        run: |
+          git clone --depth 1 https://github.com/create-dmg/create-dmg
+          ./create-dmg/create-dmg \
+            --volname Stats \
+            --background "./Stats/Supporting Files/background.png" \
+            --window-pos 200 120 \
+            --window-size 500 320 \
+            --icon-size 80 \
+            --icon "Stats.app" 125 175 \
+            --hide-extension "Stats.app" \
+            --app-drop-link 375 175 \
+            --no-internet-enable \
+            build/Stats.dmg build/Stats.app
+          rm -rf ./create-dmg
+
+      - name: Upload DMG
+        if: inputs.dry_run == true
+        uses: actions/upload-artifact@v4
+        with:
+          name: Stats.dmg
+          path: build/Stats.dmg
+
+      - name: Publish
+        if: inputs.dry_run != true
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/Stats.dmg
+          body: file(./CHANGELOG.md)
