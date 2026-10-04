@@ -22,7 +22,7 @@ public protocol RemoteType {
 public enum AccountPlan: String, Codable {
     case free
     case pro
-    case team
+    case organization
 }
 
 public class SystemStats {
