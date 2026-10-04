@@ -41,7 +41,7 @@ internal class Settings: NSStackView, Settings_v {
     internal func load(widgets: [widget_t]) {}
     
     internal func setList(_ list: [BLEDevice]) {
-        if self.list.count != list.count && !self.list.isEmpty {
+        if Set(self.list.keys) != Set(list.map({ $0.id })) && !self.list.isEmpty {
             self.section.removeFromSuperview()
             self.section = PreferencesSection()
             self.addArrangedSubview(self.section)

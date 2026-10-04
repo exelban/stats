@@ -15,7 +15,7 @@ import Kit
 import CoreBluetooth
 import IOBluetooth
 
-private struct bleDevice {
+internal struct bleDevice {
     var name: String?
     var address: String
     var uuid: UUID?
@@ -115,7 +115,11 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
         let pmsetLevels = self.pmsetAccessoryLevels()
         
         hid.forEach { v in
-            if !list.contains(where: {$0.address == v.address}) {
+            if let idx = list.firstIndex(where: { $0.address == v.address }) {
+                list[idx].batteryLevel = v.batteryLevel
+                list[idx].vendorId = v.vendorId ?? list[idx].vendorId
+                list[idx].productId = v.productId ?? list[idx].productId
+            } else {
                 list.append(v)
             }
         }
@@ -139,17 +143,22 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
         }) ?? []
         
         let snapshot: [BLEDevice] = self.stateQueue.sync {
+            self.devices = self.devices.filter { (d: BLEDevice) in
+                pairedDevices.contains(where: { $0.address == d.address })
+            }
+            
             pairedDevices.forEach { (device: ioDevice) in
                 guard let data = list.first(where: { $0.address == device.address }) else {
                     return
                 }
                 
-                let rssi = device.rssi == 127 ? nil : Int(device.rssi)
+                let hasHID = hid.contains(where: { $0.address == device.address })
+                let rssi = device.rssi == 127 ? (hasHID ? 100 : nil) : Int(device.rssi)
                 if let idx = self.devices.firstIndex(where: { $0.address == data.address }) {
                     self.devices[idx].RSSI = rssi
                     self.devices[idx].batteryLevel = data.batteryLevel
                     self.devices[idx].isPaired = device.isPaired
-                    self.devices[idx].isConnected = device.isConnected
+                    self.devices[idx].isConnected = device.isConnected || hasHID
                     if self.devices[idx].vendorId == nil { self.devices[idx].vendorId = data.vendorId }
                     if self.devices[idx].productId == nil { self.devices[idx].productId = data.productId }
                     
@@ -162,7 +171,7 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
                     uuid: data.uuid,
                     RSSI: rssi,
                     batteryLevel: data.batteryLevel,
-                    isConnected: device.isConnected,
+                    isConnected: device.isConnected || hasHID,
                     isPaired: device.isPaired,
                     vendorId: data.vendorId,
                     productId: data.productId
@@ -208,32 +217,20 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
                 self.devicesToRemove = []
             }
             if !SPB.1.isEmpty {
-                self.devices = self.devices.filter({ !SPB.1.contains($0.address) })
+                self.devices = self.devices.filter { (d: BLEDevice) in
+                    !SPB.1.contains(d.address) || d.isConnected
+                }
             }
             
+            var matchedDevices: Set<String> = []
             pmsetLevels.forEach { p in
-                let pmsetName = (p.name ?? "")
-                    .trimmingCharacters(in: .whitespacesAndNewlines)
-                    .lowercased()
-                
-                if !pmsetName.isEmpty,
-                   let idx = self.devices.firstIndex(where: {
-                       let deviceName = $0.name.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-                       return deviceName == pmsetName || deviceName.contains(pmsetName) || pmsetName.contains(deviceName)
-                   }) {
+                if let idx = DevicesReader.accessoryDeviceIndex(p, devices: self.devices, hidDevices: hid, excluding: matchedDevices) {
                     if !p.batteryLevel.isEmpty {
                         self.devices[idx].batteryLevel = p.batteryLevel
                     }
-                    return
-                }
-                
-                if let pVendor = p.vendorId, let pProduct = p.productId,
-                   let idx = self.devices.firstIndex(where: {
-                       $0.vendorId == pVendor && $0.productId == pProduct
-                   }) {
-                    if !p.batteryLevel.isEmpty {
-                        self.devices[idx].batteryLevel = p.batteryLevel
-                    }
+                    self.devices[idx].isConnected = true
+                    if self.devices[idx].RSSI == nil { self.devices[idx].RSSI = 100 }
+                    matchedDevices.insert(self.devices[idx].address)
                     return
                 }
                 
@@ -248,11 +245,42 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
                     vendorId: p.vendorId,
                     productId: p.productId
                 ))
+                matchedDevices.insert(p.address)
             }
             
             return self.devices.filter({ $0.RSSI != nil })
         }
         self.callback(snapshot)
+    }
+    
+    internal static func accessoryDeviceIndex(_ accessory: bleDevice, devices: [BLEDevice], hidDevices: [bleDevice], excluding: Set<String> = []) -> Int? {
+        func normalized(_ value: String) -> String {
+            value.trimmingCharacters(in: .whitespacesAndNewlines).replacingOccurrences(of: ":", with: "-").lowercased()
+        }
+        
+        let candidates = devices.indices.filter({ !excluding.contains(devices[$0].address) })
+        let address = normalized(accessory.address)
+        if !address.isEmpty, let idx = candidates.first(where: { normalized(devices[$0].address) == address }) {
+            return idx
+        }
+        
+        let name = normalized(accessory.name ?? "")
+        if !name.isEmpty {
+            let hidAddresses = Set(hidDevices.filter({ normalized($0.name ?? "") == name }).map({ normalized($0.address) }))
+            if hidAddresses.count > 1 { return nil }
+            let hidMatches = candidates.filter({ hidAddresses.contains(normalized(devices[$0].address)) })
+            if hidMatches.count == 1 { return hidMatches[0] }
+
+            let nameMatches = candidates.filter({ normalized(devices[$0].name) == name })
+            if nameMatches.count == 1 { return nameMatches[0] }
+        }
+
+        if let vendorId = accessory.vendorId, let productId = accessory.productId {
+            let matches = candidates.filter({ devices[$0].vendorId == vendorId && devices[$0].productId == productId })
+            if matches.count == 1 { return matches[0] }
+        }
+        
+        return nil
     }
     
     // MARK: - HIDDevices (connected ble peripherals to the mac: keyboard, mouse etc...)
@@ -279,6 +307,7 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
             
             let vendorId = d.object(forKey: "VendorID") as? Int
             let productId = d.object(forKey: "ProductID") as? Int
+            address = address.replacingOccurrences(of: ":", with: "-").lowercased()
             list.append(bleDevice(name: name, address: address, uuid: nil, batteryLevel: [KeyValue_t(key: "battery", value: "\(batteryPercent)")], vendorId: vendorId, productId: productId))
         }
         

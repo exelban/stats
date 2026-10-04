@@ -33,7 +33,7 @@ class Notifications: NotificationsWrapper {
     }
     
     internal func callback(_ list: [BLEDevice]) {
-        if self.list.count != list.count && !self.list.isEmpty {
+        if Set(self.list.keys) != Set(list.map({ $0.id })) && !self.list.isEmpty {
             self.section.removeFromSuperview()
             self.section = PreferencesSection()
             self.addArrangedSubview(self.section)

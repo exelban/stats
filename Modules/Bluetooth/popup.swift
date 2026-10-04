@@ -41,10 +41,9 @@ internal class Popup: PopupWrapper {
             }
         }
         
-        var views = self.subviews.filter{ $0 is BLEView }.map{ $0 as! BLEView }
-        if list.count < views.count && !views.isEmpty {
-            views.forEach{ $0.removeFromSuperview() }
-            views = []
+        let views = self.subviews.filter{ $0 is BLEView }.map{ $0 as! BLEView }
+        views.filter{ v in !list.contains(where: { $0.address == v.address }) }.forEach { (v: BLEView) in
+            v.removeFromSuperview()
         }
         
         list.reversed().forEach { (ble: BLEDevice) in
