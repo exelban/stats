@@ -28,18 +28,10 @@ jobs:
         run: python3 Kit/scripts/changelog.py > CHANGELOG.md
 
       - name: Import signing certificate
-        uses: Apple-Actions/import-certificate@v1
+        uses: Apple-Actions/import-codesign-certs@v7
         with:
-          certificate-base64: ${{ secrets.DISTRIBUTION_CERTIFICATE }}
-          password: ${{ secrets.DISTRIBUTION_CERTIFICATE_PASSWORD }}
-
-      - name: Create keychain
-        uses: Apple-Actions/create-keychain@v1
-        with:
-          keychain-name: "release"
-          keychain-password: "release"
-          certificate-password: ${{ secrets.DISTRIBUTION_CERTIFICATE_PASSWORD }}
-          keychain-ref: "release.keychain-db"
+          p12-file-base64: ${{ secrets.DISTRIBUTION_CERTIFICATE }}
+          p12-password: ${{ secrets.DISTRIBUTION_CERTIFICATE_PASSWORD }}
 
       - name: Archive
         run: xcodebuild -scheme Stats -destination 'platform=macOS' -configuration Release archive -archivePath build/Stats.xcarchive

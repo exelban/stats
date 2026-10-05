@@ -365,7 +365,11 @@ internal class Popup: PopupWrapper {
         
         self.healthField?.stringValue = "\(value.health)%"
         self.cyclesField?.stringValue = "\(value.cycles)"
-        self.temperatureField?.stringValue = temperature(value.temperature)
+        if let value = value.temperature {
+            self.temperatureField?.stringValue = temperature(value)
+        } else {
+            self.temperatureField?.stringValue = localizedString("Unavailable")
+        }
     }
     
     public func processCallback(_ list: [TopProcess]) {

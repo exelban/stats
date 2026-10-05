@@ -124,7 +124,7 @@ internal class UsageReader: Reader<Battery_Usage> {
         
         self.usage.current = self.getIntValue("Amperage" as CFString) ?? 0
         self.usage.voltage = self.getVoltage() ?? 0
-        self.usage.temperature = self.getTemperature() ?? 0
+        self.usage.temperature = self.getTemperature()
         
         var ACwatts: Int = 0
         if let ACDetails = IOPSCopyExternalPowerAdapterDetails() {
@@ -196,14 +196,27 @@ internal class UsageReader: Reader<Battery_Usage> {
     }
     
     private func getTemperature() -> Double? {
-        let sensors = ["TB1T", "TB2T"].compactMap { SMC.shared.getValue($0) }.filter { $0 > 0 }
+        if let value = IORegistryEntryCreateCFProperty(self.service, "Temperature" as CFString, kCFAllocatorDefault, 0),
+           let temperature = value.takeRetainedValue() as? Double, temperature.isFinite && temperature > 0 {
+            return temperature / 100.0
+        }
+        
+        let service = IOServiceGetMatchingService(kIOMainPortDefault, IOServiceNameMatching("AppleSmartBatteryPack"))
+        if service != 0 {
+            defer { IOObjectRelease(service) }
+            
+            if let value = IORegistryEntryCreateCFProperty(service, "BatteryData" as CFString, kCFAllocatorDefault, 0),
+               let batteryData = value.takeRetainedValue() as? [String: Any],
+               let temperature = batteryData["Temperature"] as? Double, temperature.isFinite && temperature > 0 {
+                return temperature / 100.0
+            }
+        }
+        
+        let sensors = ["TB1T", "TB2T"].compactMap { SMC.shared.getValue($0) }.filter { $0.isFinite && $0 > 0 }
         if !sensors.isEmpty {
             return sensors.reduce(0, +) / Double(sensors.count)
         }
-        if let value = IORegistryEntryCreateCFProperty(self.service, "Temperature" as CFString, kCFAllocatorDefault, 0),
-           let temperature = value.takeRetainedValue() as? Double {
-            return temperature / 100.0
-        }
+        
         return nil
     }
     
@@ -213,7 +226,7 @@ internal class UsageReader: Reader<Battery_Usage> {
         }
         return nil
     }
-
+    
     private func getAdapterDetails() -> [String: Any]? {
         if let adapterDetails = IORegistryEntryCreateCFProperty(service, "AdapterDetails" as CFString, kCFAllocatorDefault, 0) {
             return adapterDetails.takeRetainedValue() as? [String: Any]
