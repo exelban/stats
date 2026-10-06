@@ -1181,13 +1181,23 @@ public class SMCHelper {
     public func checkForUpdate() {
         if #available(macOS 13, *) {
             self.cleanupLegacyInstall()
-            guard SMAppService.daemon(plistName: self.plistName).status == .enabled else { return }
+            let status = SMAppService.daemon(plistName: self.plistName).status
+            guard status == .enabled else {
+                print("SMC helper update check skipped: service status \(status.rawValue) for \(Bundle.main.bundleURL.path)")
+                return
+            }
         }
         
         let helperURL = Bundle.main.bundleURL.appendingPathComponent("Contents/Library/LaunchServices/eu.exelban.Stats.SMC.Helper")
         guard let helperBundleInfo = CFBundleCopyInfoDictionaryForURL(helperURL as CFURL) as? [String: Any],
-              let helperVersion = helperBundleInfo["CFBundleShortVersionString"] as? String,
-              let helper = self.helper(nil) else { return }
+              let helperVersion = helperBundleInfo["CFBundleShortVersionString"] as? String else {
+            print("SMC helper update check skipped: cannot read bundled helper version at \(helperURL.path)")
+            return
+        }
+        guard let helper = self.helper(nil) else {
+            print("SMC helper update check skipped: helper proxy unavailable")
+            return
+        }
         
         helper.version { installedHelperVersion in
             guard installedHelperVersion != helperVersion else { return }
@@ -1205,25 +1215,10 @@ public class SMCHelper {
             }
         }
         
-        if #available(macOS 13, *) {
-            if let count = SMC.shared.getValue("FNum") {
-                for i in 0..<Int(count) {
-                    self.setFanMode(i, mode: 0)
-                }
-            }
-            SMAppService.daemon(plistName: self.plistName).unregister { error in
-                if let error {
-                    print("failed to unregister SMC helper daemon: \(error.localizedDescription)")
-                }
-                self.connection?.invalidate()
-                self.connection = nil
-                self.install(completion: completion)
-            }
-            return
+        self.uninstall(silent: true) { success in
+            guard success else { return }
+            self.install(completion: completion)
         }
-        
-        self.uninstall(silent: true)
-        self.install(completion: completion)
     }
     
     public func install(completion: @escaping (_ state: SMCHelperInstallState) -> Void) {
@@ -1358,6 +1353,7 @@ public class SMCHelper {
         }
         guard let service = helper.remoteObjectProxyWithErrorHandler({ error in
             print(error)
+            completion?(false)
         }) as? HelperProtocol else {
             completion?(false)
             return nil
@@ -1368,40 +1364,97 @@ public class SMCHelper {
         return service
     }
     
-    public func uninstall(silent: Bool = false) {
-        if let count = SMC.shared.getValue("FNum") {
-            for i in 0..<Int(count) {
-                self.setFanMode(i, mode: 0)
+    private func restoreFanModes(completion: @escaping (Bool) -> Void) {
+        if !Thread.isMainThread {
+            DispatchQueue.main.async { self.restoreFanModes(completion: completion) }
+            return
+        }
+        guard let count = SMC.shared.getValue("FNum"), count > 0 else {
+            completion(true)
+            return
+        }
+        let ids = Array(0..<Int(count))
+        var pending = Set(ids)
+        var success = true
+        let finish: (Int, Bool) -> Void = { id, restored in
+            DispatchQueue.main.async {
+                // An XPC error and a late reply must count as only one result.
+                guard pending.remove(id) != nil else { return }
+                success = success && restored
+                if pending.isEmpty { completion(success) }
             }
         }
-        if #available(macOS 13, *) {
-            do {
-                try SMAppService.daemon(plistName: self.plistName).unregister()
-            } catch {
-                print("failed to unregister SMC helper daemon: \(error.localizedDescription)")
+        for id in ids {
+            guard let helper = self.helper({ connected in
+                if !connected { finish(id, false) }
+            }) else { continue }
+            helper.setFanMode(id: id, mode: FanMode.automatic.rawValue) { result in
+                finish(id, result != nil)
             }
-            self.connection?.invalidate()
-            self.connection = nil
+        }
+    }
+    
+    public func uninstall(silent: Bool = false, completion: @escaping (Bool) -> Void = { _ in }) {
+        self.restoreFanModes { restored in
+            guard restored else {
+                print("failed to restore fan modes; SMC helper was not removed")
+                completion(false)
+                return
+            }
+            if #available(macOS 13, *) {
+                SMAppService.daemon(plistName: self.plistName).unregister { error in
+                    DispatchQueue.main.async {
+                        if let error {
+                            print("failed to unregister SMC helper daemon: \(error.localizedDescription)")
+                            completion(false)
+                            return
+                        }
+                        self.connection?.invalidate()
+                        self.connection = nil
+                        if !silent {
+                            NotificationCenter.default.post(name: .fanHelperState, object: nil, userInfo: ["state": false])
+                        }
+                        completion(true)
+                    }
+                }
+                return
+            }
+            guard let helper = self.helper(nil) else {
+                completion(false)
+                return
+            }
+            helper.uninstall()
             if !silent {
                 NotificationCenter.default.post(name: .fanHelperState, object: nil, userInfo: ["state": false])
             }
-            return
-        }
-        guard let helper = self.helper(nil) else { return }
-        helper.uninstall()
-        if !silent {
-            NotificationCenter.default.post(name: .fanHelperState, object: nil, userInfo: ["state": false])
+            completion(true)
         }
     }
 }
 
 internal func grayscaleImage(_ image: NSImage) -> NSImage? {
     let scale = NSScreen.main?.backingScaleFactor ?? 2
-    let hints: [NSImageRep.HintKey: Any] = [.ctm: AffineTransform(scale: scale)]
-    guard let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: hints) else {
+    guard let bitmap = NSBitmapImageRep(
+        bitmapDataPlanes: nil,
+        pixelsWide: Int(ceil(image.size.width * scale)),
+        pixelsHigh: Int(ceil(image.size.height * scale)),
+        bitsPerSample: 8,
+        samplesPerPixel: 4,
+        hasAlpha: true,
+        isPlanar: false,
+        colorSpaceName: .deviceRGB,
+        bytesPerRow: 0,
+        bitsPerPixel: 0
+    ), let context = NSGraphicsContext(bitmapImageRep: bitmap) else {
         return nil
     }
-    let bitmap = NSBitmapImageRep(cgImage: cgImage)
+    bitmap.size = image.size
+    
+    NSGraphicsContext.saveGraphicsState()
+    NSGraphicsContext.current = context
+    context.cgContext.scaleBy(x: CGFloat(bitmap.pixelsWide) / image.size.width, y: CGFloat(bitmap.pixelsHigh) / image.size.height)
+    image.draw(in: NSRect(origin: .zero, size: image.size))
+    NSGraphicsContext.restoreGraphicsState()
     
     guard let grayscale = bitmap.converting(to: .genericGray, renderingIntent: .default) else {
         return nil

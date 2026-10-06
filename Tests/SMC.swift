@@ -128,6 +128,7 @@ final class SMCTests: XCTestCase {
     override func setUp() {
         super.setUp()
         FakeSMC.current = FakeSMC()
+        FakeHelperEnvironment.current = FakeHelperEnvironment()
         smc = SMC()
     }
     override func tearDown() {
@@ -285,6 +286,21 @@ final class SMCTests: XCTestCase {
         XCTAssertNil(smc.getValue("TEST"))
         fake.put("TEST", [42])
         XCTAssertEqual(smc.getValue("TEST"), 42)
+        XCTAssertEqual(fake.count("9:TEST"), 2)
+    }
+    func testMissingStringKeyCanBecomeAvailable() {
+        XCTAssertNil(smc.getStringValue("F0ID"))
+        fake.put("F0ID", "{fds", [0, 0, 0, 0] + Array("  Left Fan  ".utf8))
+        XCTAssertEqual(smc.getStringValue("F0ID"), "Left Fan")
+        XCTAssertEqual(fake.count("9:F0ID"), 2)
+    }
+    func testKeyDisappearingDuringReadEvictsMetadata() {
+        fake.put("TEST", [1])
+        XCTAssertEqual(smc.getValue("TEST"), 1)
+        fake.entries.removeValue(forKey: "TEST")
+        XCTAssertNil(smc.getValue("TEST"))
+        fake.put("TEST", "ui16", [1, 0])
+        XCTAssertEqual(smc.getValue("TEST"), 256)
         XCTAssertEqual(fake.count("9:TEST"), 2)
     }
     func testCachesAreIndependentAcrossInstances() {
@@ -627,4 +643,385 @@ final class SMCTests: XCTestCase {
         XCTAssertTrue(fake.calls.isEmpty)
     }
     #endif
+}
+
+// Fixtures for the actual helper lifecycle declarations compiled by the runner.
+// These never open XPC connections, unregister services, or install helpers.
+final class FakeHelperEnvironment {
+    struct Request {
+        let id: Int
+        let mode: Int
+        let reply: (String?) -> Void
+        let fail: (Error) -> Void
+    }
+    static var current = FakeHelperEnvironment()
+    var fanCount: Double? = 2
+    var requests: [Request] = []
+    var events: [String] = []
+    var unregisterReply: ((Error?) -> Void)?
+    var proxyAvailable = true
+    var immediateReplies = false
+    let error = NSError(domain: "SMCHelperTests", code: 1)
+}
+
+final class FakeHelperClientConnection {
+    var invalidated = false
+    func invalidate() {
+        invalidated = true
+        FakeHelperEnvironment.current.events.append("invalidate")
+    }
+    func remoteObjectProxyWithErrorHandler(_ error: @escaping (Error) -> Void) -> Any {
+        guard FakeHelperEnvironment.current.proxyAvailable else { return NSObject() }
+        return FakeHelperProxy(error: error)
+    }
+}
+
+final class FakeHelperProxy: NSObject, HelperProtocol {
+    let error: (Error) -> Void
+    init(error: @escaping (Error) -> Void) { self.error = error }
+    func version(completion: @escaping (String) -> Void) { completion("test") }
+    func setSMCPath(_ path: String) {}
+    func setFanMode(id: Int, mode: Int, completion: @escaping (String?) -> Void) {
+        let env = FakeHelperEnvironment.current
+        env.requests.append(.init(id: id, mode: mode, reply: completion, fail: error))
+        if env.immediateReplies { completion("") }
+    }
+    func setFanSpeed(id: Int, value: Int, completion: @escaping (String?) -> Void) {
+        XCTFail("Fan restoration must not set speeds")
+    }
+    func resetFanControl(completion: @escaping (String?) -> Void) {
+        XCTFail("Per-fan restoration should preserve the existing helper protocol usage")
+    }
+    func uninstall() { FakeHelperEnvironment.current.events.append("legacy-uninstall") }
+}
+
+class HelperClientFixture {
+    let plistName = "test.helper.plist"
+    var connection: FakeHelperClientConnection? = FakeHelperClientConnection()
+    var useModernService = true
+    func helperConnection() -> FakeHelperClientConnection? { connection }
+    func install(completion: @escaping (SMCHelperInstallState) -> Void) {
+        FakeHelperEnvironment.current.events.append("install")
+        completion(.enabled)
+    }
+}
+
+struct FakeHelperService {
+    static func daemon(plistName: String) -> FakeHelperService { FakeHelperService() }
+    func unregister(completionHandler: @escaping (Error?) -> Void) {
+        FakeHelperEnvironment.current.events.append("unregister")
+        FakeHelperEnvironment.current.unregisterReply = completionHandler
+    }
+}
+
+struct FakeHelperNotifications {
+    static let `default` = FakeHelperNotifications()
+    func post(name: Notification.Name, object: Any?, userInfo: [AnyHashable: Any]) {
+        XCTAssertEqual(userInfo["state"] as? Bool, false)
+        FakeHelperEnvironment.current.events.append("notify")
+    }
+}
+
+extension Notification.Name {
+    static let fanHelperState = Notification.Name("SMCHelperTests.fanHelperState")
+}
+
+extension SMCTests {
+    var helperEnv: FakeHelperEnvironment { FakeHelperEnvironment.current }
+
+    func drainHelperCallbacks() {
+        let drained = expectation(description: "main queue callbacks completed")
+        DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                DispatchQueue.main.async { drained.fulfill() }
+            }
+        }
+        wait(for: [drained], timeout: 2)
+    }
+
+    func testHelperWaitsForItsFirstConnection() {
+        XCTAssertFalse(HelperConnectionState().beginShutdownIfIdle())
+    }
+    func testHelperStaysAliveWithAConnection() {
+        let state = HelperConnectionState()
+        XCTAssertTrue(state.accept(FakeHelperClientConnection()))
+        XCTAssertFalse(state.beginShutdownIfIdle())
+    }
+    func testHelperShutsDownAfterLastDisconnect() {
+        let state = HelperConnectionState()
+        let connection = FakeHelperClientConnection()
+        XCTAssertTrue(state.accept(connection))
+        state.remove(connection)
+        XCTAssertTrue(state.beginShutdownIfIdle())
+    }
+    func testHelperReconnectCancelsPendingShutdown() {
+        let state = HelperConnectionState()
+        let old = FakeHelperClientConnection()
+        XCTAssertTrue(state.accept(old))
+        state.remove(old)
+        let replacement = FakeHelperClientConnection()
+        XCTAssertTrue(state.accept(replacement))
+        XCTAssertFalse(state.beginShutdownIfIdle())
+        state.remove(replacement)
+        XCTAssertTrue(state.beginShutdownIfIdle())
+    }
+    func testHelperRejectsConnectionsAfterShutdownBegins() {
+        let state = HelperConnectionState()
+        let connection = FakeHelperClientConnection()
+        XCTAssertTrue(state.accept(connection))
+        state.remove(connection)
+        XCTAssertTrue(state.beginShutdownIfIdle())
+        XCTAssertFalse(state.accept(FakeHelperClientConnection()))
+    }
+    func testHelperDisconnectDoesNotRemoveOtherClients() {
+        let state = HelperConnectionState()
+        let first = FakeHelperClientConnection()
+        let second = FakeHelperClientConnection()
+        XCTAssertTrue(state.accept(first))
+        XCTAssertTrue(state.accept(second))
+        state.remove(first)
+        state.remove(first) // duplicate invalidation must not remove the replacement
+        state.remove(FakeHelperClientConnection())
+        XCTAssertFalse(state.beginShutdownIfIdle())
+        state.remove(second)
+        XCTAssertTrue(state.beginShutdownIfIdle())
+    }
+    func testHelperConcurrentConnectionBookkeeping() {
+        let state = HelperConnectionState()
+        let persistent = FakeHelperClientConnection()
+        XCTAssertTrue(state.accept(persistent))
+        DispatchQueue.concurrentPerform(iterations: 200) { _ in
+            let connection = FakeHelperClientConnection()
+            XCTAssertTrue(state.accept(connection))
+            state.remove(connection)
+            XCTAssertFalse(state.beginShutdownIfIdle())
+        }
+        state.remove(persistent)
+        XCTAssertTrue(state.beginShutdownIfIdle())
+    }
+    func testHelperAcceptAndShutdownAreMutuallyExclusive() {
+        for _ in 0..<100 {
+            let state = HelperConnectionState()
+            let old = FakeHelperClientConnection()
+            XCTAssertTrue(state.accept(old))
+            state.remove(old)
+            let group = DispatchGroup()
+            let lock = NSLock()
+            var accepted = false
+            var stopped = false
+            group.enter()
+            DispatchQueue.global().async {
+                let value = state.accept(FakeHelperClientConnection())
+                lock.lock(); accepted = value; lock.unlock()
+                group.leave()
+            }
+            group.enter()
+            DispatchQueue.global().async {
+                let value = state.beginShutdownIfIdle()
+                lock.lock(); stopped = value; lock.unlock()
+                group.leave()
+            }
+            XCTAssertEqual(group.wait(timeout: .now() + 2), .success)
+            XCTAssertNotEqual(accepted, stopped)
+        }
+    }
+    func testHelperUninstallWaitsForAllFanReplies() {
+        let client = TestSMCHelper()
+        var results: [Bool] = []
+        client.uninstall { results.append($0) }
+        XCTAssertEqual(helperEnv.requests.map { $0.id }, [0, 1])
+        XCTAssertEqual(helperEnv.requests.map { $0.mode }, [0, 0])
+        XCTAssertTrue(helperEnv.events.isEmpty)
+        helperEnv.requests[1].reply("")
+        drainHelperCallbacks()
+        XCTAssertTrue(helperEnv.events.isEmpty)
+        helperEnv.requests[0].reply("")
+        drainHelperCallbacks()
+        XCTAssertEqual(helperEnv.events, ["unregister"])
+        XCTAssertTrue(results.isEmpty)
+        helperEnv.unregisterReply?(nil)
+        drainHelperCallbacks()
+        XCTAssertEqual(helperEnv.events, ["unregister", "invalidate", "notify"])
+        XCTAssertEqual(results, [true])
+        XCTAssertNil(client.connection)
+    }
+    func testHelperFailedFanReplyPreventsRemoval() {
+        let client = TestSMCHelper()
+        var results: [Bool] = []
+        client.uninstall { results.append($0) }
+        helperEnv.requests[0].reply(nil)
+        helperEnv.requests[1].reply("")
+        drainHelperCallbacks()
+        XCTAssertEqual(results, [false])
+        XCTAssertTrue(helperEnv.events.isEmpty)
+        XCTAssertNotNil(client.connection)
+    }
+    func testHelperXPCErrorPreventsRemoval() {
+        let client = TestSMCHelper()
+        var results: [Bool] = []
+        client.uninstall { results.append($0) }
+        helperEnv.requests[0].fail(helperEnv.error)
+        helperEnv.requests[1].reply("")
+        drainHelperCallbacks()
+        XCTAssertEqual(results, [false])
+        XCTAssertTrue(helperEnv.events.isEmpty)
+    }
+    func testHelperDuplicateCallbacksDoNotCompleteEarly() {
+        let client = TestSMCHelper()
+        var results: [Bool] = []
+        client.uninstall { results.append($0) }
+        helperEnv.requests[0].fail(helperEnv.error)
+        helperEnv.requests[0].reply("")
+        helperEnv.requests[0].fail(helperEnv.error)
+        drainHelperCallbacks()
+        XCTAssertTrue(results.isEmpty)
+        helperEnv.requests[1].reply("")
+        helperEnv.requests[1].reply("")
+        drainHelperCallbacks()
+        XCTAssertEqual(results, [false])
+        XCTAssertTrue(helperEnv.events.isEmpty)
+    }
+    func testHelperMissingConnectionPreventsRemoval() {
+        let client = TestSMCHelper()
+        client.connection = nil
+        var results: [Bool] = []
+        client.uninstall { results.append($0) }
+        drainHelperCallbacks()
+        XCTAssertEqual(results, [false])
+        XCTAssertTrue(helperEnv.requests.isEmpty)
+        XCTAssertTrue(helperEnv.events.isEmpty)
+    }
+    func testHelperInvalidProxyPreventsRemoval() {
+        helperEnv.proxyAvailable = false
+        let client = TestSMCHelper()
+        var results: [Bool] = []
+        client.uninstall { results.append($0) }
+        drainHelperCallbacks()
+        XCTAssertEqual(results, [false])
+        XCTAssertTrue(helperEnv.events.isEmpty)
+    }
+    func testHelperUnregisterFailureKeepsConnection() {
+        helperEnv.immediateReplies = true
+        let client = TestSMCHelper()
+        var results: [Bool] = []
+        client.uninstall { results.append($0) }
+        drainHelperCallbacks()
+        helperEnv.unregisterReply?(helperEnv.error)
+        drainHelperCallbacks()
+        XCTAssertEqual(results, [false])
+        XCTAssertEqual(helperEnv.events, ["unregister"])
+        XCTAssertNotNil(client.connection)
+    }
+    func testHelperSilentUninstallDoesNotNotify() {
+        helperEnv.immediateReplies = true
+        let client = TestSMCHelper()
+        client.uninstall(silent: true)
+        drainHelperCallbacks()
+        helperEnv.unregisterReply?(nil)
+        drainHelperCallbacks()
+        XCTAssertEqual(helperEnv.events, ["unregister", "invalidate"])
+    }
+    func testHelperFanlessUninstallDoesNotWaitForReplies() {
+        helperEnv.fanCount = 0
+        let client = TestSMCHelper()
+        client.uninstall()
+        XCTAssertTrue(helperEnv.requests.isEmpty)
+        XCTAssertEqual(helperEnv.events, ["unregister"])
+    }
+    func testHelperUnavailableCountPreservesExistingUninstallBehavior() {
+        helperEnv.fanCount = nil
+        let client = TestSMCHelper()
+        client.uninstall()
+        XCTAssertTrue(helperEnv.requests.isEmpty)
+        XCTAssertEqual(helperEnv.events, ["unregister"])
+    }
+    func testHelperLegacyUninstallWaitsForReplies() {
+        let client = TestSMCHelper()
+        client.useModernService = false
+        var results: [Bool] = []
+        client.uninstall { results.append($0) }
+        XCTAssertTrue(helperEnv.events.isEmpty)
+        helperEnv.requests[0].reply("")
+        drainHelperCallbacks()
+        XCTAssertTrue(helperEnv.events.isEmpty)
+        helperEnv.requests[1].reply("")
+        drainHelperCallbacks()
+        XCTAssertEqual(helperEnv.events, ["legacy-uninstall", "notify"])
+        XCTAssertEqual(results, [true])
+    }
+    func testHelperLegacyFailurePreventsUninstall() {
+        let client = TestSMCHelper()
+        client.useModernService = false
+        var results: [Bool] = []
+        client.uninstall { results.append($0) }
+        helperEnv.requests[0].reply(nil)
+        helperEnv.requests[1].reply("")
+        drainHelperCallbacks()
+        XCTAssertEqual(results, [false])
+        XCTAssertTrue(helperEnv.events.isEmpty)
+    }
+    func testHelperReinstallWaitsForRestorationAndUnregister() {
+        let client = TestSMCHelper()
+        client.reinstall()
+        XCTAssertTrue(helperEnv.events.isEmpty)
+        helperEnv.requests[0].reply("")
+        helperEnv.requests[1].reply("")
+        drainHelperCallbacks()
+        XCTAssertEqual(helperEnv.events, ["unregister"])
+        helperEnv.unregisterReply?(nil)
+        drainHelperCallbacks()
+        XCTAssertEqual(helperEnv.events, ["unregister", "invalidate", "install"])
+    }
+    func testHelperReinstallStopsOnRestorationFailure() {
+        let client = TestSMCHelper()
+        client.reinstall()
+        helperEnv.requests[0].reply(nil)
+        helperEnv.requests[1].reply("")
+        drainHelperCallbacks()
+        XCTAssertTrue(helperEnv.events.isEmpty)
+    }
+    func testHelperReinstallStopsOnUnregisterFailure() {
+        helperEnv.immediateReplies = true
+        let client = TestSMCHelper()
+        client.reinstall()
+        drainHelperCallbacks()
+        helperEnv.unregisterReply?(helperEnv.error)
+        drainHelperCallbacks()
+        XCTAssertEqual(helperEnv.events, ["unregister"])
+    }
+    func testHelperLegacyReinstallWaitsForRestoration() {
+        let client = TestSMCHelper()
+        client.useModernService = false
+        client.reinstall()
+        XCTAssertTrue(helperEnv.events.isEmpty)
+        helperEnv.requests[0].reply("")
+        helperEnv.requests[1].reply("")
+        drainHelperCallbacks()
+        XCTAssertEqual(helperEnv.events, ["legacy-uninstall", "install"])
+    }
+    func testHelperBackgroundRepliesCompleteOnMainQueue() {
+        let client = TestSMCHelper()
+        let done = expectation(description: "restoration completed on main queue")
+        client.restoreFanModes { success in
+            XCTAssertTrue(Thread.isMainThread)
+            XCTAssertTrue(success)
+            done.fulfill()
+        }
+        let requests = helperEnv.requests
+        DispatchQueue.global().async { requests.reversed().forEach { $0.reply("") } }
+        wait(for: [done], timeout: 2)
+    }
+    func testHelperBackgroundUninstallStartsRestorationOnMainQueue() {
+        helperEnv.immediateReplies = true
+        let client = TestSMCHelper()
+        let started = expectation(description: "background uninstall dispatched")
+        DispatchQueue.global().async {
+            client.uninstall()
+            started.fulfill()
+        }
+        wait(for: [started], timeout: 2)
+        drainHelperCallbacks()
+        XCTAssertEqual(helperEnv.requests.count, 2)
+        XCTAssertEqual(helperEnv.events, ["unregister"])
+    }
 }

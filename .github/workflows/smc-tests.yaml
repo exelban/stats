@@ -1,0 +1,36 @@
+name: SMC tests
+
+on:
+  push:
+    paths:
+      - 'SMC/**'
+      - 'Tests/SMC.swift'
+      - 'Kit/scripts/run-smc-tests.py'
+      - 'Kit/helpers.swift'
+      - 'Makefile'
+      - '.github/workflows/smc-tests.yaml'
+  pull_request:
+    paths:
+      - 'SMC/**'
+      - 'Tests/SMC.swift'
+      - 'Kit/scripts/run-smc-tests.py'
+      - 'Kit/helpers.swift'
+      - 'Makefile'
+      - '.github/workflows/smc-tests.yaml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: smc-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: macos-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - name: Run SMC tests
+        run: make test-smc

@@ -15,12 +15,41 @@ import Security
 let helper = Helper()
 helper.run()
 
+final class HelperConnectionState {
+    private let lock = NSLock()
+    private var connections = [NSXPCConnection]()
+    private var hadConnection = false
+    private var stopping = false
+    
+    func accept(_ connection: NSXPCConnection) -> Bool {
+        self.lock.lock()
+        defer { self.lock.unlock() }
+        guard !self.stopping else { return false }
+        self.connections.append(connection)
+        self.hadConnection = true
+        return true
+    }
+    
+    func remove(_ connection: NSXPCConnection) {
+        self.lock.lock()
+        defer { self.lock.unlock() }
+        self.connections.removeAll { $0 === connection }
+    }
+    
+    func beginShutdownIfIdle() -> Bool {
+        self.lock.lock()
+        defer { self.lock.unlock() }
+        guard self.hadConnection && self.connections.isEmpty else { return false }
+        self.stopping = true
+        return true
+    }
+}
+
 class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
     private let listener: NSXPCListener
     private let smcQueue = DispatchQueue(label: "eu.exelban.Stats.SMC.Helper.smcQueue")
     
-    private var connections = [NSXPCConnection]()
-    private var shouldQuit = false
+    private let connectionState = HelperConnectionState()
     private var shouldQuitCheckInterval = 1.0
     
     private var smc: String? = nil
@@ -45,9 +74,10 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
         }
         
         self.listener.resume()
-        while !self.shouldQuit {
+        while !self.connectionState.beginShutdownIfIdle() {
             RunLoop.current.run(until: Date(timeIntervalSinceNow: self.shouldQuitCheckInterval))
         }
+        self.listener.invalidate()
     }
     
     func listener(_ listener: NSXPCListener, shouldAcceptNewConnection newConnection: NSXPCConnection) -> Bool {
@@ -68,16 +98,12 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
         
         newConnection.exportedInterface = NSXPCInterface(with: HelperProtocol.self)
         newConnection.exportedObject = self
-        newConnection.invalidationHandler = {
-            if let connectionIndex = self.connections.firstIndex(of: newConnection) {
-                self.connections.remove(at: connectionIndex)
-            }
-            if self.connections.isEmpty {
-                self.shouldQuit = true
-            }
+        newConnection.invalidationHandler = { [weak self, weak newConnection] in
+            guard let connection = newConnection else { return }
+            self?.connectionState.remove(connection)
         }
         
-        self.connections.append(newConnection)
+        guard self.connectionState.accept(newConnection) else { return false }
         newConnection.resume()
         
         return true
