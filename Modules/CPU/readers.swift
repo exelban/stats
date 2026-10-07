@@ -266,7 +266,7 @@ public class TemperatureReader: Reader<Double> {
         self.list = ["Tp1h", "Tp1t", "Tp1p", "Tp1l", "Tp01", "Tp05", "Tp09", "Tp0D", "Tp0X", "Tp0b", "Tp0f", "Tp0j"]
         case .m3, .m3Pro, .m3Max, .m3Ultra:
             self.list = ["Te05", "Te0L", "Te0P", "Te0S", "Tf04", "Tf09", "Tf0A", "Tf0B", "Tf0D", "Tf0E", "Tf44", "Tf49", "Tf4A", "Tf4B", "Tf4D", "Tf4E"]
-        case .m4, .m4Pro, .m4Max, .m4Ultra:
+        case .m4, .m4Pro, .m4Max:
             self.list = ["Te05", "Te09", "Te0H", "Te0S", "Tp01", "Tp05", "Tp09", "Tp0D", "Tp0V", "Tp0Y", "Tp0b", "Tp0e"]
         case .m5, .m5Pro, .m5Max, .m5Ultra:
             self.list = ["Tp00", "Tp04", "Tp08", "Tp0C", "Tp0G", "Tp0K", "Tp0O", "Tp0R", "Tp0U", "Tp0X", "Tp0a", "Tp0d", "Tp0g", "Tp0j", "Tp0m", "Tp0p", "Tp0u", "Tp0y"]
@@ -369,15 +369,15 @@ public class FrequencyReader: Reader<CPU_Frequency> {
                 
                 for sample in samples {
                     guard sample.group == "CPU Stats" else { continue }
-                    if sample.channel.contains("ECPU") {
-                        eCore.append(self.calculateFrequencies(dict: sample.delta, freqs: self.eCoreFreqs))
+                    if sample.channel.contains("ECPU"), let frequency = self.calculateFrequencies(dict: sample.delta, freqs: self.eCoreFreqs) {
+                        eCore.append(frequency)
                     }
-                    if sample.channel.contains(self.sCoreCount == 0 ? "PCPU" : "MCPU") {
-                        pCore.append(self.calculateFrequencies(dict: sample.delta, freqs: self.pCoreFreqs))
+                    if sample.channel.contains(self.sCoreCount == 0 ? "PCPU" : "MCPU"), let frequency = self.calculateFrequencies(dict: sample.delta, freqs: self.pCoreFreqs) {
+                        pCore.append(frequency)
                     }
                     if self.sCoreCount != 0 {
-                        if sample.channel.contains("PCPU") {
-                            sCore.append(self.calculateFrequencies(dict: sample.delta, freqs: self.sCoreFreqs))
+                        if sample.channel.contains("PCPU"), let frequency = self.calculateFrequencies(dict: sample.delta, freqs: self.sCoreFreqs) {
+                            sCore.append(frequency)
                         }
                     }
                 }
@@ -419,9 +419,10 @@ public class FrequencyReader: Reader<CPU_Frequency> {
         }
     }
     
-    private func calculateFrequencies(dict: CFDictionary, freqs: [Int32]) -> Double {
+    private func calculateFrequencies(dict: CFDictionary, freqs: [Int32]) -> Double? {
+        guard !freqs.isEmpty else { return nil }
         let items = self.getResidencies(dict: dict)
-        guard let offset = items.firstIndex(where: { $0.0 != "IDLE" && $0.0 != "DOWN" && $0.0 != "OFF" }) else { return 0 }
+        guard let offset = items.firstIndex(where: { $0.0 != "IDLE" && $0.0 != "DOWN" && $0.0 != "OFF" }), items.count - offset == freqs.count else { return nil }
         let usage = items.dropFirst(offset).reduce(0.0) { $0 + Double($1.f) }
         let count = freqs.count
         var avgFreq: Double = 0

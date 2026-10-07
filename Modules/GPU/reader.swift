@@ -33,9 +33,9 @@ private func maxANEPower(for platform: Platform?) -> Double {
     case .m3, .m3Pro, .m3Max:       return 3.0
     case .m3Ultra:                  return 6.0
     case .m4, .m4Pro, .m4Max:       return 6.0
-    case .m4Ultra:                  return 12.0
     case .m5, .m5Pro, .m5Max:       return 8.0
     case .m5Ultra:                  return 16.0
+    case .m6, .m6Pro, .m6Max:       return 16.0
     default:                        return 8.0
     }
 }

@@ -470,8 +470,8 @@ internal let SensorsList: [Sensor] = [
     
     Sensor(key: "Tg0G", name: "GPU 1", group: .GPU, type: .temperature, platforms: [.m4], average: true),
     Sensor(key: "Tg0H", name: "GPU 2", group: .GPU, type: .temperature, platforms: [.m4], average: true),
-    Sensor(key: "Tg1U", name: "GPU 1", group: .GPU, type: .temperature, platforms: [.m4Pro, .m4Max, .m4Ultra], average: true),
-    Sensor(key: "Tg1k", name: "GPU 2", group: .GPU, type: .temperature, platforms: [.m4Pro, .m4Max, .m4Ultra], average: true),
+    Sensor(key: "Tg1U", name: "GPU 1", group: .GPU, type: .temperature, platforms: [.m4Pro, .m4Max], average: true),
+    Sensor(key: "Tg1k", name: "GPU 2", group: .GPU, type: .temperature, platforms: [.m4Pro, .m4Max], average: true),
     
     Sensor(key: "Tg0K", name: "GPU 3", group: .GPU, type: .temperature, platforms: Platform.m4Gen, average: true),
     Sensor(key: "Tg0L", name: "GPU 4", group: .GPU, type: .temperature, platforms: Platform.m4Gen, average: true),
@@ -513,6 +513,42 @@ internal let SensorsList: [Sensor] = [
     Sensor(key: "Tg1Y", name: "GPU 6", group: .GPU, type: .temperature, platforms: Platform.m5Gen, average: true),
     Sensor(key: "Tg1c", name: "GPU 7", group: .GPU, type: .temperature, platforms: Platform.m5Gen, average: true),
     Sensor(key: "Tg1g", name: "GPU 8", group: .GPU, type: .temperature, platforms: Platform.m5Gen, average: true),
+    
+    // M6
+    
+    Sensor(key: "Tp0j", name: "CPU super core 1", group: .CPU, type: .temperature, platforms: Platform.m6Gen, average: true),
+    Sensor(key: "Tp0g", name: "CPU super core 2", group: .CPU, type: .temperature, platforms: Platform.m6Gen, average: true),
+    Sensor(key: "Tp09", name: "CPU super core 3", group: .CPU, type: .temperature, platforms: Platform.m6Gen, average: true),
+    Sensor(key: "Tp07", name: "CPU super core 4", group: .CPU, type: .temperature, platforms: Platform.m6Gen, average: true),
+    
+    Sensor(key: "Tp0m", name: "CPU performance core 1", group: .CPU, type: .temperature, platforms: Platform.m6Gen, average: true),
+    Sensor(key: "Tp0L", name: "CPU performance core 2", group: .CPU, type: .temperature, platforms: Platform.m6Gen, average: true),
+    Sensor(key: "Tp0I", name: "CPU performance core 3", group: .CPU, type: .temperature, platforms: Platform.m6Gen, average: true),
+    Sensor(key: "Tp0d", name: "CPU performance core 4", group: .CPU, type: .temperature, platforms: Platform.m6Gen, average: true),
+    Sensor(key: "Tp0E", name: "CPU performance core 5", group: .CPU, type: .temperature, platforms: Platform.m6Gen, average: true),
+    Sensor(key: "Tp0G", name: "CPU performance core 6", group: .CPU, type: .temperature, platforms: Platform.m6Gen, average: true),
+    Sensor(key: "Tp0b", name: "CPU performance core 7", group: .CPU, type: .temperature, platforms: Platform.m6Gen, average: true),
+    Sensor(key: "Tp05", name: "CPU performance core 8", group: .CPU, type: .temperature, platforms: Platform.m6Gen, average: true),
+    
+    Sensor(key: "Te07", name: "CPU efficiency core 1", group: .CPU, type: .temperature, platforms: Platform.m6Gen, average: true),
+    Sensor(key: "Te08", name: "CPU efficiency core 2", group: .CPU, type: .temperature, platforms: Platform.m6Gen, average: true),
+    Sensor(key: "Te09", name: "CPU efficiency core 3", group: .CPU, type: .temperature, platforms: Platform.m6Gen, average: true),
+    Sensor(key: "Te0c", name: "CPU efficiency core 4", group: .CPU, type: .temperature, platforms: Platform.m6Gen, average: true),
+    Sensor(key: "Te0h", name: "CPU efficiency core 5", group: .CPU, type: .temperature, platforms: Platform.m6Gen, average: true),
+    Sensor(key: "Te0i", name: "CPU efficiency core 6", group: .CPU, type: .temperature, platforms: Platform.m6Gen, average: true),
+    
+    Sensor(key: "Tg1e", name: "GPU 1", group: .GPU, type: .temperature, platforms: Platform.m6Gen, average: true),
+    Sensor(key: "Tg0d", name: "GPU 2", group: .GPU, type: .temperature, platforms: Platform.m6Gen, average: true),
+    Sensor(key: "Tg0c", name: "GPU 3", group: .GPU, type: .temperature, platforms: Platform.m6Gen, average: true),
+    Sensor(key: "Tg0b", name: "GPU 4", group: .GPU, type: .temperature, platforms: Platform.m6Gen, average: true),
+    Sensor(key: "Tg1c", name: "GPU 5", group: .GPU, type: .temperature, platforms: Platform.m6Gen, average: true),
+    Sensor(key: "Tg1d", name: "GPU 6", group: .GPU, type: .temperature, platforms: Platform.m6Gen, average: true),
+    Sensor(key: "Tg07", name: "GPU 7", group: .GPU, type: .temperature, platforms: Platform.m6Gen, average: true),
+    Sensor(key: "Tg1f", name: "GPU 8", group: .GPU, type: .temperature, platforms: Platform.m6Gen, average: true),
+    Sensor(key: "Tg09", name: "GPU 9", group: .GPU, type: .temperature, platforms: Platform.m6Gen, average: true),
+    Sensor(key: "Tg0a", name: "GPU 10", group: .GPU, type: .temperature, platforms: Platform.m6Gen, average: true),
+    Sensor(key: "Tg1g", name: "GPU 11", group: .GPU, type: .temperature, platforms: Platform.m6Gen, average: true),
+    Sensor(key: "Tg1h", name: "GPU 12", group: .GPU, type: .temperature, platforms: Platform.m6Gen, average: true),
     
     // A18 Pro
     Sensor(key: "Te05", name: "CPU efficiency core 1", group: .CPU, type: .temperature, platforms: [Platform.a18Pro], average: true),

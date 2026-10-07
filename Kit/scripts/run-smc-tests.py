@@ -68,6 +68,7 @@ def run():
     platform = Path(subprocess.check_output(
         ["xcrun", "--sdk", "macosx", "--show-sdk-platform-path"], text=True).strip())
     frameworks = platform / "Developer/Library/Frameworks"
+    private_frameworks = platform / "Developer/Library/PrivateFrameworks"
     libraries = platform / "Developer/usr/lib"
     if not (frameworks / "XCTest.framework").exists():
         raise RuntimeError("XCTest requires a full Xcode installation selected with xcode-select")
@@ -104,7 +105,8 @@ def run():
                        "-module-cache-path", str(build / "cache"),
                        "-I", str(libraries), "-L", str(libraries),
                        "-Xlinker", "-rpath", "-Xlinker", str(libraries),
-                       "-F", str(frameworks), "-Xlinker", "-rpath", "-Xlinker", str(frameworks)]
+                       "-F", str(frameworks), "-Xlinker", "-rpath", "-Xlinker", str(frameworks),
+                       "-Xlinker", "-rpath", "-Xlinker", str(private_frameworks)]
             if branch == "arm64":
                 command += ["-D", "TEST_ARM64"]
             command += [str(build / "SMCUnderTest.swift"), str(build / "HelperUnderTest.swift"),

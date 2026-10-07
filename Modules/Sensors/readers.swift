@@ -613,11 +613,6 @@ extension SensorsReader {
             self.lastIOSensorsRead = now
             return (0, 0, 0, 0, 0)
         }
-        guard prevCPU != 0 else {
-            self.lastIOSensorsRead = now
-            return (0, 0, 0, 0, 0)
-        } // omit first read
-        
         let elapsed = now.timeIntervalSince(lastIOSensorsRead)
         defer { self.lastIOSensorsRead = now }
         return (
