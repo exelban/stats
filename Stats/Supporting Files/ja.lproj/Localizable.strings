@@ -235,6 +235,7 @@
 "Transparent when no activity" = "アクティビティがない時に透明"; // gemma4:31b
 "Constant color" = "固定"; // gemma4:31b
 "Custom..." = "カスタム...";
+"Icon widget" = "アイコンウィジェット";
 
 // Module Kit
 "Open module settings" = "このモジュールの設定を開く";

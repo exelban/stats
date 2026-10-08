@@ -235,6 +235,7 @@
 "Transparent when no activity" = "โปร่งใสเมื่อไม่มีกิจกรรม"; // gemma4:31b
 "Constant color" = "คงที่"; // translategemma:4b
 "Custom..." = "กำหนดเอง...";
+"Icon widget" = "วิดเจ็ตไอคอน";
 
 // Module Kit
 "Open module settings" = "เปิดการตั้งค่าโมดูล";

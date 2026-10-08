@@ -235,6 +235,7 @@
 "Transparent when no activity" = "Transparant bij geen activiteit"; // gemma4:31b
 "Constant color" = "Vaste kleur";
 "Custom..." = "Aangepast...";
+"Icon widget" = "Icoonwidget";
 
 // Module Kit
 "Open module settings" = "Open module-instellingen";

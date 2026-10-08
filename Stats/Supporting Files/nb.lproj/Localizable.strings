@@ -235,6 +235,7 @@
 "Transparent when no activity" = "Gjennomsiktig når ingen aktivitet"; // gemma4:31b
 "Constant color" = "Konstant"; // translategemma:4b
 "Custom..." = "Tilpasset...";
+"Icon widget" = "Ikonwidget";
 
 // Module Kit
 "Open module settings" = "Åpne modulinnstillinger";

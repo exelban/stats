@@ -235,6 +235,7 @@
 "Transparent when no activity" = "Läbipaistev, kui pole tegevust";
 "Constant color" = "Ühtlane värv";
 "Custom..." = "Kohandatud...";
+"Icon widget" = "Ikoonividin";
 
 // Module Kit
 "Open module settings" = "Ava mooduli sätted";

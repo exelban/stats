@@ -235,6 +235,7 @@
 "Transparent when no activity" = "شفاف وقتی فعالیتی نیست"; // gemma4:31b
 "Constant color" = "ثابت"; // translategemma:4b
 "Custom..." = "سفارشی...";
+"Icon widget" = "ویجت آیکون";
 
 // Module Kit
 "Open module settings" = "باز کردن تنظیمات ماژول‌ها";

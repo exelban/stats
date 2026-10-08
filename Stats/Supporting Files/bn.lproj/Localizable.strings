@@ -235,6 +235,7 @@
 "Transparent when no activity" = "কোনো কার্যক্রম না থাকলে স্বচ্ছ";
 "Constant color" = "স্থির রঙ";
 "Custom..." = "কাস্টম...";
+"Icon widget" = "আইকন উইজেট";
 
 // Module Kit
 "Open module settings" = "মডিউল সেটিংস খুলুন";

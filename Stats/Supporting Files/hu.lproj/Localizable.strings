@@ -235,6 +235,7 @@
 "Transparent when no activity" = "Átlátszó, ha nincs aktivitás"; // gemma4:31b
 "Constant color" = "Állandó"; // gemma4:31b
 "Custom..." = "Egyéni...";
+"Icon widget" = "Ikon-widget";
 
 // Module Kit
 "Open module settings" = "Modul beállításainak megnyitása";

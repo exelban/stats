@@ -235,6 +235,7 @@
 "Transparent when no activity" = "Прозрачен, когато няма активност"; // translategemma:4b
 "Constant color" = "Постоянен"; // translategemma:4b
 "Custom..." = "Персонализирано...";
+"Icon widget" = "Уиджет с икона";
 
 // Module Kit
 "Open module settings" = "Отваряне на настройките на модула";

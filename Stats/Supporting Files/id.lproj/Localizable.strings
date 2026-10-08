@@ -235,6 +235,7 @@
 "Transparent when no activity" = "Transparan saat tidak ada aktivitas"; // translategemma:4b
 "Constant color" = "Konstan"; // translategemma:4b
 "Custom..." = "Khusus...";
+"Icon widget" = "Widget ikon";
 
 // Module Kit
 "Open module settings" = "Buka pengaturan modul";

@@ -235,6 +235,7 @@
 "Transparent when no activity" = "Прозорий коли немає активності";
 "Constant color" = "Постійний";
 "Custom..." = "Користувацький...";
+"Icon widget" = "Піктограма";
 
 // Module Kit
 "Open module settings" = "Відкрити налаштування модуля";

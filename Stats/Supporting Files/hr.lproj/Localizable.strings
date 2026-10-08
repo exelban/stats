@@ -235,6 +235,7 @@
 "Transparent when no activity" = "Prozirno kada nema aktivnosti"; // translategemma:4b
 "Constant color" = "Stalan"; // gemma4:31b
 "Custom..." = "Prilagođeno...";
+"Icon widget" = "Widget ikone";
 
 // Module Kit
 "Open module settings" = "Otvori postavke modula";

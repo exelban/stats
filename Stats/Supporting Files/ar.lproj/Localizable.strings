@@ -235,6 +235,7 @@
 "Transparent when no activity" = "شفاف عند عدم وجود نشاط"; // gemma4:31b
 "Constant color" = "ثابت"; // translategemma:4b
 "Custom..." = "مخصص...";
+"Icon widget" = "أداة الأيقونة";
 
 // Module Kit
 "Open module settings" = "فتح إعدادات الوحدة";

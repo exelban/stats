@@ -235,6 +235,7 @@
 "Transparent when no activity" = "閒置時以透明顯示";
 "Constant color" = "恆定色彩";
 "Custom..." = "自訂...";
+"Icon widget" = "圖示";
 
 // Module Kit
 "Open module settings" = "打開模組設定";

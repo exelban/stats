@@ -235,6 +235,7 @@
 "Transparent when no activity" = "Etkinlik yokken saydam";
 "Constant color" = "Sabit renk";
 "Custom..." = "Özel...";
+"Icon widget" = "Simge widget'ı";
 
 // Module Kit
 "Open module settings" = "Modül ayarlarını aç";

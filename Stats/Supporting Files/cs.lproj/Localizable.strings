@@ -235,6 +235,7 @@
 "Transparent when no activity" = "Průhledný, když není žádná aktivita"; // translategemma:4b
 "Constant color" = "Stálý"; // gemma4:31b
 "Custom..." = "Vlastní...";
+"Icon widget" = "Widget ikony";
 
 // Module Kit
 "Open module settings" = "Otevřít nastavení modulu";

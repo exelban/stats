@@ -235,6 +235,7 @@
 "Transparent when no activity" = "Transparent en l'absence d'activité";
 "Constant color" = "Constante";
 "Custom..." = "Personnalisé...";
+"Icon widget" = "Widget icône";
 
 // Module Kit
 "Open module settings" = "Ouvrir les paramètres du module";

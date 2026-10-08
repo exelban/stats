@@ -235,6 +235,7 @@
 "Transparent when no activity" = "שקוף כשאין פעילות"; // gemma4:31b
 "Constant color" = "קבוע"; // translategemma:4b
 "Custom..." = "מותאם אישית...";
+"Icon widget" = "ווידג'ט סמל";
 
 // Module Kit
 "Open module settings" = "פתח/י הגדרות מודל";
