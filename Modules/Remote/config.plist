@@ -29,6 +29,13 @@
 				<true/>
 			</dict>
 		</dict>
+		<key>icon</key>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Order</key>
+			<integer>2</integer>
+		</dict>
 	</dict>
 </dict>
 </plist>

@@ -70,6 +70,13 @@
 			<key>Order</key>
 			<integer>3</integer>
 		</dict>
+		<key>icon</key>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Order</key>
+			<integer>4</integer>
+		</dict>
 	</dict>
 	<key>Settings</key>
 	<dict>

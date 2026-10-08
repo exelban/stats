@@ -27,8 +27,9 @@ public enum widget_t: String {
     case tachometer = "tachometer"
     case state = "state"
     case text = "text"
+    case icon = "icon"
     
-    public func new(module: String, config: NSDictionary, defaultWidget: widget_t) -> SWidget? {
+    public func new(module: String, config: NSDictionary, defaultWidget: widget_t, icon: NSImage? = nil) -> SWidget? {
         guard let widgetConfig: NSDictionary = config[self.rawValue] as? NSDictionary else { return nil }
         
         var image: NSImage? = nil
@@ -78,10 +79,14 @@ public enum widget_t: String {
         case .text:
             preview = TextWidget(title: module, preview: true)
             item = TextWidget(title: module, preview: false)
+        case .icon:
+            preview = IconWidget(title: module, icon: icon, preview: true)
+            item = IconWidget(title: module, icon: icon, preview: false)
+            image = icon?.withSymbolConfiguration(NSImage.SymbolConfiguration(pointSize: 14, weight: .regular)) ?? icon
         default: break
         }
         
-        if let view = preview {
+        if image == nil, let view = preview {
             var width: CGFloat = view.bounds.width
             
             switch preview {
@@ -142,6 +147,7 @@ public enum widget_t: String {
         case .tachometer: return localizedString("Tachometer widget")
         case .state: return localizedString("State widget")
         case .text: return localizedString("Text widget")
+        case .icon: return localizedString("Icon widget")
         default: return ""
         }
     }

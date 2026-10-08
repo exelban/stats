@@ -250,7 +250,8 @@ open class Module {
             if let widget = widgetType.new(
                 module: self.config.name,
                 config: self.config.widgetsConfig,
-                defaultWidget: self.config.defaultWidget
+                defaultWidget: self.config.defaultWidget,
+                icon: self.config.icon
             ) {
                 self.menuBar.append(widget)
             }

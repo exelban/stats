@@ -80,6 +80,13 @@
 			<key>Order</key>
 			<integer>5</integer>
 		</dict>
+		<key>icon</key>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Order</key>
+			<integer>6</integer>
+		</dict>
 	</dict>
 	<key>Settings</key>
 	<dict>

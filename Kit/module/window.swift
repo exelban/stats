@@ -574,7 +574,7 @@ private class WidgetPreview: NSStackView {
         self.id = id
         self.stateCallback = callback
         self.rgbImage = image
-        self.grayImage = grayscaleImage(image) ?? image
+        self.grayImage = type == .icon ? image : grayscaleImage(image) ?? image
         self.imageView = NSImageView(frame: NSRect(origin: .zero, size: image.size))
         self.state = isActive
         
@@ -597,6 +597,10 @@ private class WidgetPreview: NSStackView {
         
         self.imageView.image = isActive ? self.rgbImage : self.grayImage
         self.imageView.alphaValue = isActive ? 1 : 0.75
+        if type == .icon {
+            self.imageView.imageScaling = .scaleNone
+            self.imageView.contentTintColor = .black
+        }
         
         self.addArrangedSubview(self.imageView)
         
