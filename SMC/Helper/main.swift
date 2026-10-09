@@ -277,7 +277,10 @@ struct CodesignCheck {
     }
     
     public static func codeSigningMatches(auditToken token: audit_token_t) throws -> Bool {
-        return try self.codeSigningCertificatesForSelf() == self.codeSigningCertificates(forAuditToken: token)
+        let selfCerts = try self.codeSigningCertificatesForSelf()
+        guard !selfCerts.isEmpty else { return false }
+        let clientCerts = try self.codeSigningCertificates(forAuditToken: token)
+        return selfCerts == clientCerts
     }
     
     public static func matchesSelf(path: String) -> Bool {
