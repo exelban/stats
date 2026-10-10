@@ -4,6 +4,8 @@
 <dict>
 	<key>com.apple.security.cs.disable-library-validation</key>
 	<true/>
+	<key>com.apple.security.personal-information.location</key>
+	<true/>
 	<key>com.apple.security.application-groups</key>
 	<array>
 		<string>$(TeamIdentifierPrefix)eu.exelban.Stats.widgets</string>
