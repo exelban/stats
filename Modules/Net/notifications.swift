@@ -106,7 +106,7 @@ class Notifications: NotificationsWrapper {
             }
         }
         if !self.wifiInit {
-            if let ssid = value.wifiDetails.ssid, isUsableSSID(ssid) {
+            if let ssid = value.wifiDetails.ssid {
                 self.wifi = ssid
                 self.wifiInit = true
             }
@@ -162,7 +162,7 @@ class Notifications: NotificationsWrapper {
         }
         
         if self.wifiState {
-            if let ssid = value.wifiDetails.ssid, isUsableSSID(ssid) {
+            if let ssid = value.wifiDetails.ssid {
                 if ssid != self.wifi {
                     self.newNotification(id: self.wifiID, title: localizedString("WiFi network changed"), subtitle: nil)
                 }

@@ -99,11 +99,6 @@ extension CWChannel {
     }
 }
 
-func isUsableSSID(_ ssid: String?) -> Bool {
-    guard let ssid else { return false }
-    return !ssid.isEmpty && ssid != "<redacted>"
-}
-
 internal class UsageReader: Reader<Network_Usage>, CWEventDelegate, CLLocationManagerDelegate {
     private var reachability: Reachability = Reachability(start: true)
     private let variablesQueue = DispatchQueue(label: "eu.exelban.NetworkUsageReader")
@@ -319,10 +314,10 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate, CLLocationMa
         // drop one-shot counter jumps (e.g. on reconnect) that exceed what the link can physically deliver
         let interval = self.interval ?? 1
         let maxDelta: Int64 = {
-            if let rate = self.usage.interface?.transmitRate, rate > 0, rate < Double(UInt32.max) / 1_000_000 {
+            if let rate = self.usage.interface?.transmitRate, rate > 0 {
                 return Int64(rate * 1_000_000 / 8 * 1.5 * interval) // 50% headroom over negotiated link rate
             }
-            return Int64(12_500_000_000 * interval) // 100 Gbps fallback when link rate is unknown or saturated at the 32-bit ifi_baudrate limit
+            return Int64(12_500_000_000 * interval) // 100 Gbps fallback when link rate is unknown
         }()
         if self.usage.bandwidth.upload > maxDelta { self.usage.bandwidth.upload = 0 }
         if self.usage.bandwidth.download > maxDelta { self.usage.bandwidth.download = 0 }
@@ -388,12 +383,18 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate, CLLocationMa
         
         if let wifiInterface = CWWiFiClient.shared().interface(withName: interfaceID) {
             transmitRate = wifiInterface.transmitRate()
-        } else if let raw = pointer.pointee.ifa_data {
-            let dataPtr = raw.assumingMemoryBound(to: if_data.self)
-            let ifData = dataPtr.pointee
-            let baud = UInt64(ifData.ifi_baudrate)
-            if baud > 0 {
-                transmitRate = Double(baud) / 1_000_000.0
+        } else if let address = pointer.pointee.ifa_addr, address.pointee.sa_family == UInt8(AF_LINK) {
+            transmitRate = 0
+            if let raw = pointer.pointee.ifa_data {
+                let dataPtr = raw.assumingMemoryBound(to: if_data.self)
+                let ifData = dataPtr.pointee
+                let baud = UInt64(ifData.ifi_baudrate)
+                if baud > 0 && baud < UInt32.max {
+                    transmitRate = Double(baud) / 1_000_000.0
+                }
+            }
+            if transmitRate == 0 {
+                transmitRate = self.readEthernetTransmitRate(interfaceID) ?? 0
             }
         }
         
@@ -406,6 +407,27 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate, CLLocationMa
         }
         
         self.getLocalIP(pointer)
+    }
+    
+    private func readEthernetTransmitRate(_ interfaceID: String) -> Double? {
+        for interface in SCNetworkInterfaceCopyAll() as NSArray {
+            let interface = interface as! SCNetworkInterface
+            guard let name = SCNetworkInterfaceGetBSDName(interface), name as String == interfaceID,
+                  SCNetworkInterfaceGetInterfaceType(interface) == kSCNetworkInterfaceTypeEthernet else {
+                continue
+            }
+            
+            var active: Unmanaged<CFDictionary>?
+            guard SCNetworkInterfaceCopyMediaOptions(interface, nil, &active, nil, false),
+                  let media = active?.takeRetainedValue() as? [String: Any],
+                  let subType = media[kSCPropNetEthernetMediaSubType as String] as? String else {
+                return nil
+            }
+            
+            return ethernetTransmitRate(from: subType)
+        }
+        
+        return nil
     }
     
     private func readProcessBandwidth() -> Bandwidth {
@@ -792,6 +814,22 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate, CLLocationMa
         guard interfaceName == self.interfaceID else { return }
         self.resetWiFiDetails()
         self.getWiFiDetails()
+    }
+    
+    private func isUsableSSID(_ ssid: String?) -> Bool {
+        guard let ssid else { return false }
+        return !ssid.isEmpty && ssid != "<redacted>"
+    }
+    
+    private func ethernetTransmitRate(from mediaSubType: String) -> Double? {
+        let components = mediaSubType.lowercased().components(separatedBy: "base")
+        guard components.count == 2, !components[1].isEmpty else { return nil }
+        
+        let gigabits = components[0].hasSuffix("g")
+        let value = gigabits ? String(components[0].dropLast()) : components[0]
+        guard let rate = Double(value), rate.isFinite, rate > 0 else { return nil }
+        
+        return rate * (gigabits ? 1_000 : 1)
     }
 }
 
