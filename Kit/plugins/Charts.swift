@@ -584,9 +584,12 @@ public class LineChartView: ChartView {
         }
         self.onMain { [weak self] in
             guard let self, self.window?.isVisible ?? false else { return }
-            let state = self.read { (n: self.points.count, yLegend: self.yLegend) }
+            let state = self.read { (n: self.points.count, xLegend: self.xLegend, yLegend: self.yLegend) }
             let dx = state.n > 1 ? (self.bounds.width - (state.yLegend ? 30 : 0)) / CGFloat(state.n - 1) : 0
-            guard dx >= 1, !self.stop, self.animationsAllowed else {
+            // Legends share the layer with the plot and must remain stationary.
+            guard dx >= 1, !state.xLegend, !state.yLegend, !self.stop, self.animationsAllowed else {
+                self.layer?.removeAnimation(forKey: "slide")
+                self.lastSlideAt = 0
                 self.needsDisplay = true
                 return
             }
@@ -723,7 +726,11 @@ public class LineChartView: ChartView {
             self.xLegend = x
             self.yLegend = y
         }
-        self.displayIfVisible()
+        self.onMain { [weak self] in
+            self?.layer?.removeAnimation(forKey: "slide")
+            self?.lastSlideAt = 0
+            self?.displayIfVisible()
+        }
     }
     
     public override func mouseEntered(with event: NSEvent) {
