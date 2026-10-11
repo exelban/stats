@@ -1901,7 +1901,7 @@ public class PreferencesRow: NSStackView {
 public func restartApp(_ sender: Any, afterDelay seconds: TimeInterval = 0.5) -> Never {
     let task = Process()
     task.launchPath = "/bin/sh"
-    task.arguments = ["-c", "sleep \(seconds); open \"\(Bundle.main.bundlePath)\""]
+    task.arguments = ["-c", "sleep \(seconds); open \"$1\"", "stats-restart", Bundle.main.bundlePath]
     task.launch()
     NSApp.terminate(sender)
     exit(0)
