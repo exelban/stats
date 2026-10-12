@@ -1,0 +1,9 @@
+blank_issues_enabled: false
+
+contact_links:
+  - name: Search existing issues
+    url: https://github.com/exelban/stats/issues?q=is%3Aissue
+    about: Search open and closed issues before reporting a bug or requesting a feature.
+  - name: Frequently asked questions
+    url: https://github.com/exelban/stats#faqs
+    about: Check known issues, solutions, and unsupported features before opening an issue.

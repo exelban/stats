@@ -1,0 +1,65 @@
+name: Feature request
+description: Propose a new feature after checking the FAQ and existing requests.
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before proposing a feature, read the [FAQ](https://github.com/exelban/stats#faqs) and search [all issues](https://github.com/exelban/stats/issues?q=is%3Aissue), including closed issues. Try different keywords for the same idea.
+
+        **Do not open a new issue for a topic that has already been covered.** This includes requests that are open, planned, implemented, declined, or closed. Use a reaction on the existing issue or add new information there when comments are open. Follow the maintainer's decision if the issue is closed or locked.
+
+        Request one feature per issue. Duplicate or incomplete requests may be closed without a response.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched [open issues](https://github.com/exelban/stats/issues?q=is%3Aissue%20is%3Aopen) and found no existing request for this feature.
+          required: true
+        - label: I searched [closed issues](https://github.com/exelban/stats/issues?q=is%3Aissue%20is%3Aclosed) and found no previous request or decision covering this feature.
+          required: true
+        - label: I read the [README and FAQ](https://github.com/exelban/stats#readme) and checked that the feature is not already available in the [latest release](https://github.com/exelban/stats/releases/latest).
+          required: true
+
+  - type: textarea
+    id: search
+    attributes:
+      label: Search results
+      description: List the keywords you searched in both open and closed issues. Link any similar requests and explain why they address a different need. If there were no matches, say so and include your search terms.
+      placeholder: |
+        Search terms:
+        Similar requests and why this need is different, or no matches:
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description: Describe what you are trying to do, who would benefit, and how Stats currently falls short. Include a concrete example.
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed feature
+      description: Describe the behavior you want, where it would appear in Stats, and how it would solve the problem.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives and workarounds
+      description: Describe the existing settings, workarounds, or other approaches you considered and why they are insufficient. If you found none, say so.
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add mockups, screenshots, or references if useful. For a feature tied to specific hardware or macOS functionality, include the Mac model, chip, macOS version, and Stats version.

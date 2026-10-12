@@ -91,7 +91,7 @@ For example, a CPU is typically divided into two clusters: efficiency and perfor
 Additionally, with each new SoC, Apple changes the sensor keys. As a result, it takes time to determine which SMC values correspond to the appropriate sensors. If anyone knows how to accurately match the sensors for Apple Silicon, please contact me.
 
 ### App crash – what to do?
-First, ensure that you are using the latest version of Stats. There is a high chance that a fix preventing the crash has already been released. If you are already running the latest version, check the open issues. Only if none of the existing issues address your problem should you open a new issue.
+First, ensure that you are using the latest version of Stats. There is a high chance that a fix preventing the crash has already been released. If you are already running the latest version, search both [open and closed issues](https://github.com/exelban/stats/issues?q=is%3Aissue). If the crash has already been reported, add new diagnostic information to the existing issue when comments are open instead of opening a duplicate. Otherwise, use the [bug report form](https://github.com/exelban/stats/issues/new?template=bug_report.yml) and include your Mac model, chip, macOS version and build, Stats version, steps to reproduce, and the complete crash report from Console.
 
 ### Why my issue was closed without any response?
 Most probably because it's a duplicated issue and there is an answer to the question, report, or proposition. Please use a search by closed issues to get an answer.
