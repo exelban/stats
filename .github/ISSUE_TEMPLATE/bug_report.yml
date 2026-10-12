@@ -5,127 +5,27 @@ body:
   - type: markdown
     attributes:
       value: |
-        Before opening a bug report, read the [FAQ](https://github.com/exelban/stats#faqs) and search [all issues](https://github.com/exelban/stats/issues?q=is%3Aissue), including closed issues. Try different keywords for the same symptom.
+        Report one problem per issue. **Do not open a new issue for a topic already covered, including closed issues.** React or add new diagnostic information to the existing issue when comments are open. Respect the maintainer's decision on closed or locked issues.
 
-        **Do not open a new issue for a topic that has already been covered, even if the previous issue is closed.** Use a reaction on the existing issue or add new diagnostic information there when comments are open. Follow the maintainer's decision if the issue is closed or locked.
+        macOS beta versions are not supported. Fan control is in legacy mode and does not receive support or fixes; see the [fan control FAQ](https://github.com/exelban/stats#fan-control).
 
-        Stats supports stable macOS releases listed in the [requirements](https://github.com/exelban/stats#requirements). macOS beta versions are not supported. Fan control is in legacy mode and does not receive support or fixes; see the [fan control FAQ](https://github.com/exelban/stats#fan-control).
-
-        Report one problem per issue. Duplicate or incomplete reports may be closed without a response.
+        Duplicate or incomplete reports may be closed without a response.
 
   - type: checkboxes
     id: checks
     attributes:
       label: Before submitting
       options:
-        - label: I searched [open issues](https://github.com/exelban/stats/issues?q=is%3Aissue%20is%3Aopen) and found no existing report of this problem.
+        - label: I read the [FAQ](https://github.com/exelban/stats#faqs) and searched [open and closed issues](https://github.com/exelban/stats/issues?q=is%3Aissue) and found no existing report or answer covering this problem.
           required: true
-        - label: I searched [closed issues](https://github.com/exelban/stats/issues?q=is%3Aissue%20is%3Aclosed) and found no existing report or answer covering this problem.
-          required: true
-        - label: I read the [FAQ](https://github.com/exelban/stats#faqs) and tried the relevant solutions.
-          required: true
-        - label: I reproduced the problem with the [latest Stats release](https://github.com/exelban/stats/releases/latest).
-          required: true
-        - label: I am using a supported, stable macOS release.
+        - label: I reproduced the problem with the [latest Stats release](https://github.com/exelban/stats/releases/latest) on a [supported, stable macOS release](https://github.com/exelban/stats#requirements).
           required: true
 
   - type: textarea
-    id: search
+    id: problem
     attributes:
-      label: Search results
-      description: List the keywords you searched in both open and closed issues. Link any similar issues and explain why they describe a different problem. If there were no matches, say so and include your search terms.
-      placeholder: |
-        Search terms:
-        Similar issues and why this problem is different, or no matches:
-    validations:
-      required: true
-
-  - type: input
-    id: stats-version
-    attributes:
-      label: Stats version
-      description: Enter the exact version from Stats settings. If Stats cannot open, select Stats.app in Finder and choose Get Info. For a source build, also include the commit hash. Do not write only "latest".
-      placeholder: e.g. 2.11.0
-    validations:
-      required: true
-
-  - type: input
-    id: macos-version
-    attributes:
-      label: macOS version and build
-      description: Include the full version and build number. You can find both by running `sw_vers` in Terminal.
-      placeholder: e.g. 14.5 (23F79)
-    validations:
-      required: true
-
-  - type: input
-    id: mac-model
-    attributes:
-      label: Mac model
-      description: Include the model, screen size where applicable, year, and model identifier from System Information > Hardware.
-      placeholder: e.g. MacBook Air, 13-inch, M2, 2022 (Mac14,2)
-    validations:
-      required: true
-
-  - type: input
-    id: chip
-    attributes:
-      label: Chip or processor
-      description: Enter the exact Apple Silicon chip or Intel processor from About This Mac or System Information.
-      placeholder: e.g. Apple M2 or Intel Core i7-9750H
-    validations:
-      required: true
-
-  - type: dropdown
-    id: installation
-    attributes:
-      label: Installation method
-      options:
-        - GitHub release (DMG)
-        - Homebrew
-        - Headless (SSH) installation script
-        - Built from source
-        - Other (describe in the configuration section)
-    validations:
-      required: true
-
-  - type: dropdown
-    id: component
-    attributes:
-      label: Affected area
-      multiple: true
-      options:
-        - CPU
-        - GPU
-        - RAM
-        - Disk
-        - Network
-        - Battery
-        - Sensors
-        - Bluetooth
-        - Clock
-        - Remote
-        - Menu bar
-        - Desktop widgets
-        - Settings
-        - Startup or update
-        - Other or unknown
-    validations:
-      required: true
-
-  - type: textarea
-    id: actual-behavior
-    attributes:
-      label: What happened?
-      description: Describe the problem and its impact. Include exact error messages and incorrect readings where applicable.
-    validations:
-      required: true
-
-  - type: textarea
-    id: expected-behavior
-    attributes:
-      label: What did you expect to happen?
-      description: Describe the expected behavior. For incorrect readings, include the comparison tool and values if available.
+      label: Problem
+      description: Describe what happened and what you expected instead. Include any error messages or incorrect readings.
     validations:
       required: true
 
@@ -133,7 +33,7 @@ body:
     id: reproduction
     attributes:
       label: Steps to reproduce
-      description: Give the steps needed to reproduce the problem, starting with opening Stats. If the trigger is unknown, describe what you were doing when it happened.
+      description: Give the steps needed to reproduce the problem. If the trigger is unknown, describe what you were doing when it happened.
       placeholder: |
         1. Open Stats...
         2. Enable or configure...
@@ -142,58 +42,23 @@ body:
     validations:
       required: true
 
-  - type: input
-    id: frequency
-    attributes:
-      label: Frequency and when it started
-      description: How often does it happen? Did it start after a Stats or macOS update? Include the last working version if known.
-      placeholder: e.g. Every time the Mac wakes from sleep; first noticed after updating Stats.
-    validations:
-      required: true
-
   - type: textarea
-    id: configuration
+    id: environment
     attributes:
-      label: Configuration and troubleshooting
-      description: List enabled modules, relevant widgets and settings, and any relevant external displays or devices. Describe the troubleshooting you tried and the result of each step. Explain any other installation method here.
+      label: Environment
+      description: Enter the exact Stats and macOS versions (not just "latest"), plus your Mac model and chip or processor.
+      placeholder: |
+        Stats version:
+        macOS version:
+        Mac model and chip:
     validations:
       required: true
-
-  - type: dropdown
-    id: crash
-    attributes:
-      label: Did Stats crash?
-      description: Choose whether the app quit unexpectedly. A freeze or missing menu bar icon does not by itself mean the app crashed.
-      options:
-        - 'Yes'
-        - 'No'
-        - Unsure
-    validations:
-      required: true
-
-  - type: textarea
-    id: crash-report
-    attributes:
-      label: Crash report
-      description: |
-        If Stats crashed, attach the complete crash report as a `.txt` or `.zip` file, or paste the full report in a fenced code block. A screenshot or a short excerpt is not sufficient.
-
-        Open **Console > Crash Reports**, select the Stats report matching the crash time, and use **File > Reveal in Finder** to locate it. See Apple's [Console instructions](https://support.apple.com/guide/console/reports-cnsl664be99a/mac).
-
-        If Stats did not crash, write "Not a crash". If you are unsure, check Console and describe what you found.
-    validations:
-      required: true
-
-  - type: checkboxes
-    id: crash-report-check
-    attributes:
-      label: Crash report confirmation
-      options:
-        - label: If Stats crashed, I attached or pasted the complete crash report above.
-          required: true
 
   - type: textarea
     id: attachments
     attributes:
-      label: Screenshots, recordings, and logs
-      description: For visual problems, add a screenshot or recording showing the issue and relevant settings. Include relevant logs or other evidence that helps reproduce the problem.
+      label: Attachments and context
+      description: |
+        Add screenshots, recordings, relevant settings, or troubleshooting results if useful.
+
+        If Stats crashed, attach the complete report as a `.txt` or `.zip` file, or paste it in a fenced code block. Find it in [Console > Crash Reports](https://support.apple.com/guide/console/reports-cnsl664be99a/mac).
