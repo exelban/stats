@@ -19,8 +19,16 @@ internal class UsageReader: Reader<Battery_Usage> {
     private var loop: CFRunLoop?
     
     private var usage: Battery_Usage = Battery_Usage()
+    private let readLock = NSLock()
+    
+    public override func setup() {
+        self.defaultInterval = 5
+    }
     
     deinit {
+        if let source = self.source {
+            CFRunLoopSourceInvalidate(source)
+        }
         if self.service != 0 {
             IOObjectRelease(self.service)
             self.service = 0
@@ -28,10 +36,12 @@ internal class UsageReader: Reader<Battery_Usage> {
     }
     
     public override func start() {
-        self.active = true
+        super.start()
+        guard self.source == nil else { return }
+        
         let context = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
         
-        self.source = IOPSNotificationCreateRunLoopSource({ (context) in
+        guard let source = IOPSNotificationCreateRunLoopSource({ (context) in
             guard let ctx = context else {
                 return
             }
@@ -40,24 +50,31 @@ internal class UsageReader: Reader<Battery_Usage> {
             if watcher.active {
                 watcher.read()
             }
-        }, context).takeRetainedValue()
+        }, context)?.takeRetainedValue() else {
+            return
+        }
         
+        self.source = source
         self.loop = RunLoop.current.getCFRunLoop()
         CFRunLoopAddSource(self.loop, source, .defaultMode)
-        
-        self.read()
     }
     
     public override func stop() {
+        super.stop()
         guard let runLoop = loop, let source = source else {
             return
         }
         
-        self.active = false
         CFRunLoopRemoveSource(runLoop, source, .defaultMode)
+        CFRunLoopSourceInvalidate(source)
+        self.source = nil
+        self.loop = nil
     }
     
     public override func read() {
+        self.readLock.lock()
+        defer { self.readLock.unlock() }
+        
         let psInfo = IOPSCopyPowerSourcesInfo().takeRetainedValue()
         let psList = IOPSCopyPowerSourcesList(psInfo).takeRetainedValue() as [CFTypeRef]
         
