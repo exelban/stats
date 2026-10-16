@@ -41,6 +41,14 @@ internal class Preview: PreviewWrapper {
     private var swapField: NSTextField? = nil
     
     private var initialized: Bool = false
+    private var initializedProcesses: Bool = false
+    
+    private var processes: ProcessesView? = nil
+    private var processesSection: PreferencesSection? = nil
+    
+    private var numberOfProcesses: Int {
+        Store.shared.int(key: "\(self.module.stringValue)_processes", defaultValue: 8)
+    }
     
     public init(_ module: ModuleType) {
         super.init(type: module)
@@ -56,6 +64,8 @@ internal class Preview: PreviewWrapper {
         self.addArrangedSubview(PreferencesSection([self.usageView()]))
         self.addArrangedSubview(PreferencesSection([self.historyView()]))
         self.addArrangedSubview(splitView)
+        
+        self.addArrangedSubview(self.topProcesses())
         
         self.addArrangedSubview(NSView())
     }
@@ -123,8 +133,8 @@ internal class Preview: PreviewWrapper {
                 topValues.spacing = Constants.Settings.margin
                 
                 self.appField = previewRow(topValues, space: false, color: self.appColor, title: "\(localizedString("App")):")
-                self.wiredField = previewRow(topValues, space: false, color: self.wiredColor, title: "\(localizedString("Wired")):")
                 topValues.addArrangedSubview(NSView())
+                self.wiredField = previewRow(topValues, space: false, color: self.wiredColor, title: "\(localizedString("Wired")):")
                 
                 let bottomValues = NSStackView()
                 bottomValues.orientation = .horizontal
@@ -132,8 +142,8 @@ internal class Preview: PreviewWrapper {
                 bottomValues.spacing = Constants.Settings.margin
                 
                 self.compressedField = previewRow(bottomValues, space: false, color: self.compressedColor, title: "\(localizedString("Compressed")):")
-                self.freeField = previewRow(bottomValues, space: false, color: self.freeColor, title: "\(localizedString("Free")):")
                 bottomValues.addArrangedSubview(NSView())
+                self.freeField = previewRow(bottomValues, space: false, color: self.freeColor, title: "\(localizedString("Free")):")
                 
                 container.addArrangedSubview(topValues)
                 container.addArrangedSubview(bottomValues)
@@ -240,6 +250,49 @@ internal class Preview: PreviewWrapper {
         view.addArrangedSubview(chart)
         
         return view
+    }
+    
+    private func topProcesses() -> NSView {
+        let view = ProcessesView(
+            values: [(localizedString("Usage"), nil)],
+            n: self.numberOfProcesses,
+            showPID: true,
+            showChart: true
+        )
+        self.processes = view
+        
+        let section = PreferencesSection(title: localizedString("Top processes"), [view])
+        section.isHidden = self.numberOfProcesses == 0
+        self.processesSection = section
+        
+        return section
+    }
+    
+    public func numberOfProcessesUpdated() {
+        self.processes?.setLock(false)
+        self.processes?.setNumberOfProcesses(self.numberOfProcesses)
+        self.processesSection?.isHidden = self.numberOfProcesses == 0
+        self.initializedProcesses = false
+    }
+    
+    public func processCallback(_ list: [TopProcess]?) {
+        guard let list else { return }
+        
+        DispatchQueue.main.async(execute: {
+            guard (self.window?.isVisible ?? false) || !self.initializedProcesses, let view = self.processes else { return }
+            
+            let total = Double(ProcessInfo.processInfo.physicalMemory)
+            for i in 0..<view.count {
+                if list.indices.contains(i) {
+                    let process = list[i]
+                    let usage = Units(bytes: Int64(process.usage)).getReadableMemory(style: .memory)
+                    view.set(i, process, [usage], usage: ColorValue(total > 0 ? process.usage / total : 0, color: self.chartColor))
+                } else {
+                    view.set(i, nil, [])
+                }
+            }
+            self.initializedProcesses = true
+        })
     }
     
     public func loadCallback(_ value: RAM_Usage) {

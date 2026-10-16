@@ -24,6 +24,7 @@ open class PreviewWrapper: NSStackView {
         
         self.orientation = .vertical
         self.distribution = .gravityAreas
+        self.setHuggingPriority(.required, for: .horizontal)
         self.translatesAutoresizingMaskIntoConstraints = false
         self.spacing = Constants.Settings.margin
     }
@@ -96,8 +97,9 @@ open class Window: NSStackView {
         super.init(frame: NSRect.zero)
         
         self.orientation = .vertical
-        self.alignment = .width
+        self.alignment = .leading
         self.distribution = .fill
+        self.setHuggingPriority(.required, for: .horizontal)
         self.spacing = Constants.Settings.margin
         
         let settingsView = self.settings()

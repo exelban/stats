@@ -687,6 +687,7 @@ open class ScrollableStackView: NSView {
         self.clipView.drawsBackground = false
         
         self.stackView.orientation = orientation
+        self.stackView.setHuggingPriority(.defaultHigh, for: orientation == .vertical ? .horizontal : .vertical)
         self.stackView.translatesAutoresizingMaskIntoConstraints = false
         
         self.scrollView.translatesAutoresizingMaskIntoConstraints = false

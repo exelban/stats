@@ -36,6 +36,14 @@ internal class Preview: PreviewWrapper {
     private var diskRows: [String: DiskRow] = [:]
     
     private var initialized: Bool = false
+    private var initializedProcesses: Bool = false
+    
+    private var processes: ProcessesView? = nil
+    private var processesSection: PreferencesSection? = nil
+    
+    private var numberOfProcesses: Int {
+        Store.shared.int(key: "\(self.module.stringValue)_processes", defaultValue: 5)
+    }
     
     private var readColorState: SColor = .secondBlue
     private var readColor: NSColor { self.readColorState.additional as? NSColor ?? NSColor.systemRed }
@@ -98,6 +106,8 @@ internal class Preview: PreviewWrapper {
         splitView.addArrangedSubview(PreferencesSection(title: "SMART", [self.smartView()]))
         
         self.addArrangedSubview(splitView)
+        
+        self.addArrangedSubview(self.topProcesses())
     }
     
     required init?(coder: NSCoder) {
@@ -166,7 +176,7 @@ internal class Preview: PreviewWrapper {
                 nameField.title = nameValue
                 nameField.cell?.truncatesLastVisibleLine = true
                 
-                let fileSystemField = LabelField(fileSystemValue)
+                let fileSystemField = LabelField("\(fileSystemValue) · \(sizeValue)")
                 fileSystemField.textColor = .tertiaryLabelColor
                 
                 let activity: NSStackView = NSStackView()
@@ -209,13 +219,8 @@ internal class Preview: PreviewWrapper {
             levels.distribution = .fill
             
             self.usedField = previewRow(levels, space: false, color: NSColor.systemBlue, title: "\(localizedString("Used")):", value: "")
-            self.freeField = previewRow(levels, space: false, color: NSColor.lightGray, title: "\(localizedString("Free")):", value: "")
-            
-            let fileSystemField = LabelField(sizeValue)
-            fileSystemField.textColor = .tertiaryLabelColor
-            
             levels.addArrangedSubview(NSView())
-            levels.addArrangedSubview(fileSystemField)
+            self.freeField = previewRow(levels, space: false, color: NSColor.lightGray, title: "\(localizedString("Free")):", value: "")
             
             view.addArrangedSubview(title)
             view.addArrangedSubview(bar)
@@ -284,6 +289,48 @@ internal class Preview: PreviewWrapper {
         self.mediaErrorsValueField = previewRow(view, title: "\(localizedString("Media errors")):", value: localizedString("Unknown"))
         
         return view
+    }
+    
+    private func topProcesses() -> NSView {
+        let view = ProcessesView(
+            values: [(localizedString("Read"), self.readColor), (localizedString("Write"), self.writeColor)],
+            n: self.numberOfProcesses,
+            showPID: true
+        )
+        self.processes = view
+        
+        let section = PreferencesSection(title: localizedString("Top processes"), [view])
+        section.isHidden = self.numberOfProcesses == 0
+        self.processesSection = section
+        
+        return section
+    }
+    
+    public func numberOfProcessesUpdated() {
+        self.processes?.setLock(false)
+        self.processes?.setNumberOfProcesses(self.numberOfProcesses)
+        self.processesSection?.isHidden = self.numberOfProcesses == 0
+        self.initializedProcesses = false
+    }
+    
+    public func processCallback(_ list: [Disk_process]?) {
+        guard let list else { return }
+        
+        DispatchQueue.main.async(execute: {
+            guard (self.window?.isVisible ?? false) || !self.initializedProcesses, let view = self.processes else { return }
+            
+            for i in 0..<view.count {
+                if list.indices.contains(i) {
+                    let process = list[i]
+                    let read = Units(bytes: Int64(process.read)).getReadableSpeed(base: process.base, unit: process.speedUnit)
+                    let write = Units(bytes: Int64(process.write)).getReadableSpeed(base: process.base, unit: process.speedUnit)
+                    view.set(i, process, [read, write])
+                } else {
+                    view.set(i, nil, [])
+                }
+            }
+            self.initializedProcesses = true
+        })
     }
     
     internal func capacityCallback(_ value: Disks) {

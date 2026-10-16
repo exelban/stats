@@ -196,6 +196,7 @@ public class Network: Module {
         self.processReader = ProcessReader(.network) { [weak self] value in
             if let list = value {
                 self?.popupView.processCallback(list)
+                self?.previewView.processCallback(list)
             }
         }
         self.connectivityReader = ConnectivityReader(.network) { [weak self] value in
@@ -205,6 +206,7 @@ public class Network: Module {
         self.settingsView.callbackWhenUpdateNumberOfProcesses = { [weak self] in
             guard let self else { return }
             self.popupView.numberOfProcessesUpdated()
+            self.previewView.numberOfProcessesUpdated()
             DispatchQueue.global(qos: .background).async { [weak self] in
                 self?.processReader?.read()
             }

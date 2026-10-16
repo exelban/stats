@@ -1690,6 +1690,7 @@ public class PreferencesSection: NSStackView {
         super.init(frame: .zero)
         
         self.orientation = .vertical
+        self.setHuggingPriority(.required, for: .horizontal)
         self.spacing = 0
         if let id {
             self.identifier = NSUserInterfaceItemIdentifier(id)
@@ -1700,6 +1701,7 @@ public class PreferencesSection: NSStackView {
         }
         
         self.container.orientation = .vertical
+        self.container.setHuggingPriority(.required, for: .horizontal)
         self.container.wantsLayer = true
         self.container.layer?.backgroundColor = NSColor.quaternaryLabelColor.withAlphaComponent(0.025).cgColor
         self.container.layer?.cornerRadius = Constants.Settings.margin

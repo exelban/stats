@@ -16,6 +16,7 @@ internal class Preview: PreviewWrapper {
     private var initialized: Bool = false
     private var initializedAverage: Bool = false
     private var initializedFrequency: Bool = false
+    private var initializedProcesses: Bool = false
     
     private var systemColorState: SColor = .secondRed
     private var systemColor: NSColor { self.systemColorState.additional as? NSColor ?? NSColor.systemRed }
@@ -67,6 +68,12 @@ internal class Preview: PreviewWrapper {
     private var pCoresFreqField: NSTextField? = nil
     
     private var cores: [CoreView] = []
+    private var processes: ProcessesView? = nil
+    private var processesSection: PreferencesSection? = nil
+    
+    private var numberOfProcesses: Int {
+        Store.shared.int(key: "\(self.module.stringValue)_processes", defaultValue: 8)
+    }
     
     public init(_ module: ModuleType) {
         super.init(type: module)
@@ -82,6 +89,9 @@ internal class Preview: PreviewWrapper {
         splitView.addArrangedSubview(PreferencesSection(title: localizedString("Frequency"), [self.frequencyView()]))
         
         self.addArrangedSubview(splitView)
+        
+        self.addArrangedSubview(self.topProcesses())
+        
         self.addArrangedSubview(NSView())
     }
     
@@ -94,7 +104,7 @@ internal class Preview: PreviewWrapper {
         view.distribution = .fill
         view.orientation = .horizontal
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.heightAnchor.constraint(equalToConstant: 90).isActive = true
+        view.heightAnchor.constraint(equalToConstant: 100).isActive = true
         view.edgeInsets = NSEdgeInsets(
             top: Constants.Settings.margin,
             left: Constants.Settings.margin,
@@ -115,40 +125,49 @@ internal class Preview: PreviewWrapper {
             view.spacing = 2
             
             var titleValue = localizedString("Unknown")
+            var clastersValue = localizedString("Unknown")
+            
             if let cpu = SystemKit.shared.device.info.cpu {
                 if let name = cpu.name {
                     titleValue = name
                 }
                 var clusters: [String] = []
                 if let eCores = cpu.eCores {
-                    clusters.append("\(eCores)E")
+                    clusters.append("\(eCores) efficiency")
                 }
                 if let pCores = cpu.pCores {
-                    clusters.append("\(pCores)P")
+                    clusters.append("\(pCores) performance")
                 }
                 if let sCores = cpu.sCores {
-                    clusters.append("\(sCores)S")
+                    clusters.append("\(sCores) super")
                 }
                 if !clusters.isEmpty {
-                    titleValue.append(" (\(clusters.joined(separator: "/")))")
+                    clastersValue = clusters.joined(separator: " • ")
                 }
             }
             
             let title = NSStackView()
-            title.addArrangedSubview(LabelField(titleValue))
+            title.addArrangedSubview(LabelField(titleValue, size: 13))
             title.addArrangedSubview(NSView())
+            title.addArrangedSubview(LabelField(clastersValue, size: 11))
             
-            let bar = BarChartView(size: 11, horizontal: true)
+            let bar = BarChartView(size: 9, horizontal: true)
             self.bar = bar
             
             let levels = NSStackView()
             levels.orientation = .horizontal
             levels.distribution = .fill
             
+            let leftSpacer = NSView()
+            let rightSpacer = NSView()
+            
             self.systemField = previewRow(levels, space: false, color: self.systemColor, title: "\(localizedString("System")):", value: "")
+            levels.addArrangedSubview(leftSpacer)
             self.userField = previewRow(levels, space: false, color: self.userColor, title: "\(localizedString("User")):", value: "")
+            levels.addArrangedSubview(rightSpacer)
             self.idleField = previewRow(levels, space: false, color: self.idleColor, title: "\(localizedString("Idle")):", value: "")
-            levels.addArrangedSubview(NSView())
+            
+            leftSpacer.widthAnchor.constraint(equalTo: rightSpacer.widthAnchor).isActive = true
             
             view.addArrangedSubview(title)
             view.addArrangedSubview(bar)
@@ -188,12 +207,12 @@ internal class Preview: PreviewWrapper {
         let leftColumn: NSStackView = NSStackView()
         leftColumn.orientation = .vertical
         leftColumn.distribution = .fillEqually
-        leftColumn.spacing = Constants.Settings.margin
+        leftColumn.spacing = Constants.Settings.margin/2
         
         let rightColumn: NSStackView = NSStackView()
         rightColumn.orientation = .vertical
         rightColumn.distribution = .fillEqually
-        rightColumn.spacing = Constants.Settings.margin
+        rightColumn.spacing = Constants.Settings.margin/2
         
         if let cpu = SystemKit.shared.device.info.cpu, let cores = cpu.cores {
             var e = 0
@@ -264,6 +283,47 @@ internal class Preview: PreviewWrapper {
         }
         
         return view
+    }
+    
+    private func topProcesses() -> NSView {
+        let view = ProcessesView(
+            values: [(localizedString("Usage"), nil)],
+            n: self.numberOfProcesses,
+            showPID: true,
+            showChart: true
+        )
+        self.processes = view
+        
+        let section = PreferencesSection(title: localizedString("Top processes"), [view])
+        section.isHidden = self.numberOfProcesses == 0
+        self.processesSection = section
+        
+        return section
+    }
+    
+    public func numberOfProcessesUpdated() {
+        self.processes?.setLock(false)
+        self.processes?.setNumberOfProcesses(self.numberOfProcesses)
+        self.processesSection?.isHidden = self.numberOfProcesses == 0
+        self.initializedProcesses = false
+    }
+    
+    public func processCallback(_ list: [TopProcess]?) {
+        guard let list else { return }
+        
+        DispatchQueue.main.async(execute: {
+            guard (self.window?.isVisible ?? false) || !self.initializedProcesses, let view = self.processes else { return }
+            
+            for i in 0..<view.count {
+                if list.indices.contains(i) {
+                    let process = list[i]
+                    view.set(i, process, [String(format: "%.1f%%", process.usage)], usage: ColorValue(process.usage / 100, color: self.chartColor))
+                } else {
+                    view.set(i, nil, [])
+                }
+            }
+            self.initializedProcesses = true
+        })
     }
     
     internal func loadCallback(_ value: CPU_Load) {

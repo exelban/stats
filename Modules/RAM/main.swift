@@ -132,11 +132,13 @@ public class RAM: Module {
         self.processReader = ProcessReader(.RAM) { [weak self] value in
             if let list = value {
                 self?.popupView.processCallback(list)
+                self?.previewView.processCallback(list)
             }
         }
         
         self.settingsView.callbackWhenUpdateNumberOfProcesses = { [weak self] in
             self?.popupView.numberOfProcessesUpdated()
+            self?.previewView.numberOfProcessesUpdated()
             DispatchQueue.global(qos: .background).async {
                 self?.processReader?.read()
             }

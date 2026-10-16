@@ -162,7 +162,7 @@ internal class Popup: PopupWrapper {
     internal func activityCallback(_ value: Disks) {
         let views = self.disks.subviews.filter{ $0 is DiskView }.map{ $0 as! DiskView }
         value.reversed().forEach { (drive: drive) in
-            if let view = views.first(where: { $0.name == drive.mediaName }) {
+            if let view = views.first(where: { $0.uuid == drive.uuid }) {
                 view.updateStats(stats: drive.activity)
             }
         }

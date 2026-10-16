@@ -145,6 +145,7 @@ public class CPU: Module {
         }
         self.processReader = ProcessReader(.CPU) { [weak self] value in
             self?.popupView.processCallback(value)
+            self?.previewView.processCallback(value)
         }
         self.averageLoadReader = AverageLoadReader(.CPU, popup: true) { [weak self] value in
             self?.popupView.averageCallback(value)
@@ -171,6 +172,7 @@ public class CPU: Module {
         self.settingsView.callbackWhenUpdateNumberOfProcesses = { [weak self] in
             guard let self else { return }
             self.popupView.numberOfProcessesUpdated()
+            self.previewView.numberOfProcessesUpdated()
             DispatchQueue.global(qos: .background).async { [weak self] in
                 self?.processReader?.read()
             }
