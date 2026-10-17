@@ -282,6 +282,7 @@ internal class SensorView: NSStackView {
         self.addArrangedSubview(self.valueView)
         
         NSLayoutConstraint.activate([
+            self.valueView.widthAnchor.constraint(equalTo: self.widthAnchor),
             self.widthAnchor.constraint(equalToConstant: self.bounds.width)
         ])
     }
@@ -357,7 +358,6 @@ internal class ValueSensorView: NSStackView {
         
         NSLayoutConstraint.activate([
             self.labelView.heightAnchor.constraint(equalToConstant: 16),
-            self.widthAnchor.constraint(equalToConstant: self.bounds.width),
             self.heightAnchor.constraint(equalToConstant: self.bounds.height)
         ])
     }

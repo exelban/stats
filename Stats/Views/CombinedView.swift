@@ -263,6 +263,7 @@ private class Popup: NSStackView, Popup_p {
             if let p = m.portal {
                 modulesHeight += p.height
                 self.addArrangedSubview(p)
+                p.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
             }
         }
         

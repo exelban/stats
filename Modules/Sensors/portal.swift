@@ -41,14 +41,12 @@ public class Portal: PortalWrapper {
             self.list = [:]
         }
         
-        var width: CGFloat = Constants.Popup.width - self.body.edgeInsets.left - self.body.edgeInsets.right
-        if list.count >= 4 {
-            width -= self.container.scrollWidth ?? Constants.Popup.margins
-        }
+        let width: CGFloat = Constants.Popup.width - self.body.edgeInsets.left - self.body.edgeInsets.right
         list.forEach { s in
             let v = ValueSensorView(s, width: width, callback: {})
             v.update(self.formattedValue(s))
             self.container.stackView.addArrangedSubview(v)
+            v.widthAnchor.constraint(equalTo: self.container.stackView.widthAnchor).isActive = true
             self.list[s.key] = v
         }
     }
