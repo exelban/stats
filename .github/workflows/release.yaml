@@ -17,15 +17,12 @@ concurrency:
 
 jobs:
   release:
-    runs-on: macos-15
+    runs-on: macos-latest
 
     steps:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-
-      - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode_26.3.app/Contents/Developer
 
       - name: Generate changelog
         run: python3 Kit/scripts/changelog.py > CHANGELOG.md

@@ -14,10 +14,8 @@ concurrency:
 
 jobs:
   build:
-    runs-on: macos-15
+    runs-on: macos-latest
 
     steps:
       - uses: actions/checkout@v7
-      - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode_26.3.app/Contents/Developer
       - run: xcodebuild -scheme Stats -destination 'platform=macOS' -configuration Release archive CODE_SIGNING_ALLOWED=NO
