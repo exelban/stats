@@ -1993,7 +1993,7 @@ public class StepperInput: NSStackView, NSTextFieldDelegate, PreferencesSwitchWi
                 selected: unit
             )
             self.addArrangedSubview(self.unitsView!)
-            self.widthAnchor.constraint(equalToConstant: 124).isActive = true
+            self.widthAnchor.constraint(greaterThanOrEqualToConstant: 124).isActive = true
         }
     }
     
