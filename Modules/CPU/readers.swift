@@ -292,12 +292,12 @@ public class TemperatureReader: Reader<Double> {
             var total: Double = 0
             var counter: Double = 0
             self.list.forEach { (key: String) in
-                if let value = SMC.shared.getValue(key) {
+                if let value = SMC.shared.getValue(key), value >= 10 && value <= 120 {
                     total += value
                     counter += 1
                 }
             }
-            if total != 0 && counter != 0 {
+            if counter != 0 {
                 temperature = total / counter
             }
         }
