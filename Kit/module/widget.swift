@@ -80,8 +80,8 @@ public enum widget_t: String {
             preview = TextWidget(title: module, preview: true)
             item = TextWidget(title: module, preview: false)
         case .icon:
-            preview = IconWidget(title: module, icon: icon, preview: true)
-            item = IconWidget(title: module, icon: icon, preview: false)
+            preview = IconWidget(title: module, config: widgetConfig, icon: icon, preview: true)
+            item = IconWidget(title: module, config: widgetConfig, icon: icon, preview: false)
             image = icon?.withSymbolConfiguration(NSImage.SymbolConfiguration(pointSize: 14, weight: .regular)) ?? icon
         default: break
         }
