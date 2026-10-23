@@ -149,6 +149,8 @@ public class Sensors: Module {
                     }
                 }
                 widget.setValue(flatList)
+            case let widget as IconWidget:
+                widget.setValue(value.sensors.contains(where: { $0 is Fan && !$0.isComputed && $0.value > 0 }))
             default: break
             }
         }

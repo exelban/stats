@@ -236,6 +236,7 @@
 "Constant color" = "Constante";
 "Custom..." = "Personnalisé...";
 "Icon widget" = "Widget icône";
+"Animate icon" = "Animer l'icône";
 
 // Module Kit
 "Open module settings" = "Ouvrir les paramètres du module";

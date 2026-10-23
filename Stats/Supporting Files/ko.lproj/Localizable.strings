@@ -236,6 +236,7 @@
 "Constant color" = "고정"; // gemma4:31b
 "Custom..." = "사용자 지정...";
 "Icon widget" = "아이콘 위젯";
+"Animate icon" = "아이콘 애니메이션 표시";
 
 // Module Kit
 "Open module settings" = "모듈 설정 열기";

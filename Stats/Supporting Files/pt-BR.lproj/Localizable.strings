@@ -236,6 +236,7 @@
 "Constant color" = "Constante"; // translategemma:4b
 "Custom..." = "Personalizado...";
 "Icon widget" = "Widget de ícone";
+"Animate icon" = "Animar o ícone";
 
 // Module Kit
 "Open module settings" = "Abrir configurações do módulo";

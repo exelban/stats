@@ -236,6 +236,7 @@
 "Constant color" = "Vakio väri";
 "Custom..." = "Mukautettu...";
 "Icon widget" = "Kuvakewidget";
+"Animate icon" = "Animoi kuvake";
 
 // Module Kit
 "Open module settings" = "Avaa moduulin asetukset";

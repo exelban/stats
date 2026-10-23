@@ -236,6 +236,7 @@
 "Constant color" = "Постоянный";
 "Custom..." = "Пользовательский...";
 "Icon widget" = "Значок";
+"Animate icon" = "Анимировать значок";
 
 // Module Kit
 "Open module settings" = "Открыть настройки модуля";

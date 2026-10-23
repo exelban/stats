@@ -236,6 +236,7 @@
 "Constant color" = "Konstant"; // translategemma:4b
 "Custom..." = "Brugerdefineret...";
 "Icon widget" = "Ikon-widget";
+"Animate icon" = "Animér ikonet";
 
 // Module Kit
 "Open module settings" = "Åben indstillinger for moduler";

@@ -236,6 +236,7 @@
 "Constant color" = "ثابت"; // translategemma:4b
 "Custom..." = "مخصص...";
 "Icon widget" = "أداة الأيقونة";
+"Animate icon" = "تحريك الأيقونة";
 
 // Module Kit
 "Open module settings" = "فتح إعدادات الوحدة";

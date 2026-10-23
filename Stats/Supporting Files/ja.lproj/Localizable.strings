@@ -236,6 +236,7 @@
 "Constant color" = "固定"; // gemma4:31b
 "Custom..." = "カスタム...";
 "Icon widget" = "アイコンウィジェット";
+"Animate icon" = "アイコンをアニメーション表示";
 
 // Module Kit
 "Open module settings" = "このモジュールの設定を開く";

@@ -236,6 +236,7 @@
 "Constant color" = "คงที่"; // translategemma:4b
 "Custom..." = "กำหนดเอง...";
 "Icon widget" = "วิดเจ็ตไอคอน";
+"Animate icon" = "แสดงภาพเคลื่อนไหวไอคอน";
 
 // Module Kit
 "Open module settings" = "เปิดการตั้งค่าโมดูล";

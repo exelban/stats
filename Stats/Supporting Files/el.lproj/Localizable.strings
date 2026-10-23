@@ -236,6 +236,7 @@
 "Constant color" = "Σταθερός"; // translategemma:4b
 "Custom..." = "Προσαρμοσμένο...";
 "Icon widget" = "Widget εικονιδίου";
+"Animate icon" = "Κίνηση εικονιδίου";
 
 // Module Kit
 "Open module settings" = "Άνοιγμα ρυθμίσεων ενότητας";

@@ -236,6 +236,7 @@
 "Constant color" = "Постоянен"; // translategemma:4b
 "Custom..." = "Персонализирано...";
 "Icon widget" = "Уиджет с икона";
+"Animate icon" = "Анимиране на иконата";
 
 // Module Kit
 "Open module settings" = "Отваряне на настройките на модула";

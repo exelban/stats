@@ -236,6 +236,7 @@
 "Constant color" = "Stálý"; // gemma4:31b
 "Custom..." = "Vlastní...";
 "Icon widget" = "Widget ikony";
+"Animate icon" = "Animovat ikonu";
 
 // Module Kit
 "Open module settings" = "Otevřít nastavení modulu";

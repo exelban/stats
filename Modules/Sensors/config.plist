@@ -74,6 +74,8 @@
 		<dict>
 			<key>Default</key>
 			<false/>
+			<key>Fan animation</key>
+			<true/>
 			<key>Order</key>
 			<integer>4</integer>
 		</dict>
