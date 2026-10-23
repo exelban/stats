@@ -13,7 +13,7 @@ import Cocoa
 import Kit
 import IOKit.ps
 
-struct Battery_Usage: Codable {
+struct Battery_Usage: Codable, RemoteType {
     var powerSource: String = ""
     var state: String? = nil
     var isCharged: Bool = false
@@ -44,6 +44,14 @@ struct Battery_Usage: Codable {
     var timeOnACPower: Date? = nil
     
     var ups: UPS_Usage? = nil
+    var available: Bool? = nil
+    
+    func remote() -> Data? {
+        guard self.available == true else { return nil }
+        let health = self.designedCapacity > 1 && self.maxCapacity > 1 ? String(self.health) : ""
+        let string = "\(self.level),\(self.powerSource),\(self.isCharging),\(health),\(self.cycles)$"
+        return string.data(using: .utf8)
+    }
 }
 
 struct UPS_Usage: Codable {
