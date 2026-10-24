@@ -17,13 +17,16 @@
 -(NSArray *)keys:(NSString *)key;
 
 -(bool)insert:(NSString *)key value:(NSString *)value;
+-(bool)insertMany:(NSDictionary<NSString *, NSString *> *)values;
 
 -(NSString *)findOne:(NSString *)key;
 -(NSString *)findLast:(NSString *)prefix;
 -(NSArray *)findMany:(NSString *)prefix;
+-(NSDictionary<NSString *, NSString *> *)findRange:(NSString *)prefix from:(NSString *)start to:(NSString *)end;
 
 -(bool)deleteOne:(NSString *)key;
 -(bool)deleteMany:(NSArray*)keys;
+-(bool)deleteBefore:(NSString *)prefix timestamp:(NSString *)timestamp;
 
 -(void)close;
 

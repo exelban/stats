@@ -74,6 +74,19 @@ using namespace std;
     return s.ok();
 }
 
+-(bool)insertMany:(NSDictionary<NSString *, NSString *> *)values {
+    leveldb::WriteBatch batch;
+    for (NSString *key in values) {
+        NSString *value = values[key];
+        batch.Put(leveldb::Slice(key.UTF8String), leveldb::Slice(value.UTF8String));
+    }
+    
+    leveldb::WriteOptions writeOptions;
+    writeOptions.sync = true;
+    leveldb::Status s = self->db->Write(writeOptions, &batch);
+    return s.ok();
+}
+
 -(NSString *)findOne:(NSString *)key {
     ostringstream keyStream;
     keyStream << key.UTF8String;
@@ -119,6 +132,28 @@ using namespace std;
     return array;
 }
 
+-(NSDictionary<NSString *, NSString *> *)findRange:(NSString *)prefix from:(NSString *)start to:(NSString *)end {
+    leveldb::ReadOptions readOptions;
+    leveldb::Iterator *it = db->NewIterator(readOptions);
+    leveldb::Slice prefixSlice = leveldb::Slice(prefix.UTF8String);
+    leveldb::Slice endSlice = leveldb::Slice(end.UTF8String);
+    NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
+    
+    for (it->Seek(leveldb::Slice(start.UTF8String)); it->Valid() && it->key().starts_with(prefixSlice) && it->key().compare(endSlice) < 0; it->Next()) {
+        NSString *key = [[NSString alloc] initWithCString:it->key().ToString().c_str() encoding:NSUTF8StringEncoding];
+        NSString *value = [[NSString alloc] initWithCString:it->value().ToString().c_str() encoding:NSUTF8StringEncoding];
+        if (key == nil || value == nil) {
+            delete it;
+            return nil;
+        }
+        values[key] = value;
+    }
+    bool success = it->status().ok();
+    delete it;
+    
+    return success ? values : nil;
+}
+
 -(bool)deleteOne:(NSString *)key {
     ostringstream keySream;
     keySream << key.UTF8String;
@@ -140,6 +175,42 @@ using namespace std;
     
     leveldb::Status s = self->db->Write(leveldb::WriteOptions(), &batch);
     return s.ok();
+}
+
+-(bool)deleteBefore:(NSString *)prefix timestamp:(NSString *)timestamp {
+    leveldb::ReadOptions readOptions;
+    leveldb::Iterator *it = db->NewIterator(readOptions);
+    leveldb::Slice prefixSlice = leveldb::Slice(prefix.UTF8String);
+    string cutoff = timestamp.UTF8String;
+    leveldb::WriteBatch batch;
+    int count = 0;
+    
+    for (it->Seek(prefixSlice); it->Valid() && it->key().starts_with(prefixSlice); it->Next()) {
+        string key = it->key().ToString();
+        size_t separator = key.rfind('@');
+        if (separator == string::npos || key.substr(separator+1).compare(cutoff) >= 0) {
+            continue;
+        }
+        batch.Delete(it->key());
+        count++;
+        
+        if (count == 512) {
+            leveldb::Status s = self->db->Write(leveldb::WriteOptions(), &batch);
+            if (!s.ok()) {
+                delete it;
+                return false;
+            }
+            batch.Clear();
+            count = 0;
+        }
+    }
+    bool success = it->status().ok();
+    delete it;
+    if (!success) {
+        return false;
+    }
+    
+    return count == 0 || self->db->Write(leveldb::WriteOptions(), &batch).ok();
 }
 
 -(void)close {

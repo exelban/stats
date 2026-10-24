@@ -776,7 +776,9 @@
 		9AF9EE1024648ADC005D2270 /* readers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = readers.swift; sourceTree = "<group>"; };
 		9AF9EE12246492E8005D2270 /* config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
 		9AF9EE192464A7B3005D2270 /* config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
+		B4B0D81A85B54E94B7118C30 /* build-leveldb.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = "build-leveldb.py"; sourceTree = "<group>"; };
 		B8F0D4F1259D19B100AAFAAF /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		BB51D61D9DB641DD896DCA6C /* Snappy-LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Snappy-LICENSE.txt"; sourceTree = "<group>"; };
 		BB9E59E725BB5F5E004AED95 /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C904AECF255939DB004A9EBC /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CBF35F8F258CF80000B2BA41 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -972,6 +974,7 @@
 				5C4E8BC32B6EF65E00F148B6 /* libleveldb.a */,
 				5C4E8BA02B6EEE8E00F148B6 /* lldb.m */,
 				5C4E8B9F2B6EEE6D00F148B6 /* lldb.h */,
+				BB51D61D9DB641DD896DCA6C /* Snappy-LICENSE.txt */,
 			);
 			path = lldb;
 			sourceTree = "<group>";
@@ -1193,6 +1196,7 @@
 				5CFE494129265418000F2856 /* uninstall.sh */,
 				9A46BF35266D6E17001A1117 /* i18n.py */,
 				5CFE494329265421000F2856 /* changelog.py */,
+				B4B0D81A85B54E94B7118C30 /* build-leveldb.py */,
 				5C0A2A89292A5B4D009B4C1F /* SMJobBlessUtil.py */,
 			);
 			path = scripts;
