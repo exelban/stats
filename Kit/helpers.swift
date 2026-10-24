@@ -2141,6 +2141,9 @@ public class CPUStressTest {
         case .efficiency:
             self.queue = DispatchQueue.global(qos: .background)
             self.qos = QOS_CLASS_BACKGROUND
+        case .performance where (SystemKit.shared.device.info.cpu?.sCores ?? 0) > 0:
+            self.queue = DispatchQueue.global(qos: .utility)
+            self.qos = QOS_CLASS_UTILITY
         default:
             self.queue = DispatchQueue.global(qos: .userInteractive)
             self.qos = QOS_CLASS_USER_INTERACTIVE
@@ -2156,6 +2159,7 @@ public class CPUStressTest {
         switch self.type {
         case .efficiency: count = Int(cpu?.eCores ?? 2)
         case .super: count = Int(cpu?.sCores ?? 0)
+        case .performance: count = Int(cpu?.pCores ?? 4) + Int(cpu?.sCores ?? 0)
         default: count = Int(cpu?.pCores ?? 4)
         }
         self.workers.removeAll()

@@ -109,20 +109,25 @@ class Notifications: NotificationsWrapper {
         ]))
         
         #if arch(arm64)
-        self.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Efficiency cores load"), component: PreferencesSwitch(
+        let cpu = SystemKit.shared.device.info.cpu
+        var coreRows: [PreferencesRow] = []
+        if (cpu?.eCores ?? 0) > 0 {
+            coreRows.append(PreferencesRow(localizedString("Efficiency cores load"), component: PreferencesSwitch(
                 action: self.toggleECoresLoad, state: self.eCoresLoadState,
                 with: StepperInput(self.eCoresLoad, callback: self.changeECoresLoad)
-            )),
-            PreferencesRow(localizedString("Super cores load"), component: PreferencesSwitch(
+            )))
+        }
+        if (cpu?.sCores ?? 0) > 0 {
+            coreRows.append(PreferencesRow(localizedString("Super cores load"), component: PreferencesSwitch(
                 action: self.toggleSCoresLoad, state: self.sCoresLoadState,
                 with: StepperInput(self.sCoresLoad, callback: self.changeSCoresLoad)
-            )),
-            PreferencesRow(localizedString("Performance cores load"), component: PreferencesSwitch(
-                action: self.togglePCoresLoad, state: self.pCoresLoadState,
-                with: StepperInput(self.pCoresLoad, callback: self.changePCoresLoad)
-            ))
-        ]))
+            )))
+        }
+        coreRows.append(PreferencesRow(localizedString("Performance cores load"), component: PreferencesSwitch(
+            action: self.togglePCoresLoad, state: self.pCoresLoadState,
+            with: StepperInput(self.pCoresLoad, callback: self.changePCoresLoad)
+        )))
+        self.addArrangedSubview(PreferencesSection(coreRows))
         #endif
     }
     

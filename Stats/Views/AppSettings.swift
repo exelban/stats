@@ -225,7 +225,7 @@ class ApplicationSettings: NSStackView {
         
         let cpu = SystemKit.shared.device.info.cpu
         var tests: [PreferencesRow] = []
-        if (cpu?.eCores ?? 1) > 0 {
+        if (cpu?.eCores ?? 0) > 0 {
             tests.append(PreferencesRow(localizedString("Efficiency cores"), component: CPUeButton))
         }
         if (cpu?.pCores ?? 1) > 0 {
