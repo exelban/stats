@@ -18,7 +18,7 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
     private var popup: PopupWindow? = nil
     
     private var status: Bool {
-        Store.shared.bool(key: "CombinedModules", defaultValue: false)
+        Store.shared.bool(key: "CombinedModules", defaultValue: false) && !Store.shared.bool(key: "pause", defaultValue: false)
     }
     private var iconOnly: Bool {
         Store.shared.bool(key: "CombinedModules_icon", defaultValue: false)
@@ -58,16 +58,20 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
             self.enable()
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(listenForOneView), name: .toggleOneView, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(listenForStateChange), name: .toggleOneView, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(listenForStateChange), name: .pause, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenForModuleRearrrange), name: .moduleRearrange, object: nil)
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self, name: .toggleOneView, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .pause, object: nil)
         NotificationCenter.default.removeObserver(self, name: .moduleRearrange, object: nil)
     }
     
     public func enable() {
+        guard self.menuBarItem == nil else { return }
+        
         self.menuBarItem = NSStatusBar.system.statusItem(withLength: 0)
         DispatchQueue.main.async(execute: {
             self.menuBarItem?.autosaveName = "CombinedModules"
@@ -182,7 +186,7 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
         }
     }
     
-    @objc private func listenForOneView(_ notification: Notification) {
+    @objc private func listenForStateChange(_ notification: Notification) {
         guard notification.userInfo?["module"] == nil else { return }
         
         if self.status {
