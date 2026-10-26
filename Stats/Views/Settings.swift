@@ -445,7 +445,7 @@ private class SidebarView: NSStackView {
         view.edgeInsets = NSEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
         view.orientation = .horizontal
         
-        let systemStats = SupportButtonView(name: "System Stats", image: "AppIcon", action: {
+        let systemStats = SupportButtonView(name: "System Stats", image: "Stats", action: {
             NSWorkspace.shared.open(URL(string: "https://www.system-stats.com")!)
         })
         let github = SupportButtonView(name: "GitHub Sponsors", image: "github", action: {

@@ -116,7 +116,7 @@ private class SupportView: NSStackView {
         support.spacing = 20
         support.orientation = .horizontal
         
-        let systemStats = SupportButtonView(name: "System Stats", image: "AppIcon", action: {
+        let systemStats = SupportButtonView(name: "System Stats", image: "Stats", action: {
             NSWorkspace.shared.open(URL(string: "https://www.system-stats.com")!)
         })
         let github = SupportButtonView(name: "GitHub Sponsors", image: "github", action: {

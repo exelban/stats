@@ -37,7 +37,9 @@ jobs:
         run: xcodebuild -scheme Stats -destination 'platform=macOS' -configuration Release archive -archivePath build/Stats.xcarchive
 
       - name: Export
-        run: xcodebuild -exportArchive -exportOptionsPlist exportOptions.plist -archivePath build/Stats.xcarchive -exportPath build
+        run: |
+          xcodebuild -exportArchive -exportOptionsPlist exportOptions.plist -archivePath build/Stats.xcarchive -exportPath build
+          ditto -c -k --keepParent build/Stats.app build/Stats.zip
 
       - name: Notarize
         if: inputs.dry_run != true

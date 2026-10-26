@@ -139,7 +139,7 @@ private class UpdateView: NSView {
         header.spacing = 10
         header.distribution = .equalCentering
         
-        let icon: NSImageView = NSImageView(image: NSImage(named: NSImage.Name("AppIcon"))!)
+        let icon: NSImageView = NSImageView(image: NSImage(named: NSImage.Name("Stats"))!)
         icon.setFrameSize(NSSize(width: 44, height: 44))
         icon.widthAnchor.constraint(equalToConstant: 44).isActive = true
         let title: NSTextField = TextView()

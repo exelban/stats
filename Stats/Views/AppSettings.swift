@@ -286,7 +286,7 @@ class ApplicationSettings: NSStackView {
         container.yPlacement = .center
         container.xPlacement = .center
         
-        let iconView: NSImageView = NSImageView(image: NSImage(named: NSImage.Name("AppIcon"))!)
+        let iconView: NSImageView = NSImageView(image: NSImage(named: NSImage.Name("Stats"))!)
         
         let statsName: NSTextField = TextView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: 22))
         statsName.alignment = .center

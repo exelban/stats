@@ -196,7 +196,7 @@ private class SetupView_welcome: NSStackView {
         title.toolTip = localizedString("Welcome to Stats")
         title.isSelectable = false
         
-        let icon: NSImageView = NSImageView(image: NSImage(named: NSImage.Name("AppIcon"))!)
+        let icon: NSImageView = NSImageView(image: NSImage(named: NSImage.Name("Stats"))!)
         icon.heightAnchor.constraint(equalToConstant: 120).isActive = true
         
         let message: NSTextField = TextView()
@@ -624,7 +624,7 @@ private class SetupView_end: NSStackView {
         support.spacing = 12
         support.orientation = .horizontal
         
-        let systemStats = SupportButtonView(name: "System Stats", image: "AppIcon", action: {
+        let systemStats = SupportButtonView(name: "System Stats", image: "Stats", action: {
             NSWorkspace.shared.open(URL(string: "https://www.system-stats.com")!)
         })
         let github = SupportButtonView(name: "GitHub Sponsors", image: "github", action: {

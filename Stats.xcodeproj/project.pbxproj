@@ -98,6 +98,7 @@
 		5E0C63702FBE4A0000D9BA3E /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E0C636F2FBE4A0000D9BA3E /* popup.swift */; };
 		5E6DF2573007B23A00D696BD /* uninstall.sh in Copy Files */ = {isa = PBXBuildFile; fileRef = 5CFE494129265418000F2856 /* uninstall.sh */; };
 		5E828A003074086000DB0CA0 /* Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E8289FF3074085D00DB0CA0 /* Icon.swift */; };
+		5E8E7354308E1D1100126136 /* Stats.icon in Resources */ = {isa = PBXBuildFile; fileRef = 5E8E7353308E1D1100126136 /* Stats.icon */; };
 		5EC1B2E52E2FEAFB007042A6 /* UnitedWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC1B2E42E2FEAFB007042A6 /* UnitedWidget.swift */; };
 		5EE5C0B93062FEA400E7DAB4 /* install.sh in Resources */ = {isa = PBXBuildFile; fileRef = 5EE5C0B83062FEA400E7DAB4 /* install.sh */; };
 		5EE8037F29C36BDD0063D37D /* portal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE8037E29C36BDD0063D37D /* portal.swift */; };
@@ -634,6 +635,7 @@
 		5E0C63672FBE5F0000D9BA3E /* reader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = reader.swift; sourceTree = "<group>"; };
 		5E0C636F2FBE4A0000D9BA3E /* popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = popup.swift; sourceTree = "<group>"; };
 		5E8289FF3074085D00DB0CA0 /* Icon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icon.swift; sourceTree = "<group>"; };
+		5E8E7353308E1D1100126136 /* Stats.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = Stats.icon; sourceTree = "<group>"; };
 		5EC1B2E42E2FEAFB007042A6 /* UnitedWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitedWidget.swift; sourceTree = "<group>"; };
 		5EE5C0B83062FEA400E7DAB4 /* install.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = install.sh; sourceTree = "<group>"; };
 		5EE8037E29C36BDD0063D37D /* portal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = portal.swift; sourceTree = "<group>"; };
@@ -1206,6 +1208,7 @@
 			isa = PBXGroup;
 			children = (
 				9A6CFC0022A1C9F5001E782D /* Assets.xcassets */,
+				5E8E7353308E1D1100126136 /* Stats.icon */,
 				9A27D4A925389EFD001BB651 /* Stats.entitlements */,
 				9A141101229E721200D29793 /* Info.plist */,
 				9A9B25BD24F7DE2B00C3CCE6 /* Localizable.strings */,
@@ -2038,6 +2041,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A6CFC0122A1C9F5001E782D /* Assets.xcassets in Resources */,
+				5E8E7354308E1D1100126136 /* Stats.icon in Resources */,
 				9A9B25BB24F7DE2B00C3CCE6 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3120,7 +3124,7 @@
 		9A141106229E721200D29793 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = Stats;
 				CODE_SIGN_ENTITLEMENTS = "Stats/Supporting Files/Stats.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
@@ -3157,7 +3161,7 @@
 		9A141107229E721200D29793 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = Stats;
 				CODE_SIGN_ENTITLEMENTS = "Stats/Supporting Files/Stats.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
@@ -3267,7 +3271,6 @@
 		9A343538243E26A0006B19F9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = LaunchAtLogin/LaunchAtLogin.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
@@ -3296,7 +3299,6 @@
 		9A343539243E26A0006B19F9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = LaunchAtLogin/LaunchAtLogin.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
