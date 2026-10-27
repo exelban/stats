@@ -146,6 +146,7 @@
 "No notifications available in this module" = "이 모듈에서 사용할 수 있는 알림이 없습니다";
 "Open Calendar" = "캘린더 열기";
 "Toggle the module" = "모듈 전환";
+"Preview is unavailable while module is disabled." = "모듈이 비활성화되어 있는 동안에는 미리보기를 사용할 수 없습니다.";
 "Open System Stats" = "System Stats 열기"; // gemma4:31b
 "Close module settings" = "모듈 설정 닫기"; // qwen3.8:27b
 

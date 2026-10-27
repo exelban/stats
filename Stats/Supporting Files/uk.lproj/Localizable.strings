@@ -146,6 +146,7 @@
 "No notifications available in this module" = "У цьому модулі немає повідомлень";
 "Open Calendar" = "Відкрити календар";
 "Toggle the module" = "Перемкніть модуль";
+"Preview is unavailable while module is disabled." = "Попередній перегляд недоступний, поки модуль вимкнено.";
 "Open System Stats" = "Відкрити System Stats";
 "Close module settings" = "Закрити налаштування модуля"; // qwen3.8:27b
 

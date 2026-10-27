@@ -146,6 +146,7 @@
 "No notifications available in this module" = "V tomto modulu nejsou k dispozici žádná oznámení"; // gemma4:31b
 "Open Calendar" = "Otevřít kalendář"; // translategemma:4b
 "Toggle the module" = "Přepnout modul"; // gemma4:31b
+"Preview is unavailable while module is disabled." = "Náhled není k dispozici, když je modul zakázán.";
 "Open System Stats" = "Otevřít System Stats"; // gemma4:31b
 "Close module settings" = "Zavřít nastavení modulu"; // qwen3.8:27b
 

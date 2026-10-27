@@ -146,6 +146,7 @@
 "No notifications available in this module" = "このモジュールには利用可能な通知がありません";
 "Open Calendar" = "カレンダーを開く";
 "Toggle the module" = "モジュールの切り替え";
+"Preview is unavailable while module is disabled." = "モジュールが無効になっている間はプレビューを表示できません。";
 "Open System Stats" = "System Statsを開く"; // gemma4:31b
 "Close module settings" = "モジュール設定を閉じる"; // qwen3.8:27b
 

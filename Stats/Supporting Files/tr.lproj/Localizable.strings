@@ -146,6 +146,7 @@
 "No notifications available in this module" = "Bu modülde kullanılabilir bildirim yok";
 "Open Calendar" = "Takvimi aç";
 "Toggle the module" = "Modülü aç/kapat";
+"Preview is unavailable while module is disabled." = "Modül devre dışıyken önizleme kullanılamaz.";
 "Open System Stats" = "System Stats'ı aç"; // gemma4:31b
 "Close module settings" = "Modül ayarlarını kapat"; // qwen3.8:27b
 

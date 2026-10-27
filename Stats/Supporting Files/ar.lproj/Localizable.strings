@@ -146,6 +146,7 @@
 "No notifications available in this module" = "لا توجد إشعارات متاحة في هذه الوحدة";
 "Open Calendar" = "فتح التقويم"; // translategemma:4b
 "Toggle the module" = "تبديل الوحدة"; // gemma4:31b
+"Preview is unavailable while module is disabled." = "المعاينة غير متاحة عندما تكون الوحدة معطلة.";
 "Open System Stats" = "فتح System Stats"; // gemma4:31b
 "Close module settings" = "إغلاق إعدادات الوحدة"; // qwen3.8:27b
 

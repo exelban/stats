@@ -146,6 +146,7 @@
 "No notifications available in this module" = "该模块不支持通知";
 "Open Calendar" = "打开日历";
 "Toggle the module" = "切换模块显示";
+"Preview is unavailable while module is disabled." = "模块停用时无法预览。";
 "Open System Stats" = "打开 System Stats"; // gemma4:31b
 "Close module settings" = "关闭模块设置"; // qwen3.8:27b
 

@@ -146,6 +146,7 @@
 "No notifications available in this module" = "Nema dostupnih obavijesti u ovom modulu"; // gemma4:31b
 "Open Calendar" = "Otvori kalendar"; // gemma4:31b
 "Toggle the module" = "Prebaci modul"; // gemma4:31b
+"Preview is unavailable while module is disabled." = "Pretpregled nije dostupan dok je modul deaktiviran.";
 "Open System Stats" = "Otvori System Stats"; // gemma4:31b
 "Close module settings" = "Zatvori postavke modula"; // qwen3.8:27b
 

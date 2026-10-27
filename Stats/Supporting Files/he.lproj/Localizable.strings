@@ -146,6 +146,7 @@
 "No notifications available in this module" = "אין התראות זמינות במודול זה"; // translategemma:4b
 "Open Calendar" = "פתח את לוח השנה"; // gemma4:31b
 "Toggle the module" = "החלף את המודול"; // gemma4:31b
+"Preview is unavailable while module is disabled." = "התצוגה המקדימה אינה זמינה כאשר המודול מושבת.";
 "Open System Stats" = "פתח את System Stats"; // gemma4:31b
 "Close module settings" = "סגור את הגדרות המודול"; // qwen3.8:27b
 

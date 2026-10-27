@@ -146,6 +146,7 @@
 "No notifications available in this module" = "Ingen notifikationer tilgængelige i dette modul"; // gemma4:31b
 "Open Calendar" = "Åbn kalender"; // translategemma:4b
 "Toggle the module" = "Skift modulet"; // gemma4:31b
+"Preview is unavailable while module is disabled." = "Forhåndsvisning er ikke tilgængelig, mens modulet er deaktiveret.";
 "Open System Stats" = "Åbn System Stats"; // gemma4:31b
 "Close module settings" = "Luk modulindstillinger"; // qwen3.8:27b
 

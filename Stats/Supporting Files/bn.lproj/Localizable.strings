@@ -146,6 +146,7 @@
 "No notifications available in this module" = "এই মডিউলে কোনো বিজ্ঞপ্তি নেই";
 "Open Calendar" = "ক্যালেন্ডার খুলুন";
 "Toggle the module" = "মডিউল চালু/বন্ধ করুন";
+"Preview is unavailable while module is disabled." = "মডিউল নিষ্ক্রিয় থাকলে পূর্বরূপ উপলব্ধ নয়।";
 "Open System Stats" = "System Stats খুলুন";
 "Close module settings" = "মডিউল সেটিংস বন্ধ করুন"; // qwen3.8:27b
 

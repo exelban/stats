@@ -146,6 +146,7 @@
 "No notifications available in this module" = "Nu sunt disponibile notificări în acest modul"; // gemma4:31b
 "Open Calendar" = "Deschide calendarul"; // translategemma:4b
 "Toggle the module" = "Comută modulul"; // gemma4:31b
+"Preview is unavailable while module is disabled." = "Previzualizarea nu este disponibilă cât timp modulul este dezactivat.";
 "Open System Stats" = "Deschide System Stats"; // gemma4:31b
 "Close module settings" = "Închide setările modulului"; // qwen3.8:27b
 

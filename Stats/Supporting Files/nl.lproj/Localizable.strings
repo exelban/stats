@@ -146,6 +146,7 @@
 "No notifications available in this module" = "Geen meldingen beschikbaar in deze module";
 "Open Calendar" = "Open kalender";
 "Toggle the module" = "Activeer/deactiveer de module";
+"Preview is unavailable while module is disabled." = "Het voorbeeld is niet beschikbaar zolang de module is uitgeschakeld.";
 "Open System Stats" = "Systeemstatistieken openen"; // qwen3.8:27b
 "Close module settings" = "Moduleinstellingen sluiten"; // qwen3.8:27b
 

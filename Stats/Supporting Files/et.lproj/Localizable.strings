@@ -146,6 +146,7 @@
 "No notifications available in this module" = "Selles moodulis pole saadaval teavitusi.";
 "Open Calendar" = "Ava kalender";
 "Toggle the module" = "Lülita moodul sisse";
+"Preview is unavailable while module is disabled." = "Eelvaade pole saadaval, kui moodul on välja lülitatud.";
 "Open System Stats" = "Ava System Stats"; // gemma4:31b
 "Close module settings" = "Sulge mooduli seaded"; // qwen3.8:27b
 

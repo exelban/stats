@@ -146,6 +146,7 @@
 "No notifications available in this module" = "Δεν υπάρχουν διαθέσιμες ειδοποιήσεις σε αυτήν τη μονάδα"; // gemma4:31b
 "Open Calendar" = "Άνοιγμα Ημερολογίου"; // translategemma:4b
 "Toggle the module" = "Εναλλαγή της μονάδας"; // gemma4:31b
+"Preview is unavailable while module is disabled." = "Η προεπισκόπηση δεν είναι διαθέσιμη όσο η μονάδα είναι απενεργοποιημένη.";
 "Open System Stats" = "Άνοιξε το System Stats"; // gemma4:31b
 "Close module settings" = "Κλείσιμο ρυθμίσεων μονάδας"; // qwen3.8:27b
 

@@ -146,6 +146,7 @@
 "No notifications available in this module" = "இந்த தொகுதியில் அறிவிப்புகள் எதுவும் இல்லை";
 "Open Calendar" = "நாட்காட்டியைத் திற";
 "Toggle the module" = "தொகுதியை மாற்று";
+"Preview is unavailable while module is disabled." = "தொகுதி முடக்கப்பட்டிருக்கும் போது முன்னோட்டம் கிடைக்காது.";
 "Open System Stats" = "System Stats-ஐத் திற";
 "Close module settings" = "தொகுதி அமைப்புகளை மூடு"; // qwen3.8:27b
 

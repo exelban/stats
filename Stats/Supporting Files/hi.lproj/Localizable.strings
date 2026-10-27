@@ -146,6 +146,7 @@
 "No notifications available in this module" = "इस मॉड्यूल में कोई नोटिफिकेशन उपलब्ध नहीं हैं"; // gemma4:31b
 "Open Calendar" = "कैलेंडर खोलें"; // translategemma:4b
 "Toggle the module" = "मॉड्यूल को टॉगल करें"; // gemma4:31b
+"Preview is unavailable while module is disabled." = "मॉड्यूल अक्षम होने पर पूर्वावलोकन उपलब्ध नहीं है।";
 "Open System Stats" = "System Stats खोलें"; // gemma4:31b
 "Close module settings" = "मॉड्यूल सेटिंग्स बंद करें"; // qwen3.8:27b
 

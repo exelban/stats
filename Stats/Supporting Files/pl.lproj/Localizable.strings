@@ -146,6 +146,7 @@
 "No notifications available in this module" = "W tym module nie są dostępne żadne powiadomienia";
 "Open Calendar" = "Otwórz kalendarz";
 "Toggle the module" = "Przełącz moduł";
+"Preview is unavailable while module is disabled." = "Podgląd jest niedostępny, gdy moduł jest wyłączony.";
 "Open System Stats" = "Otwórz System Stats";
 "Close module settings" = "Zamknij ustawienia modułu";
 

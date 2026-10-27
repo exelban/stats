@@ -146,6 +146,7 @@
 "No notifications available in this module" = "No hi ha notificacions disponibles en aquest mòdul"; // gemma4:31b
 "Open Calendar" = "Obrir el calendari"; // gemma4:31b
 "Toggle the module" = "Alternar el mòdul"; // gemma4:31b
+"Preview is unavailable while module is disabled." = "La previsualització no està disponible mentre el mòdul està desactivat.";
 "Open System Stats" = "Obrir System Stats"; // gemma4:31b
 "Close module settings" = "Tancar la configuració del mòdul"; // qwen3.8:27b
 

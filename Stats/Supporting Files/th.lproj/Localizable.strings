@@ -146,6 +146,7 @@
 "No notifications available in this module" = "ไม่มีการแจ้งเตือนที่พร้อมใช้งานในโมดูลนี้"; // gemma4:31b
 "Open Calendar" = "เปิดปฏิทิน"; // translategemma:4b
 "Toggle the module" = "สลับโมดูล"; // gemma4:31b
+"Preview is unavailable while module is disabled." = "ไม่สามารถแสดงตัวอย่างได้ขณะที่โมดูลถูกปิดใช้งาน";
 "Open System Stats" = "เปิด System Stats"; // gemma4:31b
 "Close module settings" = "ปิดการตั้งค่าโมดูล"; // qwen3.8:27b
 

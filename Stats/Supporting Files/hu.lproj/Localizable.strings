@@ -146,6 +146,7 @@
 "No notifications available in this module" = "Nincsenek elérhető értesítések ebben a modulban";
 "Open Calendar" = "Naptár megnyitása"; // gemma4:31b
 "Toggle the module" = "Kapcsolja a modult"; // gemma4:31b
+"Preview is unavailable while module is disabled." = "Az előnézet nem érhető el, amíg a modul ki van kapcsolva.";
 "Open System Stats" = "System Stats megnyitása"; // gemma4:31b
 "Close module settings" = "Modulbeállítások bezárása"; // qwen3.8:27b
 

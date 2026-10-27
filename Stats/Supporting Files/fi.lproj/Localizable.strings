@@ -146,6 +146,7 @@
 "No notifications available in this module" = "Ei ilmoituksia tässä moduulissa";
 "Open Calendar" = "Avaa kalenteri"; // translategemma:4b
 "Toggle the module" = "Kytke moduuli"; // gemma4:31b
+"Preview is unavailable while module is disabled." = "Esikatselu ei ole käytettävissä, kun moduuli on pois käytöstä.";
 "Open System Stats" = "Avaa System Stats"; // gemma4:31b
 "Close module settings" = "Sulje moduulin asetukset"; // qwen3.8:27b
 

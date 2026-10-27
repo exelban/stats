@@ -146,6 +146,7 @@
 "No notifications available in this module" = "No notifications available in this module";
 "Open Calendar" = "Open Calendar";
 "Toggle the module" = "Toggle the module";
+"Preview is unavailable while module is disabled." = "Preview is unavailable while module is disabled.";
 "Open System Stats" = "Open System Stats";
 "Close module settings" = "Close module settings";
 
