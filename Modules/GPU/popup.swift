@@ -18,6 +18,16 @@ internal class Popup: PopupWrapper {
     private let detailsHeight: CGFloat = (22*7) + Constants.Popup.separatorHeight
     
     private let loadCache = PopupCache<GPU_Info>()
+    private let processesCache = PopupCache<[TopProcess]>()
+    private var processes: ProcessesView? = nil
+    private var processesView: NSView? = nil
+    
+    private var numberOfProcesses: Int {
+        Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)
+    }
+    private var processesHeight: CGFloat {
+        (22*CGFloat(self.numberOfProcesses)) + (self.numberOfProcesses == 0 ? 0 : Constants.Popup.separatorHeight + 22)
+    }
     
     private var usageCircle: PieChartView? = nil
     private var renderCircle: PieChartView? = nil
@@ -46,6 +56,7 @@ internal class Popup: PopupWrapper {
         self.addArrangedSubview(self.initDashboard())
         self.addArrangedSubview(self.initChart())
         self.addArrangedSubview(self.initDetails())
+        self.addArrangedSubview(self.initProcesses())
         
         self.recalculateHeight()
     }
@@ -60,10 +71,15 @@ internal class Popup: PopupWrapper {
     
     public override func appear() {
         self.replay(self.loadCache, render: self.renderLoad)
+        self.replay(self.processesCache, render: self.renderProcesses)
+    }
+    
+    public override func disappear() {
+        self.processes?.setLock(false)
     }
     
     private func recalculateHeight() {
-        let h = self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - self.spacing
+        let h = self.dashboardHeight + self.chartHeight + self.detailsHeight + self.processesHeight
         if self.frame.size.height != h {
             self.setFrameSize(NSSize(width: self.frame.width, height: h))
             self.sizeCallback?(self.frame.size)
@@ -121,6 +137,7 @@ internal class Popup: PopupWrapper {
     
     private func initDetails() -> NSView  {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.detailsHeight))
+        view.heightAnchor.constraint(equalToConstant: self.detailsHeight).isActive = true
         let separator = separatorView(localizedString("Details"), origin: NSPoint(x: 0, y: self.detailsHeight-Constants.Popup.separatorHeight), width: self.frame.width)
         let container: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: separator.frame.origin.y))
         container.orientation = .vertical
@@ -140,7 +157,61 @@ internal class Popup: PopupWrapper {
         return view
     }
     
+    private func initProcesses() -> NSView {
+        if self.numberOfProcesses == 0 {
+            let v = NSView()
+            v.heightAnchor.constraint(equalToConstant: 0).isActive = true
+            self.processesView = v
+            return v
+        }
+        
+        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.processesHeight))
+        view.heightAnchor.constraint(equalToConstant: self.processesHeight).isActive = true
+        let separator = separatorView(localizedString("Top processes"), origin: NSPoint(x: 0, y: self.processesHeight-Constants.Popup.separatorHeight), width: self.frame.width)
+        let container: ProcessesView = ProcessesView(
+            frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y),
+            values: [(localizedString("Usage"), nil)],
+            n: self.numberOfProcesses
+        )
+        self.processes = container
+        
+        view.addSubview(separator)
+        view.addSubview(container)
+        
+        self.processesView = view
+        return view
+    }
+    
     // MARK: - Callback
+    
+    public func processCallback(_ list: [TopProcess]?) {
+        guard let list else { return }
+        self.apply(list, to: self.processesCache, render: self.renderProcesses)
+    }
+    
+    private func renderProcesses(_ list: [TopProcess]) {
+        guard let view = self.processes else { return }
+        
+        for i in 0..<view.count {
+            if list.indices.contains(i) {
+                let process = list[i]
+                view.set(i, process, [String(format: "%.1f%%", process.usage)])
+            } else {
+                view.set(i, nil, [])
+            }
+        }
+    }
+    
+    public func numberOfProcessesUpdated() {
+        if self.processes?.count == self.numberOfProcesses { return }
+        
+        self.processesView?.removeFromSuperview()
+        self.processesView = nil
+        self.processes = nil
+        self.addArrangedSubview(self.initProcesses())
+        self.replay(self.processesCache, render: self.renderProcesses)
+        self.recalculateHeight()
+    }
     
     public func loadCallback(_ value: GPU_Info) {
         self.apply(value, to: self.loadCache, render: self.renderLoad)

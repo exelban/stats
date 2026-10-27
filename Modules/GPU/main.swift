@@ -113,6 +113,7 @@ public class GPU: Module {
     private let previewView: Preview
     
     private var infoReader: InfoReader? = nil
+    private var processReader: ProcessReader? = nil
     
     private var selectedGPU: String = ""
     
@@ -148,6 +149,10 @@ public class GPU: Module {
         self.infoReader = InfoReader(.GPU) { [weak self] value in
             self?.infoCallback(value)
         }
+        self.processReader = ProcessReader(.GPU) { [weak self] value in
+            self?.popupView.processCallback(value)
+            self?.previewView.processCallback(value)
+        }
         self.selectedGPU = Store.shared.string(key: "\(self.config.name)_gpu", defaultValue: self.selectedGPU)
         
         self.settingsView.selectedGPUHandler = { [weak self] value in
@@ -160,8 +165,19 @@ public class GPU: Module {
         self.settingsView.callback = { [weak self] in
             self?.infoReader?.read()
         }
+        self.settingsView.callbackWhenUpdateNumberOfProcesses = { [weak self] in
+            guard let self else { return }
+            self.popupView.numberOfProcessesUpdated()
+            self.previewView.numberOfProcessesUpdated()
+            DispatchQueue.global(qos: .background).async { [weak self] in
+                self?.processReader?.read()
+            }
+        }
+        self.settingsView.setTopInterval = { [weak self] value in
+            self?.processReader?.setInterval(value)
+        }
         
-        self.setReaders([self.infoReader])
+        self.setReaders([self.infoReader, self.processReader])
     }
     
     private func infoCallback(_ raw: GPUs?) {
