@@ -72,6 +72,8 @@ open class Window: NSStackView {
     private var isNotificationsSettingsAvailable: Bool
     
     private var previewView: NSView? = nil
+    private var previewScrollView: ScrollableStackView? = nil
+    private var disabledPreviewView: NSView? = nil
     private var settingsView: NSView? = nil
     
     init(
@@ -115,6 +117,7 @@ open class Window: NSStackView {
         NotificationCenter.default.addObserver(self, selector: #selector(listenForOneView), name: .toggleOneView, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenForToggleView), name: .togglePreview, object: nil)
         
+        self.previewView?.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         self.segmentedControl?.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -(Constants.Settings.margin*2)).isActive = true
         self.widgetSelector?.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -(Constants.Settings.margin*2)).isActive = true
         self.moduleSettings?.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -(Constants.Settings.margin*2)).isActive = true
@@ -131,12 +134,18 @@ open class Window: NSStackView {
     
     public func setState(_ newState: Bool) {
         toggleNSControlState(self.enableControl, state: newState ? .on : .off)
+        self.previewScrollView?.setAccessibilityHidden(!newState)
+        self.disabledPreviewView?.isHidden = newState
     }
     
     private func preview() -> NSView? {
         guard let v = self.modulePreview else { return nil }
         
+        let view = NSView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
         let scrollView: ScrollableStackView = ScrollableStackView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.stackView.edgeInsets = NSEdgeInsets(
             top: 0,
             left: Constants.Settings.margin,
@@ -144,8 +153,75 @@ open class Window: NSStackView {
             right: Constants.Settings.margin
         )
         scrollView.stackView.addArrangedSubview(v)
+        view.addSubview(scrollView)
+        self.previewScrollView = scrollView
         
-        return scrollView
+        let overlay = NSView()
+        overlay.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(overlay)
+        self.disabledPreviewView = overlay
+        
+        let background = NSVisualEffectView()
+        background.translatesAutoresizingMaskIntoConstraints = false
+        background.blendingMode = .withinWindow
+        background.material = .windowBackground
+        background.state = .active
+        background.alphaValue = 0.85
+        overlay.addSubview(background)
+        
+        let messageBackground = NSBox()
+        messageBackground.translatesAutoresizingMaskIntoConstraints = false
+        messageBackground.boxType = .custom
+        messageBackground.titlePosition = .noTitle
+        messageBackground.borderWidth = 0
+        messageBackground.cornerRadius = Constants.Settings.margin
+        messageBackground.fillColor = .windowBackgroundColor
+        overlay.addSubview(messageBackground)
+        
+        let message = NSStackView()
+        message.translatesAutoresizingMaskIntoConstraints = false
+        message.orientation = .vertical
+        message.alignment = .centerX
+        message.spacing = Constants.Settings.margin
+        
+        let title = NSTextField(wrappingLabelWithString: localizedString("Preview is unavailable while module is disabled."))
+        title.font = NSFont.systemFont(ofSize: 16, weight: .semibold)
+        title.textColor = .labelColor
+        title.alignment = .center
+        message.addArrangedSubview(title)
+        
+        let button = NSButton(title: localizedString("Enable"), target: self, action: #selector(self.enableModule))
+        button.bezelStyle = .rounded
+        message.addArrangedSubview(button)
+        overlay.addSubview(message)
+        
+        NSLayoutConstraint.activate([
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            overlay.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            overlay.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            overlay.topAnchor.constraint(equalTo: view.topAnchor),
+            overlay.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            background.leadingAnchor.constraint(equalTo: overlay.leadingAnchor),
+            background.trailingAnchor.constraint(equalTo: overlay.trailingAnchor),
+            background.topAnchor.constraint(equalTo: overlay.topAnchor),
+            background.bottomAnchor.constraint(equalTo: overlay.bottomAnchor),
+            
+            messageBackground.leadingAnchor.constraint(equalTo: message.leadingAnchor, constant: -(Constants.Settings.margin*2)),
+            messageBackground.trailingAnchor.constraint(equalTo: message.trailingAnchor, constant: Constants.Settings.margin*2),
+            messageBackground.topAnchor.constraint(equalTo: message.topAnchor, constant: -(Constants.Settings.margin*2)),
+            messageBackground.bottomAnchor.constraint(equalTo: message.bottomAnchor, constant: Constants.Settings.margin*2),
+            
+            message.centerXAnchor.constraint(equalTo: overlay.centerXAnchor),
+            message.centerYAnchor.constraint(equalTo: overlay.centerYAnchor),
+            message.widthAnchor.constraint(lessThanOrEqualTo: overlay.widthAnchor, constant: -(Constants.Settings.margin*6))
+        ])
+        
+        return view
     }
     
     private func settings() -> NSView {
@@ -322,6 +398,10 @@ open class Window: NSStackView {
     
     @objc func switchTabs(sender: NSSegmentedControl) {
         self.tabView?.selectTabViewItem(at: sender.selectedSegment)
+    }
+    
+    @objc private func enableModule() {
+        NotificationCenter.default.post(name: .toggleModule, object: nil, userInfo: ["module": self.config.name, "state": true])
     }
     
     @objc private func toggleOneView(_ sender: NSControl) {

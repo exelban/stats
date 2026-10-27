@@ -167,6 +167,7 @@ open class Module {
             popupSettings: self.popupView,
             notificationsSettings: self.notificationsView
         )
+        self.window?.setState(self.enabled)
         
         self.popup = PopupWindow(title: self.config.name, module: self.moduleType, view: self.popupView, visibilityCallback: self.popupVisibilityCallback)
     }

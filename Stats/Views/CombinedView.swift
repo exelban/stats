@@ -90,6 +90,7 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
     }
     
     public func disable() {
+        self.popup?.setIsVisible(false)
         if let item = self.menuBarItem {
             NSStatusBar.system.removeStatusItem(item)
         }
