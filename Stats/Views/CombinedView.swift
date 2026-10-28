@@ -158,12 +158,8 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
     
     private func togglePopup() {
         guard let popup = self.popup, let item = self.menuBarItem, let window = item.button?.window else { return }
-        let openedWindows = NSApplication.shared.windows.filter{ $0 is NSPanel }
-        openedWindows.forEach{ $0.setIsVisible(false) }
         
         if popup.occlusionState.rawValue == 8192 {
-            NSApplication.shared.activate(ignoringOtherApps: true)
-            
             popup.contentView?.invalidateIntrinsicContentSize()
             
             let windowCenter = popup.contentView!.intrinsicContentSize.width / 2
@@ -181,7 +177,8 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
             }
             
             popup.setFrameOrigin(NSPoint(x: x, y: y))
-            popup.setIsVisible(true)
+            popup.orderFrontRegardless()
+            popup.makeKey()
         } else {
             popup.setIsVisible(false)
         }

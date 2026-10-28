@@ -320,9 +320,6 @@ open class Module {
             return
         }
         
-        let openedWindows = NSApplication.shared.windows.filter{ $0 is NSPanel }
-        openedWindows.forEach{ $0.setIsVisible(false) }
-        
         var reopen: Bool = false
         if let widget = notification.userInfo?["widget"] as? widget_t {
             reopen = popup.openedBy != nil && popup.openedBy != widget
@@ -330,8 +327,6 @@ open class Module {
         }
         
         if popup.occlusionState.rawValue == 8192 || reopen {
-            NSApplication.shared.activate(ignoringOtherApps: true)
-            
             popup.contentView?.invalidateIntrinsicContentSize()
             
             let windowCenter = popup.contentView!.intrinsicContentSize.width / 2
@@ -349,7 +344,8 @@ open class Module {
             }
             
             popup.setFrameOrigin(NSPoint(x: x, y: y))
-            popup.setIsVisible(true)
+            popup.orderFrontRegardless()
+            popup.makeKey()
         } else {
             popup.locked = false
             popup.openedBy = nil

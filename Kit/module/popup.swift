@@ -77,7 +77,7 @@ open class PopupWrapper: NSStackView, Popup_p {
     }
 }
 
-public class PopupWindow: NSWindow, NSWindowDelegate {
+public class PopupWindow: NSPanel, NSWindowDelegate {
     private let viewController: PopupViewController
     internal var locked: Bool = false
     internal var openedBy: widget_t? = nil
@@ -93,7 +93,7 @@ public class PopupWindow: NSWindow, NSWindowDelegate {
                 width: self.viewController.view.frame.width,
                 height: self.viewController.view.frame.height
             ),
-            styleMask: [.titled, .fullSizeContentView],
+            styleMask: [.titled, .fullSizeContentView, .nonactivatingPanel],
             backing: .buffered,
             defer: true
         )
@@ -107,7 +107,8 @@ public class PopupWindow: NSWindow, NSWindowDelegate {
         self.titleVisibility = .hidden
         self.contentViewController = self.viewController
         self.titlebarAppearsTransparent = true
-        self.animationBehavior = .default
+        self.animationBehavior = .none
+        self.hidesOnDeactivate = false
         self.collectionBehavior = .moveToActiveSpace
         self.backgroundColor = .clear
         self.hasShadow = true
