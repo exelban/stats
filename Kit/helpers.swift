@@ -200,19 +200,7 @@ public struct Units {
     }
     
     private func formatSpeedValue(_ value: Double) -> String {
-        let maximumFractionDigits: Int
-        switch value {
-        case 0:
-            maximumFractionDigits = 0
-        case ..<10:
-            maximumFractionDigits = 2
-        case ..<100:
-            maximumFractionDigits = 1
-        default:
-            maximumFractionDigits = 0
-        }
-        
-        return FormatterCache.shared.decimal(value, maximumFractionDigits: maximumFractionDigits) ?? String(format: "%.2f", value)
+        return FormatterCache.shared.decimal(value, fractionDigits: 2) ?? String(format: "%.2f", value)
     }
 }
 
