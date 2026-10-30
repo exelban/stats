@@ -557,6 +557,7 @@
 "Identificator" = "شناسه"; // qwen3.8:27b
 "Plan" = "برنامه"; // qwen3.8:27b
 "Monitoring" = "پایش"; // qwen3.8:27b
+"Modules" = "ماژول‌ها";
 "Control" = "کنترل"; // qwen3.8:27b
 "Update" = "به‌روزرسانی"; // qwen3.8:27b
 "Sign in" = "ورود"; // qwen3.8:27b

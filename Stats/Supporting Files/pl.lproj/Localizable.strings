@@ -557,6 +557,7 @@
 "Identificator" = "Identyfikator"; // qwen3.8:27b
 "Plan" = "Plan";
 "Monitoring" = "Monitorowanie"; // qwen3.8:27b
+"Modules" = "Moduły";
 "Control" = "Sterowanie"; // qwen3.8:27b
 "Update" = "Aktualizuj"; // qwen3.8:27b
 "Sign in" = "Zaloguj się"; // qwen3.8:27b

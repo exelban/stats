@@ -557,6 +557,7 @@
 "Identificator" = "Azonosító"; // qwen3.8:27b
 "Plan" = "Csomag"; // qwen3.8:27b
 "Monitoring" = "Figyelés"; // qwen3.8:27b
+"Modules" = "Modulok";
 "Control" = "Vezérlés"; // qwen3.8:27b
 "Update" = "Frissítés"; // qwen3.8:27b
 "Sign in" = "Bejelentkezés"; // qwen3.8:27b

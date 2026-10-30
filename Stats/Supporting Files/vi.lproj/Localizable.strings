@@ -557,6 +557,7 @@
 "Identificator" = "Định danh"; // qwen3.8:27b
 "Plan" = "Gói"; // qwen3.8:27b
 "Monitoring" = "Giám sát"; // qwen3.8:27b
+"Modules" = "Mô-đun";
 "Control" = "Điều khiển"; // qwen3.8:27b
 "Update" = "Cập nhật"; // qwen3.8:27b
 "Sign in" = "Đăng nhập"; // qwen3.8:27b

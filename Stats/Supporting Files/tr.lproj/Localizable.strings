@@ -557,6 +557,7 @@
 "Identificator" = "Kimlik"; // qwen3.8:27b
 "Plan" = "Plan";
 "Monitoring" = "İzleme"; // qwen3.8:27b
+"Modules" = "Modüller";
 "Control" = "Kontrol"; // qwen3.8:27b
 "Update" = "Güncelle"; // qwen3.8:27b
 "Sign in" = "Oturum aç"; // qwen3.8:27b

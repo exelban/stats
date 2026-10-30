@@ -557,6 +557,7 @@
 "Identificator" = "Αναγνωριστικό"; // qwen3.8:27b
 "Plan" = "Σχέδιο"; // qwen3.8:27b
 "Monitoring" = "Παρακολούθηση"; // qwen3.8:27b
+"Modules" = "Ενότητες";
 "Control" = "Έλεγχος"; // qwen3.8:27b
 "Update" = "Ενημέρωση"; // qwen3.8:27b
 "Sign in" = "Σύνδεση"; // qwen3.8:27b

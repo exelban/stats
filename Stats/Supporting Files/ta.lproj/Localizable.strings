@@ -557,6 +557,7 @@
 "Identificator" = "அடையாளம்"; // qwen3.8:27b
 "Plan" = "திட்டம்"; // qwen3.8:27b
 "Monitoring" = "கண்காணிப்பு"; // qwen3.8:27b
+"Modules" = "தொகுதிகள்";
 "Control" = "கட்டுப்பாடு"; // qwen3.8:27b
 "Update" = "புதுப்பி"; // qwen3.8:27b
 "Sign in" = "உள்நுழைய"; // qwen3.8:27b

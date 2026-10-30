@@ -557,6 +557,7 @@
 "Identificator" = "Identifikator"; // qwen3.8:27b
 "Plan" = "Plan";
 "Monitoring" = "Overvågning"; // qwen3.8:27b
+"Modules" = "Moduler";
 "Control" = "Kontrol"; // qwen3.8:27b
 "Update" = "Opdater"; // qwen3.8:27b
 "Sign in" = "Log ind"; // qwen3.8:27b

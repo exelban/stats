@@ -557,6 +557,7 @@
 "Identificator" = "পরিচিতি"; // qwen3.8:27b
 "Plan" = "প্ল্যান"; // qwen3.8:27b
 "Monitoring" = "নিরীক্ষণ"; // qwen3.8:27b
+"Modules" = "মডিউল";
 "Control" = "নিয়ন্ত্রণ"; // qwen3.8:27b
 "Update" = "হালনাগাদ"; // qwen3.8:27b
 "Sign in" = "সাইন ইন"; // qwen3.8:27b

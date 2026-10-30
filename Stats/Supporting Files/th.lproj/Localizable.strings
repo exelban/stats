@@ -557,6 +557,7 @@
 "Identificator" = "ตัวระบุ"; // qwen3.8:27b
 "Plan" = "แผน"; // qwen3.8:27b
 "Monitoring" = "การตรวจสอบ"; // qwen3.8:27b
+"Modules" = "โมดูล";
 "Control" = "ควบคุม"; // qwen3.8:27b
 "Update" = "อัปเดต"; // qwen3.8:27b
 "Sign in" = "เข้าสู่ระบบ"; // qwen3.8:27b

@@ -557,6 +557,7 @@
 "Identificator" = "标识符"; // qwen3.8:27b
 "Plan" = "方案"; // qwen3.8:27b
 "Monitoring" = "监控"; // qwen3.8:27b
+"Modules" = "模块";
 "Control" = "控制"; // qwen3.8:27b
 "Update" = "更新"; // qwen3.8:27b
 "Sign in" = "登录"; // qwen3.8:27b

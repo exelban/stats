@@ -557,6 +557,7 @@
 "Identificator" = "पहचानकर्ता"; // qwen3.8:27b
 "Plan" = "योजना"; // qwen3.8:27b
 "Monitoring" = "निगरानी"; // qwen3.8:27b
+"Modules" = "मॉड्यूल";
 "Control" = "नियंत्रण"; // qwen3.8:27b
 "Update" = "अपडेट"; // qwen3.8:27b
 "Sign in" = "साइन इन करें"; // qwen3.8:27b

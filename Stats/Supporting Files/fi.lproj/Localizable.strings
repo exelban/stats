@@ -557,6 +557,7 @@
 "Identificator" = "Tunniste"; // qwen3.8:27b
 "Plan" = "Suunnitelma"; // qwen3.8:27b
 "Monitoring" = "Seuranta"; // qwen3.8:27b
+"Modules" = "Moduulit";
 "Control" = "Hallinta"; // qwen3.8:27b
 "Update" = "Päivitä"; // qwen3.8:27b
 "Sign in" = "Kirjaudu sisään"; // qwen3.8:27b

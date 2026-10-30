@@ -557,6 +557,7 @@
 "Identificator" = "식별자"; // qwen3.8:27b
 "Plan" = "플랜"; // qwen3.8:27b
 "Monitoring" = "모니터링"; // qwen3.8:27b
+"Modules" = "모듈";
 "Control" = "제어"; // qwen3.8:27b
 "Update" = "업데이트"; // qwen3.8:27b
 "Sign in" = "로그인"; // qwen3.8:27b

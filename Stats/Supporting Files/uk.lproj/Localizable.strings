@@ -557,6 +557,7 @@
 "Identificator" = "Ідентифікатор"; // qwen3.8:27b
 "Plan" = "План"; // qwen3.8:27b
 "Monitoring" = "Моніторинг"; // qwen3.8:27b
+"Modules" = "Модулі";
 "Control" = "Керування"; // qwen3.8:27b
 "Update" = "Оновити"; // qwen3.8:27b
 "Sign in" = "Увійти"; // qwen3.8:27b

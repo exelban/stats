@@ -557,6 +557,7 @@
 "Identificator" = "識別子"; // qwen3.8:27b
 "Plan" = "プラン"; // qwen3.8:27b
 "Monitoring" = "監視"; // qwen3.8:27b
+"Modules" = "モジュール";
 "Control" = "コントロール"; // qwen3.8:27b
 "Update" = "更新"; // qwen3.8:27b
 "Sign in" = "サインイン"; // qwen3.8:27b

@@ -557,6 +557,7 @@
 "Identificator" = "المعرّف"; // qwen3.8:27b
 "Plan" = "الخطة"; // qwen3.8:27b
 "Monitoring" = "المراقبة"; // qwen3.8:27b
+"Modules" = "الوحدات";
 "Control" = "التحكم"; // qwen3.8:27b
 "Update" = "تحديث"; // qwen3.8:27b
 "Sign in" = "تسجيل الدخول"; // qwen3.8:27b

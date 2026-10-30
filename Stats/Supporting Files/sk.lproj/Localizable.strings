@@ -557,6 +557,7 @@
 "Identificator" = "Identifikátor"; // qwen3.8:27b
 "Plan" = "Plán"; // qwen3.8:27b
 "Monitoring" = "Monitorovanie"; // qwen3.8:27b
+"Modules" = "Moduly";
 "Control" = "Ovládanie"; // qwen3.8:27b
 "Update" = "Aktualizovať"; // qwen3.8:27b
 "Sign in" = "Prihlásiť sa"; // qwen3.8:27b

@@ -557,6 +557,7 @@
 "Identificator" = "Identifikator"; // qwen3.8:27b
 "Plan" = "Plan";
 "Monitoring" = "Praćenje"; // qwen3.8:27b
+"Modules" = "Moduli";
 "Control" = "Upravljanje"; // qwen3.8:27b
 "Update" = "Ažuriraj"; // qwen3.8:27b
 "Sign in" = "Prijava"; // qwen3.8:27b
