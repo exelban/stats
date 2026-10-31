@@ -194,11 +194,9 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
     internal func open(module: String? = nil) {
         if !self.isVisible {
             self.setIsVisible(true)
-            self.makeKeyAndOrderFront(nil)
         }
-        if !self.isKeyWindow {
-            self.orderFrontRegardless()
-        }
+        NSApp.activate(ignoringOtherApps: true)
+        self.makeKeyAndOrderFront(nil)
         
         if var name = module {
             if name == "Combined modules" { name = "Dashboard" }

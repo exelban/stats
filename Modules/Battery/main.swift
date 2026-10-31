@@ -46,11 +46,17 @@ struct Battery_Usage: Codable, RemoteType {
     var ups: UPS_Usage? = nil
     var available: Bool? = nil
     
-    func remote() -> Data? {
+    func remote() -> String? {
         guard self.available == true else { return nil }
+        var powerSource = self.powerSource
+        if powerSource == "AC Power" {
+            powerSource = "ac"
+        } else if powerSource == "Battery Power" {
+            powerSource = "battery"
+        }
         let health = self.designedCapacity > 1 && self.maxCapacity > 1 ? String(self.health) : ""
-        let string = "\(self.level),\(self.powerSource),\(self.isCharging),\(health),\(self.cycles)$"
-        return string.data(using: .utf8)
+        let string = "\(self.level),\(powerSource),\(self.isCharging ? 1 : 0),\(health),\(self.cycles)$"
+        return string
     }
 }
 
