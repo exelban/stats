@@ -28,6 +28,23 @@ public enum SensorType: String, Codable {
     case power = "Power"
     case energy = "Energy"
     case fan = "Fans"
+    
+    var remoteCode: String {
+        switch self {
+        case .temperature:
+            return "t"
+        case .voltage:
+            return "v"
+        case .current:
+            return "c"
+        case .power:
+            return "p"
+        case .energy:
+            return "e"
+        case .fan:
+            return "f"
+        }
+    }
 }
 
 public protocol Sensor_p {
@@ -51,7 +68,7 @@ public protocol Sensor_p {
     var formattedPopupValue: String { get }
 }
 
-public class Sensors_List: Codable {
+public class Sensors_List: Codable, RemoteType {
     private var queue: DispatchQueue = DispatchQueue(label: "eu.exelban.Stats.Sensors.SynchronizedArray", attributes: .concurrent)
     
     private var list: [Sensor_p] = []
@@ -88,6 +105,26 @@ public class Sensors_List: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let wrappers = try container.decode([Sensor_w].self, forKey: .sensors)
         self.sensors = wrappers.map { $0.sensor }
+    }
+    
+    public func remote() -> String? {
+        let sensors = self.sensors.filter({ $0.group != .unknown && $0.value.isFinite })
+        var string = "\(sensors.count)"
+        for sensor in sensors {
+            let key = self.escapeRemoteField(sensor.key)
+            let name = self.escapeRemoteField(sensor.name)
+            let type = sensor.type.remoteCode
+            string += ",\(key),\(name),\(type),\(sensor.value)"
+        }
+        string += "$"
+        return string
+    }
+    
+    private func escapeRemoteField(_ value: String) -> String {
+        guard value.utf8.contains(where: { $0 == 0x25 || $0 == 0x2C || $0 == 0x24 }) else { return value }
+        return value.replacingOccurrences(of: "%", with: "%25")
+            .replacingOccurrences(of: ",", with: "%2C")
+            .replacingOccurrences(of: "$", with: "%24")
     }
 }
 

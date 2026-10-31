@@ -83,7 +83,7 @@ public struct drive: Codable {
     }
     
     public func remote() -> String {
-        return "\(self.uuid),\(self.size),\(self.size-self.free),\(self.free),\(self.activity.read),\(self.activity.write)"
+        return "\(self.uuid),\(self.size),\(self.size-self.free),,\(self.activity.read),\(self.activity.write)"
     }
 }
 
@@ -161,17 +161,14 @@ public class Disks: Codable, RemoteType {
         self.array[idx].smart = smart
     }
     
-    public func remote() -> Data? {
+    public func remote() -> String? {
         let arr = self.array.filter({ !$0.removable })
-        var string = "\(arr.count),"
-        for (i, v) in arr.enumerated() {
-            string += v.remote()
-            if i != self.array.count {
-                string += ","
-            }
+        var string = "\(arr.count)"
+        for v in arr {
+            string += ",\(v.remote())"
         }
         string += "$"
-        return string.data(using: .utf8)
+        return string
     }
 }
 

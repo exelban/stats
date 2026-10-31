@@ -105,10 +105,10 @@ public struct Network_Usage: Codable, RemoteType {
         self.wifiDetails.reset()
     }
     
-    public func remote() -> Data? {
+    public func remote() -> String? {
         let addr = "\(self.laddr.v4 ?? ""),\(self.laddr.v6 ?? ""),\(self.raddr.v4 ?? ""),\(self.raddr.v6 ?? "")"
         let string = "1,\(self.interface?.BSDName ?? ""),1,\(self.bandwidth.download),\(self.bandwidth.upload),\(addr)$"
-        return string.data(using: .utf8)
+        return string
     }
 }
 

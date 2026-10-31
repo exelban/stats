@@ -16,7 +16,7 @@ import CoreAudio
 import Security
 
 public protocol RemoteType {
-    func remote() -> Data?
+    func remote() -> String?
 }
 
 public enum AccountPlan: String, Codable {
@@ -229,6 +229,7 @@ public class SystemStats {
     }
     
     fileprivate func shouldSendMetric(key: String) -> Bool {
+        guard key != "Disk@SMARTReader" else { return false }
         guard self.monitoring && self.isAuthorized, let module = key.split(separator: "@").first else { return false }
         return self.isMonitoringEnabled(for: String(module))
     }
@@ -931,7 +932,7 @@ final class RemoteMetricBatch {
     
     func append(key: String, value: RemoteType) {
         guard self.isEnabled(key) else { return }
-        guard let data = value.remote(), let value = String(data: data, encoding: .utf8) else { return }
+        guard let value = value.remote() else { return }
         
         self.pending[key] = value
         guard self.flush == nil else { return }
