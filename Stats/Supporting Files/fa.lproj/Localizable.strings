@@ -88,7 +88,7 @@
 "Save" = "ذخیره"; // translategemma:4b
 "Run" = "اجرا"; // translategemma:4b
 "Stop" = "توقف"; // gemma4:31b
-"Uninstall" = "لغو نصب"; // gemma4:31b
+"Uninstall" = "حذف نصب";
 "1 sec" = "۱ ثانیه"; // translategemma:4b
 "2 sec" = "۲ ثانیه"; // gemma4:31b
 "3 sec" = "۳ ثانیه"; // gemma4:31b
@@ -97,7 +97,7 @@
 "15 sec" = "۱۵ ثانیه"; // gemma4:31b
 "30 sec" = "۳۰ ثانیه"; // gemma4:31b
 "60 sec" = "۶۰ ثانیه"; // gemma4:31b
-"Eject" = "بیرون‌بردن"; // qwen3.8:27b
+"Eject" = "خارج کردن";
 "Enable" = "فعال کردن"; // qwen3.8:27b
 
 // Setup
@@ -110,7 +110,7 @@
 "Finish setup" = "پایان نصب";
 "Welcome to Stats" = "به Stats خوش آمدید";
 "welcome_message" = "ممنون از اینکه از Stats که یک اپ مانیتور کردن سیستم برای منو بار مک‌او‌اس هست استفاده می کنید.";
-"Select preset" = "انتخاب پیش‌فرض"; // gemma4:31b
+"Select preset" = "انتخاب پیش‌تنظیم";
 "select_preset_message" = "یک مجموعه اولیه از ماژول‌ها را انتخاب کنید. بعداً می‌توانید همه چیز را در تنظیمات شخصی‌سازی کنید."; // gemma4:31b
 "Default" = "پیش‌فرض"; // gemma4:31b
 "Basic" = "پایه"; // gemma4:31b
@@ -254,7 +254,7 @@
 "No available widgets to configure" = "ویجتی برای پیکربندی در دسترس نیست";
 "No options to configure for the popup in this module" = "در این ماژول تنظیمی برای پاپ‌آپ موجود نیست";
 "Process" = "فرآیند"; // translategemma:4b
-"Kill process" = "پایان دادن به پروسه"; // gemma4:31b
+"Kill process" = "پایان دادن به فرآیند";
 "Keyboard shortcut" = "میان‌بر صفحه‌کلید"; // gemma4:31b
 "Listening..." = "در حال گوش دادن..."; // translategemma:4b
 "Open in browser" = "باز کردن در مرورگر"; // qwen3.8:27b
@@ -318,11 +318,11 @@
 "Renderer utilization" = "استفاده از رندر";
 "Renderer utilization history" = "تاریخچه استفاده از رندر"; // qwen3.8:27b
 "Tiler utilization" = "استفاده از تایلر";
-"Tiler utilization history" = "تاریخچه میزان استفاده از تایلر"; // qwen3.8:27b
+"Tiler utilization history" = "تاریخچه استفاده از تایلر";
 "GPU usage threshold" = "آستانه مصرف جی پی یو";
 "GPU usage is" = "مصرف جی پی یو %0";
 "ANE utilization" = "استفاده از ANE"; // qwen3.8:27b
-"ANE utilization history" = "تاریخچه بهره‌برداری ANE"; // qwen3.8:27b
+"ANE utilization history" = "تاریخچه استفاده از ANE";
 "FPS history" = "تاریخچه FPS"; // qwen3.8:27b
 "GPU utilization history" = "تاریخچه استفاده از GPU"; // qwen3.8:27b
 
@@ -358,25 +358,25 @@
 "Switch view" = "تغییر نمایش";
 "Disk utilization threshold" = "آستانه مصرف دیسک";
 "Disk utilization is" = "مصرف دیسک %0";
-"Read color" = "رنگ خوانش"; // gemma4:31b
+"Read color" = "رنگ خواندن";
 "Write color" = "رنگ نوشتن"; // gemma4:31b
 "Disk usage" = "استفاده از دیسک"; // gemma4:31b
 "Total read" = "مجموع خوانده شده"; // gemma4:31b
-"Total written" = "کل نوشته شده"; // gemma4:31b
+"Total written" = "مجموع نوشته‌شده";
 "File system" = "سیستم فایل"; // gemma4:31b-it-qat
 "Connection type" = "نوع اتصال"; // gemma4:31b-it-qat
 "BSD name" = "نام BSD"; // gemma4:31b-it-qat
 "Encrypted" = "رمزگذاری شده"; // gemma4:31b-it-qat
 "Writable" = "قابل نوشتن"; // gemma4:31b-it-qat
 "Drives" = "درایوها"; // translategemma:4b
-"Power cycles" = "تعداد چرخه ها"; // gemma4:31b
+"Power cycles" = "چرخه‌های روشن و خاموش شدن";
 "Power on hours" = "ساعات کارکرد"; // gemma4:31b
 "Critical warning" = "هشدار بحرانی"; // gemma4:31b-it-qat
-"Available spare" = "رزرو موجود"; // gemma4:31b-it-qat
+"Available spare" = "فضای ذخیره موجود";
 "Unsafe shutdowns" = "خاموشی‌های غیر ایمن"; // gemma4:31b-it-qat
 "Media errors" = "خطاهای رسانه"; // gemma4:31b-it-qat
 "Threshold" = "آستانه"; // gemma4:31b-it-qat
-"Spare below threshold" = "رزرو پایین‌تر از آستانه"; // gemma4:31b-it-qat
+"Spare below threshold" = "فضای ذخیره کمتر از آستانه";
 "Temperature out of range" = "دما خارج از محدوده"; // gemma4:31b-it-qat
 "Reliability degraded" = "قابلیت اطمینان کاهش یافته"; // gemma4:31b-it-qat
 "Read-only mode" = "حالت فقط خواندنی"; // gemma4:31b-it-qat
@@ -385,7 +385,7 @@
 "Disk details" = "جزئیات دیسک"; // qwen3.8:27b
 "Main color" = "رنگ اصلی"; // qwen3.8:27b
 "Read / Write history" = "تاریخچه خواندن / نوشتن"; // qwen3.8:27b
-"mounted" = "مونتاژ شده"; // qwen3.8:27b
+"mounted" = "متصل";
 "removable" = "قابل جدا شدن"; // qwen3.8:27b
 
 // Sensors
@@ -398,14 +398,14 @@
 "Current" = "جریان";
 "Energy" = "انرژی";
 "Show unknown sensors" = "نمایش سنسور‌های ناشناخته";
-"Install fan helper" = "نصب دستیار فن"; // gemma4:31b
+"Install fan helper" = "نصب ابزار کمکی فن";
 "Uninstall fan helper" = "حذف ابزار کمکی فن"; // gemma4:31b
 "Approve in System Settings ▸ Login Items" = "در تنظیمات سیستم ▸ موارد ورود تایید کنید"; // gemma4:31b
 "Fan helper needs your approval" = "ابزار کمکی فن به تأیید شما نیاز دارد"; // gemma4:31b
-"To control the fans, enable Stats in System Settings ▸ Login Items." = "برای کنترل فن‌ها، Stats را در تنظیمات سیستم ▸ آیتم‌های ورود فعال کنید."; // gemma4:31b
-"Open Login Items" = "باز کردن آیتم‌های ورود"; // gemma4:31b
-"Could not enable the fan helper" = "امکان فعال‌سازی کمک‌کننده فن وجود نداشت"; // gemma4:31b
-"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "تنظیمات سیستم ▸ آیتم‌های ورود را باز کنید، مطمئن شوید که Stats در پس‌زمینه مجاز است، سپس دوباره تلاش کنید."; // gemma4:31b
+"To control the fans, enable Stats in System Settings ▸ Login Items." = "برای کنترل فن‌ها، Stats را در تنظیمات سیستم ▸ موارد ورود فعال کنید.";
+"Open Login Items" = "باز کردن موارد ورود";
+"Could not enable the fan helper" = "امکان فعال‌سازی ابزار کمکی فن وجود نداشت";
+"Open System Settings ▸ Login Items, make sure Stats is allowed in the background, then try again." = "تنظیمات سیستم ▸ موارد ورود را باز کنید، مطمئن شوید که Stats در پس‌زمینه مجاز است، سپس دوباره تلاش کنید.";
 "Fan value" = "مقدار فن"; // translategemma:4b
 "Turn off fan" = "خاموش کردن فن"; // gemma4:31b
 "You are going to turn off the fan. This is not recommended action that can damage your mac, are you sure you want to do that?" = "شما قصد دارید فن را خاموش کنید. این اقدام توصیه نمی‌شود و می‌تواند به Mac شما آسیب برساند، آیا مطمئن هستید که می‌خواهید این کار را انجام دهید؟"; // gemma4:31b
@@ -553,9 +553,9 @@
 "Indigo" = "نیلی";
 
 // System Stats
-"Authorization" = "مجوز"; // qwen3.8:27b
+"Authorization" = "احراز هویت";
 "Identificator" = "شناسه"; // qwen3.8:27b
-"Plan" = "برنامه"; // qwen3.8:27b
+"Plan" = "طرح اشتراک";
 "Monitoring" = "پایش"; // qwen3.8:27b
 "Modules" = "ماژول‌ها";
 "Control" = "کنترل"; // qwen3.8:27b
