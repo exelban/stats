@@ -1,0 +1,87 @@
+name: Issue template check
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+
+concurrency:
+  group: issue-template-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/github-script@v9
+        with:
+          script: |
+            const parameters = {
+              ...context.repo,
+              issue_number: context.issue.number
+            };
+            const { data: issue } = await github.rest.issues.get(parameters);
+            if (issue.state !== 'open' || issue.pull_request) {
+              return;
+            }
+
+            // Keep these fields in sync with .github/ISSUE_TEMPLATE/*.yml.
+            const templates = [
+              { fields: ['Problem', 'Steps to reproduce', 'Environment'], checks: 2 },
+              { fields: ['Problem or use case', 'Proposed feature'], checks: 3 }
+            ];
+            const headings = new Set([
+              'Before submitting',
+              'Attachments and context',
+              'Additional context',
+              ...templates.flatMap(template => template.fields)
+            ]);
+            const sections = new Map();
+            let section;
+            let fence;
+            for (const line of (issue.body || '').replace(/\r\n/g, '\n').split('\n')) {
+              const marker = line.match(/^ {0,3}(`{3,}|~{3,})(.*)$/);
+              if (marker) {
+                if (!fence) {
+                  fence = marker[1];
+                } else if (marker[1][0] === fence[0] && marker[1].length >= fence.length && !marker[2].trim()) {
+                  fence = undefined;
+                }
+              }
+
+              const heading = !fence && line.match(/^### (.+?)\s*$/);
+              if (heading && headings.has(heading[1])) {
+                section = heading[1];
+                sections.set(section, '');
+              } else if (section) {
+                sections.set(section, sections.get(section) + line + '\n');
+              }
+            }
+
+            const checks = sections.get('Before submitting') || '';
+            const checked = (checks.match(/^- \[[xX]\] .+/gm) || []).length;
+            const unchecked = /^- \[ \]/m.test(checks);
+            const valid = templates.some(template => {
+              return checked >= template.checks && !unchecked && template.fields.every(field => {
+                const value = (sections.get(field) || '').replace(/<!--[\s\S]*?-->/g, '').trim();
+                return value && value !== '_No response_';
+              });
+            });
+            if (valid) {
+              return;
+            }
+
+            const url = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/issues/new/choose`;
+            await github.rest.issues.createComment({
+              ...parameters,
+              body: `This issue is being closed because it does not include the required information from an issue template. Please [open a new issue using the Bug report or Feature request form](${url}), complete all required fields, and check the acknowledgements before submitting.`
+            });
+            await github.rest.issues.update({
+              ...parameters,
+              state: 'closed',
+              state_reason: 'not_planned'
+            });

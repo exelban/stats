@@ -231,6 +231,7 @@ public class SystemStats {
     fileprivate func shouldSendMetric(key: String) -> Bool {
         guard key != "Disk@SMARTReader" else { return false }
         guard self.monitoring && self.isAuthorized, let module = key.split(separator: "@").first else { return false }
+        guard module != "Sensors" || self.plan == .pro || self.plan == .organization else { return false }
         return self.isMonitoringEnabled(for: String(module))
     }
     
