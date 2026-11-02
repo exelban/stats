@@ -181,6 +181,10 @@ internal class InfoReader: Reader<GPUs> {
                 type = .unknown
             }
             
+            if type == .discrete, (accelerator["Removable"] as? NSNumber)?.boolValue == true {
+                type = .external
+            }
+
             if model == "" {
                 model = predictModel
             }
