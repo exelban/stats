@@ -147,10 +147,12 @@ public class GPU: Module {
         self.infoReader = InfoReader(.GPU) { [weak self] value in
             self?.infoCallback(value)
         }
+        #if arch(arm64)
         self.processReader = ProcessReader(.GPU) { [weak self] value in
             self?.popupView.processCallback(value)
             self?.previewView.processCallback(value)
         }
+        #endif
         self.selectedGPU = Store.shared.string(key: "\(self.config.name)_gpu", defaultValue: self.selectedGPU)
         
         self.settingsView.selectedGPUHandler = { [weak self] value in

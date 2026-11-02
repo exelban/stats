@@ -72,19 +72,23 @@ internal class Settings: NSStackView, Settings_v {
     public func load(widgets: [widget_t]) {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
-        self.addArrangedSubview(PreferencesSection([
+        var rows: [PreferencesRow] = [
             PreferencesRow(localizedString("Update interval"), component: selectView(
                 action: #selector(self.changeUpdateInterval),
                 items: ReaderUpdateIntervals,
                 selected: "\(self.updateIntervalValue)"
-            )),
-            PreferencesRow(localizedString("Update interval for top processes"), component: selectView(
-                action: #selector(self.changeUpdateTopInterval),
-                items: ReaderUpdateIntervals,
-                selected: "\(self.updateTopIntervalValue)"
             ))
-        ]))
+        ]
+        #if arch(arm64)
+        rows.append(PreferencesRow(localizedString("Update interval for top processes"), component: selectView(
+            action: #selector(self.changeUpdateTopInterval),
+            items: ReaderUpdateIntervals,
+            selected: "\(self.updateTopIntervalValue)"
+        )))
+        #endif
+        self.addArrangedSubview(PreferencesSection(rows))
         
+        #if arch(arm64)
         self.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Number of top processes"), component: selectView(
                 action: #selector(self.changeNumberOfProcesses),
@@ -92,6 +96,7 @@ internal class Settings: NSStackView, Settings_v {
                 selected: "\(self.numberOfProcesses)"
             ))
         ]))
+        #endif
         
         #if arch(x86_64)
         if !widgets.filter({ $0 == .mini }).isEmpty {

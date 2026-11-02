@@ -82,7 +82,9 @@ internal class Preview: PreviewWrapper {
         self.addArrangedSubview(firstSplitView)
         self.addArrangedSubview(secondSplitView)
         self.addArrangedSubview(PreferencesSection(title: localizedString("FPS history"), [fpsHistoryView]))
+        #if arch(arm64)
         self.addArrangedSubview(self.topProcesses())
+        #endif
     }
     
     required init?(coder: NSCoder) {

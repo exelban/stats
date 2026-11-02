@@ -23,7 +23,11 @@ internal class Popup: PopupWrapper {
     private var processesView: NSView? = nil
     
     private var numberOfProcesses: Int {
+        #if arch(arm64)
         Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)
+        #else
+        0
+        #endif
     }
     private var processesHeight: CGFloat {
         (22*CGFloat(self.numberOfProcesses)) + (self.numberOfProcesses == 0 ? 0 : Constants.Popup.separatorHeight + 22)
