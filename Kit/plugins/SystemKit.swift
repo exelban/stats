@@ -178,6 +178,18 @@ public struct gpu_s: Codable {
 }
 
 public struct disk_s: Codable {
+    static let startupDiskInfo: [String: Any]? = {
+        guard let output = process(path: "/usr/sbin/diskutil", arguments: ["info", "-plist", "/"]),
+              let data = output.data(using: .utf8) else { return nil }
+        return (try? PropertyListSerialization.propertyList(from: data, options: [], format: nil)) as? [String: Any]
+    }()
+    
+    public static var startupVolumeGroupID: String? {
+        guard let id = self.startupDiskInfo?["APFSVolumeGroupID"] as? String,
+              UUID(uuidString: id) != nil else { return nil }
+        return id
+    }
+    
     public var id: String? = nil
     public var name: String? = nil
     public var size: Int64? = nil
@@ -652,6 +664,15 @@ public class SystemKit {
                     if bootDisk.id != nil {
                         bootableDisks.append(bootDisk)
                     }
+                }
+            }
+        }
+        
+        if let id = disk_s.startupVolumeGroupID {
+            let startupIDs = [disk_s.startupDiskInfo?["DiskUUID"] as? String, disk_s.startupDiskInfo?["DeviceNode"] as? String].compactMap { $0 }
+            for i in bootableDisks.indices {
+                if let currentID = bootableDisks[i].id, startupIDs.contains(currentID) {
+                    bootableDisks[i].id = id
                 }
             }
         }

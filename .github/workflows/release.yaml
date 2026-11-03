@@ -25,7 +25,9 @@ jobs:
           fetch-depth: 0
 
       - name: Generate changelog
-        run: python3 Kit/scripts/changelog.py > CHANGELOG.md
+        run: |
+          python3 Kit/scripts/changelog.py > CHANGELOG.md
+          cat CHANGELOG.md
 
       - name: Import signing certificate
         uses: Apple-Actions/import-codesign-certs@v7
@@ -91,7 +93,14 @@ jobs:
 
       - name: Publish
         if: inputs.dry_run != true
-        uses: softprops/action-gh-release@v2
-        with:
-          files: build/Stats.dmg
-          body: file(./CHANGELOG.md)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if gh release view "$GITHUB_REF_NAME" > /dev/null 2>&1; then
+            echo "Release $GITHUB_REF_NAME already exists; skipping publishing"
+          else
+            gh release create "$GITHUB_REF_NAME" build/Stats.dmg \
+              --verify-tag \
+              --title "$GITHUB_REF_NAME" \
+              --notes-file CHANGELOG.md
+          fi
