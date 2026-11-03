@@ -83,7 +83,8 @@ public struct drive: Codable {
     }
     
     public func remote() -> String {
-        return "\(self.uuid),\(self.size),\(self.size-self.free),,\(self.activity.read),\(self.activity.write)"
+        let id = self.root ? disk_s.startupVolumeGroupID ?? self.uuid : self.uuid
+        return "\(id),\(self.size),\(self.size-self.free),,\(self.activity.read),\(self.activity.write)"
     }
 }
 
