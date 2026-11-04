@@ -779,7 +779,7 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate, CLLocationMa
             return
         }
         
-        if Date() >= next {
+        if Date().timeIntervalSinceReferenceDate >= next.timeIntervalSinceReferenceDate {
             self.resetTotalNetworkUsage()
         }
     }

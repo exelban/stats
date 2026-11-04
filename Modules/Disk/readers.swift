@@ -633,7 +633,7 @@ internal class SMARTReader: Reader<Disks> {
         guard result == kIOReturnSuccess else { return nil }
         defer {
             if smartInterface != nil {
-                _ = pluginInterface?.pointee?.pointee.Release(smartInterface)
+                _ = smartInterface?.pointee?.pointee.Release(smartInterface)
             }
         }
         
@@ -697,7 +697,7 @@ internal class SMARTReader: Reader<Disks> {
         guard result == kIOReturnSuccess else { return nil }
         defer {
             if smartInterface != nil {
-                _ = pluginInterface?.pointee?.pointee.Release(smartInterface)
+                _ = smartInterface?.pointee?.pointee.Release(smartInterface)
             }
         }
         
