@@ -336,7 +336,8 @@ internal class Preview: PreviewWrapper {
     internal func capacityCallback(_ value: Disks) {
         DispatchQueue.main.async(execute: {
             if (self.window?.isVisible ?? false) || !self.initialized {
-                if let main = self.main, let update = value.first(where: { $0.uuid == main.id }) {
+                let main = value.first(where: { $0.uuid == self.main?.id }) ?? value.first(where: { $0.root })
+                if let update = main {
                     let free = update.free
                     let used = update.size - free
                     self.usedField?.stringValue = DiskSize(used).getReadableMemory()
@@ -354,7 +355,7 @@ internal class Preview: PreviewWrapper {
                     self.writableValueField?.stringValue = localizedString(update.writable ? "Yes" : "No")
                 }
                 
-                let drives = value.filter(where: { $0.uuid != self.main?.id })
+                let drives = value.filter(where: { $0.uuid != main?.uuid })
                 
                 if drives.isEmpty {
                     self.allDisks?.isHidden = true
@@ -438,7 +439,7 @@ internal class Preview: PreviewWrapper {
     internal func smartCallback(_ value: Disks) {
         DispatchQueue.main.async(execute: {
             guard (self.window?.isVisible ?? false) || !self.initialized else { return }
-            guard let main = self.main, let smart = value.first(where: { $0.uuid == main.id })?.smart else { return }
+            guard let update = value.first(where: { $0.uuid == self.main?.id }) ?? value.first(where: { $0.root }), let smart = update.smart else { return }
             
             self.smartTotalReadValueField?.toolTip = "\(smart.totalRead / (512 * 1000))"
             self.smartTotalWrittenValueField?.toolTip = "\(smart.totalWritten / (512 * 1000))"
@@ -483,7 +484,7 @@ internal class Preview: PreviewWrapper {
     }
     
     internal func activityCallback(_ value: Disks) {
-        guard let main = self.main, let update = value.first(where: { $0.uuid == main.id }) else {
+        guard let update = value.first(where: { $0.uuid == self.main?.id }) ?? value.first(where: { $0.root }) else {
             return
         }
         let read = update.activity.read

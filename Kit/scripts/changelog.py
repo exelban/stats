@@ -4,7 +4,7 @@ import re
 
 
 def last_release_tag():
-    cmd = "git describe --abbrev=0 --tags"
+    cmd = "git describe --abbrev=0 --tags HEAD^"
     output = subprocess.check_output(['bash', '-c', cmd])
     return output.decode("utf-8").strip()
 
@@ -19,6 +19,7 @@ class Changelog:
     fixPattern = re.compile("^- fix:")
     featPattern = re.compile("^- feat:")
     langPattern = re.compile("^- lang:")
+    versionPattern = re.compile(r"^- v\d+\.\d+\.\d+$")
 
     def generate(self):
         tag = last_release_tag()
@@ -51,6 +52,9 @@ class Changelog:
         lang = []
 
         for line in lines:
+            if self.versionPattern.match(line):
+                continue
+
             if self.fixPattern.match(line) and "translation" not in line and "localization" not in line:
                 fix.append(line)
             elif self.featPattern.match(line) and "translation" not in line and "localization" not in line:

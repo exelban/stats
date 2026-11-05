@@ -18,4 +18,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Check release tag
+        if: github.event_name == 'push'
+        id: release
+        run: |
+          if [ -n "$(git tag --points-at HEAD --list 'v*')" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - run: xcodebuild -scheme Stats -destination 'platform=macOS' -configuration Release archive CODE_SIGNING_ALLOWED=NO
+        if: steps.release.outputs.skip != 'true'
