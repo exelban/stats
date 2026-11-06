@@ -18,6 +18,7 @@ internal class Popup: PopupWrapper {
     private var dashboardBatteryView: BatteryView = BatteryView()
     private var dashboardBatteryStatus: BatteryStatus = BatteryStatus()
     private var levelField: NSTextField? = nil
+    private var chart: BatteryChartView? = nil
     
     private var sourceField: NSTextField? = nil
     private var timeLabelField: NSTextField? = nil
@@ -63,6 +64,7 @@ internal class Popup: PopupWrapper {
         self.orientation = .vertical
         
         self.addArrangedSubview(self.initDashboard())
+        self.addArrangedSubview(self.initChart())
         self.addArrangedSubview(self.initDetails())
         self.addArrangedSubview(self.initBattery())
         self.addArrangedSubview(self.initProcesses())
@@ -76,6 +78,7 @@ internal class Popup: PopupWrapper {
     
     public override func appear() {
         self.replay(self.usageCache, render: self.renderUsage)
+        self.chart?.display()
     }
     
     public override func disappear() {
@@ -145,6 +148,23 @@ internal class Popup: PopupWrapper {
         
         view.addArrangedSubview(self.dashboardBatteryView)
         view.addArrangedSubview(information)
+        
+        return view
+    }
+    
+    private func initChart() -> NSView {
+        let view = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 0))
+        view.orientation = .vertical
+        view.spacing = 0
+        view.addArrangedSubview(SeparatorView(label: localizedString("Usage history")))
+        
+        let chart = BatteryChartView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 90))
+        chart.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
+        chart.layer?.cornerRadius = Constants.Popup.radius
+        chart.heightAnchor.constraint(equalToConstant: chart.frame.height).isActive = true
+        view.addArrangedSubview(chart)
+        chart.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        self.chart = chart
         
         return view
     }
@@ -290,6 +310,7 @@ internal class Popup: PopupWrapper {
     
     public func usageCallback(_ value: Battery_Usage) {
         self.apply(value, to: self.usageCache, render: self.renderUsage)
+        self.chart?.addValue(value.level, charging: value.isCharging, connected: !value.isBatteryPowered)
     }
     
     private func renderUsage(_ value: Battery_Usage) {

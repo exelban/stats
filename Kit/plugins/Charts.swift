@@ -1399,6 +1399,131 @@ public class ColumnChartView: ChartView {
     }
 }
 
+public class BatteryChartView: ChartView {
+    private struct Sample {
+        let ts: Date
+        let value: Double
+        let charging: Bool
+        let connected: Bool
+    }
+    
+    private let duration: TimeInterval = 10*60
+    private let sampleLifetime: TimeInterval = 10
+    private var points: [Sample] = []
+    private var cursor: CGPoint? = nil
+    private let dateFormatter = DateFormatter()
+    
+    public init(frame: NSRect = .zero) {
+        super.init(frame: frame, queueLabel: "eu.exelban.Stats.Charts.Battery")
+        self.dateFormatter.dateFormat = "HH:mm:ss"
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func addValue(_ value: Double, charging: Bool, connected: Bool, at date: Date = Date()) {
+        guard value.isFinite, date.timeIntervalSince1970.isFinite else { return }
+        let sample = Sample(ts: date, value: min(max(value, 0), 1), charging: connected && charging, connected: connected)
+        self.write {
+            let cutoff = date.addingTimeInterval(-self.duration-self.sampleLifetime)
+            self.points.removeAll{ $0.ts < cutoff || $0.ts.timeIntervalSinceReferenceDate >= date.timeIntervalSinceReferenceDate }
+            self.points.append(sample)
+        }
+        self.displayIfVisible()
+    }
+    
+    private func history(at date: Date) -> [(sample: Sample, end: Date)] {
+        let points = self.read { self.points.filter{ $0.ts.timeIntervalSinceReferenceDate <= date.timeIntervalSinceReferenceDate } }
+        let cutoff = date.addingTimeInterval(-self.duration)
+        return points.enumerated().compactMap { (index, sample) in
+            let next = index+1 < points.count ? points[index+1].ts : date
+            let end = min(next, sample.ts.addingTimeInterval(self.sampleLifetime))
+            guard end.timeIntervalSinceReferenceDate >= cutoff.timeIntervalSinceReferenceDate else { return nil }
+            return (sample, end)
+        }
+    }
+    
+    public override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
+        
+        let plot = NSRect(x: 6, y: 6, width: self.bounds.width-12, height: self.bounds.height-12)
+        guard plot.width > 0, plot.height > 0 else { return }
+        let now = Date()
+        let start = now.addingTimeInterval(-self.duration)
+        let history = self.history(at: now)
+        
+        func x(_ date: Date) -> CGFloat {
+            plot.minX + CGFloat(max(0, min(date.timeIntervalSince(start)/self.duration, 1))) * plot.width
+        }
+        
+        var periods: [(start: Date, end: Date)] = []
+        for (sample, end) in history where sample.charging && end > sample.ts {
+            if let last = periods.last, last.end == sample.ts {
+                periods[periods.count-1].end = end
+            } else {
+                periods.append((sample.ts, end))
+            }
+        }
+        for period in periods {
+            let width = x(period.end)-x(period.start)
+            NSColor.systemGreen.withAlphaComponent(0.15).setFill()
+            NSBezierPath(rect: NSRect(x: x(period.start), y: plot.minY, width: width, height: plot.height)).fill()
+        }
+        
+        let count = 60
+        let step = plot.width / CGFloat(count)
+        NSColor.systemGray.withAlphaComponent(0.1).setFill()
+        for index in 0..<count {
+            let rect = NSRect(x: plot.minX + CGFloat(index)*step + 0.5, y: plot.minY, width: max(0.5, step-1), height: plot.height)
+            NSBezierPath(roundedRect: rect, xRadius: rect.width/2, yRadius: rect.width/2).fill()
+        }
+        
+        var columns: [Sample?] = Array(repeating: nil, count: count)
+        for (sample, _) in history where sample.ts.timeIntervalSinceReferenceDate >= start.timeIntervalSinceReferenceDate {
+            let index = min(count-1, Int(sample.ts.timeIntervalSince(start)/self.duration * Double(count)))
+            columns[index] = sample
+        }
+        NSColor.systemGreen.setFill()
+        for (index, sample) in columns.enumerated() {
+            guard let sample, sample.value > 0 else { continue }
+            let rect = NSRect(x: plot.minX + CGFloat(index)*step + 0.5, y: plot.minY, width: max(0.5, step-1), height: plot.height*sample.value)
+            NSBezierPath(roundedRect: rect, xRadius: rect.width/2, yRadius: min(rect.width/2, rect.height/2)).fill()
+        }
+        
+        if let cursor = self.cursor, cursor.x >= plot.minX, cursor.x < plot.maxX {
+            let index = Int((cursor.x-plot.minX)/step)
+            if let sample = columns[index] {
+                let status = sample.charging ? "Charging" : (sample.connected ? "Plugged in" : "On battery")
+                drawToolTip(self.bounds, cursor, value: "\(Int((sample.value*100).rounded()))% · \(localizedString(status))", subtitle: self.dateFormatter.string(from: sample.ts))
+            }
+        }
+    }
+    
+    public override func mouseEntered(with event: NSEvent) {
+        self.cursor = convert(event.locationInWindow, from: nil)
+        self.needsDisplay = true
+    }
+    public override func mouseMoved(with event: NSEvent) {
+        self.cursor = convert(event.locationInWindow, from: nil)
+        self.needsDisplay = true
+    }
+    public override func mouseExited(with event: NSEvent) {
+        self.cursor = nil
+        self.needsDisplay = true
+    }
+    
+    public override func updateTrackingAreas() {
+        self.trackingAreas.forEach({ self.removeTrackingArea($0) })
+        self.addTrackingArea(NSTrackingArea(
+            rect: .zero,
+            options: [.activeAlways, .mouseEnteredAndExited, .mouseMoved, .inVisibleRect],
+            owner: self, userInfo: nil
+        ))
+        super.updateTrackingAreas()
+    }
+}
+
 public class GridChartView: ChartView {
     private let okColor: NSColor = .systemGreen
     private let notOkColor: NSColor = .systemRed
