@@ -163,9 +163,9 @@ public class ProcessReader: Reader<[TopProcess]> {
         
         let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
         let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
-        let output = String(data: outputData, encoding: .utf8)
+        let output = String(decoding: outputData, as: UTF8.self)
         _ = String(data: errorData, encoding: .utf8)
-        guard let output, !output.isEmpty else { return }
+        guard !output.isEmpty else { return }
         
         var processes: [TopProcess] = []
         output.enumerateLines { (line, _) in
