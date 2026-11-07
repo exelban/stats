@@ -53,6 +53,7 @@ public struct Swap: Codable {
 public struct Pressure: Codable {
     let level: Int
     let value: RAMPressure
+    let percentage: Int?
 }
 
 public class RAM: Module {
@@ -229,6 +230,7 @@ public class RAM: Module {
                         switch pair.value {
                         case "level": replacement = "\(value.pressure.level)"
                         case "value": replacement = value.pressure.value.rawValue
+                        case "percentage": replacement = value.pressure.percentage.map { "\($0)%" } ?? "-"
                         default: return
                         }
                     default: return

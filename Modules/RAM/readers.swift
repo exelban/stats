@@ -69,6 +69,14 @@ internal class UsageReader: Reader<RAM_Usage> {
             default: pressureValue = .normal
             }
             
+            var memoryLevel: Int32 = 0
+            var memoryLevelSize = MemoryLayout<Int32>.size
+            var pressurePercentage: Int? = nil
+            if sysctlbyname("kern.memorystatus_level", &memoryLevel, &memoryLevelSize, nil, 0) == 0,
+               memoryLevelSize == MemoryLayout<Int32>.size, (0...100).contains(memoryLevel) {
+                pressurePercentage = 100 - Int(memoryLevel)
+            }
+            
             var stringSize: size_t = MemoryLayout<xsw_usage>.size
             var swap: xsw_usage = xsw_usage()
             sysctlbyname("vm.swapusage", &swap, &stringSize, nil, 0)
@@ -91,7 +99,7 @@ internal class UsageReader: Reader<RAM_Usage> {
                     used: Double(swap.xsu_used),
                     free: Double(swap.xsu_avail)
                 ),
-                pressure: Pressure(level: pressureLevel, value: pressureValue),
+                pressure: Pressure(level: pressureLevel, value: pressureValue, percentage: pressurePercentage),
                 
                 swapins: swapins,
                 swapouts: swapouts

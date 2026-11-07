@@ -19,6 +19,7 @@ You can use a combination of any of the variables.
 <ul>
 <li>$mem.used/$mem.total ($pressure.value)</li>
 <li>Pressure: $pressure.value</li>
+<li>Pressure: $pressure.percentage</li>
 <li>Free: $mem.free</li>
 </ul>
 <h2>Available variables</h2>
@@ -39,6 +40,7 @@ You can use a combination of any of the variables.
 <li><b>$swap.free</b>: <small>Free swap memory.</small></li>
 <li><b>$pressure.value</b>: <small>Pressure value (normal, warning, critical).</small></li>
 <li><b>$pressure.level</b>: <small>Pressure level (1, 2, 4).</small></li>
+<li><b>$pressure.percentage</b>: <small>Memory pressure percentage (0–100%, or - when unavailable).</small></li>
 </ul>
 """
 

@@ -17,7 +17,7 @@ internal class Popup: PopupWrapper {
     
     private let dashboardHeight: CGFloat = 90
     private let chartHeight: CGFloat = 90 + Constants.Popup.separatorHeight
-    private let detailsHeight: CGFloat = (22*6) + Constants.Popup.separatorHeight + 16
+    private let detailsHeight: CGFloat = (22*7) + Constants.Popup.separatorHeight + 16
     private let processHeight: CGFloat = 22
     
     private var usedField: NSTextField? = nil
@@ -28,6 +28,7 @@ internal class Popup: PopupWrapper {
     private var wiredField: NSTextField? = nil
     private var compressedField: NSTextField? = nil
     private var swapField: NSTextField? = nil
+    private var pressureField: NSTextField? = nil
     
     private var appColorView: NSView? = nil
     private var wiredColorView: NSView? = nil
@@ -215,6 +216,7 @@ internal class Popup: PopupWrapper {
         (self.compressedColorView, _, self.compressedField) = popupWithColorRow(container, color: self.compressedColor, title: "\(localizedString("Compressed")):", value: "")
         (self.freeColorView, _, self.freeField) = popupWithColorRow(container, color: self.freeColor.withAlphaComponent(0.5), title: "\(localizedString("Free")):", value: "")
         self.swapField = popupRow(container, title: "\(localizedString("Swap")):", value: "").1
+        self.pressureField = popupRow(container, title: "\(localizedString("Memory pressure")):", value: "").1
         
         view.addSubview(separator)
         view.addSubview(container)
@@ -251,6 +253,7 @@ internal class Popup: PopupWrapper {
         self.wiredField?.stringValue = Units(bytes: Int64(value.wired)).getReadableMemory(style: .memory)
         self.compressedField?.stringValue = Units(bytes: Int64(value.compressed)).getReadableMemory(style: .memory)
         self.swapField?.stringValue = Units(bytes: Int64(value.swap.used)).getReadableMemory(style: .memory)
+        self.pressureField?.stringValue = value.pressure.percentage.map { "\($0)%" } ?? "-"
         
         self.usedField?.stringValue = Units(bytes: Int64(value.used)).getReadableMemory(style: .memory)
         self.freeField?.stringValue = Units(bytes: Int64(value.free)).getReadableMemory(style: .memory)
