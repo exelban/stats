@@ -163,6 +163,7 @@ public class ProcessReader: Reader<[TopProcess]> {
         
         let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
         let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
+        // swiftlint:disable:next optional_data_string_conversion
         let output = String(decoding: outputData, as: UTF8.self)
         _ = String(data: errorData, encoding: .utf8)
         guard !output.isEmpty else { return }

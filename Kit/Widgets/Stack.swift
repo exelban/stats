@@ -35,6 +35,7 @@ public class StackWidget: WidgetWrapper {
     private var alignmentState: String = "left"
     
     private var values: [Stack_t] = []
+    private var stickyWidths: [String: CGFloat] = [:]
     private let textCache = WidgetTextCache(limit: 256)
     
     private var oneRowWidth: CGFloat = 45
@@ -180,7 +181,9 @@ public class StackWidget: WidgetWrapper {
         
         var width: CGFloat = self.oneRowWidth
         if !fixedSizeState {
-            width = entry.width.rounded(.up) + 2
+            let key = "one|\(element.key)"
+            width = max(entry.width.rounded(.up) + 2, self.stickyWidths[key] ?? 0)
+            self.stickyWidths[key] = width
         }
         
         let rect = CGRect(x: x, y: (Constants.Widget.height-13)/2, width: width, height: 13)
@@ -219,7 +222,9 @@ public class StackWidget: WidgetWrapper {
         
         var width: CGFloat = self.twoRowWidth
         if !fixedSizeState {
-            width = max(20, max(top.width, bottom?.width ?? 0)).rounded(.up) + 2
+            let key = "two|\(topElement.key)|\(bottomElement?.key ?? "")"
+            width = max(max(20, max(top.width, bottom?.width ?? 0)).rounded(.up) + 2, self.stickyWidths[key] ?? 0)
+            self.stickyWidths[key] = width
         }
         
         top.string.draw(with: CGRect(x: x, y: rowHeight+1, width: width, height: rowHeight))
