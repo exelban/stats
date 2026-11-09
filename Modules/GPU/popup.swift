@@ -43,11 +43,11 @@ internal class Popup: PopupWrapper {
     private var lineChartFixedScale: Double = 1
     
     private var modelField: NSTextField? = nil
-    private var coresField: NSTextField? = nil
     private var utilizationField: NSTextField? = nil
     private var renderField: NSTextField? = nil
     private var tilerField: NSTextField? = nil
     private var aneField: NSTextField? = nil
+    private var memoryField: NSTextField? = nil
     private var fpsField: NSTextField? = nil
     
     public init(_ module: ModuleType) {
@@ -148,11 +148,11 @@ internal class Popup: PopupWrapper {
         container.spacing = 0
         
         self.modelField = popupRow(container, title: "\(localizedString("Model")):", value: "").1
-        self.coresField = popupRow(container, title: "\(localizedString("Cores")):", value: localizedString("Unknown")).1
         self.utilizationField = popupRow(container, title: "\(localizedString("Utilization")):", value: "").1
         self.renderField = popupRow(container, title: "\(localizedString("Renderer utilization")):", value: "").1
         self.tilerField = popupRow(container, title: "\(localizedString("Tiler utilization")):", value: "").1
         self.aneField = popupRow(container, title: "\(localizedString("ANE utilization")):", value: "").1
+        self.memoryField = popupRow(container, title: "\(localizedString("Memory usage")):", value: "").1
         self.fpsField = popupRow(container, title: "\("FPS"):", value: "").1
         
         view.addSubview(separator)
@@ -227,10 +227,6 @@ internal class Popup: PopupWrapper {
     private func renderLoad(_ value: GPU_Info) {
         self.modelField?.stringValue = value.model
         
-        if let cores = value.cores {
-            self.coresField?.stringValue = "\(cores)"
-        }
-        
         if let utilization = value.utilization {
             self.usageCircle?.toolTip = "\(localizedString("GPU utilization")): \(Int(utilization.rounded(toPlaces: 2) * 100))%"
             self.usageCircle?.setValue(utilization)
@@ -251,6 +247,9 @@ internal class Popup: PopupWrapper {
         }
         if let utilization = value.aneUtilization {
             self.aneField?.stringValue = "\(Int(utilization*100))%"
+        }
+        if let value = value.memory {
+            self.memoryField?.stringValue = Units(bytes: Int64(value)).getReadableMemory(style: .memory)
         }
         if let fps = value.fps {
             self.fpsField?.stringValue = "\(Int(fps.rounded()))"

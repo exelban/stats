@@ -119,7 +119,6 @@ internal class InfoReader: Reader<GPUs> {
             var id: String = ""
             var vendor: String? = nil
             var model: String = ""
-            var cores: Int? = nil
             let accMatch = (accelerator["IOPCIMatch"] as? String ?? accelerator["IOPCIPrimaryMatch"] as? String ?? "").lowercased()
             
             for (i, device) in devices.enumerated() {
@@ -139,10 +138,7 @@ internal class InfoReader: Reader<GPUs> {
             let utilization: Int? = stats["Device Utilization %"] as? Int ?? stats["GPU Activity(%)"] as? Int ?? nil
             let renderUtilization: Int? = stats["Renderer Utilization %"] as? Int ?? nil
             let tilerUtilization: Int? = stats["Tiler Utilization %"] as? Int ?? nil
-            var temperature: Int? = stats["Temperature(C)"] as? Int ?? nil
-            let fanSpeed: Int? = stats["Fan Speed(%)"] as? Int ?? nil
-            let coreClock: Int? = stats["Core Clock(MHz)"] as? Int ?? nil
-            let memoryClock: Int? = stats["Memory Clock(MHz)"] as? Int ?? nil
+            let memory = stats["In use system memory"] as? Int ?? nil
             
             if ioClass == "nvaccelerator" || ioClass.contains("nvidia") { // nvidia
                 predictModel = "Nvidia Graphics"
@@ -150,29 +146,14 @@ internal class InfoReader: Reader<GPUs> {
             } else if ioClass.contains("amd") { // amd
                 predictModel = "AMD Graphics"
                 type = .discrete
-                
-                if temperature == nil || temperature == 0 {
-                    if let tmp = SMC.shared.getValue("TGDD"), tmp != 128 {
-                        temperature = Int(tmp)
-                    }
-                }
             } else if ioClass.contains("intel") { // intel
                 predictModel = "Intel Graphics"
                 type = .integrated
-                
-                if temperature == nil || temperature == 0 {
-                    if let tmp = SMC.shared.getValue("TCGC"), tmp != 128 {
-                        temperature = Int(tmp)
-                    }
-                }
             } else if ioClass.contains("agx") { // apple
                 predictModel = stats["model"] as? String ?? "Apple Graphics"
                 if let display = self.displays.first(where: { $0.vendor == "sppci_vendor_Apple" }) {
                     if let name = display.name {
                         predictModel = name
-                    }
-                    if let num = display.cores {
-                        cores = num
                     }
                 }
                 type = .integrated
@@ -184,7 +165,7 @@ internal class InfoReader: Reader<GPUs> {
             if type == .discrete, (accelerator["Removable"] as? NSNumber)?.boolValue == true {
                 type = .external
             }
-
+            
             if model == "" {
                 model = predictModel
             }
@@ -198,8 +179,7 @@ internal class InfoReader: Reader<GPUs> {
                     type: type.rawValue,
                     IOClass: IOClass,
                     vendor: vendor,
-                    model: model,
-                    cores: cores
+                    model: model
                 ))
             }
             guard let idx = self.gpus.list.firstIndex(where: { $0.id == id }) else {
@@ -228,17 +208,8 @@ internal class InfoReader: Reader<GPUs> {
                 }
                 self.gpus.list[idx].tilerUtilization = Double(value)/100
             }
-            if let value = temperature {
-                self.gpus.list[idx].temperature = Double(value)
-            }
-            if let value = fanSpeed {
-                self.gpus.list[idx].fanSpeed = value
-            }
-            if let value = coreClock {
-                self.gpus.list[idx].coreClock = value
-            }
-            if let value = memoryClock {
-                self.gpus.list[idx].memoryClock = value
+            if let value = memory {
+                self.gpus.list[idx].memory = Double(value)
             }
         }
         

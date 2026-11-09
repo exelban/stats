@@ -27,8 +27,8 @@ You can use a combination of any of the variables.
 <li><b>$render</b>: <small>Renderer utilization.</small></li>
 <li><b>$tiler</b>: <small>Tiler utilization.</small></li>
 <li><b>$ane</b>: <small>Apple Neural Engine utilization.</small></li>
+<li><b>$memory</b>: <small>GPU memory usage.</small></li>
 <li><b>$fps</b>: <small>Frames per second.</small></li>
-<li><b>$temperature</b>: <small>GPU temperature.</small></li>
 </ul>
 """
 

@@ -16,7 +16,7 @@ import Kit
 
 public struct GPU_entry: TimelineEntry {
     public static let kind = "GPUWidget"
-    public static var snapshot: GPU_entry = GPU_entry(value: GPU_Info(id: "", type: "", IOClass: "", model: "", cores: nil, utilization: 0.11, render: 0.11, tiler: 0.11), isPreview: true)
+    public static var snapshot: GPU_entry = GPU_entry(value: GPU_Info(id: "", type: "", IOClass: "", model: "", utilization: 0.11, render: 0.11, tiler: 0.11), isPreview: true)
     
     public var date: Date {
         Calendar.current.date(byAdding: .second, value: 5, to: Date())!
