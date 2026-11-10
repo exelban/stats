@@ -44,13 +44,13 @@ internal class InfoReader: Reader<GPUs> {
     private var gpus: GPUs = GPUs()
     private var displays: [gpu_s] = []
     private var devices: [device] = []
-
+    
     private var aneChannels: CFMutableDictionary? = nil
     private var aneSubscription: IOReportSubscriptionRef? = nil
     private var previousANEEnergy: Double = 0
     private var previousANERead: Date? = nil
     private var aneMaxPower: Double = 8.0
-
+    
     private var framesChannels: CFMutableDictionary? = nil
     private var framesSubscription: IOReportSubscriptionRef? = nil
     private var previousFramesCount: Int64 = 0
@@ -178,7 +178,6 @@ internal class InfoReader: Reader<GPUs> {
                     id: id,
                     type: type.rawValue,
                     IOClass: IOClass,
-                    vendor: vendor,
                     model: model
                 ))
             }
@@ -210,6 +209,7 @@ internal class InfoReader: Reader<GPUs> {
             }
             if let value = memory {
                 self.gpus.list[idx].memory = Double(value)
+                self.gpus.list[idx].memoryLimit = Double(sysctlByName("iogpu.wired_limit_mb"))
             }
         }
         

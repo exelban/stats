@@ -15,7 +15,7 @@ import Kit
 internal class Popup: PopupWrapper {
     private let dashboardHeight: CGFloat = 90
     private let chartHeight: CGFloat = 90 + Constants.Popup.separatorHeight
-    private let detailsHeight: CGFloat = (22*7) + Constants.Popup.separatorHeight
+    private let detailsHeight: CGFloat = (22*4) + Constants.Popup.separatorHeight
     
     private let loadCache = PopupCache<GPU_Info>()
     private let processesCache = PopupCache<[TopProcess]>()
@@ -34,18 +34,16 @@ internal class Popup: PopupWrapper {
     }
     
     private var usageCircle: PieChartView? = nil
-    private var renderCircle: PieChartView? = nil
-    private var tilerCircle: PieChartView? = nil
+    private var aneCircle: PieChartView? = nil
+    private var memoryCircle: PieChartView? = nil
     
     private var chart: LineChartView? = nil
     private var lineChartHistory: Int = 180
     private var lineChartScale: Scale = .none
     private var lineChartFixedScale: Double = 1
+    private var memoryLimit: Double = 0
     
-    private var modelField: NSTextField? = nil
     private var utilizationField: NSTextField? = nil
-    private var renderField: NSTextField? = nil
-    private var tilerField: NSTextField? = nil
     private var aneField: NSTextField? = nil
     private var memoryField: NSTextField? = nil
     private var fpsField: NSTextField? = nil
@@ -105,13 +103,13 @@ internal class Popup: PopupWrapper {
         self.usageCircle!.toolTip = localizedString("Utilization")
         usage.addSubview(self.usageCircle!)
         
-        self.renderCircle = PieChartView(frame: NSRect(x: 0, y: 0, width: render.frame.width, height: render.frame.height), drawValue: true)
-        self.renderCircle!.toolTip = localizedString("Renderer utilization")
-        render.addSubview(self.renderCircle!)
+        self.aneCircle = PieChartView(frame: NSRect(x: 0, y: 0, width: render.frame.width, height: render.frame.height), drawValue: true)
+        self.aneCircle!.toolTip = localizedString("ANE utilization")
+        render.addSubview(self.aneCircle!)
         
-        self.tilerCircle = PieChartView(frame: NSRect(x: 0, y: 0, width: tiler.frame.width, height: tiler.frame.height), drawValue: true)
-        self.tilerCircle!.toolTip = localizedString("Tiler utilization")
-        tiler.addSubview(self.tilerCircle!)
+        self.memoryCircle = PieChartView(frame: NSRect(x: 0, y: 0, width: tiler.frame.width, height: tiler.frame.height), drawValue: true)
+        self.memoryCircle!.toolTip = localizedString("Memory usage")
+        tiler.addSubview(self.memoryCircle!)
         
         view.addSubview(render)
         view.addSubview(usage)
@@ -147,10 +145,7 @@ internal class Popup: PopupWrapper {
         container.orientation = .vertical
         container.spacing = 0
         
-        self.modelField = popupRow(container, title: "\(localizedString("Model")):", value: "").1
         self.utilizationField = popupRow(container, title: "\(localizedString("Utilization")):", value: "").1
-        self.renderField = popupRow(container, title: "\(localizedString("Renderer utilization")):", value: "").1
-        self.tilerField = popupRow(container, title: "\(localizedString("Tiler utilization")):", value: "").1
         self.aneField = popupRow(container, title: "\(localizedString("ANE utilization")):", value: "").1
         self.memoryField = popupRow(container, title: "\(localizedString("Memory usage")):", value: "").1
         self.fpsField = popupRow(container, title: "\("FPS"):", value: "").1
@@ -225,31 +220,33 @@ internal class Popup: PopupWrapper {
     }
     
     private func renderLoad(_ value: GPU_Info) {
-        self.modelField?.stringValue = value.model
-        
         if let utilization = value.utilization {
             self.usageCircle?.toolTip = "\(localizedString("GPU utilization")): \(Int(utilization.rounded(toPlaces: 2) * 100))%"
             self.usageCircle?.setValue(utilization)
             self.usageCircle?.display()
             self.utilizationField?.stringValue = "\(Int(utilization*100))%"
         }
-        if let utilization = value.renderUtilization {
-            self.renderCircle?.toolTip = "\(localizedString("Renderer utilization")): \(Int(utilization.rounded(toPlaces: 2) * 100))%"
-            self.renderCircle?.setValue(utilization)
-            self.renderCircle?.display()
-            self.renderField?.stringValue = "\(Int(utilization*100))%"
-        }
-        if let utilization = value.tilerUtilization {
-            self.tilerCircle?.toolTip = "\(localizedString("Tiler utilization")): \(Int(utilization.rounded(toPlaces: 2) * 100))%"
-            self.tilerCircle?.setValue(utilization)
-            self.tilerCircle?.display()
-            self.tilerField?.stringValue = "\(Int(utilization*100))%"
-        }
         if let utilization = value.aneUtilization {
+            self.aneCircle?.toolTip = "\(localizedString("ANE utilization")): \(Int(utilization.rounded(toPlaces: 2) * 100))%"
+            self.aneCircle?.setValue(utilization)
+            self.aneCircle?.display()
             self.aneField?.stringValue = "\(Int(utilization*100))%"
         }
-        if let value = value.memory {
-            self.memoryField?.stringValue = Units(bytes: Int64(value)).getReadableMemory(style: .memory)
+        if let v = value.memory {
+            let str = Units(bytes: Int64(v)).getReadableMemory(style: .memory)
+            self.memoryField?.stringValue = str
+            
+            if let limit = value.memoryLimit, limit != 0 {
+                self.memoryLimit = limit
+            } else if v > self.memoryLimit {
+                self.memoryLimit = v
+            }
+            
+            if let circle = self.memoryCircle {
+                circle.setValue((100*v)/self.memoryLimit)
+                circle.toolTip = "\(localizedString("Memory usage")): \(str)%"
+                circle.display()
+            }
         }
         if let fps = value.fps {
             self.fpsField?.stringValue = "\(Int(fps.rounded()))"

@@ -38,8 +38,6 @@ internal class Preview: PreviewWrapper {
     
     private var utilizationLineChart: LineChartView? = nil
     private var aneLineChart: LineChartView? = nil
-    private var renderLineChart: LineChartView? = nil
-    private var tilerLineChart: LineChartView? = nil
     private var memoryLineChart: LineChartView? = nil
     private var fpsLineChart: LineChartView? = nil
     
@@ -57,12 +55,6 @@ internal class Preview: PreviewWrapper {
         
         let (aneHistoryView, aneHistoryChart) = self.historyView()
         self.aneLineChart = aneHistoryChart
-        
-        let (renderHistoryView, renderHistoryChart) = self.historyView()
-        self.renderLineChart = renderHistoryChart
-        
-        let (tilerHistoryView, tilerHistoryChart) = self.historyView()
-        self.tilerLineChart = tilerHistoryChart
         
         let (memoryHistoryView, memoryHistoryChart) = self.historyView()
         memoryHistoryChart.setLegend(x: true, y: false)
@@ -84,18 +76,11 @@ internal class Preview: PreviewWrapper {
         let secondSplitView = NSStackView()
         secondSplitView.orientation = .horizontal
         secondSplitView.distribution = .fillEqually
-        secondSplitView.addArrangedSubview(PreferencesSection(title: localizedString("Renderer utilization history"), [renderHistoryView]))
-        secondSplitView.addArrangedSubview(PreferencesSection(title: localizedString("Tiler utilization history"), [tilerHistoryView]))
-        
-        let thirdSplitView = NSStackView()
-        thirdSplitView.orientation = .horizontal
-        thirdSplitView.distribution = .fillEqually
-        thirdSplitView.addArrangedSubview(PreferencesSection(title: localizedString("Memory usage history"), [memoryHistoryView]))
-        thirdSplitView.addArrangedSubview(PreferencesSection(title: localizedString("FPS history"), [fpsHistoryView]))
+        secondSplitView.addArrangedSubview(PreferencesSection(title: localizedString("Memory usage history"), [memoryHistoryView]))
+        secondSplitView.addArrangedSubview(PreferencesSection(title: localizedString("FPS history"), [fpsHistoryView]))
         
         self.addArrangedSubview(firstSplitView)
         self.addArrangedSubview(secondSplitView)
-        self.addArrangedSubview(thirdSplitView)
         #if arch(arm64)
         self.addArrangedSubview(self.topProcesses())
         #endif
@@ -317,12 +302,6 @@ internal class Preview: PreviewWrapper {
             }
             if let value = value.aneUtilization {
                 self.aneLineChart?.addValue(value)
-            }
-            if let value = value.renderUtilization {
-                self.renderLineChart?.addValue(value)
-            }
-            if let value = value.tilerUtilization {
-                self.tilerLineChart?.addValue(value)
             }
             if let value = value.memory {
                 self.memoryLineChart?.addValue(value)

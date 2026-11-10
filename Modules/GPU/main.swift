@@ -26,7 +26,6 @@ public struct GPU_Info: Codable {
     public let type: GPU_type
     
     public let IOClass: String
-    public var vendor: String? = nil
     public let model: String
     
     public var state: Bool = true
@@ -36,14 +35,15 @@ public struct GPU_Info: Codable {
     public var tilerUtilization: Double? = nil
     public var aneUtilization: Double? = nil
     
-    public var memory: Double? = nil
     public var fps: Double? = nil
     
-    init(id: String, type: GPU_type, IOClass: String, vendor: String? = nil, model: String, utilization: Double? = nil, render: Double? = nil, tiler: Double? = nil) {
+    public var memory: Double? = nil
+    public var memoryLimit: Double? = nil
+    
+    init(id: String, type: GPU_type, IOClass: String, model: String, utilization: Double? = nil, render: Double? = nil, tiler: Double? = nil) {
         self.id = id
         self.type = type
         self.IOClass = IOClass
-        self.vendor = vendor
         self.model = model
         self.utilization = utilization
         self.renderUtilization = render
