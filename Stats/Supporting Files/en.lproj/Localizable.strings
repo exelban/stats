@@ -68,7 +68,6 @@
 "Cube" = "Cube";
 "Logarithmic" = "Logarithmic";
 "Fixed scale" = "Fixed";
-"Cores" = "Cores";
 "Core" = "Core";
 "Settings" = "Settings";
 "Name" = "Name";
@@ -168,6 +167,13 @@
 "Resume the Stats" = "Resume the Stats";
 "Combined modules" = "Combined modules";
 "Show icon instead of widgets" = "Show icon instead of widgets";
+"App icon" = "App icon";
+"Mini bars" = "Mini bars";
+"Concentric rings" = "Concentric rings";
+"Arc dial" = "Arc dial";
+"Online" = "Online";
+"Offline" = "Offline";
+"Mixed status" = "Mixed status";
 "Combined details" = "Combined details";
 "Spacing" = "Spacing";
 "Choose file" = "Choose file";
@@ -316,9 +322,7 @@
 "Status" = "Status";
 "Utilization" = "Utilization";
 "Renderer utilization" = "Renderer utilization";
-"Renderer utilization history" = "Renderer utilization history";
 "Tiler utilization" = "Tiler utilization";
-"Tiler utilization history" = "Tiler utilization history";
 "GPU usage threshold" = "GPU usage threshold";
 "GPU usage is" = "GPU usage is %0";
 "ANE utilization" = "ANE utilization";

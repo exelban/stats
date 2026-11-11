@@ -300,11 +300,13 @@ public class Disk: Module {
         self.settingsView.setList(value)
         
         guard let d = value.first(where: { $0.mediaName == self.selectedDisk }) ?? value.first(where: { $0.root }) else {
+            self.summaryCallback(nil)
             return
         }
         
         self.portalView.utilizationCallback(d)
         self.notificationsView.utilizationCallback(d.percentage)
+        self.summaryCallback(d.size > 0 ? d.percentage : nil)
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: SWidget) in
             switch w.item {

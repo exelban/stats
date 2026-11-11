@@ -141,6 +141,7 @@ public class Battery: Module {
         self.popupView.usageCallback(value)
         self.portalView.loadCallback(value)
         self.notificationsView.usageCallback(value)
+        self.summaryCallback(value.level)
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: SWidget) in
             switch w.item {

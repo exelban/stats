@@ -169,6 +169,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     
     private func showSettingsIfNoActiveWidgets() {
         if self.pauseState { return }
+        if Store.shared.bool(key: "CombinedModules", defaultValue: false), CombinedModulesWidget.current != .widgets { return }
         let hasActive = modules.contains(where: { $0.enabled != false && $0.available != false && !$0.menuBar.widgets.filter({ $0.isActive }).isEmpty })
         if hasActive { return }
         self.ensureSettingsWindow().setIsVisible(true)

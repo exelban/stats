@@ -99,5 +99,10 @@
 		<key>available</key>
 		<true/>
 	</dict>
+	<key>Summary</key>
+	<dict>
+		<key>menu_bar</key>
+		<true/>
+	</dict>
 </dict>
 </plist>

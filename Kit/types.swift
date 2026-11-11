@@ -486,3 +486,31 @@ public struct DeviceResponse: Codable {
     public let verification_uri_complete: URL
     public let interval: Int?
 }
+
+public enum CombinedModulesWidget: String {
+    case widgets
+    case icon
+    case bars
+    case rings
+    case dial
+    
+    public static var all: [KeyValue_t] {
+        [
+            KeyValue_t(key: Self.widgets.rawValue, value: "Widgets"),
+            KeyValue_t(key: Self.icon.rawValue, value: "App icon"),
+            KeyValue_t(key: Self.bars.rawValue, value: "Mini bars"),
+            KeyValue_t(key: Self.rings.rawValue, value: "Concentric rings"),
+            KeyValue_t(key: Self.dial.rawValue, value: "Arc dial")
+        ]
+    }
+    
+    public static var current: CombinedModulesWidget {
+        get {
+            let fallback: CombinedModulesWidget = Store.shared.bool(key: "CombinedModules_icon", defaultValue: false) ? .icon : .widgets
+            return CombinedModulesWidget(rawValue: Store.shared.string(key: "CombinedModules_display", defaultValue: fallback.rawValue)) ?? fallback
+        }
+        set { Store.shared.set(key: "CombinedModules_display", value: newValue.rawValue) }
+    }
+    
+    public var isSummaryWidget: Bool { self == .bars || self == .rings || self == .dial }
+}

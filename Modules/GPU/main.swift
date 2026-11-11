@@ -177,18 +177,24 @@ public class GPU: Module {
     }
     
     private func infoCallback(_ raw: GPUs?) {
-        guard raw != nil && !raw!.list.isEmpty, let value = raw, self.enabled else { return }
+        guard let value = raw, !value.list.isEmpty, self.enabled else {
+            self.summaryCallback(nil)
+            return
+        }
         
         self.settingsView.setList(value)
         
         let activeGPUs = value.active()
         guard let activeGPU = activeGPUs.first(where: { $0.state }) ?? activeGPUs.first else {
+            self.summaryCallback(nil)
             return
         }
         let selectedGPU: GPU_Info = activeGPUs.first{ $0.model == self.selectedGPU } ?? activeGPU
         guard let utilization = selectedGPU.utilization else {
+            self.summaryCallback(nil)
             return
         }
+        self.summaryCallback(utilization)
         
         self.popupView.loadCallback(selectedGPU)
         self.portalView.callback(selectedGPU)
