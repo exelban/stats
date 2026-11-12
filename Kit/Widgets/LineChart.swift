@@ -17,6 +17,7 @@ public class LineChart: WidgetWrapper {
     private var frameState: Bool = false
     private var valueState: Bool = false
     private var valueColorState: Bool = false
+    private var gradientFillState: Bool = true
     private var colorState: SColor = .systemAccent
     private var historyCount: Int = 60
     private var scaleState: Scale = .none
@@ -99,6 +100,7 @@ public class LineChart: WidgetWrapper {
             self.valueState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_value", defaultValue: self.valueState)
             self.labelState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_label", defaultValue: self.labelState)
             self.valueColorState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_valueColor", defaultValue: self.valueColorState)
+            self.gradientFillState = Store.shared.bool(key: "\(self.title)_\(self.type.rawValue)_gradientFill", defaultValue: self.gradientFillState)
             self.colorState = SColor.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_color", defaultValue: self.colorState.key))
             self.historyCount = Store.shared.int(key: "\(self.title)_\(self.type.rawValue)_historyCount", defaultValue: self.historyCount)
             self.scaleState = Scale.fromString(Store.shared.string(key: "\(self.title)_\(self.type.rawValue)_scale", defaultValue: self.scaleState.key))
@@ -106,6 +108,7 @@ public class LineChart: WidgetWrapper {
             self.chart.setScale(self.scaleState)
             self.chart.reinit(self.historyCount)
         }
+        self.chart.setGradientFill(self.gradientFillState)
         
         if self.labelState {
             self.setFrameSize(NSSize(width: Constants.Widget.width + 6 + (Constants.Widget.margin.x*2), height: self.frame.size.height))
@@ -296,6 +299,10 @@ public class LineChart: WidgetWrapper {
             )),
             PreferencesRow(localizedString("Box"), component: box),
             PreferencesRow(localizedString("Frame"), component: frame),
+            PreferencesRow(localizedString("Gradient fill"), component: switchView(
+                action: #selector(self.toggleGradientFill),
+                state: self.gradientFillState
+            )),
             PreferencesRow(localizedString("Color"), component: colorSelectView(
                 action: #selector(self.toggleColor),
                 items: self.colors,
@@ -368,6 +375,13 @@ public class LineChart: WidgetWrapper {
     @objc private func toggleValueColor(_ sender: NSControl) {
         self.valueColorState = controlState(sender)
         Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_valueColor", value: self.valueColorState)
+        self.display()
+    }
+    
+    @objc private func toggleGradientFill(_ sender: NSControl) {
+        self.gradientFillState = controlState(sender)
+        Store.shared.set(key: "\(self.title)_\(self.type.rawValue)_gradientFill", value: self.gradientFillState)
+        self.chart.setGradientFill(self.gradientFillState)
         self.display()
     }
     

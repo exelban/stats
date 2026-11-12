@@ -242,6 +242,7 @@ public class LineChartView: ChartView {
     private var head: Int = 0
     private var shadowPoints: [DoubleValue?] = []
     private var transparent: Bool = true
+    private var gradientFill: Bool = true
     private var flipY: Bool = false
     private var minMax: Bool = false
     private var color: NSColor
@@ -309,6 +310,7 @@ public class LineChartView: ChartView {
         var originalPoints: [DoubleValue?] = []
         var shadowPoints: [DoubleValue?] = []
         var transparent: Bool = true
+        var gradientFill: Bool = true
         var flipY: Bool = false
         var minMax: Bool = false
         var color: NSColor = .controlAccentColor
@@ -324,6 +326,7 @@ public class LineChartView: ChartView {
             originalPoints = self.orderedPointsLocked()
             shadowPoints = self.shadowPoints
             transparent = self.transparent
+            gradientFill = self.gradientFill
             flipY = self.flipY
             minMax = self.minMax
             color = self.color
@@ -350,10 +353,13 @@ public class LineChartView: ChartView {
         if !transparent {
             gradientColor = color.withAlphaComponent(0.8)
         }
-        let gradient = NSGradient(colors: [
+        if !gradientFill {
+            gradientColor = color
+        }
+        let gradient = gradientFill ? NSGradient(colors: [
             gradientColor.withAlphaComponent(0.5),
             gradientColor.withAlphaComponent(1.0)
-        ])
+        ]) : nil
         
         let offset: CGFloat = 1 / (NSScreen.main?.backingScaleFactor ?? 1)
         let xLegendHeight: CGFloat = xLegend ? 14 : 0
@@ -708,6 +714,12 @@ public class LineChartView: ChartView {
         self.displayIfVisible()
     }
     
+    public func setGradientFill(_ newValue: Bool) {
+        guard self.read({ self.gradientFill }) != newValue else { return }
+        self.write { self.gradientFill = newValue }
+        self.displayIfVisible()
+    }
+
     public func setSuffix(_ newSuffix: String) {
         guard self.read({ self.suffix }) != newSuffix else { return }
         self.write { self.suffix = newSuffix }
