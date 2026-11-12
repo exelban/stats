@@ -181,12 +181,7 @@ public struct Units {
     }
     
     public func getReadableMemory(style: ByteCountFormatter.CountStyle = .file) -> String {
-        var value = FormatterCache.shared.readableMemory(Int64(self.bytes), style: style)
-        if let idx = value.lastIndex(of: ",") {
-            value.replaceSubrange(idx...idx, with: ".")
-        }
-        
-        return value
+        return FormatterCache.shared.readableMemory(Int64(self.bytes), style: style)
     }
     
     public func toUnit(_ unit: SizeUnit) -> Double {
