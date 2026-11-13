@@ -16,6 +16,7 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
     private var menuBarItem: NSStatusItem? = nil
     private var view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: 0, height: Constants.Widget.height))
     private var popup: PopupWindow? = nil
+    private var clickMonitor: Any? = nil
     private let summary: CombinedSummaryWidget = CombinedSummaryWidget()
     
     private var status: Bool {
@@ -35,6 +36,14 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
     private var combinedModulesPopup: Bool {
         get { Store.shared.bool(key: "CombinedModules_popup", defaultValue: true) }
         set { Store.shared.set(key: "CombinedModules_popup", value: newValue) }
+    }
+    private var combinedModulesAlternateDetails: Bool {
+        get { Store.shared.bool(key: "CombinedModules_alternateDetails", defaultValue: true) }
+        set { Store.shared.set(key: "CombinedModules_alternateDetails", value: newValue) }
+    }
+    private var combinedModulesModifierKeys: [UInt16] {
+        get { Store.shared.array(key: "CombinedModules_modifierKeys", defaultValue: [58]) as? [UInt16] ?? [58] }
+        set { Store.shared.set(key: "CombinedModules_modifierKeys", value: newValue) }
     }
     
     override init() {
@@ -62,12 +71,20 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
             self.enable()
         }
         
+        self.clickMonitor = NSEvent.addLocalMonitorForEvents(matching: [.leftMouseDown]) { [weak self] event in
+            guard let self else { return event }
+            return self.handleAlternateClick(event)
+        }
+        
         NotificationCenter.default.addObserver(self, selector: #selector(listenForStateChange), name: .toggleOneView, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenForStateChange), name: .pause, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(listenForModuleRearrrange), name: .moduleRearrange, object: nil)
     }
     
     deinit {
+        if let monitor = self.clickMonitor {
+            NSEvent.removeMonitor(monitor)
+        }
         NotificationCenter.default.removeObserver(self, name: .toggleOneView, object: nil)
         NotificationCenter.default.removeObserver(self, name: .pause, object: nil)
         NotificationCenter.default.removeObserver(self, name: .moduleRearrange, object: nil)
@@ -173,6 +190,31 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
         } else {
             self.openModulePopup()
         }
+    }
+    
+    private func handleAlternateClick(_ event: NSEvent) -> NSEvent? {
+        guard let window = self.menuBarItem?.button?.window, event.window == window,
+              CombinedModulesWidget.current == .widgets, self.combinedModulesAlternateDetails else { return event }
+        
+        let flags = CGEventSource.flagsState(.combinedSessionState)
+        guard flags.isDisjoint(with: [.maskControl, .maskCommand]) else { return event }
+        
+        let keys = self.combinedModulesModifierKeys
+        let matches = !keys.isEmpty && keys.allSatisfy { key in
+            switch key {
+            case 60: return flags.contains(.maskShift)
+            case 58: return flags.contains(.maskAlternate)
+            default: return false
+            }
+        }
+        guard matches else { return event }
+        
+        if self.combinedModulesPopup {
+            self.openModulePopup()
+        } else {
+            self.togglePopup()
+        }
+        return nil
     }
     
     private func openModulePopup() {

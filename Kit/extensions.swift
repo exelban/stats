@@ -823,6 +823,7 @@ extension CGFloat {
 
 public class KeyboardShartcutView: NSStackView {
     private let callback: (_ value: [UInt16]) -> Void
+    private let modifierKeys: [UInt16]?
     
     private var startIcon: NSImage { iconFromSymbol(name: "record.circle", scale: .large) }
     private var stopIcon: NSImage { iconFromSymbol(name: "stop.circle.fill", scale: .large) }
@@ -837,9 +838,10 @@ public class KeyboardShartcutView: NSStackView {
     private var interaction: Bool = false
     private var monitor: Any? = nil
     
-    public init(callback: @escaping (_ value: [UInt16]) -> Void, value: [UInt16]) {
+    public init(callback: @escaping (_ value: [UInt16]) -> Void, value: [UInt16], modifierKeys: [UInt16]? = nil) {
         self.callback = callback
         self.value = value
+        self.modifierKeys = modifierKeys
         
         super.init(frame: NSRect.zero)
         self.orientation = .horizontal
@@ -877,7 +879,9 @@ public class KeyboardShartcutView: NSStackView {
     }
     
     @objc private func startListening() {
-        guard AXIsProcessTrustedWithOptions([kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary) else { return }
+        if self.modifierKeys == nil {
+            guard AXIsProcessTrustedWithOptions([kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary) else { return }
+        }
         if let btn = self.stopButton {
             self.startButton?.removeFromSuperview()
             self.addArrangedSubview(btn)
@@ -905,20 +909,28 @@ public class KeyboardShartcutView: NSStackView {
     
     private func handleKeyEvent(_ event: NSEvent) {
         guard self.recording else { return }
+        if self.modifierKeys != nil && event.type != .flagsChanged { return }
         self.interaction = true
         
         if event.type == .flagsChanged {
+            let previousCount = self.keyCodes.count
             self.keyCodes = []
             if event.modifierFlags.contains(.control) { self.keyCodes.append(59) }
             if event.modifierFlags.contains(.shift) { self.keyCodes.append(60) }
             if event.modifierFlags.contains(.command) { self.keyCodes.append(55) }
             if event.modifierFlags.contains(.option) { self.keyCodes.append(58) }
+            if let modifierKeys = self.modifierKeys,
+               !self.keyCodes.isEmpty,
+               self.keyCodes.count >= previousCount,
+               self.keyCodes.allSatisfy({ modifierKeys.contains($0) }) {
+                self.value = self.keyCodes
+            }
         } else if event.type == .keyDown {
             self.keyCodes.append(event.keyCode)
             self.value = self.keyCodes
         }
         
-        let list = self.keyCodes.isEmpty ? self.value : self.keyCodes
+        let list = self.modifierKeys != nil || self.keyCodes.isEmpty ? self.value : self.keyCodes
         self.valueField?.stringValue = self.parseValue(list)
     }
     
