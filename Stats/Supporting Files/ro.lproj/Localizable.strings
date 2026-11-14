@@ -68,7 +68,6 @@
 "Cube" = "Cub"; // translategemma:4b
 "Logarithmic" = "Logaritmic"; // translategemma:4b
 "Fixed scale" = "Fix"; // gemma4:31b
-"Cores" = "Nuclee"; // translategemma:4b
 "Core" = "Nucleu"; // translategemma:4b
 "Settings" = "Setări"; // translategemma:4b
 "Name" = "Nume"; // translategemma:4b
@@ -167,7 +166,13 @@
 "Pause the Stats" = "Pauzează Stats"; // gemma4:31b
 "Resume the Stats" = "Reluați Stats"; // gemma4:31b
 "Combined modules" = "Module combinate"; // gemma4:31b
+"App icon" = "Pictograma aplicației";
+"Mini bars" = "Mini bare";
+"Concentric rings" = "Inele concentrice";
+"Arc dial" = "Indicator în arc";
 "Show icon instead of widgets" = "Afișează pictograma în locul widgeturilor";
+"Alternate details on click" = "Alternează detaliile la clic";
+"Hold Option or Shift, or both." = "Țineți apăsat Option sau Shift, sau ambele.";
 "Combined details" = "Detalii combinate"; // translategemma:4b
 "Spacing" = "Spațiere"; // gemma4:31b
 "Choose file" = "Alegeți fișierul"; // gemma4:31b
@@ -204,6 +209,7 @@
 "Frame" = "Cadru";
 "Value" = "Valoare";
 "Colorize" = "Colorează";
+"Gradient fill" = "Umplere cu gradient";
 "Colorize value" = "Colorează valoarea";
 "Additional information" = "Informații suplimentare";
 "Base" = "Baza";
@@ -316,9 +322,7 @@
 "Status" = "Statutul";
 "Utilization" = "Gradul de utilizare";
 "Renderer utilization" = "Utilizare render"; // gemma4:31b
-"Renderer utilization history" = "Istoricul utilizării randării"; // qwen3.8:27b
 "Tiler utilization" = "Utilizare tiler"; // gemma4:31b
-"Tiler utilization history" = "Istoricul utilizării Tiler"; // qwen3.8:27b
 "GPU usage threshold" = "Prag de utilizare GPU"; // gemma4:31b
 "GPU usage is" = "Utilizarea GPU este %0"; // gemma4:31b
 "ANE utilization" = "Utilizare ANE"; // qwen3.8:27b

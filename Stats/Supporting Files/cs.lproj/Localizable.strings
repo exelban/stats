@@ -68,7 +68,6 @@
 "Cube" = "Kubický";
 "Logarithmic" = "Logaritmický";
 "Fixed scale" = "Fixní"; // gemma4:31b
-"Cores" = "Jádra";
 "Core" = "Jádro"; // gemma4:31b
 "Settings" = "Nastavení";
 "Name" = "Název"; // gemma4:31b
@@ -167,7 +166,13 @@
 "Pause the Stats" = "Pozastavit Stats";
 "Resume the Stats" = "Obnovit Stats";
 "Combined modules" = "Kombinace modulů";
+"App icon" = "Ikona aplikace";
+"Mini bars" = "Malé sloupce";
+"Concentric rings" = "Soustředné kruhy";
+"Arc dial" = "Obloukový ukazatel";
 "Show icon instead of widgets" = "Zobrazit ikonu místo widgetů";
+"Alternate details on click" = "Přepínat detaily kliknutím";
+"Hold Option or Shift, or both." = "Podržte Option nebo Shift, případně obě klávesy.";
 "Combined details" = "Kombinované detaily"; // gemma4:31b
 "Spacing" = "Odsazení";
 "Choose file" = "Vybrat soubor"; // gemma4:31b
@@ -204,6 +209,7 @@
 "Frame" = "Okraj";
 "Value" = "Hodnota";
 "Colorize" = "Obarvit";
+"Gradient fill" = "Přechodová výplň";
 "Colorize value" = "Obarvit hodnotu";
 "Additional information" = "Další informace";
 "Base" = "Základ";
@@ -316,9 +322,7 @@
 "Status" = "Stav"; // translategemma:4b
 "Utilization" = "Využití";
 "Renderer utilization" = "Využití vykreslování";
-"Renderer utilization history" = "Historie využití vykreslování"; // qwen3.8:27b
 "Tiler utilization" = "Využití tilingu";
-"Tiler utilization history" = "Historie využití Tileru"; // qwen3.8:27b
 "GPU usage threshold" = "Prahová hodnota využití GPU";
 "GPU usage is" = "Využití GPU je %0";
 "ANE utilization" = "Využití ANE"; // qwen3.8:27b

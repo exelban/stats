@@ -68,7 +68,6 @@
 "Cube" = "Кубічне";
 "Logarithmic" = "Логарифмічне";
 "Fixed scale" = "Фіксована";
-"Cores" = "Ядра";
 "Core" = "Ядро";
 "Settings" = "Налаштування";
 "Name" = "Назва";
@@ -167,7 +166,13 @@
 "Pause the Stats" = "Призупинити Stats";
 "Resume the Stats" = "Відновити Stats";
 "Combined modules" = "Комбіновані модулі";
+"App icon" = "Іконка застосунку";
+"Mini bars" = "Міністовпчики";
+"Concentric rings" = "Концентричні кільця";
+"Arc dial" = "Дуговий індикатор";
 "Show icon instead of widgets" = "Показувати іконку замість віджетів";
+"Alternate details on click" = "Перемикати деталі після клацання";
+"Hold Option or Shift, or both." = "Утримуйте Option або Shift чи обидві клавіші.";
 "Combined details" = "Комбіновані деталі";
 "Spacing" = "Інтервал";
 "Choose file" = "Виберіть файл";
@@ -204,6 +209,7 @@
 "Frame" = "Рамка";
 "Value" = "Значення";
 "Colorize" = "Розфарбувати";
+"Gradient fill" = "Градієнтна заливка";
 "Colorize value" = "Розфарбувати значення";
 "Additional information" = "Додаткова інформація";
 "Base" = "Основа";
@@ -316,9 +322,7 @@
 "Status" = "Статус";
 "Utilization" = "Використання";
 "Renderer utilization" = "Використання рендерера";
-"Renderer utilization history" = "Історія використання рендерера"; // qwen3.8:27b
 "Tiler utilization" = "Використання тайлера";
-"Tiler utilization history" = "Історія використання тайлера"; // qwen3.8:27b
 "GPU usage threshold" = "Поріг використання графічного процесора";
 "GPU usage is" = "Використання графічного процесора %0";
 "ANE utilization" = "Використання ANE"; // qwen3.8:27b

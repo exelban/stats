@@ -68,7 +68,6 @@
 "Cube" = "ลูกบาศก์";
 "Logarithmic" = "ลอการิทึม";
 "Fixed scale" = "คงที่"; // gemma4:31b
-"Cores" = "คอร์";
 "Core" = "คอร์"; // gemma4:31b
 "Settings" = "การตั้งค่า";
 "Name" = "ชื่อ"; // translategemma:4b
@@ -167,7 +166,13 @@
 "Pause the Stats" = "หยุด Stats";
 "Resume the Stats" = "เริ่มต้น Stats";
 "Combined modules" = "โมดูลผสม";
+"App icon" = "ไอคอนแอป";
+"Mini bars" = "แถบขนาดเล็ก";
+"Concentric rings" = "วงแหวนร่วมศูนย์กลาง";
+"Arc dial" = "มาตรวัดแบบโค้ง";
 "Show icon instead of widgets" = "แสดงไอคอนแทนวิดเจ็ต";
+"Alternate details on click" = "สลับรายละเอียดเมื่อคลิก";
+"Hold Option or Shift, or both." = "กด Option หรือ Shift หรือทั้งสองปุ่มค้างไว้";
 "Combined details" = "รายละเอียดรวม"; // gemma4:31b
 "Spacing" = "ระยะห่าง"; // translategemma:4b
 "Choose file" = "เลือกไฟล์"; // translategemma:4b
@@ -204,6 +209,7 @@
 "Frame" = "เฟรม";
 "Value" = "ค่า";
 "Colorize" = "สีสัน";
+"Gradient fill" = "การเติมสีไล่ระดับ";
 "Colorize value" = "ใส่สีให้ค่า";
 "Additional information" = "ข้อมูลเพิ่มเติม";
 "Base" = "ฐาน";
@@ -316,9 +322,7 @@
 "Status" = "สถานะ";
 "Utilization" = "ปริมาณการใช้งาน";
 "Renderer utilization" = "ปริมาณการใช้งาน Render";
-"Renderer utilization history" = "ประวัติการใช้งานเรนเดอร์"; // qwen3.8:27b
 "Tiler utilization" = "ปริมาณการใช้งาน Tiler";
-"Tiler utilization history" = "ประวัติการใช้งานไทเลอร์"; // qwen3.8:27b
 "GPU usage threshold" = "เกณฑ์การใช้งาน GPU";
 "GPU usage is" = "ปริมาณการใช้งาน GPU คือ %0";
 "ANE utilization" = "การใช้งาน ANE"; // qwen3.8:27b

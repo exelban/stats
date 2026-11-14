@@ -68,7 +68,6 @@
 "Cube" = "Kübik";
 "Logarithmic" = "Logaritmik";
 "Fixed scale" = "Sabit";
-"Cores" = "Çekirdekler";
 "Core" = "Çekirdek"; // gemma4:31b
 "Settings" = "Ayarlar";
 "Name" = "Ad";
@@ -167,7 +166,13 @@
 "Pause the Stats" = "Stats'ı duraklat";
 "Resume the Stats" = "Stats'ı devam ettir";
 "Combined modules" = "Birleşik modüller";
+"App icon" = "Uygulama simgesi";
+"Mini bars" = "Mini çubuklar";
+"Concentric rings" = "Eş merkezli halkalar";
+"Arc dial" = "Yay göstergesi";
 "Show icon instead of widgets" = "Widget’lar yerine simge göster";
+"Alternate details on click" = "Tıklayınca ayrıntıları değiştir";
+"Hold Option or Shift, or both." = "Option veya Shift tuşunu ya da her ikisini basılı tutun.";
 "Combined details" = "Birleşik ayrıntılar";
 "Spacing" = "Aralık";
 "Choose file" = "Dosya seç";
@@ -204,6 +209,7 @@
 "Frame" = "Çerçeve";
 "Value" = "Değer";
 "Colorize" = "Renklendir";
+"Gradient fill" = "Gradyan dolgu";
 "Colorize value" = "Değeri renklendir";
 "Additional information" = "Ek bilgiler";
 "Base" = "Taban";
@@ -316,9 +322,7 @@
 "Status" = "Durum";
 "Utilization" = "Kullanım";
 "Renderer utilization" = "Render kullanımı";
-"Renderer utilization history" = "Render kullanım geçmişi"; // qwen3.8:27b
 "Tiler utilization" = "Tiler kullanımı";
-"Tiler utilization history" = "Tiler kullanım geçmişi"; // qwen3.8:27b
 "GPU usage threshold" = "GPU kullanım eşiği";
 "GPU usage is" = "GPU kullanımı %0";
 "ANE utilization" = "ANE kullanımı"; // qwen3.8:27b

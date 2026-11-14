@@ -68,7 +68,6 @@
 "Cube" = "مکعب";
 "Logarithmic" = "لگاریتمی";
 "Fixed scale" = "ثابت"; // gemma4:31b
-"Cores" = "هسته ها";
 "Core" = "هسته"; // gemma4:31b
 "Settings" = "تنظیمات"; // translategemma:4b
 "Name" = "نام"; // translategemma:4b
@@ -167,7 +166,13 @@
 "Pause the Stats" = "متوقف کردن Stats";
 "Resume the Stats" = "ادامه‌ی کار Stats";
 "Combined modules" = "ماژول‌های ترکیبی"; // translategemma:4b
+"App icon" = "نماد برنامه";
+"Mini bars" = "میله‌های کوچک";
+"Concentric rings" = "حلقه‌های هم‌مرکز";
+"Arc dial" = "نشانگر قوسی";
 "Show icon instead of widgets" = "نمایش نماد به‌جای ابزارک‌ها";
+"Alternate details on click" = "تعویض جزئیات با کلیک";
+"Hold Option or Shift, or both." = "Option یا Shift یا هر دو را نگه دارید.";
 "Combined details" = "جزئیات ترکیبی"; // translategemma:4b
 "Spacing" = "فاصله"; // translategemma:4b
 "Choose file" = "انتخاب فایل"; // gemma4:31b
@@ -204,6 +209,7 @@
 "Frame" = "فریم";
 "Value" = "مقدار";
 "Colorize" = "رنگی";
+"Gradient fill" = "پرکردن گرادیانی";
 "Colorize value" = "رنگ‌آمیزی مقدار";
 "Additional information" = "اطلاعات بیشتر";
 "Base" = "پایه";
@@ -316,9 +322,7 @@
 "Status" = "وضعیت";
 "Utilization" = "استفاده";
 "Renderer utilization" = "استفاده از رندر";
-"Renderer utilization history" = "تاریخچه استفاده از رندر"; // qwen3.8:27b
 "Tiler utilization" = "استفاده از تایلر";
-"Tiler utilization history" = "تاریخچه استفاده از تایلر";
 "GPU usage threshold" = "آستانه مصرف جی پی یو";
 "GPU usage is" = "مصرف جی پی یو %0";
 "ANE utilization" = "استفاده از ANE"; // qwen3.8:27b

@@ -68,7 +68,6 @@
 "Cube" = "קוביה"; // translategemma:4b
 "Logarithmic" = "לוגריתמי"; // translategemma:4b
 "Fixed scale" = "קבוע"; // gemma4:31b
-"Cores" = "ליבות"; // translategemma:4b
 "Core" = "ליבה"; // translategemma:4b
 "Settings" = "הגדרות"; // translategemma:4b
 "Name" = "שם"; // translategemma:4b
@@ -167,7 +166,13 @@
 "Pause the Stats" = "השהה את Stats"; // gemma4:31b
 "Resume the Stats" = "המשך את Stats"; // gemma4:31b
 "Combined modules" = "מודולים משולבים"; // translategemma:4b
+"App icon" = "סמל היישום";
+"Mini bars" = "עמודות קטנות";
+"Concentric rings" = "טבעות קונצנטריות";
+"Arc dial" = "מד קשתי";
 "Show icon instead of widgets" = "הצגת סמל במקום ווידג׳טים";
+"Alternate details on click" = "החלפת פרטים בלחיצה";
+"Hold Option or Shift, or both." = "יש להחזיק את Option או Shift, או את שניהם.";
 "Combined details" = "פרטים משולבים"; // translategemma:4b
 "Spacing" = "רווח"; // gemma4:31b
 "Choose file" = "בחר קובץ"; // translategemma:4b
@@ -204,6 +209,7 @@
 "Frame" = "מסגרת";
 "Value" = "ערך";
 "Colorize" = "הוספת צבע";
+"Gradient fill" = "מילוי הדרגתי";
 "Colorize value" = "הוספת ערך לצבע";
 "Additional information" = "מידע נוסף";
 "Base" = "בסיס";
@@ -316,9 +322,7 @@
 "Status" = "מצב";
 "Utilization" = "ניצול";
 "Renderer utilization" = "ניצול רנדור";
-"Renderer utilization history" = "היסטוריית ניצול רינדור"; // qwen3.8:27b
 "Tiler utilization" = "ניצול ריצוף";
-"Tiler utilization history" = "היסטוריית ניצול טיילר"; // qwen3.8:27b
 "GPU usage threshold" = "סף שימוש ב-GPU"; // gemma4:31b
 "GPU usage is" = "שימוש ב-GPU הוא %0"; // gemma4:31b
 "ANE utilization" = "ניצול ANE"; // qwen3.8:27b

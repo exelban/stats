@@ -68,7 +68,6 @@
 "Cube" = "Κυβικό";
 "Logarithmic" = "Λογαριθμικό";
 "Fixed scale" = "Σταθερό"; // gemma4:31b
-"Cores" = "Πυρήνες";
 "Core" = "Πύρήνας"; // gemma4:31b
 "Settings" = "Ρυθμίσεις";
 "Name" = "Όνομα"; // translategemma:4b
@@ -167,7 +166,13 @@
 "Pause the Stats" = "Παύση του Stats";
 "Resume the Stats" = "Ξαναρχίζω το Stats";
 "Combined modules" = "Συνένωση ενοτήτων";
+"App icon" = "Εικονίδιο εφαρμογής";
+"Mini bars" = "Μικρές μπάρες";
+"Concentric rings" = "Ομόκεντροι δακτύλιοι";
+"Arc dial" = "Τοξοειδής δείκτης";
 "Show icon instead of widgets" = "Εμφάνιση εικονιδίου αντί για widgets";
+"Alternate details on click" = "Εναλλαγή λεπτομερειών με κλικ";
+"Hold Option or Shift, or both." = "Κρατήστε πατημένο το Option ή το Shift, ή και τα δύο.";
 "Combined details" = "Συνδυασμένες λεπτομέρειες"; // gemma4:31b
 "Spacing" = "Κενό";
 "Choose file" = "Επιλογή αρχείου"; // gemma4:31b
@@ -204,6 +209,7 @@
 "Frame" = "Περίγραμμα";
 "Value" = "Τιμή";
 "Colorize" = "Χρωματισμός";
+"Gradient fill" = "Γέμισμα διαβάθμισης";
 "Colorize value" = "Χρωματισμός Τιμής";
 "Additional information" = "Επιπρόσθετες πληροφορίες";
 "Base" = "Βάση";
@@ -316,9 +322,7 @@
 "Status" = "Κατάσταση";
 "Utilization" = "Χρήση";
 "Renderer utilization" = "Χρήση Render"; // gemma4:31b
-"Renderer utilization history" = "Ιστορικό χρήσης Render"; // qwen3.8:27b
 "Tiler utilization" = "Χρήση Tiler"; // gemma4:31b
-"Tiler utilization history" = "Ιστορικό χρήσης Tiler"; // qwen3.8:27b
 "GPU usage threshold" = "Όριο χρήσης GPU"; // gemma4:31b
 "GPU usage is" = "Η χρήση της GPU είναι %0"; // gemma4:31b
 "ANE utilization" = "Χρήση ANE"; // qwen3.8:27b

@@ -68,7 +68,6 @@
 "Cube" = "キューブ"; // gemma4:31b
 "Logarithmic" = "対数"; // translategemma:4b
 "Fixed scale" = "固定";
-"Cores" = "コア"; // gemma4:31b
 "Core" = "コア";
 "Settings" = "設定";
 "Name" = "名前";
@@ -167,7 +166,13 @@
 "Pause the Stats" = "Statsを一時停止"; // gemma4:31b
 "Resume the Stats" = "Statsを再開"; // gemma4:31b
 "Combined modules" = "統合モジュール"; // translategemma:4b
+"App icon" = "アプリアイコン";
+"Mini bars" = "ミニバー";
+"Concentric rings" = "同心円リング";
+"Arc dial" = "円弧メーター";
 "Show icon instead of widgets" = "ウィジェットの代わりにアイコンを表示";
+"Alternate details on click" = "クリックで詳細を切り替える";
+"Hold Option or Shift, or both." = "Option または Shift、または両方を押し続けます。";
 "Combined details" = "統合された詳細"; // translategemma:4b
 "Spacing" = "間隔"; // translategemma:4b
 "Choose file" = "ファイルを選択"; // gemma4:31b
@@ -204,6 +209,7 @@
 "Frame" = "枠線";
 "Value" = "数値";
 "Colorize" = "カラーで表示";
+"Gradient fill" = "グラデーション塗りつぶし";
 "Colorize value" = "数値をカラーで表示";
 "Additional information" = "表示する情報";
 "Base" = "単位";
@@ -316,9 +322,7 @@
 "Status" = "状態";
 "Utilization" = "使用率";
 "Renderer utilization" = "レンダリング使用率";
-"Renderer utilization history" = "レンダリング使用率の履歴"; // qwen3.8:27b
 "Tiler utilization" = "Tiler 使用率";
-"Tiler utilization history" = "Tiler 使用率履歴"; // qwen3.8:27b
 "GPU usage threshold" = "GPU使用率のしきい値"; // gemma4:31b
 "GPU usage is" = "GPU使用率は%0です"; // gemma4:31b
 "ANE utilization" = "ANE 使用率"; // qwen3.8:27b

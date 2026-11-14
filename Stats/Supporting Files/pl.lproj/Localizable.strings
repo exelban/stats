@@ -68,7 +68,6 @@
 "Cube" = "Kubiczne";
 "Logarithmic" = "Logarytmiczne";
 "Fixed scale" = "Stałe";
-"Cores" = "Rdzeni";
 "Core" = "Rdzeń";
 "Settings" = "Ustawienia";
 "Name" = "Nazwa";
@@ -167,8 +166,14 @@
 "Pause the Stats" = "Wstrzymaj Stats";
 "Resume the Stats" = "Wznów Stats";
 "Combined modules" = "Połączone moduły";
+"App icon" = "Ikona aplikacji";
+"Mini bars" = "Minisłupki";
+"Concentric rings" = "Koncentryczne pierścienie";
+"Arc dial" = "Wskaźnik łukowy";
 "Show icon instead of widgets" = "Pokaż ikonę zamiast widżetów";
-"Combined details" = "Złączone szczegóły";
+"Alternate details on click" = "Przełączaj szczegóły po kliknięciu";
+"Hold Option or Shift, or both." = "Przytrzymaj Option lub Shift albo oba klawisze.";
+"Combined details" = "Połączone okienko";
 "Spacing" = "Rozstaw";
 "Choose file" = "Wybrać plik";
 "Stress tests" = "Testy obciążeniowe";
@@ -204,6 +209,7 @@
 "Frame" = "Ramka";
 "Value" = "Wartość";
 "Colorize" = "Kolorowanie";
+"Gradient fill" = "Wypełnienie gradientowe";
 "Colorize value" = "Kolorowanie wartości";
 "Additional information" = "Informacja dodatkowa";
 "Base" = "Podstawa";
@@ -316,9 +322,7 @@
 "Status" = "Stan";
 "Utilization" = "Wykorzystanie";
 "Renderer utilization" = "Wykorzystanie renderera";
-"Renderer utilization history" = "Historia wykorzystania renderera";
 "Tiler utilization" = "Wykorzystanie tilera";
-"Tiler utilization history" = "Historia wykorzystania tilera";
 "GPU usage threshold" = "Próg wykorzystania GPU";
 "GPU usage is" = "Użycie GPU %0";
 "ANE utilization" = "Wykorzystanie ANE";

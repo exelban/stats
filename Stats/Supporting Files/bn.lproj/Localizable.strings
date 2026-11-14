@@ -68,7 +68,6 @@
 "Cube" = "ঘন";
 "Logarithmic" = "লগারিদমিক";
 "Fixed scale" = "স্থির স্কেল";
-"Cores" = "কোর";
 "Core" = "কোর";
 "Settings" = "সেটিংস";
 "Name" = "নাম";
@@ -167,7 +166,13 @@
 "Pause the Stats" = "Stats বিরতি দিন";
 "Resume the Stats" = "Stats পুনরায় শুরু করুন";
 "Combined modules" = "সম্মিলিত মডিউল";
+"App icon" = "অ্যাপ আইকন";
+"Mini bars" = "ছোট বার";
+"Concentric rings" = "সমকেন্দ্রিক বলয়";
+"Arc dial" = "চাপাকৃতির ডায়াল";
 "Show icon instead of widgets" = "উইজেটের পরিবর্তে আইকন দেখান";
+"Alternate details on click" = "ক্লিক করলে বিবরণ পাল্টান";
+"Hold Option or Shift, or both." = "Option বা Shift, অথবা দুটোই চেপে ধরে রাখুন।";
 "Combined details" = "সম্মিলিত বিবরণ";
 "Spacing" = "ব্যবধান";
 "Choose file" = "ফাইল নির্বাচন করুন";
@@ -204,6 +209,7 @@
 "Frame" = "ফ্রেম";
 "Value" = "মান";
 "Colorize" = "রঙিন করুন";
+"Gradient fill" = "গ্রেডিয়েন্ট ভরাট";
 "Colorize value" = "মান রঙিন করুন";
 "Additional information" = "অতিরিক্ত তথ্য";
 "Base" = "ভিত্তি";
@@ -316,9 +322,7 @@
 "Status" = "অবস্থা";
 "Utilization" = "ব্যবহার";
 "Renderer utilization" = "রেন্ডার ব্যবহার";
-"Renderer utilization history" = "রেন্ডার ব্যবহারের ইতিহাস"; // qwen3.8:27b
 "Tiler utilization" = "টাইলার ব্যবহার";
-"Tiler utilization history" = "Tiler ব্যবহারের ইতিহাস"; // qwen3.8:27b
 "GPU usage threshold" = "GPU ব্যবহারের সীমা";
 "GPU usage is" = "GPU ব্যবহার %0";
 "ANE utilization" = "ANE ব্যবহার"; // qwen3.8:27b

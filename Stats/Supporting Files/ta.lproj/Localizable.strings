@@ -68,7 +68,6 @@
 "Cube" = "கன";
 "Logarithmic" = "மடக்கையம்";
 "Fixed scale" = "நிலையான அளவு";
-"Cores" = "குவியங்கள்";
 "Core" = "குவியம்";
 "Settings" = "அமைப்புகள்";
 "Name" = "பெயர்";
@@ -167,7 +166,13 @@
 "Pause the Stats" = "Stats-ஐ நிறுத்து";
 "Resume the Stats" = "Stats-ஐ மீண்டும் தொடங்கு";
 "Combined modules" = "ஒன்றிணைக்கப்பட்ட தொகுதிகள்";
+"App icon" = "செயலி சின்னம்";
+"Mini bars" = "சிறிய பட்டைகள்";
+"Concentric rings" = "ஒருமைய வளையங்கள்";
+"Arc dial" = "வளைவு அளவி";
 "Show icon instead of widgets" = "விட்ஜெட்டுகளுக்குப் பதிலாக ஐகானைக் காட்டு";
+"Alternate details on click" = "கிளிக் செய்யும்போது விவரங்களை மாற்று";
+"Hold Option or Shift, or both." = "Option அல்லது Shift அல்லது இரண்டையும் அழுத்திப் பிடிக்கவும்.";
 "Combined details" = "ஒன்றிணைக்கப்பட்ட விவரங்கள்";
 "Spacing" = "விடைவெளி";
 "Choose file" = "கோப்பைத் தேர்ந்தெடு";
@@ -204,6 +209,7 @@
 "Frame" = "சட்டகம்";
 "Value" = "மதிப்பு";
 "Colorize" = "வண்ணமூட்டு";
+"Gradient fill" = "சாய்வு வண்ண நிரப்புதல்";
 "Colorize value" = "மதிப்புக்கு வண்ணமூட்டு";
 "Additional information" = "கூடுதல் தகவல்";
 "Base" = "அடிப்படை";
@@ -316,9 +322,7 @@
 "Status" = "நிலை";
 "Utilization" = "பயன்பாடு";
 "Renderer utilization" = "Render பயன்பாடு";
-"Renderer utilization history" = "ரெண்டர் பயன்பாட்டு வரலாறு"; // qwen3.8:27b
 "Tiler utilization" = "Tiler பயன்பாடு";
-"Tiler utilization history" = "Tiler பயன்பாட்டு வரலாறு"; // qwen3.8:27b
 "GPU usage threshold" = "GPU பயன்பாடு வரம்பு";
 "GPU usage is" = "GPU பயன்பாடு %0";
 "ANE utilization" = "ANE பயன்பாடு"; // qwen3.8:27b

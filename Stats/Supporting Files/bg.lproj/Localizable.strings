@@ -68,7 +68,6 @@
 "Cube" = "Кубично";
 "Logarithmic" = "Логаритмично";
 "Fixed scale" = "Фиксирано"; // gemma4:31b
-"Cores" = "Ядра";
 "Core" = "Ядро"; // gemma4:31b
 "Settings" = "Настройки"; // translategemma:4b
 "Name" = "Име"; // translategemma:4b
@@ -167,7 +166,13 @@
 "Pause the Stats" = "Паузиране на Stats";
 "Resume the Stats" = "Продължаване на Stats";
 "Combined modules" = "Комбинирани модули"; // translategemma:4b
+"App icon" = "Икона на приложението";
+"Mini bars" = "Мини ленти";
+"Concentric rings" = "Концентрични пръстени";
+"Arc dial" = "Дъгов индикатор";
 "Show icon instead of widgets" = "Показване на икона вместо уиджети";
+"Alternate details on click" = "Превключване на подробностите при щракване";
+"Hold Option or Shift, or both." = "Задръжте Option или Shift, или и двата клавиша.";
 "Combined details" = "Комбинирани подробности"; // gemma4:31b
 "Spacing" = "Интервал"; // gemma4:31b
 "Choose file" = "Изберете файл"; // translategemma:4b
@@ -204,6 +209,7 @@
 "Frame" = "Рамка";
 "Value" = "Стойност";
 "Colorize" = "Оцветяване";
+"Gradient fill" = "Градиентно запълване";
 "Colorize value" = "Оцвети стойността";
 "Additional information" = "Допълнителна информация";
 "Base" = "Основа";
@@ -316,9 +322,7 @@
 "Status" = "Статус";
 "Utilization" = "Утилизация";
 "Renderer utilization" = "Използване на рендерера"; // gemma4:31b
-"Renderer utilization history" = "История на натоварването на рендер"; // qwen3.8:27b
 "Tiler utilization" = "Използване на Tiler"; // gemma4:31b
-"Tiler utilization history" = "История на използването на Tiler"; // qwen3.8:27b
 "GPU usage threshold" = "Праг на използване на GPU"; // gemma4:31b
 "GPU usage is" = "Употребата на графичната карта е %0";
 "ANE utilization" = "Използване на ANE"; // qwen3.8:27b

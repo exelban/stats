@@ -68,7 +68,6 @@
 "Cube" = "Kubisk"; // gemma4:31b
 "Logarithmic" = "Logaritmisk";
 "Fixed scale" = "Fast"; // gemma4:31b
-"Cores" = "Kerner";
 "Core" = "Kerne"; // translategemma:4b
 "Settings" = "Indstillinger";
 "Name" = "Navn";
@@ -167,7 +166,13 @@
 "Pause the Stats" = "Sæt Stats på pause";
 "Resume the Stats" = "Genoptag Stats";
 "Combined modules" = "Kombinerede moduler";
+"App icon" = "Appikon";
+"Mini bars" = "Minisøjler";
+"Concentric rings" = "Koncentriske ringe";
+"Arc dial" = "Bueindikator";
 "Show icon instead of widgets" = "Vis ikon i stedet for widgets";
+"Alternate details on click" = "Skift detaljer ved klik";
+"Hold Option or Shift, or both." = "Hold Option eller Shift nede, eller begge.";
 "Combined details" = "Kombinerede detaljer"; // gemma4:31b
 "Spacing" = "Mellemrum";
 "Choose file" = "Vælg fil"; // translategemma:4b
@@ -204,6 +209,7 @@
 "Frame" = "Ramme";
 "Value" = "Værdi";
 "Colorize" = "Farve";
+"Gradient fill" = "Gradientfyld";
 "Colorize value" = "Farve værdi";
 "Additional information" = "Yderligere information";
 "Base" = "Basis"; // gemma4:31b
@@ -316,9 +322,7 @@
 "Status" = "Status";
 "Utilization" = "Brugsniveau";
 "Renderer utilization" = "Renderudnyttelse";
-"Renderer utilization history" = "Renderudnyttelseshistorik"; // qwen3.8:27b
 "Tiler utilization" = "Tilerudnyttelse";
-"Tiler utilization history" = "Tiler-udnyttelseshistorik"; // qwen3.8:27b
 "GPU usage threshold" = "Grænseværdi for GPU brug";
 "GPU usage is" = "GPU brug er %0";
 "ANE utilization" = "ANE-udnyttelse"; // qwen3.8:27b

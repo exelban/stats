@@ -68,7 +68,6 @@
 "Cube" = "Kuup";
 "Logarithmic" = "Logaritmiline";
 "Fixed scale" = "Fikseeritud skaala";
-"Cores" = "Tuumad";
 "Core" = "Tuum";
 "Settings" = "Seaded";
 "Name" = "Nimi";
@@ -167,7 +166,13 @@
 "Pause the Stats" = "Peata Stats";
 "Resume the Stats" = "Jätka Stats";
 "Combined modules" = "Kombineeritud moodulid";
+"App icon" = "Rakenduse ikoon";
+"Mini bars" = "Miniribad";
+"Concentric rings" = "Kontsentrilised rõngad";
+"Arc dial" = "Kaarnäidik";
 "Show icon instead of widgets" = "Näita vidinate asemel ikooni";
+"Alternate details on click" = "Vaheta üksikasju klõpsamisel";
+"Hold Option or Shift, or both." = "Hoia all klahvi Option või Shift või mõlemat.";
 "Combined details" = "Ühendatud andmed";
 "Spacing" = "Vahekaugus";
 "Choose file" = "Vali fail";
@@ -204,6 +209,7 @@
 "Frame" = "Raam";
 "Value" = "Väärtus";
 "Colorize" = "Värvi";
+"Gradient fill" = "Üleminekutäide";
 "Colorize value" = "Värvi väärtus";
 "Additional information" = "Lisateave";
 "Base" = "Alus";
@@ -316,9 +322,7 @@
 "Status" = "Olek";
 "Utilization" = "Kasutus";
 "Renderer utilization" = "Renderdamise kasutus";
-"Renderer utilization history" = "Renderduse kasutuse ajalugu"; // qwen3.8:27b
 "Tiler utilization" = "Osapõhise renderdaja kasutus";
-"Tiler utilization history" = "Tileri kasutuse ajalugu"; // qwen3.8:27b
 "GPU usage threshold" = "GPU kasutuslävi";
 "GPU usage is" = "GPU kasutus on %0";
 "ANE utilization" = "ANE kasutus"; // qwen3.8:27b

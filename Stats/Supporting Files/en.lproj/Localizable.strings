@@ -171,10 +171,9 @@
 "Mini bars" = "Mini bars";
 "Concentric rings" = "Concentric rings";
 "Arc dial" = "Arc dial";
-"Online" = "Online";
-"Offline" = "Offline";
-"Mixed status" = "Mixed status";
 "Combined details" = "Combined details";
+"Alternate details on click" = "Alternate details on click";
+"Hold Option or Shift, or both." = "Hold Option or Shift, or both.";
 "Spacing" = "Spacing";
 "Choose file" = "Choose file";
 "Stress tests" = "Stress tests";
@@ -211,6 +210,7 @@
 "Value" = "Value";
 "Colorize" = "Colorize";
 "Colorize value" = "Colorize value";
+"Gradient fill" = "Gradient fill";
 "Additional information" = "Additional information";
 "Base" = "Base";
 "Display mode" = "View mode";

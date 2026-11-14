@@ -68,7 +68,6 @@
 "Cube" = "Kubično";
 "Logarithmic" = "Logaritmično";
 "Fixed scale" = "Fiksna skala";
-"Cores" = "Jedra";
 "Core" = "Jedro"; // gemma4:31b
 "Settings" = "Nastavitve";
 "Name" = "Ime";
@@ -167,7 +166,13 @@
 "Pause the Stats" = "Začasno zaustavi Stats";
 "Resume the Stats" = "Nadaljuj z izvajanjem Stats";
 "Combined modules" = "Združeni moduli";
+"App icon" = "Ikona aplikacije";
+"Mini bars" = "Majhni stolpci";
+"Concentric rings" = "Koncentrični obroči";
+"Arc dial" = "Ločni kazalnik";
 "Show icon instead of widgets" = "Prikaži ikono namesto pripomočkov";
+"Alternate details on click" = "Preklopi podrobnosti ob kliku";
+"Hold Option or Shift, or both." = "Pridržite Option ali Shift ali obe tipki.";
 "Combined details" = "Kombinirane podrobnosti"; // gemma4:31b
 "Spacing" = "Razmik";
 "Choose file" = "Izberi datoteko"; // gemma4:31b
@@ -204,6 +209,7 @@
 "Frame" = "Okvir";
 "Value" = "Vrednost";
 "Colorize" = "Obarvaj";
+"Gradient fill" = "Prelivno polnilo";
 "Colorize value" = "Obarvaj vrednost";
 "Additional information" = "Dodatne informacije";
 "Base" = "Osnova";
@@ -316,9 +322,7 @@
 "Status" = "Stanje";
 "Utilization" = "Uporaba";
 "Renderer utilization" = "Izkoriščanje renderja";
-"Renderer utilization history" = "Zgodovina izkoriščenosti izrisa"; // qwen3.8:27b
 "Tiler utilization" = "Uporaba ploščic";
-"Tiler utilization history" = "Zgodovina izkoriščenosti tilera"; // qwen3.8:27b
 "GPU usage threshold" = "Prag uporabe GPU";
 "GPU usage is" = "Uporaba GPU je %0";
 "ANE utilization" = "Izkoriščenost ANE"; // qwen3.8:27b

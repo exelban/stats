@@ -68,7 +68,6 @@
 "Cube" = "Kuutio";
 "Logarithmic" = "Logaritmi";
 "Fixed scale" = "Kiinteä";
-"Cores" = "Ytimet";
 "Core" = "Ydin"; // translategemma:4b
 "Settings" = "Asetukset";
 "Name" = "Nimi";
@@ -167,7 +166,13 @@
 "Pause the Stats" = "Keskeytä Stats";
 "Resume the Stats" = "Jatka Statsin käyttöä";
 "Combined modules" = "Yhdistetyt moduulit";
+"App icon" = "Apin kuvake";
+"Mini bars" = "Minipalkit";
+"Concentric rings" = "Samankeskiset renkaat";
+"Arc dial" = "Kaarimittari";
 "Show icon instead of widgets" = "Näytä kuvake widgettien sijaan";
+"Alternate details on click" = "Vaihda tietoja klikkaamalla";
+"Hold Option or Shift, or both." = "Pidä Option tai Shift tai molemmat painettuina.";
 "Combined details" = "Yhdistetyt tiedot";
 "Spacing" = "Välistys"; // gemma4:31b
 "Choose file" = "Valitse tiedosto"; // translategemma:4b
@@ -204,6 +209,7 @@
 "Frame" = "Kehys";
 "Value" = "Arvo";
 "Colorize" = "Värjää";
+"Gradient fill" = "Liukuväritäyttö";
 "Colorize value" = "Värjää arvo";
 "Additional information" = "Lisätiedot";
 "Base" = "Perusta";
@@ -316,9 +322,7 @@
 "Status" = "Tila";
 "Utilization" = "Käyttöaste";
 "Renderer utilization" = "Renderöinnin käyttöaste";
-"Renderer utilization history" = "Renderöinnin käyttöasteen historia"; // qwen3.8:27b
 "Tiler utilization" = "Tilerin käyttöaste";
-"Tiler utilization history" = "Tilerin käyttöasteen historia"; // qwen3.8:27b
 "GPU usage threshold" = "GPU:n käytön raja";
 "GPU usage is" = "GPU:n käyttö on %0";
 "ANE utilization" = "ANE-käyttöaste"; // qwen3.8:27b

@@ -68,7 +68,6 @@
 "Cube" = "立方";
 "Logarithmic" = "对数";
 "Fixed scale" = "固定值";
-"Cores" = "核心数";
 "Core" = "核心"; // translategemma:4b
 "Settings" = "设置";
 "Name" = "名称";
@@ -167,7 +166,13 @@
 "Pause the Stats" = "暂停Stats";
 "Resume the Stats" = "恢复Stats";
 "Combined modules" = "合并模块";
+"App icon" = "应用图标";
+"Mini bars" = "迷你条形图";
+"Concentric rings" = "同心圆环";
+"Arc dial" = "弧形仪表";
 "Show icon instead of widgets" = "显示图标而非小组件";
+"Alternate details on click" = "点击时切换详情";
+"Hold Option or Shift, or both." = "按住 Option 或 Shift，或同时按住两者。";
 "Combined details" = "合并详情";
 "Spacing" = "间距";
 "Choose file" = "选择文件";
@@ -204,6 +209,7 @@
 "Frame" = "外框";
 "Value" = "数值";
 "Colorize" = "彩色";
+"Gradient fill" = "渐变填充";
 "Colorize value" = "数值颜色";
 "Additional information" = "附加信息";
 "Base" = "单位";
@@ -316,9 +322,7 @@
 "Status" = "状态";
 "Utilization" = "利用率";
 "Renderer utilization" = "渲染利用率";
-"Renderer utilization history" = "渲染使用率历史"; // qwen3.8:27b
 "Tiler utilization" = "Tiler利用率";
-"Tiler utilization history" = "Tiler 利用率历史"; // qwen3.8:27b
 "GPU usage threshold" = "GPU占用阈值";
 "GPU usage is" = "GPU利用率是 %0";
 "ANE utilization" = "ANE 利用率"; // qwen3.8:27b

@@ -68,7 +68,6 @@
 "Cube" = "Kocka"; // gemma4:31b
 "Logarithmic" = "Logaritamski"; // gemma4:31b
 "Fixed scale" = "Fiksno"; // gemma4:31b
-"Cores" = "Jezgre"; // gemma4:31b
 "Core" = "Jezgra"; // gemma4:31b
 "Settings" = "Postavke"; // translategemma:4b
 "Name" = "Naziv"; // gemma4:31b
@@ -167,7 +166,13 @@
 "Pause the Stats" = "Pauziraj Stats"; // gemma4:31b
 "Resume the Stats" = "Nastavi Stats"; // gemma4:31b
 "Combined modules" = "Kombinirani moduli"; // gemma4:31b
+"App icon" = "Ikona aplikacije";
+"Mini bars" = "Male trake";
+"Concentric rings" = "Koncentrični prstenovi";
+"Arc dial" = "Lučni pokazivač";
 "Show icon instead of widgets" = "Prikaži ikonu umjesto widgeta";
+"Alternate details on click" = "Izmjenjuj detalje klikom";
+"Hold Option or Shift, or both." = "Držite Option ili Shift ili obje tipke.";
 "Combined details" = "Kombinirani detalji"; // gemma4:31b
 "Spacing" = "Razmak"; // translategemma:4b
 "Choose file" = "Odaberi datoteku"; // gemma4:31b
@@ -204,6 +209,7 @@
 "Frame" = "Okvir";
 "Value" = "Vrijednost";
 "Colorize" = "Oboji";
+"Gradient fill" = "Gradijentna ispuna";
 "Colorize value" = "Oboji vrijednost";
 "Additional information" = "Dodatne informacije";
 "Base" = "Osnova";
@@ -316,9 +322,7 @@
 "Status" = "Stanje";
 "Utilization" = "Korištenje";
 "Renderer utilization" = "Korištenje iscrtavača";
-"Renderer utilization history" = "Povijest iskorištenosti iscrtavača"; // qwen3.8:27b
 "Tiler utilization" = "Korištenje popločivanja";
-"Tiler utilization history" = "Povijest iskorištenosti tilera"; // qwen3.8:27b
 "GPU usage threshold" = "Prag korištenja grafičkog procesora";
 "GPU usage is" = "Korištenje grafičkog procesora je %0";
 "ANE utilization" = "Korištenje ANE"; // qwen3.8:27b

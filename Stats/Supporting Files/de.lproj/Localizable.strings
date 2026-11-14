@@ -68,7 +68,6 @@
 "Cube" = "Kubisch";
 "Logarithmic" = "Logarithmisch";
 "Fixed scale" = "Fest";
-"Cores" = "Kerne";
 "Core" = "Kern"; // translategemma:4b
 "Settings" = "Einstellungen";
 "Name" = "Name";
@@ -167,7 +166,13 @@
 "Pause the Stats" = "Stats pausieren";
 "Resume the Stats" = "Stats fortsetzen";
 "Combined modules" = "Kombinierte Module";
+"App icon" = "App-Symbol";
+"Mini bars" = "Minibalken";
+"Concentric rings" = "Konzentrische Ringe";
+"Arc dial" = "Bogenanzeige";
 "Show icon instead of widgets" = "Symbol statt Widgets anzeigen";
+"Alternate details on click" = "Details beim Klicken wechseln";
+"Hold Option or Shift, or both." = "Option oder Shift oder beide gedrückt halten.";
 "Combined details" = "Kombinierte Details";
 "Spacing" = "Abstand";
 "Choose file" = "Datei auswählen";
@@ -204,6 +209,7 @@
 "Frame" = "Rahmen";
 "Value" = "Wert";
 "Colorize" = "Einfärben";
+"Gradient fill" = "Verlaufsfüllung";
 "Colorize value" = "Wert einfärben";
 "Additional information" = "Zusätzliche Informationen";
 "Base" = "Basis";
@@ -316,9 +322,7 @@
 "Status" = "Status";
 "Utilization" = "Auslastung";
 "Renderer utilization" = "Render-Auslastung";
-"Renderer utilization history" = "Render-Auslastungsverlauf"; // qwen3.8:27b
 "Tiler utilization" = "Tiler-Auslastung";
-"Tiler utilization history" = "Tiler-Auslastungsverlauf"; // qwen3.8:27b
 "GPU usage threshold" = "GPU-Auslastungsschwelle";
 "GPU usage is" = "GPU-Auslastung ist %0";
 "ANE utilization" = "ANE-Auslastung"; // qwen3.8:27b

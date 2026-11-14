@@ -68,7 +68,6 @@
 "Cube" = "Kubus"; // translategemma:4b
 "Logarithmic" = "Logaritmik"; // translategemma:4b
 "Fixed scale" = "Tetap"; // gemma4:31b
-"Cores" = "Inti"; // translategemma:4b
 "Core" = "Inti"; // translategemma:4b
 "Settings" = "Pengaturan"; // translategemma:4b
 "Name" = "Nama"; // translategemma:4b
@@ -167,7 +166,13 @@
 "Pause the Stats" = "Jeda Stats"; // gemma4:31b
 "Resume the Stats" = "Lanjutkan Stats"; // gemma4:31b
 "Combined modules" = "Modul gabungan"; // gemma4:31b
+"App icon" = "Ikon aplikasi";
+"Mini bars" = "Batang mini";
+"Concentric rings" = "Cincin konsentris";
+"Arc dial" = "Indikator busur";
 "Show icon instead of widgets" = "Tampilkan ikon sebagai pengganti widget";
+"Alternate details on click" = "Ganti detail saat diklik";
+"Hold Option or Shift, or both." = "Tahan Option atau Shift, atau keduanya.";
 "Combined details" = "Detail gabungan"; // gemma4:31b
 "Spacing" = "Jarak"; // translategemma:4b
 "Choose file" = "Pilih file"; // translategemma:4b
@@ -204,6 +209,7 @@
 "Frame" = "Bingkai";
 "Value" = "Nilai";
 "Colorize" = "Warnai"; // gemma4:31b
+"Gradient fill" = "Isian gradien";
 "Colorize value" = "Warnai nilai"; // gemma4:31b
 "Additional information" = "Informasi tambahan";
 "Base" = "Basis";
@@ -316,9 +322,7 @@
 "Status" = "Status";
 "Utilization" = "Pemanfaatan";
 "Renderer utilization" = "Pemanfaatan render";
-"Renderer utilization history" = "Riwayat pemanfaatan render"; // qwen3.8:27b
 "Tiler utilization" = "Pemanfaatan tiler";
-"Tiler utilization history" = "Riwayat pemanfaatan Tiler"; // qwen3.8:27b
 "GPU usage threshold" = "Ambang batas penggunaan GPU"; // gemma4:31b
 "GPU usage is" = "Penggunaan GPU adalah %0"; // translategemma:4b
 "ANE utilization" = "Pemanfaatan ANE"; // qwen3.8:27b

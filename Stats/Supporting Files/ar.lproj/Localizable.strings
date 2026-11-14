@@ -68,7 +68,6 @@
 "Cube" = "مكعب";
 "Logarithmic" = "لوغاريتمي";
 "Fixed scale" = "مقاس ثابت";
-"Cores" = "نوى";
 "Core" = "نواة";
 "Settings" = "الإعدادات";
 "Name" = "الاسم";
@@ -167,7 +166,13 @@
 "Pause the Stats" = "إيقاف الإحصاءات";
 "Resume the Stats" = "استئناف الإحصاءات";
 "Combined modules" = "الوحدات المجتمعة";
+"App icon" = "أيقونة التطبيق";
+"Mini bars" = "أشرطة صغيرة";
+"Concentric rings" = "حلقات متحدة المركز";
+"Arc dial" = "مؤشر قوسي";
 "Show icon instead of widgets" = "إظهار الأيقونة بدلاً من عناصر الواجهة";
+"Alternate details on click" = "تبديل التفاصيل عند النقر";
+"Hold Option or Shift, or both." = "اضغط مطولاً على Option أو Shift أو كليهما.";
 "Combined details" = "تفاصيل مجمعة"; // translategemma:4b
 "Spacing" = "التباعد";
 "Choose file" = "اختيار ملف"; // gemma4:31b
@@ -204,6 +209,7 @@
 "Frame" = "إطار";
 "Value" = "قيمة";
 "Colorize" = "تلوين";
+"Gradient fill" = "تعبئة متدرجة";
 "Colorize value" = "تلوين القيمة";
 "Additional information" = "معلومات إضافية";
 "Base" = "قاعدة";
@@ -316,9 +322,7 @@
 "Status" = "الحالة";
 "Utilization" = "استخدام";
 "Renderer utilization" = "استخدام التصيير";
-"Renderer utilization history" = "سجل استخدام التصيير"; // qwen3.8:27b
 "Tiler utilization" = "استخدام Tiler";
-"Tiler utilization history" = "سجل استخدام Tiler"; // qwen3.8:27b
 "GPU usage threshold" = "عتبة استخدام GPU";
 "GPU usage is" = "استخدام GPU %0";
 "ANE utilization" = "استخدام ANE"; // qwen3.8:27b

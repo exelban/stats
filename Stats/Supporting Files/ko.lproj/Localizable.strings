@@ -68,7 +68,6 @@
 "Cube" = "세제곱";
 "Logarithmic" = "로그";
 "Fixed scale" = "고정 스케일";
-"Cores" = "코어 수";
 "Core" = "코어";
 "Settings" = "설정";
 "Name" = "이름";
@@ -167,7 +166,13 @@
 "Pause the Stats" = "Stats 일시정지";
 "Resume the Stats" = "Stats 재개";
 "Combined modules" = "전체 모듈";
+"App icon" = "앱 아이콘";
+"Mini bars" = "미니 막대";
+"Concentric rings" = "동심원 링";
+"Arc dial" = "호 모양 계기판";
 "Show icon instead of widgets" = "위젯 대신 아이콘 표시";
+"Alternate details on click" = "클릭 시 세부 정보 전환";
+"Hold Option or Shift, or both." = "Option 또는 Shift 키, 또는 두 키를 모두 길게 누르세요.";
 "Combined details" = "전체 세부 정보";
 "Spacing" = "간격";
 "Choose file" = "파일 선택";
@@ -204,6 +209,7 @@
 "Frame" = "테두리";
 "Value" = "값";
 "Colorize" = "색상화";
+"Gradient fill" = "그라데이션 채우기";
 "Colorize value" = "값 색상화";
 "Additional information" = "추가 정보";
 "Base" = "단위";
@@ -316,9 +322,7 @@
 "Status" = "상태";
 "Utilization" = "사용률";
 "Renderer utilization" = "렌더 사용률";
-"Renderer utilization history" = "렌더링 사용률 이력"; // qwen3.8:27b
 "Tiler utilization" = "타일 사용률";
-"Tiler utilization history" = "타일러 사용률 이력"; // qwen3.8:27b
 "GPU usage threshold" = "GPU 사용량 임계값";
 "GPU usage is" = "GPU 사용량 %0";
 "ANE utilization" = "ANE 사용률"; // qwen3.8:27b

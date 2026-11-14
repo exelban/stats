@@ -68,7 +68,6 @@
 "Cube" = "Cub";
 "Logarithmic" = "Logarítmic";
 "Fixed scale" = "Escala fixa";
-"Cores" = "Nuclis";
 "Core" = "Nucli"; // gemma4:31b
 "Settings" = "Configuració";
 "Name" = "Nom";
@@ -167,7 +166,13 @@
 "Pause the Stats" = "Pausa Stats";
 "Resume the Stats" = "Continua Stats";
 "Combined modules" = "Mòduls combinats";
+"App icon" = "Icona de l’aplicació";
+"Mini bars" = "Minibarres";
+"Concentric rings" = "Anells concèntrics";
+"Arc dial" = "Indicador en arc";
 "Show icon instead of widgets" = "Mostra la icona en lloc dels ginys";
+"Alternate details on click" = "Alterna els detalls en fer clic";
+"Hold Option or Shift, or both." = "Manteniu premuda Option o Shift, o totes dues.";
 "Combined details" = "Detalls combinats";
 "Spacing" = "Espaiat";
 "Choose file" = "Tria el fitxer"; // gemma4:31b
@@ -204,6 +209,7 @@
 "Frame" = "Marc";
 "Value" = "Valor";
 "Colorize" = "Acoloreix";
+"Gradient fill" = "Farciment degradat";
 "Colorize value" = "Valor de l'acoloriment";
 "Additional information" = "Informació addicional";
 "Base" = "Base";
@@ -316,9 +322,7 @@
 "Status" = "Estat";
 "Utilization" = "Ús";
 "Renderer utilization" = "Utilització del Render";
-"Renderer utilization history" = "Historial d'ús de renderització"; // qwen3.8:27b
 "Tiler utilization" = "Utilització del Tiler";
-"Tiler utilization history" = "Historial d'ús del tiler"; // qwen3.8:27b
 "GPU usage threshold" = "Límit d'ús de la GPU";
 "GPU usage is" = "L'ús de la GPU és %0";
 "ANE utilization" = "Utilització de l'ANE"; // qwen3.8:27b

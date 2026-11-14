@@ -68,7 +68,6 @@
 "Cube" = "Lập phương";
 "Logarithmic" = "Logarit";
 "Fixed scale" = "Tỷ lệ cố định";
-"Cores" = "Nhân";
 "Core" = "Nhân"; // gemma4:31b
 "Settings" = "Cài đặt";
 "Name" = "Tên";
@@ -167,7 +166,13 @@
 "Pause the Stats" = "Tạm dừng Stats";
 "Resume the Stats" = "Tiếp tục Stats";
 "Combined modules" = "Các module kết hợp";
+"App icon" = "Biểu tượng ứng dụng";
+"Mini bars" = "Thanh nhỏ";
+"Concentric rings" = "Vòng tròn đồng tâm";
+"Arc dial" = "Đồng hồ hình cung";
 "Show icon instead of widgets" = "Hiển thị biểu tượng thay cho tiện ích";
+"Alternate details on click" = "Chuyển đổi chi tiết khi nhấp";
+"Hold Option or Shift, or both." = "Giữ Option hoặc Shift, hoặc cả hai.";
 "Combined details" = "Chi tiết kết hợp";
 "Spacing" = "Khoảng cách";
 "Choose file" = "Chọn tập tin";
@@ -204,6 +209,7 @@
 "Frame" = "Khung";
 "Value" = "Giá trị";
 "Colorize" = "Tô màu";
+"Gradient fill" = "Tô màu chuyển sắc";
 "Colorize value" = "Tô màu giá trị";
 "Additional information" = "Thông tin bổ sung";
 "Base" = "Cơ sở";
@@ -316,9 +322,7 @@
 "Status" = "Trạng thái";
 "Utilization" = "Sử dụng";
 "Renderer utilization" = "Mức sử dụng kết xuất";
-"Renderer utilization history" = "Lịch sử mức sử dụng kết xuất"; // qwen3.8:27b
 "Tiler utilization" = "Mức sử dụng tiler";
-"Tiler utilization history" = "Lịch sử mức sử dụng Tiler"; // qwen3.8:27b
 "GPU usage threshold" = "Ngưỡng sử dụng GPU";
 "GPU usage is" = "Sử dụng GPU là %0";
 "ANE utilization" = "Mức sử dụng ANE"; // qwen3.8:27b

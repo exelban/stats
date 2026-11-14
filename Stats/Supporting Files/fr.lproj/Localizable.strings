@@ -68,7 +68,6 @@
 "Cube" = "Cubique"; // gemma4:31b-it-qat
 "Logarithmic" = "Logarithmique";
 "Fixed scale" = "Fixe";
-"Cores" = "Cœurs";
 "Core" = "Cœur";
 "Settings" = "Paramètres";
 "Name" = "Nom";
@@ -167,7 +166,13 @@
 "Pause the Stats" = "Mettre Stats en pause";
 "Resume the Stats" = "Reprendre Stats";
 "Combined modules" = "Modules combinés";
+"App icon" = "Icône de l’application";
+"Mini bars" = "Mini-barres";
+"Concentric rings" = "Anneaux concentriques";
+"Arc dial" = "Jauge en arc";
 "Show icon instead of widgets" = "Afficher l’icône à la place des widgets";
+"Alternate details on click" = "Alterner les détails au clic";
+"Hold Option or Shift, or both." = "Maintenez Option ou Shift, ou les deux.";
 "Combined details" = "Détails combinés";
 "Spacing" = "Espacement";
 "Choose file" = "Choisir un fichier"; // gemma4:31b
@@ -204,6 +209,7 @@
 "Frame" = "Cadre";
 "Value" = "Valeur";
 "Colorize" = "Coloriser";
+"Gradient fill" = "Remplissage dégradé";
 "Colorize value" = "Coloriser la valeur";
 "Additional information" = "Informations supplémentaires";
 "Base" = "Base";
@@ -316,9 +322,7 @@
 "Status" = "Statut";
 "Utilization" = "Utilisation";
 "Renderer utilization" = "Utilisation du rendu";
-"Renderer utilization history" = "Historique d'utilisation du rendu"; // qwen3.8:27b
 "Tiler utilization" = "Utilisation du Tiler";
-"Tiler utilization history" = "Historique d'utilisation du Tiler"; // qwen3.8:27b
 "GPU usage threshold" = "Seuil d'utilisation du GPU";
 "GPU usage is" = "L'utilisation du GPU est de %0";
 "ANE utilization" = "Utilisation de l'ANE"; // qwen3.8:27b

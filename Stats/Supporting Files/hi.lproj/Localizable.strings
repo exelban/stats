@@ -68,7 +68,6 @@
 "Cube" = "क्यूब";
 "Logarithmic" = "लघुगणकीय";
 "Fixed scale" = "स्थिर"; // gemma4:31b
-"Cores" = "कोर";
 "Core" = "कोर"; // gemma4:31b
 "Settings" = "सेटिंग्स";
 "Name" = "नाम";
@@ -167,7 +166,13 @@
 "Pause the Stats" = "आँकड़ों को रोकें";
 "Resume the Stats" = "आँकड़े फिर से शुरू करें";
 "Combined modules" = "संयुक्त मॉड्यूल";
+"App icon" = "ऐप आइकन";
+"Mini bars" = "छोटे बार";
+"Concentric rings" = "संकेंद्रित छल्ले";
+"Arc dial" = "चापाकार डायल";
 "Show icon instead of widgets" = "विजेट के बजाय आइकन दिखाएँ";
+"Alternate details on click" = "क्लिक करने पर विवरण बदलें";
+"Hold Option or Shift, or both." = "Option या Shift, या दोनों दबाए रखें।";
 "Combined details" = "संयुक्त विवरण"; // translategemma:4b
 "Spacing" = "स्पेसिंग";
 "Choose file" = "फ़ाइल चुनें"; // translategemma:4b
@@ -204,6 +209,7 @@
 "Frame" = "फ्रेम";
 "Value" = "मूल्य";
 "Colorize" = "रंगांकित";
+"Gradient fill" = "ग्रेडिएंट भरण";
 "Colorize value" = "मूल्य को रंगीन करें";
 "Additional information" = "अतिरिक्त जानकारी";
 "Base" = "आधार";
@@ -316,9 +322,7 @@
 "Status" = "स्थिति";
 "Utilization" = "उपयोग";
 "Renderer utilization" = "रेंडर उपयोग";
-"Renderer utilization history" = "रेंडर उपयोग इतिहास"; // qwen3.8:27b
 "Tiler utilization" = "टाइलर उपयोग";
-"Tiler utilization history" = "टाइलर उपयोग इतिहास"; // qwen3.8:27b
 "GPU usage threshold" = "जीपीयू उपयोग सीमा";
 "GPU usage is" = "जीपीयू उपयोग %0 है";
 "ANE utilization" = "ANE उपयोग"; // qwen3.8:27b

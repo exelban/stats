@@ -68,7 +68,6 @@
 "Cube" = "Кубическое";
 "Logarithmic" = "Логарифмическое";
 "Fixed scale" = "Фиксированное";
-"Cores" = "Ядра";
 "Core" = "Ядро";
 "Settings" = "Настройки";
 "Name" = "Название";
@@ -167,7 +166,13 @@
 "Pause the Stats" = "Приостановить Stats";
 "Resume the Stats" = "Возобновить Stats";
 "Combined modules" = "Комбинированные модули";
+"App icon" = "Значок приложения";
+"Mini bars" = "Мини-столбцы";
+"Concentric rings" = "Концентрические кольца";
+"Arc dial" = "Дуговой индикатор";
 "Show icon instead of widgets" = "Показывать значок вместо виджетов";
+"Alternate details on click" = "Переключать детали по щелчку";
+"Hold Option or Shift, or both." = "Удерживайте Option или Shift либо обе клавиши.";
 "Combined details" = "Комбинированные детали";
 "Spacing" = "Интервал";
 "Choose file" = "Выбрать файл";
@@ -204,6 +209,7 @@
 "Frame" = "Рамка";
 "Value" = "Значение";
 "Colorize" = "Раскрасить";
+"Gradient fill" = "Градиентная заливка";
 "Colorize value" = "Раскрасить значение";
 "Additional information" = "Дополнительная информация";
 "Base" = "Основа";
@@ -316,9 +322,7 @@
 "Status" = "Статус";
 "Utilization" = "Использование";
 "Renderer utilization" = "Использование рендерера";
-"Renderer utilization history" = "История загрузки рендера"; // qwen3.8:27b
 "Tiler utilization" = "Использование тайлера";
-"Tiler utilization history" = "История загрузки Tiler"; // qwen3.8:27b
 "GPU usage threshold" = "Порог использования графического процессора";
 "GPU usage is" = "Использование графического процессора %0";
 "ANE utilization" = "Использование ANE"; // qwen3.8:27b
