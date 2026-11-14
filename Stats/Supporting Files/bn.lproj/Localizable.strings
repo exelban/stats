@@ -170,7 +170,7 @@
 "Mini bars" = "ছোট বার";
 "Concentric rings" = "সমকেন্দ্রিক বলয়";
 "Arc dial" = "চাপাকৃতির ডায়াল";
-"Show icon instead of widgets" = "উইজেটের পরিবর্তে আইকন দেখান";
+"Menu bar" = "মেনু বার";
 "Alternate details on click" = "ক্লিক করলে বিবরণ পাল্টান";
 "Hold Option or Shift, or both." = "Option বা Shift, অথবা দুটোই চেপে ধরে রাখুন।";
 "Combined details" = "সম্মিলিত বিবরণ";
@@ -329,6 +329,7 @@
 "ANE utilization history" = "ANE ব্যবহারের ইতিহাস"; // qwen3.8:27b
 "FPS history" = "FPS ইতিহাস"; // qwen3.8:27b
 "GPU utilization history" = "GPU ব্যবহারের ইতিহাস"; // qwen3.8:27b
+"Memory usage history" = "মেমোরি ব্যবহারের ইতিহাস";
 
 // RAM
 "Memory usage" = "মেমোরি ব্যবহার";

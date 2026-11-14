@@ -170,7 +170,7 @@
 "Mini bars" = "Minipalkit";
 "Concentric rings" = "Samankeskiset renkaat";
 "Arc dial" = "Kaarimittari";
-"Show icon instead of widgets" = "Näytä kuvake widgettien sijaan";
+"Menu bar" = "Valikkorivi";
 "Alternate details on click" = "Vaihda tietoja klikkaamalla";
 "Hold Option or Shift, or both." = "Pidä Option tai Shift tai molemmat painettuina.";
 "Combined details" = "Yhdistetyt tiedot";
@@ -329,6 +329,7 @@
 "ANE utilization history" = "ANE:n käyttöhistoria"; // qwen3.8:27b
 "FPS history" = "FPS-historia"; // qwen3.8:27b
 "GPU utilization history" = "GPU-käyttöhistoria"; // qwen3.8:27b
+"Memory usage history" = "Muistin käytön historia";
 
 // RAM
 "Memory usage" = "Muistin käyttö";

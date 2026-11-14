@@ -170,7 +170,7 @@
 "Mini bars" = "छोटे बार";
 "Concentric rings" = "संकेंद्रित छल्ले";
 "Arc dial" = "चापाकार डायल";
-"Show icon instead of widgets" = "विजेट के बजाय आइकन दिखाएँ";
+"Menu bar" = "मेनू बार";
 "Alternate details on click" = "क्लिक करने पर विवरण बदलें";
 "Hold Option or Shift, or both." = "Option या Shift, या दोनों दबाए रखें।";
 "Combined details" = "संयुक्त विवरण"; // translategemma:4b
@@ -329,6 +329,7 @@
 "ANE utilization history" = "ANE उपयोग इतिहास"; // qwen3.8:27b
 "FPS history" = "FPS इतिहास"; // qwen3.8:27b
 "GPU utilization history" = "GPU उपयोग इतिहास"; // qwen3.8:27b
+"Memory usage history" = "मेमोरी उपयोग इतिहास";
 
 // RAM
 "Memory usage" = "मेमोरी उपयोग";

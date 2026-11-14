@@ -170,7 +170,7 @@
 "Mini bars" = "Batang mini";
 "Concentric rings" = "Cincin konsentris";
 "Arc dial" = "Indikator busur";
-"Show icon instead of widgets" = "Tampilkan ikon sebagai pengganti widget";
+"Menu bar" = "Bar menu";
 "Alternate details on click" = "Ganti detail saat diklik";
 "Hold Option or Shift, or both." = "Tahan Option atau Shift, atau keduanya.";
 "Combined details" = "Detail gabungan"; // gemma4:31b
@@ -329,6 +329,7 @@
 "ANE utilization history" = "Riwayat pemanfaatan ANE"; // qwen3.8:27b
 "FPS history" = "Riwayat FPS"; // qwen3.8:27b
 "GPU utilization history" = "Riwayat pemanfaatan GPU"; // qwen3.8:27b
+"Memory usage history" = "Riwayat penggunaan memori";
 
 // RAM
 "Memory usage" = "Penggunaan memori";

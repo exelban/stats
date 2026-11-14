@@ -170,7 +170,7 @@
 "Mini bars" = "Mini çubuklar";
 "Concentric rings" = "Eş merkezli halkalar";
 "Arc dial" = "Yay göstergesi";
-"Show icon instead of widgets" = "Widget’lar yerine simge göster";
+"Menu bar" = "Menü çubuğu";
 "Alternate details on click" = "Tıklayınca ayrıntıları değiştir";
 "Hold Option or Shift, or both." = "Option veya Shift tuşunu ya da her ikisini basılı tutun.";
 "Combined details" = "Birleşik ayrıntılar";
@@ -329,6 +329,7 @@
 "ANE utilization history" = "ANE kullanım geçmişi"; // qwen3.8:27b
 "FPS history" = "FPS geçmişi"; // qwen3.8:27b
 "GPU utilization history" = "GPU kullanım geçmişi"; // qwen3.8:27b
+"Memory usage history" = "Bellek kullanım geçmişi";
 
 // RAM
 "Memory usage" = "Bellek kullanımı";

@@ -170,7 +170,7 @@
 "Mini bars" = "Malé stĺpce";
 "Concentric rings" = "Sústredné kruhy";
 "Arc dial" = "Oblúkový ukazovateľ";
-"Show icon instead of widgets" = "Zobraziť ikonu namiesto widgetov";
+"Menu bar" = "Lišta menu";
 "Alternate details on click" = "Prepínať detaily kliknutím";
 "Hold Option or Shift, or both." = "Podržte Option alebo Shift, prípadne oba klávesy.";
 "Combined details" = "Kombinované detaily"; // gemma4:31b
@@ -329,6 +329,7 @@
 "ANE utilization history" = "História využitia ANE"; // qwen3.8:27b
 "FPS history" = "História FPS"; // qwen3.8:27b
 "GPU utilization history" = "História vyťaženia GPU"; // qwen3.8:27b
+"Memory usage history" = "História využitia pamäte";
 
 // RAM
 "Memory usage" = "Využitie pamäte";

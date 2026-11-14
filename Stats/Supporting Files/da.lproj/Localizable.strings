@@ -170,7 +170,7 @@
 "Mini bars" = "Minisøjler";
 "Concentric rings" = "Koncentriske ringe";
 "Arc dial" = "Bueindikator";
-"Show icon instead of widgets" = "Vis ikon i stedet for widgets";
+"Menu bar" = "Menulinje";
 "Alternate details on click" = "Skift detaljer ved klik";
 "Hold Option or Shift, or both." = "Hold Option eller Shift nede, eller begge.";
 "Combined details" = "Kombinerede detaljer"; // gemma4:31b
@@ -329,6 +329,7 @@
 "ANE utilization history" = "ANE-udnyttelsehistorik"; // qwen3.8:27b
 "FPS history" = "FPS-historik"; // qwen3.8:27b
 "GPU utilization history" = "GPU-udnyttelsesgradshistorik"; // qwen3.8:27b
+"Memory usage history" = "Historik over hukommelsesforbrug";
 
 // RAM
 "Memory usage" = "Hukommelse i brug";

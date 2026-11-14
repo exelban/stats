@@ -170,7 +170,7 @@
 "Mini bars" = "Majhni stolpci";
 "Concentric rings" = "Koncentrični obroči";
 "Arc dial" = "Ločni kazalnik";
-"Show icon instead of widgets" = "Prikaži ikono namesto pripomočkov";
+"Menu bar" = "Menijska vrstica";
 "Alternate details on click" = "Preklopi podrobnosti ob kliku";
 "Hold Option or Shift, or both." = "Pridržite Option ali Shift ali obe tipki.";
 "Combined details" = "Kombinirane podrobnosti"; // gemma4:31b
@@ -329,6 +329,7 @@
 "ANE utilization history" = "Zgodovina izrabe ANE"; // qwen3.8:27b
 "FPS history" = "Zgodovina FPS"; // qwen3.8:27b
 "GPU utilization history" = "Zgodovina izkoriščenosti GPU"; // qwen3.8:27b
+"Memory usage history" = "Zgodovina uporabe pomnilnika";
 
 // RAM
 "Memory usage" = "Poraba pomnilnika";

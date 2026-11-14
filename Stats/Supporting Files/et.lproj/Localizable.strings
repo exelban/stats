@@ -170,7 +170,7 @@
 "Mini bars" = "Miniribad";
 "Concentric rings" = "Kontsentrilised rõngad";
 "Arc dial" = "Kaarnäidik";
-"Show icon instead of widgets" = "Näita vidinate asemel ikooni";
+"Menu bar" = "Menüüriba";
 "Alternate details on click" = "Vaheta üksikasju klõpsamisel";
 "Hold Option or Shift, or both." = "Hoia all klahvi Option või Shift või mõlemat.";
 "Combined details" = "Ühendatud andmed";
@@ -329,6 +329,7 @@
 "ANE utilization history" = "ANE kasutusajalugu"; // qwen3.8:27b
 "FPS history" = "FPS-i ajalugu"; // qwen3.8:27b
 "GPU utilization history" = "GPU kasutuse ajalugu"; // qwen3.8:27b
+"Memory usage history" = "Mälukasutuse ajalugu";
 
 // RAM
 "Memory usage" = "Mälu kasutus";

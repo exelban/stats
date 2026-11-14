@@ -170,7 +170,7 @@
 "Mini bars" = "迷你条形图";
 "Concentric rings" = "同心圆环";
 "Arc dial" = "弧形仪表";
-"Show icon instead of widgets" = "显示图标而非小组件";
+"Menu bar" = "菜单栏";
 "Alternate details on click" = "点击时切换详情";
 "Hold Option or Shift, or both." = "按住 Option 或 Shift，或同时按住两者。";
 "Combined details" = "合并详情";
@@ -329,6 +329,7 @@
 "ANE utilization history" = "ANE 利用率历史"; // qwen3.8:27b
 "FPS history" = "FPS 历史"; // qwen3.8:27b
 "GPU utilization history" = "GPU 使用率历史"; // qwen3.8:27b
+"Memory usage history" = "内存使用历史";
 
 // RAM
 "Memory usage" = "内存占用";

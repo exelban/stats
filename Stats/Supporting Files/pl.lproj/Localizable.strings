@@ -170,7 +170,7 @@
 "Mini bars" = "Minisłupki";
 "Concentric rings" = "Koncentryczne pierścienie";
 "Arc dial" = "Wskaźnik łukowy";
-"Show icon instead of widgets" = "Pokaż ikonę zamiast widżetów";
+"Menu bar" = "Pasek menu";
 "Alternate details on click" = "Przełączaj szczegóły po kliknięciu";
 "Hold Option or Shift, or both." = "Przytrzymaj Option lub Shift albo oba klawisze.";
 "Combined details" = "Połączone okienko";
@@ -329,6 +329,7 @@
 "ANE utilization history" = "Historia wykorzystania ANE";
 "FPS history" = "Historia FPS";
 "GPU utilization history" = "Historia wykorzystania GPU";
+"Memory usage history" = "Historia użycia pamięci";
 
 // RAM
 "Memory usage" = "Użycie pamięci";

@@ -170,7 +170,7 @@
 "Mini bars" = "ミニバー";
 "Concentric rings" = "同心円リング";
 "Arc dial" = "円弧メーター";
-"Show icon instead of widgets" = "ウィジェットの代わりにアイコンを表示";
+"Menu bar" = "メニューバー";
 "Alternate details on click" = "クリックで詳細を切り替える";
 "Hold Option or Shift, or both." = "Option または Shift、または両方を押し続けます。";
 "Combined details" = "統合された詳細"; // translategemma:4b
@@ -329,6 +329,7 @@
 "ANE utilization history" = "ANE 使用率の履歴"; // qwen3.8:27b
 "FPS history" = "FPS履歴"; // qwen3.8:27b
 "GPU utilization history" = "GPU使用率の履歴"; // qwen3.8:27b
+"Memory usage history" = "メモリ使用量の履歴";
 
 // RAM
 "Memory usage" = "メモリ使用率";

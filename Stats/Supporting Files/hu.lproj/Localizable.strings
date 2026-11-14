@@ -170,7 +170,7 @@
 "Mini bars" = "Mini oszlopok";
 "Concentric rings" = "Koncentrikus gyűrűk";
 "Arc dial" = "Íves kijelző";
-"Show icon instead of widgets" = "Ikon megjelenítése widgetek helyett";
+"Menu bar" = "Menüsor";
 "Alternate details on click" = "Részletek váltása kattintáskor";
 "Hold Option or Shift, or both." = "Tartsa lenyomva az Option vagy a Shift billentyűt, vagy mindkettőt.";
 "Combined details" = "Kombinált részletek"; // gemma4:31b
@@ -329,6 +329,7 @@
 "ANE utilization history" = "ANE-kihasználtság-történet"; // qwen3.8:27b
 "FPS history" = "FPS előzmények"; // qwen3.8:27b
 "GPU utilization history" = "GPU kihasználtsági előzmények"; // qwen3.8:27b
+"Memory usage history" = "Memóriahasználati előzmények";
 
 // RAM
 "Memory usage" = "Memóriahasználat";

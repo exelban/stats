@@ -170,7 +170,7 @@
 "Mini bars" = "أشرطة صغيرة";
 "Concentric rings" = "حلقات متحدة المركز";
 "Arc dial" = "مؤشر قوسي";
-"Show icon instead of widgets" = "إظهار الأيقونة بدلاً من عناصر الواجهة";
+"Menu bar" = "شريط القوائم";
 "Alternate details on click" = "تبديل التفاصيل عند النقر";
 "Hold Option or Shift, or both." = "اضغط مطولاً على Option أو Shift أو كليهما.";
 "Combined details" = "تفاصيل مجمعة"; // translategemma:4b
@@ -329,6 +329,7 @@
 "ANE utilization history" = "سجل استخدام ANE"; // qwen3.8:27b
 "FPS history" = "سجل FPS"; // qwen3.8:27b
 "GPU utilization history" = "سجل استخدام GPU"; // qwen3.8:27b
+"Memory usage history" = "سجل استخدام الذاكرة";
 
 // RAM
 "Memory usage" = "استخدام الذاكرة";

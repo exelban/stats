@@ -170,7 +170,7 @@
 "Mini bars" = "Minibarras";
 "Concentric rings" = "Anillos concéntricos";
 "Arc dial" = "Indicador en arco";
-"Show icon instead of widgets" = "Mostrar el icono en lugar de los widgets";
+"Menu bar" = "Barra de menús";
 "Alternate details on click" = "Alternar detalles al hacer clic";
 "Hold Option or Shift, or both." = "Mantén pulsada Option o Shift, o ambas.";
 "Combined details" = "Detalles combinados"; // translategemma:4b
@@ -329,6 +329,7 @@
 "ANE utilization history" = "Historial de utilización de ANE"; // qwen3.8:27b
 "FPS history" = "Historial de FPS"; // qwen3.8:27b
 "GPU utilization history" = "Historial de utilización de GPU"; // qwen3.8:27b
+"Memory usage history" = "Historial de uso de la memoria";
 
 // RAM
 "Memory usage" = "Uso de la memoria";

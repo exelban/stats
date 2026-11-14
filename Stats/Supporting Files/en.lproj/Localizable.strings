@@ -166,7 +166,7 @@
 "Pause the Stats" = "Pause the Stats";
 "Resume the Stats" = "Resume the Stats";
 "Combined modules" = "Combined modules";
-"Show icon instead of widgets" = "Show icon instead of widgets";
+"Menu bar" = "Menu bar";
 "App icon" = "App icon";
 "Mini bars" = "Mini bars";
 "Concentric rings" = "Concentric rings";
@@ -329,6 +329,7 @@
 "ANE utilization history" = "ANE utilization history";
 "FPS history" = "FPS history";
 "GPU utilization history" = "GPU utilization history";
+"Memory usage history" = "Memory usage history";
 
 // RAM
 "Memory usage" = "Memory usage";

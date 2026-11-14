@@ -170,7 +170,7 @@
 "Mini bars" = "சிறிய பட்டைகள்";
 "Concentric rings" = "ஒருமைய வளையங்கள்";
 "Arc dial" = "வளைவு அளவி";
-"Show icon instead of widgets" = "விட்ஜெட்டுகளுக்குப் பதிலாக ஐகானைக் காட்டு";
+"Menu bar" = "மெனு பட்டை";
 "Alternate details on click" = "கிளிக் செய்யும்போது விவரங்களை மாற்று";
 "Hold Option or Shift, or both." = "Option அல்லது Shift அல்லது இரண்டையும் அழுத்திப் பிடிக்கவும்.";
 "Combined details" = "ஒன்றிணைக்கப்பட்ட விவரங்கள்";
@@ -329,6 +329,7 @@
 "ANE utilization history" = "ANE பயன்பாட்டு வரலாறு"; // qwen3.8:27b
 "FPS history" = "FPS வரலாறு"; // qwen3.8:27b
 "GPU utilization history" = "GPU பயன்பாட்டு வரலாறு"; // qwen3.8:27b
+"Memory usage history" = "நினைவகப் பயன்பாட்டு வரலாறு";
 
 // RAM
 "Memory usage" = "நினைவக பயன்பாடு";

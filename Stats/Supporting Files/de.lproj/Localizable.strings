@@ -170,7 +170,7 @@
 "Mini bars" = "Minibalken";
 "Concentric rings" = "Konzentrische Ringe";
 "Arc dial" = "Bogenanzeige";
-"Show icon instead of widgets" = "Symbol statt Widgets anzeigen";
+"Menu bar" = "Menüleiste";
 "Alternate details on click" = "Details beim Klicken wechseln";
 "Hold Option or Shift, or both." = "Option oder Shift oder beide gedrückt halten.";
 "Combined details" = "Kombinierte Details";
@@ -329,6 +329,7 @@
 "ANE utilization history" = "ANE-Auslastungsverlauf"; // qwen3.8:27b
 "FPS history" = "FPS-Verlauf"; // qwen3.8:27b
 "GPU utilization history" = "GPU-Auslastungsverlauf"; // qwen3.8:27b
+"Memory usage history" = "Speichernutzungsverlauf";
 
 // RAM
 "Memory usage" = "Speicherauslastung";

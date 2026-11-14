@@ -170,7 +170,7 @@
 "Mini bars" = "עמודות קטנות";
 "Concentric rings" = "טבעות קונצנטריות";
 "Arc dial" = "מד קשתי";
-"Show icon instead of widgets" = "הצגת סמל במקום ווידג׳טים";
+"Menu bar" = "שורת התפריטים";
 "Alternate details on click" = "החלפת פרטים בלחיצה";
 "Hold Option or Shift, or both." = "יש להחזיק את Option או Shift, או את שניהם.";
 "Combined details" = "פרטים משולבים"; // translategemma:4b
@@ -329,6 +329,7 @@
 "ANE utilization history" = "היסטוריית ניצול ANE"; // qwen3.8:27b
 "FPS history" = "היסטוריית FPS"; // qwen3.8:27b
 "GPU utilization history" = "היסטוריית ניצול GPU"; // qwen3.8:27b
+"Memory usage history" = "היסטוריית שימוש בזיכרון";
 
 // RAM
 "Memory usage" = "שימוש בזכרון";

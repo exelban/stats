@@ -170,7 +170,7 @@
 "Mini bars" = "Μικρές μπάρες";
 "Concentric rings" = "Ομόκεντροι δακτύλιοι";
 "Arc dial" = "Τοξοειδής δείκτης";
-"Show icon instead of widgets" = "Εμφάνιση εικονιδίου αντί για widgets";
+"Menu bar" = "Γραμμή μενού";
 "Alternate details on click" = "Εναλλαγή λεπτομερειών με κλικ";
 "Hold Option or Shift, or both." = "Κρατήστε πατημένο το Option ή το Shift, ή και τα δύο.";
 "Combined details" = "Συνδυασμένες λεπτομέρειες"; // gemma4:31b
@@ -329,6 +329,7 @@
 "ANE utilization history" = "Ιστορικό χρήσης ANE"; // qwen3.8:27b
 "FPS history" = "Ιστορικό FPS"; // qwen3.8:27b
 "GPU utilization history" = "Ιστορικό χρήσης GPU"; // qwen3.8:27b
+"Memory usage history" = "Ιστορικό χρήσης μνήμης";
 
 // RAM
 "Memory usage" = "Χρήση μνήμης";

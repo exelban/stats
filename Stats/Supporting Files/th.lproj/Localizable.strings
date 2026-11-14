@@ -170,7 +170,7 @@
 "Mini bars" = "แถบขนาดเล็ก";
 "Concentric rings" = "วงแหวนร่วมศูนย์กลาง";
 "Arc dial" = "มาตรวัดแบบโค้ง";
-"Show icon instead of widgets" = "แสดงไอคอนแทนวิดเจ็ต";
+"Menu bar" = "แถบเมนู";
 "Alternate details on click" = "สลับรายละเอียดเมื่อคลิก";
 "Hold Option or Shift, or both." = "กด Option หรือ Shift หรือทั้งสองปุ่มค้างไว้";
 "Combined details" = "รายละเอียดรวม"; // gemma4:31b
@@ -329,6 +329,7 @@
 "ANE utilization history" = "ประวัติการใช้งาน ANE"; // qwen3.8:27b
 "FPS history" = "ประวัติ FPS"; // qwen3.8:27b
 "GPU utilization history" = "ประวัติการใช้งาน GPU"; // qwen3.8:27b
+"Memory usage history" = "ประวัติการใช้หน่วยความจำ";
 
 // RAM
 "Memory usage" = "การใช้หน่วยความจำ";

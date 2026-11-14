@@ -170,7 +170,7 @@
 "Mini bars" = "Міністовпчики";
 "Concentric rings" = "Концентричні кільця";
 "Arc dial" = "Дуговий індикатор";
-"Show icon instead of widgets" = "Показувати іконку замість віджетів";
+"Menu bar" = "Смуга меню";
 "Alternate details on click" = "Перемикати деталі після клацання";
 "Hold Option or Shift, or both." = "Утримуйте Option або Shift чи обидві клавіші.";
 "Combined details" = "Комбіновані деталі";
@@ -329,6 +329,7 @@
 "ANE utilization history" = "Історія використання ANE"; // qwen3.8:27b
 "FPS history" = "Історія FPS"; // qwen3.8:27b
 "GPU utilization history" = "Історія використання GPU"; // qwen3.8:27b
+"Memory usage history" = "Історія використання пам’яті";
 
 // RAM
 "Memory usage" = "Навантаженість пам’яті";

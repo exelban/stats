@@ -170,7 +170,7 @@
 "Mini bars" = "미니 막대";
 "Concentric rings" = "동심원 링";
 "Arc dial" = "호 모양 계기판";
-"Show icon instead of widgets" = "위젯 대신 아이콘 표시";
+"Menu bar" = "메뉴 막대";
 "Alternate details on click" = "클릭 시 세부 정보 전환";
 "Hold Option or Shift, or both." = "Option 또는 Shift 키, 또는 두 키를 모두 길게 누르세요.";
 "Combined details" = "전체 세부 정보";
@@ -329,6 +329,7 @@
 "ANE utilization history" = "ANE 사용률 이력"; // qwen3.8:27b
 "FPS history" = "FPS 이력"; // qwen3.8:27b
 "GPU utilization history" = "GPU 사용률 이력"; // qwen3.8:27b
+"Memory usage history" = "메모리 사용 기록";
 
 // RAM
 "Memory usage" = "메모리 사용량";

@@ -170,7 +170,7 @@
 "Mini bars" = "Мини-столбцы";
 "Concentric rings" = "Концентрические кольца";
 "Arc dial" = "Дуговой индикатор";
-"Show icon instead of widgets" = "Показывать значок вместо виджетов";
+"Menu bar" = "Строка меню";
 "Alternate details on click" = "Переключать детали по щелчку";
 "Hold Option or Shift, or both." = "Удерживайте Option или Shift либо обе клавиши.";
 "Combined details" = "Комбинированные детали";
@@ -329,6 +329,7 @@
 "ANE utilization history" = "История загрузки ANE"; // qwen3.8:27b
 "FPS history" = "История FPS"; // qwen3.8:27b
 "GPU utilization history" = "История загрузки GPU"; // qwen3.8:27b
+"Memory usage history" = "История использования памяти";
 
 // RAM
 "Memory usage" = "Нагрузка на память";

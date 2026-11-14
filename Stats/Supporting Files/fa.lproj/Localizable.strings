@@ -170,7 +170,7 @@
 "Mini bars" = "میله‌های کوچک";
 "Concentric rings" = "حلقه‌های هم‌مرکز";
 "Arc dial" = "نشانگر قوسی";
-"Show icon instead of widgets" = "نمایش نماد به‌جای ابزارک‌ها";
+"Menu bar" = "نوار منو";
 "Alternate details on click" = "تعویض جزئیات با کلیک";
 "Hold Option or Shift, or both." = "Option یا Shift یا هر دو را نگه دارید.";
 "Combined details" = "جزئیات ترکیبی"; // translategemma:4b
@@ -329,6 +329,7 @@
 "ANE utilization history" = "تاریخچه استفاده از ANE";
 "FPS history" = "تاریخچه FPS"; // qwen3.8:27b
 "GPU utilization history" = "تاریخچه استفاده از GPU"; // qwen3.8:27b
+"Memory usage history" = "تاریخچه مصرف حافظه";
 
 // RAM
 "Memory usage" = "مصرف حافظه";

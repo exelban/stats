@@ -170,7 +170,7 @@
 "Mini bars" = "Minibalken";
 "Concentric rings" = "Concentrische ringen";
 "Arc dial" = "Boogmeter";
-"Show icon instead of widgets" = "Toon pictogram in plaats van widgets";
+"Menu bar" = "Menubalk";
 "Alternate details on click" = "Details wisselen bij klikken";
 "Hold Option or Shift, or both." = "Houd Option of Shift ingedrukt, of beide.";
 "Combined details" = "Gecombineerde details";
@@ -329,6 +329,7 @@
 "ANE utilization history" = "ANE-benuttingsverloop"; // qwen3.8:27b
 "FPS history" = "FPS-geschiedenis"; // qwen3.8:27b
 "GPU utilization history" = "GPU-gebruiksgeschiedenis"; // qwen3.8:27b
+"Memory usage history" = "Geheugengebruiksgeschiedenis";
 
 // RAM
 "Memory usage" = "Geheugengebruik";

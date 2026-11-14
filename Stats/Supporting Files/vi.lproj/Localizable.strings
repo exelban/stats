@@ -170,7 +170,7 @@
 "Mini bars" = "Thanh nhỏ";
 "Concentric rings" = "Vòng tròn đồng tâm";
 "Arc dial" = "Đồng hồ hình cung";
-"Show icon instead of widgets" = "Hiển thị biểu tượng thay cho tiện ích";
+"Menu bar" = "Thanh menu";
 "Alternate details on click" = "Chuyển đổi chi tiết khi nhấp";
 "Hold Option or Shift, or both." = "Giữ Option hoặc Shift, hoặc cả hai.";
 "Combined details" = "Chi tiết kết hợp";
@@ -329,6 +329,7 @@
 "ANE utilization history" = "Lịch sử mức sử dụng ANE"; // qwen3.8:27b
 "FPS history" = "Lịch sử FPS"; // qwen3.8:27b
 "GPU utilization history" = "Lịch sử sử dụng GPU"; // qwen3.8:27b
+"Memory usage history" = "Lịch sử sử dụng bộ nhớ";
 
 // RAM
 "Memory usage" = "Sử dụng bộ nhớ";

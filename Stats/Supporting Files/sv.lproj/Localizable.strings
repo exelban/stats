@@ -170,7 +170,7 @@
 "Mini bars" = "Ministaplar";
 "Concentric rings" = "Koncentriska ringar";
 "Arc dial" = "Bågmätare";
-"Show icon instead of widgets" = "Visa ikon istället för widgetar";
+"Menu bar" = "Menyrad";
 "Alternate details on click" = "Växla detaljer vid klick";
 "Hold Option or Shift, or both." = "Håll ned Option eller Shift, eller båda.";
 "Combined details" = "Kombinerade detaljer";
@@ -329,6 +329,7 @@
 "ANE utilization history" = "ANE-användningshistorik"; // qwen3.8:27b
 "FPS history" = "FPS-historik"; // qwen3.8:27b
 "GPU utilization history" = "Historik över GPU-utnyttjande"; // qwen3.8:27b
+"Memory usage history" = "Historik över minnesanvändning";
 
 // RAM
 "Memory usage" = "Minnesanvändning";

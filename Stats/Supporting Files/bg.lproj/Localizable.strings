@@ -170,7 +170,7 @@
 "Mini bars" = "Мини ленти";
 "Concentric rings" = "Концентрични пръстени";
 "Arc dial" = "Дъгов индикатор";
-"Show icon instead of widgets" = "Показване на икона вместо уиджети";
+"Menu bar" = "Лента с менюта";
 "Alternate details on click" = "Превключване на подробностите при щракване";
 "Hold Option or Shift, or both." = "Задръжте Option или Shift, или и двата клавиша.";
 "Combined details" = "Комбинирани подробности"; // gemma4:31b
@@ -329,6 +329,7 @@
 "ANE utilization history" = "История на използването на ANE"; // qwen3.8:27b
 "FPS history" = "История на FPS"; // qwen3.8:27b
 "GPU utilization history" = "История на използването на GPU"; // qwen3.8:27b
+"Memory usage history" = "История на използването на паметта";
 
 // RAM
 "Memory usage" = "Заета памет";

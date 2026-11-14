@@ -170,7 +170,7 @@
 "Mini bars" = "Mini bare";
 "Concentric rings" = "Inele concentrice";
 "Arc dial" = "Indicator în arc";
-"Show icon instead of widgets" = "Afișează pictograma în locul widgeturilor";
+"Menu bar" = "Bară de meniu";
 "Alternate details on click" = "Alternează detaliile la clic";
 "Hold Option or Shift, or both." = "Țineți apăsat Option sau Shift, sau ambele.";
 "Combined details" = "Detalii combinate"; // translategemma:4b
@@ -329,6 +329,7 @@
 "ANE utilization history" = "Istoricul utilizării ANE"; // qwen3.8:27b
 "FPS history" = "Istoric FPS"; // qwen3.8:27b
 "GPU utilization history" = "Istoricul utilizării GPU"; // qwen3.8:27b
+"Memory usage history" = "Istoricul utilizării memoriei";
 
 // RAM
 "Memory usage" = "Memoria folosită";
