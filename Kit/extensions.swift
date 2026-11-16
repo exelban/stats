@@ -45,6 +45,10 @@ internal final class FormatterCache {
     private let lock = NSLock()
     
     func readableMemory(_ bytes: Int64, style: ByteCountFormatter.CountStyle) -> String {
+        if bytes == 0 {
+            return "0 KB"
+        }
+
         self.lock.lock()
         defer { self.lock.unlock() }
         
