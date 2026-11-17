@@ -166,6 +166,16 @@ open class Module {
         } else {
             debug("Module started without widget", log: self.log)
         }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    // create the settings window when first opened
+    public func ensureSettingsWindow() -> Window? {
+        guard self.available else { return nil }
+        if let window = self.window { return window }
         
         self.window = Window(
             config: self.config,
@@ -177,11 +187,7 @@ open class Module {
         )
         self.window?.setState(self.enabled)
         
-        self.popup = PopupWindow(title: self.config.name, module: self.moduleType, view: self.popupView, visibilityCallback: self.popupVisibilityCallback)
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
+        return self.window
     }
     
     // load function which call when app start
@@ -330,13 +336,20 @@ open class Module {
     }
     
     @objc private func listenForPopupToggle(_ notification: Notification) {
-        guard let popup = self.popup,
-              let name = notification.userInfo?["module"] as? String,
+        guard let name = notification.userInfo?["module"] as? String,
               let buttonOrigin = notification.userInfo?["origin"] as? CGPoint,
               let buttonCenter = notification.userInfo?["center"] as? CGFloat,
               self.config.name == name else {
             return
         }
+        
+        if self.popup?.isVisible != true, let view = self.popupView as? PopupWrapper {
+            view.prepareForDisplay()
+        }
+        if self.popup == nil {
+            self.popup = PopupWindow(title: self.config.name, module: self.moduleType, view: self.popupView, visibilityCallback: self.popupVisibilityCallback)
+        }
+        guard let popup = self.popup else { return }
         
         var reopen: Bool = false
         if let widget = notification.userInfo?["widget"] as? widget_t {

@@ -209,7 +209,7 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
         if let title = notification.userInfo?["module"] as? String {
             var view: NSView = NSView()
             if let detectedModule = modules.first(where: { $0.config.name == title }) {
-                if let v = detectedModule.window {
+                if let v = detectedModule.ensureSettingsWindow() {
                     view = v
                 }
                 self.activeModuleName = detectedModule.config.name

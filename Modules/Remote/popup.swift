@@ -46,7 +46,8 @@ internal enum RemoteItem {
 }
 
 internal class Popup: PopupWrapper {
-    private let loginPrompt = EmptyView(height: 60, msg: localizedString("Login to System Stats to see your devices"))
+    private var hostHistory: [String: GridChartData] = [:]
+    private var loginPrompt: EmptyView? = nil
     
     private var groups: NSStackView = {
         let view = NSStackView()
@@ -55,6 +56,8 @@ internal class Popup: PopupWrapper {
         return view
     }()
     
+    private var authorized: Bool = false
+    private var snapshot: RemoteSnapshot?
     private var visible: Bool = false
     private var streams: [String: RemoteMachineStream] = [:]
     private var currentMachineIDs: [String] = []
@@ -80,13 +83,30 @@ internal class Popup: PopupWrapper {
         }
     }
     
+    public override func loadContent() {
+        self.loginPrompt = EmptyView(height: 60, msg: localizedString("Login to System Stats to see your devices"))
+        self.authorizationStatus(self.authorized)
+        if let snapshot = self.snapshot {
+            self.render(snapshot)
+        }
+    }
+    
+    public override func unloadContent() {
+        self.loginPrompt = nil
+        self.groups.subviews.forEach { $0.removeFromSuperview() }
+    }
+    
     public func authorizationStatus(_ status: Bool) {
+        self.authorized = status
+        if !status { self.stopStreams() }
+        guard self.contentLoaded else { return }
         if !status {
-            self.stopStreams()
-            self.addArrangedSubview(self.loginPrompt)
+            if let loginPrompt = self.loginPrompt {
+                self.addArrangedSubview(loginPrompt)
+            }
             self.groups.removeFromSuperview()
         } else {
-            self.loginPrompt.removeFromSuperview()
+            self.loginPrompt?.removeFromSuperview()
             self.addArrangedSubview(self.groups)
             self.syncStreams()
         }
@@ -106,7 +126,7 @@ internal class Popup: PopupWrapper {
     }
     
     private func syncStreams() {
-        guard self.visible else { return }
+        guard self.visible, self.authorized else { return }
         let ids = Set(self.currentMachineIDs)
         
         for (id, stream) in self.streams where !ids.contains(id) {
@@ -133,6 +153,19 @@ internal class Popup: PopupWrapper {
     }
     
     internal func callback(_ snapshot: RemoteSnapshot) {
+        self.snapshot = snapshot
+        let ids = Set(snapshot.hosts.map { $0.id })
+        self.hostHistory = self.hostHistory.filter { ids.contains($0.key) }
+        snapshot.hosts.forEach { host in
+            let history = self.hostHistory[host.id] ?? GridChartData(capacity: 24)
+            self.hostHistory[host.id] = history
+            history.append(host.lastStatus?.lowercased() == "up")
+        }
+        guard self.contentLoaded else { return }
+        self.render(snapshot)
+    }
+    
+    private func render(_ snapshot: RemoteSnapshot) {
         let enabledMachines = snapshot.machines.filter { $0.state }
         let enabledHosts = snapshot.hosts.filter { $0.state }
         
@@ -194,11 +227,11 @@ internal class Popup: PopupWrapper {
         // 2. Add new / update existing
         groups.forEach { sector in
             if let view = self.groups.subviews.compactMap({ $0 as? GroupView }).first(where: { $0.id == sector.id }) {
-                view.update(title: sector.title, machines: sector.machines, hosts: sector.hosts)
+                view.update(title: sector.title, machines: sector.machines, hosts: sector.hosts, history: self.hostHistory)
             } else {
                 let view = GroupView(id: sector.id, title: sector.title)
                 view.sizeCallback = { [weak self] in self?.recalculateHeight() }
-                view.update(title: sector.title, machines: sector.machines, hosts: sector.hosts)
+                view.update(title: sector.title, machines: sector.machines, hosts: sector.hosts, history: self.hostHistory)
                 self.groups.addArrangedSubview(view)
             }
         }
@@ -313,7 +346,7 @@ private class GroupView: NSStackView {
         self.chevron.image = NSImage(systemSymbolName: name, accessibilityDescription: nil)
     }
     
-    public func update(title: String?, machines: [RemoteMachine], hosts: [RemoteHost]) {
+    public func update(title: String?, machines: [RemoteMachine], hosts: [RemoteHost], history: [String: GridChartData]) {
         if let titleLabel, let title { titleLabel.stringValue = title }
         self.currentMachines = machines
         self.currentHosts = hosts
@@ -330,7 +363,11 @@ private class GroupView: NSStackView {
                 existing.update(item)
                 view = existing
             } else {
-                view = RemoteItemView(item)
+                if case .host(let host) = item {
+                    view = RemoteItemView(item, history: history[host.id])
+                } else {
+                    view = RemoteItemView(item)
+                }
                 self.body.addArrangedSubview(view)
             }
             self.body.removeArrangedSubview(view)
@@ -377,12 +414,13 @@ private class RemoteItemView: NSStackView {
     private let ramLabel = TextView()
     private let ramBar = BarChartView(horizontal: true)
     
-    private let grid = GridChartView(grid: (24, 1))
+    private let grid: GridChartView
     
     private let separator = RemoteSeparator()
     private var heightConstraint: NSLayoutConstraint?
     
-    public init(_ item: RemoteItem) {
+    public init(_ item: RemoteItem, history: GridChartData? = nil) {
+        self.grid = GridChartView(grid: (24, 1), history: history)
         self.id = item.id
         
         super.init(frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 53))
@@ -500,6 +538,7 @@ private class RemoteItemView: NSStackView {
     }
     
     public func update(_ item: RemoteItem) {
+        self.grid.historyUpdated()
         self.labelField.stringValue = item.name
         
         switch item {
@@ -522,7 +561,6 @@ private class RemoteItemView: NSStackView {
             }
         case .host(let host):
             self.dot.setColor(host.color)
-            self.grid.addValue(host.lastStatus?.lowercased() == "up")
         }
     }
     

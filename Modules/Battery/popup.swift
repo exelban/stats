@@ -13,10 +13,11 @@ import Cocoa
 import Kit
 
 internal class Popup: PopupWrapper {
+    private let chartHistory = BatteryChartData()
     private let dashboardHeight: CGFloat = 160
     
-    private var dashboardBatteryView: BatteryView = BatteryView()
-    private var dashboardBatteryStatus: BatteryStatus = BatteryStatus()
+    private var dashboardBatteryView: BatteryView? = nil
+    private var dashboardBatteryStatus: BatteryStatus? = nil
     private var levelField: NSTextField? = nil
     private var chart: BatteryChartView? = nil
     
@@ -28,7 +29,7 @@ internal class Popup: PopupWrapper {
     private var voltageField: NSTextField? = nil
     
     private var batterySection: NSView? = nil
-    private var barView: BarChartView = BarChartView(size: 10, horizontal: true)
+    private var barView: BarChartView? = nil
     private var maxCapacityField: NSTextField? = nil
     private var designedCapacityField: NSTextField? = nil
     private var healthField: NSTextField? = nil
@@ -43,7 +44,7 @@ internal class Popup: PopupWrapper {
     
     private var processesView: NSView? = nil
     private var processes: ProcessesView? = nil
-    private var processesInitialized: Bool = false
+    private let processesCache = PopupCache<[TopProcess]>()
     
     private let usageCache = PopupCache<Battery_Usage>()
     
@@ -62,7 +63,9 @@ internal class Popup: PopupWrapper {
         
         self.spacing = 0
         self.orientation = .vertical
-        
+    }
+    
+    public override func loadContent() {
         self.addArrangedSubview(self.initDashboard())
         self.addArrangedSubview(self.initChart())
         self.addArrangedSubview(self.initDetails())
@@ -72,11 +75,39 @@ internal class Popup: PopupWrapper {
         self.recalculateHeight()
     }
     
+    public override func unloadContent() {
+        self.dashboardBatteryView = nil
+        self.dashboardBatteryStatus = nil
+        self.levelField = nil
+        self.chart = nil
+        self.sourceField = nil
+        self.timeLabelField = nil
+        self.timeField = nil
+        self.powerField = nil
+        self.currentField = nil
+        self.voltageField = nil
+        self.batterySection = nil
+        self.barView = nil
+        self.maxCapacityField = nil
+        self.designedCapacityField = nil
+        self.healthField = nil
+        self.cyclesField = nil
+        self.temperatureField = nil
+        self.adapterView = nil
+        self.chargingStateField = nil
+        self.adapterPowerField = nil
+        self.adapterCurrentField = nil
+        self.adapterVoltageField = nil
+        self.processesView = nil
+        self.processes = nil
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     public override func appear() {
+        self.replay(self.processesCache, render: self.renderProcesses)
         self.replay(self.usageCache, render: self.renderUsage)
         self.chart?.display()
     }
@@ -106,7 +137,8 @@ internal class Popup: PopupWrapper {
         view.orientation = .vertical
         view.spacing = 0
         
-        self.dashboardBatteryView.heightAnchor.constraint(equalToConstant: 90).isActive = true
+        let batteryView = BatteryView()
+        batteryView.heightAnchor.constraint(equalToConstant: 90).isActive = true
         
         let information = NSStackView()
         information.heightAnchor.constraint(equalToConstant: 70).isActive = true
@@ -144,9 +176,12 @@ internal class Popup: PopupWrapper {
         }
         
         information.addArrangedSubview(level)
-        information.addArrangedSubview(self.dashboardBatteryStatus)
+        let batteryStatus = BatteryStatus()
+        information.addArrangedSubview(batteryStatus)
+        self.dashboardBatteryStatus = batteryStatus
         
-        view.addArrangedSubview(self.dashboardBatteryView)
+        view.addArrangedSubview(batteryView)
+        self.dashboardBatteryView = batteryView
         view.addArrangedSubview(information)
         
         return view
@@ -158,7 +193,7 @@ internal class Popup: PopupWrapper {
         view.spacing = 0
         view.addArrangedSubview(SeparatorView(label: localizedString("Usage history")))
         
-        let chart = BatteryChartView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 90))
+        let chart = BatteryChartView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 90), history: self.chartHistory)
         chart.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
         chart.layer?.cornerRadius = Constants.Popup.radius
         chart.heightAnchor.constraint(equalToConstant: chart.frame.height).isActive = true
@@ -253,7 +288,9 @@ internal class Popup: PopupWrapper {
             }()
             
             view.addArrangedSubview(capacity)
-            view.addArrangedSubview(self.barView)
+            let barView = BarChartView(size: 10, horizontal: true)
+            view.addArrangedSubview(barView)
+            self.barView = barView
             
             return view
         }()
@@ -309,13 +346,17 @@ internal class Popup: PopupWrapper {
     }
     
     public func usageCallback(_ value: Battery_Usage) {
+        let date = Date()
         self.apply(value, to: self.usageCache, render: self.renderUsage)
-        self.chart?.addValue(value.level, charging: value.isCharging, connected: !value.isBatteryPowered)
+        DispatchQueue.main.async {
+            self.chartHistory.append(value.level, charging: value.isCharging, connected: !value.isBatteryPowered, at: date)
+            self.chart?.historyUpdated()
+        }
     }
     
     private func renderUsage(_ value: Battery_Usage) {
-        self.dashboardBatteryView.setValue(abs(value.level), connected: !value.isBatteryPowered, charging: value.isCharging)
-        self.dashboardBatteryStatus.set(value)
+        self.dashboardBatteryView?.setValue(abs(value.level), connected: !value.isBatteryPowered, charging: value.isCharging)
+        self.dashboardBatteryStatus?.set(value)
         
         self.levelField?.stringValue = "\(Int(abs(value.level) * 100))"
         self.levelField?.toolTip = "\(value.currentCapacity) mAh"
@@ -380,7 +421,7 @@ internal class Popup: PopupWrapper {
             self.timeField?.stringValue = localizedString("On hold")
         }
         
-        self.barView.setValue(ColorValue(Double(value.health)/100, color: .systemGreen))
+        self.barView?.setValue(ColorValue(Double(value.health)/100, color: .systemGreen))
         self.maxCapacityField?.stringValue = "\(value.maxCapacity) mAh"
         self.designedCapacityField?.stringValue = "\(value.designedCapacity) mAh"
         
@@ -394,31 +435,28 @@ internal class Popup: PopupWrapper {
     }
     
     public func processCallback(_ list: [TopProcess]) {
-        DispatchQueue.main.async(execute: {
-            if !(self.window?.isVisible ?? false) && self.processesInitialized {
-                return
-            }
-            let list = list.map { $0 }
-            if list.count != self.processes?.count { self.processes?.clear() }
-            
-            for i in 0..<list.count {
-                let process = list[i]
-                self.processes?.set(i, process, ["\(process.usage)%"])
-            }
-            
-            self.processesInitialized = true
-        })
+        self.apply(list, to: self.processesCache, render: self.renderProcesses)
+    }
+    
+    private func renderProcesses(_ list: [TopProcess]) {
+        if list.count != self.processes?.count { self.processes?.clear() }
+        
+        for i in 0..<list.count {
+            let process = list[i]
+            self.processes?.set(i, process, ["\(process.usage)%"])
+        }
     }
     
     public func numberOfProcessesUpdated() {
         if self.processes?.count == self.numberOfProcesses { return }
         
         DispatchQueue.main.async(execute: {
+            guard self.contentLoaded else { return }
             self.processesView?.removeFromSuperview()
             self.processesView = nil
             self.processes = nil
             self.addArrangedSubview(self.initProcesses())
-            self.processesInitialized = false
+            self.processesCache.initialized = false
             self.recalculateHeight()
         })
     }

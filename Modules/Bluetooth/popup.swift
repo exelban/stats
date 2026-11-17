@@ -13,7 +13,8 @@ import Cocoa
 import Kit
 
 internal class Popup: PopupWrapper {
-    private let emptyView: EmptyView = EmptyView(height: 30, isHidden: false, msg: localizedString("No Bluetooth devices are available"))
+    private var emptyView: EmptyView? = nil
+    private let cache = PopupCache<[BLEDevice]>()
     
     public init() {
         super.init(ModuleType.bluetooth, frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 30))
@@ -22,16 +23,33 @@ internal class Popup: PopupWrapper {
         self.spacing = Constants.Popup.margins
     }
     
+    public override func loadContent() {
+        self.emptyView = EmptyView(height: 30, isHidden: false, msg: localizedString("No Bluetooth devices are available"))
+    }
+    
+    public override func unloadContent() {
+        self.emptyView = nil
+    }
+    
+    public override func appear() {
+        self.replay(self.cache, render: self.render)
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     internal func batteryCallback(_ list: [BLEDevice]) {
+        self.apply(list, to: self.cache, render: self.render)
+    }
+    
+    private func render(_ list: [BLEDevice]) {
+        guard let emptyView = self.emptyView else { return }
         defer {
-            if list.isEmpty && self.emptyView.superview == nil {
-                self.addArrangedSubview(self.emptyView)
-            } else if !list.isEmpty && self.emptyView.superview != nil {
-                self.emptyView.removeFromSuperview()
+            if list.isEmpty && emptyView.superview == nil {
+                self.addArrangedSubview(emptyView)
+            } else if !list.isEmpty && emptyView.superview != nil {
+                emptyView.removeFromSuperview()
             }
             
             let h = self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - self.spacing

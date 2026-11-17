@@ -13,6 +13,7 @@ import Cocoa
 import Kit
 
 internal class Popup: PopupWrapper {
+    private let chartHistory = LineChartData(capacity: 180)
     private let dashboardHeight: CGFloat = 90
     private let chartHeight: CGFloat = 90 + Constants.Popup.separatorHeight
     private let detailsHeight: CGFloat = (22*4) + Constants.Popup.separatorHeight
@@ -54,13 +55,28 @@ internal class Popup: PopupWrapper {
         self.orientation = .vertical
         self.distribution = .fill
         self.spacing = 0
-        
+    }
+    
+    public override func loadContent() {
         self.addArrangedSubview(self.initDashboard())
         self.addArrangedSubview(self.initChart())
         self.addArrangedSubview(self.initDetails())
         self.addArrangedSubview(self.initProcesses())
         
         self.recalculateHeight()
+    }
+    
+    public override func unloadContent() {
+        self.processes = nil
+        self.processesView = nil
+        self.usageCircle = nil
+        self.aneCircle = nil
+        self.memoryCircle = nil
+        self.chart = nil
+        self.utilizationField = nil
+        self.aneField = nil
+        self.memoryField = nil
+        self.fpsField = nil
     }
     
     required init?(coder: NSCoder) {
@@ -128,7 +144,7 @@ internal class Popup: PopupWrapper {
         container.layer?.cornerRadius = Constants.Popup.radius
         
         let chartFrame = NSRect(x: 1, y: 0, width: view.frame.width - 2, height: container.frame.height)
-        self.chart = LineChartView(frame: chartFrame, num: self.lineChartHistory, scale: self.lineChartScale, fixedScale: self.lineChartFixedScale)
+        self.chart = LineChartView(frame: chartFrame, scale: self.lineChartScale, fixedScale: self.lineChartFixedScale, history: self.chartHistory)
         container.addSubview(self.chart!)
         
         view.addSubview(separator)
@@ -202,6 +218,7 @@ internal class Popup: PopupWrapper {
     }
     
     public func numberOfProcessesUpdated() {
+        guard self.contentLoaded else { return }
         if self.processes?.count == self.numberOfProcesses { return }
         
         self.processesView?.removeFromSuperview()
@@ -213,9 +230,14 @@ internal class Popup: PopupWrapper {
     }
     
     public func loadCallback(_ value: GPU_Info) {
+        let date = Date()
         self.apply(value, to: self.loadCache, render: self.renderLoad)
-        if let utilization = value.utilization {
-            self.chart?.addValue(utilization)
+        DispatchQueue.main.async {
+            if let utilization = value.utilization {
+                let sample = DoubleValue(utilization, at: date)
+                self.chartHistory.append(sample)
+                self.chart?.historyUpdated()
+            }
         }
     }
     

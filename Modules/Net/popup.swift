@@ -14,6 +14,8 @@ import Kit
 
 // swiftlint:disable:next type_body_length
 internal class Popup: PopupWrapper {
+    private let bandwidthHistory = NetworkChartData(capacity: 180)
+    private let connectivityHistory = GridChartData(capacity: 90)
     private var uploadContainerView: NSView? = nil
     private var uploadView: NSView? = nil
     private var uploadValue: Int64 = 0
@@ -78,7 +80,7 @@ internal class Popup: PopupWrapper {
     private var chartPrefSection: PreferencesSection? = nil
     private var connectivityChart: GridChartView? = nil
     
-    private var processesInitialized: Bool = false
+    private let processesCache = PopupCache<[Network_Process]>()
     
     private let usageCache = PopupCache<Network_Usage>()
     private let connectivityCache = PopupCache<Network_Connectivity?>()
@@ -130,6 +132,7 @@ internal class Popup: PopupWrapper {
         self.uploadColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_uploadColor", defaultValue: self.uploadColorState.key))
         self.reverseOrderState = Store.shared.bool(key: "\(self.title)_reverseOrder", defaultValue: self.reverseOrderState)
         self.chartHistory = Store.shared.int(key: "\(self.title)_chartHistory", defaultValue: self.chartHistory)
+        self.bandwidthHistory.resize(self.chartHistory)
         self.chartScale = Scale.fromString(Store.shared.string(key: "\(self.title)_chartScale", defaultValue: self.chartScale.key))
         self.chartFixedScale = Store.shared.int(key: "\(self.title)_chartFixedScale", defaultValue: self.chartFixedScale)
         self.chartFixedScaleSize = SizeUnit.fromString(Store.shared.string(key: "\(self.title)_chartFixedScaleSize", defaultValue: self.chartFixedScaleSize.key))
@@ -137,6 +140,10 @@ internal class Popup: PopupWrapper {
         self.interfaceDetailsState = Store.shared.bool(key: "\(self.title)_interfaceDetails", defaultValue: self.interfaceDetailsState)
         self.emojiCCState = Store.shared.bool(key: "\(self.title)_emojiCC", defaultValue: self.emojiCCState)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.resetTotalNetworkUsageCallback), name: .resetTotalNetworkUsage, object: nil)
+    }
+    
+    public override func loadContent() {
         self.addArrangedSubview(self.initDashboard())
         self.addArrangedSubview(self.initChart())
         self.addArrangedSubview(self.initConnectivityChart())
@@ -150,8 +157,54 @@ internal class Popup: PopupWrapper {
         }
         
         self.recalculateHeight()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.resetTotalNetworkUsageCallback), name: .resetTotalNetworkUsage, object: nil)
+    }
+    
+    public override func unloadContent() {
+        self.uploadContainerView = nil
+        self.uploadView = nil
+        self.uploadValueField = nil
+        self.uploadUnitField = nil
+        self.uploadStateView = nil
+        self.downloadContainerView = nil
+        self.downloadView = nil
+        self.downloadValueField = nil
+        self.downloadUnitField = nil
+        self.downloadStateView = nil
+        self.downloadColorView = nil
+        self.uploadColorView = nil
+        self.totalUploadLabel = nil
+        self.totalUploadField = nil
+        self.totalDownloadLabel = nil
+        self.totalDownloadField = nil
+        self.statusField = nil
+        self.connectivityField = nil
+        self.latencyField = nil
+        self.jitterField = nil
+        self.interfaceView = nil
+        self.interfaceField = nil
+        self.interfaceStatusField = nil
+        self.macAddressField = nil
+        self.ssidField = nil
+        self.standardField = nil
+        self.channelField = nil
+        self.ssidView = nil
+        self.standardView = nil
+        self.channelView = nil
+        self.interfaceSpeedView = nil
+        self.interfaceSpeedField = nil
+        self.dnsServersView = nil
+        self.dnsServersField = nil
+        self.addressView = nil
+        self.localIPField = nil
+        self.publicIPv4Field = nil
+        self.publicIPv6Field = nil
+        self.publicIPv4View = nil
+        self.publicIPv6View = nil
+        self.processesView = nil
+        self.processes = nil
+        self.chart = nil
+        self.connectivityChart = nil
+        self.locationPermissionButton = nil
     }
     
     required init?(coder: NSCoder) {
@@ -219,7 +272,8 @@ internal class Popup: PopupWrapper {
             frame: NSRect(x: 0, y: 1, width: container.frame.width, height: container.frame.height - 2),
             num: self.chartHistory, reversedOrder: self.reverseOrderState, outColor: self.uploadColor, inColor: self.downloadColor,
             scale: self.chartScale,
-            fixedScale: Double(self.chartFixedScaleSize.toBytes(self.chartFixedScale))
+            fixedScale: Double(self.chartFixedScaleSize.toBytes(self.chartFixedScale)),
+            history: self.bandwidthHistory
         )
         chart.setBase(self.base)
         chart.setSpeedUnit(self.speedUnit)
@@ -241,7 +295,7 @@ internal class Popup: PopupWrapper {
         container.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
         container.layer?.cornerRadius = 3
         
-        let chart = GridChartView(frame: NSRect(x: 0, y: 1, width: container.frame.width, height: container.frame.height - 2), grid: (30, 3))
+        let chart = GridChartView(frame: NSRect(x: 0, y: 1, width: container.frame.width, height: container.frame.height - 2), grid: (30, 3), history: self.connectivityHistory)
         container.addSubview(chart)
         self.connectivityChart = chart
         
@@ -395,19 +449,25 @@ internal class Popup: PopupWrapper {
     // MARK: - callbacks
     
     public override func appear() {
+        self.replay(self.processesCache, render: self.renderProcesses)
         self.replay(self.usageCache, render: self.renderUsage)
         self.replay(self.connectivityCache, render: self.renderConnectivity)
+    }
+    
+    public override func disappear() {
+        self.processes?.setLock(false)
     }
     
     public func numberOfProcessesUpdated() {
         if self.processes?.count == self.numberOfProcesses { return }
         
         DispatchQueue.main.async(execute: {
+            guard self.contentLoaded else { return }
             self.processesView?.removeFromSuperview()
             self.processesView = nil
             self.processes = nil
             self.addArrangedSubview(self.initProcesses())
-            self.processesInitialized = false
+            self.processesCache.initialized = false
             self.recalculateHeight()
         })
     }
@@ -417,12 +477,17 @@ internal class Popup: PopupWrapper {
     }
     
     public func usageCallback(_ value: Network_Usage) {
+        let date = Date()
         self.apply(value, to: self.usageCache, render: self.renderUsage)
         
-        if let chart = self.chart {
-            chart.setBase(self.base)
-            chart.setSpeedUnit(self.speedUnit)
-            chart.addValue(upload: Double(value.bandwidth.upload), download: Double(value.bandwidth.download))
+        DispatchQueue.main.async {
+            let sample = (upload: Double(value.bandwidth.upload), download: Double(value.bandwidth.download), date: date)
+            self.bandwidthHistory.append(upload: sample.upload, download: sample.download, at: sample.date)
+            if let chart = self.chart {
+                chart.setBase(self.base)
+                chart.setSpeedUnit(self.speedUnit)
+                chart.historyUpdated()
+            }
         }
     }
     
@@ -620,6 +685,7 @@ internal class Popup: PopupWrapper {
     }
     
     public func connectivityCallback(_ value: Network_Connectivity?) {
+        let date = Date()
         if self.latency.count >= 90 {
             self.latency.remove(at: 0)
         }
@@ -632,8 +698,12 @@ internal class Popup: PopupWrapper {
         
         self.apply(value, to: self.connectivityCache, render: self.renderConnectivity)
         
-        if let value, let chart = self.connectivityChart {
-            chart.addValue(value.status)
+        DispatchQueue.main.async {
+            if let value {
+                let sample = (status: value.status, date: date)
+                self.connectivityHistory.append(sample.status, at: sample.date)
+                self.connectivityChart?.historyUpdated()
+            }
         }
     }
     
@@ -657,22 +727,18 @@ internal class Popup: PopupWrapper {
     }
     
     public func processCallback(_ list: [Network_Process]) {
-        DispatchQueue.main.async(execute: {
-            if !(self.window?.isVisible ?? false) && self.processesInitialized {
-                return
-            }
-            let list = list.map{ $0 }
-            if list.count != self.processes?.count { self.processes?.clear() }
-            
-            for i in 0..<list.count {
-                let process = list[i]
-                let upload = Units(bytes: Int64(process.upload)).getReadableSpeed(base: self.base, unit: self.speedUnit)
-                let download = Units(bytes: Int64(process.download)).getReadableSpeed(base: self.base, unit: self.speedUnit)
-                self.processes?.set(i, process, [download, upload])
-            }
-            
-            self.processesInitialized = true
-        })
+        self.apply(list, to: self.processesCache, render: self.renderProcesses)
+    }
+    
+    private func renderProcesses(_ list: [Network_Process]) {
+        if list.count != self.processes?.count { self.processes?.clear() }
+        
+        for i in 0..<list.count {
+            let process = list[i]
+            let upload = Units(bytes: Int64(process.upload)).getReadableSpeed(base: self.base, unit: self.speedUnit)
+            let download = Units(bytes: Int64(process.download)).getReadableSpeed(base: self.base, unit: self.speedUnit)
+            self.processes?.set(i, process, [download, upload])
+        }
     }
     
     public func resetConnectivityView() {
@@ -776,6 +842,7 @@ internal class Popup: PopupWrapper {
     @objc private func togglechartHistory(_ sender: NSMenuItem) {
         guard let key = sender.representedObject as? String, let value = Int(key) else { return }
         self.chartHistory = value
+        self.bandwidthHistory.resize(value)
         Store.shared.set(key: "\(self.title)_chartHistory", value: value)
         self.chart?.reinit(self.chartHistory)
     }

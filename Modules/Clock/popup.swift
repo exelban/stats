@@ -13,7 +13,8 @@ import Cocoa
 import Kit
 
 internal class Popup: PopupWrapper {
-    private let orderTableView: OrderTableView = OrderTableView()
+    private lazy var orderTableView: OrderTableView = OrderTableView()
+    private var settingsLoaded: Bool = false
     private var list: [Clock_t] = []
     private let cache = PopupCache<[Clock_t]>()
     
@@ -29,17 +30,18 @@ internal class Popup: PopupWrapper {
         
         self.calendarState = Store.shared.bool(key: "\(self.title)_calendar", defaultValue: self.calendarState)
         self.weekNumbersState = Store.shared.bool(key: "\(self.title)_calendarWeekNumbers", defaultValue: self.weekNumbersState)
+    }
+    
+    public override func loadContent() {
         self.calendarView = CalendarView(self.frame.width, showWeekNumbers: self.weekNumbersState)
-        
-        self.orderTableView.reorderCallback = { [weak self] in
-            self?.rearrange()
-        }
-        
         if let calendar = self.calendarView, self.calendarState {
             self.addArrangedSubview(calendar)
         }
-        
         self.recalculateHeight()
+    }
+    
+    public override func unloadContent() {
+        self.calendarView = nil
     }
     
     required init?(coder: NSCoder) {
@@ -47,12 +49,13 @@ internal class Popup: PopupWrapper {
     }
     
     internal func callback(_ list: [Clock_t]) {
-        if list.count != self.orderTableView.list.count || self.orderTableView.window?.isVisible ?? false {
+        if self.settingsLoaded && (list.count != self.orderTableView.list.count || self.orderTableView.window?.isVisible ?? false) {
             self.orderTableView.list = list.sorted(by: { $0.popupIndex < $1.popupIndex })
             self.orderTableView.update()
         }
         
-        self.cache.apply(list, visible: self.window?.isVisible ?? false, render: self.render)
+        self.list = list
+        self.apply(list, to: self.cache, render: self.render)
     }
     
     private func render(_ list: [Clock_t]) {
@@ -73,8 +76,6 @@ internal class Popup: PopupWrapper {
                 self.addArrangedSubview(ClockView(width: self.frame.width, clock: c))
             }
         }
-        
-        self.list = sorted
     }
     
     private func recalculateHeight() {
@@ -86,6 +87,12 @@ internal class Popup: PopupWrapper {
     }
     
     public override func settings() -> NSView? {
+        self.settingsLoaded = true
+        self.orderTableView.list = self.list.sorted(by: { $0.popupIndex < $1.popupIndex })
+        self.orderTableView.update()
+        self.orderTableView.reorderCallback = { [weak self] in
+            self?.rearrange()
+        }
         let view = SettingsContainerView()
         
         view.addArrangedSubview(PreferencesSection([

@@ -65,8 +65,6 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
             }
         }
         
-        self.popup = PopupWindow(title: "Combined modules", module: .combined, view: Popup()) { _ in }
-        
         if self.status {
             self.enable()
         }
@@ -237,7 +235,12 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
     }
     
     private func togglePopup() {
-        guard let popup = self.popup, let item = self.menuBarItem, let window = item.button?.window else { return }
+        guard let item = self.menuBarItem, let window = item.button?.window else { return }
+        
+        if self.popup == nil {
+            self.popup = PopupWindow(title: "Combined modules", module: .combined, view: Popup()) { _ in }
+        }
+        guard let popup = self.popup else { return }
         
         if popup.occlusionState.rawValue == 8192 {
             popup.contentView?.invalidateIntrinsicContentSize()
