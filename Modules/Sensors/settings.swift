@@ -98,8 +98,15 @@ internal class Settings: NSStackView, Settings_v {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        self.load(widgets: self.widgets)
+    }
+    
     public func load(widgets: [widget_t]) {
         self.widgets = widgets
+        guard self.window != nil else { return }
+        
         var sensors = self.list
         guard !sensors.isEmpty else {
             return

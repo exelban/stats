@@ -13,6 +13,12 @@ import Cocoa
 import Kit
 
 internal class Preview: PreviewWrapper {
+    private var latestProcesses: [Network_Process]?
+    private var latestUsage: Network_Usage?
+    private var latestConnectivity: Network_Connectivity?
+    private let chartHistory = NetworkChartData(capacity: 600)
+    private let connectivityHistory = GridChartData(capacity: 300)
+    
     private var chart: NetworkChartView? = nil
     private var grid: GridChartView? = nil
     
@@ -85,7 +91,9 @@ internal class Preview: PreviewWrapper {
     
     public init(_ module: ModuleType) {
         super.init(type: module)
-        
+    }
+    
+    public override func loadContent() {
         self.loadColors()
         
         self.addArrangedSubview(PreferencesSection([self.usageView()]))
@@ -103,6 +111,50 @@ internal class Preview: PreviewWrapper {
         self.addArrangedSubview(PreferencesSection(title: localizedString("Address"), [self.addressesView()]))
         
         self.addArrangedSubview(self.topProcesses())
+        
+        if let value = self.latestUsage { self.renderUsage(value) }
+        self.renderConnectivity(self.latestConnectivity)
+        if let list = self.latestProcesses { self.renderProcesses(list) }
+    }
+    
+    public override func unloadContent() {
+        self.processes?.setLock(false)
+        self.arrangedSubviews.forEach { self.removeArrangedSubview($0) }
+        self.subviews.forEach { $0.removeFromSuperview() }
+        self.chart = nil
+        self.grid = nil
+        self.downloadValueField = nil
+        self.downloadUnitField = nil
+        self.downloadStateView = nil
+        self.uploadValueField = nil
+        self.uploadUnitField = nil
+        self.uploadStateView = nil
+        self.totalUploadField = nil
+        self.totalDownloadField = nil
+        self.statusField = nil
+        self.connectivityField = nil
+        self.latencyField = nil
+        self.jitterField = nil
+        self.interfaceField = nil
+        self.interfaceStatusField = nil
+        self.macAddressField = nil
+        self.connectionTypeField = nil
+        self.ssidField = nil
+        self.bssidField = nil
+        self.standardField = nil
+        self.securityField = nil
+        self.channelField = nil
+        self.signalField = nil
+        self.speedField = nil
+        self.localIPField = nil
+        self.publicIPv4Field = nil
+        self.publicIPv6Field = nil
+        self.dnsField = nil
+        self.processes = nil
+        self.processesSection = nil
+        self.initialized = false
+        self.connectionInitialized = false
+        self.initializedProcesses = false
     }
     
     required init?(coder: NSCoder) {
@@ -152,7 +204,7 @@ internal class Preview: PreviewWrapper {
         view.spacing = Constants.Settings.margin*2
         view.heightAnchor.constraint(equalToConstant: 140).isActive = true
         
-        let chart = NetworkChartView(num: 600)
+        let chart = NetworkChartView(num: 600, history: self.chartHistory)
         self.chart = chart
         chart.setColors(in: self.downloadColor, out: self.uploadColor)
         chart.setLegend(x: true, y: false)
@@ -168,7 +220,7 @@ internal class Preview: PreviewWrapper {
         view.spacing = Constants.Settings.margin*2
         view.heightAnchor.constraint(equalToConstant: 80).isActive = true
         
-        let grid = GridChartView(grid: (50, 6))
+        let grid = GridChartView(grid: (50, 6), history: self.connectivityHistory)
         self.grid = grid
         view.addArrangedSubview(grid)
         
@@ -266,181 +318,202 @@ internal class Preview: PreviewWrapper {
         guard let list else { return }
         
         DispatchQueue.main.async(execute: {
-            guard (self.window?.isVisible ?? false) || !self.initializedProcesses, let view = self.processes else { return }
-            
-            for i in 0..<view.count {
-                if list.indices.contains(i) {
-                    let process = list[i]
-                    let download = Units(bytes: Int64(process.download)).getReadableSpeed(base: self.base, unit: self.speedUnit)
-                    let upload = Units(bytes: Int64(process.upload)).getReadableSpeed(base: self.base, unit: self.speedUnit)
-                    view.set(i, process, [download, upload])
-                } else {
-                    view.set(i, nil, [])
-                }
-            }
-            self.initializedProcesses = true
+            self.latestProcesses = list
+            guard self.contentLoaded else { return }
+            self.renderProcesses(list)
         })
+    }
+    
+    private func renderProcesses(_ list: [Network_Process]) {
+        guard (self.window?.isVisible ?? false) || !self.initializedProcesses, let view = self.processes else { return }
+        
+        for i in 0..<view.count {
+            if list.indices.contains(i) {
+                let process = list[i]
+                let download = Units(bytes: Int64(process.download)).getReadableSpeed(base: self.base, unit: self.speedUnit)
+                let upload = Units(bytes: Int64(process.upload)).getReadableSpeed(base: self.base, unit: self.speedUnit)
+                view.set(i, process, [download, upload])
+            } else {
+                view.set(i, nil, [])
+            }
+        }
+        self.initializedProcesses = true
     }
     
     public func usageCallback(_ value: Network_Usage) {
+        let date = Date()
         DispatchQueue.main.async(execute: {
-            if (self.window?.isVisible ?? false) || !self.initialized {
-                let upload = Units(bytes: value.bandwidth.upload).getReadableTuple(base: self.base, unit: self.speedUnit)
-                let download = Units(bytes: value.bandwidth.download).getReadableTuple(base: self.base, unit: self.speedUnit)
-                
-                self.uploadValueField?.stringValue = "\(upload.0)"
-                self.uploadUnitField?.stringValue = upload.1
-                
-                self.downloadValueField?.stringValue = "\(download.0)"
-                self.downloadUnitField?.stringValue = download.1
-                
-                self.uploadStateView?.setState(value.bandwidth.upload != 0)
-                self.downloadStateView?.setState(value.bandwidth.download != 0)
-                
-                self.totalUploadField?.stringValue = Units(bytes: value.total.upload).getReadableMemory()
-                self.totalDownloadField?.stringValue = Units(bytes: value.total.download).getReadableMemory()
-                
-                self.statusField?.setStatus(value.status)
-
-                if let interface = value.interface {
-                    self.interfaceField?.stringValue = "\(interface.displayName) (\(interface.BSDName))"
-                    self.interfaceStatusField?.setStatus(interface.status)
-                    self.macAddressField?.stringValue = interface.address
-                    self.speedField?.stringValue = "\(Int(interface.transmitRate.rounded()))Mbps"
-                } else {
-                    self.interfaceField?.stringValue = localizedString("Unknown")
-                    self.interfaceStatusField?.setStatus(nil)
-                    self.macAddressField?.stringValue = localizedString("Unknown")
-                    self.speedField?.stringValue = localizedString("Unknown")
-                }
-                
-                self.connectionTypeField?.stringValue = value.connectionType?.rawValue.capitalized ?? localizedString("Unknown")
-                
-                let isWifi = value.connectionType == .wifi
-                
-                if isWifi, let ssid = value.wifiDetails.ssid {
-                    self.ssidField?.stringValue = ssid
-                    self.ssidField?.superview?.isHidden = false
-                } else {
-                    self.ssidField?.superview?.isHidden = true
-                }
-                
-                if isWifi, let bssid = value.wifiDetails.bssid {
-                    self.bssidField?.stringValue = bssid
-                    self.bssidField?.superview?.isHidden = false
-                } else {
-                    self.bssidField?.superview?.isHidden = true
-                }
-                
-                if isWifi, let standard = value.wifiDetails.standard {
-                    self.standardField?.stringValue = standard
-                    self.standardField?.superview?.isHidden = false
-                } else {
-                    self.standardField?.superview?.isHidden = true
-                }
-                
-                if isWifi, let security = value.wifiDetails.security {
-                    self.securityField?.stringValue = security
-                    self.securityField?.superview?.isHidden = false
-                } else {
-                    self.securityField?.superview?.isHidden = true
-                }
-                
-                if isWifi, let channel = value.wifiDetails.channel {
-                    var str = channel
-                    var extras: [String] = []
-                    if let band = value.wifiDetails.channelBand { extras.append(band) }
-                    if let width = value.wifiDetails.channelWidth { extras.append(width) }
-                    if !extras.isEmpty {
-                        str += " (\(extras.joined(separator: ", ")))"
-                    }
-                    self.channelField?.stringValue = str
-                    self.channelField?.superview?.isHidden = false
-                } else {
-                    self.channelField?.superview?.isHidden = true
-                }
-                
-                if isWifi, let rssi = value.wifiDetails.RSSI {
-                    var str = "\(rssi) dBm"
-                    if let noise = value.wifiDetails.noise {
-                        str += " (\(localizedString("Noise")): \(noise) dBm)"
-                    }
-                    self.signalField?.stringValue = str
-                    self.signalField?.superview?.isHidden = false
-                } else {
-                    self.signalField?.superview?.isHidden = true
-                }
-                
-                var localIP = localizedString("Unknown")
-                if let v4 = value.laddr.v4, !v4.isEmpty {
-                    localIP = v4
-                } else if let v6 = value.laddr.v6, !v6.isEmpty {
-                    localIP = v6
-                }
-                self.localIPField?.stringValue = localIP
-                
-                if let v4 = value.raddr.v4, !v4.isEmpty {
-                    var ip = v4
-                    if let cc = value.raddr.countryCode, !cc.isEmpty {
-                        if let flag = countryFlag(cc) {
-                            ip += " (\(flag) \(cc))"
-                        } else {
-                            ip += " (\(cc))"
-                        }
-                    }
-                    self.publicIPv4Field?.stringValue = ip
-                    self.publicIPv4Field?.superview?.isHidden = false
-                } else {
-                    self.publicIPv4Field?.superview?.isHidden = true
-                }
-                
-                if let v6 = value.raddr.v6, !v6.isEmpty {
-                    var ip = v6
-                    if let cc = value.raddr.countryCode, !cc.isEmpty {
-                        if let flag = countryFlag(cc) {
-                            ip += " (\(flag) \(cc))"
-                        } else {
-                            ip += " (\(cc))"
-                        }
-                    }
-                    self.publicIPv6Field?.stringValue = ip
-                    self.publicIPv6Field?.superview?.isHidden = false
-                } else {
-                    self.publicIPv6Field?.superview?.isHidden = true
-                }
-                
-                if !value.dns.isEmpty {
-                    self.dnsField?.stringValue = value.dns.joined(separator: ", ")
-                } else {
-                    self.dnsField?.stringValue = localizedString("Unknown")
-                }
-                
-                self.initialized = true
-            }
-            
-            if let chart = self.chart {
-                chart.setBase(self.base)
-                chart.setSpeedUnit(self.speedUnit)
-                chart.addValue(upload: Double(value.bandwidth.upload), download: Double(value.bandwidth.download))
-            }
+            self.latestUsage = value
+            self.chartHistory.append(upload: Double(value.bandwidth.upload), download: Double(value.bandwidth.download), at: date)
+            self.chart?.historyUpdated()
+            guard self.contentLoaded else { return }
+            self.renderUsage(value)
         })
     }
     
-    public func connectivityCallback(_ value: Network_Connectivity?) {
-        DispatchQueue.main.async(execute: {
-            if (self.window?.isVisible ?? false) || !self.connectionInitialized {
-                if let value {
-                    self.connectivityField?.setStatus(value.status)
-                    self.latencyField?.stringValue = "\(Int(value.latency)) ms"
-                    self.jitterField?.stringValue = "\(Int(value.jitter)) ms"
-                }
-                self.connectionInitialized = true
+    private func renderUsage(_ value: Network_Usage) {
+        if (self.window?.isVisible ?? false) || !self.initialized {
+            let upload = Units(bytes: value.bandwidth.upload).getReadableTuple(base: self.base, unit: self.speedUnit)
+            let download = Units(bytes: value.bandwidth.download).getReadableTuple(base: self.base, unit: self.speedUnit)
+            
+            self.uploadValueField?.stringValue = "\(upload.0)"
+            self.uploadUnitField?.stringValue = upload.1
+            
+            self.downloadValueField?.stringValue = "\(download.0)"
+            self.downloadUnitField?.stringValue = download.1
+            
+            self.uploadStateView?.setState(value.bandwidth.upload != 0)
+            self.downloadStateView?.setState(value.bandwidth.download != 0)
+            
+            self.totalUploadField?.stringValue = Units(bytes: value.total.upload).getReadableMemory()
+            self.totalDownloadField?.stringValue = Units(bytes: value.total.download).getReadableMemory()
+            
+            self.statusField?.setStatus(value.status)
+
+            if let interface = value.interface {
+                self.interfaceField?.stringValue = "\(interface.displayName) (\(interface.BSDName))"
+                self.interfaceStatusField?.setStatus(interface.status)
+                self.macAddressField?.stringValue = interface.address
+                self.speedField?.stringValue = "\(Int(interface.transmitRate.rounded()))Mbps"
+            } else {
+                self.interfaceField?.stringValue = localizedString("Unknown")
+                self.interfaceStatusField?.setStatus(nil)
+                self.macAddressField?.stringValue = localizedString("Unknown")
+                self.speedField?.stringValue = localizedString("Unknown")
             }
             
-            if let value, let chart = self.grid {
-                chart.addValue(value.status)
+            self.connectionTypeField?.stringValue = value.connectionType?.rawValue.capitalized ?? localizedString("Unknown")
+            
+            let isWifi = value.connectionType == .wifi
+            
+            if isWifi, let ssid = value.wifiDetails.ssid {
+                self.ssidField?.stringValue = ssid
+                self.ssidField?.superview?.isHidden = false
+            } else {
+                self.ssidField?.superview?.isHidden = true
             }
+            
+            if isWifi, let bssid = value.wifiDetails.bssid {
+                self.bssidField?.stringValue = bssid
+                self.bssidField?.superview?.isHidden = false
+            } else {
+                self.bssidField?.superview?.isHidden = true
+            }
+            
+            if isWifi, let standard = value.wifiDetails.standard {
+                self.standardField?.stringValue = standard
+                self.standardField?.superview?.isHidden = false
+            } else {
+                self.standardField?.superview?.isHidden = true
+            }
+            
+            if isWifi, let security = value.wifiDetails.security {
+                self.securityField?.stringValue = security
+                self.securityField?.superview?.isHidden = false
+            } else {
+                self.securityField?.superview?.isHidden = true
+            }
+            
+            if isWifi, let channel = value.wifiDetails.channel {
+                var str = channel
+                var extras: [String] = []
+                if let band = value.wifiDetails.channelBand { extras.append(band) }
+                if let width = value.wifiDetails.channelWidth { extras.append(width) }
+                if !extras.isEmpty {
+                    str += " (\(extras.joined(separator: ", ")))"
+                }
+                self.channelField?.stringValue = str
+                self.channelField?.superview?.isHidden = false
+            } else {
+                self.channelField?.superview?.isHidden = true
+            }
+            
+            if isWifi, let rssi = value.wifiDetails.RSSI {
+                var str = "\(rssi) dBm"
+                if let noise = value.wifiDetails.noise {
+                    str += " (\(localizedString("Noise")): \(noise) dBm)"
+                }
+                self.signalField?.stringValue = str
+                self.signalField?.superview?.isHidden = false
+            } else {
+                self.signalField?.superview?.isHidden = true
+            }
+            
+            var localIP = localizedString("Unknown")
+            if let v4 = value.laddr.v4, !v4.isEmpty {
+                localIP = v4
+            } else if let v6 = value.laddr.v6, !v6.isEmpty {
+                localIP = v6
+            }
+            self.localIPField?.stringValue = localIP
+            
+            if let v4 = value.raddr.v4, !v4.isEmpty {
+                var ip = v4
+                if let cc = value.raddr.countryCode, !cc.isEmpty {
+                    if let flag = countryFlag(cc) {
+                        ip += " (\(flag) \(cc))"
+                    } else {
+                        ip += " (\(cc))"
+                    }
+                }
+                self.publicIPv4Field?.stringValue = ip
+                self.publicIPv4Field?.superview?.isHidden = false
+            } else {
+                self.publicIPv4Field?.superview?.isHidden = true
+            }
+            
+            if let v6 = value.raddr.v6, !v6.isEmpty {
+                var ip = v6
+                if let cc = value.raddr.countryCode, !cc.isEmpty {
+                    if let flag = countryFlag(cc) {
+                        ip += " (\(flag) \(cc))"
+                    } else {
+                        ip += " (\(cc))"
+                    }
+                }
+                self.publicIPv6Field?.stringValue = ip
+                self.publicIPv6Field?.superview?.isHidden = false
+            } else {
+                self.publicIPv6Field?.superview?.isHidden = true
+            }
+            
+            if !value.dns.isEmpty {
+                self.dnsField?.stringValue = value.dns.joined(separator: ", ")
+            } else {
+                self.dnsField?.stringValue = localizedString("Unknown")
+            }
+            
+            self.initialized = true
+        }
+        
+        if let chart = self.chart {
+            chart.setBase(self.base)
+            chart.setSpeedUnit(self.speedUnit)
+        }
+    }
+    
+    public func connectivityCallback(_ value: Network_Connectivity?) {
+        let date = Date()
+        DispatchQueue.main.async(execute: {
+            self.latestConnectivity = value
+            if let value {
+                self.connectivityHistory.append(value.status, at: date)
+                self.grid?.historyUpdated()
+            }
+            guard self.contentLoaded else { return }
+            self.renderConnectivity(value)
         })
+    }
+    
+    private func renderConnectivity(_ value: Network_Connectivity?) {
+        if (self.window?.isVisible ?? false) || !self.connectionInitialized {
+            if let value {
+                self.connectivityField?.setStatus(value.status)
+                self.latencyField?.stringValue = "\(Int(value.latency)) ms"
+                self.jitterField?.stringValue = "\(Int(value.jitter)) ms"
+            }
+            self.connectionInitialized = true
+        }
     }
     
     // MARK: - helpers

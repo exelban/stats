@@ -17,6 +17,7 @@ public protocol Settings_v: NSView {
 
 open class PreviewWrapper: NSStackView {
     public let module: ModuleType
+    public var contentLoaded: Bool = false
     
     public init(type: ModuleType) {
         self.module = type
@@ -27,10 +28,56 @@ open class PreviewWrapper: NSStackView {
         self.setHuggingPriority(.required, for: .horizontal)
         self.translatesAutoresizingMaskIntoConstraints = false
         self.spacing = Constants.Settings.margin
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.windowVisibilityChanged), name: .openWindow, object: nil)
     }
     
     required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    public override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        NotificationCenter.default.removeObserver(self, name: NSWindow.willCloseNotification, object: nil)
+        guard let window = self.window else {
+            self.releaseContent()
+            return
+        }
+        NotificationCenter.default.addObserver(self, selector: #selector(self.windowWillClose), name: NSWindow.willCloseNotification, object: window)
+        self.prepareForDisplay()
+    }
+    
+    // build preview controls when attached or reopened
+    public final func prepareForDisplay() {
+        guard !self.contentLoaded else { return }
+        self.contentLoaded = true
+        self.loadContent()
+    }
+    
+    // release preview controls while retaining the latest readings
+    public final func releaseContent() {
+        guard self.contentLoaded else { return }
+        self.contentLoaded = false
+        self.unloadContent()
+    }
+    
+    open func loadContent() {}
+    open func unloadContent() {}
+    
+    @objc private func windowVisibilityChanged(_ notification: Notification) {
+        if notification.userInfo?["state"] as? Bool == true && notification.userInfo?["module"] as? String == self.module.stringValue {
+            self.prepareForDisplay()
+        } else {
+            self.releaseContent()
+        }
+    }
+    
+    @objc private func windowWillClose() {
+        self.releaseContent()
     }
 }
 

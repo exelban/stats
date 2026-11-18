@@ -507,6 +507,7 @@ internal class HeaderView: NSStackView {
     
     @objc func openSystemStats() {
         guard let url = URL(string: "https://app.system-stats.com") else { return }
+        self.closePopup()
         NSWorkspace.shared.open(url)
     }
     
