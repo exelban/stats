@@ -48,6 +48,7 @@ using namespace std;
 
 -(NSArray *)keys:(NSString *)key {
     leveldb::ReadOptions readOptions;
+    readOptions.fill_cache = false;
     leveldb::Iterator *it = db->NewIterator(readOptions);
     leveldb::Slice slice = leveldb::Slice(key.UTF8String);
     NSMutableArray *array = [[NSMutableArray alloc] init];
@@ -179,6 +180,7 @@ using namespace std;
 
 -(bool)deleteBefore:(NSString *)prefix timestamp:(NSString *)timestamp {
     leveldb::ReadOptions readOptions;
+    readOptions.fill_cache = false;
     leveldb::Iterator *it = db->NewIterator(readOptions);
     leveldb::Slice prefixSlice = leveldb::Slice(prefix.UTF8String);
     string cutoff = timestamp.UTF8String;

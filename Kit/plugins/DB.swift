@@ -130,18 +130,17 @@ public class DB {
     }
     
     public func insert(key: String, value: Codable, force: Bool = false) {
-        self.queue.sync { self._values[key] = value }
-        guard let blobData = try? JSONEncoder().encode(value), let str = String(data: blobData, encoding: .utf8) else { return }
-        
-        let now = Date()
-        let shouldWrite: Bool = self.queue.sync {
+        let str: String? = self.queue.sync {
+            self._values[key] = value
+            let now = Date()
             if !force, let ts = self._writeTS[key], (now.timeIntervalSince1970-ts.timeIntervalSince1970) < 30 {
-                return false
+                return nil
             }
+            guard let blobData = try? JSONEncoder().encode(value), let str = String(data: blobData, encoding: .utf8) else { return nil }
             self._writeTS[key] = now
-            return true
+            return str
         }
-        guard shouldWrite else { return }
+        guard let str else { return }
         
         self.lldb?.insert(key, value: str)
     }

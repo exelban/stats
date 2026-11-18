@@ -32,64 +32,56 @@ public enum widget_t: String {
     public func new(module: String, config: NSDictionary, defaultWidget: widget_t, icon: NSImage? = nil) -> SWidget? {
         guard let widgetConfig: NSDictionary = config[self.rawValue] as? NSDictionary else { return nil }
         
-        var image: NSImage? = nil
-        var preview: widget_p? = nil
-        var item: widget_p? = nil
+        guard let item = self.newView(module: module, config: widgetConfig, icon: icon, preview: false) else { return nil }
         
+        return SWidget(self, defaultWidget: defaultWidget, module: module, item: item, image: self.previewImage(module: module, config: widgetConfig, icon: icon))
+    }
+    
+    private func newView(module: String, config widgetConfig: NSDictionary, icon: NSImage?, preview: Bool) -> widget_p? {
         switch self {
         case .mini:
-            preview = Mini(title: module, config: widgetConfig, preview: true)
-            item = Mini(title: module, config: widgetConfig, preview: false)
+            return Mini(title: module, config: widgetConfig, preview: preview)
         case .lineChart:
-            preview = LineChart(title: module, config: widgetConfig, preview: true)
-            item = LineChart(title: module, config: widgetConfig, preview: false)
+            return LineChart(title: module, config: widgetConfig, preview: preview)
         case .barChart:
-            preview = BarChart(title: module, config: widgetConfig, preview: true)
-            item = BarChart(title: module, config: widgetConfig, preview: false)
+            return BarChart(title: module, config: widgetConfig, preview: preview)
         case .pieChart:
-            preview = PieChart(title: module, config: widgetConfig, preview: true)
-            item = PieChart(title: module, config: widgetConfig, preview: false)
+            return PieChart(title: module, config: widgetConfig, preview: preview)
         case .networkChart:
-            preview = NetworkChart(title: module, config: widgetConfig, preview: true)
-            item = NetworkChart(title: module, config: widgetConfig, preview: false)
+            return NetworkChart(title: module, config: widgetConfig, preview: preview)
         case .speed:
-            preview = SpeedWidget(title: module, config: widgetConfig, preview: true)
-            item = SpeedWidget(title: module, config: widgetConfig, preview: false)
+            return SpeedWidget(title: module, config: widgetConfig, preview: preview)
         case .battery:
-            preview = BatteryWidget(title: module, preview: true)
-            item = BatteryWidget(title: module, preview: false)
+            return BatteryWidget(title: module, preview: preview)
         case .batteryDetails:
-            preview = BatteryDetailsWidget(title: module, preview: true)
-            item = BatteryDetailsWidget(title: module, preview: false)
+            return BatteryDetailsWidget(title: module, preview: preview)
         case .stack:
-            preview = StackWidget(title: module, config: widgetConfig, preview: true)
-            item = StackWidget(title: module, config: widgetConfig, preview: false)
+            return StackWidget(title: module, config: widgetConfig, preview: preview)
         case .memory:
-            preview = MemoryWidget(title: module, config: widgetConfig, preview: true)
-            item = MemoryWidget(title: module, config: widgetConfig, preview: false)
+            return MemoryWidget(title: module, config: widgetConfig, preview: preview)
         case .label:
-            preview = Label(title: module, config: widgetConfig)
-            item = Label(title: module, config: widgetConfig)
+            return Label(title: module, config: widgetConfig)
         case .tachometer:
-            preview = Tachometer(title: module, preview: true)
-            item = Tachometer(title: module, preview: false)
+            return Tachometer(title: module, preview: preview)
         case .state:
-            preview = DotWidget(title: module, config: widgetConfig, preview: true)
-            item = DotWidget(title: module, config: widgetConfig, preview: false)
+            return DotWidget(title: module, config: widgetConfig, preview: preview)
         case .text:
-            preview = TextWidget(title: module, preview: true)
-            item = TextWidget(title: module, preview: false)
+            return TextWidget(title: module, preview: preview)
         case .icon:
-            preview = IconWidget(title: module, config: widgetConfig, icon: icon, preview: true)
-            item = IconWidget(title: module, config: widgetConfig, icon: icon, preview: false)
-            image = icon?.withSymbolConfiguration(NSImage.SymbolConfiguration(pointSize: 14, weight: .regular)) ?? icon
-        default: break
+            return IconWidget(title: module, config: widgetConfig, icon: icon, preview: preview)
+        default: return nil
+        }
+    }
+    
+    private func previewImage(module: String, config: NSDictionary, icon: NSImage?) -> NSImage {
+        if self == .icon, let image = icon?.withSymbolConfiguration(NSImage.SymbolConfiguration(pointSize: 14, weight: .regular)) ?? icon {
+            return image
         }
         
-        if image == nil, let view = preview {
+        if let view = self.newView(module: module, config: config, icon: icon, preview: true) {
             var width: CGFloat = view.bounds.width
             
-            switch preview {
+            switch view {
             case is Mini:
                 if module == "Battery" {
                     width = view.bounds.width + 3
@@ -121,14 +113,10 @@ public enum widget_t: String {
                 width: width - view.frame.origin.x,
                 height: view.bounds.height
             )
-            image = NSImage(data: view.dataWithPDF(inside: r))
+            return NSImage(data: view.dataWithPDF(inside: r)) ?? NSImage()
         }
         
-        if let item = item, let image = image {
-            return SWidget(self, defaultWidget: defaultWidget, module: module, item: item, image: image)
-        }
-        
-        return nil
+        return NSImage()
     }
     
     public func name() -> String {
@@ -240,7 +228,7 @@ public class SWidget {
     public let type: widget_t
     public let defaultWidget: widget_t
     public let module: String
-    public let image: NSImage
+    public private(set) lazy var image: NSImage = self.imageProvider()
     public var item: widget_p
     
     public var isActive: Bool {
@@ -277,15 +265,16 @@ public class SWidget {
         set { Store.shared.set(key: "\(self.module)_widget", value: newValue.map{ $0.rawValue }.joined(separator: ",")) }
     }
     
+    private let imageProvider: () -> NSImage
     private var menuBarItem: NSStatusItem? = nil
     private var originX: CGFloat
     
-    public init(_ type: widget_t, defaultWidget: widget_t, module: String, item: widget_p, image: NSImage) {
+    public init(_ type: widget_t, defaultWidget: widget_t, module: String, item: widget_p, image: @autoclosure @escaping () -> NSImage) {
         self.type = type
         self.module = module
         self.item = item
         self.defaultWidget = defaultWidget
-        self.image = image
+        self.imageProvider = image
         self.originX = item.frame.origin.x
         
         self.item.widthHandler = { [weak self] in
