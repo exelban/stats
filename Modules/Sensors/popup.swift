@@ -1017,6 +1017,8 @@ internal class FanView: NSStackView {
     }
     
     @objc private func openLoginItems() {
+        guard #available(macOS 13, *) else { return }
+        (self.window as? PopupWindow)?.dismissIfUnlocked()
         SMCHelper.shared.openLoginItems()
     }
     
@@ -1033,7 +1035,7 @@ internal class FanView: NSStackView {
         alert.addButton(withTitle: localizedString("Cancel"))
         
         if alert.runModal() == .alertFirstButtonReturn {
-            SMCHelper.shared.openLoginItems()
+            self.openLoginItems()
         }
     }
     
@@ -1045,7 +1047,7 @@ internal class FanView: NSStackView {
         alert.addButton(withTitle: localizedString("Cancel"))
         
         if alert.runModal() == .alertFirstButtonReturn {
-            SMCHelper.shared.openLoginItems()
+            self.openLoginItems()
         }
     }
     

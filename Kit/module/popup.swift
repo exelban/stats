@@ -149,9 +149,11 @@ public class PopupWindow: NSPanel, NSWindowDelegate {
     }
     
     public func windowDidResignKey(_ notification: Notification) {
-        if self.locked {
-            return
-        }
+        self.dismissIfUnlocked()
+    }
+    
+    public func dismissIfUnlocked() {
+        guard !self.locked else { return }
         
         self.viewController.setCloseButton(false)
         self.setIsVisible(false)
@@ -497,21 +499,24 @@ internal class HeaderView: NSStackView {
         if let tab = self.module.activityMonitorTab {
             UserDefaults(suiteName: "com.apple.ActivityMonitor")?.set(tab, forKey: "SelectedTab")
         }
+        (self.window as? PopupWindow)?.dismissIfUnlocked()
         NSWorkspace.shared.open([], withApplicationAt: app, configuration: NSWorkspace.OpenConfiguration())
     }
     
     @objc func openCalendar() {
         guard let app = self.calendar else { return }
+        (self.window as? PopupWindow)?.dismissIfUnlocked()
         NSWorkspace.shared.open([], withApplicationAt: app, configuration: NSWorkspace.OpenConfiguration())
     }
     
     @objc func openSystemStats() {
         guard let url = URL(string: "https://app.system-stats.com") else { return }
-        self.closePopup()
+        (self.window as? PopupWindow)?.dismissIfUnlocked()
         NSWorkspace.shared.open(url)
     }
     
     @objc func openSettings() {
+        (self.window as? PopupWindow)?.dismissIfUnlocked()
         NotificationCenter.default.post(name: .toggleSettings, object: nil, userInfo: ["module": self.title])
     }
     

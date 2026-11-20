@@ -577,6 +577,7 @@ private class CalendarItemView: NSView {
     
     override func mouseDown(with event: NSEvent) {
         if event.clickCount == 2 {
+            (self.window as? PopupWindow)?.dismissIfUnlocked()
             NSWorkspace.shared.open([], withApplicationAt: self.app, configuration: NSWorkspace.OpenConfiguration())
             return
         }

@@ -473,7 +473,11 @@ internal class Popup: PopupWrapper {
     }
     
     @objc private func requestLocationPermission() {
-        self.locationPermissionAction?()
+        guard let action = self.locationPermissionAction else { return }
+        if self.usageCache.value?.wifiLocationAuthorization == .denied {
+            (self.window as? PopupWindow)?.dismissIfUnlocked()
+        }
+        action()
     }
     
     public func usageCallback(_ value: Network_Usage) {

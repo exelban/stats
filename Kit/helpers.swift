@@ -2340,6 +2340,7 @@ public class LinkButton: NSButton {
     }
     
     @objc private func openURL() {
+        (self.window as? PopupWindow)?.dismissIfUnlocked()
         NSWorkspace.shared.open(self.url)
     }
     

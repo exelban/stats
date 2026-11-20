@@ -506,6 +506,7 @@ internal class NameView: NSStackView {
     
     @objc private func openDisk() {
         if let uri = self.uri, let finder = self.finder {
+            (self.window as? PopupWindow)?.dismissIfUnlocked()
             NSWorkspace.shared.open([uri], withApplicationAt: finder, configuration: NSWorkspace.OpenConfiguration())
         }
     }
