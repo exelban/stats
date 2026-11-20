@@ -1367,6 +1367,11 @@ public class SMCHelper {
                 if pending.isEmpty { completion(success) }
             }
         }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            guard !pending.isEmpty else { return }
+            pending.removeAll()
+            completion(false)
+        }
         for id in ids {
             guard let helper = self.helper({ connected in
                 if !connected { finish(id, false) }
@@ -1378,8 +1383,12 @@ public class SMCHelper {
     }
     
     public func uninstall(silent: Bool = false, completion: @escaping (Bool) -> Void = { _ in }) {
+        self.uninstall(confirmRemoval: { false }, silent: silent, completion: completion)
+    }
+
+    public func uninstall(confirmRemoval: @escaping () -> Bool, silent: Bool = false, completion: @escaping (Bool) -> Void = { _ in }) {
         self.restoreFanModes { restored in
-            guard restored else {
+            guard restored || confirmRemoval() else {
                 print("failed to restore fan modes; SMC helper was not removed")
                 completion(false)
                 return

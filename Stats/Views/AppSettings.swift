@@ -219,7 +219,7 @@ class ApplicationSettings: NSStackView {
         self.fanHelperView = PreferencesSection([
             PreferencesRow(
                 localizedString("Uninstall fan helper"),
-                component: buttonView(#selector(self.uninstallHelper), text: localizedString("Uninstall"))
+                component: buttonView(#selector(self.uninstallHelper(_:)), text: localizedString("Uninstall"))
             )
         ])
         scrollView.stackView.addArrangedSubview(self.fanHelperView!)
@@ -486,8 +486,27 @@ class ApplicationSettings: NSStackView {
         v.isHidden = !state
     }
     
-    @objc private func uninstallHelper() {
-        SMCHelper.shared.uninstall()
+    @objc private func uninstallHelper(_ sender: NSButton) {
+        sender.isEnabled = false
+        sender.title = localizedString("Uninstalling…")
+        var cancelled = false
+        SMCHelper.shared.uninstall(confirmRemoval: {
+            guard #available(macOS 13, *) else { return false }
+            let alert = NSAlert()
+            alert.alertStyle = .warning
+            alert.messageText = localizedString("Could not confirm automatic fan control")
+            alert.informativeText = localizedString("Fans may still be in manual mode. Remove the fan helper anyway?")
+            alert.addButton(withTitle: localizedString("Cancel"))
+            alert.addButton(withTitle: localizedString("Uninstall"))
+            cancelled = alert.runModal() != .alertSecondButtonReturn
+            return !cancelled
+        }, completion: { success in
+            sender.title = localizedString("Uninstall")
+            sender.isEnabled = true
+            if !success && !cancelled {
+                showAlert(localizedString("Could not uninstall fan helper"), nil, .warning)
+            }
+        })
     }
     
     @objc private func toggleCPUeStressTest() {

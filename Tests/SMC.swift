@@ -856,6 +856,20 @@ extension SMCTests {
         XCTAssertTrue(helperEnv.events.isEmpty)
         XCTAssertNotNil(client.connection)
     }
+    func testHelperUnresponsiveFanAllowsConfirmedRemoval() {
+        let client = TestSMCHelper()
+        let prompted = expectation(description: "confirm removal")
+        client.uninstall(confirmRemoval: {
+            prompted.fulfill()
+            return true
+        })
+        wait(for: [prompted], timeout: 7)
+        XCTAssertEqual(helperEnv.events, ["unregister"])
+        helperEnv.requests[0].reply("")
+        helperEnv.requests[1].reply("")
+        drainHelperCallbacks()
+        XCTAssertEqual(helperEnv.events, ["unregister"])
+    }
     func testHelperXPCErrorPreventsRemoval() {
         let client = TestSMCHelper()
         var results: [Bool] = []

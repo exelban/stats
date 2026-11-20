@@ -52,6 +52,7 @@ def helper_source():
         "private func helper(_ completion:",
         "private func restoreFanModes(completion:",
         "public func uninstall(silent:",
+        "public func uninstall(confirmRemoval:",
     ))
     methods = methods.replace("private func", "func")
     methods = methods.replace('SMC.shared.getValue("FNum")', "FakeHelperEnvironment.current.fanCount")
