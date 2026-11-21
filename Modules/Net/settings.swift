@@ -91,7 +91,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
     
     private var vpnConnection: Bool {
         if let settings = CFNetworkCopySystemProxySettings()?.takeRetainedValue() as? [String: Any], let scopes = settings["__SCOPED__"] as? [String: Any] {
-            return !scopes.filter({ $0.key.contains("tap") || $0.key.contains("tun") || $0.key.contains("ppp") || $0.key.contains("ipsec") || $0.key.contains("ipsec0")}).isEmpty
+            return scopes.keys.contains(where: { $0.contains("tap") || $0.contains("tun") || $0.contains("ppp") || $0.contains("ipsec") })
         }
         return false
     }
@@ -137,14 +137,14 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
         self.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Number of top processes"), component: selectView(
+            PreferencesRow(localizedString("Number of top processes"), component: self.selectView(
                 action: #selector(self.changeNumberOfProcesses),
                 items: NumbersOfProcesses.map{ KeyValue_t(key: "\($0)", value: "\($0)") },
                 selected: "\(self.numberOfProcesses)"
             ))
         ]))
         
-        let interfaces = selectView(
+        let interfaces = self.selectView(
             action: #selector(self.handleSelection),
             items: [],
             selected: ""
@@ -160,50 +160,50 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
             let interfaceMenu = NSMenuItem(title: "\(interface.displayName) (\(interface.BSDName))", action: nil, keyEquivalent: "")
             interfaceMenu.identifier = NSUserInterfaceItemIdentifier(rawValue: interface.BSDName)
             menu.addItem(interfaceMenu)
-            if selectedInterface != "" && selectedInterface == interface.BSDName {
+            if !selectedInterface.isEmpty && selectedInterface == interface.BSDName {
                 interfaceMenu.state = .on
             }
         }
         interfaces.menu = menu
         interfaces.sizeToFit()
-        if selectedInterface == "" {
+        if selectedInterface.isEmpty {
             interfaces.selectItem(withTag: 128)
         }
         
         var prefs: [PreferencesRow] = [
-            PreferencesRow(localizedString("Reader type"), component: selectView(
+            PreferencesRow(localizedString("Reader type"), component: self.selectView(
                 action: #selector(self.changeReaderType),
                 items: NetworkReaders,
                 selected: self.readerType
             )),
             PreferencesRow(localizedString("Network interface"), component: interfaces),
-            PreferencesRow(localizedString("Base"), component: selectView(
+            PreferencesRow(localizedString("Base"), component: self.selectView(
                 action: #selector(self.toggleBase),
                 items: SpeedBase,
                 selected: self.baseValue
             )),
-            PreferencesRow(localizedString("Units"), component: selectView(
+            PreferencesRow(localizedString("Units"), component: self.selectView(
                 action: #selector(self.toggleSpeedUnit),
                 items: NetworkSpeedUnits,
                 selected: self.speedUnitValue
             )),
-            PreferencesRow(localizedString("Reset data usage"), component: selectView(
+            PreferencesRow(localizedString("Reset data usage"), component: self.selectView(
                 action: #selector(self.toggleUsageReset),
                 items: AppUpdateIntervals.filter({ $0.key != "Silent" }),
                 selected: self.usageReset
             )),
-            PreferencesRow(localizedString("Public IP"), component: switchView(
+            PreferencesRow(localizedString("Public IP"), component: self.switchView(
                 action: #selector(self.togglePublicIPState),
                 state: self.publicIPState
             )),
-            PreferencesRow(localizedString("Auto-refresh public IP address"), component: selectView(
+            PreferencesRow(localizedString("Auto-refresh public IP address"), component: self.selectView(
                 action: #selector(self.toggleRefreshIPInterval),
                 items: PublicIPAddressRefreshIntervals,
                 selected: self.publicIPRefreshInterval
             ))
         ]
         if self.vpnConnection {
-            prefs.append(PreferencesRow(localizedString("VPN mode"), component: switchView(
+            prefs.append(PreferencesRow(localizedString("VPN mode"), component: self.switchView(
                 action: #selector(self.toggleVPNMode),
                 state: self.VPNModeState
             )))
@@ -217,7 +217,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         self.widgetThresholdSection = PreferencesSection([
             PreferencesRow(localizedString("Widget activation threshold"), component: PreferencesSwitch(
                 action: self.toggleWidgetActivationThreshold, state: self.widgetActivationThresholdState, with: StepperInput(
-                    self.widgetActivationThreshold, range: NSRange(location: 1, length: 1023), 
+                    self.widgetActivationThreshold, range: NSRange(location: 1, length: 1023),
                     unit: self.widgetActivationThresholdSize.key, units: SizeUnit.allCases,
                     callback: self.changeWidgetActivationThreshold, unitCallback: self.toggleWidgetActivationThresholdSize
                 )
@@ -234,7 +234,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         let ICMPField = self.inputField(id: "ICMP", value: connectivityHost, placeholder: localizedString("Leave empty to disable the check"))
         self.connectivityHostField = ICMPField
         self.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Reader type"), component: selectView(
+            PreferencesRow(localizedString("Reader type"), component: self.selectView(
                 action: #selector(self.changeConnectivityMode),
                 items: [
                     KeyValue_t(key: "icmp", value: "ICMP"),
@@ -245,7 +245,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
             PreferencesRow(localizedString("Connectivity host"), component: ICMPField) {
                 NSWorkspace.shared.open(URL(string: "https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol")!)
             },
-            PreferencesRow(localizedString("Update interval"), component: selectView(
+            PreferencesRow(localizedString("Update interval"), component: self.selectView(
                 action: #selector(self.changeICMPUpdateInterval),
                 items: ReaderUpdateIntervals,
                 selected: "\(self.updateConnectivityIntervalValue)"

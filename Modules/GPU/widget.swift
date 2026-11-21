@@ -45,7 +45,7 @@ public struct Provider: TimelineProvider {
     public func getTimeline(in context: Context, completion: @escaping (Timeline<GPU_entry>) -> Void) {
         self.userDefaults?.set(Date().timeIntervalSince1970, forKey: GPU_entry.kind)
         var entry = GPU_entry()
-        if let raw = userDefaults?.data(forKey: "GPU@InfoReader"), let load = try? JSONDecoder().decode(GPU_Info.self, from: raw) {
+        if let raw = self.userDefaults?.data(forKey: "GPU@InfoReader"), let load = try? JSONDecoder().decode(GPU_Info.self, from: raw) {
             entry.value = load
         }
         let entries: [GPU_entry] = [entry]

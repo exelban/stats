@@ -95,7 +95,7 @@ extension CWChannelWidth: @retroactive CustomStringConvertible {
 
 extension CWChannel {
     override public var description: String {
-        return "\(channelNumber) (\(channelBand), \(channelWidth))"
+        return "\(self.channelNumber) (\(self.channelBand), \(self.channelWidth))"
     }
 }
 
@@ -170,7 +170,7 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate, CLLocationMa
     
     private var vpnConnection: Bool {
         if let settings = CFNetworkCopySystemProxySettings()?.takeRetainedValue() as? [String: Any], let scopes = settings["__SCOPED__"] as? [String: Any] {
-            return !scopes.filter({ $0.key.contains("tap") || $0.key.contains("tun") || $0.key.contains("ppp") || $0.key.contains("ipsec") || $0.key.contains("ipsec0")}).isEmpty
+            return scopes.keys.contains(where: { $0.contains("tap") || $0.contains("tun") || $0.contains("ppp") || $0.contains("ipsec") })
         }
         return false
     }
@@ -231,8 +231,8 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate, CLLocationMa
             }
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshPublicIP), name: .refreshPublicIP, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(resetTotalNetworkUsage), name: .resetTotalNetworkUsage, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshPublicIP), name: .refreshPublicIP, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.resetTotalNetworkUsage), name: .resetTotalNetworkUsage, object: nil)
         
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 1) { [weak self] in
             guard let self else { return }
@@ -348,7 +348,7 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate, CLLocationMa
         while pointer != nil {
             defer { pointer = pointer?.pointee.ifa_next }
             guard let pointer = pointer else { break }
-
+            
             if String(cString: pointer.pointee.ifa_name) != self.interfaceID {
                 continue
             }
@@ -424,7 +424,7 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate, CLLocationMa
                 return nil
             }
             
-            return ethernetTransmitRate(from: subType)
+            return self.ethernetTransmitRate(from: subType)
         }
         
         return nil
@@ -467,7 +467,7 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate, CLLocationMa
     }
     
     private func requestDetails() {
-        guard self.interfaceID != "", !self.detailsInProgress else { return }
+        guard !self.interfaceID.isEmpty, !self.detailsInProgress else { return }
         if Date().timeIntervalSince(self.lastDetailsReadTS) < 15 { return }
         
         self.detailsInProgress = true
@@ -479,7 +479,7 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate, CLLocationMa
     }
     
     public func getDetails() {
-        guard self.interfaceID != "" else { return }
+        guard !self.interfaceID.isEmpty else { return }
         
         let now = Date()
         if now.timeIntervalSince(self.lastDetailsReadTS) < 15 { return }
@@ -537,11 +537,11 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate, CLLocationMa
             self.usage.wifiDetails.reset()
         }
         
-        if !isUsableSSID(self.usage.wifiDetails.ssid) {
+        if !self.isUsableSSID(self.usage.wifiDetails.ssid) {
             self.usage.wifiDetails.ssid = nil
         }
         
-        if self.usage.connectionType == .wifi && self.usage.wifiDetails.ssid == nil || self.usage.wifiDetails.ssid == "" {
+        if self.usage.connectionType == .wifi && self.usage.wifiDetails.ssid == nil || self.usage.wifiDetails.ssid?.isEmpty == true {
             self.getWiFiDetails()
         }
         
@@ -554,7 +554,7 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate, CLLocationMa
         
         if let interface = CWWiFiClient.shared().interface(withName: interfaceID) {
             if self.usage.wifiLocationAuthorization == .authorized {
-                if let ssid = interface.ssid(), isUsableSSID(ssid) {
+                if let ssid = interface.ssid(), self.isUsableSSID(ssid) {
                     if ssid != self.usage.wifiDetails.ssid {
                         self.resetWiFiDetails()
                     }
@@ -889,7 +889,7 @@ public class ProcessReader: Reader<[Network_Process]> {
                 process.name = nameArray.dropLast().joined(separator: ".")
             }
             
-            if process.name == "" {
+            if process.name.isEmpty {
                 process.name = "\(process.pid)"
             }
             
@@ -1172,7 +1172,7 @@ internal class ConnectivityReader: Reader<Network_Connectivity> {
     }
     
     private func socketCallback(data: Data? = nil, error: CFSocketError? = nil) {
-        guard let data = data, validateResponse(data) else { return }
+        guard let data = data, self.validateResponse(data) else { return }
         let end = DispatchTime.now()
         
         self.latency = Double(end.uptimeNanoseconds - (self.start?.uptimeNanoseconds ?? 0)) / 1_000_000
@@ -1197,7 +1197,7 @@ internal class ConnectivityReader: Reader<Network_Connectivity> {
     
     private func validateResponse(_ data: Data) -> Bool {
         guard data.count >= MemoryLayout<ICMPHeader>.size + MemoryLayout<IPHeader>.size,
-              let headerOffset = icmpHeaderOffset(of: data) else { return false }
+              let headerOffset = self.icmpHeaderOffset(of: data) else { return false }
         
         let payloadSize = data.count - headerOffset - MemoryLayout<ICMPHeader>.size
         let icmpHeader = data.withUnsafeBytes({ $0.load(fromByteOffset: headerOffset, as: ICMPHeader.self) })
@@ -1205,7 +1205,7 @@ internal class ConnectivityReader: Reader<Network_Connectivity> {
         let uuid = UUID(uuid: icmpHeader.payload)
         
         guard uuid == self.fingerprint else { return false }
-        guard icmpHeader.checksum == computeChecksum(header: icmpHeader, additionalPayload: [UInt8](payload)) else { return false }
+        guard icmpHeader.checksum == self.computeChecksum(header: icmpHeader, additionalPayload: [UInt8](payload)) else { return false }
         guard icmpHeader.type == 0 else { return false }
         guard icmpHeader.code == 0 else { return false }
         
@@ -1228,7 +1228,7 @@ internal class ConnectivityReader: Reader<Network_Connectivity> {
             additional = (0..<delta).map { _ in UInt8.random(in: UInt8.min...UInt8.max) }
         }
         
-        guard let checksum = computeChecksum(header: header, additionalPayload: additional) else { return nil }
+        guard let checksum = self.computeChecksum(header: header, additionalPayload: additional) else { return nil }
         header.checksum = checksum
         
         return Data(bytes: &header, count: MemoryLayout<ICMPHeader>.size) + Data(additional)
@@ -1237,7 +1237,7 @@ internal class ConnectivityReader: Reader<Network_Connectivity> {
     private func computeChecksum(header: ICMPHeader, additionalPayload: [UInt8]) -> UInt16? {
         let typecode = Data([header.type, header.code]).withUnsafeBytes { $0.load(as: UInt16.self) }
         var sum = UInt64(typecode) + UInt64(header.identifier) + UInt64(header.sequenceNumber)
-        let payload = convert(payload: header.payload) + additionalPayload
+        let payload = self.convert(payload: header.payload) + additionalPayload
         guard payload.count % 2 == 0 else { return nil }
         
         var i = 0

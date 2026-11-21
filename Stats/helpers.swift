@@ -370,7 +370,7 @@ extension AppDelegate {
         
         guard !keyCodes.isEmpty,
               let module = modules.first(where: { $0.enabled && $0.popupKeyboardShortcut == keyCodes }),
-              let widget = module.menuBar.widgets.filter({ $0.isActive }).first,
+              let widget = module.menuBar.widgets.first(where: { $0.isActive }),
               let window = widget.item.window else { return }
         
         NotificationCenter.default.post(name: .togglePopup, object: nil, userInfo: [

@@ -59,12 +59,12 @@ internal class Settings: NSStackView, Settings_v {
         
         list.forEach { (d: BLEDevice) in
             if self.list[d.id] == nil {
-                let btn = switchView(
+                let btn = self.switchView(
                     action: #selector(self.handleSelection),
                     state: d.state
                 )
                 btn.identifier = NSUserInterfaceItemIdentifier(rawValue: "\(d.uuid?.uuidString ?? d.address)")
-                section.add(PreferencesRow(d.name, component: btn))
+                self.section.add(PreferencesRow(d.name, component: btn))
                 self.list[d.id] = true
             }
         }

@@ -102,63 +102,63 @@ class ApplicationSettings: NSStackView {
         
         scrollView.stackView.addArrangedSubview(self.informationView())
         
-        self.updateSelector = selectView(
+        self.updateSelector = self.selectView(
             action: #selector(self.toggleUpdateInterval),
             items: AppUpdateIntervals,
             selected: self.updateIntervalValue
         )
-        self.startAtLoginBtn = switchView(
+        self.startAtLoginBtn = self.switchView(
             action: #selector(self.toggleLaunchAtLogin),
             state: LaunchAtLogin.isEnabled
         )
         
         scrollView.stackView.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Check for updates"), component: self.updateSelector!),
-            PreferencesRow(localizedString("Temperature"), component: selectView(
+            PreferencesRow(localizedString("Temperature"), component: self.selectView(
                 action: #selector(self.toggleTemperatureUnits),
                 items: TemperatureUnits,
                 selected: self.temperatureUnitsValue
             )),
-            PreferencesRow(localizedString("Show icon in dock"), component: switchView(
+            PreferencesRow(localizedString("Show icon in dock"), component: self.switchView(
                 action: #selector(self.toggleDock),
                 state: Store.shared.bool(key: "dockIcon", defaultValue: false)
             )),
             PreferencesRow(localizedString("Start at login"), component: self.startAtLoginBtn!),
-            PreferencesRow(localizedString("Keep the menubar items position"), component: switchView(
+            PreferencesRow(localizedString("Keep the menubar items position"), component: self.switchView(
                 action: #selector(self.toggleMenuBarPosition),
                 state: self.keepMenuBarPosition
             )),
-            PreferencesRow("macOS widgets", component: switchView(
+            PreferencesRow("macOS widgets", component: self.switchView(
                 action: #selector(self.toggleSystemWidgetsUpdatesState),
                 state: self.systemWidgetsUpdatesState
             ))
         ]))
         
         self.combinedModulesView = PreferencesSection([
-            PreferencesRow(localizedString("Combined modules"), component: switchView(
+            PreferencesRow(localizedString("Combined modules"), component: self.switchView(
                 action: #selector(self.toggleCombinedModules),
                 state: self.combinedModulesState
             )),
-            PreferencesRow(localizedString("Menu bar"), component: selectView(
+            PreferencesRow(localizedString("Menu bar"), component: self.selectView(
                 action: #selector(self.toggleCombinedModulesWidget),
                 items: CombinedModulesWidget.all,
                 selected: CombinedModulesWidget.current.rawValue
             )),
             PreferencesRow(component: self.moduleSelector),
-            PreferencesRow(localizedString("Spacing"), component: selectView(
+            PreferencesRow(localizedString("Spacing"), component: self.selectView(
                 action: #selector(self.toggleCombinedModulesSpacing),
                 items: CombinedModulesSpacings,
                 selected: self.combinedModulesSpacing
             )),
-            PreferencesRow(localizedString("Separator"), component: switchView(
+            PreferencesRow(localizedString("Separator"), component: self.switchView(
                 action: #selector(self.toggleCombinedModulesSeparator),
                 state: self.combinedModulesSeparator
             )),
-            PreferencesRow(localizedString("Combined details"), component: switchView(
+            PreferencesRow(localizedString("Combined details"), component: self.switchView(
                 action: #selector(self.toggleCombinedModulesPopup),
                 state: self.combinedModulesPopup
             )),
-            PreferencesRow(localizedString("Alternate details on click"), component: switchView(
+            PreferencesRow(localizedString("Alternate details on click"), component: self.switchView(
                 action: #selector(self.toggleCombinedModulesAlternateDetails),
                 state: self.combinedModulesAlternateDetails
             )),
@@ -171,30 +171,30 @@ class ApplicationSettings: NSStackView {
         scrollView.stackView.addArrangedSubview(self.combinedModulesView!)
         self.updateCombinedModulesSettings()
         
-        self.remoteControlBtn = switchView(
+        self.remoteControlBtn = self.switchView(
             action: #selector(self.toggleRemoteControlState),
             state: SystemStats.shared.control
         )
-        self.remoteUpdatesBtn = switchView(
+        self.remoteUpdatesBtn = self.switchView(
             action: #selector(self.toggleRemoteUpdateState),
             state: SystemStats.shared.update
         )
-        self.planField = textView(SystemStats.shared.plan?.rawValue.capitalized ?? "Free")
+        self.planField = self.textView(SystemStats.shared.plan?.rawValue.capitalized ?? "Free")
         self.remoteView = PreferencesSection(title: "System Stats", [
-            PreferencesRow(localizedString("Authorization"), component: buttonView(#selector(self.loginToRemote), text: localizedString("Sign in"))),
-            PreferencesRow(localizedString("Identificator"), component: textView(SystemStats.shared.id.uuidString)),
+            PreferencesRow(localizedString("Authorization"), component: self.buttonView(#selector(self.loginToRemote), text: localizedString("Sign in"))),
+            PreferencesRow(localizedString("Identificator"), component: self.textView(SystemStats.shared.id.uuidString)),
             PreferencesRow(localizedString("Plan"), component: self.planField!),
-            PreferencesRow(localizedString("Monitoring"), component: switchView(
+            PreferencesRow(localizedString("Monitoring"), component: self.switchView(
                 action: #selector(self.toggleRemoteMonitoringState),
                 state: SystemStats.shared.monitoring
             )),
-            PreferencesRow(id: "monitoring_modules", component: buttonView(
+            PreferencesRow(id: "monitoring_modules", component: self.buttonView(
                 #selector(self.selectRemoteMonitoringModules), text: localizedString("Modules")
             )),
             PreferencesRow(localizedString("Control"), component: self.remoteControlBtn!),
             PreferencesRow(localizedString("Update"), component: self.remoteUpdatesBtn!),
-            PreferencesRow(component: buttonView(#selector(self.logoutFromRemote), text: localizedString("Sign out"))),
-            PreferencesRow(component: buttonView(#selector(self.deregisterFromRemote), text: localizedString("Deregister")))
+            PreferencesRow(component: self.buttonView(#selector(self.logoutFromRemote), text: localizedString("Sign out"))),
+            PreferencesRow(component: self.buttonView(#selector(self.deregisterFromRemote), text: localizedString("Deregister")))
         ])
         scrollView.stackView.addArrangedSubview(self.remoteView!)
         for row in 1...8 {
@@ -204,32 +204,32 @@ class ApplicationSettings: NSStackView {
         scrollView.stackView.addArrangedSubview(PreferencesSection(title: localizedString("Settings"), [
             PreferencesRow(
                 localizedString("Export settings"),
-                component: buttonView(#selector(self.exportSettings), text: localizedString("Save"))
+                component: self.buttonView(#selector(self.exportSettings), text: localizedString("Save"))
             ),
             PreferencesRow(
                 localizedString("Import settings"),
-                component: buttonView(#selector(self.importSettings), text: localizedString("Choose file"))
+                component: self.buttonView(#selector(self.importSettings), text: localizedString("Choose file"))
             ),
             PreferencesRow(
                 localizedString("Reset settings"),
-                component: buttonView(#selector(self.resetSettings), text: localizedString("Reset"))
+                component: self.buttonView(#selector(self.resetSettings), text: localizedString("Reset"))
             )
         ]))
         
         self.fanHelperView = PreferencesSection([
             PreferencesRow(
                 localizedString("Uninstall fan helper"),
-                component: buttonView(#selector(self.uninstallHelper(_:)), text: localizedString("Uninstall"))
+                component: self.buttonView(#selector(self.uninstallHelper(_:)), text: localizedString("Uninstall"))
             )
         ])
         scrollView.stackView.addArrangedSubview(self.fanHelperView!)
         
         self.addArrangedSubview(scrollView)
         
-        let CPUeButton = buttonView(#selector(self.toggleCPUeStressTest), text: localizedString("Run"))
-        let CPUpButton = buttonView(#selector(self.toggleCPUpStressTest), text: localizedString("Run"))
-        let CPUsButton = buttonView(#selector(self.toggleCPUsStressTest), text: localizedString("Run"))
-        let GPUButton = buttonView(#selector(self.toggleGPUStressTest), text: localizedString("Run"))
+        let CPUeButton = self.buttonView(#selector(self.toggleCPUeStressTest), text: localizedString("Run"))
+        let CPUpButton = self.buttonView(#selector(self.toggleCPUpStressTest), text: localizedString("Run"))
+        let CPUsButton = self.buttonView(#selector(self.toggleCPUsStressTest), text: localizedString("Run"))
+        let GPUButton = self.buttonView(#selector(self.toggleGPUStressTest), text: localizedString("Run"))
         
         self.CPUeButton = CPUeButton
         self.CPUpButton = CPUpButton
@@ -693,7 +693,7 @@ private class ModuleSelectorView: NSStackView {
     }
     
     override func mouseDown(with event: NSEvent) {
-        let location = convert(event.locationInWindow, from: nil)
+        let location = self.convert(event.locationInWindow, from: nil)
         guard let targetIdx = self.views.firstIndex(where: { $0.hitTest(location) != nil }),
               let window = self.window, self.views[targetIdx].identifier != nil else {
             super.mouseDragged(with: event)
@@ -718,7 +718,7 @@ private class ModuleSelectorView: NSStackView {
         var newIdx = -1
         let originCenter = view.frame.midX
         let originX = view.frame.origin.x
-        let p0 = convert(event.locationInWindow, from: nil).x
+        let p0 = self.convert(event.locationInWindow, from: nil).x
         
         window.trackEvents(matching: [.leftMouseDragged, .leftMouseUp], timeout: 1e6, mode: .eventTracking) { event, stop in
             guard let event = event else {

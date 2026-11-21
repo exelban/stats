@@ -124,8 +124,8 @@ public struct KeyValue_t: KeyValue_p, Codable {
     
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(key, forKey: .key)
-        try container.encode(value, forKey: .value)
+        try container.encode(self.key, forKey: .key)
+        try container.encode(self.value, forKey: .value)
     }
 }
 
@@ -137,16 +137,16 @@ public struct Units {
     }
     
     public var kilobytes: Double {
-        return Double(bytes) / 1_000
+        return Double(self.bytes) / 1_000
     }
     public var megabytes: Double {
-        return kilobytes / 1_000
+        return self.kilobytes / 1_000
     }
     public var gigabytes: Double {
-        return megabytes / 1_000
+        return self.megabytes / 1_000
     }
     public var terabytes: Double {
-        return gigabytes / 1_000
+        return self.gigabytes / 1_000
     }
     
     public func getReadableTuple(base: DataSizeBase = .byte, unit: String = NetworkSpeedUnitAuto) -> (String, String) {
@@ -158,7 +158,7 @@ public struct Units {
             return (self.formatSpeedValue(value), "\(speedPrefix)\(stringBase)/s")
         }
         
-        let value: Double = Double(bytes) * multiplier
+        let value: Double = Double(self.bytes) * multiplier
         switch value {
         case ..<1_000:
             return ("0", "K\(stringBase)/s")
@@ -207,32 +207,32 @@ public struct DiskSize {
     }
     
     public var kilobytes: Double {
-        return Double(value) / 1_000
+        return Double(self.value) / 1_000
     }
     public var megabytes: Double {
-        return kilobytes / 1_000
+        return self.kilobytes / 1_000
     }
     public var gigabytes: Double {
-        return megabytes / 1_000
+        return self.megabytes / 1_000
     }
     public var terabytes: Double {
-        return gigabytes / 1_000
+        return self.gigabytes / 1_000
     }
     
     public func getReadableMemory() -> String {
-        switch value {
+        switch self.value {
         case 0..<1_000:
             return "0 KB"
         case 1_000..<(1_000 * 1_000):
-            return String(format: "%.0f KB", kilobytes)
+            return String(format: "%.0f KB", self.kilobytes)
         case 1_000..<(1_000 * 1_000 * 1_000):
-            return String(format: "%.0f MB", megabytes)
+            return String(format: "%.0f MB", self.megabytes)
         case 1_000..<(1_000 * 1_000 * 1_000 * 1_000):
-            return String(format: "%.1f GB", gigabytes)
+            return String(format: "%.1f GB", self.gigabytes)
         case (1_000 * 1_000 * 1_000 * 1_000)...Int64.max:
-            return String(format: "%.1f TB", terabytes)
+            return String(format: "%.1f TB", self.terabytes)
         default:
-            return String(format: "%.0f KB", kilobytes)
+            return String(format: "%.0f KB", self.kilobytes)
         }
     }
 }
@@ -860,7 +860,7 @@ public class ColorView: NSView {
         super.init(frame: frame)
         
         self.wantsLayer = true
-        self.layer?.backgroundColor = (state ? self.color : inactiveColor).cgColor
+        self.layer?.backgroundColor = (state ? self.color : self.inactiveColor).cgColor
         self.layer?.cornerRadius = radius
     }
     
@@ -869,8 +869,8 @@ public class ColorView: NSView {
     }
     
     public func setState(_ newState: Bool) {
-        if newState != state {
-            self.layer?.backgroundColor = (newState ? self.color : inactiveColor).cgColor
+        if newState != self.state {
+            self.layer?.backgroundColor = (newState ? self.color : self.inactiveColor).cgColor
             self.state = newState
         }
     }
@@ -1385,7 +1385,7 @@ public class SMCHelper {
     public func uninstall(silent: Bool = false, completion: @escaping (Bool) -> Void = { _ in }) {
         self.uninstall(confirmRemoval: { false }, silent: silent, completion: completion)
     }
-
+    
     public func uninstall(confirmRemoval: @escaping () -> Bool, silent: Bool = false, completion: @escaping (Bool) -> Void = { _ in }) {
         self.restoreFanModes { restored in
             guard restored || confirmRemoval() else {
@@ -1465,8 +1465,8 @@ public class ViewCopy: CALayer {
         guard let bitmap = view.bitmapImageRepForCachingDisplay(in: view.bounds) else { return }
         view.cacheDisplay(in: view.bounds, to: bitmap)
         
-        frame = view.frame
-        contents = bitmap.cgImage
+        self.frame = view.frame
+        self.contents = bitmap.cgImage
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -1591,7 +1591,7 @@ var isDarkMode: Bool {
 public class PreferencesSection: NSStackView {
     private let container: NSStackView = NSStackView()
     private var subtitleField: NSTextField?
-
+    
     public init(title: String = "", subtitle: String = "", id: String? = nil, _ components: [NSView] = []) {
         super.init(frame: .zero)
         
@@ -1602,7 +1602,7 @@ public class PreferencesSection: NSStackView {
             self.identifier = NSUserInterfaceItemIdentifier(id)
         }
         
-        if title != "" || subtitle != "" {
+        if !title.isEmpty || !subtitle.isEmpty {
             self.addHeader(title: title, subtitle: subtitle)
         }
         
@@ -1893,7 +1893,7 @@ public class StepperInput: NSStackView, NSTextFieldDelegate, PreferencesSwitchWi
             }
         } else if let units {
             self.units = units
-            self.unitsView = selectView(
+            self.unitsView = self.selectView(
                 action: #selector(self.onUnitChange),
                 items: units,
                 selected: unit
@@ -1961,7 +1961,7 @@ public class PreferencesSwitch: NSStackView {
         self.alignment = .centerY
         self.spacing = Constants.Settings.margin
         
-        let btn = switchView(action: #selector(self.callback), state: state)
+        let btn = self.switchView(action: #selector(self.callback), state: state)
         with.isEnabled = state
         
         self.addArrangedSubview(NSView())
@@ -1981,7 +1981,7 @@ public class PreferencesSwitch: NSStackView {
 
 public class HelpHUD: NSPanel {
     private let text: String
-
+    
     public init(_ text: String, origin: CGPoint = CGPoint(x: 0, y: 0), size: CGSize = CGSize(width: 420, height: 300)) {
         self.text = text
         super.init(

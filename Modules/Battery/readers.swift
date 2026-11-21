@@ -61,7 +61,7 @@ internal class UsageReader: Reader<Battery_Usage> {
     
     public override func stop() {
         super.stop()
-        guard let runLoop = loop, let source = source else {
+        guard let runLoop = self.loop, let source = self.source else {
             return
         }
         
@@ -147,7 +147,7 @@ internal class UsageReader: Reader<Battery_Usage> {
             (0...100).contains(level ?? -1) &&
             (powerSource == "AC Power" || powerSource == "Battery Power") &&
             isCharging != nil && (cycles ?? -1) >= 0
-        
+            
         self.usage.current = self.getIntValue("Amperage" as CFString) ?? 0
         self.usage.voltage = self.getVoltage() ?? 0
         self.usage.temperature = self.getTemperature()
@@ -206,7 +206,7 @@ internal class UsageReader: Reader<Battery_Usage> {
         }
         return nil
     }
-
+    
     private func getDictValue(_ identifier: CFString) -> [String: Any]? {
         if let value = IORegistryEntryCreateCFProperty(self.service, identifier, kCFAllocatorDefault, 0) {
             return value.takeRetainedValue() as? [String: Any]
@@ -247,14 +247,14 @@ internal class UsageReader: Reader<Battery_Usage> {
     }
     
     private func getChargerData() -> [String: Any]? {
-        if let chargerData = IORegistryEntryCreateCFProperty(service, "ChargerData" as CFString, kCFAllocatorDefault, 0) {
+        if let chargerData = IORegistryEntryCreateCFProperty(self.service, "ChargerData" as CFString, kCFAllocatorDefault, 0) {
             return chargerData.takeRetainedValue() as? [String: Any]
         }
         return nil
     }
     
     private func getAdapterDetails() -> [String: Any]? {
-        if let adapterDetails = IORegistryEntryCreateCFProperty(service, "AdapterDetails" as CFString, kCFAllocatorDefault, 0) {
+        if let adapterDetails = IORegistryEntryCreateCFProperty(self.service, "AdapterDetails" as CFString, kCFAllocatorDefault, 0) {
             return adapterDetails.takeRetainedValue() as? [String: Any]
         }
         return nil

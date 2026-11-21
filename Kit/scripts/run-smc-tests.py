@@ -6,6 +6,8 @@ sleep calls, plus helper lifecycle tests with fake XPC and service operations.
 Production source is unchanged; temporary build files are removed.
 This standalone suite is independent of the existing Xcode Tests target.
 """
+import argparse
+import json
 import os
 from pathlib import Path
 import re
@@ -65,7 +67,8 @@ def helper_source():
             "final class TestSMCHelper: HelperClientFixture {\n" + methods + "\n}\n")
 
 
-def run():
+def run(analyze=False):
+    sdk = subprocess.check_output(["xcrun", "--sdk", "macosx", "--show-sdk-path"], text=True).strip()
     platform = Path(subprocess.check_output(
         ["xcrun", "--sdk", "macosx", "--show-sdk-platform-path"], text=True).strip())
     frameworks = platform / "Developer/Library/Frameworks"
@@ -100,9 +103,10 @@ def run():
                 "let suite = SMCTests.defaultTestSuite\nsuite.run()\n"
                 f"exit(suite.testRun?.hasSucceeded == true && suite.testRun?.executionCount == {len(selected)} ? 0 : 1)\n"
             )
-            print(f"\nRunning {len(selected)} SMC tests: {branch} branch", flush=True)
+            action = "Analyzing" if analyze else "Running"
+            print(f"\n{action} {len(selected)} SMC tests: {branch} branch", flush=True)
             executable = build / branch
-            command = ["xcrun", "swiftc", "-swift-version", "5", "-g",
+            command = ["xcrun", "swiftc", "-sdk", sdk, "-swift-version", "5", "-g",
                        "-module-cache-path", str(build / "cache"),
                        "-I", str(libraries), "-L", str(libraries),
                        "-Xlinker", "-rpath", "-Xlinker", str(libraries),
@@ -114,9 +118,18 @@ def run():
                         str(ROOT / "SMC/Helper/protocol.swift"),
                         str(TESTS / "SMC.swift"), str(build / "main.swift"),
                         "-o", str(executable)]
-            subprocess.run(command, check=True, env=env, timeout=180)
-            subprocess.run([str(executable)], check=True, env=env, timeout=60)
+            if analyze:
+                test_file = str(TESTS / "SMC.swift")
+                database = build / "compile_commands.json"
+                database.write_text(json.dumps([{"file": test_file, "arguments": command[1:]}]))
+                subprocess.run(["swiftlint", "analyze", "--strict", "--compile-commands", str(database),
+                                "--reporter", "github-actions-logging", test_file], check=True, env=env)
+            else:
+                subprocess.run(command, check=True, env=env, timeout=180)
+                subprocess.run([str(executable)], check=True, env=env, timeout=60)
 
 
 if __name__ == "__main__":
-    run()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--analyze", action="store_true", help="Run SwiftLint on the standalone tests")
+    run(analyze=parser.parse_args().analyze)

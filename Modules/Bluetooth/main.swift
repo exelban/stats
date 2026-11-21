@@ -72,15 +72,15 @@ public struct BLEDevice: Codable {
     
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(address, forKey: .address)
-        try container.encode(name, forKey: .name)
-        try container.encode(uuid, forKey: .uuid)
-        try container.encode(RSSI, forKey: .RSSI)
-        try container.encode(batteryLevel, forKey: .batteryLevel)
-        try container.encode(isConnected, forKey: .isConnected)
-        try container.encode(isPaired, forKey: .isPaired)
-        try container.encode(vendorId, forKey: .vendorId)
-        try container.encode(productId, forKey: .productId)
+        try container.encode(self.address, forKey: .address)
+        try container.encode(self.name, forKey: .name)
+        try container.encode(self.uuid, forKey: .uuid)
+        try container.encode(self.RSSI, forKey: .RSSI)
+        try container.encode(self.batteryLevel, forKey: .batteryLevel)
+        try container.encode(self.isConnected, forKey: .isConnected)
+        try container.encode(self.isPaired, forKey: .isPaired)
+        try container.encode(self.vendorId, forKey: .vendorId)
+        try container.encode(self.productId, forKey: .productId)
     }
 }
 

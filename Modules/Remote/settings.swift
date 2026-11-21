@@ -254,19 +254,19 @@ private class HeroView: NSView {
         row.orientation = .horizontal
         row.alignment = .firstBaseline
         row.spacing = 8
-
+        
         let check = NSImageView()
         check.image = NSImage(systemSymbolName: "checkmark.circle.fill", accessibilityDescription: nil)
         check.symbolConfiguration = NSImage.SymbolConfiguration(pointSize: 13, weight: .semibold)
         check.contentTintColor = .systemGreen
-
+        
         let label = NSTextField(labelWithString: text)
         label.font = NSFont.systemFont(ofSize: 12)
         label.textColor = .labelColor
-
+        
         row.addArrangedSubview(check)
         row.addArrangedSubview(label)
-
+        
         return row
     }
     
@@ -321,7 +321,7 @@ internal class RemoteList: ScrollableStackView {
     
     // swiftlint:disable:next function_parameter_count
     fileprivate func row(id: String, storeKey: String, status: Bool?, name: String, url: URL?, subtitle: String) -> NSView {
-        let toggle = switchView(action: #selector(self.toggle), state: Store.shared.bool(key: storeKey, defaultValue: true))
+        let toggle = self.switchView(action: #selector(self.toggle), state: Store.shared.bool(key: storeKey, defaultValue: true))
         toggle.identifier = NSUserInterfaceItemIdentifier(storeKey)
         
         let dot = DotView(color: self.dotColor(status))

@@ -24,12 +24,12 @@ final class FakeSMC {
     var releases: [io_object_t] = []
     var opened = 0
     var closed = 0
-
+    
     func put(_ key: String, _ type: String, _ bytes: [UInt8]) {
-        entries[key] = Entry(type: type, bytes: bytes)
+        self.entries[key] = Entry(type: type, bytes: bytes)
     }
-    func put(_ key: String, _ bytes: [UInt8]) { put(key, "ui8 ", bytes) }
-    func count(_ command: String) -> Int { calls.filter { $0 == command }.count }
+    func put(_ key: String, _ bytes: [UInt8]) { self.put(key, "ui8 ", bytes) }
+    func count(_ command: String) -> Int { self.calls.filter { $0 == command }.count }
 }
 
 func mockIOServiceMatching(_ name: String) -> CFMutableDictionary {
@@ -124,64 +124,64 @@ import XCTest
 final class SMCTests: XCTestCase {
     var fake: FakeSMC { FakeSMC.current }
     var smc: SMC!
-
+    
     override func setUp() {
         super.setUp()
         FakeSMC.current = FakeSMC()
         FakeHelperEnvironment.current = FakeHelperEnvironment()
-        smc = SMC()
+        self.smc = SMC()
     }
     override func tearDown() {
-        smc = nil
+        self.smc = nil
         super.tearDown()
     }
     func fan(_ type: String = "flt ", mode: UInt8 = 1) {
-        fake.put("F0md", [mode])
-        fake.put("F0Md", [mode])
-        fake.put("F0Tg", type, type == "flt " ? Float(1000).bytes : [0x0f, 0xa0])
+        self.fake.put("F0md", [mode])
+        self.fake.put("F0Md", [mode])
+        self.fake.put("F0Tg", type, type == "flt " ? Float(1000).bytes : [0x0f, 0xa0])
     }
     func assertMask(_ initial: UInt16, id: Int, mode: FanMode,
                     file: StaticString = #filePath, line: UInt = #line) {
-        fake.put("FS! ", "ui16", [UInt8(initial >> 8), UInt8(initial & 255)])
-        fake.writes = []
-        smc.setFanMode(id, mode: mode)
-        let data = fake.entries["FS! "]!.bytes
+        self.fake.put("FS! ", "ui16", [UInt8(initial >> 8), UInt8(initial & 255)])
+        self.fake.writes = []
+        self.smc.setFanMode(id, mode: mode)
+        let data = self.fake.entries["FS! "]!.bytes
         let actual = UInt16(bytes: (data[0], data[1]))
         for bit in 0..<16 {
             let expected = bit == id ? (mode == .forced ? UInt16(1) : 0) : ((initial >> bit) & 1)
             XCTAssertEqual((actual >> bit) & 1, expected, "mask=\(initial), fan=\(id), mode=\(mode), bit=\(bit)", file: file, line: line)
         }
-        XCTAssertEqual(fake.writes, actual == initial ? [] : ["FS! "], file: file, line: line)
+        XCTAssertEqual(self.fake.writes, actual == initial ? [] : ["FS! "], file: file, line: line)
     }
-
+    
     func testConnectionOpensAndReleasesObjects() {
-        XCTAssertEqual(fake.opened, 1)
-        XCTAssertEqual(fake.releases, [1, 2])
-        smc = nil
-        XCTAssertEqual(fake.closed, 1)
+        XCTAssertEqual(self.fake.opened, 1)
+        XCTAssertEqual(self.fake.releases, [1, 2])
+        self.smc = nil
+        XCTAssertEqual(self.fake.closed, 1)
     }
     func testMatchingFailureDoesNotOpen() {
-        smc = nil
+        self.smc = nil
         FakeSMC.current = FakeSMC()
-        fake.matchingResult = kIOReturnError
-        smc = SMC()
-        XCTAssertEqual(fake.opened, 0)
-        XCTAssertTrue(fake.releases.isEmpty)
+        self.fake.matchingResult = kIOReturnError
+        self.smc = SMC()
+        XCTAssertEqual(self.fake.opened, 0)
+        XCTAssertTrue(self.fake.releases.isEmpty)
     }
     func testMissingDeviceReleasesIterator() {
-        smc = nil
+        self.smc = nil
         FakeSMC.current = FakeSMC()
-        fake.device = 0
-        smc = SMC()
-        XCTAssertEqual(fake.opened, 0)
-        XCTAssertEqual(fake.releases, [1])
+        self.fake.device = 0
+        self.smc = SMC()
+        XCTAssertEqual(self.fake.opened, 0)
+        XCTAssertEqual(self.fake.releases, [1])
     }
     func testFailedOpenReleasesDevice() {
-        smc = nil
+        self.smc = nil
         FakeSMC.current = FakeSMC()
-        fake.openResult = kIOReturnError
-        smc = SMC()
-        XCTAssertEqual(fake.releases, [1, 2])
+        self.fake.openResult = kIOReturnError
+        self.smc = SMC()
+        XCTAssertEqual(self.fake.releases, [1, 2])
     }
     func testUnsignedDecoders() {
         for (type, bytes, expected): (String, [UInt8], Double) in [
@@ -190,7 +190,7 @@ final class SMCTests: XCTestCase {
             ("ui32", [255, 255, 255, 255], 4294967295)
         ] {
             let reader = SMC()
-            fake.put("TEST", type, bytes)
+            self.fake.put("TEST", type, bytes)
             XCTAssertEqual(reader.getValue("TEST"), expected)
         }
     }
@@ -201,224 +201,224 @@ final class SMCTests: XCTestCase {
             ("sp87", 128), ("sp96", 64), ("spa5", 32), ("spb4", 16), ("spf0", 1)
         ] {
             let reader = SMC()
-            fake.put("TEST", type, [0x12, 0x34])
+            self.fake.put("TEST", type, [0x12, 0x34])
             XCTAssertEqual(reader.getValue("TEST"), 4660 / divisor, type)
         }
     }
     func testFloatDecoder() {
         for value: Float in [-12.5, 1.25, 6000] {
-            fake.put("TEST", "flt ", value.bytes)
-            XCTAssertEqual(smc.getValue("TEST"), Double(value))
+            self.fake.put("TEST", "flt ", value.bytes)
+            XCTAssertEqual(self.smc.getValue("TEST"), Double(value))
         }
     }
     func testFanModesAndBitmaskAllowZero() {
         for key in ["F0Md", "F1Md", "F0md", "F1md", "FS! "] {
-            fake.put(key, key == "FS! " ? "ui16" : "ui8 ", key == "FS! " ? [0, 0] : [0])
-            XCTAssertEqual(smc.getValue(key), 0)
+            self.fake.put(key, key == "FS! " ? "ui16" : "ui8 ", key == "FS! " ? [0, 0] : [0])
+            XCTAssertEqual(self.smc.getValue(key), 0)
         }
     }
     func testUnknownNumericTypeReturnsNil() {
-        fake.put("TEST", "xxxx", [1, 2, 3, 4])
-        XCTAssertNil(smc.getValue("TEST"))
+        self.fake.put("TEST", "xxxx", [1, 2, 3, 4])
+        XCTAssertNil(self.smc.getValue("TEST"))
     }
     func testFanDescription() {
-        fake.put("F0ID", "{fds", [0, 0, 0, 0] + Array("  Left Fan  ".utf8))
-        XCTAssertEqual(smc.getStringValue("F0ID"), "Left Fan")
+        self.fake.put("F0ID", "{fds", [0, 0, 0, 0] + Array("  Left Fan  ".utf8))
+        XCTAssertEqual(self.smc.getStringValue("F0ID"), "Left Fan")
     }
     func testUnsupportedStringTypeReturnsNil() {
-        fake.put("F0ID", "ui8 ", [1])
-        XCTAssertNil(smc.getStringValue("F0ID"))
+        self.fake.put("F0ID", "ui8 ", [1])
+        XCTAssertNil(self.smc.getStringValue("F0ID"))
     }
     func testMetadataFirmwareErrorStopsRead() {
-        fake.put("F0Md", [0])
-        fake.firmwareErrors["9:F0Md"] = 1
-        XCTAssertNil(smc.getValue("F0Md"))
-        XCTAssertEqual(fake.calls, ["9:F0Md"])
+        self.fake.put("F0Md", [0])
+        self.fake.firmwareErrors["9:F0Md"] = 1
+        XCTAssertNil(self.smc.getValue("F0Md"))
+        XCTAssertEqual(self.fake.calls, ["9:F0Md"])
     }
     func testMetadataTransportErrorStopsRead() {
-        fake.transportErrors.insert("9:F0Md")
-        XCTAssertNil(smc.getValue("F0Md"))
-        XCTAssertEqual(fake.calls, ["9:F0Md"])
+        self.fake.transportErrors.insert("9:F0Md")
+        XCTAssertNil(self.smc.getValue("F0Md"))
+        XCTAssertEqual(self.fake.calls, ["9:F0Md"])
     }
     func testValueFirmwareErrorIsNotAnAutomaticMode() {
-        fake.put("F0Md", [0])
-        fake.firmwareErrors["5:F0Md"] = 1
-        XCTAssertNil(smc.getValue("F0Md"))
+        self.fake.put("F0Md", [0])
+        self.fake.firmwareErrors["5:F0Md"] = 1
+        XCTAssertNil(self.smc.getValue("F0Md"))
     }
     func testValueTransportErrorReturnsNil() {
-        fake.put("TEST", [42])
-        fake.transportErrors.insert("5:TEST")
-        XCTAssertNil(smc.getValue("TEST"))
+        self.fake.put("TEST", [42])
+        self.fake.transportErrors.insert("5:TEST")
+        XCTAssertNil(self.smc.getValue("TEST"))
     }
     func testStringReadFailureReturnsNil() {
-        fake.put("F0ID", "{fds", [0, 0, 0, 0] + Array("  Left Fan  ".utf8))
-        fake.firmwareErrors["5:F0ID"] = 1
-        XCTAssertNil(smc.getStringValue("F0ID"))
+        self.fake.put("F0ID", "{fds", [0, 0, 0, 0] + Array("  Left Fan  ".utf8))
+        self.fake.firmwareErrors["5:F0ID"] = 1
+        XCTAssertNil(self.smc.getStringValue("F0ID"))
     }
     func testMetadataIsCachedButValuesAreFresh() {
-        fake.put("TEST", [1])
-        XCTAssertEqual(smc.getValue("TEST"), 1)
-        fake.put("TEST", [2])
-        XCTAssertEqual(smc.getValue("TEST"), 2)
-        XCTAssertEqual(fake.count("9:TEST"), 1)
-        XCTAssertEqual(fake.count("5:TEST"), 2)
+        self.fake.put("TEST", [1])
+        XCTAssertEqual(self.smc.getValue("TEST"), 1)
+        self.fake.put("TEST", [2])
+        XCTAssertEqual(self.smc.getValue("TEST"), 2)
+        XCTAssertEqual(self.fake.count("9:TEST"), 1)
+        XCTAssertEqual(self.fake.count("5:TEST"), 2)
     }
     func testFirmwareFailureEvictsMetadata() {
-        fake.put("TEST", [1])
-        XCTAssertEqual(smc.getValue("TEST"), 1)
-        fake.firmwareErrors["5:TEST"] = 1
-        XCTAssertNil(smc.getValue("TEST"))
-        fake.firmwareErrors = [:]
-        fake.put("TEST", "ui16", [1, 0])
-        XCTAssertEqual(smc.getValue("TEST"), 256)
-        XCTAssertEqual(fake.count("9:TEST"), 2)
+        self.fake.put("TEST", [1])
+        XCTAssertEqual(self.smc.getValue("TEST"), 1)
+        self.fake.firmwareErrors["5:TEST"] = 1
+        XCTAssertNil(self.smc.getValue("TEST"))
+        self.fake.firmwareErrors = [:]
+        self.fake.put("TEST", "ui16", [1, 0])
+        XCTAssertEqual(self.smc.getValue("TEST"), 256)
+        XCTAssertEqual(self.fake.count("9:TEST"), 2)
     }
     func testTransportFailureEvictsMetadata() {
-        fake.put("TEST", [1])
-        XCTAssertEqual(smc.getValue("TEST"), 1)
-        fake.transportErrors.insert("5:TEST")
-        XCTAssertNil(smc.getValue("TEST"))
-        fake.transportErrors = []
-        XCTAssertEqual(smc.getValue("TEST"), 1)
-        XCTAssertEqual(fake.count("9:TEST"), 2)
+        self.fake.put("TEST", [1])
+        XCTAssertEqual(self.smc.getValue("TEST"), 1)
+        self.fake.transportErrors.insert("5:TEST")
+        XCTAssertNil(self.smc.getValue("TEST"))
+        self.fake.transportErrors = []
+        XCTAssertEqual(self.smc.getValue("TEST"), 1)
+        XCTAssertEqual(self.fake.count("9:TEST"), 2)
     }
     func testMissingKeysAreNotCached() {
-        XCTAssertNil(smc.getValue("TEST"))
-        fake.put("TEST", [42])
-        XCTAssertEqual(smc.getValue("TEST"), 42)
-        XCTAssertEqual(fake.count("9:TEST"), 2)
+        XCTAssertNil(self.smc.getValue("TEST"))
+        self.fake.put("TEST", [42])
+        XCTAssertEqual(self.smc.getValue("TEST"), 42)
+        XCTAssertEqual(self.fake.count("9:TEST"), 2)
     }
     func testMissingStringKeyCanBecomeAvailable() {
-        XCTAssertNil(smc.getStringValue("F0ID"))
-        fake.put("F0ID", "{fds", [0, 0, 0, 0] + Array("  Left Fan  ".utf8))
-        XCTAssertEqual(smc.getStringValue("F0ID"), "Left Fan")
-        XCTAssertEqual(fake.count("9:F0ID"), 2)
+        XCTAssertNil(self.smc.getStringValue("F0ID"))
+        self.fake.put("F0ID", "{fds", [0, 0, 0, 0] + Array("  Left Fan  ".utf8))
+        XCTAssertEqual(self.smc.getStringValue("F0ID"), "Left Fan")
+        XCTAssertEqual(self.fake.count("9:F0ID"), 2)
     }
     func testKeyDisappearingDuringReadEvictsMetadata() {
-        fake.put("TEST", [1])
-        XCTAssertEqual(smc.getValue("TEST"), 1)
-        fake.entries.removeValue(forKey: "TEST")
-        XCTAssertNil(smc.getValue("TEST"))
-        fake.put("TEST", "ui16", [1, 0])
-        XCTAssertEqual(smc.getValue("TEST"), 256)
-        XCTAssertEqual(fake.count("9:TEST"), 2)
+        self.fake.put("TEST", [1])
+        XCTAssertEqual(self.smc.getValue("TEST"), 1)
+        self.fake.entries.removeValue(forKey: "TEST")
+        XCTAssertNil(self.smc.getValue("TEST"))
+        self.fake.put("TEST", "ui16", [1, 0])
+        XCTAssertEqual(self.smc.getValue("TEST"), 256)
+        XCTAssertEqual(self.fake.count("9:TEST"), 2)
     }
     func testCachesAreIndependentAcrossInstances() {
-        fake.put("TEST", [1])
-        XCTAssertEqual(smc.getValue("TEST"), 1)
+        self.fake.put("TEST", [1])
+        XCTAssertEqual(self.smc.getValue("TEST"), 1)
         XCTAssertEqual(SMC().getValue("TEST"), 1)
-        XCTAssertEqual(fake.count("9:TEST"), 2)
+        XCTAssertEqual(self.fake.count("9:TEST"), 2)
     }
     func testConcurrentReadsShareMetadataCache() {
-        fake.put("TEST", [42])
+        self.fake.put("TEST", [42])
         DispatchQueue.concurrentPerform(iterations: 100) { _ in
             XCTAssertEqual(self.smc.getValue("TEST"), 42)
         }
-        XCTAssertEqual(fake.count("9:TEST"), 1)
-        XCTAssertEqual(fake.count("5:TEST"), 100)
+        XCTAssertEqual(self.fake.count("9:TEST"), 1)
+        XCTAssertEqual(self.fake.count("5:TEST"), 100)
     }
     func testInvalidKeysNeverReachDriver() {
         for key in ["", "abc", "abcde", "éabc", "😀abc", "e\u{301}abc"] {
-            XCTAssertNil(smc.getValue(key))
-            XCTAssertNil(smc.getStringValue(key))
-            XCTAssertEqual(smc.write(key, 0), kIOReturnBadArgument)
+            XCTAssertNil(self.smc.getValue(key))
+            XCTAssertNil(self.smc.getStringValue(key))
+            XCTAssertEqual(self.smc.write(key, 0), kIOReturnBadArgument)
         }
-        XCTAssertTrue(fake.calls.isEmpty)
+        XCTAssertTrue(self.fake.calls.isEmpty)
     }
     func testInvalidFanIDsNeverReachDriver() {
         for id in [Int.min, -1, 10, Int.max] {
-            for mode in [FanMode.automatic, .forced, .auto3] { smc.setFanMode(id, mode: mode) }
-            smc.setFanSpeed(id, speed: 0)
+            for mode in [FanMode.automatic, .forced, .auto3] { self.smc.setFanMode(id, mode: mode) }
+            self.smc.setFanSpeed(id, speed: 0)
         }
-        XCTAssertTrue(fake.calls.isEmpty)
+        XCTAssertTrue(self.fake.calls.isEmpty)
     }
     func testNegativeSpeedsNeverReachDriver() {
-        for speed in [Int.min, -1] { smc.setFanSpeed(0, speed: speed) }
-        XCTAssertTrue(fake.calls.isEmpty)
+        for speed in [Int.min, -1] { self.smc.setFanSpeed(0, speed: speed) }
+        XCTAssertTrue(self.fake.calls.isEmpty)
     }
     func testInvalidFPE2WritesNeverReachDriver() {
         for value in [Int.min, -1, 16384, Int.max] {
-            XCTAssertEqual(smc.write("TEST", value), kIOReturnBadArgument)
+            XCTAssertEqual(self.smc.write("TEST", value), kIOReturnBadArgument)
         }
-        XCTAssertTrue(fake.calls.isEmpty)
+        XCTAssertTrue(self.fake.calls.isEmpty)
     }
     func testEveryRepresentableIntegerFPE2Write() {
         for value in 0...16383 {
-            XCTAssertEqual(smc.write("TEST", value), kIOReturnSuccess)
-            let bytes = fake.entries["TEST"]!.bytes
+            XCTAssertEqual(self.smc.write("TEST", value), kIOReturnSuccess)
+            let bytes = self.fake.entries["TEST"]!.bytes
             XCTAssertEqual(bytes.count, 2)
             // Independent integer representation, rather than using the production decoder.
             XCTAssertEqual(Int(bytes[0]) * 256 + Int(bytes[1]), value * 4)
         }
     }
     func testWriteFirmwareFailurePropagates() {
-        fake.firmwareErrors["6:TEST"] = 1
-        XCTAssertEqual(smc.write("TEST", 100), kIOReturnError)
-        XCTAssertTrue(fake.writes.isEmpty)
+        self.fake.firmwareErrors["6:TEST"] = 1
+        XCTAssertEqual(self.smc.write("TEST", 100), kIOReturnError)
+        XCTAssertTrue(self.fake.writes.isEmpty)
     }
     func testWriteTransportFailurePropagates() {
-        fake.transportErrors.insert("6:TEST")
-        XCTAssertEqual(smc.write("TEST", 100), kIOReturnError)
-        XCTAssertTrue(fake.writes.isEmpty)
+        self.fake.transportErrors.insert("6:TEST")
+        XCTAssertEqual(self.smc.write("TEST", 100), kIOReturnError)
+        XCTAssertTrue(self.fake.writes.isEmpty)
     }
     func testEnumerationUsesExactlyTheKeyCount() {
-        fake.keys = ["AAAA", "BBBB", "CCCC"]
-        fake.put("#KEY", "ui32", [0, 0, 0, 3])
-        XCTAssertEqual(smc.getAllKeys(), fake.keys)
-        XCTAssertEqual(fake.calls.filter { $0.hasPrefix("index:") }, ["index:0", "index:1", "index:2"])
+        self.fake.keys = ["AAAA", "BBBB", "CCCC"]
+        self.fake.put("#KEY", "ui32", [0, 0, 0, 3])
+        XCTAssertEqual(self.smc.getAllKeys(), self.fake.keys)
+        XCTAssertEqual(self.fake.calls.filter { $0.hasPrefix("index:") }, ["index:0", "index:1", "index:2"])
     }
     func testEnumerationSkipsFirmwareAndTransportErrors() {
-        fake.keys = ["AAAA", "BBBB", "CCCC", "DDDD"]
-        fake.put("#KEY", "ui32", [0, 0, 0, 4])
-        fake.firmwareErrors["index:1"] = 1
-        fake.transportErrors.insert("index:2")
-        XCTAssertEqual(smc.getAllKeys(), ["AAAA", "DDDD"])
+        self.fake.keys = ["AAAA", "BBBB", "CCCC", "DDDD"]
+        self.fake.put("#KEY", "ui32", [0, 0, 0, 4])
+        self.fake.firmwareErrors["index:1"] = 1
+        self.fake.transportErrors.insert("index:2")
+        XCTAssertEqual(self.smc.getAllKeys(), ["AAAA", "DDDD"])
     }
     func testEnumerationWithoutCountDoesNotReadIndices() {
-        XCTAssertTrue(smc.getAllKeys().isEmpty)
-        XCTAssertFalse(fake.calls.contains { $0.hasPrefix("index:") })
+        XCTAssertTrue(self.smc.getAllKeys().isEmpty)
+        XCTAssertFalse(self.fake.calls.contains { $0.hasPrefix("index:") })
     }
     func testEnumerationWithZeroCountDoesNotReadIndices() {
-        fake.put("#KEY", "ui32", [0, 0, 0, 0])
-        XCTAssertTrue(smc.getAllKeys().isEmpty)
-        XCTAssertFalse(fake.calls.contains { $0.hasPrefix("index:") })
+        self.fake.put("#KEY", "ui32", [0, 0, 0, 0])
+        XCTAssertTrue(self.smc.getAllKeys().isEmpty)
+        XCTAssertFalse(self.fake.calls.contains { $0.hasPrefix("index:") })
     }
     func testUnsupportedFanTargetIsNotWritten() {
-        fan("ui16")
-        smc.setFanSpeed(0, speed: 2000)
-        XCTAssertFalse(fake.calls.contains("6:F0Tg"))
-        XCTAssertEqual(fake.entries["F0Tg"]!.bytes, [0x0f, 0xa0])
+        self.fan("ui16")
+        self.smc.setFanSpeed(0, speed: 2000)
+        XCTAssertFalse(self.fake.calls.contains("6:F0Tg"))
+        XCTAssertEqual(self.fake.entries["F0Tg"]!.bytes, [0x0f, 0xa0])
     }
     func testFailedFanTargetReadIsNotWritten() {
-        fan()
-        fake.firmwareErrors["5:F0Tg"] = 1
-        smc.setFanSpeed(0, speed: 2000)
-        XCTAssertFalse(fake.calls.contains("6:F0Tg"))
+        self.fan()
+        self.fake.firmwareErrors["5:F0Tg"] = 1
+        self.smc.setFanSpeed(0, speed: 2000)
+        XCTAssertFalse(self.fake.calls.contains("6:F0Tg"))
     }
     func testFloatFanSpeedIncludingZero() {
-        fan()
+        self.fan()
         for speed in [0, 1, 3000, 16384] {
-            smc.setFanSpeed(0, speed: speed)
-            XCTAssertEqual(fake.entries["F0Tg"]!.bytes, Float(speed).bytes)
+            self.smc.setFanSpeed(0, speed: speed)
+            XCTAssertEqual(self.fake.entries["F0Tg"]!.bytes, Float(speed).bytes)
         }
     }
     func testFPE2FanSpeedBoundaries() {
-        fan("fpe2")
+        self.fan("fpe2")
         for speed in [0, 1, 63, 64, 16383] {
-            smc.setFanSpeed(0, speed: speed)
-            let data = fake.entries["F0Tg"]!.bytes
+            self.smc.setFanSpeed(0, speed: speed)
+            let data = self.fake.entries["F0Tg"]!.bytes
             XCTAssertEqual(Int(data[0]) * 256 + Int(data[1]), speed * 4)
         }
-        fake.writes = []
-        smc.setFanSpeed(0, speed: 16384)
-        XCTAssertTrue(fake.writes.isEmpty)
+        self.fake.writes = []
+        self.smc.setFanSpeed(0, speed: 16384)
+        XCTAssertTrue(self.fake.writes.isEmpty)
     }
     func testFanSpeedClampsToMaximum() {
-        fan()
-        fake.put("F0Mx", "flt ", Float(6000).bytes)
-        smc.setFanSpeed(0, speed: Int.max)
-        XCTAssertEqual(fake.entries["F0Tg"]!.bytes, Float(6000).bytes)
-        XCTAssertEqual(fake.writes, ["F0Tg"])
+        self.fan()
+        self.fake.put("F0Mx", "flt ", Float(6000).bytes)
+        self.smc.setFanSpeed(0, speed: Int.max)
+        XCTAssertEqual(self.fake.entries["F0Tg"]!.bytes, Float(6000).bytes)
+        XCTAssertEqual(self.fake.writes, ["F0Tg"])
     }
     func testAutomaticModeClassification() {
         XCTAssertTrue(FanMode.automatic.isAutomatic)
@@ -426,221 +426,221 @@ final class SMCTests: XCTestCase {
         XCTAssertFalse(FanMode.forced.isAutomatic)
         XCTAssertNil(FanMode(rawValue: 2))
     }
-
+    
     #if TEST_ARM64
     func testARMLowercaseModeProbeIsCached() {
-        fan()
-        XCTAssertEqual(smc.fanModeKey(0), "F0md")
-        XCTAssertEqual(smc.fanModeKey(1), "F1md")
-        XCTAssertEqual(fake.count("5:F0md"), 1)
+        self.fan()
+        XCTAssertEqual(self.smc.fanModeKey(0), "F0md")
+        XCTAssertEqual(self.smc.fanModeKey(1), "F1md")
+        XCTAssertEqual(self.fake.count("5:F0md"), 1)
     }
     func testARMUppercaseModeFallback() {
-        fake.put("F0Md", [0])
-        XCTAssertEqual(smc.fanModeKey(0), "F0Md")
-        XCTAssertEqual(smc.fanModeKey(1), "F1Md")
+        self.fake.put("F0Md", [0])
+        XCTAssertEqual(self.smc.fanModeKey(0), "F0Md")
+        XCTAssertEqual(self.smc.fanModeKey(1), "F1Md")
     }
     func testARMDirectUnlockDoesNotTouchFtstOrSleep() {
-        fan(mode: 0)
-        smc.setFanMode(0, mode: .forced)
-        XCTAssertEqual(fake.writes, ["F0md"])
-        XCTAssertEqual(fake.entries["F0md"]!.bytes, [1])
-        XCTAssertFalse(fake.calls.contains { $0.contains("Ftst") })
-        XCTAssertTrue(fake.sleeps.isEmpty)
+        self.fan(mode: 0)
+        self.smc.setFanMode(0, mode: .forced)
+        XCTAssertEqual(self.fake.writes, ["F0md"])
+        XCTAssertEqual(self.fake.entries["F0md"]!.bytes, [1])
+        XCTAssertFalse(self.fake.calls.contains { $0.contains("Ftst") })
+        XCTAssertTrue(self.fake.sleeps.isEmpty)
     }
     func testARMFanSpeedUnlocksBeforeTargetWrite() {
-        fan(mode: 0)
-        smc.setFanSpeed(0, speed: 2000)
-        XCTAssertEqual(fake.writes, ["F0md", "F0Tg"])
+        self.fan(mode: 0)
+        self.smc.setFanSpeed(0, speed: 2000)
+        XCTAssertEqual(self.fake.writes, ["F0md", "F0Tg"])
     }
     func testARMFailedModeReadDoesNotWriteTarget() {
-        fan()
-        XCTAssertEqual(smc.fanModeKey(0), "F0md")
-        fake.transportErrors.insert("5:F0md")
-        smc.setFanSpeed(0, speed: 2000)
-        XCTAssertTrue(fake.writes.isEmpty)
+        self.fan()
+        XCTAssertEqual(self.smc.fanModeKey(0), "F0md")
+        self.fake.transportErrors.insert("5:F0md")
+        self.smc.setFanSpeed(0, speed: 2000)
+        XCTAssertTrue(self.fake.writes.isEmpty)
     }
     func testARMFailedUnlockDoesNotWriteTarget() {
-        fan(mode: 0)
-        fake.firmwareErrors["6:F0md"] = 1
-        smc.setFanSpeed(0, speed: 2000)
-        XCTAssertFalse(fake.calls.contains("6:F0Tg"))
+        self.fan(mode: 0)
+        self.fake.firmwareErrors["6:F0md"] = 1
+        self.smc.setFanSpeed(0, speed: 2000)
+        XCTAssertFalse(self.fake.calls.contains("6:F0Tg"))
     }
     func testARMAutomaticClearsModeAndTarget() {
-        fan()
-        smc.setFanMode(0, mode: .automatic)
-        XCTAssertEqual(fake.writes, ["F0md", "F0Tg"])
-        XCTAssertEqual(fake.entries["F0md"]!.bytes, [0])
-        XCTAssertEqual(fake.entries["F0Tg"]!.bytes, Float(0).bytes)
+        self.fan()
+        self.smc.setFanMode(0, mode: .automatic)
+        XCTAssertEqual(self.fake.writes, ["F0md", "F0Tg"])
+        XCTAssertEqual(self.fake.entries["F0md"]!.bytes, [0])
+        XCTAssertEqual(self.fake.entries["F0Tg"]!.bytes, Float(0).bytes)
     }
     func testARMAuto3RestoresAutomaticControl() {
-        fan()
-        smc.setFanMode(0, mode: .auto3)
-        XCTAssertEqual(fake.entries["F0md"]!.bytes, [0])
-        XCTAssertEqual(fake.entries["F0Tg"]!.bytes, Float(0).bytes)
+        self.fan()
+        self.smc.setFanMode(0, mode: .auto3)
+        XCTAssertEqual(self.fake.entries["F0md"]!.bytes, [0])
+        XCTAssertEqual(self.fake.entries["F0Tg"]!.bytes, Float(0).bytes)
     }
     func testARMAutomaticSkipsAlreadyAutomaticModeWrite() {
-        fan(mode: 0)
-        smc.setFanMode(0, mode: .automatic)
-        XCTAssertEqual(fake.writes, ["F0Tg"])
+        self.fan(mode: 0)
+        self.smc.setFanMode(0, mode: .automatic)
+        XCTAssertEqual(self.fake.writes, ["F0Tg"])
     }
     func testARMTargetWriteRetriesTransientFirmwareFailure() {
-        fan()
-        fake.transientFailures["6:F0Tg"] = 2
-        smc.setFanSpeed(0, speed: 2000)
-        XCTAssertEqual(fake.count("6:F0Tg"), 3)
-        XCTAssertEqual(fake.sleeps, [50_000, 50_000])
-        XCTAssertEqual(fake.entries["F0Tg"]!.bytes, Float(2000).bytes)
+        self.fan()
+        self.fake.transientFailures["6:F0Tg"] = 2
+        self.smc.setFanSpeed(0, speed: 2000)
+        XCTAssertEqual(self.fake.count("6:F0Tg"), 3)
+        XCTAssertEqual(self.fake.sleeps, [50_000, 50_000])
+        XCTAssertEqual(self.fake.entries["F0Tg"]!.bytes, Float(2000).bytes)
     }
     func testARMTargetWriteStopsAtRetryLimit() {
-        fan()
-        fake.transportErrors.insert("6:F0Tg")
-        smc.setFanSpeed(0, speed: 2000)
-        XCTAssertEqual(fake.count("6:F0Tg"), 10)
-        XCTAssertEqual(fake.sleeps, Array(repeating: 50_000, count: 9))
-        XCTAssertTrue(fake.writes.isEmpty)
+        self.fan()
+        self.fake.transportErrors.insert("6:F0Tg")
+        self.smc.setFanSpeed(0, speed: 2000)
+        XCTAssertEqual(self.fake.count("6:F0Tg"), 10)
+        XCTAssertEqual(self.fake.sleeps, Array(repeating: 50_000, count: 9))
+        XCTAssertTrue(self.fake.writes.isEmpty)
     }
     func testARMFtstUnlockSequence() {
-        fan(mode: 0)
-        fake.put("Ftst", [0])
-        fake.transientFailures["6:F0md"] = 3
-        smc.setFanMode(0, mode: .forced)
-        XCTAssertEqual(fake.writes, ["Ftst", "F0md"])
-        XCTAssertEqual(fake.sleeps, [3_000_000, 100_000, 100_000])
-        XCTAssertEqual(fake.count("6:F0md"), 4)
+        self.fan(mode: 0)
+        self.fake.put("Ftst", [0])
+        self.fake.transientFailures["6:F0md"] = 3
+        self.smc.setFanMode(0, mode: .forced)
+        XCTAssertEqual(self.fake.writes, ["Ftst", "F0md"])
+        XCTAssertEqual(self.fake.sleeps, [3_000_000, 100_000, 100_000])
+        XCTAssertEqual(self.fake.count("6:F0md"), 4)
     }
     func testARMAlreadyUnlockedFtstUsesShortRetryLimit() {
-        fan(mode: 0)
-        fake.put("Ftst", [1])
-        fake.firmwareErrors["6:F0md"] = 1
-        smc.setFanMode(0, mode: .forced)
-        XCTAssertEqual(fake.count("6:F0md"), 21) // direct attempt + 20 retries
-        XCTAssertEqual(fake.sleeps, Array(repeating: 100_000, count: 19))
-        XCTAssertFalse(fake.calls.contains("6:Ftst"))
+        self.fan(mode: 0)
+        self.fake.put("Ftst", [1])
+        self.fake.firmwareErrors["6:F0md"] = 1
+        self.smc.setFanMode(0, mode: .forced)
+        XCTAssertEqual(self.fake.count("6:F0md"), 21) // direct attempt + 20 retries
+        XCTAssertEqual(self.fake.sleeps, Array(repeating: 100_000, count: 19))
+        XCTAssertFalse(self.fake.calls.contains("6:Ftst"))
     }
     func testARMFtstWriteFailureStopsUnlock() {
-        fan(mode: 0)
-        fake.firmwareErrors["6:F0md"] = 1
-        fake.put("Ftst", [0])
-        fake.firmwareErrors["6:Ftst"] = 1
-        smc.setFanMode(0, mode: .forced)
-        XCTAssertEqual(fake.count("6:Ftst"), 100)
-        XCTAssertEqual(fake.count("6:F0md"), 1)
-        XCTAssertEqual(fake.sleeps, Array(repeating: 50_000, count: 99))
+        self.fan(mode: 0)
+        self.fake.firmwareErrors["6:F0md"] = 1
+        self.fake.put("Ftst", [0])
+        self.fake.firmwareErrors["6:Ftst"] = 1
+        self.smc.setFanMode(0, mode: .forced)
+        XCTAssertEqual(self.fake.count("6:Ftst"), 100)
+        XCTAssertEqual(self.fake.count("6:F0md"), 1)
+        XCTAssertEqual(self.fake.sleeps, Array(repeating: 50_000, count: 99))
     }
     func testARMLongUnlockRetryLimit() {
-        fan(mode: 0)
-        fake.put("Ftst", [0])
-        fake.firmwareErrors["6:F0md"] = 1
-        smc.setFanMode(0, mode: .forced)
-        XCTAssertEqual(fake.count("6:F0md"), 301)
-        XCTAssertEqual(fake.sleeps, [3_000_000] + Array(repeating: 100_000, count: 299))
+        self.fan(mode: 0)
+        self.fake.put("Ftst", [0])
+        self.fake.firmwareErrors["6:F0md"] = 1
+        self.smc.setFanMode(0, mode: .forced)
+        XCTAssertEqual(self.fake.count("6:F0md"), 301)
+        XCTAssertEqual(self.fake.sleeps, [3_000_000] + Array(repeating: 100_000, count: 299))
     }
     func testARMResetFtst() {
-        fake.put("Ftst", [1])
-        XCTAssertTrue(smc.resetFanControl())
-        XCTAssertEqual(fake.writes, ["Ftst"])
-        XCTAssertEqual(fake.entries["Ftst"]!.bytes, [0])
+        self.fake.put("Ftst", [1])
+        XCTAssertTrue(self.smc.resetFanControl())
+        XCTAssertEqual(self.fake.writes, ["Ftst"])
+        XCTAssertEqual(self.fake.entries["Ftst"]!.bytes, [0])
     }
     func testARMResetAlreadyClearFtstDoesNotWrite() {
-        fake.put("Ftst", [0])
-        XCTAssertTrue(smc.resetFanControl())
-        XCTAssertTrue(fake.writes.isEmpty)
+        self.fake.put("Ftst", [0])
+        XCTAssertTrue(self.smc.resetFanControl())
+        XCTAssertTrue(self.fake.writes.isEmpty)
     }
     func testARMResetFtstFailureReturnsFalse() {
-        fake.put("Ftst", [1])
-        fake.firmwareErrors["6:Ftst"] = 1
-        XCTAssertFalse(smc.resetFanControl())
-        XCTAssertEqual(fake.count("6:Ftst"), 10)
+        self.fake.put("Ftst", [1])
+        self.fake.firmwareErrors["6:Ftst"] = 1
+        XCTAssertFalse(self.smc.resetFanControl())
+        XCTAssertEqual(self.fake.count("6:Ftst"), 10)
     }
     func testARMResetWithoutCountReturnsFalse() {
-        XCTAssertFalse(smc.resetFanControl())
-        XCTAssertTrue(fake.writes.isEmpty)
+        XCTAssertFalse(self.smc.resetFanControl())
+        XCTAssertTrue(self.fake.writes.isEmpty)
     }
     func testARMResetAllFanReadsFailReturnsFalse() {
-        fake.put("FNum", [2])
-        XCTAssertFalse(smc.resetFanControl())
-        XCTAssertTrue(fake.writes.isEmpty)
+        self.fake.put("FNum", [2])
+        XCTAssertFalse(self.smc.resetFanControl())
+        XCTAssertTrue(self.fake.writes.isEmpty)
     }
     func testARMResetContinuesAfterReadFailure() {
-        fake.put("FNum", [2])
-        fake.put("F0md", [1])
-        fake.put("F1md", [1])
-        XCTAssertEqual(smc.fanModeKey(0), "F0md")
-        fake.firmwareErrors["5:F0md"] = 1
-        XCTAssertFalse(smc.resetFanControl())
-        XCTAssertEqual(fake.writes, ["F1md"])
+        self.fake.put("FNum", [2])
+        self.fake.put("F0md", [1])
+        self.fake.put("F1md", [1])
+        XCTAssertEqual(self.smc.fanModeKey(0), "F0md")
+        self.fake.firmwareErrors["5:F0md"] = 1
+        XCTAssertFalse(self.smc.resetFanControl())
+        XCTAssertEqual(self.fake.writes, ["F1md"])
     }
     func testARMResetContinuesAfterWriteFailure() {
-        fake.put("FNum", [2])
-        fake.put("F0md", [1])
-        fake.put("F1md", [1])
-        fake.firmwareErrors["6:F0md"] = 1
-        XCTAssertFalse(smc.resetFanControl())
-        XCTAssertEqual(fake.writes, ["F1md"])
+        self.fake.put("FNum", [2])
+        self.fake.put("F0md", [1])
+        self.fake.put("F1md", [1])
+        self.fake.firmwareErrors["6:F0md"] = 1
+        XCTAssertFalse(self.smc.resetFanControl())
+        XCTAssertEqual(self.fake.writes, ["F1md"])
     }
     func testARMResetSkipsAlreadyAutomaticFans() {
-        fake.put("FNum", [2])
-        fake.put("F0md", [0])
-        fake.put("F1md", [1])
-        XCTAssertTrue(smc.resetFanControl())
-        XCTAssertEqual(fake.writes, ["F1md"])
+        self.fake.put("FNum", [2])
+        self.fake.put("F0md", [0])
+        self.fake.put("F1md", [1])
+        XCTAssertTrue(self.smc.resetFanControl())
+        XCTAssertEqual(self.fake.writes, ["F1md"])
     }
     #else
     func testIntelAllTwoFanMaskTransitions() {
         for mask in UInt16(0)...3 {
             for id in 0...1 {
-                for mode in [FanMode.automatic, .forced, .auto3] { assertMask(mask, id: id, mode: mode) }
+                for mode in [FanMode.automatic, .forced, .auto3] { self.assertMask(mask, id: id, mode: mode) }
             }
         }
     }
     func testIntelMaskPreservesOtherBitsForEverySupportedFan() {
         for mask: UInt16 in [0, 0xFFFF, 0xAAAA, 0x5555, 0x8000, 0x7FFF] {
             for id in 0...9 {
-                for mode in [FanMode.automatic, .forced, .auto3] { assertMask(mask, id: id, mode: mode) }
+                for mode in [FanMode.automatic, .forced, .auto3] { self.assertMask(mask, id: id, mode: mode) }
             }
         }
     }
     func testIntelRepeatedModeRequestsAreIdempotent() {
-        fake.put("FS! ", "ui16", [0, 3])
-        for _ in 0..<10 { smc.setFanMode(0, mode: .forced) }
-        XCTAssertTrue(fake.writes.isEmpty)
-        XCTAssertEqual(fake.entries["FS! "]!.bytes, [0, 3])
+        self.fake.put("FS! ", "ui16", [0, 3])
+        for _ in 0..<10 { self.smc.setFanMode(0, mode: .forced) }
+        XCTAssertTrue(self.fake.writes.isEmpty)
+        XCTAssertEqual(self.fake.entries["FS! "]!.bytes, [0, 3])
     }
     func testIntelFailedMaskReadDoesNotWrite() {
-        fake.put("FS! ", "ui16", [0, 3])
-        fake.firmwareErrors["5:FS! "] = 1
-        smc.setFanMode(0, mode: .automatic)
-        XCTAssertTrue(fake.writes.isEmpty)
+        self.fake.put("FS! ", "ui16", [0, 3])
+        self.fake.firmwareErrors["5:FS! "] = 1
+        self.smc.setFanMode(0, mode: .automatic)
+        XCTAssertTrue(self.fake.writes.isEmpty)
     }
     func testIntelMissingMaskDoesNotWrite() {
-        smc.setFanMode(0, mode: .forced)
-        XCTAssertTrue(fake.writes.isEmpty)
+        self.smc.setFanMode(0, mode: .forced)
+        XCTAssertTrue(self.fake.writes.isEmpty)
     }
     func testIntelDirectModeAndMaskAreUpdated() {
-        fake.put("F0Md", [0])
-        fake.put("FS! ", "ui16", [0, 2])
-        smc.setFanMode(0, mode: .forced)
-        XCTAssertEqual(fake.writes, ["F0Md", "FS! "])
-        XCTAssertEqual(fake.entries["F0Md"]!.bytes, [1])
-        XCTAssertEqual(fake.entries["FS! "]!.bytes, [0, 3])
+        self.fake.put("F0Md", [0])
+        self.fake.put("FS! ", "ui16", [0, 2])
+        self.smc.setFanMode(0, mode: .forced)
+        XCTAssertEqual(self.fake.writes, ["F0Md", "FS! "])
+        XCTAssertEqual(self.fake.entries["F0Md"]!.bytes, [1])
+        XCTAssertEqual(self.fake.entries["FS! "]!.bytes, [0, 3])
     }
     func testIntelDirectModeWriteFailureStopsMaskUpdate() {
-        fake.put("F0Md", [0])
-        fake.put("FS! ", "ui16", [0, 2])
-        fake.firmwareErrors["6:F0Md"] = 1
-        smc.setFanMode(0, mode: .forced)
-        XCTAssertFalse(fake.calls.contains("6:FS! "))
+        self.fake.put("F0Md", [0])
+        self.fake.put("FS! ", "ui16", [0, 2])
+        self.fake.firmwareErrors["6:F0Md"] = 1
+        self.smc.setFanMode(0, mode: .forced)
+        XCTAssertFalse(self.fake.calls.contains("6:FS! "))
     }
     func testIntelFanSpeedDoesNotChangeMode() {
-        fan()
-        smc.setFanSpeed(0, speed: 2000)
-        XCTAssertEqual(fake.writes, ["F0Tg"])
-        XCTAssertTrue(fake.sleeps.isEmpty)
+        self.fan()
+        self.smc.setFanSpeed(0, speed: 2000)
+        XCTAssertEqual(self.fake.writes, ["F0Tg"])
+        XCTAssertTrue(self.fake.sleeps.isEmpty)
     }
     func testIntelModeKeyUsesUppercaseWithoutProbe() {
-        XCTAssertEqual(smc.fanModeKey(0), "F0Md")
-        XCTAssertEqual(smc.fanModeKey(9), "F9Md")
-        XCTAssertTrue(fake.calls.isEmpty)
+        XCTAssertEqual(self.smc.fanModeKey(0), "F0Md")
+        XCTAssertEqual(self.smc.fanModeKey(9), "F9Md")
+        XCTAssertTrue(self.fake.calls.isEmpty)
     }
     #endif
 }
@@ -667,7 +667,7 @@ final class FakeHelperEnvironment {
 final class FakeHelperClientConnection {
     var invalidated = false
     func invalidate() {
-        invalidated = true
+        self.invalidated = true
         FakeHelperEnvironment.current.events.append("invalidate")
     }
     func remoteObjectProxyWithErrorHandler(_ error: @escaping (Error) -> Void) -> Any {
@@ -683,7 +683,7 @@ final class FakeHelperProxy: NSObject, HelperProtocol {
     func setSMCPath(_ path: String) {}
     func setFanMode(id: Int, mode: Int, completion: @escaping (String?) -> Void) {
         let env = FakeHelperEnvironment.current
-        env.requests.append(.init(id: id, mode: mode, reply: completion, fail: error))
+        env.requests.append(.init(id: id, mode: mode, reply: completion, fail: self.error))
         if env.immediateReplies { completion("") }
     }
     func setFanSpeed(id: Int, value: Int, completion: @escaping (String?) -> Void) {
@@ -699,7 +699,7 @@ class HelperClientFixture {
     let plistName = "test.helper.plist"
     var connection: FakeHelperClientConnection? = FakeHelperClientConnection()
     var useModernService = true
-    func helperConnection() -> FakeHelperClientConnection? { connection }
+    func helperConnection() -> FakeHelperClientConnection? { self.connection }
     func install(completion: @escaping (SMCHelperInstallState) -> Void) {
         FakeHelperEnvironment.current.events.append("install")
         completion(.enabled)
@@ -728,17 +728,17 @@ extension Notification.Name {
 
 extension SMCTests {
     var helperEnv: FakeHelperEnvironment { FakeHelperEnvironment.current }
-
+    
     func drainHelperCallbacks() {
-        let drained = expectation(description: "main queue callbacks completed")
+        let drained = self.expectation(description: "main queue callbacks completed")
         DispatchQueue.main.async {
             DispatchQueue.main.async {
                 DispatchQueue.main.async { drained.fulfill() }
             }
         }
-        wait(for: [drained], timeout: 2)
+        self.wait(for: [drained], timeout: 2)
     }
-
+    
     func testHelperWaitsForItsFirstConnection() {
         XCTAssertFalse(HelperConnectionState().beginShutdownIfIdle())
     }
@@ -829,19 +829,19 @@ extension SMCTests {
         let client = TestSMCHelper()
         var results: [Bool] = []
         client.uninstall { results.append($0) }
-        XCTAssertEqual(helperEnv.requests.map { $0.id }, [0, 1])
-        XCTAssertEqual(helperEnv.requests.map { $0.mode }, [0, 0])
-        XCTAssertTrue(helperEnv.events.isEmpty)
-        helperEnv.requests[1].reply("")
-        drainHelperCallbacks()
-        XCTAssertTrue(helperEnv.events.isEmpty)
-        helperEnv.requests[0].reply("")
-        drainHelperCallbacks()
-        XCTAssertEqual(helperEnv.events, ["unregister"])
+        XCTAssertEqual(self.helperEnv.requests.map { $0.id }, [0, 1])
+        XCTAssertEqual(self.helperEnv.requests.map { $0.mode }, [0, 0])
+        XCTAssertTrue(self.helperEnv.events.isEmpty)
+        self.helperEnv.requests[1].reply("")
+        self.drainHelperCallbacks()
+        XCTAssertTrue(self.helperEnv.events.isEmpty)
+        self.helperEnv.requests[0].reply("")
+        self.drainHelperCallbacks()
+        XCTAssertEqual(self.helperEnv.events, ["unregister"])
         XCTAssertTrue(results.isEmpty)
-        helperEnv.unregisterReply?(nil)
-        drainHelperCallbacks()
-        XCTAssertEqual(helperEnv.events, ["unregister", "invalidate", "notify"])
+        self.helperEnv.unregisterReply?(nil)
+        self.drainHelperCallbacks()
+        XCTAssertEqual(self.helperEnv.events, ["unregister", "invalidate", "notify"])
         XCTAssertEqual(results, [true])
         XCTAssertNil(client.connection)
     }
@@ -849,118 +849,118 @@ extension SMCTests {
         let client = TestSMCHelper()
         var results: [Bool] = []
         client.uninstall { results.append($0) }
-        helperEnv.requests[0].reply(nil)
-        helperEnv.requests[1].reply("")
-        drainHelperCallbacks()
+        self.helperEnv.requests[0].reply(nil)
+        self.helperEnv.requests[1].reply("")
+        self.drainHelperCallbacks()
         XCTAssertEqual(results, [false])
-        XCTAssertTrue(helperEnv.events.isEmpty)
+        XCTAssertTrue(self.helperEnv.events.isEmpty)
         XCTAssertNotNil(client.connection)
     }
     func testHelperUnresponsiveFanAllowsConfirmedRemoval() {
         let client = TestSMCHelper()
-        let prompted = expectation(description: "confirm removal")
+        let prompted = self.expectation(description: "confirm removal")
         client.uninstall(confirmRemoval: {
             prompted.fulfill()
             return true
         })
-        wait(for: [prompted], timeout: 7)
-        XCTAssertEqual(helperEnv.events, ["unregister"])
-        helperEnv.requests[0].reply("")
-        helperEnv.requests[1].reply("")
-        drainHelperCallbacks()
-        XCTAssertEqual(helperEnv.events, ["unregister"])
+        self.wait(for: [prompted], timeout: 7)
+        XCTAssertEqual(self.helperEnv.events, ["unregister"])
+        self.helperEnv.requests[0].reply("")
+        self.helperEnv.requests[1].reply("")
+        self.drainHelperCallbacks()
+        XCTAssertEqual(self.helperEnv.events, ["unregister"])
     }
     func testHelperXPCErrorPreventsRemoval() {
         let client = TestSMCHelper()
         var results: [Bool] = []
         client.uninstall { results.append($0) }
-        helperEnv.requests[0].fail(helperEnv.error)
-        helperEnv.requests[1].reply("")
-        drainHelperCallbacks()
+        self.helperEnv.requests[0].fail(self.helperEnv.error)
+        self.helperEnv.requests[1].reply("")
+        self.drainHelperCallbacks()
         XCTAssertEqual(results, [false])
-        XCTAssertTrue(helperEnv.events.isEmpty)
+        XCTAssertTrue(self.helperEnv.events.isEmpty)
     }
     func testHelperDuplicateCallbacksDoNotCompleteEarly() {
         let client = TestSMCHelper()
         var results: [Bool] = []
         client.uninstall { results.append($0) }
-        helperEnv.requests[0].fail(helperEnv.error)
-        helperEnv.requests[0].reply("")
-        helperEnv.requests[0].fail(helperEnv.error)
-        drainHelperCallbacks()
+        self.helperEnv.requests[0].fail(self.helperEnv.error)
+        self.helperEnv.requests[0].reply("")
+        self.helperEnv.requests[0].fail(self.helperEnv.error)
+        self.drainHelperCallbacks()
         XCTAssertTrue(results.isEmpty)
-        helperEnv.requests[1].reply("")
-        helperEnv.requests[1].reply("")
-        drainHelperCallbacks()
+        self.helperEnv.requests[1].reply("")
+        self.helperEnv.requests[1].reply("")
+        self.drainHelperCallbacks()
         XCTAssertEqual(results, [false])
-        XCTAssertTrue(helperEnv.events.isEmpty)
+        XCTAssertTrue(self.helperEnv.events.isEmpty)
     }
     func testHelperMissingConnectionPreventsRemoval() {
         let client = TestSMCHelper()
         client.connection = nil
         var results: [Bool] = []
         client.uninstall { results.append($0) }
-        drainHelperCallbacks()
+        self.drainHelperCallbacks()
         XCTAssertEqual(results, [false])
-        XCTAssertTrue(helperEnv.requests.isEmpty)
-        XCTAssertTrue(helperEnv.events.isEmpty)
+        XCTAssertTrue(self.helperEnv.requests.isEmpty)
+        XCTAssertTrue(self.helperEnv.events.isEmpty)
     }
     func testHelperInvalidProxyPreventsRemoval() {
-        helperEnv.proxyAvailable = false
+        self.helperEnv.proxyAvailable = false
         let client = TestSMCHelper()
         var results: [Bool] = []
         client.uninstall { results.append($0) }
-        drainHelperCallbacks()
+        self.drainHelperCallbacks()
         XCTAssertEqual(results, [false])
-        XCTAssertTrue(helperEnv.events.isEmpty)
+        XCTAssertTrue(self.helperEnv.events.isEmpty)
     }
     func testHelperUnregisterFailureKeepsConnection() {
-        helperEnv.immediateReplies = true
+        self.helperEnv.immediateReplies = true
         let client = TestSMCHelper()
         var results: [Bool] = []
         client.uninstall { results.append($0) }
-        drainHelperCallbacks()
-        helperEnv.unregisterReply?(helperEnv.error)
-        drainHelperCallbacks()
+        self.drainHelperCallbacks()
+        self.helperEnv.unregisterReply?(self.helperEnv.error)
+        self.drainHelperCallbacks()
         XCTAssertEqual(results, [false])
-        XCTAssertEqual(helperEnv.events, ["unregister"])
+        XCTAssertEqual(self.helperEnv.events, ["unregister"])
         XCTAssertNotNil(client.connection)
     }
     func testHelperSilentUninstallDoesNotNotify() {
-        helperEnv.immediateReplies = true
+        self.helperEnv.immediateReplies = true
         let client = TestSMCHelper()
         client.uninstall(silent: true)
-        drainHelperCallbacks()
-        helperEnv.unregisterReply?(nil)
-        drainHelperCallbacks()
-        XCTAssertEqual(helperEnv.events, ["unregister", "invalidate"])
+        self.drainHelperCallbacks()
+        self.helperEnv.unregisterReply?(nil)
+        self.drainHelperCallbacks()
+        XCTAssertEqual(self.helperEnv.events, ["unregister", "invalidate"])
     }
     func testHelperFanlessUninstallDoesNotWaitForReplies() {
-        helperEnv.fanCount = 0
+        self.helperEnv.fanCount = 0
         let client = TestSMCHelper()
         client.uninstall()
-        XCTAssertTrue(helperEnv.requests.isEmpty)
-        XCTAssertEqual(helperEnv.events, ["unregister"])
+        XCTAssertTrue(self.helperEnv.requests.isEmpty)
+        XCTAssertEqual(self.helperEnv.events, ["unregister"])
     }
     func testHelperUnavailableCountPreservesExistingUninstallBehavior() {
-        helperEnv.fanCount = nil
+        self.helperEnv.fanCount = nil
         let client = TestSMCHelper()
         client.uninstall()
-        XCTAssertTrue(helperEnv.requests.isEmpty)
-        XCTAssertEqual(helperEnv.events, ["unregister"])
+        XCTAssertTrue(self.helperEnv.requests.isEmpty)
+        XCTAssertEqual(self.helperEnv.events, ["unregister"])
     }
     func testHelperLegacyUninstallWaitsForReplies() {
         let client = TestSMCHelper()
         client.useModernService = false
         var results: [Bool] = []
         client.uninstall { results.append($0) }
-        XCTAssertTrue(helperEnv.events.isEmpty)
-        helperEnv.requests[0].reply("")
-        drainHelperCallbacks()
-        XCTAssertTrue(helperEnv.events.isEmpty)
-        helperEnv.requests[1].reply("")
-        drainHelperCallbacks()
-        XCTAssertEqual(helperEnv.events, ["legacy-uninstall", "notify"])
+        XCTAssertTrue(self.helperEnv.events.isEmpty)
+        self.helperEnv.requests[0].reply("")
+        self.drainHelperCallbacks()
+        XCTAssertTrue(self.helperEnv.events.isEmpty)
+        self.helperEnv.requests[1].reply("")
+        self.drainHelperCallbacks()
+        XCTAssertEqual(self.helperEnv.events, ["legacy-uninstall", "notify"])
         XCTAssertEqual(results, [true])
     }
     func testHelperLegacyFailurePreventsUninstall() {
@@ -968,74 +968,74 @@ extension SMCTests {
         client.useModernService = false
         var results: [Bool] = []
         client.uninstall { results.append($0) }
-        helperEnv.requests[0].reply(nil)
-        helperEnv.requests[1].reply("")
-        drainHelperCallbacks()
+        self.helperEnv.requests[0].reply(nil)
+        self.helperEnv.requests[1].reply("")
+        self.drainHelperCallbacks()
         XCTAssertEqual(results, [false])
-        XCTAssertTrue(helperEnv.events.isEmpty)
+        XCTAssertTrue(self.helperEnv.events.isEmpty)
     }
     func testHelperReinstallWaitsForRestorationAndUnregister() {
         let client = TestSMCHelper()
         client.reinstall()
-        XCTAssertTrue(helperEnv.events.isEmpty)
-        helperEnv.requests[0].reply("")
-        helperEnv.requests[1].reply("")
-        drainHelperCallbacks()
-        XCTAssertEqual(helperEnv.events, ["unregister"])
-        helperEnv.unregisterReply?(nil)
-        drainHelperCallbacks()
-        XCTAssertEqual(helperEnv.events, ["unregister", "invalidate", "install"])
+        XCTAssertTrue(self.helperEnv.events.isEmpty)
+        self.helperEnv.requests[0].reply("")
+        self.helperEnv.requests[1].reply("")
+        self.drainHelperCallbacks()
+        XCTAssertEqual(self.helperEnv.events, ["unregister"])
+        self.helperEnv.unregisterReply?(nil)
+        self.drainHelperCallbacks()
+        XCTAssertEqual(self.helperEnv.events, ["unregister", "invalidate", "install"])
     }
     func testHelperReinstallStopsOnRestorationFailure() {
         let client = TestSMCHelper()
         client.reinstall()
-        helperEnv.requests[0].reply(nil)
-        helperEnv.requests[1].reply("")
-        drainHelperCallbacks()
-        XCTAssertTrue(helperEnv.events.isEmpty)
+        self.helperEnv.requests[0].reply(nil)
+        self.helperEnv.requests[1].reply("")
+        self.drainHelperCallbacks()
+        XCTAssertTrue(self.helperEnv.events.isEmpty)
     }
     func testHelperReinstallStopsOnUnregisterFailure() {
-        helperEnv.immediateReplies = true
+        self.helperEnv.immediateReplies = true
         let client = TestSMCHelper()
         client.reinstall()
-        drainHelperCallbacks()
-        helperEnv.unregisterReply?(helperEnv.error)
-        drainHelperCallbacks()
-        XCTAssertEqual(helperEnv.events, ["unregister"])
+        self.drainHelperCallbacks()
+        self.helperEnv.unregisterReply?(self.helperEnv.error)
+        self.drainHelperCallbacks()
+        XCTAssertEqual(self.helperEnv.events, ["unregister"])
     }
     func testHelperLegacyReinstallWaitsForRestoration() {
         let client = TestSMCHelper()
         client.useModernService = false
         client.reinstall()
-        XCTAssertTrue(helperEnv.events.isEmpty)
-        helperEnv.requests[0].reply("")
-        helperEnv.requests[1].reply("")
-        drainHelperCallbacks()
-        XCTAssertEqual(helperEnv.events, ["legacy-uninstall", "install"])
+        XCTAssertTrue(self.helperEnv.events.isEmpty)
+        self.helperEnv.requests[0].reply("")
+        self.helperEnv.requests[1].reply("")
+        self.drainHelperCallbacks()
+        XCTAssertEqual(self.helperEnv.events, ["legacy-uninstall", "install"])
     }
     func testHelperBackgroundRepliesCompleteOnMainQueue() {
         let client = TestSMCHelper()
-        let done = expectation(description: "restoration completed on main queue")
+        let done = self.expectation(description: "restoration completed on main queue")
         client.restoreFanModes { success in
             XCTAssertTrue(Thread.isMainThread)
             XCTAssertTrue(success)
             done.fulfill()
         }
-        let requests = helperEnv.requests
+        let requests = self.helperEnv.requests
         DispatchQueue.global().async { requests.reversed().forEach { $0.reply("") } }
-        wait(for: [done], timeout: 2)
+        self.wait(for: [done], timeout: 2)
     }
     func testHelperBackgroundUninstallStartsRestorationOnMainQueue() {
-        helperEnv.immediateReplies = true
+        self.helperEnv.immediateReplies = true
         let client = TestSMCHelper()
-        let started = expectation(description: "background uninstall dispatched")
+        let started = self.expectation(description: "background uninstall dispatched")
         DispatchQueue.global().async {
             client.uninstall()
             started.fulfill()
         }
-        wait(for: [started], timeout: 2)
-        drainHelperCallbacks()
-        XCTAssertEqual(helperEnv.requests.count, 2)
-        XCTAssertEqual(helperEnv.events, ["unregister"])
+        self.wait(for: [started], timeout: 2)
+        self.drainHelperCallbacks()
+        XCTAssertEqual(self.helperEnv.requests.count, 2)
+        XCTAssertEqual(self.helperEnv.events, ["unregister"])
     }
 }

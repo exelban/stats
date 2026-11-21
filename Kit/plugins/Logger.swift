@@ -176,7 +176,7 @@ extension NextLog {
         }
         
         func write(_ string: String) {
-            guard let data = string.data(using: encoding) else { return }
+            guard let data = string.data(using: self.encoding) else { return }
             self.lock.lock()
             self.fileHandle.write(data)
             self.lock.unlock()

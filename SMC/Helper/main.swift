@@ -212,7 +212,7 @@ extension Helper {
         guard CodesignCheck.matchesSelf(path: smc) else {
             return (nil, "smc tool failed signature validation")
         }
-
+        
         let task = Process()
         task.executableURL = URL(fileURLWithPath: smc)
         task.arguments = arguments

@@ -87,7 +87,7 @@ public class IconWidget: WidgetWrapper {
         let view = SettingsContainerView()
         
         view.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Animate icon"), component: switchView(
+            PreferencesRow(localizedString("Animate icon"), component: self.switchView(
                 action: #selector(self.toggleAnimation),
                 state: self.animationState
             ))

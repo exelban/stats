@@ -168,7 +168,7 @@ public class BarChart: WidgetWrapper {
         ), xRadius: 2, yRadius: 2)
         
         if self.boxState {
-            (isDarkMode ? NSColor.white : NSColor.black).set()
+            (self.isDarkMode ? NSColor.white : NSColor.black).set()
             box.stroke()
             box.fill()
         }
@@ -194,9 +194,9 @@ public class BarChart: WidgetWrapper {
                     case .pressure: pressureLevel.pressureColor().set()
                     case .monochrome:
                         if self.boxState {
-                            (isDarkMode ? NSColor.black : NSColor.white).set()
+                            (self.isDarkMode ? NSColor.black : NSColor.white).set()
                         } else {
-                            (isDarkMode ? NSColor.white : NSColor.black).set()
+                            (self.isDarkMode ? NSColor.white : NSColor.black).set()
                         }
                     default: (self.colorState.additional as? NSColor ?? .controlAccentColor).set()
                     }
@@ -214,7 +214,7 @@ public class BarChart: WidgetWrapper {
         }
         
         if self.boxState || self.frameState {
-            (isDarkMode ? NSColor.white : NSColor.black).set()
+            (self.isDarkMode ? NSColor.white : NSColor.black).set()
             box.lineWidth = lineWidth
             box.stroke()
         }
@@ -266,23 +266,23 @@ public class BarChart: WidgetWrapper {
     public override func settings() -> NSView {
         let view = SettingsContainerView()
         
-        let box = switchView(
+        let box = self.switchView(
             action: #selector(self.toggleBox),
             state: self.boxState
         )
         self.boxSettingsView = box
-        let frame = switchView(
+        let frame = self.switchView(
             action: #selector(self.toggleFrame),
             state: self.frameState
         )
         self.frameSettingsView = frame
         
         view.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Label"), component: switchView(
+            PreferencesRow(localizedString("Label"), component: self.switchView(
                 action: #selector(self.toggleLabel),
                 state: self.labelState
             )),
-            PreferencesRow(localizedString("Color"), component: colorSelectView(
+            PreferencesRow(localizedString("Color"), component: self.colorSelectView(
                 action: #selector(self.toggleColor),
                 items: self.colors,
                 selected: self.colorState.key

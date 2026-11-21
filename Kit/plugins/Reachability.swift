@@ -69,7 +69,7 @@ public class Reachability {
             self.stop()
             return
         }
-        guard SCNetworkReachabilitySetDispatchQueue(reachability, reachabilitySerialQueue) else {
+        guard SCNetworkReachabilitySetDispatchQueue(reachability, self.reachabilitySerialQueue) else {
             error("SCNetworkReachability set dispatch queue")
             self.stop()
             return

@@ -235,7 +235,7 @@ public class BatteryWidget: WidgetWrapper {
         } else {
             let attributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 11, weight: .regular),
-                NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
+                NSAttributedString.Key.foregroundColor: self.isDarkMode ? NSColor.white : NSColor.textColor,
                 NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
             ]
             
@@ -265,7 +265,7 @@ public class BatteryWidget: WidgetWrapper {
     }
     
     private func drawOneRow(value: String, x: CGFloat) -> CGFloat {
-        let dark = isDarkMode
+        let dark = self.isDarkMode
         let entry = self.textCache.entry(value, key: "one\(dark)") {
             [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 12, weight: .regular),
@@ -429,24 +429,24 @@ public class BatteryWidget: WidgetWrapper {
         }
         
         view.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Additional information"), component: selectView(
+            PreferencesRow(localizedString("Additional information"), component: self.selectView(
                 action: #selector(self.toggleAdditional),
                 items: additionalOptions,
                 selected: self.additional
             )),
-            PreferencesRow(localizedString("Hide additional information when full"), component: switchView(
+            PreferencesRow(localizedString("Hide additional information when full"), component: self.switchView(
                 action: #selector(self.toggleHideAdditionalWhenFull),
                 state: self.hideAdditionalWhenFull
             )),
-            PreferencesRow(localizedString("Colorize"), component: switchView(
+            PreferencesRow(localizedString("Colorize"), component: self.switchView(
                 action: #selector(self.toggleColor),
                 state: self.colorState
             )),
-            PreferencesRow("XL size", component: switchView(
+            PreferencesRow("XL size", component: self.switchView(
                 action: #selector(self.toggleXLSize),
                 state: self.xlSizeState
             )),
-            PreferencesRow(localizedString("Charger state inside the battery"), component: switchView(
+            PreferencesRow(localizedString("Charger state inside the battery"), component: self.switchView(
                 action: #selector(self.toggleChargerIconInside),
                 state: self.chargerIconInside
             ))
@@ -584,7 +584,7 @@ public class BatteryDetailsWidget: WidgetWrapper {
     }
     
     private func drawOneRow(value: String, x: CGFloat) -> CGFloat {
-        let dark = isDarkMode
+        let dark = self.isDarkMode
         let entry = self.textCache.entry(value, key: "one\(dark)") {
             [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 12, weight: .regular),
@@ -655,7 +655,7 @@ public class BatteryDetailsWidget: WidgetWrapper {
         let view = SettingsContainerView()
         
         view.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Details"), component: selectView(
+            PreferencesRow(localizedString("Details"), component: self.selectView(
                 action: #selector(self.toggleMode),
                 items: BatteryInfo,
                 selected: self.mode

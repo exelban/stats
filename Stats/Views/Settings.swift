@@ -92,8 +92,8 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
         windowController.window = self
         windowController.loadWindow()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(menuCallback), name: .openModuleSettings, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(externalModuleToggle), name: .toggleModule, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.menuCallback), name: .openModuleSettings, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.externalModuleToggle), name: .toggleModule, object: nil)
         
         self.sidebarView.setModules(modules)
         self.sidebarView.openMenu("Dashboard")
@@ -111,20 +111,20 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
             onClose?()
         }
     }
-
+    
     override func setIsVisible(_ flag: Bool) {
         super.setIsVisible(flag)
         self.updateReaderVisibility(visible: flag && !self.isMiniaturized)
     }
-
+    
     func windowDidMiniaturize(_ notification: Notification) {
         self.updateReaderVisibility(visible: false)
     }
-
+    
     func windowDidDeminiaturize(_ notification: Notification) {
         self.updateReaderVisibility()
     }
-
+    
     private func updateReaderVisibility(visible: Bool? = nil) {
         let name = (visible ?? (self.isVisible && !self.isMiniaturized)) ? self.activeModuleName : nil
         guard name != self.visibleModuleName else { return }
@@ -290,15 +290,15 @@ private class MainView: NSView {
         self.addSubview(self.container)
         
         NSLayoutConstraint.activate([
-            self.background.leadingAnchor.constraint(equalTo: leadingAnchor),
-            self.background.trailingAnchor.constraint(equalTo: trailingAnchor),
-            self.background.topAnchor.constraint(equalTo: topAnchor),
-            self.background.bottomAnchor.constraint(equalTo: bottomAnchor),
+            self.background.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            self.background.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            self.background.topAnchor.constraint(equalTo: self.topAnchor),
+            self.background.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             
-            self.container.leadingAnchor.constraint(equalTo: leadingAnchor),
-            self.container.trailingAnchor.constraint(equalTo: trailingAnchor),
-            self.container.topAnchor.constraint(equalTo: topAnchor, constant: Constants.Popup.headerHeight*1.4),
-            self.container.bottomAnchor.constraint(equalTo: bottomAnchor)
+            self.container.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            self.container.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            self.container.topAnchor.constraint(equalTo: self.topAnchor, constant: Constants.Popup.headerHeight*1.4),
+            self.container.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
     
@@ -366,19 +366,19 @@ private class SidebarView: NSStackView {
         additionalButtons.alignment = .centerY
         additionalButtons.spacing = 0
         
-        let pauseButton = self.makeButton(title: localizedString("Pause the Stats"), image: self.pauseState ? self.resumeIcon : self.pauseIcon, action: #selector(togglePause))
+        let pauseButton = self.makeButton(title: localizedString("Pause the Stats"), image: self.pauseState ? self.resumeIcon : self.pauseIcon, action: #selector(self.togglePause))
         self.pauseButton = pauseButton
         
-        additionalButtons.addArrangedSubview(self.makeButton(title: localizedString("Settings"), image: self.settingsIcon, action: #selector(openSettings)))
-        additionalButtons.addArrangedSubview(self.makeButton(title: localizedString("Support the application"), image: self.supportIcon, action: #selector(donate)))
-        additionalButtons.addArrangedSubview(self.makeButton(title: localizedString("Report a bug"), image: self.bugIcon, action: #selector(reportBug)))
+        additionalButtons.addArrangedSubview(self.makeButton(title: localizedString("Settings"), image: self.settingsIcon, action: #selector(self.openSettings)))
+        additionalButtons.addArrangedSubview(self.makeButton(title: localizedString("Support the application"), image: self.supportIcon, action: #selector(self.donate)))
+        additionalButtons.addArrangedSubview(self.makeButton(title: localizedString("Report a bug"), image: self.bugIcon, action: #selector(self.reportBug)))
         additionalButtons.addArrangedSubview(pauseButton)
-        additionalButtons.addArrangedSubview(self.makeButton(title: localizedString("Close application"), image: self.closeIcon, action: #selector(closeApp)))
+        additionalButtons.addArrangedSubview(self.makeButton(title: localizedString("Close application"), image: self.closeIcon, action: #selector(self.closeApp)))
         
         self.addArrangedSubview(self.scrollView)
         self.addArrangedSubview(additionalButtons)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(listenForPause), name: .pause, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.listenForPause), name: .pause, object: nil)
     }
     
     deinit {

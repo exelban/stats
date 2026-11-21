@@ -34,7 +34,7 @@ class Dashboard: NSStackView {
                 mini += localizedString("Number of cores", "\(cores)")
             }
             if let threads = cpu.logicalCores {
-                if mini != "" {
+                if !mini.isEmpty {
                     mini += ", "
                 }
                 mini += localizedString("Number of threads", "\(threads)")
@@ -52,13 +52,13 @@ class Dashboard: NSStackView {
                 mini += localizedString("Number of e-cores", "\(eCores)")
             }
             if let pCores = cpu.pCores {
-                if mini != "" {
+                if !mini.isEmpty {
                     mini += "\n"
                 }
                 mini += localizedString("Number of p-cores", "\(pCores)")
             }
             if let sCores = cpu.sCores {
-                if mini != "" {
+                if !mini.isEmpty {
                     mini += "\n"
                 }
                 mini += localizedString("Number of s-cores", "\(sCores)")
@@ -229,28 +229,28 @@ class Dashboard: NSStackView {
         scrollView.stackView.addArrangedSubview(self.deviceView())
         
         scrollView.stackView.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Processor"), "", component: textView(self.processorValue, alignment: .trailing)),
-            PreferencesRow(localizedString("Memory"), component: textView(self.memoryValue, alignment: .trailing)),
-            PreferencesRow(localizedString("Graphics"), component: textView(self.graphicsValue, alignment: .trailing)),
-            PreferencesRow(localizedString("Disks"), component: textView(self.disksValue, alignment: .trailing)),
-            PreferencesRow(localizedString("Display"), "", component: textView(self.displaysValue, alignment: .trailing))
+            PreferencesRow(localizedString("Processor"), "", component: self.textView(self.processorValue, alignment: .trailing)),
+            PreferencesRow(localizedString("Memory"), component: self.textView(self.memoryValue, alignment: .trailing)),
+            PreferencesRow(localizedString("Graphics"), component: self.textView(self.graphicsValue, alignment: .trailing)),
+            PreferencesRow(localizedString("Disks"), component: self.textView(self.disksValue, alignment: .trailing)),
+            PreferencesRow(localizedString("Display"), "", component: self.textView(self.displaysValue, alignment: .trailing))
         ]))
         
         scrollView.stackView.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Model identifier"), component: textView(SystemKit.shared.device.model.id)),
-            PreferencesRow(localizedString("Production year"), component: textView("\(SystemKit.shared.device.model.year)")),
-            PreferencesRow(localizedString("Serial number"), component: textView(SystemKit.shared.device.serialNumber ?? localizedString("Unknown")))
+            PreferencesRow(localizedString("Model identifier"), component: self.textView(SystemKit.shared.device.model.id)),
+            PreferencesRow(localizedString("Production year"), component: self.textView("\(SystemKit.shared.device.model.year)")),
+            PreferencesRow(localizedString("Serial number"), component: self.textView(SystemKit.shared.device.serialNumber ?? localizedString("Unknown")))
         ]))
         
-        self.uptimeField = textView(self.uptimeValue)
+        self.uptimeField = self.textView(self.uptimeValue)
         scrollView.stackView.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Uptime"), component: self.uptimeField!)
         ]))
         
         self.addArrangedSubview(scrollView)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(windowOpens), name: .openModuleSettings, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(windowOpens), name: .toggleSettings, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.windowOpens), name: .openModuleSettings, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.windowOpens), name: .toggleSettings, object: nil)
     }
     
     required public init?(coder: NSCoder) {

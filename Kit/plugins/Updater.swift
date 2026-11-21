@@ -67,11 +67,11 @@ public class Updater {
     }
     
     deinit {
-        observation?.invalidate()
+        self.observation?.invalidate()
     }
     
     public func check(force: Bool = false, completion: @escaping (_ result: version_s?, _ error: Error?) -> Void) {
-        if !isConnectedToNetwork() {
+        if !self.isConnectedToNetwork() {
             completion(nil, "No internet connection")
             return
         }
@@ -240,7 +240,7 @@ public class Updater {
         print("Script staged at \(scriptDst)")
         
         let scriptArgs = [scriptDst, "--app", pwd, "--dmg", dmg, "--mount", mountPoint, "--user", String(getuid())]
-
+        
         if needsElevation {
             if let err = self.runElevated("/bin/bash", args: scriptArgs) {
                 _ = self.runProcess("/usr/bin/hdiutil", ["detach", mountPoint, "-force"])
@@ -260,7 +260,7 @@ public class Updater {
                 return
             }
         }
-
+        
         print("Run updater.sh with app: \(pwd) and dmg: \(dmg)")
         
         self.lastInstallTS = Int(Date().timeIntervalSince1970)
@@ -326,7 +326,7 @@ public class Updater {
             return "AuthorizationCreate failed (\(createStatus))"
         }
         defer { AuthorizationFree(authRef, [.destroyRights]) }
-
+        
         // AuthorizationExecuteWithPrivileges is deprecated since 10.7 but still functional;
         // resolve via dlsym to avoid the compile-time deprecation warning.
         typealias AEWPFn = @convention(c) (
@@ -340,17 +340,17 @@ public class Updater {
             return "AuthorizationExecuteWithPrivileges unavailable"
         }
         let aewp = unsafeBitCast(sym, to: AEWPFn.self)
-
+        
         var cArgs: [UnsafeMutablePointer<CChar>?] = args.map { strdup($0) }
         cArgs.append(nil)
         defer { cArgs.forEach { free($0) } }
-
+        
         let result: OSStatus = tool.withCString { toolPtr in
             cArgs.withUnsafeMutableBufferPointer { buf in
                 aewp(authRef, toolPtr, [], buf.baseAddress!, nil)
             }
         }
-
+        
         if result == errAuthorizationCanceled {
             return "user canceled"
         }
@@ -359,7 +359,7 @@ public class Updater {
         }
         return nil
     }
-
+    
     private func runProcess(_ launch: String, _ args: [String]) -> (output: String, error: String, exit: Int32) {
         let task = Process()
         task.executableURL = URL(fileURLWithPath: launch)

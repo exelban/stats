@@ -61,7 +61,7 @@ public class Mini: WidgetWrapper {
                 self.colors = self.colors.filter{ !unsupportedColors.contains($0.key) }
             }
             if let color = configuration["Color"] as? String {
-                if let defaultColor = colors.first(where: { $0.key == color }) {
+                if let defaultColor = self.colors.first(where: { $0.key == color }) {
                     self.colorState = defaultColor
                 }
             }
@@ -116,7 +116,7 @@ public class Mini: WidgetWrapper {
             
             let stringAttributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 7, weight: .light),
-                NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
+                NSAttributedString.Key.foregroundColor: self.isDarkMode ? NSColor.white : NSColor.textColor,
                 NSAttributedString.Key.paragraphStyle: style
             ]
             let rect = CGRect(x: origin.x, y: 12, width: self.width - (Constants.Widget.margin.x*2), height: 7)
@@ -131,7 +131,7 @@ public class Mini: WidgetWrapper {
         case .systemAccent: color = .controlAccentColor
         case .utilization: color = value.usageColor(zones: colorZones, reversed: self.title == "BAT")
         case .pressure: color = pressureLevel.pressureColor()
-        case .monochrome: color = (isDarkMode ? NSColor.white : NSColor.black)
+        case .monochrome: color = (self.isDarkMode ? NSColor.white : NSColor.black)
         default: color = self.colorState.additional as? NSColor ?? .controlAccentColor
         }
         
@@ -144,7 +144,7 @@ public class Mini: WidgetWrapper {
         let str = NSAttributedString.init(string: "\(Int(value.rounded(toPlaces: 2) * 100))\(suffix)", attributes: stringAttributes)
         str.draw(with: rect)
         
-        self.setWidth(width)
+        self.setWidth(self.width)
     }
     
     public func setValue(_ newValue: Double) {
@@ -217,16 +217,16 @@ public class Mini: WidgetWrapper {
         let view = SettingsContainerView()
         
         view.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Label"), component: switchView(
+            PreferencesRow(localizedString("Label"), component: self.switchView(
                 action: #selector(self.toggleLabel),
                 state: self.labelState
             )),
-            PreferencesRow(localizedString("Color"), component: colorSelectView(
+            PreferencesRow(localizedString("Color"), component: self.colorSelectView(
                 action: #selector(self.toggleColor),
                 items: self.colors,
                 selected: self.colorState.key
             )),
-            PreferencesRow(localizedString("Alignment"), component: selectView(
+            PreferencesRow(localizedString("Alignment"), component: self.selectView(
                 action: #selector(self.toggleAlignment),
                 items: Alignments,
                 selected: self.alignmentState

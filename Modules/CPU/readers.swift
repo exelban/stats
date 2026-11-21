@@ -31,7 +31,7 @@ internal class LoadReader: Reader<CPU_Load> {
         self.hasHyperthreadingCores = sysctlByName("hw.physicalcpu") != sysctlByName("hw.logicalcpu")
         [CTL_HW, HW_NCPU].withUnsafeBufferPointer { mib in
             var sizeOfNumCPUs: size_t = MemoryLayout<uint>.size
-            let status = sysctl(processor_info_array_t(mutating: mib.baseAddress), 2, &numCPUs, &sizeOfNumCPUs, nil, 0)
+            let status = sysctl(processor_info_array_t(mutating: mib.baseAddress), 2, &self.numCPUs, &sizeOfNumCPUs, nil, 0)
             if status != 0 {
                 self.numCPUs = 1
             }
@@ -56,7 +56,7 @@ internal class LoadReader: Reader<CPU_Load> {
                         &- UInt32(bitPattern: prevCpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_NICE)])
                     let idle = UInt32(bitPattern: self.cpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_IDLE)])
                         &- UInt32(bitPattern: prevCpuInfo[Int(CPU_STATE_MAX * i + CPU_STATE_IDLE)])
-                    
+                        
                     let inUse = UInt64(user) + UInt64(system) + UInt64(nice)
                     let total = inUse + UInt64(idle)
                     if total != 0 {
@@ -95,7 +95,7 @@ internal class LoadReader: Reader<CPU_Load> {
             error("host_processor_info(): \(String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error")", log: self.log)
         }
         
-        let cpuInfo = hostCPULoadInfo()
+        let cpuInfo = self.hostCPULoadInfo()
         if cpuInfo == nil {
             self.CPUUsageLock.unlock()
             self.callback(nil)

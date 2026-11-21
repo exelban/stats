@@ -179,7 +179,7 @@ internal class Popup: PopupWrapper {
         self.lastList.filter { !value.map { $0.uuid }.contains($0) }.forEach { self.settingsSection.delete($0) }
         value.forEach { (drive: drive) in
             if !self.settingsSection.contains(drive.uuid) {
-                let btn = switchView(
+                let btn = self.switchView(
                     action: #selector(self.toggleDisk),
                     state: drive.popupState
                 )
@@ -267,17 +267,17 @@ internal class Popup: PopupWrapper {
         ]))
         
         view.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Main color"), component: colorSelectView(
+            PreferencesRow(localizedString("Main color"), component: self.colorSelectView(
                 action: #selector(self.toggleMainColor),
                 items: SColor.allColors.filter({ $0 != .monochrome }),
                 selected: self.mainColorState.key
             )),
-            PreferencesRow(localizedString("Write color"), component: colorSelectView(
+            PreferencesRow(localizedString("Write color"), component: self.colorSelectView(
                 action: #selector(self.toggleWriteColor),
                 items: SColor.allColors,
                 selected: self.writeColorState.key
             )),
-            PreferencesRow(localizedString("Read color"), component: colorSelectView(
+            PreferencesRow(localizedString("Read color"), component: self.colorSelectView(
                 action: #selector(self.toggleReadColor),
                 items: SColor.allColors,
                 selected: self.readColorState.key
@@ -285,7 +285,7 @@ internal class Popup: PopupWrapper {
         ]))
         
         view.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Reverse order"), component: switchView(
+            PreferencesRow(localizedString("Reverse order"), component: self.switchView(
                 action: #selector(self.toggleReverseOrder),
                 state: self.reverseOrderState
             ))
@@ -411,12 +411,12 @@ internal class DiskView: NSStackView {
     }
     
     override func updateLayer() {
-        self.layer?.backgroundColor = (isDarkMode ? NSColor(red: 17/255, green: 17/255, blue: 17/255, alpha: 0.25) : NSColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)).cgColor
+        self.layer?.backgroundColor = (self.isDarkMode ? NSColor(red: 17/255, green: 17/255, blue: 17/255, alpha: 0.25) : NSColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)).cgColor
     }
     
     public func update(_ value: drive) {
         self.legendView.update(free: value.free)
-        if size != 0 {
+        if self.size != 0 {
             self.barView.setValue(ColorValue(Double(self.size - value.free) / Double(self.size), color: self.mainColor))
         }
         self.detailsView.update(details: value)

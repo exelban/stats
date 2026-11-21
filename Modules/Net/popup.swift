@@ -343,7 +343,7 @@ internal class Popup: PopupWrapper {
         
         view.addArrangedSubview(SeparatorView(
             label: localizedString("Interface"),
-            button: PopupButton(toolTip: localizedString("Details"), state: interfaceDetailsState) { [weak self] in
+            button: PopupButton(toolTip: localizedString("Details"), state: self.interfaceDetailsState) { [weak self] in
                 self?.toggleInterfaceDetails()
             }
         ))
@@ -762,12 +762,12 @@ internal class Popup: PopupWrapper {
         ]))
         
         view.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Color of download"), component: colorSelectView(
+            PreferencesRow(localizedString("Color of download"), component: self.colorSelectView(
                 action: #selector(self.toggleDownloadColor),
                 items: SColor.allColors,
                 selected: self.downloadColorState.key
             )),
-            PreferencesRow(localizedString("Color of upload"), component: colorSelectView(
+            PreferencesRow(localizedString("Color of upload"), component: self.colorSelectView(
                 action: #selector(self.toggleUploadColor),
                 items: SColor.allColors,
                 selected: self.uploadColorState.key
@@ -775,19 +775,19 @@ internal class Popup: PopupWrapper {
         ]))
         
         view.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Reverse order"), component: switchView(
+            PreferencesRow(localizedString("Reverse order"), component: self.switchView(
                 action: #selector(self.toggleReverseOrder),
                 state: self.reverseOrderState
             ))
         ]))
         
         self.chartPrefSection = PreferencesSection([
-            PreferencesRow(localizedString("Chart history"), component: selectView(
+            PreferencesRow(localizedString("Chart history"), component: self.selectView(
                 action: #selector(self.togglechartHistory),
                 items: LineChartHistory,
                 selected: "\(self.chartHistory)"
             )),
-            PreferencesRow(localizedString("Main chart scaling"), component: selectView(
+            PreferencesRow(localizedString("Main chart scaling"), component: self.selectView(
                 action: #selector(self.toggleChartScale),
                 items: Scale.allCases,
                 selected: self.chartScale.key
@@ -802,11 +802,11 @@ internal class Popup: PopupWrapper {
         self.chartPrefSection?.setRowVisibility(2, newState: self.chartScale == .fixed)
         
         view.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Public IP"), component: switchView(
+            PreferencesRow(localizedString("Public IP"), component: self.switchView(
                 action: #selector(self.togglePublicIP),
                 state: self.publicIPState
             )),
-            PreferencesRow(localizedString("Show country code instead of emoji"), component: switchView(
+            PreferencesRow(localizedString("Show country code instead of emoji"), component: self.switchView(
                 action: #selector(self.toggleEmojiCC),
                 state: !self.emojiCCState
             ))

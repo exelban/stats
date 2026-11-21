@@ -2,7 +2,6 @@ disabled_rules:
   - force_cast # todo
   - type_name # todo
   - cyclomatic_complexity # todo
-  - trailing_whitespace
   - opening_brace
   - implicit_getter
   - implicit_optional_initialization
@@ -15,6 +14,32 @@ opt_in_rules:
   - trailing_newline
   - colon
   - comma
+  - contains_over_filter_is_empty
+  - first_where
+  - contains_over_first_not_nil
+  - discarded_notification_center_observer
+  - unhandled_throwing_task
+  - identical_operands
+  - redundant_nil_coalescing
+  - empty_string
+
+analyzer_rules:
+  - explicit_self
+
+custom_rules:
+  blank_line_indentation:
+    regex: >-
+      (?mx)^(?=([\t\ ]*)\S)
+      (?:
+        \1guard\b(?:[^\r\n]*,\r?\n[\t\ ]+)+[^\r\n]*\belse[\t\ ]*\{[^\r\n]*\}
+        |
+        (?!(?:(?<=,\n)|(?<=,\r\n))\1(?!guard\b)[^\r\n]*\belse[\t\ ]*\{[^\r\n]*\}$)
+        \1\S[^\r\n]*
+      )
+      \r?\n(?!\1\r?$)([\t\ ]*\r?\n)
+    capture_group: 2
+    message: "Indent the blank line to match the preceding line or the start of the multiline guard."
+    severity: warning
 
 identifier_name:
   min_length: 1
@@ -53,6 +78,9 @@ identifier_name:
     - NetworkSpeedUnits
 
 line_length: 200
+
+trailing_whitespace:
+  ignores_empty_lines: true
 
 type_body_length:
   - 700

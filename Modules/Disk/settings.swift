@@ -85,7 +85,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
         self.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Update interval"), component: selectView(
+            PreferencesRow(localizedString("Update interval"), component: self.selectView(
                 action: #selector(self.changeUpdateInterval),
                 items: ReaderUpdateIntervals,
                 selected: "\(self.updateIntervalValue)"
@@ -93,21 +93,21 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         ]))
         
         self.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Number of top processes"), component: selectView(
+            PreferencesRow(localizedString("Number of top processes"), component: self.selectView(
                 action: #selector(self.changeNumberOfProcesses),
                 items: NumbersOfProcesses.map{ KeyValue_t(key: "\($0)", value: "\($0)") },
                 selected: "\(self.numberOfProcesses)"
             ))
         ]))
         
-        self.button = selectView(
+        self.button = self.selectView(
             action: #selector(self.handleSelection),
             items: [],
             selected: ""
         )
         self.addArrangedSubview(PreferencesSection([
             PreferencesRow(localizedString("Disk to show"), component: self.button!),
-            PreferencesRow(localizedString("Show removable disks"), component: switchView(
+            PreferencesRow(localizedString("Show removable disks"), component: self.switchView(
                 action: #selector(self.toggleRemovable),
                 state: self.removableState
             ))
@@ -115,12 +115,12 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         
         if widgets.contains(where: { $0 == .speed }) {
             self.addArrangedSubview(PreferencesSection([
-                PreferencesRow(localizedString("Base"), component: selectView(
+                PreferencesRow(localizedString("Base"), component: self.selectView(
                     action: #selector(self.toggleBase),
                     items: SpeedBase,
                     selected: self.baseValue
                 )),
-                PreferencesRow(localizedString("Units"), component: selectView(
+                PreferencesRow(localizedString("Units"), component: self.selectView(
                     action: #selector(self.toggleSpeedUnit),
                     items: NetworkSpeedUnits,
                     selected: self.speedUnitValue
@@ -129,16 +129,16 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         }
         
         self.addArrangedSubview(PreferencesSection(title: "SMART", [
-            PreferencesRow("SMART", component: switchView(
+            PreferencesRow("SMART", component: self.switchView(
                 action: #selector(self.toggleSMART),
                 state: self.SMARTState
             )),
-            PreferencesRow(localizedString("Update interval"), component: selectView(
+            PreferencesRow(localizedString("Update interval"), component: self.selectView(
                 action: #selector(self.changeSMARTUpdateInterval),
                 items: ReaderUpdateIntervals,
                 selected: "\(self.updateSMARTIntervalValue)"
             )),
-            PreferencesRow("ATA SMART", component: switchView(
+            PreferencesRow("ATA SMART", component: self.switchView(
                 action: #selector(self.toggleATASMART),
                 state: self.ATASMARTState
             ))
@@ -163,7 +163,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
             if disks != self.button?.itemTitles {
                 self.button?.addItems(withTitles: disks)
                 self.list = disks
-                if self.selectedDisk != "" {
+                if !self.selectedDisk.isEmpty {
                     self.button?.selectItem(withTitle: self.selectedDisk)
                 }
             }

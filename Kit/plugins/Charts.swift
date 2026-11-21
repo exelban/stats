@@ -445,7 +445,7 @@ public class LineChartView: ChartView {
             zeroValue = self.zeroValue
         }
         
-        let points = stop ? shadowPoints : originalPoints
+        let points = self.stop ? shadowPoints : originalPoints
         guard let context = NSGraphicsContext.current?.cgContext, !points.isEmpty else { return }
         context.setShouldAntialias(true)
         var maxValue: Double = 0
@@ -516,7 +516,7 @@ public class LineChartView: ChartView {
                 path.fill()
                 continue
             }
-
+            
             path = NSBezierPath()
             path.move(to: linePoints[0])
             for i in 1..<linePoints.count {
@@ -525,7 +525,7 @@ public class LineChartView: ChartView {
             lineColor.set()
             path.lineWidth = offset
             path.stroke()
-
+            
             path = path.copy() as! NSBezierPath
             path.line(to: CGPoint(x: linePoints[linePoints.count-1].x, y: zero))
             path.line(to: CGPoint(x: linePoints[0].x, y: zero))
@@ -541,7 +541,7 @@ public class LineChartView: ChartView {
         if minMax {
             let stringAttributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .light),
-                NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
+                NSAttributedString.Key.foregroundColor: self.isDarkMode ? NSColor.white : NSColor.textColor,
                 NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
             ]
             
@@ -560,7 +560,7 @@ public class LineChartView: ChartView {
             let legendFont = LineChartView.xLegendFont
             let legendAttributes: [NSAttributedString.Key: Any] = [
                 .font: legendFont,
-                .foregroundColor: (isDarkMode ? NSColor.white : NSColor.textColor).withAlphaComponent(0.5)
+                .foregroundColor: (self.isDarkMode ? NSColor.white : NSColor.textColor).withAlphaComponent(0.5)
             ]
             
             let sampleWidth = LineChartView.xLegendSampleWidth
@@ -594,7 +594,7 @@ public class LineChartView: ChartView {
             let legendFont = NSFont.systemFont(ofSize: 9, weight: .light)
             let legendAttributes: [NSAttributedString.Key: Any] = [
                 .font: legendFont,
-                .foregroundColor: (isDarkMode ? NSColor.white : NSColor.textColor).withAlphaComponent(0.5)
+                .foregroundColor: (self.isDarkMode ? NSColor.white : NSColor.textColor).withAlphaComponent(0.5)
             ]
             
             let textHeight = legendFont.ascender - legendFont.descender
@@ -605,7 +605,7 @@ public class LineChartView: ChartView {
                 let lineY = xLegendHeight + height * CGFloat(step) / 100
                 
                 if xLegend {
-                    let gridColor = (isDarkMode ? NSColor.white : NSColor.black).withAlphaComponent(0.06)
+                    let gridColor = (self.isDarkMode ? NSColor.white : NSColor.black).withAlphaComponent(0.06)
                     gridColor.setStroke()
                     let line = NSBezierPath()
                     line.move(to: CGPoint(x: yLegendWidth, y: lineY))
@@ -756,7 +756,7 @@ public class LineChartView: ChartView {
         self.write { self.gradientFill = newValue }
         self.displayIfVisible()
     }
-
+    
     public func setSuffix(_ newSuffix: String) {
         guard self.read({ self.suffix }) != newSuffix else { return }
         self.write { self.suffix = newSuffix }
@@ -804,19 +804,19 @@ public class LineChartView: ChartView {
     
     public override func mouseEntered(with event: NSEvent) {
         guard self.tooltipEnabledSnapshot else { return }
-        self.cursor = convert(event.locationInWindow, from: nil)
+        self.cursor = self.convert(event.locationInWindow, from: nil)
         self.needsDisplay = true
     }
     
     public override func mouseMoved(with event: NSEvent) {
         guard self.tooltipEnabledSnapshot else { return }
-        self.cursor = convert(event.locationInWindow, from: nil)
+        self.cursor = self.convert(event.locationInWindow, from: nil)
         self.needsDisplay = true
     }
     
     public override func mouseDragged(with event: NSEvent) {
         guard self.tooltipEnabledSnapshot else { return }
-        self.cursor = convert(event.locationInWindow, from: nil)
+        self.cursor = self.convert(event.locationInWindow, from: nil)
         self.needsDisplay = true
     }
     
@@ -953,7 +953,7 @@ public class NetworkChartView: ChartView {
         self.inChart.setFlipY(!self.reversedOrder)
         self.outChart.setFlipY(self.reversedOrder)
         
-        let safeHeight = max(frame.height, 2)
+        let safeHeight = max(self.frame.height, 2)
         let topFrame = CGPoint(x: 0, y: safeHeight/2)
         let bottomFrame = CGPoint(x: 0, y: 0)
         self.inChart.setFrameOrigin(self.reversedOrder ? topFrame : bottomFrame)
@@ -1089,7 +1089,7 @@ public class PieChartView: ChartView {
             style.alignment = .center
             let stringAttributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 10, weight: .regular),
-                NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
+                NSAttributedString.Key.foregroundColor: self.isDarkMode ? NSColor.white : NSColor.textColor,
                 NSAttributedString.Key.paragraphStyle: style
             ]
             
@@ -1102,7 +1102,7 @@ public class PieChartView: ChartView {
             let font = NSFont.systemFont(ofSize: fontSize, weight: .regular)
             let stringAttributes = [
                 NSAttributedString.Key.font: font,
-                NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
+                NSAttributedString.Key.foregroundColor: self.isDarkMode ? NSColor.white : NSColor.textColor,
                 NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
             ]
             
@@ -1280,7 +1280,7 @@ public class GaugeChartView: ChartView {
             let needleAngle = (range.start + range.end) / 2
             let needleEndSize: CGFloat = 2
             let needleLength = radius - arcWidth/2 - 1
-
+            
             let tip = CGPoint(
                 x: centerPoint.x + needleLength * cos(needleAngle),
                 y: centerPoint.y + needleLength * sin(needleAngle)
@@ -1294,13 +1294,13 @@ public class GaugeChartView: ChartView {
                 x: centerPoint.x - needleEndSize * cos(perpAngle),
                 y: centerPoint.y - needleEndSize * sin(perpAngle)
             )
-
+            
             let needlePath = NSBezierPath()
             needlePath.move(to: tip)
             needlePath.line(to: base1)
             needlePath.line(to: base2)
             needlePath.close()
-
+            
             let needleCirclePath = NSBezierPath(
                 roundedRect: NSRect(
                     x: centerPoint.x - needleEndSize,
@@ -1312,7 +1312,7 @@ public class GaugeChartView: ChartView {
                 yRadius: needleEndSize * 2
             )
             needleCirclePath.close()
-
+            
             NSColor.systemBlue.setFill()
             needlePath.fill()
             needleCirclePath.fill()
@@ -1323,7 +1323,7 @@ public class GaugeChartView: ChartView {
             style.alignment = .center
             let stringAttributes = [
                 NSAttributedString.Key.font: NSFont.systemFont(ofSize: 10, weight: .medium),
-                NSAttributedString.Key.foregroundColor: isDarkMode ? NSColor.white : NSColor.textColor,
+                NSAttributedString.Key.foregroundColor: self.isDarkMode ? NSColor.white : NSColor.textColor,
                 NSAttributedString.Key.paragraphStyle: style
             ]
             let str = NSAttributedString(string: title, attributes: stringAttributes)
@@ -1442,15 +1442,15 @@ public class ColumnChartView: ChartView {
     }
     
     public override func mouseEntered(with event: NSEvent) {
-        self.cursor = convert(event.locationInWindow, from: nil)
+        self.cursor = self.convert(event.locationInWindow, from: nil)
         self.needsDisplay = true
     }
     public override func mouseMoved(with event: NSEvent) {
-        self.cursor = convert(event.locationInWindow, from: nil)
+        self.cursor = self.convert(event.locationInWindow, from: nil)
         self.needsDisplay = true
     }
     public override func mouseDragged(with event: NSEvent) {
-        self.cursor = convert(event.locationInWindow, from: nil)
+        self.cursor = self.convert(event.locationInWindow, from: nil)
         self.needsDisplay = true
     }
     public override func mouseExited(with event: NSEvent) {
@@ -1595,11 +1595,11 @@ public class BatteryChartView: ChartView {
     }
     
     public override func mouseEntered(with event: NSEvent) {
-        self.cursor = convert(event.locationInWindow, from: nil)
+        self.cursor = self.convert(event.locationInWindow, from: nil)
         self.needsDisplay = true
     }
     public override func mouseMoved(with event: NSEvent) {
-        self.cursor = convert(event.locationInWindow, from: nil)
+        self.cursor = self.convert(event.locationInWindow, from: nil)
         self.needsDisplay = true
     }
     public override func mouseExited(with event: NSEvent) {
@@ -1721,12 +1721,12 @@ public class GridChartView: ChartView {
     }
     
     public override func mouseEntered(with event: NSEvent) {
-        self.cursor = convert(event.locationInWindow, from: nil)
+        self.cursor = self.convert(event.locationInWindow, from: nil)
         self.needsDisplay = true
     }
     
     public override func mouseMoved(with event: NSEvent) {
-        self.cursor = convert(event.locationInWindow, from: nil)
+        self.cursor = self.convert(event.locationInWindow, from: nil)
         self.needsDisplay = true
     }
     
@@ -1803,7 +1803,7 @@ public class BarChartView: ChartView {
             let rect: NSRect = isHorizontal
                 ? NSRect(x: offset, y: (self.frame.height - barSize) / 2, width: segmentLength, height: barSize)
                 : NSRect(x: (self.frame.width - barSize) / 2, y: offset, width: barSize, height: segmentLength)
-            
+                
             let path = NSBezierPath(rect: rect)
             color.setFill()
             path.fill()

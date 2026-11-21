@@ -84,11 +84,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         self.defaultValues()
         self.icon()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(listenForAppPause), name: .pause, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleToggleSettings), name: .toggleSettings, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleRemoteAuthenticated), name: .remoteAuthenticated, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleRemoteUpdate), name: .remoteUpdate, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handlePopupVisibility), name: .popupVisibilityChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.listenForAppPause), name: .pause, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleToggleSettings), name: .toggleSettings, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleRemoteAuthenticated), name: .remoteAuthenticated, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleRemoteUpdate), name: .remoteUpdate, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handlePopupVisibility), name: .popupVisibilityChanged, object: nil)
         
         NSEvent.addGlobalMonitorForEvents(matching: [.keyDown, .flagsChanged]) { [weak self] event in
             self?.handleKeyEvent(event)
@@ -170,7 +170,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     private func showSettingsIfNoActiveWidgets() {
         if self.pauseState { return }
         if Store.shared.bool(key: "CombinedModules", defaultValue: false), CombinedModulesWidget.current != .widgets { return }
-        let hasActive = modules.contains(where: { $0.enabled != false && $0.available != false && !$0.menuBar.widgets.filter({ $0.isActive }).isEmpty })
+        let hasActive = modules.contains(where: { $0.enabled != false && $0.available != false && $0.menuBar.widgets.contains(where: { $0.isActive }) })
         if hasActive { return }
         self.ensureSettingsWindow().setIsVisible(true)
     }

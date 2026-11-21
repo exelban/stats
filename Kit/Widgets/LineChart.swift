@@ -79,7 +79,7 @@ public class LineChart: WidgetWrapper {
                 self.colors = self.colors.filter{ !unsupportedColors.contains($0.key) }
             }
             if let color = config!["Color"] as? String {
-                if let defaultColor = colors.first(where: { $0.key == color }) {
+                if let defaultColor = self.colors.first(where: { $0.key == color }) {
                     self.colorState = defaultColor
                 }
             }
@@ -166,9 +166,9 @@ public class LineChart: WidgetWrapper {
         case .pressure: color = pressureLevel.pressureColor()
         case .monochrome:
             if self.boxState {
-                color = (isDarkMode ? NSColor.black : NSColor.white)
+                color = (self.isDarkMode ? NSColor.black : NSColor.white)
             } else {
-                color = (isDarkMode ? NSColor.white : NSColor.black)
+                color = (self.isDarkMode ? NSColor.white : NSColor.black)
             }
         default: color = self.colorState.additional as? NSColor ?? .controlAccentColor
         }
@@ -192,7 +192,7 @@ public class LineChart: WidgetWrapper {
             let style = NSMutableParagraphStyle()
             style.alignment = .right
             
-            var valueColor = isDarkMode ? NSColor.white : NSColor.black
+            var valueColor = self.isDarkMode ? NSColor.white : NSColor.black
             if self.valueColorState {
                 valueColor = color
             }
@@ -218,7 +218,7 @@ public class LineChart: WidgetWrapper {
         ), xRadius: 2, yRadius: 2)
         
         if self.boxState {
-            (isDarkMode ? NSColor.white : NSColor.black).set()
+            (self.isDarkMode ? NSColor.white : NSColor.black).set()
             box.stroke()
             box.fill()
             self.chart.setTransparent(false)
@@ -242,7 +242,7 @@ public class LineChart: WidgetWrapper {
         context.restoreGState()
         
         if self.boxState || self.frameState {
-            (isDarkMode ? NSColor.white : NSColor.black).set()
+            (self.isDarkMode ? NSColor.white : NSColor.black).set()
             box.lineWidth = lineWidth
             box.stroke()
         }
@@ -277,47 +277,47 @@ public class LineChart: WidgetWrapper {
     public override func settings() -> NSView {
         let view = SettingsContainerView()
         
-        let box = switchView(
+        let box = self.switchView(
             action: #selector(self.toggleBox),
             state: self.boxState
         )
         self.boxSettingsView = box
-        let frame = switchView(
+        let frame = self.switchView(
             action: #selector(self.toggleFrame),
             state: self.frameState
         )
         self.frameSettingsView = frame
         
         view.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Label"), component: switchView(
+            PreferencesRow(localizedString("Label"), component: self.switchView(
                 action: #selector(self.toggleLabel),
                 state: self.labelState
             )),
-            PreferencesRow(localizedString("Value"), component: switchView(
+            PreferencesRow(localizedString("Value"), component: self.switchView(
                 action: #selector(self.toggleValue),
                 state: self.valueState
             )),
             PreferencesRow(localizedString("Box"), component: box),
             PreferencesRow(localizedString("Frame"), component: frame),
-            PreferencesRow(localizedString("Gradient fill"), component: switchView(
+            PreferencesRow(localizedString("Gradient fill"), component: self.switchView(
                 action: #selector(self.toggleGradientFill),
                 state: self.gradientFillState
             )),
-            PreferencesRow(localizedString("Color"), component: colorSelectView(
+            PreferencesRow(localizedString("Color"), component: self.colorSelectView(
                 action: #selector(self.toggleColor),
                 items: self.colors,
                 selected: self.colorState.key
             )),
-            PreferencesRow(localizedString("Colorize value"), component: switchView(
+            PreferencesRow(localizedString("Colorize value"), component: self.switchView(
                 action: #selector(self.toggleValueColor),
                 state: self.valueColorState
             )),
-            PreferencesRow(localizedString("Number of reads in the chart"), component: selectView(
+            PreferencesRow(localizedString("Number of reads in the chart"), component: self.selectView(
                 action: #selector(self.toggleHistoryCount),
                 items: self.historyNumbers,
                 selected: "\(self.historyCount)"
             )),
-            PreferencesRow(localizedString("Scaling"), component: selectView(
+            PreferencesRow(localizedString("Scaling"), component: self.selectView(
                 action: #selector(self.toggleScale),
                 items: Scale.allCases.filter({ $0 != .fixed }),
                 selected: self.scaleState.key

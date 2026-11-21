@@ -369,7 +369,7 @@ internal class Preview: PreviewWrapper {
             self.totalDownloadField?.stringValue = Units(bytes: value.total.download).getReadableMemory()
             
             self.statusField?.setStatus(value.status)
-
+            
             if let interface = value.interface {
                 self.interfaceField?.stringValue = "\(interface.displayName) (\(interface.BSDName))"
                 self.interfaceStatusField?.setStatus(interface.status)

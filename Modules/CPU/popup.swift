@@ -598,17 +598,17 @@ internal class Popup: PopupWrapper {
         ]))
         
         view.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("System color"), component: colorSelectView(
+            PreferencesRow(localizedString("System color"), component: self.colorSelectView(
                 action: #selector(self.toggleSystemColor),
                 items: SColor.allColors,
                 selected: self.systemColorState.key
             )),
-            PreferencesRow(localizedString("User color"), component: colorSelectView(
+            PreferencesRow(localizedString("User color"), component: self.colorSelectView(
                 action: #selector(self.toggleUserColor),
                 items: SColor.allColors,
                 selected: self.userColorState.key
             )),
-            PreferencesRow(localizedString("Idle color"), component: colorSelectView(
+            PreferencesRow(localizedString("Idle color"), component: self.colorSelectView(
                 action: #selector(self.toggleIdleColor),
                 items: SColor.allColors,
                 selected: self.idleColorState.key
@@ -616,40 +616,40 @@ internal class Popup: PopupWrapper {
         ]))
         
         view.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Efficiency cores color"), component: colorSelectView(
+            PreferencesRow(localizedString("Efficiency cores color"), component: self.colorSelectView(
                 action: #selector(self.toggleECoresColor),
                 items: SColor.allColors,
                 selected: self.eCoresColorState.key
             )),
-            PreferencesRow(localizedString("Performance cores color"), component: colorSelectView(
+            PreferencesRow(localizedString("Performance cores color"), component: self.colorSelectView(
                 action: #selector(self.togglePCoresColor),
                 items: SColor.allColors,
                 selected: self.pCoresColorState.key
             )),
-            PreferencesRow(localizedString("Super cores color"), component: colorSelectView(
+            PreferencesRow(localizedString("Super cores color"), component: self.colorSelectView(
                 action: #selector(self.toggleSCoresColor),
                 items: SColor.allColors,
                 selected: self.sCoresColorState.key
             ))
         ]))
         
-        self.sliderView = sliderView(
+        self.sliderView = self.sliderView(
             action: #selector(self.toggleLineChartFixedScale),
             value: Int(self.lineChartFixedScale * 100),
             initialValue: "\(Int(self.lineChartFixedScale * 100)) %"
         )
         self.chartPrefSection = PreferencesSection([
-            PreferencesRow(localizedString("Chart color"), component: colorSelectView(
+            PreferencesRow(localizedString("Chart color"), component: self.colorSelectView(
                 action: #selector(self.toggleChartColor),
                 items: SColor.allColors,
                 selected: self.chartColorState.key
             )),
-            PreferencesRow(localizedString("Chart history"), component: selectView(
+            PreferencesRow(localizedString("Chart history"), component: self.selectView(
                 action: #selector(self.toggleLineChartHistory),
                 items: LineChartHistory,
                 selected: "\(self.lineChartHistory)"
             )),
-            PreferencesRow(localizedString("Main chart scaling"), component: selectView(
+            PreferencesRow(localizedString("Main chart scaling"), component: self.selectView(
                 action: #selector(self.toggleLineChartScale),
                 items: Scale.allCases,
                 selected: self.lineChartScale.key

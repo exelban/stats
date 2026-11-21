@@ -359,7 +359,7 @@ private func driveDetails(_ disk: DADisk, removableState: Bool) -> drive? {
                     return nil
                 }
             }
-            if d.mediaName == "" {
+            if d.mediaName.isEmpty {
                 if let mediaName = dict[kDADiskDescriptionMediaNameKey as String] as? String {
                     d.mediaName = mediaName
                     if d.mediaName == "Recovery" {
@@ -381,7 +381,7 @@ private func driveDetails(_ disk: DADisk, removableState: Bool) -> drive? {
                         d.root = components.count == 1
                         
                         if components.count > 1 && components[1] == "Volumes" {
-                            if let name: String = url.lastPathComponent, name != "" {
+                            if let name: String = url.lastPathComponent, !name.isEmpty {
                                 d.mediaName = name
                             }
                         }
@@ -403,7 +403,7 @@ private func driveDetails(_ disk: DADisk, removableState: Bool) -> drive? {
     if d.path == nil {
         return nil
     }
-    if d.uuid == "" || d.uuid == "00000000-0000-0000-0000-000000000000" {
+    if d.uuid.isEmpty || d.uuid == "00000000-0000-0000-0000-000000000000" {
         d.uuid = d.BSDName
     }
     
@@ -649,7 +649,7 @@ internal class SMARTReader: Reader<Disks> {
         let bytesPerDataUnit: Int64 = 512 * 1000
         let (totalRead, readOverflow) = self.extractUInt128(smartData.data_units_read).multipliedReportingOverflow(by: bytesPerDataUnit)
         let (totalWritten, writtenOverflow) = self.extractUInt128(smartData.data_units_written).multipliedReportingOverflow(by: bytesPerDataUnit)
-
+        
         let powerCycles = withUnsafeBytes(of: smartData.power_cycles) { $0.load(as: UInt32.self) }
         let powerOnHours = withUnsafeBytes(of: smartData.power_on_hours) { $0.load(as: UInt32.self) }
         let unsafeShutdowns = withUnsafeBytes(of: smartData.unsafe_shutdowns) { $0.load(as: UInt32.self) }

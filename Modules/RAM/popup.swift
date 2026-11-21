@@ -75,7 +75,7 @@ internal class Popup: PopupWrapper {
             x: 0,
             y: 0,
             width: Constants.Popup.width,
-            height: dashboardHeight + chartHeight + detailsHeight
+            height: self.dashboardHeight + self.chartHeight + self.detailsHeight
         ))
         self.setFrameSize(NSSize(width: self.frame.width, height: self.frame.height+self.processesHeight))
         
@@ -341,45 +341,45 @@ internal class Popup: PopupWrapper {
         ]))
         
         view.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("App color"), component: colorSelectView(
-                action: #selector(toggleAppColor),
+            PreferencesRow(localizedString("App color"), component: self.colorSelectView(
+                action: #selector(self.toggleAppColor),
                 items: SColor.allColors,
                 selected: self.appColorState.key
             )),
-            PreferencesRow(localizedString("Wired color"), component: colorSelectView(
-                action: #selector(toggleWiredColor),
+            PreferencesRow(localizedString("Wired color"), component: self.colorSelectView(
+                action: #selector(self.toggleWiredColor),
                 items: SColor.allColors,
                 selected: self.wiredColorState.key
             )),
-            PreferencesRow(localizedString("Compressed color"), component: colorSelectView(
-                action: #selector(toggleCompressedColor),
+            PreferencesRow(localizedString("Compressed color"), component: self.colorSelectView(
+                action: #selector(self.toggleCompressedColor),
                 items: SColor.allColors,
                 selected: self.compressedColorState.key
             )),
-            PreferencesRow(localizedString("Free color"), component: colorSelectView(
-                action: #selector(toggleFreeColor),
+            PreferencesRow(localizedString("Free color"), component: self.colorSelectView(
+                action: #selector(self.toggleFreeColor),
                 items: SColor.allColors,
                 selected: self.freeColorState.key
             ))
         ]))
         
-        self.sliderView = sliderView(
+        self.sliderView = self.sliderView(
             action: #selector(self.toggleLineChartFixedScale),
             value: Int(self.lineChartFixedScale * 100),
             initialValue: "\(Int(self.lineChartFixedScale * 100)) %"
         )
         self.chartPrefSection = PreferencesSection([
-            PreferencesRow(localizedString("Chart color"), component: colorSelectView(
+            PreferencesRow(localizedString("Chart color"), component: self.colorSelectView(
                 action: #selector(self.toggleChartColor),
                 items: SColor.allColors,
                 selected: self.chartColorState.key
             )),
-            PreferencesRow(localizedString("Chart history"), component: selectView(
+            PreferencesRow(localizedString("Chart history"), component: self.selectView(
                 action: #selector(self.toggleLineChartHistory),
                 items: LineChartHistory,
                 selected: "\(self.lineChartHistory)"
             )),
-            PreferencesRow(localizedString("Main chart scaling"), component: selectView(
+            PreferencesRow(localizedString("Main chart scaling"), component: self.selectView(
                 action: #selector(self.toggleLineChartScale),
                 items: Scale.allCases,
                 selected: self.lineChartScale.key

@@ -270,11 +270,11 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
             if hidAddresses.count > 1 { return nil }
             let hidMatches = candidates.filter({ hidAddresses.contains(normalized(devices[$0].address)) })
             if hidMatches.count == 1 { return hidMatches[0] }
-
+            
             let nameMatches = candidates.filter({ normalized(devices[$0].name) == name })
             if nameMatches.count == 1 { return nameMatches[0] }
         }
-
+        
         if let vendorId = accessory.vendorId, let productId = accessory.productId {
             let matches = candidates.filter({ devices[$0].vendorId == vendorId && devices[$0].productId == productId })
             if matches.count == 1 { return matches[0] }
@@ -297,11 +297,11 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
             }
             
             var address: String = ""
-            if let addr = d.object(forKey: "DeviceAddress") as? String, addr != "" {
+            if let addr = d.object(forKey: "DeviceAddress") as? String, !addr.isEmpty {
                 address = addr
-            } else if let addr = d.object(forKey: "SerialNumber") as? String, addr != "" {
+            } else if let addr = d.object(forKey: "SerialNumber") as? String, !addr.isEmpty {
                 address = addr
-            } else if let bleAddr = d.object(forKey: "BD_ADDR") as? Data, let addr = String(data: bleAddr, encoding: .utf8), addr != "" {
+            } else if let bleAddr = d.object(forKey: "BD_ADDR") as? Data, let addr = String(data: bleAddr, encoding: .utf8), !addr.isEmpty {
                 address = addr
             }
             
@@ -510,7 +510,7 @@ internal class DevicesReader: Reader<[BLEDevice]>, CBCentralManagerDelegate, CBP
                 }
                 return plist
             }
-        
+            
         struct PmsetEntry {
             let name: String
             let capacity: Int

@@ -71,7 +71,7 @@ internal class Preview: PreviewWrapper {
     private var bsdNameValueField: ValueField?
     private var encryptedValueField: ValueField?
     private var writableValueField: ValueField?
-
+    
     private var smartTotalReadValueField: ValueField?
     private var smartTotalWrittenValueField: ValueField?
     private var temperatureValueField: ValueField?
@@ -606,10 +606,10 @@ internal class DiskRow {
     private let capacityView: NSStackView = NSStackView()
     private let fileSystemField: NSTextField
     private let ejectButton: NSButton = NSButton()
-
+    
     private let uri: URL?
     private let finder: URL?
-
+    
     public var cells: [NSView] { [self.nameField, self.capacityView, self.fileSystemField, self.ejectButton] }
     
     init(_ drive: drive) {

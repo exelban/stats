@@ -49,7 +49,7 @@ internal class Settings: NSStackView, Settings_v {
         self.selectedSensor = Store.shared.string(key: "\(self.title)_sensor", defaultValue: self.selectedSensor)
         
         self.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Update interval"), component: selectView(
+            PreferencesRow(localizedString("Update interval"), component: self.selectView(
                 action: #selector(self.changeUpdateInterval),
                 items: ReaderUpdateIntervals,
                 selected: "\(self.updateIntervalValue)"
@@ -57,34 +57,34 @@ internal class Settings: NSStackView, Settings_v {
         ]))
         
         self.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Fan value"), component: selectView(
+            PreferencesRow(localizedString("Fan value"), component: self.selectView(
                 action: #selector(self.toggleFanValue),
                 items: FanValues,
                 selected: self.fanValueState.rawValue
             )),
-            PreferencesRow(localizedString("Save the fan speed"), component: switchView(
+            PreferencesRow(localizedString("Save the fan speed"), component: self.switchView(
                 action: #selector(self.toggleSpeedState),
                 state: self.fanSpeedState
             )),
-            PreferencesRow(localizedString("Synchronize fan's control"), component: switchView(
+            PreferencesRow(localizedString("Synchronize fan's control"), component: self.switchView(
                 action: #selector(self.toggleFansSync),
                 state: self.fansSyncState
             ))
         ]))
         
         var sensorsRows: [PreferencesRow] = [
-            PreferencesRow(localizedString("Show unknown sensors"), component: switchView(
+            PreferencesRow(localizedString("Show unknown sensors"), component: self.switchView(
                 action: #selector(self.toggleuUnknownSensors),
                 state: self.unknownSensorsState
             ))
         ]
         if isARM {
-            sensorsRows.append(PreferencesRow(localizedString("HID sensors"), component: switchView(
+            sensorsRows.append(PreferencesRow(localizedString("HID sensors"), component: self.switchView(
                 action: #selector(self.toggleHID),
                 state: self.hidState
             )))
         }
-        sensorsRows.append(PreferencesRow(localizedString("Sensor to show"), id: "active_sensor", component: selectView(
+        sensorsRows.append(PreferencesRow(localizedString("Sensor to show"), id: "active_sensor", component: self.selectView(
             action: #selector(self.handleSelection),
             items: [],
             selected: self.selectedSensor)
@@ -140,7 +140,7 @@ internal class Settings: NSStackView, Settings_v {
             }
             groups.forEach { (group: SensorGroup) in
                 filtered.filter{ $0.group == group }.forEach { (s: Sensor_p) in
-                    let btn = switchView(
+                    let btn = self.switchView(
                         action: #selector(self.toggleSensor),
                         state: s.state
                     )
@@ -155,7 +155,7 @@ internal class Settings: NSStackView, Settings_v {
         
         if let row = self.sensorsPrefs?.findRow("active_sensor") {
             self.sensorsPrefs?.setRowVisibility(row, newState: widgets.contains(where: { $0 == .mini }))
-            row.replaceComponent(with: selectView(
+            row.replaceComponent(with: self.selectView(
                 action: #selector(self.handleSelection),
                 items: buttonList,
                 selected: self.selectedSensor

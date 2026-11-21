@@ -63,9 +63,9 @@ class Notifications: NotificationsWrapper {
             let section = PreferencesSection(title: localizedString(typ.rawValue))
             groups.forEach { (group: SensorGroup) in
                 filtered.filter{ $0.group == group }.forEach { (s: Sensor_p) in
-                    let btn = selectView(
+                    let btn = self.selectView(
                         action: #selector(self.changeSensorNotificaion),
-                        items: s.type == .temperature ? temperatureLevels : notificationLevels,
+                        items: s.type == .temperature ? self.temperatureLevels : notificationLevels,
                         selected: s.notificationThreshold
                     )
                     btn.identifier = NSUserInterfaceItemIdentifier(rawValue: s.key)

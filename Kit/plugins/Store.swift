@@ -122,7 +122,7 @@ public class Store {
         var importedDict = dict
         
         for key in keysToPreserve {
-            if let existingValue = getValue(for: key, type: String.self) {
+            if let existingValue = self.getValue(for: key, type: String.self) {
                 importedDict[key] = existingValue
             }
         }

@@ -257,7 +257,7 @@ public class ProcessReader: Reader<[TopProcess]> {
         var command = arr.joined(separator: " ")
             .replacingOccurrences(of: pidString, with: "")
             .trimmingCharacters(in: .whitespaces)
-        
+            
         if let regex = try? NSRegularExpression(pattern: " (\\+|\\-)*$", options: .caseInsensitive) {
             command = regex.stringByReplacingMatches(in: command, options: [], range: NSRange(location: 0, length: command.count), withTemplate: "")
         }

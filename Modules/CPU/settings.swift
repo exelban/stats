@@ -64,12 +64,12 @@ internal class Settings: NSStackView, Settings_v {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
         self.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Update interval"), component: selectView(
+            PreferencesRow(localizedString("Update interval"), component: self.selectView(
                 action: #selector(self.changeUpdateInterval),
                 items: ReaderUpdateIntervals,
                 selected: "\(self.updateIntervalValue)"
             )),
-            PreferencesRow(localizedString("Update interval for top processes"), component: selectView(
+            PreferencesRow(localizedString("Update interval for top processes"), component: self.selectView(
                 action: #selector(self.changeUpdateTopInterval),
                 items: ReaderUpdateIntervals,
                 selected: "\(self.updateTopIntervalValue)"
@@ -77,19 +77,19 @@ internal class Settings: NSStackView, Settings_v {
         ]))
         
         self.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Number of top processes"), component: selectView(
+            PreferencesRow(localizedString("Number of top processes"), component: self.selectView(
                 action: #selector(self.changeNumberOfProcesses),
                 items: NumbersOfProcesses.map{ KeyValue_t(key: "\($0)", value: "\($0)") },
                 selected: "\(self.numberOfProcesses)"
             ))
         ]))
         
-        if !widgets.filter({ $0 == .barChart }).isEmpty {
-            self.splitValueView = switchView(
+        if widgets.contains(.barChart) {
+            self.splitValueView = self.switchView(
                 action: #selector(self.toggleSplitValue),
                 state: self.splitValueState
             )
-            self.usagePerCoreView = switchView(
+            self.usagePerCoreView = self.switchView(
                 action: #selector(self.toggleUsagePerCore),
                 state: self.usagePerCoreState
             )
@@ -103,7 +103,7 @@ internal class Settings: NSStackView, Settings_v {
             ]
             
             #if arch(arm64)
-            self.groupByClustersView = switchView(
+            self.groupByClustersView = self.switchView(
                 action: #selector(self.toggleClustersGroup),
                 state: self.clustersGroupState
             )
@@ -111,7 +111,7 @@ internal class Settings: NSStackView, Settings_v {
             #endif
             
             if self.hasHyperthreadingCores {
-                self.hyperthreadView = switchView(
+                self.hyperthreadView = self.switchView(
                     action: #selector(self.toggleMultithreading),
                     state: self.hyperthreadState
                 )

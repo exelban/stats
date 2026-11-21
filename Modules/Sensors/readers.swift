@@ -582,7 +582,7 @@ extension SensorsReader {
         guard elapsed > 0 else { return 0 }
         return (currentEnergy - previousEnergy) / elapsed
     }
-
+    
     private func IOSensors() -> (Double, Double, Double, Double, Double)? {
         guard let reportSample = IOReportCreateSamples(self.subscription, self.channels, nil)?.takeRetainedValue(),
               let dict = reportSample as? [String: Any],

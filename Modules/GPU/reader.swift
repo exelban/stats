@@ -135,10 +135,10 @@ internal class InfoReader: Reader<GPUs> {
             var predictModel = ""
             var type: GPU_types = .unknown
             
-            let utilization: Int? = stats["Device Utilization %"] as? Int ?? stats["GPU Activity(%)"] as? Int ?? nil
-            let renderUtilization: Int? = stats["Renderer Utilization %"] as? Int ?? nil
-            let tilerUtilization: Int? = stats["Tiler Utilization %"] as? Int ?? nil
-            let memory = stats["In use system memory"] as? Int ?? nil
+            let utilization: Int? = stats["Device Utilization %"] as? Int ?? stats["GPU Activity(%)"] as? Int
+            let renderUtilization: Int? = stats["Renderer Utilization %"] as? Int
+            let tilerUtilization: Int? = stats["Tiler Utilization %"] as? Int
+            let memory = stats["In use system memory"] as? Int
             
             if ioClass == "nvaccelerator" || ioClass.contains("nvidia") { // nvidia
                 predictModel = "Nvidia Graphics"
@@ -166,14 +166,14 @@ internal class InfoReader: Reader<GPUs> {
                 type = .external
             }
             
-            if model == "" {
+            if model.isEmpty {
                 model = predictModel
             }
             if let v = vendor {
                 model = model.removedRegexMatches(pattern: v, replaceWith: "").trimmingCharacters(in: .whitespacesAndNewlines)
             }
             
-            if self.gpus.list.first(where: { $0.id == id }) == nil {
+            if !self.gpus.list.contains(where: { $0.id == id }) {
                 self.gpus.list.append(GPU_Info(
                     id: id,
                     type: type.rawValue,
@@ -323,7 +323,7 @@ internal class InfoReader: Reader<GPUs> {
             let raw = Double(IOReportSimpleGetIntegerValue(item, 0))
             let unit = (IOReportChannelGetUnitLabel(item)?.takeUnretainedValue() as? String)?
                 .trimmingCharacters(in: .whitespaces) ?? ""
-            
+                
             let joules: Double
             switch unit.lowercased() {
             case "mj":       joules = raw / 1e3

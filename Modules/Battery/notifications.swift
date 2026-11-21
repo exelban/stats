@@ -36,12 +36,12 @@ class Notifications: NotificationsWrapper {
         self.highLevel = Store.shared.string(key: "\(self.module)_notifications_high", defaultValue: self.highLevel)
         
         self.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Low level notification"), component: selectView(
+            PreferencesRow(localizedString("Low level notification"), component: self.selectView(
                 action: #selector(self.changeLowLevel),
                 items: notificationLevels,
                 selected: self.lowLevel
             )),
-            PreferencesRow(localizedString("High level notification"), component: selectView(
+            PreferencesRow(localizedString("High level notification"), component: self.selectView(
                 action: #selector(self.changeHighLevel),
                 items: notificationLevels,
                 selected: self.highLevel

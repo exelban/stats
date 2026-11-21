@@ -50,7 +50,7 @@ internal class Popup: PopupWrapper {
         ]))
         
         self.settingsView.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Fan value"), component: selectView(
+            PreferencesRow(localizedString("Fan value"), component: self.selectView(
                 action: #selector(self.toggleFanValue),
                 items: FanValues,
                 selected: self.fanValueState.rawValue
@@ -277,7 +277,7 @@ internal class Popup: PopupWrapper {
             section.identifier = NSUserInterfaceItemIdentifier("sensor")
             groups.forEach { (group: SensorGroup) in
                 filtered.filter{ $0.group == group }.forEach { (s: Sensor_p) in
-                    let btn = switchView(
+                    let btn = self.switchView(
                         action: #selector(self.toggleSensor),
                         state: s.popupState
                     )
@@ -669,7 +669,7 @@ internal class FanView: NSStackView {
         container.distribution = .fillProportionally
         container.spacing = 0
         container.wantsLayer = true
-        container.layer?.backgroundColor = (isDarkMode ? NSColor(red: 17/255, green: 17/255, blue: 17/255, alpha: 0.25) : NSColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1)).cgColor
+        container.layer?.backgroundColor = (self.isDarkMode ? NSColor(red: 17/255, green: 17/255, blue: 17/255, alpha: 0.25) : NSColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1)).cgColor
         
         let button: NSButton = NSButton()
         button.isBordered = false
@@ -945,7 +945,7 @@ internal class FanView: NSStackView {
         
         self.willSleepMode = mode
         self.willSleepSpeed = self.fan.customSpeed
-        SMCHelper.shared.setFanMode(fan.id, mode: FanMode.automatic.rawValue)
+        SMCHelper.shared.setFanMode(self.fan.id, mode: FanMode.automatic.rawValue)
         self.modeButtons?.setMode(.automatic)
     }
     
@@ -987,7 +987,7 @@ internal class FanView: NSStackView {
                 self.barView?.setValue(ColorValue(Double(percentage) / 100))
                 
                 if self.resetModeAfterSleep && !value.mode.isAutomatic {
-                    if self.sliderValueField?.stringValue != "" && self.slider?.doubleValue != value.value {
+                    if self.sliderValueField?.stringValue.isEmpty != true && self.slider?.doubleValue != value.value {
                         self.slider?.doubleValue = value.value
                         self.sliderValueField?.stringValue = ""
                     }
@@ -1134,8 +1134,8 @@ private class ModeButtons: NSStackView {
     public init(frame: NSRect, mode: FanMode) {
         self.modes = .init(mode)
         
-        self.offBtn = NSButton(image: iconFromSymbol(name: "nosign", scale: .medium), target: nil, action: #selector(offMode))
-        self.turboBtn = NSButton(image: iconFromSymbol(name: "snowflake", scale: .large), target: nil, action: #selector(turboMode))
+        self.offBtn = NSButton(image: iconFromSymbol(name: "nosign", scale: .medium), target: nil, action: #selector(self.offMode))
+        self.turboBtn = NSButton(image: iconFromSymbol(name: "snowflake", scale: .large), target: nil, action: #selector(self.turboMode))
         
         super.init(frame: frame)
         
@@ -1173,7 +1173,7 @@ private class ModeButtons: NSStackView {
         self.turboBtn.isBordered = false
         self.turboBtn.target = self
         
-        self.addArrangedSubview(modes)
+        self.addArrangedSubview(self.modes)
         self.addArrangedSubview(self.offBtn)
         self.addArrangedSubview(self.turboBtn)
         
@@ -1185,7 +1185,7 @@ private class ModeButtons: NSStackView {
             self.turboBtn.heightAnchor.constraint(equalToConstant: self.frame.height)
         ])
         
-        NotificationCenter.default.addObserver(self, selector: #selector(syncFanMode), name: .syncFansControl, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.syncFanMode), name: .syncFansControl, object: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -1197,7 +1197,7 @@ private class ModeButtons: NSStackView {
     }
     
     override func updateLayer() {
-        self.layer?.backgroundColor = (isDarkMode ? NSColor(red: 17/255, green: 17/255, blue: 17/255, alpha: 0.25) : NSColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)).cgColor
+        self.layer?.backgroundColor = (self.isDarkMode ? NSColor(red: 17/255, green: 17/255, blue: 17/255, alpha: 0.25) : NSColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)).cgColor
     }
     
     @objc private func offMode(_ sender: NSButton) {
@@ -1296,7 +1296,7 @@ private class ModeSwitch: NSStackView {
     public var manualCallback: (() -> Void)?
     
     private var autoBtn: NSButton = {
-        let button: NSButton = NSButton(title: localizedString("Automatic"), target: nil, action: #selector(autoMode))
+        let button: NSButton = NSButton(title: localizedString("Automatic"), target: nil, action: #selector(ModeSwitch.autoMode))
         button.setButtonType(.toggle)
         button.isBordered = false
         button.wantsLayer = true
@@ -1310,7 +1310,7 @@ private class ModeSwitch: NSStackView {
     }()
     
     private var manualBtn: NSButton = {
-        let button: NSButton = NSButton(title: localizedString("Manual"), target: nil, action: #selector(manualMode))
+        let button: NSButton = NSButton(title: localizedString("Manual"), target: nil, action: #selector(ModeSwitch.manualMode))
         button.setButtonType(.toggle)
         button.isBordered = false
         button.wantsLayer = true
@@ -1324,7 +1324,7 @@ private class ModeSwitch: NSStackView {
     }()
     
     private var selectedColor: CGColor {
-        (isDarkMode ? NSColor(red: 95/255, green: 95/255, blue: 95/255, alpha: 1) : .textBackgroundColor).cgColor
+        (self.isDarkMode ? NSColor(red: 95/255, green: 95/255, blue: 95/255, alpha: 1) : .textBackgroundColor).cgColor
     }
     
     init(_ mode: FanMode) {
@@ -1360,7 +1360,7 @@ private class ModeSwitch: NSStackView {
     }
     
     override func updateLayer() {
-        self.layer?.backgroundColor = (isDarkMode ? NSColor(red: 17/255, green: 17/255, blue: 17/255, alpha: 0.25) : NSColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1)).cgColor
+        self.layer?.backgroundColor = (self.isDarkMode ? NSColor(red: 17/255, green: 17/255, blue: 17/255, alpha: 0.25) : NSColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1)).cgColor
         self.autoBtn.layer?.backgroundColor = self.autoBtn.state == .on ? self.selectedColor : NSColor.clear.cgColor
         self.manualBtn.layer?.backgroundColor = self.manualBtn.state == .on ? self.selectedColor : NSColor.clear.cgColor
     }

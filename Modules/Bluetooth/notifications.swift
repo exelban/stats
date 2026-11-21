@@ -51,13 +51,13 @@ class Notifications: NotificationsWrapper {
         
         list.forEach { (d: BLEDevice) in
             if self.list[d.id] == nil {
-                let btn = selectView(
+                let btn = self.selectView(
                     action: #selector(self.changeSensorNotificaion),
                     items: notificationLevels,
                     selected: d.notificationThreshold
                 )
                 btn.identifier = NSUserInterfaceItemIdentifier(rawValue: "\(d.uuid?.uuidString ?? d.address)")
-                section.add(PreferencesRow(d.name, component: btn))
+                self.section.add(PreferencesRow(d.name, component: btn))
                 self.list[d.id] = true
             }
         }

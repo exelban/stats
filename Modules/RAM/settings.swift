@@ -87,12 +87,12 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
         self.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Update interval"), component: selectView(
+            PreferencesRow(localizedString("Update interval"), component: self.selectView(
                 action: #selector(self.changeUpdateInterval),
                 items: ReaderUpdateIntervals,
                 selected: "\(self.updateIntervalValue)"
             )),
-            PreferencesRow(localizedString("Update interval for top processes"), component: selectView(
+            PreferencesRow(localizedString("Update interval for top processes"), component: self.selectView(
                 action: #selector(self.changeUpdateTopInterval),
                 items: ReaderUpdateIntervals,
                 selected: "\(self.updateTopIntervalValue)"
@@ -100,21 +100,21 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         ]))
         
         self.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Combined processes"), component: switchView(
-                action: #selector(toggleCombinedProcesses),
+            PreferencesRow(localizedString("Combined processes"), component: self.switchView(
+                action: #selector(self.toggleCombinedProcesses),
                 state: self.combinedProcessesState
             )),
-            PreferencesRow(localizedString("Number of top processes"), component: selectView(
-                action: #selector(changeNumberOfProcesses),
+            PreferencesRow(localizedString("Number of top processes"), component: self.selectView(
+                action: #selector(self.changeNumberOfProcesses),
                 items: NumbersOfProcesses.map{ KeyValue_t(key: "\($0)", value: "\($0)") },
                 selected: "\(self.numberOfProcesses)"
             ))
         ]))
         
-        if !widgets.filter({ $0 == .barChart }).isEmpty {
+        if widgets.contains(.barChart) {
             self.addArrangedSubview(PreferencesSection([
-                PreferencesRow(localizedString("Split the value (App/Wired/Compressed)"), component: switchView(
-                    action: #selector(toggleSplitValue),
+                PreferencesRow(localizedString("Split the value (App/Wired/Compressed)"), component: self.switchView(
+                    action: #selector(self.toggleSplitValue),
                     state: self.splitValueState
                 ))
             ]))

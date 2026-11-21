@@ -47,7 +47,7 @@ public enum FanMode: Int, Codable {
     case automatic = 0
     case forced = 1
     case auto3 = 3
-
+    
     public var isAutomatic: Bool {
         self == .automatic || self == .auto3
     }
@@ -59,7 +59,7 @@ internal struct SMCKeyData_t {
                             UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8,
                             UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8,
                             UInt8, UInt8, UInt8, UInt8)
-    
+                            
     struct vers_t {
         var major: CUnsignedChar = 0
         var minor: CUnsignedChar = 0
@@ -183,7 +183,7 @@ public class SMC {
             return
         }
         
-        result = IOServiceOpen(device, mach_task_self_, 0, &conn)
+        result = IOServiceOpen(device, mach_task_self_, 0, &self.conn)
         IOObjectRelease(device)
         if result != kIOReturnSuccess {
             print("Error IOServiceOpen(): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
@@ -202,14 +202,14 @@ public class SMC {
         self.keyInfoLock.lock()
         defer { self.keyInfoLock.unlock() }
         self.keyInfoCache.removeAll()
-        return IOServiceClose(conn)
+        return IOServiceClose(self.conn)
     }
     
     public func getValue(_ key: String) -> Double? {
         var result: kern_return_t = 0
         var val: SMCVal_t = SMCVal_t(key)
         
-        result = read(&val)
+        result = self.read(&val)
         if result == kIOReturnNotFound { return nil }
         if result != kIOReturnSuccess {
             print("Error read(\(key)): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
@@ -217,7 +217,7 @@ public class SMC {
         }
         
         if val.dataSize > 0 {
-            if val.bytes.first(where: { $0 != 0 }) == nil && val.key != "FS! " && val.key != "F0Md" && val.key != "F1Md" && val.key != "F0md" && val.key != "F1md" {
+            if !val.bytes.contains(where: { $0 != 0 }) && val.key != "FS! " && val.key != "F0Md" && val.key != "F1Md" && val.key != "F0md" && val.key != "F1md" {
                 return nil
             }
             
@@ -281,7 +281,7 @@ public class SMC {
         var result: kern_return_t = 0
         var val: SMCVal_t = SMCVal_t(key)
         
-        result = read(&val)
+        result = self.read(&val)
         if result == kIOReturnNotFound { return nil }
         if result != kIOReturnSuccess {
             print("Error read(\(key)): " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
@@ -289,7 +289,7 @@ public class SMC {
         }
         
         if val.dataSize > 0 {
-            if val.bytes.first(where: { $0 != 0}) == nil {
+            if !val.bytes.contains(where: { $0 != 0 }) {
                 return nil
             }
             
@@ -338,7 +338,7 @@ public class SMC {
             input.data8 = SMCKeys.readIndex.rawValue
             input.data32 = UInt32(i)
             
-            result = call(SMCKeys.kernelIndex.rawValue, input: &input, output: &output)
+            result = self.call(SMCKeys.kernelIndex.rawValue, input: &input, output: &output)
             if result != kIOReturnSuccess || output.result != 0 {
                 continue
             }
@@ -359,19 +359,19 @@ public class SMC {
                        UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
                        UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
                        UInt8(0), UInt8(0)]
-        
-        return write(value)
+                       
+        return self.write(value)
     }
     
     // MARK: - fans
     
     public func fanModeKey(_ id: Int) -> String {
         #if arch(arm64)
-        if _fanModeKeyIsLower == nil {
+        if self._fanModeKeyIsLower == nil {
             var probe = SMCVal_t("F0md")
-            _fanModeKeyIsLower = read(&probe) == kIOReturnSuccess && probe.dataSize > 0
+            self._fanModeKeyIsLower = self.read(&probe) == kIOReturnSuccess && probe.dataSize > 0
         }
-        return _fanModeKeyIsLower! ? "F\(id)md" : "F\(id)Md"
+        return self._fanModeKeyIsLower! ? "F\(id)md" : "F\(id)Md"
         #else
         return "F\(id)Md"
         #endif
@@ -384,28 +384,28 @@ public class SMC {
         }
         #if arch(arm64)
         if mode == .forced {
-            if !unlockFanControl(fanId: id) { return }
+            if !self.unlockFanControl(fanId: id) { return }
         } else {
-            let modeKey = fanModeKey(id)
+            let modeKey = self.fanModeKey(id)
             let targetKey = "F\(id)Tg"
             
             if self.getValue(modeKey) != nil {
                 var modeVal = SMCVal_t(modeKey)
-                let readResult = read(&modeVal)
+                let readResult = self.read(&modeVal)
                 guard readResult == kIOReturnSuccess else {
-                    print(smcError("read", key: modeKey, result: readResult))
+                    print(self.smcError("read", key: modeKey, result: readResult))
                     return
                 }
                 if modeVal.bytes[0] != 0 {
                     modeVal.bytes[0] = 0
-                    if !writeWithRetry(modeVal) { return }
+                    if !self.writeWithRetry(modeVal) { return }
                 }
             }
             
             var targetValue = SMCVal_t(targetKey)
-            let result = read(&targetValue)
+            let result = self.read(&targetValue)
             guard result == kIOReturnSuccess else {
-                print(smcError("read", key: targetKey, result: result))
+                print(self.smcError("read", key: targetKey, result: result))
                 return
             }
             
@@ -415,7 +415,7 @@ public class SMC {
             targetValue.bytes[2] = bytes[2]
             targetValue.bytes[3] = bytes[3]
             
-            if !writeWithRetry(targetValue) { return }
+            if !self.writeWithRetry(targetValue) { return }
         }
         #else
         // Intel
@@ -423,7 +423,7 @@ public class SMC {
             var result: kern_return_t = 0
             var value = SMCVal_t("F\(id)Md")
             
-            result = read(&value)
+            result = self.read(&value)
             if result != kIOReturnSuccess {
                 print("Error read fan mode: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
                 return
@@ -435,8 +435,8 @@ public class SMC {
                                    UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
                                    UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
                                    UInt8(0), UInt8(0)]
-            
-            result = write(value)
+                                   
+            result = self.write(value)
             if result != kIOReturnSuccess {
                 print("Error write: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
                 return
@@ -446,7 +446,7 @@ public class SMC {
         var result: kern_return_t = 0
         var value = SMCVal_t("FS! ")
         
-        result = read(&value)
+        result = self.read(&value)
         if result != kIOReturnSuccess {
             print("Error read fan mode: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
             return
@@ -459,7 +459,7 @@ public class SMC {
         value.bytes[0] = UInt8(newMode >> 8)
         value.bytes[1] = UInt8(newMode & 0xff)
         
-        result = write(value)
+        result = self.write(value)
         if result != kIOReturnSuccess {
             print("Error write: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
             return
@@ -474,25 +474,25 @@ public class SMC {
         }
         if let maxSpeed = self.getValue("F\(id)Mx"),
            speed > Int(maxSpeed) {
-            return setFanSpeed(id, speed: Int(maxSpeed))
+            return self.setFanSpeed(id, speed: Int(maxSpeed))
         }
         
         #if arch(arm64)
-        var modeVal = SMCVal_t(fanModeKey(id))
-        let modeResult = read(&modeVal)
+        var modeVal = SMCVal_t(self.fanModeKey(id))
+        let modeResult = self.read(&modeVal)
         guard modeResult == kIOReturnSuccess else {
             print("Error read fan mode: " + (String(cString: mach_error_string(modeResult), encoding: String.Encoding.ascii) ?? "unknown error"))
             return
         }
         if modeVal.bytes[0] != 1 {
-            if !unlockFanControl(fanId: id) { return }
+            if !self.unlockFanControl(fanId: id) { return }
         }
         #endif
         
         var result: kern_return_t = 0
         var value = SMCVal_t("F\(id)Tg")
         
-        result = read(&value)
+        result = self.read(&value)
         if result != kIOReturnSuccess {
             print("Error read fan value: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
             return
@@ -519,11 +519,11 @@ public class SMC {
         }
         
         #if arch(arm64)
-        if !writeWithRetry(value) {
+        if !self.writeWithRetry(value) {
             return
         }
         #else
-        result = write(value)
+        result = self.write(value)
         if result != kIOReturnSuccess {
             print("Error write: " + (String(cString: mach_error_string(result), encoding: String.Encoding.ascii) ?? "unknown error"))
             return
@@ -544,7 +544,7 @@ public class SMC {
         let mutableValue = value
         var lastResult: kern_return_t = kIOReturnSuccess
         for attempt in 0..<maxAttempts {
-            lastResult = write(mutableValue)
+            lastResult = self.write(mutableValue)
             if lastResult == kIOReturnSuccess {
                 return true
             }
@@ -552,81 +552,81 @@ public class SMC {
                 usleep(delayMicros)
             }
         }
-        print(smcError("write", key: value.key, result: lastResult))
+        print(self.smcError("write", key: value.key, result: lastResult))
         return false
     }
     
     private func unlockFanControl(fanId: Int) -> Bool {
         // Try direct mode write first (works on M5+ without Ftst)
-        let modeKey = fanModeKey(fanId)
+        let modeKey = self.fanModeKey(fanId)
         var modeVal = SMCVal_t(modeKey)
-        let modeRead = read(&modeVal)
+        let modeRead = self.read(&modeVal)
         guard modeRead == kIOReturnSuccess else {
-            print(smcError("read", key: modeKey, result: modeRead))
+            print(self.smcError("read", key: modeKey, result: modeRead))
             return false
         }
         modeVal.bytes[0] = 1
-        if write(modeVal) == kIOReturnSuccess {
+        if self.write(modeVal) == kIOReturnSuccess {
             return true
         }
         
         // Direct failed; try Ftst unlock (M1-M4)
         var ftstVal = SMCVal_t("Ftst")
-        let ftstResult = read(&ftstVal)
+        let ftstResult = self.read(&ftstVal)
         guard ftstResult == kIOReturnSuccess, ftstVal.dataSize > 0 else {
             return false
         }
         
         if ftstVal.bytes[0] == 1 {
-            return retryModeWrite(fanId: fanId, maxAttempts: 20)
+            return self.retryModeWrite(fanId: fanId, maxAttempts: 20)
         }
         
         ftstVal.bytes[0] = 1
-        if !writeWithRetry(ftstVal, maxAttempts: 100) {
+        if !self.writeWithRetry(ftstVal, maxAttempts: 100) {
             return false
         }
         
         // Wait for thermalmonitord to yield control
         usleep(3_000_000)
         
-        return retryModeWrite(fanId: fanId, maxAttempts: 300)
+        return self.retryModeWrite(fanId: fanId, maxAttempts: 300)
     }
     
     private func retryModeWrite(fanId: Int, maxAttempts: Int) -> Bool {
-        let modeKey = fanModeKey(fanId)
+        let modeKey = self.fanModeKey(fanId)
         var modeVal = SMCVal_t(modeKey)
-        let result = read(&modeVal)
+        let result = self.read(&modeVal)
         guard result == kIOReturnSuccess else {
-            print(smcError("read", key: modeKey, result: result))
+            print(self.smcError("read", key: modeKey, result: result))
             return false
         }
         modeVal.bytes[0] = 1
-        return writeWithRetry(modeVal, maxAttempts: maxAttempts, delayMicros: 100_000)
+        return self.writeWithRetry(modeVal, maxAttempts: maxAttempts, delayMicros: 100_000)
     }
     
     public func resetFanControl() -> Bool {
         var value = SMCVal_t("Ftst")
-        let result = read(&value)
+        let result = self.read(&value)
         if result == kIOReturnSuccess && value.dataSize > 0 {
             if value.bytes[0] == 0 { return true }
             value.bytes[0] = 0
-            return writeWithRetry(value)
+            return self.writeWithRetry(value)
         }
         
         // Ftst absent (M5+): reset fan modes directly
-        guard let count = getValue("FNum") else { return false }
+        guard let count = self.getValue("FNum") else { return false }
         var success = true
         for i in 0..<Int(count) {
-            let modeKey = fanModeKey(i)
+            let modeKey = self.fanModeKey(i)
             var modeVal = SMCVal_t(modeKey)
-            let readResult = read(&modeVal)
+            let readResult = self.read(&modeVal)
             guard readResult == kIOReturnSuccess else {
                 success = false
                 continue
             }
             if modeVal.bytes[0] == 0 { continue }
             modeVal.bytes[0] = 0
-            if !writeWithRetry(modeVal) { success = false }
+            if !self.writeWithRetry(modeVal) { success = false }
         }
         return success
     }
@@ -651,7 +651,7 @@ public class SMC {
             keyInfo = cached
         } else {
             input.data8 = SMCKeys.readKeyInfo.rawValue
-            result = call(SMCKeys.kernelIndex.rawValue, input: &input, output: &output)
+            result = self.call(SMCKeys.kernelIndex.rawValue, input: &input, output: &output)
             if result != kIOReturnSuccess {
                 return result
             }
@@ -667,7 +667,7 @@ public class SMC {
         input.keyInfo.dataSize = keyInfo.dataSize
         input.data8 = SMCKeys.readBytes.rawValue
         
-        result = call(SMCKeys.kernelIndex.rawValue, input: &input, output: &output)
+        result = self.call(SMCKeys.kernelIndex.rawValue, input: &input, output: &output)
         if result == kIOReturnSuccess && output.result == 0 && cacheable {
             self.keyInfoCache[input.key] = keyInfo
         } else {
@@ -698,7 +698,7 @@ public class SMC {
                        value.bytes[18], value.bytes[19], value.bytes[20], value.bytes[21], value.bytes[22], value.bytes[23],
                        value.bytes[24], value.bytes[25], value.bytes[26], value.bytes[27], value.bytes[28], value.bytes[29],
                        value.bytes[30], value.bytes[31])
-        
+                       
         let result = self.call(SMCKeys.kernelIndex.rawValue, input: &input, output: &output)
         if result != kIOReturnSuccess {
             return result
@@ -717,6 +717,6 @@ public class SMC {
         let inputSize = MemoryLayout<SMCKeyData_t>.stride
         var outputSize = MemoryLayout<SMCKeyData_t>.stride
         
-        return IOConnectCallStructMethod(conn, UInt32(index), &input, inputSize, &output, &outputSize)
+        return IOConnectCallStructMethod(self.conn, UInt32(index), &input, inputSize, &output, &outputSize)
     }
 }

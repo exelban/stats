@@ -415,8 +415,8 @@ public class MenuBar {
             self.setupMenuBarItem(self.oneView)
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(listenForOneView), name: .toggleOneView, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(listenForWidgetRearrange), name: .widgetRearrange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.listenForOneView), name: .toggleOneView, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.listenForWidgetRearrange), name: .widgetRearrange, object: nil)
     }
     
     deinit {
@@ -545,7 +545,7 @@ public class MenuBar {
         }
         
         guard self.active else { return }
-
+        
         self.activeWidgets.forEach { (w: SWidget) in
             w.enable()
         }

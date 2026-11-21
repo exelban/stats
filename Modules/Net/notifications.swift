@@ -60,19 +60,19 @@ class Notifications: NotificationsWrapper {
                     callback: self.changeWidgetConnectionThreshold
                 )
             )),
-            PreferencesRow(localizedString("Network interface"), component: switchView(
+            PreferencesRow(localizedString("Network interface"), component: self.switchView(
                 action: #selector(self.toggleInterfaceState),
                 state: self.interfaceState
             )),
-            PreferencesRow(localizedString("Local IP"), component: switchView(
+            PreferencesRow(localizedString("Local IP"), component: self.switchView(
                 action: #selector(self.toggleLocalIPState),
                 state: self.localIPState
             )),
-            PreferencesRow(localizedString("Public IP"), component: switchView(
+            PreferencesRow(localizedString("Public IP"), component: self.switchView(
                 action: #selector(self.toggleNPublicIPState),
                 state: self.publicIPState
             )),
-            PreferencesRow(localizedString("WiFi network"), component: switchView(
+            PreferencesRow(localizedString("WiFi network"), component: self.switchView(
                 action: #selector(self.toggleWiFiState),
                 state: self.wifiState
             ))

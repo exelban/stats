@@ -55,31 +55,31 @@ public struct Provider: TimelineProvider {
         self.userDefaults?.set(Date().timeIntervalSince1970, forKey: United_entry.kind)
         
         var entry = United_entry()
-        if let raw = userDefaults?.data(forKey: "CPU@LoadReader"), let value = try? JSONDecoder().decode(CPU_Load.self, from: raw) {
+        if let raw = self.userDefaults?.data(forKey: "CPU@LoadReader"), let value = try? JSONDecoder().decode(CPU_Load.self, from: raw) {
             entry.cpu = Value(value: value.totalUsage)
         }
-        if let raw = userDefaults?.bool(forKey: "CPU_state"), !raw {
+        if let raw = self.userDefaults?.bool(forKey: "CPU_state"), !raw {
             entry.cpu = nil
         }
         
-        if let raw = userDefaults?.data(forKey: "GPU@InfoReader"), let value = try? JSONDecoder().decode(GPU_Info.self, from: raw) {
+        if let raw = self.userDefaults?.data(forKey: "GPU@InfoReader"), let value = try? JSONDecoder().decode(GPU_Info.self, from: raw) {
             entry.gpu = Value(value: value.utilization ?? 0)
         }
-        if let raw = userDefaults?.bool(forKey: "GPU_state"), !raw {
+        if let raw = self.userDefaults?.bool(forKey: "GPU_state"), !raw {
             entry.gpu = nil
         }
         
-        if let raw = userDefaults?.data(forKey: "RAM@UsageReader"), let value = try? JSONDecoder().decode(RAM_Usage.self, from: raw) {
+        if let raw = self.userDefaults?.data(forKey: "RAM@UsageReader"), let value = try? JSONDecoder().decode(RAM_Usage.self, from: raw) {
             entry.ram = Value(value: value.usage)
         }
-        if let raw = userDefaults?.bool(forKey: "RAM_state"), !raw {
+        if let raw = self.userDefaults?.bool(forKey: "RAM_state"), !raw {
             entry.ram = nil
         }
         
-        if let raw = userDefaults?.data(forKey: "Disk@CapacityReader"), let value = try? JSONDecoder().decode(drive.self, from: raw) {
+        if let raw = self.userDefaults?.data(forKey: "Disk@CapacityReader"), let value = try? JSONDecoder().decode(drive.self, from: raw) {
             entry.disk = Value(value: value.percentage)
         }
-        if let raw = userDefaults?.bool(forKey: "Disk_state"), !raw {
+        if let raw = self.userDefaults?.bool(forKey: "Disk_state"), !raw {
             entry.disk = nil
         }
         
@@ -107,7 +107,7 @@ public struct UnitedWidget: Widget {
                 if values.isEmpty {
                     Text("No data available")
                 } else {
-                    LazyVGrid(columns: columns, alignment: .leading, spacing: 12) {
+                    LazyVGrid(columns: self.columns, alignment: .leading, spacing: 12) {
                         ForEach(values.indices, id: \.self) { index in
                             let item = values[index]
                             CircularGaugeView(title: item.0, progress: item.1, color: item.2)
@@ -134,7 +134,7 @@ struct CircularGaugeView: View {
     var title: String
     var progress: Double
     var color: Color
-
+    
     var body: some View {
         ZStack {
             Circle().stroke(Color.gray.opacity(0.2), lineWidth: 6)

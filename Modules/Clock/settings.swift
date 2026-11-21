@@ -117,7 +117,7 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
         separator.boxType = .separator
         
         self.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Sync with NTP server"), component: switchView(
+            PreferencesRow(localizedString("Sync with NTP server"), component: self.switchView(
                 action: #selector(self.toggleNTPSync),
                 state: self.ntpSync
             ))
@@ -217,7 +217,7 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
             text.widthAnchor.constraint(equalTo: cell.widthAnchor).isActive = true
             text.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
         case tzColumnID:
-            let select: NSPopUpButton = selectView(action: #selector(self.toggleTZ), items: Clock.zones, selected: item.tz)
+            let select: NSPopUpButton = self.selectView(action: #selector(self.toggleTZ), items: Clock.zones, selected: item.tz)
             select.identifier = NSUserInterfaceItemIdentifier("\(row)")
             select.itemArray.forEach { $0.identifier = NSUserInterfaceItemIdentifier("\(row)") }
             select.sizeToFit()
@@ -226,7 +226,7 @@ internal class Settings: NSStackView, Settings_v, NSTableViewDelegate, NSTableVi
             select.widthAnchor.constraint(lessThanOrEqualToConstant: 132).isActive = true
             cell.addSubview(select)
         case calendarColumnID:
-            let select: NSPopUpButton = selectView(action: #selector(self.toggleCalendar), items: Clock.calendars, selected: item.calendar)
+            let select: NSPopUpButton = self.selectView(action: #selector(self.toggleCalendar), items: Clock.calendars, selected: item.calendar)
             select.identifier = NSUserInterfaceItemIdentifier("\(row)")
             select.itemArray.forEach { $0.identifier = NSUserInterfaceItemIdentifier("\(row)") }
             select.sizeToFit()

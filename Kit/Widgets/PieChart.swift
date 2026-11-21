@@ -111,11 +111,11 @@ public class PieChart: WidgetWrapper {
         let view = SettingsContainerView()
         
         view.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Label"), component: switchView(
+            PreferencesRow(localizedString("Label"), component: self.switchView(
                 action: #selector(self.toggleLabel),
                 state: self.labelState
             )),
-            PreferencesRow(localizedString("Monochrome accent"), component: switchView(
+            PreferencesRow(localizedString("Monochrome accent"), component: self.switchView(
                 action: #selector(self.toggleMonochrome),
                 state: self.monochromeState
             ))

@@ -161,8 +161,8 @@ open class Window: NSStackView {
             self.previewView = previewView
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(listenForOneView), name: .toggleOneView, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(listenForToggleView), name: .togglePreview, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.listenForOneView), name: .toggleOneView, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.listenForToggleView), name: .togglePreview, object: nil)
         
         self.previewView?.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         self.segmentedControl?.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -(Constants.Settings.margin*2)).isActive = true
@@ -404,7 +404,7 @@ open class Window: NSStackView {
         }
         
         if self.widgets.filter({ $0.isActive }).count > 1 {
-            let btn = switchView(
+            let btn = self.switchView(
                 action: #selector(self.toggleOneView),
                 state: self.oneViewState
             )
@@ -549,7 +549,7 @@ private class WidgetSelectorView: NSStackView {
         let separator = NSView()
         separator.identifier = NSUserInterfaceItemIdentifier(rawValue: "separator")
         separator.wantsLayer = true
-        separator.layer?.backgroundColor = NSColor.separatorColor.withAlphaComponent(isDarkMode ? 0.35 : 0.15).cgColor
+        separator.layer?.backgroundColor = NSColor.separatorColor.withAlphaComponent(self.isDarkMode ? 0.35 : 0.15).cgColor
         self.addArrangedSubview(separator)
         self.separator = separator
         
@@ -574,12 +574,12 @@ private class WidgetSelectorView: NSStackView {
     
     override func updateLayer() {
         self.background.setFrameSize(self.frame.size)
-        self.separator?.layer?.backgroundColor = NSColor.separatorColor.withAlphaComponent(isDarkMode ? 0.35 : 0.15).cgColor
+        self.separator?.layer?.backgroundColor = NSColor.separatorColor.withAlphaComponent(self.isDarkMode ? 0.35 : 0.15).cgColor
     }
     
     override func mouseUp(with event: NSEvent) {
         guard !self.moved else { return }
-        let location = convert(event.locationInWindow, from: nil)
+        let location = self.convert(event.locationInWindow, from: nil)
         guard let targetIdx = self.views.firstIndex(where: { $0.hitTest(location) != nil }),
               let separatorIdx = self.views.firstIndex(where: { $0.identifier?.rawValue == "separator" }),
               self.views[targetIdx].identifier != nil, let view = self.views[targetIdx] as? WidgetPreview else {
@@ -602,7 +602,7 @@ private class WidgetSelectorView: NSStackView {
     
     override func mouseDown(with event: NSEvent) {
         self.moved = false
-        let location = convert(event.locationInWindow, from: nil)
+        let location = self.convert(event.locationInWindow, from: nil)
         guard let targetIdx = self.views.firstIndex(where: { $0.hitTest(location) != nil }),
               let separatorIdx = self.views.firstIndex(where: { $0.identifier?.rawValue == "separator" }),
               let window = self.window, self.views[targetIdx].identifier != nil else {
@@ -628,7 +628,7 @@ private class WidgetSelectorView: NSStackView {
         var newIdx = -1
         let originCenter = view.frame.midX
         let originX = view.frame.origin.x
-        let p0 = convert(event.locationInWindow, from: nil).x
+        let p0 = self.convert(event.locationInWindow, from: nil).x
         
         window.trackEvents(matching: [.leftMouseDragged, .leftMouseUp], timeout: 1e6, mode: .eventTracking) { event, stop in
             guard let event = event else {

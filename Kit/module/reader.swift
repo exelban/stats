@@ -253,7 +253,7 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
         let generation = self.alignGeneration
         self.alignQueue.asyncAfter(deadline: .now() + self.delayToNextSecondBoundary()) { [weak self] in
             guard let self, self.alignGeneration == generation, self.repeatTask == nil else { return }
-
+            
             DispatchQueue.global(qos: .background).async { self.read() }
             self.repeatTask = Repeater(seconds: Int(interval)) { [weak self] in
                 self?.read()
@@ -264,10 +264,10 @@ open class Reader<T: Codable>: NSObject, ReaderInternal_p {
     
     public func sleepMode(state: Bool) {
         guard state != self.sleep else { return }
-
+        
         debug("Sleep mode: \(state ? "on" : "off")", log: self.log)
         self.sleep = state
-
+        
         if state {
             if self.locked {
                 self.pause()

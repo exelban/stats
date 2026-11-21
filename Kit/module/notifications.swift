@@ -52,16 +52,16 @@ open class NotificationsWrapper: NSStackView {
         let id = "Stats_\(self.module)_\(rid)"
         let first = less ? value > threshold : value < threshold
         let second = less ? value <= threshold : value >= threshold
-
+        
         if self.ids[id] != nil, first {
             removeNotification(id)
             self.ids[id] = nil
         }
-
+        
         if first {
             self.streak[id] = 0
         }
-
+        
         if self.ids[id] == nil && second {
             let count = (self.streak[id] ?? 0) + 1
             self.streak[id] = count

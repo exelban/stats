@@ -96,7 +96,7 @@ public class Sensors_List: Codable, RemoteType {
     public init() {}
     
     public func encode(to encoder: Encoder) throws {
-        let wrappers = sensors.map { Sensor_w($0) }
+        let wrappers = self.sensors.map { Sensor_w($0) }
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(wrappers, forKey: .sensors)
     }
@@ -153,7 +153,7 @@ public struct Sensor_w: Codable {
     
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        switch sensor {
+        switch self.sensor {
         case let payload as Sensor:
             try container.encode(Typ.sensor, forKey: .base)
             try container.encode(payload, forKey: .payload)
@@ -213,46 +213,46 @@ public struct Sensor: Sensor_p, Codable {
     public var formattedValue: String {
         switch self.type {
         case .temperature:
-            return temperature(value)
+            return temperature(self.value)
         case .voltage:
-            let val = value >= 100 ? "\(Int(value))" : String(format: "%.3f", value)
-            return "\(val)\(unit)"
+            let val = self.value >= 100 ? "\(Int(self.value))" : String(format: "%.3f", self.value)
+            return "\(val)\(self.unit)"
         case .power, .energy:
-            let val = value >= 100 ? "\(Int(value))" : String(format: "%.2f", value)
-            return "\(val)\(unit)"
+            let val = self.value >= 100 ? "\(Int(self.value))" : String(format: "%.2f", self.value)
+            return "\(val)\(self.unit)"
         case .current:
-            let val = value >= 100 ? "\(Int(value))" : String(format: "%.2f", value)
-            return "\(val)\(unit)"
+            let val = self.value >= 100 ? "\(Int(self.value))" : String(format: "%.2f", self.value)
+            return "\(val)\(self.unit)"
         case .fan:
-            return "\(Int(value)) \(unit)"
+            return "\(Int(self.value)) \(self.unit)"
         }
     }
     public var formattedPopupValue: String {
         switch self.type {
         case .temperature:
-            return temperature(value, fractionDigits: 1)
+            return temperature(self.value, fractionDigits: 1)
         case .voltage:
-            let val = value >= 100 ? "\(Int(value))" : String(format: "%.3f", value)
-            return "\(val)\(unit)"
+            let val = self.value >= 100 ? "\(Int(self.value))" : String(format: "%.3f", self.value)
+            return "\(val)\(self.unit)"
         case .power, .energy:
-            let val = value >= 100 ? "\(Int(value))" : String(format: "%.2f", value)
-            return "\(val)\(unit)"
+            let val = self.value >= 100 ? "\(Int(self.value))" : String(format: "%.2f", self.value)
+            return "\(val)\(self.unit)"
         case .current:
-            let val = value >= 100 ? "\(Int(value))" : String(format: "%.2f", value)
-            return "\(val)\(unit)"
+            let val = self.value >= 100 ? "\(Int(self.value))" : String(format: "%.2f", self.value)
+            return "\(val)\(self.unit)"
         case .fan:
-            return "\(Int(value)) \(unit)"
+            return "\(Int(self.value)) \(self.unit)"
         }
     }
     public var formattedMiniValue: String {
         switch self.type {
         case .temperature:
-            return temperature(value).replacingOccurrences(of: "C", with: "").replacingOccurrences(of: "F", with: "")
+            return temperature(self.value).replacingOccurrences(of: "C", with: "").replacingOccurrences(of: "F", with: "")
         case .voltage, .power, .energy, .current:
-            let val = value >= 9.95 ? "\(Int(round(value)))" : String(format: "%.1f", value)
-            return "\(val)\(unit)"
+            let val = self.value >= 9.95 ? "\(Int(round(self.value)))" : String(format: "%.1f", self.value)
+            return "\(val)\(self.unit)"
         case .fan:
-            return "\(Int(value))"
+            return "\(Int(self.value))"
         }
     }
     public var localValue: Double {

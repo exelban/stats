@@ -73,14 +73,14 @@ internal class Settings: NSStackView, Settings_v {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
         var rows: [PreferencesRow] = [
-            PreferencesRow(localizedString("Update interval"), component: selectView(
+            PreferencesRow(localizedString("Update interval"), component: self.selectView(
                 action: #selector(self.changeUpdateInterval),
                 items: ReaderUpdateIntervals,
                 selected: "\(self.updateIntervalValue)"
             ))
         ]
         #if arch(arm64)
-        rows.append(PreferencesRow(localizedString("Update interval for top processes"), component: selectView(
+        rows.append(PreferencesRow(localizedString("Update interval for top processes"), component: self.selectView(
             action: #selector(self.changeUpdateTopInterval),
             items: ReaderUpdateIntervals,
             selected: "\(self.updateTopIntervalValue)"
@@ -90,7 +90,7 @@ internal class Settings: NSStackView, Settings_v {
         
         #if arch(arm64)
         self.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Number of top processes"), component: selectView(
+            PreferencesRow(localizedString("Number of top processes"), component: self.selectView(
                 action: #selector(self.changeNumberOfProcesses),
                 items: NumbersOfProcesses.map{ KeyValue_t(key: "\($0)", value: "\($0)") },
                 selected: "\(self.numberOfProcesses)"
@@ -99,9 +99,9 @@ internal class Settings: NSStackView, Settings_v {
         #endif
         
         #if arch(x86_64)
-        if !widgets.filter({ $0 == .mini }).isEmpty {
+        if widgets.contains(.mini) {
             self.addArrangedSubview(PreferencesSection([
-                PreferencesRow(localizedString("Show GPU type"), component: switchView(
+                PreferencesRow(localizedString("Show GPU type"), component: self.switchView(
                     action: #selector(self.toggleShowType),
                     state: self.showTypeValue
                 ))
@@ -109,7 +109,7 @@ internal class Settings: NSStackView, Settings_v {
         }
         #endif
         
-        self.button = selectView(
+        self.button = self.selectView(
             action: #selector(self.handleSelection),
             items: [],
             selected: ""

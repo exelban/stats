@@ -269,23 +269,23 @@ public class StackWidget: WidgetWrapper {
         let view = SettingsContainerView()
         
         var rows = [
-            PreferencesRow(localizedString("Display mode"), component: selectView(
+            PreferencesRow(localizedString("Display mode"), component: self.selectView(
                 action: #selector(self.changeDisplayMode),
                 items: SensorsWidgetMode,
                 selected: self.modeState.rawValue
             )),
-            PreferencesRow(localizedString("Monospaced font"), component: switchView(
+            PreferencesRow(localizedString("Monospaced font"), component: self.switchView(
                 action: #selector(self.toggleMonospacedFont),
                 state: self.monospacedFontState
             )),
-            PreferencesRow(localizedString("Alignment"), component: selectView(
+            PreferencesRow(localizedString("Alignment"), component: self.selectView(
                 action: #selector(self.toggleAlignment),
                 items: Alignments,
                 selected: self.alignmentState
             ))
         ]
         if self.title != "Clock" {
-            rows.append(PreferencesRow(localizedString("Static width"), component: switchView(
+            rows.append(PreferencesRow(localizedString("Static width"), component: self.switchView(
                 action: #selector(self.toggleSize),
                 state: self.fixedSizeState
             )))
@@ -365,7 +365,7 @@ private class OrderTableView: NSView, NSTableViewDelegate, NSTableViewDataSource
         self.tableView.headerView = nil
         self.tableView.backgroundColor = NSColor.clear
         self.tableView.columnAutoresizingStyle = .firstColumnOnlyAutoresizingStyle
-        self.tableView.registerForDraggedTypes([dragDropType])
+        self.tableView.registerForDraggedTypes([self.dragDropType])
         self.tableView.gridColor = .gridColor
         self.tableView.gridStyleMask = [.solidVerticalGridLineMask, .solidHorizontalGridLineMask]
         self.tableView.style = .plain

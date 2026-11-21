@@ -334,7 +334,7 @@ public class SystemStats {
         self.sensorNames = names
         self.sensorNamesPending = true
     }
-
+    
     fileprivate func registerPendingSensorNames() {
         self.cooldownLock.lock()
         defer { self.cooldownLock.unlock() }
@@ -694,7 +694,7 @@ public class RemoteAuth {
     
     private static let formAllowed: CharacterSet = CharacterSet(charactersIn:
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~")
-    
+        
     private static func formBody(_ pairs: [(String, String)]) -> Data {
         let body = pairs.map { key, value in
             let k = key.addingPercentEncoding(withAllowedCharacters: formAllowed) ?? key
@@ -963,7 +963,7 @@ public class RemoteAuth {
         var base64 = payload
             .replacingOccurrences(of: "-", with: "+")
             .replacingOccurrences(of: "_", with: "/")
-        
+            
         while base64.count % 4 != 0 {
             base64 += "="
         }
@@ -1216,7 +1216,7 @@ class MQTTManager: NSObject {
     
     private func sendConnect() {
         guard let token = self.connectionToken else { return }
-        let connectPacket = createConnectPacket(username: SystemStats.shared.id.uuidString, password: token)
+        let connectPacket = self.createConnectPacket(username: SystemStats.shared.id.uuidString, password: token)
         self.webSocket?.send(.data(connectPacket)) { error in
             if let error = error {
                 print("Error sending MQTT CONNECT: \(error)")
@@ -1281,7 +1281,7 @@ class MQTTManager: NSObject {
     private func subscribe(to topic: String) {
         guard self.isConnected else { return }
         
-        let subscribePacket = createSubscribePacket(topic: topic)
+        let subscribePacket = self.createSubscribePacket(topic: topic)
         self.webSocket?.send(.data(subscribePacket)) { error in
             if let error = error {
                 print("Error subscribing to MQTT topic: \(error)")
@@ -1295,7 +1295,7 @@ class MQTTManager: NSObject {
         let fixedHeaderByte = MQTTPacketType.connect.rawValue << 4
         
         var variableHeader = Data()
-        variableHeader.append(contentsOf: encodeString("MQTT"))
+        variableHeader.append(contentsOf: self.encodeString("MQTT"))
         variableHeader.append(4)
         
         var connectFlags: UInt8 = 0x00
@@ -1305,13 +1305,13 @@ class MQTTManager: NSObject {
         variableHeader.append(contentsOf: [0x03, 0x84])
         
         var payload = Data()
-        payload.append(contentsOf: encodeString("stats-\(username)"))
-        payload.append(contentsOf: encodeString(username))
-        payload.append(contentsOf: encodeString(password))
+        payload.append(contentsOf: self.encodeString("stats-\(username)"))
+        payload.append(contentsOf: self.encodeString(username))
+        payload.append(contentsOf: self.encodeString(password))
         
         let remainingLength = variableHeader.count + payload.count
         packet.append(fixedHeaderByte)
-        packet.append(contentsOf: encodeRemainingLength(remainingLength))
+        packet.append(contentsOf: self.encodeRemainingLength(remainingLength))
         packet.append(variableHeader)
         packet.append(payload)
         
@@ -1324,12 +1324,12 @@ class MQTTManager: NSObject {
         let fixedHeaderByte = (MQTTPacketType.publish.rawValue << 4) | (retain ? 0x01 : 0x00)
         
         var variableHeader = Data()
-        variableHeader.append(contentsOf: encodeString(topic))
+        variableHeader.append(contentsOf: self.encodeString(topic))
         
         let remainingLength = variableHeader.count + payload.count
         
         packet.append(fixedHeaderByte)
-        packet.append(contentsOf: encodeRemainingLength(remainingLength))
+        packet.append(contentsOf: self.encodeRemainingLength(remainingLength))
         packet.append(variableHeader)
         packet.append(payload)
         
@@ -1347,13 +1347,13 @@ class MQTTManager: NSObject {
         variableHeader.append(contentsOf: [UInt8(packetId >> 8), UInt8(packetId & 0xFF)])
         
         var payload = Data()
-        payload.append(contentsOf: encodeString(topic))
+        payload.append(contentsOf: self.encodeString(topic))
         payload.append(0x00)
         
         let remainingLength = variableHeader.count + payload.count
         
         packet.append(fixedHeaderByte)
-        packet.append(contentsOf: encodeRemainingLength(remainingLength))
+        packet.append(contentsOf: self.encodeRemainingLength(remainingLength))
         packet.append(variableHeader)
         packet.append(payload)
         

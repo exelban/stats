@@ -88,7 +88,7 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         self.subviews.forEach{ $0.removeFromSuperview() }
         
         self.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Number of top processes"), component: selectView(
+            PreferencesRow(localizedString("Number of top processes"), component: self.selectView(
                 action: #selector(self.changeNumberOfProcesses),
                 items: NumbersOfProcesses.map{ KeyValue_t(key: "\($0)", value: "\($0)") },
                 selected: "\(self.numberOfProcesses)"
@@ -97,8 +97,8 @@ internal class Settings: NSStackView, Settings_v, NSTextFieldDelegate {
         
         if widgets.contains(where: { $0 == .battery || $0 == .text }) {
             self.addArrangedSubview(PreferencesSection([
-                PreferencesRow(localizedString("Time format"), component: selectView(
-                    action: #selector(toggleTimeFormat),
+                PreferencesRow(localizedString("Time format"), component: self.selectView(
+                    action: #selector(self.toggleTimeFormat),
                     items: ShortLong,
                     selected: self.timeFormat
                 ))

@@ -107,7 +107,7 @@ public class MemoryWidget: WidgetWrapper {
         var freeColor: NSColor = .controlAccentColor
         var usedColor: NSColor = .controlAccentColor
         switch self.colorState {
-        case .systemAccent: 
+        case .systemAccent:
             freeColor = .controlAccentColor
             usedColor = .controlAccentColor
         case .utilization:
@@ -117,9 +117,9 @@ public class MemoryWidget: WidgetWrapper {
             usedColor = pressureLevel.pressureColor()
             freeColor = pressureLevel.pressureColor()
         case .monochrome:
-            freeColor = (isDarkMode ? NSColor.white : NSColor.black)
-            usedColor = (isDarkMode ? NSColor.white : NSColor.black)
-        default: 
+            freeColor = (self.isDarkMode ? NSColor.white : NSColor.black)
+            usedColor = (self.isDarkMode ? NSColor.white : NSColor.black)
+        default:
             freeColor = self.colorState.additional as? NSColor ?? .controlAccentColor
             usedColor = self.colorState.additional as? NSColor ?? .controlAccentColor
         }
@@ -166,16 +166,16 @@ public class MemoryWidget: WidgetWrapper {
         let view = SettingsContainerView()
         
         view.addArrangedSubview(PreferencesSection([
-            PreferencesRow(localizedString("Color"), component: colorSelectView(
+            PreferencesRow(localizedString("Color"), component: self.colorSelectView(
                 action: #selector(self.toggleColor),
                 items: SColor.allCases.filter({ $0 != .cluster }),
                 selected: self.colorState.key
             )),
-            PreferencesRow(localizedString("Show symbols"), component: switchView(
+            PreferencesRow(localizedString("Show symbols"), component: self.switchView(
                 action: #selector(self.toggleSymbols),
                 state: self.symbolsState
             )),
-            PreferencesRow(localizedString("Reverse order"), component: switchView(
+            PreferencesRow(localizedString("Reverse order"), component: self.switchView(
                 action: #selector(self.toggleOrder),
                 state: self.orderReversedState
             ))

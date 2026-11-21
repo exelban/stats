@@ -335,7 +335,7 @@ public class SystemKit {
         var nameChars = [CChar](repeating: 0, count: sizeOfName)
         sysctlbyname("machdep.cpu.brand_string", &nameChars, &sizeOfName, nil, 0)
         var name = String(cString: nameChars)
-        if name != "" {
+        if !name.isEmpty {
             name = name.replacingOccurrences(of: "(TM)", with: "")
             name = name.replacingOccurrences(of: "(R)", with: "")
             name = name.replacingOccurrences(of: "CPU", with: "")
@@ -581,7 +581,7 @@ public class SystemKit {
             if let data = output.data(using: .utf8),
                let plist = try PropertyListSerialization.propertyList(from: data, options: [], format: nil) as? [String: Any],
                let allDisksAndPartitions = plist["AllDisksAndPartitions"] as? [[String: Any]] {
-                
+               
                 for disk in allDisksAndPartitions {
                     if let partitions = disk["Partitions"] as? [[String: Any]] {
                         for partition in partitions {

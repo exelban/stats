@@ -107,7 +107,7 @@ public class Disks: Codable, RemoteType {
     
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(array, forKey: .array)
+        try container.encode(self.array, forKey: .array)
     }
     
     init() {}
@@ -378,7 +378,7 @@ public class Disk: Module {
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: SWidget) in
             switch w.item {
-            case let widget as SpeedWidget: 
+            case let widget as SpeedWidget:
                 widget.setValue(input: d.activity.read, output: d.activity.write)
             case let widget as NetworkChart:
                 widget.setValue(upload: Double(d.activity.write), download: Double(d.activity.read))
