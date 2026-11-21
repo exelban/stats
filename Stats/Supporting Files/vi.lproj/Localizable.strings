@@ -88,6 +88,10 @@
 "Run" = "Chạy";
 "Stop" = "Dừng";
 "Uninstall" = "Gỡ cài đặt";
+"Uninstalling…" = "Đang gỡ cài đặt…";
+"Could not confirm automatic fan control" = "Không thể xác nhận rằng quạt đang được điều khiển tự động";
+"Fans may still be in manual mode. Remove the fan helper anyway?" = "Quạt có thể vẫn đang ở chế độ thủ công. Bạn vẫn muốn gỡ trình hỗ trợ quạt chứ?";
+"Could not uninstall fan helper" = "Không thể gỡ cài đặt trình hỗ trợ quạt";
 "1 sec" = "1 giây";
 "2 sec" = "2 giây";
 "3 sec" = "3 giây";

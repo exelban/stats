@@ -88,6 +88,10 @@
 "Run" = "Suorita"; // gemma4:31b
 "Stop" = "Pysäytä"; // translategemma:4b
 "Uninstall" = "Poista asennus"; // translategemma:4b
+"Uninstalling…" = "Poistetaan asennusta…";
+"Could not confirm automatic fan control" = "Tuulettimien automaattista ohjausta ei voitu vahvistaa";
+"Fans may still be in manual mode. Remove the fan helper anyway?" = "Tuulettimet saattavat edelleen olla käsiohjauksessa. Poistetaanko tuuletinavustaja silti?";
+"Could not uninstall fan helper" = "Tuuletinavustajaa ei voitu poistaa";
 "1 sec" = "1 sek"; // gemma4:31b
 "2 sec" = "2 s"; // gemma4:31b
 "3 sec" = "3 s"; // gemma4:31b

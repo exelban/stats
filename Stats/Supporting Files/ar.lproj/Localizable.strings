@@ -88,6 +88,10 @@
 "Run" = "تشغيل"; // translategemma:4b
 "Stop" = "إيقاف"; // gemma4:31b
 "Uninstall" = "إلغاء التثبيت"; // translategemma:4b
+"Uninstalling…" = "جارٍ إلغاء التثبيت…";
+"Could not confirm automatic fan control" = "تعذّر التأكد من أن التحكم بالمراوح تلقائي";
+"Fans may still be in manual mode. Remove the fan helper anyway?" = "قد تظل المراوح في الوضع اليدوي. هل تريد إزالة مساعد المروحة على أي حال؟";
+"Could not uninstall fan helper" = "تعذّر إلغاء تثبيت مساعد المروحة";
 "1 sec" = "1 ثانية"; // translategemma:4b
 "2 sec" = "2 ثانية"; // translategemma:4b
 "3 sec" = "3 ثوانٍ"; // gemma4:31b

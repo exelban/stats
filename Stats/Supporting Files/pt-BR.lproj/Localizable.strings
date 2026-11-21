@@ -88,6 +88,10 @@
 "Run" = "Executar"; // translategemma:4b
 "Stop" = "Parar"; // gemma4:31b
 "Uninstall" = "Desinstalar"; // translategemma:4b
+"Uninstalling…" = "Desinstalando…";
+"Could not confirm automatic fan control" = "Não foi possível confirmar o controle automático das ventoinhas";
+"Fans may still be in manual mode. Remove the fan helper anyway?" = "As ventoinhas ainda podem estar no modo manual. Deseja remover o software auxiliar da ventoinha mesmo assim?";
+"Could not uninstall fan helper" = "Não foi possível desinstalar o software auxiliar da ventoinha";
 "1 sec" = "1 seg"; // gemma4:31b
 "2 sec" = "2 seg"; // gemma4:31b
 "3 sec" = "3 seg"; // gemma4:31b

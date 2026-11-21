@@ -88,6 +88,10 @@
 "Run" = "Jalankan"; // translategemma:4b
 "Stop" = "Hentikan"; // gemma4:31b
 "Uninstall" = "Copot pemasangan"; // gemma4:31b
+"Uninstalling…" = "Mencopot pemasangan…";
+"Could not confirm automatic fan control" = "Tidak dapat memastikan bahwa kipas dikendalikan secara otomatis";
+"Fans may still be in manual mode. Remove the fan helper anyway?" = "Kipas mungkin masih dalam mode manual. Tetap hapus pembantu kipas?";
+"Could not uninstall fan helper" = "Tidak dapat mencopot pemasangan pembantu kipas";
 "1 sec" = "1 detik"; // translategemma:4b
 "2 sec" = "2 detik"; // translategemma:4b
 "3 sec" = "3 detik"; // translategemma:4b

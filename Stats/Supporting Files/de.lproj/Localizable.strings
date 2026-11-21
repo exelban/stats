@@ -88,6 +88,10 @@
 "Run" = "Ausführen";
 "Stop" = "Stoppen";
 "Uninstall" = "Deinstallieren";
+"Uninstalling…" = "Wird deinstalliert…";
+"Could not confirm automatic fan control" = "Die automatische Lüftersteuerung konnte nicht bestätigt werden";
+"Fans may still be in manual mode. Remove the fan helper anyway?" = "Die Lüfter befinden sich möglicherweise noch im manuellen Modus. Das Lüfter-Hilfsprogramm trotzdem entfernen?";
+"Could not uninstall fan helper" = "Das Lüfter-Hilfsprogramm konnte nicht deinstalliert werden";
 "1 sec" = "1 Sek.";
 "2 sec" = "2 Sek.";
 "3 sec" = "3 Sek.";

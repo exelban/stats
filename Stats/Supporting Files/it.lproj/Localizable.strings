@@ -88,6 +88,10 @@
 "Run" = "Esegui"; // translategemma:4b
 "Stop" = "Ferma"; // gemma4:31b
 "Uninstall" = "Disinstalla"; // gemma4:31b
+"Uninstalling…" = "Disinstallazione in corso…";
+"Could not confirm automatic fan control" = "Impossibile verificare che il controllo delle ventole sia automatico";
+"Fans may still be in manual mode. Remove the fan helper anyway?" = "Le ventole potrebbero essere ancora in modalità manuale. Vuoi rimuovere comunque l’estensione per le ventole?";
+"Could not uninstall fan helper" = "Impossibile disinstallare l’estensione per le ventole";
 "1 sec" = "1 secondo"; // translategemma:4b
 "2 sec" = "2 secondi"; // translategemma:4b
 "3 sec" = "3 secondi"; // translategemma:4b

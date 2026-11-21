@@ -88,6 +88,10 @@
 "Run" = "Çalıştır";
 "Stop" = "Durdur";
 "Uninstall" = "Kaldır";
+"Uninstalling…" = "Kaldırılıyor…";
+"Could not confirm automatic fan control" = "Otomatik fan denetimi doğrulanamadı";
+"Fans may still be in manual mode. Remove the fan helper anyway?" = "Fanlar hâlâ elle denetim modunda olabilir. Fan yardımcısı yine de kaldırılsın mı?";
+"Could not uninstall fan helper" = "Fan yardımcısı kaldırılamadı";
 "1 sec" = "1 sn";
 "2 sec" = "2 sn";
 "3 sec" = "3 sn";

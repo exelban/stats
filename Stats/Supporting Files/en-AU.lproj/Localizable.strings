@@ -88,6 +88,10 @@
 "Run" = "Run";
 "Stop" = "Stop";
 "Uninstall" = "Uninstall";
+"Uninstalling…" = "Uninstalling…";
+"Could not confirm automatic fan control" = "Could not confirm automatic fan control";
+"Fans may still be in manual mode. Remove the fan helper anyway?" = "Fans may still be in manual mode. Remove the fan helper anyway?";
+"Could not uninstall fan helper" = "Could not uninstall fan helper";
 "1 sec" = "1 sec";
 "2 sec" = "2 sec";
 "3 sec" = "3 sec";

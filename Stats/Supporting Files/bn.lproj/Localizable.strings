@@ -88,6 +88,10 @@
 "Run" = "চালু করুন";
 "Stop" = "থামান";
 "Uninstall" = "আনইনস্টল করুন";
+"Uninstalling…" = "আনইনস্টল করা হচ্ছে…";
+"Could not confirm automatic fan control" = "ফ্যানের নিয়ন্ত্রণ স্বয়ংক্রিয় কি না তা নিশ্চিত করা যায়নি";
+"Fans may still be in manual mode. Remove the fan helper anyway?" = "ফ্যানগুলো এখনও ম্যানুয়াল মোডে থাকতে পারে। তবুও কি ফ্যান হেল্পারটি সরিয়ে ফেলবেন?";
+"Could not uninstall fan helper" = "ফ্যান হেল্পারটি আনইনস্টল করা যায়নি";
 "1 sec" = "1 সেকেন্ড";
 "2 sec" = "2 সেকেন্ড";
 "3 sec" = "3 সেকেন্ড";

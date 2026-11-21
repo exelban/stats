@@ -88,6 +88,10 @@
 "Run" = "Uruchom";
 "Stop" = "Zatrzymaj";
 "Uninstall" = "Odinstaluj";
+"Uninstalling…" = "Odinstalowywanie…";
+"Could not confirm automatic fan control" = "Nie udało się potwierdzić automatycznego sterowania wentylatorami";
+"Fans may still be in manual mode. Remove the fan helper anyway?" = "Wentylatory mogą nadal działać w trybie ręcznym. Czy mimo to usunąć narzędzie do sterowania wentylatorami?";
+"Could not uninstall fan helper" = "Nie udało się odinstalować narzędzia do sterowania wentylatorami";
 "1 sec" = "1 sek";
 "2 sec" = "2 sek";
 "3 sec" = "3 sek";

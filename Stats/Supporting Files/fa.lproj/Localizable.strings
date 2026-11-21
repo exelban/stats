@@ -88,6 +88,10 @@
 "Run" = "اجرا"; // translategemma:4b
 "Stop" = "توقف"; // gemma4:31b
 "Uninstall" = "حذف نصب";
+"Uninstalling…" = "در حال حذف…";
+"Could not confirm automatic fan control" = "تأیید کنترل خودکار فن‌ها ممکن نشد";
+"Fans may still be in manual mode. Remove the fan helper anyway?" = "ممکن است فن‌ها هنوز در حالت دستی باشند. با این حال ابزار کمکی فن حذف شود؟";
+"Could not uninstall fan helper" = "حذف ابزار کمکی فن ممکن نشد";
 "1 sec" = "۱ ثانیه"; // translategemma:4b
 "2 sec" = "۲ ثانیه"; // gemma4:31b
 "3 sec" = "۳ ثانیه"; // gemma4:31b

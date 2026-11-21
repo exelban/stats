@@ -88,6 +88,10 @@
 "Run" = "चलाएं"; // translategemma:4b
 "Stop" = "रोकें"; // gemma4:31b
 "Uninstall" = "अनइंस्टॉल करें"; // gemma4:31b
+"Uninstalling…" = "अनइंस्टॉल किया जा रहा है…";
+"Could not confirm automatic fan control" = "पंखों का नियंत्रण स्वचालित है या नहीं, इसकी पुष्टि नहीं हो सकी";
+"Fans may still be in manual mode. Remove the fan helper anyway?" = "पंखे अभी भी मैनुअल मोड में हो सकते हैं। फिर भी फैन हेल्पर हटाएँ?";
+"Could not uninstall fan helper" = "फैन हेल्पर को अनइंस्टॉल नहीं किया जा सका";
 "1 sec" = "1 सेकंड"; // translategemma:4b
 "2 sec" = "2 सेकंड"; // translategemma:4b
 "3 sec" = "3 सेकंड"; // translategemma:4b

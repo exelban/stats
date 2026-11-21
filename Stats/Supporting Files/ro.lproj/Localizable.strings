@@ -88,6 +88,10 @@
 "Run" = "Execută"; // gemma4:31b
 "Stop" = "Oprire"; // gemma4:31b
 "Uninstall" = "Dezinstalează"; // gemma4:31b
+"Uninstalling…" = "Se dezinstalează…";
+"Could not confirm automatic fan control" = "Nu s-a putut confirma controlul automat al ventilatoarelor";
+"Fans may still be in manual mode. Remove the fan helper anyway?" = "Este posibil ca ventilatoarele să fie încă în modul manual. Eliminați totuși asistentul pentru ventilator?";
+"Could not uninstall fan helper" = "Nu s-a putut dezinstala asistentul pentru ventilator";
 "1 sec" = "1 secundă"; // translategemma:4b
 "2 sec" = "2 secunde"; // translategemma:4b
 "3 sec" = "3 secunde"; // translategemma:4b

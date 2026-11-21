@@ -88,6 +88,10 @@
 "Run" = "Стартирай"; // translategemma:4b
 "Stop" = "Спри"; // gemma4:31b
 "Uninstall" = "Деинсталиране"; // translategemma:4b
+"Uninstalling…" = "Деинсталиране…";
+"Could not confirm automatic fan control" = "Не може да се потвърди автоматичното управление на вентилаторите";
+"Fans may still be in manual mode. Remove the fan helper anyway?" = "Възможно е вентилаторите все още да са в ръчен режим. Да се премахне ли въпреки това помощникът за вентилатора?";
+"Could not uninstall fan helper" = "Помощникът за вентилатора не можа да бъде деинсталиран";
 "1 sec" = "1 сек"; // gemma4:31b
 "2 sec" = "2 сек"; // gemma4:31b
 "3 sec" = "3 сек"; // gemma4:31b

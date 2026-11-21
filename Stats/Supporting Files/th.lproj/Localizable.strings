@@ -88,6 +88,10 @@
 "Run" = "เรียกใช้"; // gemma4:31b
 "Stop" = "หยุด"; // translategemma:4b
 "Uninstall" = "ถอนการติดตั้ง"; // translategemma:4b
+"Uninstalling…" = "กำลังถอนการติดตั้ง…";
+"Could not confirm automatic fan control" = "ไม่สามารถยืนยันได้ว่าพัดลมอยู่ในโหมดควบคุมอัตโนมัติ";
+"Fans may still be in manual mode. Remove the fan helper anyway?" = "พัดลมอาจยังอยู่ในโหมดควบคุมด้วยตนเอง ต้องการลบตัวช่วยพัดลมต่อไปหรือไม่";
+"Could not uninstall fan helper" = "ไม่สามารถถอนการติดตั้งตัวช่วยพัดลมได้";
 "1 sec" = "1 วินาที"; // translategemma:4b
 "2 sec" = "2 วินาที"; // translategemma:4b
 "3 sec" = "3 วินาที"; // translategemma:4b

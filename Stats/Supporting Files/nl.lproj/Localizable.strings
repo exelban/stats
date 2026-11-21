@@ -88,6 +88,10 @@
 "Run" = "Uitvoeren"; // translategemma:4b
 "Stop" = "Stoppen"; // translategemma:4b
 "Uninstall" = "Deinstalleren"; // gemma4:31b
+"Uninstalling…" = "Bezig met verwijderen…";
+"Could not confirm automatic fan control" = "Kan niet bevestigen dat de ventilatoren automatisch worden geregeld";
+"Fans may still be in manual mode. Remove the fan helper anyway?" = "De ventilatoren staan mogelijk nog in de handmatige modus. Wil je de ventilator-helper toch verwijderen?";
+"Could not uninstall fan helper" = "Kan de ventilator-helper niet verwijderen";
 "1 sec" = "1 seconde"; // translategemma:4b
 "2 sec" = "2 seconden"; // translategemma:4b
 "3 sec" = "3 seconden"; // translategemma:4b

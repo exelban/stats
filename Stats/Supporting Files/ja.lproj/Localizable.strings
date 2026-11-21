@@ -88,6 +88,10 @@
 "Run" = "実行"; // gemma4:31b
 "Stop" = "停止"; // translategemma:4b
 "Uninstall" = "アンインストール"; // translategemma:4b
+"Uninstalling…" = "アンインストール中…";
+"Could not confirm automatic fan control" = "ファンが自動制御になっていることを確認できませんでした";
+"Fans may still be in manual mode. Remove the fan helper anyway?" = "ファンがまだ手動モードになっている可能性があります。それでもファンヘルパーを削除しますか？";
+"Could not uninstall fan helper" = "ファンヘルパーをアンインストールできませんでした";
 "1 sec" = "1秒"; // gemma4:31b
 "2 sec" = "2秒"; // translategemma:4b
 "3 sec" = "3秒"; // translategemma:4b

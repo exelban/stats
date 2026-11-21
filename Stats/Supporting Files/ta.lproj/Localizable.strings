@@ -88,6 +88,10 @@
 "Run" = "இயக்கு";
 "Stop" = "நிறுத்து";
 "Uninstall" = "நீக்கு";
+"Uninstalling…" = "நீக்கப்படுகிறது…";
+"Could not confirm automatic fan control" = "விசிறிகள் தானாகக் கட்டுப்படுத்தப்படுவதை உறுதிப்படுத்த முடியவில்லை";
+"Fans may still be in manual mode. Remove the fan helper anyway?" = "விசிறிகள் இன்னும் கைமுறைப் பயன்முறையில் இருக்கலாம். இருப்பினும் விசிறி உதவியாளரை நீக்க வேண்டுமா?";
+"Could not uninstall fan helper" = "விசிறி உதவியாளரை நீக்க முடியவில்லை";
 "1 sec" = "1 விநாடி";
 "2 sec" = "2 விநாடி";
 "3 sec" = "3 விநாடி";

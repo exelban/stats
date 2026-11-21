@@ -88,6 +88,10 @@
 "Run" = "Käivita";
 "Stop" = "Peata";
 "Uninstall" = "Desinstalleeri";
+"Uninstalling…" = "Desinstallimine…";
+"Could not confirm automatic fan control" = "Ventilaatorite automaatset juhtimist ei õnnestunud kinnitada";
+"Fans may still be in manual mode. Remove the fan helper anyway?" = "Ventilaatorid võivad endiselt olla käsitsijuhtimisel. Kas eemaldada ventilaatoriabiline sellest hoolimata?";
+"Could not uninstall fan helper" = "Ventilaatoriabilist ei õnnestunud desinstallida";
 "1 sec" = "1 sekund";
 "2 sec" = "2 sekundit";
 "3 sec" = "3 sekundit";

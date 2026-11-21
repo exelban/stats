@@ -88,6 +88,10 @@
 "Run" = "Futtatás"; // gemma4:31b
 "Stop" = "Leállítás"; // gemma4:31b
 "Uninstall" = "Törlés"; // gemma4:31b
+"Uninstalling…" = "Eltávolítás folyamatban…";
+"Could not confirm automatic fan control" = "Nem sikerült ellenőrizni, hogy a ventilátorvezérlés automatikus-e";
+"Fans may still be in manual mode. Remove the fan helper anyway?" = "Lehet, hogy a ventilátorok még kézi vezérlésűek. Mégis eltávolítja a ventilátorok segédprogramját?";
+"Could not uninstall fan helper" = "Nem sikerült eltávolítani a ventilátorok segédprogramját";
 "1 sec" = "1 mp"; // gemma4:31b
 "2 sec" = "2 mp"; // gemma4:31b
 "3 sec" = "3 mp"; // gemma4:31b

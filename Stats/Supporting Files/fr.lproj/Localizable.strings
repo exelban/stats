@@ -88,6 +88,10 @@
 "Run" = "Exécuter"; // translategemma:4b
 "Stop" = "Arrêter";
 "Uninstall" = "Désinstaller";
+"Uninstalling…" = "Désinstallation en cours…";
+"Could not confirm automatic fan control" = "Impossible de confirmer le contrôle automatique des ventilateurs";
+"Fans may still be in manual mode. Remove the fan helper anyway?" = "Les ventilateurs sont peut-être encore en mode manuel. Voulez-vous quand même désinstaller l’assistant des ventilateurs ?";
+"Could not uninstall fan helper" = "Impossible de désinstaller l’assistant des ventilateurs";
 "1 sec" = "1 seconde"; // translategemma:4b
 "2 sec" = "2 secondes";
 "3 sec" = "3 secondes"; // translategemma:4b

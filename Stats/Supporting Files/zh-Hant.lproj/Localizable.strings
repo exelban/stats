@@ -88,6 +88,10 @@
 "Run" = "執行";
 "Stop" = "停止";
 "Uninstall" = "解除安裝";
+"Uninstalling…" = "正在解除安裝…";
+"Could not confirm automatic fan control" = "無法確認風扇是否處於自動控制模式";
+"Fans may still be in manual mode. Remove the fan helper anyway?" = "風扇可能仍處於手動模式。仍要移除風扇輔助程式嗎？";
+"Could not uninstall fan helper" = "無法解除安裝風扇輔助程式";
 "1 sec" = "1秒";
 "2 sec" = "2秒";
 "3 sec" = "3秒";

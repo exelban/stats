@@ -88,6 +88,10 @@
 "Run" = "הפעל"; // translategemma:4b
 "Stop" = "עצור"; // translategemma:4b
 "Uninstall" = "הסר התקנה"; // translategemma:4b
+"Uninstalling…" = "מסיר התקנה…";
+"Could not confirm automatic fan control" = "לא ניתן היה לוודא שבקרת המאווררים אוטומטית";
+"Fans may still be in manual mode. Remove the fan helper anyway?" = "ייתכן שהמאווררים עדיין במצב ידני. האם להסיר את כלי העזר למאוורר בכל זאת?";
+"Could not uninstall fan helper" = "לא ניתן היה להסיר את כלי העזר למאוורר";
 "1 sec" = "1 שנייה"; // gemma4:31b
 "2 sec" = "2 שניות"; // translategemma:4b
 "3 sec" = "3 שניות"; // translategemma:4b

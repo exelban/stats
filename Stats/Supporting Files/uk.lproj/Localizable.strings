@@ -88,6 +88,10 @@
 "Run" = "Запустити";
 "Stop" = "Зупинити";
 "Uninstall" = "Видалити";
+"Uninstalling…" = "Триває видалення…";
+"Could not confirm automatic fan control" = "Не вдалося підтвердити автоматичне керування вентиляторами";
+"Fans may still be in manual mode. Remove the fan helper anyway?" = "Можливо, вентилятори досі працюють у ручному режимі. Усе одно видалити помічник для вентилятора?";
+"Could not uninstall fan helper" = "Не вдалося видалити помічник для вентилятора";
 "1 sec" = "1 сек";
 "2 sec" = "2 сек";
 "3 sec" = "3 сек";

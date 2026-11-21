@@ -88,6 +88,10 @@
 "Run" = "Kør"; // translategemma:4b
 "Stop" = "Stop";
 "Uninstall" = "Afinstaller"; // gemma4:31b
+"Uninstalling…" = "Afinstallerer…";
+"Could not confirm automatic fan control" = "Kunne ikke bekræfte, at blæserne styres automatisk";
+"Fans may still be in manual mode. Remove the fan helper anyway?" = "Blæserne er muligvis stadig i manuel tilstand. Vil du fjerne blæserhjælperen alligevel?";
+"Could not uninstall fan helper" = "Kunne ikke afinstallere blæserhjælperen";
 "1 sec" = "1 sek"; // gemma4:31b
 "2 sec" = "2 sek"; // translategemma:4b
 "3 sec" = "3 sek"; // translategemma:4b
