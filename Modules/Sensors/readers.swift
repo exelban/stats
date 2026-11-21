@@ -39,7 +39,8 @@ internal class SensorsReader: Reader<Sensors_List> {
         self.subscription = IOReportCreateSubscription(nil, self.channels, &dict, 0, nil)
         dict?.release()
         
-        self.list.sensors = self.sensors()
+        let sensors = self.sensors()
+        self.updateSensorList { _ in sensors }
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.resetHIDSensors), name: NSWorkspace.didWakeNotification, object: nil)
     }
     
@@ -59,6 +60,18 @@ internal class SensorsReader: Reader<Sensors_List> {
     
     @objc private func resetHIDSensors() {
         AppleSiliconSensorsReset()
+    }
+    
+    private func updateSensorList(_ transform: ([Sensor_p]) -> [Sensor_p]) {
+        self.list.update { current in
+            let sensors = transform(current)
+            var names: [String: String] = [:]
+            for sensor in sensors where sensor.group != .unknown && names[sensor.key] == nil {
+                names[sensor.key] = sensor.name
+            }
+            SystemStats.shared.setSensorNames(names)
+            return sensors
+        }
     }
     
     private func sensors() -> [Sensor_p] {
@@ -515,12 +528,12 @@ extension SensorsReader {
     public func HIDCallback() {
         if self.HIDState {
             let hidSensors = self.initHIDSensors()
-            self.list.update { current in
+            self.updateSensorList { current in
                 current + hidSensors.filter({ (s: Sensor_p) in !current.contains(where: { $0.key == s.key }) })
             }
         } else {
             self.resetHIDSensors()
-            self.list.update { current in
+            self.updateSensorList { current in
                 current.filter({ $0.group != .hid })
             }
         }

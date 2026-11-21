@@ -16,6 +16,7 @@ internal class Settings: NSStackView, Settings_v {
     private let title: String
     
     public var toggleCallback: (() -> Void) = {}
+    public var loadCallback: (() -> Void)?
     
     private let heroView: HeroView = HeroView()
     private var settingsView: NSStackView? = nil
@@ -25,10 +26,7 @@ internal class Settings: NSStackView, Settings_v {
     private let machinesList: RemoteList = RemoteList()
     private let hostsList: RemoteList = RemoteList()
     
-    private var machines: [RemoteMachine]?
-    private var hosts: [RemoteHost]?
-    private var groups: [RemoteGroup]?
-    private var order: RemoteAccountOrder?
+    private var snapshot: RemoteSnapshot?
     
     public init(_ module: ModuleType) {
         self.title = module.stringValue
@@ -53,6 +51,7 @@ internal class Settings: NSStackView, Settings_v {
         
         self.render(authorized: SystemStats.shared.isAuthorized)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.windowVisibilityChanged), name: .openWindow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleRemoteState), name: .remoteState, object: nil)
     }
     
@@ -61,14 +60,19 @@ internal class Settings: NSStackView, Settings_v {
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self, name: .remoteState, object: nil)
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc private func windowVisibilityChanged(_ notification: Notification) {
+        guard notification.userInfo?["state"] as? Bool == true, notification.userInfo?["module"] as? String == self.title else { return }
+        self.loadCallback?()
     }
     
     @objc private func handleRemoteState(_ notification: Notification) {
         guard let auth = notification.userInfo?["auth"] as? Bool else { return }
         DispatchQueue.main.async { [weak self] in
             self?.render(authorized: auth)
-            if auth { self?.load() }
+            if auth, self?.window?.isVisible == true { self?.loadCallback?() }
         }
     }
     
@@ -78,57 +82,23 @@ internal class Settings: NSStackView, Settings_v {
     }
     
     public func load(widgets: [widget_t]) {
-        if SystemStats.shared.isAuthorized {
-            self.load()
-        }
+        if let snapshot = self.snapshot { self.render(snapshot) }
     }
     
-    private func load() {
-        self.machines = nil
-        self.hosts = nil
-        self.groups = nil
-        self.order = nil
-        
-        SystemStats.shared.fetchMachines { [weak self] list in
-            self?.machines = list
-            self?.tryRender()
-        }
-        SystemStats.shared.fetchHosts { [weak self] list in
-            self?.hosts = list
-            self?.tryRender()
-        }
-        SystemStats.shared.fetchGroups { [weak self] list in
-            self?.groups = list
-            self?.tryRender()
-        }
-        SystemStats.shared.fetchAccountOrder { [weak self] order in
-            self?.order = order
-            self?.tryRender()
-        }
+    public override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        if self.window != nil { self.load(widgets: []) }
     }
     
-    private func tryRender() {
-        guard let machines = self.machines,
-              let hosts = self.hosts,
-              let groups = self.groups,
-              let order = self.order else { return }
-        
-        let machineIndex = Dictionary(order.machines.enumerated().map { ($1, $0) }, uniquingKeysWith: { first, _ in first })
-        let hostIndex = Dictionary(order.hosts.enumerated().map { ($1, $0) }, uniquingKeysWith: { first, _ in first })
-        
-        let sortedMachines = machines.sorted { a, b in
-            let ia = machineIndex[a.id] ?? Int.max
-            let ib = machineIndex[b.id] ?? Int.max
-            if ia != ib { return ia < ib }
-            return a.displayName.localizedCaseInsensitiveCompare(b.displayName) == .orderedAscending
-        }
-        let sortedHosts = hosts.sorted { a, b in
-            let ia = hostIndex[a.id] ?? Int.max
-            let ib = hostIndex[b.id] ?? Int.max
-            if ia != ib { return ia < ib }
-            return a.displayName.localizedCaseInsensitiveCompare(b.displayName) == .orderedAscending
-        }
-        
+    internal func update(_ snapshot: RemoteSnapshot) {
+        self.snapshot = snapshot
+        if self.window != nil { self.render(snapshot) }
+    }
+    
+    private func render(_ snapshot: RemoteSnapshot) {
+        let sortedMachines = snapshot.machines.sorted { $0.displayName.localizedCaseInsensitiveCompare($1.displayName) == .orderedAscending }
+        let sortedHosts = snapshot.hosts.sorted { $0.displayName.localizedCaseInsensitiveCompare($1.displayName) == .orderedAscending }
+        let groups = snapshot.groups
         let groupById = Dictionary(groups.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
         let orderedGroups = self.depthFirstGroups(groups: groups, groupById: groupById)
         
@@ -472,7 +442,7 @@ internal class RemoteList: ScrollableStackView {
         var byGroup: [String: [RemoteHost]] = [:]
         var ungrouped: [RemoteHost] = []
         for host in hosts {
-            if let gid = host.group, !gid.isEmpty, groupById[gid] != nil {
+            if let gid = host.displayGroupID, !gid.isEmpty, groupById[gid] != nil {
                 byGroup[gid, default: []].append(host)
             } else {
                 ungrouped.append(host)

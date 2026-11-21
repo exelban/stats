@@ -108,13 +108,11 @@ public class Sensors_List: Codable, RemoteType {
     }
     
     public func remote() -> String? {
-        let sensors = self.sensors.filter({ $0.group != .unknown && $0.value.isFinite })
-        var string = "\(sensors.count)"
-        for sensor in sensors {
+        let readings = self.sensors.filter { $0.group != .unknown && $0.value.isFinite }
+        var string = "\(readings.count)"
+        for sensor in readings {
             let key = self.escapeRemoteField(sensor.key)
-            let name = self.escapeRemoteField(sensor.name)
-            let type = sensor.type.remoteCode
-            string += ",\(key),\(name),\(type),\(sensor.value)"
+            string += ",\(key),,\(sensor.type.remoteCode),\(sensor.value)"
         }
         string += "$"
         return string

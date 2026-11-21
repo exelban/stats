@@ -68,10 +68,9 @@ public struct RemoteRAMModule: Codable {
     public let used: Double
 }
 
-public struct RemoteUpdate: Codable {
-    public let online: Bool?
-    public let modules: RemoteModules?
-    public let lastSeenTS: String?
+internal struct RemotePreview: Decodable {
+    var cpu: String?
+    var ram: String?
 }
 
 public struct RemoteGroup: Codable {
@@ -96,24 +95,10 @@ public struct RemoteMachineOS: Codable {
     public let version: String?
 }
 
-public struct RemoteAccountOrder: Codable {
-    public let machines: [String]
-    public let hosts: [String]
-}
-
 public struct RemoteSnapshot: Codable {
-    public let machines: [RemoteMachine]
-    public let hosts: [RemoteHost]
-    public let groups: [RemoteGroup]
-    public let order: RemoteAccountOrder
-}
-
-private struct RemoteAccountResponse: Decodable {
-    let settings: Settings?
-    struct Settings: Decodable {
-        let order: [String]?
-        let hostsOrder: [String]?
-    }
+    public var machines: [RemoteMachine]
+    public var hosts: [RemoteHost]
+    public var groups: [RemoteGroup]
 }
 
 public struct RemoteHost: Codable {
@@ -122,6 +107,14 @@ public struct RemoteHost: Codable {
     public let name: String?
     public let url: String
     public let group: String?
+    private let groupID: String?
+    public var displayGroupID: String? { self.groupID ?? self.group }
+    public let checkedAt: String?
+    private struct Probe: Codable {
+        let timestamp: String?
+    }
+    private let lastProbe: Probe?
+    internal var checkTimestamp: String? { self.checkedAt ?? self.lastProbe?.timestamp }
     public let lastStatus: String?
     public let lastLatencyMs: Int64?
     public let history: [RemoteHostBucket]?
@@ -192,8 +185,11 @@ public class Remote: Module {
         }
         
         self.settingsView.toggleCallback = { [weak self] in
-            self?.dataReader?.read()
+            guard let self else { return }
+            self.callback(self.dataReader?.value)
         }
+        self.popupView.loadCallback = { [weak self] in self?.dataReader?.loadDetails(refreshGroups: true) }
+        self.settingsView.loadCallback = { [weak self] in self?.dataReader?.loadDetails(refreshGroups: true) }
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleRemoteState), name: .remoteState, object: nil)
         
@@ -212,17 +208,19 @@ public class Remote: Module {
             if auth {
                 self.dataReader?.read()
             } else {
-                self.dataReader?.cancelPendingRead()
+                self.dataReader?.signOut()
+                self.callback(RemoteSnapshot(machines: [], hosts: [], groups: []))
             }
         }
     }
     
     private func callback(_ snapshot: RemoteSnapshot?) {
-        guard let snapshot, self.enabled else { return }
-        
-        DispatchQueue.main.async(execute: {
+        guard let snapshot, self.dataReader != nil else { return }
+        self.settingsView.update(snapshot)
+        guard self.enabled else { return }
+        if self.dataReader?.detailsLoaded == true || (snapshot.machines.isEmpty && snapshot.hosts.isEmpty) {
             self.popupView.callback(snapshot)
-        })
+        }
         
         self.menuBar.widgets.filter{ $0.isActive }.forEach { (w: SWidget) in
             switch w.item {
@@ -265,12 +263,6 @@ extension SystemStats {
     internal func fetchGroups() async throws -> [RemoteGroup] {
         try await self.fetchListAsync(path: "/v1/group")
     }
-    internal func fetchAccountOrder() async throws -> RemoteAccountOrder {
-        let data = try await self.fetchData(path: "/v1/account")
-        let account = try JSONDecoder().decode(RemoteAccountResponse.self, from: data)
-        return RemoteAccountOrder(machines: account.settings?.order ?? [], hosts: account.settings?.hostsOrder ?? [])
-    }
-    
     private func fetchListAsync<T: Decodable>(path: String) async throws -> [T] {
         try JSONDecoder().decode([T].self, from: await self.fetchData(path: path))
     }
@@ -283,53 +275,12 @@ extension SystemStats {
         }
         return data
     }
-    
-    internal func fetchMachines(completion: @escaping ([RemoteMachine]) -> Void) {
-        Task {
-            let list = (try? await self.fetchMachines()) ?? []
-            await MainActor.run { completion(list) }
-        }
-    }
-    
-    internal func fetchHosts(historyWindow: String? = nil, completion: @escaping ([RemoteHost]) -> Void) {
-        Task {
-            let list = (try? await self.fetchHosts(historyWindow: historyWindow ?? "")) ?? []
-            await MainActor.run { completion(list) }
-        }
-    }
-    
-    internal func fetchGroups(completion: @escaping ([RemoteGroup]) -> Void) {
-        Task {
-            let list = (try? await self.fetchGroups()) ?? []
-            await MainActor.run { completion(list) }
-        }
-    }
-    
-    internal func fetchAccountOrder(completion: @escaping (RemoteAccountOrder) -> Void) {
-        Task {
-            let order = (try? await self.fetchAccountOrder()) ?? RemoteAccountOrder(machines: [], hosts: [])
-            await MainActor.run { completion(order) }
-        }
-    }
 }
 
-extension RemoteMachine {
-    public func applying(_ update: RemoteUpdate) -> RemoteMachine {
-        RemoteMachine(
-            id: self.id,
-            name: self.name,
-            online: update.online ?? self.online,
-            groupID: self.groupID,
-            lastSeenTS: update.lastSeenTS ?? self.lastSeenTS,
-            details: self.details,
-            modules: update.modules ?? self.modules
-        )
-    }
-}
-
-public final class RemoteMachineStream: NSObject, URLSessionDataDelegate {
-    private let machineID: String
-    private let onUpdate: (RemoteUpdate) -> Void
+public class RemoteEventStream: NSObject, URLSessionDataDelegate {
+    private let path: String
+    private let onEvent: (String, Data) throws -> Void
+    private let onRejection: ((Int) -> Void)?
     
     private var session: URLSession?
     private var task: URLSessionDataTask?
@@ -343,9 +294,10 @@ public final class RemoteMachineStream: NSObject, URLSessionDataDelegate {
     
     private let delegateQueue = OperationQueue.main
     
-    public init(machineID: String, onUpdate: @escaping (RemoteUpdate) -> Void) {
-        self.machineID = machineID
-        self.onUpdate = onUpdate
+    internal init(path: String, onRejection: ((Int) -> Void)? = nil, onEvent: @escaping (String, Data) throws -> Void) {
+        self.path = path
+        self.onRejection = onRejection
+        self.onEvent = onEvent
         super.init()
     }
     
@@ -369,7 +321,7 @@ public final class RemoteMachineStream: NSObject, URLSessionDataDelegate {
     }
     
     private func openConnection() {
-        guard !self.stopped, let url = URL(string: "\(SystemStats.host)/v1/machine/\(self.machineID)/sse") else { return }
+        guard !self.stopped, let url = URL(string: "\(SystemStats.host)\(self.path)") else { return }
         self.connectionGeneration &+= 1
         let generation = self.connectionGeneration
         self.authorizationTask?.cancel()
@@ -397,7 +349,7 @@ public final class RemoteMachineStream: NSObject, URLSessionDataDelegate {
             session = existing
         } else {
             let config = URLSessionConfiguration.default
-            config.timeoutIntervalForRequest = .infinity
+            config.timeoutIntervalForRequest = 65
             config.timeoutIntervalForResource = .infinity
             session = URLSession(configuration: config, delegate: self, delegateQueue: self.delegateQueue)
             self.session = session
@@ -424,6 +376,7 @@ public final class RemoteMachineStream: NSObject, URLSessionDataDelegate {
             self.task = nil
             guard !self.retriedAuthorization else {
                 self.stop()
+                self.onRejection?(http.statusCode)
                 return
             }
             self.retriedAuthorization = true
@@ -433,11 +386,13 @@ public final class RemoteMachineStream: NSObject, URLSessionDataDelegate {
         }
         guard http.statusCode == 200 else {
             completionHandler(.cancel)
-            if [403, 404, 410].contains(http.statusCode) { self.stop() }
+            if [403, 404, 410].contains(http.statusCode) {
+                self.stop()
+                self.onRejection?(http.statusCode)
+            }
             return
         }
         self.retriedAuthorization = false
-        self.reconnectAttempts = 0
         completionHandler(.allow)
     }
     
@@ -448,7 +403,13 @@ public final class RemoteMachineStream: NSObject, URLSessionDataDelegate {
         while let range = self.buffer.range(of: separator) {
             let frame = self.buffer.subdata(in: 0..<range.lowerBound)
             self.buffer.removeSubrange(0..<range.upperBound)
-            self.parseFrame(frame)
+            do {
+                try self.parseFrame(frame)
+            } catch {
+                self.buffer.removeAll()
+                dataTask.cancel()
+                return
+            }
         }
     }
     
@@ -468,18 +429,60 @@ public final class RemoteMachineStream: NSObject, URLSessionDataDelegate {
         }
     }
     
-    private func parseFrame(_ frame: Data) {
+    private func parseFrame(_ frame: Data) throws {
         guard let text = String(data: frame, encoding: .utf8) else { return }
+        var event = "message"
+        var data: [String] = []
         for line in text.components(separatedBy: "\n") {
-            let trimmed = line.trimmingCharacters(in: .whitespaces)
-            guard trimmed.hasPrefix("data:") else { continue }
-            let jsonText = String(trimmed.dropFirst(5)).trimmingCharacters(in: .whitespaces)
-            guard !jsonText.isEmpty,
-                  let jsonData = jsonText.data(using: .utf8),
-                  let update = try? JSONDecoder().decode(RemoteUpdate.self, from: jsonData) else { continue }
-            self.reconnectAttempts = 0
-            let cb = self.onUpdate
-            DispatchQueue.main.async { cb(update) }
+            if line.hasPrefix("event:") {
+                event = line.dropFirst(6).trimmingCharacters(in: .whitespaces)
+            } else if line.hasPrefix("data:") {
+                data.append(String(line.dropFirst(5)))
+            }
+        }
+        guard !data.isEmpty else { return }
+        try self.onEvent(event, Data(data.joined(separator: "\n").utf8))
+        self.reconnectAttempts = 0
+    }
+}
+
+internal final class RemoteMachineStream: RemoteEventStream {
+    private struct Update: Decodable {
+        let machineID: String
+        let preview: RemotePreview?
+    }
+    
+    private enum FrameKey: String, CodingKey {
+        case snapshot
+    }
+    
+    private enum Frame: Decodable {
+        case snapshot([Update])
+        case update(Update)
+        
+        init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: FrameKey.self)
+            if let updates = try container.decodeIfPresent([Update].self, forKey: .snapshot) {
+                self = .snapshot(updates)
+            } else {
+                self = .update(try Update(from: decoder))
+            }
+        }
+    }
+    
+    internal static let maxMachines = 100
+    
+    internal init(machineIDs: [String], onUpdate: @escaping (String, RemotePreview, Bool) -> Void) {
+        let path = "/v1/machine/sse?machineIDs=" + machineIDs.joined(separator: ",")
+        super.init(path: path) { _, data in
+            switch try JSONDecoder().decode(Frame.self, from: data) {
+            case .snapshot(let snapshot):
+                for update in snapshot {
+                    if let preview = update.preview { onUpdate(update.machineID, preview, true) }
+                }
+            case .update(let update):
+                if let preview = update.preview { onUpdate(update.machineID, preview, false) }
+            }
         }
     }
 }
