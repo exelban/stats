@@ -998,6 +998,7 @@ public class PieChartView: ChartView {
     private var filled: Bool
     private var drawValue: Bool
     private var lineCap: CGLineCap
+    private let lineWidth: CGFloat
     private var segments: [ColorValue]
     
     private var nonActiveSegmentColor: NSColor = NSColor.lightGray
@@ -1012,12 +1013,14 @@ public class PieChartView: ChartView {
         filled: Bool = false,
         drawValue: Bool = false,
         animation: Bool = true,
-        lineCap: CGLineCap = .round
+        lineCap: CGLineCap = .round,
+        lineWidth: CGFloat = 7
     ) {
         self.filled = filled
         self.drawValue = drawValue
         self.segments = segments
         self.lineCap = lineCap
+        self.lineWidth = lineWidth
         
         super.init(frame: frame, queueLabel: "eu.exelban.Stats.Charts.Pie")
         self.animationEnabled = animation
@@ -1049,7 +1052,8 @@ public class PieChartView: ChartView {
             lineCap = self.lineCap
         }
         
-        let arcWidth: CGFloat = filled ? min(self.frame.width, self.frame.height) / 2 : 7
+        let maxWidth = min(self.frame.width, self.frame.height) / 2
+        let arcWidth = filled ? maxWidth : min(max(self.lineWidth, 0), maxWidth)
         let fullCircle: CGFloat = 2 * CGFloat.pi
         if segments.isEmpty {
             segments = [ColorValue(value ?? 0, color: color)]
