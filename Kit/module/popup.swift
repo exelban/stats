@@ -89,6 +89,25 @@ open class PopupWrapper: NSStackView, Popup_p {
         Store.shared.set(key: "\(self.title)_popup_keyboardShortcut", value: binding)
     }
     
+    public func resizeToFitContent() {
+        let translatesAutoresizingMask = self.translatesAutoresizingMaskIntoConstraints
+        self.translatesAutoresizingMaskIntoConstraints = false
+        let h = self.fittingSize.height
+        let resized = self.frame.size.height != h
+        if resized {
+            self.setFrameSize(NSSize(width: self.frame.width, height: h))
+        }
+        self.translatesAutoresizingMaskIntoConstraints = translatesAutoresizingMask
+        if resized {
+            self.sizeCallback?(self.frame.size)
+        }
+    }
+    
+    public func addSection(_ view: NSView, at index: Int? = nil) {
+        self.insertArrangedSubview(view, at: index ?? self.arrangedSubviews.count)
+        view.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+    }
+    
     public func apply<T>(_ value: T, to cache: PopupCache<T>, render: @escaping (T) -> Void) {
         DispatchQueue.main.async {
             if !self.contentLoaded {

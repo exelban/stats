@@ -263,7 +263,7 @@ public class LabelField: NSTextField {
 }
 
 public class ValueField: NSTextField {
-    public init(frame: NSRect = NSRect.zero, _ value: String = "") {
+    public init(frame: NSRect = NSRect.zero, _ value: String = "", size: CGFloat = 13) {
         super.init(frame: frame)
         
         self.isEditable = false
@@ -276,7 +276,7 @@ public class ValueField: NSTextField {
         self.stringValue = value
         self.textColor = .textColor
         self.alignment = .trailing
-        self.font = NSFont.systemFont(ofSize: 13, weight: .regular)
+        self.font = NSFont.systemFont(ofSize: size, weight: .medium)
         
         self.cell?.usesSingleLineMode = true
     }
@@ -379,29 +379,22 @@ public func separatorView(_ title: String, origin: NSPoint = NSPoint(x: 0, y: 0)
     let view: NSView = NSView(frame: NSRect(x: origin.x, y: origin.y, width: width, height: 30))
     view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
     
-    let labelView: NSTextField = NSTextField(labelWithString: "")
+    let labelView = NSTextField(labelWithString: title)
     labelView.translatesAutoresizingMaskIntoConstraints = false
     labelView.alignment = .center
-    labelView.isBezeled = false
-    labelView.isEditable = false
-    labelView.drawsBackground = false
-    labelView.attributedStringValue = NSAttributedString(string: title.uppercased(), attributes: [
-        .font: NSFont.systemFont(ofSize: 10, weight: .semibold),
-        .foregroundColor: NSColor.tertiaryLabelColor,
-        .kern: 1.0
-    ])
+    labelView.font = .systemFont(ofSize: 11)
+    labelView.textColor = .secondaryLabelColor
+    labelView.alphaValue = 0.65
     labelView.setContentHuggingPriority(.required, for: .horizontal)
     labelView.setContentCompressionResistancePriority(.required, for: .horizontal)
     
-    let leftLine: NSView = NSView()
+    let leftLine = NSBox()
     leftLine.translatesAutoresizingMaskIntoConstraints = false
-    leftLine.wantsLayer = true
-    leftLine.layer?.backgroundColor = NSColor.separatorColor.cgColor
+    leftLine.boxType = .separator
     
-    let rightLine: NSView = NSView()
+    let rightLine = NSBox()
     rightLine.translatesAutoresizingMaskIntoConstraints = false
-    rightLine.wantsLayer = true
-    rightLine.layer?.backgroundColor = NSColor.separatorColor.cgColor
+    rightLine.boxType = .separator
     
     view.addSubview(leftLine)
     view.addSubview(labelView)
@@ -2535,5 +2528,102 @@ public struct UserContext {
             }
         }
         return CFPreferencesCopyAppValue("NSStatusItem Visible FocusModes" as CFString, "com.apple.controlcenter" as CFString) as? Bool ?? false
+    }
+}
+
+public class PopupDashboardDetailsRow: NSStackView {
+    public let valueView: NSTextField
+    
+    public init(icon: String? = nil, title: String? = nil, dafaultValue: String = "") {
+        self.valueView = NSTextField(labelWithString: dafaultValue)
+        super.init(frame: NSRect.zero)
+        
+        self.orientation = .horizontal
+        self.alignment = .centerY
+        self.spacing = Constants.Popup.margins
+        
+        if let icon, let symbol = NSImage(systemSymbolName: icon, accessibilityDescription: nil) {
+            let image = NSImageView(image: symbol)
+            image.symbolConfiguration = NSImage.SymbolConfiguration(pointSize: 13, weight: .regular)
+            image.contentTintColor = .secondaryLabelColor
+            image.widthAnchor.constraint(equalToConstant: 17).isActive = true
+            self.addArrangedSubview(image)
+        }
+        
+        let labels = NSStackView()
+        labels.orientation = .vertical
+        labels.alignment = .leading
+        labels.spacing = 0
+        
+        self.valueView.font = .systemFont(ofSize: 12, weight: .semibold)
+        labels.addArrangedSubview(self.valueView)
+        
+        if let title {
+            let label = NSTextField(labelWithString: title)
+            label.font = .systemFont(ofSize: 8)
+            label.textColor = .secondaryLabelColor
+            labels.addArrangedSubview(label)
+        }
+        
+        self.addArrangedSubview(labels)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+public class PopupValuesBlocks: NSStackView {
+    public init() {
+        super.init(frame: .zero)
+        
+        self.orientation = .horizontal
+        self.alignment = .centerY
+        self.distribution = .fillEqually
+        self.spacing = Constants.Popup.spacing
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func addBlock(title: String, value: String = "", color: NSColor? = nil) -> NSTextField {
+        let block = NSStackView()
+        block.orientation = .vertical
+        block.alignment = .centerX
+        block.spacing = Constants.Popup.spacing
+        
+        let header = NSStackView()
+        header.orientation = .horizontal
+        header.alignment = .centerY
+        header.spacing = 4
+        header.setHuggingPriority(.required, for: .horizontal)
+        if let color {
+            header.addArrangedSubview(ColorBlock(color: color))
+        }
+        
+        let label = NSTextField(labelWithString: title)
+        label.font = .systemFont(ofSize: 10)
+        label.textColor = .secondaryLabelColor
+        label.lineBreakMode = .byTruncatingTail
+        label.toolTip = title
+        header.addArrangedSubview(label)
+        block.addArrangedSubview(header)
+        
+        let field = NSTextField(labelWithString: value)
+        field.font = .systemFont(ofSize: 16, weight: .semibold)
+        field.alignment = .center
+        field.lineBreakMode = .byTruncatingTail
+        field.setAccessibilityLabel(title)
+        block.addArrangedSubview(field)
+        let first = self.arrangedSubviews.first
+        self.addArrangedSubview(block)
+        if let first {
+            block.widthAnchor.constraint(equalTo: first.widthAnchor).isActive = true
+        }
+        
+        header.widthAnchor.constraint(lessThanOrEqualTo: block.widthAnchor).isActive = true
+        field.widthAnchor.constraint(equalTo: block.widthAnchor).isActive = true
+        return field
     }
 }
