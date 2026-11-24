@@ -14,13 +14,13 @@ import Kit
 
 internal class Popup: PopupWrapper {
     private let chartHistory = LineChartData(capacity: 180)
-    private var grid: NSGridView? = nil
     
-    private let dashboardHeight: CGFloat = 90
     private let chartHeight: CGFloat = 90 + Constants.Popup.separatorHeight
-    private let detailsHeight: CGFloat = (22*7) + Constants.Popup.separatorHeight + 16
+    private let detailsHeight: CGFloat = (22*6) + Constants.Popup.separatorHeight + 16
     private let processHeight: CGFloat = 22
     
+    private var usageField: NSTextField? = nil
+    private var pressurePercentageField: NSTextField? = nil
     private var usedField: NSTextField? = nil
     private var freeField: NSTextField? = nil
     
@@ -40,12 +40,12 @@ internal class Popup: PopupWrapper {
     private var chart: LineChartView? = nil
     private var bar: BarChartView? = nil
     private var circle: PieChartView? = nil
-    private var level: GaugeChartView? = nil
     private let processesCache = PopupCache<[TopProcess]>()
     
     private let loadCache = PopupCache<RAM_Usage>()
     
     private var processes: ProcessesView? = nil
+    private var processesView: NSView? = nil
     
     private var numberOfProcesses: Int {
         Store.shared.int(key: "\(self.title)_processes", defaultValue: 8)
@@ -71,13 +71,11 @@ internal class Popup: PopupWrapper {
     private var chartColor: NSColor { self.chartColorState.additional as? NSColor ?? NSColor.systemBlue }
     
     public init(_ module: ModuleType) {
-        super.init(module, frame: NSRect(
-            x: 0,
-            y: 0,
-            width: Constants.Popup.width,
-            height: self.dashboardHeight + self.chartHeight + self.detailsHeight
-        ))
-        self.setFrameSize(NSSize(width: self.frame.width, height: self.frame.height+self.processesHeight))
+        super.init(module, frame: NSRect(x: 0, y: 0, width: Constants.Popup.width, height: 0))
+        
+        self.orientation = .vertical
+        self.distribution = .fill
+        self.spacing = 0
         
         self.appColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_appColor", defaultValue: self.appColorState.key))
         self.wiredColorState = SColor.fromString(Store.shared.string(key: "\(self.title)_wiredColor", defaultValue: self.wiredColorState.key))
@@ -90,27 +88,22 @@ internal class Popup: PopupWrapper {
         self.lineChartFixedScale = Double(Store.shared.int(key: "\(self.title)_lineChartFixedScale", defaultValue: 100)) / 100
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     public override func loadContent() {
-        self.setFrameSize(NSSize(width: self.frame.width, height: self.dashboardHeight + self.chartHeight + self.detailsHeight + self.processesHeight))
-        let gridView: NSGridView = NSGridView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
-        gridView.rowSpacing = 0
-        gridView.yPlacement = .fill
+        self.addSection(self.initDashboard())
+        self.addSection(self.initChart())
+        self.addSection(self.initDetails())
+        self.addSection(self.initProcesses())
         
-        gridView.addRow(with: [self.initDashboard()])
-        gridView.addRow(with: [self.initChart()])
-        gridView.addRow(with: [self.initDetails()])
-        gridView.addRow(with: [self.initProcesses()])
-        
-        gridView.row(at: 0).height = self.dashboardHeight
-        gridView.row(at: 1).height = self.chartHeight
-        gridView.row(at: 2).height = self.detailsHeight
-        
-        self.addSubview(gridView)
-        self.grid = gridView
+        self.resizeToFitContent()
     }
     
     public override func unloadContent() {
-        self.grid = nil
+        self.usageField = nil
+        self.pressurePercentageField = nil
         self.usedField = nil
         self.freeField = nil
         self.appField = nil
@@ -126,16 +119,8 @@ internal class Popup: PopupWrapper {
         self.chart = nil
         self.bar = nil
         self.circle = nil
-        self.level = nil
         self.processes = nil
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    public override func updateLayer() {
-        self.chart?.display()
+        self.processesView = nil
     }
     
     public override func appear() {
@@ -147,91 +132,75 @@ internal class Popup: PopupWrapper {
         self.processes?.setLock(false)
     }
     
-    public func numberOfProcessesUpdated() {
-        if self.processes?.count == self.numberOfProcesses { return }
-        
-        DispatchQueue.main.async(execute: {
-            guard self.contentLoaded else { return }
-            let h: CGFloat = self.dashboardHeight + self.chartHeight + self.detailsHeight + self.processesHeight
-            self.setFrameSize(NSSize(width: self.frame.width, height: h))
-            
-            self.grid?.setFrameSize(NSSize(width: self.frame.width, height: h))
-            
-            self.grid?.row(at: 3).cell(at: 0).contentView?.removeFromSuperview()
-            self.processes = nil
-            self.grid?.removeRow(at: 3)
-            self.grid?.addRow(with: [self.initProcesses()])
-            self.processesCache.initialized = false
-            
-            self.sizeCallback?(self.frame.size)
-        })
+    public override func updateLayer() {
+        self.chart?.display()
     }
     
+    // MARK: - Views
+    
     private func initDashboard() -> NSView {
-        let view = NSStackView()
-        view.heightAnchor.constraint(equalToConstant: self.dashboardHeight).isActive = true
+        let view: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: Constants.Popup.dashboardHeight))
+        view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
         view.orientation = .horizontal
         view.distribution = .fillEqually
+        view.spacing = Constants.Popup.margins
+        view.edgeInsets = .init(top: Constants.Popup.margins, left: Constants.Popup.margins, bottom: Constants.Popup.margins, right: Constants.Popup.margins)
         
-        let circle = PieChartView(drawValue: true)
-        circle.translatesAutoresizingMaskIntoConstraints = false
-        circle.toolTip = localizedString("Memory usage")
-        self.circle = circle
+        let chart = PieChartView(drawValue: true, lineWidth: 10)
+        chart.toolTip = localizedString("Memory usage")
+        self.circle = chart
         
-        let circleContainer = NSView()
-        circleContainer.addSubview(circle)
+        let details = NSStackView()
+        details.orientation = .vertical
+        details.alignment = .leading
+        details.spacing = Constants.Popup.spacing*2
         
-        let gauge = GaugeChartView(segments: [
-            ColorValue(1/3, color: NSColor.systemGreen),
-            ColorValue(1/3, color: NSColor.systemYellow),
-            ColorValue(1/3, color: NSColor.systemRed)
-        ], title: localizedString("Normal"))
-        gauge.translatesAutoresizingMaskIntoConstraints = false
-        gauge.toolTip = localizedString("Memory pressure")
-        self.level = gauge
+        let usage = PopupDashboardDetailsRow(
+            icon: "memorychip",
+            title: localizedString("Usage"),
+            dafaultValue: "n/a"
+        )
+        self.usageField = usage.valueView
+        let pressure = PopupDashboardDetailsRow(
+            icon: "waveform.path.ecg",
+            title: localizedString("Memory pressure"),
+            dafaultValue: "n/a"
+        )
+        self.pressurePercentageField = pressure.valueView
+        let swap = PopupDashboardDetailsRow(
+            icon: "clock",
+            title: "SWAP",
+            dafaultValue: "n/a"
+        )
+        self.swapField = swap.valueView
         
-        let gaugeContainer = NSView()
-        gaugeContainer.addSubview(gauge)
+        details.addArrangedSubview(usage)
+        details.addArrangedSubview(pressure)
+        details.addArrangedSubview(swap)
         
-        NSLayoutConstraint.activate([
-            circle.widthAnchor.constraint(equalToConstant: 70),
-            circle.heightAnchor.constraint(equalToConstant: 70),
-            circle.centerXAnchor.constraint(equalTo: circleContainer.centerXAnchor, constant: -15),
-            circle.centerYAnchor.constraint(equalTo: circleContainer.centerYAnchor),
-            
-            gauge.widthAnchor.constraint(equalToConstant: 70),
-            gauge.heightAnchor.constraint(equalToConstant: 60),
-            gauge.centerXAnchor.constraint(equalTo: gaugeContainer.centerXAnchor, constant: 15),
-            gauge.centerYAnchor.constraint(equalTo: gaugeContainer.centerYAnchor)
-        ])
-        
-        view.addArrangedSubview(gaugeContainer)
-        view.addArrangedSubview(circleContainer)
+        view.addArrangedSubview(chart)
+        view.addArrangedSubview(details)
         
         return view
     }
     
     private func initChart() -> NSView  {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.chartHeight))
+        view.heightAnchor.constraint(equalToConstant: self.chartHeight).isActive = true
         let separator = separatorView(localizedString("Usage history"), origin: NSPoint(x: 0, y: self.chartHeight-Constants.Popup.separatorHeight), width: self.frame.width)
-        let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
-        container.wantsLayer = true
-        container.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
-        container.layer?.cornerRadius = Constants.Popup.radius
-        
-        let chartFrame = NSRect(x: 1, y: 0, width: view.frame.width - 2, height: container.frame.height)
-        self.chart = LineChartView(frame: chartFrame, scale: self.lineChartScale, fixedScale: self.lineChartFixedScale, history: self.chartHistory)
-        self.chart?.setColor(self.chartColor)
-        container.addSubview(self.chart!)
+        let chartFrame = NSRect(x: 1, y: 0, width: view.frame.width - 2, height: separator.frame.origin.y)
+        let chart = LineChartView(frame: chartFrame, color: self.chartColor, scale: self.lineChartScale, fixedScale: self.lineChartFixedScale, history: self.chartHistory)
+        self.chart = chart
         
         view.addSubview(separator)
-        view.addSubview(container)
+        view.addSubview(chart)
         
         return view
     }
     
     private func initDetails() -> NSView  {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.detailsHeight))
+        view.heightAnchor.constraint(equalToConstant: self.detailsHeight).isActive = true
         let separator = separatorView(localizedString("Details"), origin: NSPoint(x: 0, y: self.detailsHeight-Constants.Popup.separatorHeight), width: self.frame.width)
         let container: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: view.frame.width, height: separator.frame.origin.y))
         container.orientation = .vertical
@@ -245,7 +214,6 @@ internal class Popup: PopupWrapper {
         (self.wiredColorView, _, self.wiredField) = popupWithColorRow(container, color: self.wiredColor, title: "\(localizedString("Wired")):", value: "")
         (self.compressedColorView, _, self.compressedField) = popupWithColorRow(container, color: self.compressedColor, title: "\(localizedString("Compressed")):", value: "")
         (self.freeColorView, _, self.freeField) = popupWithColorRow(container, color: self.freeColor.withAlphaComponent(0.5), title: "\(localizedString("Free")):", value: "")
-        self.swapField = popupRow(container, title: "\(localizedString("Swap")):", value: "").1
         self.pressureField = popupRow(container, title: "\(localizedString("Memory pressure")):", value: "").1
         
         view.addSubview(separator)
@@ -255,9 +223,11 @@ internal class Popup: PopupWrapper {
     }
     
     private func initProcesses() -> NSView  {
-        if self.numberOfProcesses == 0 { return NSView() }
-        
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.processesHeight))
+        view.heightAnchor.constraint(equalToConstant: view.frame.height).isActive = true
+        self.processesView = view
+        guard self.numberOfProcesses != 0 else { return view }
+        
         let separator = separatorView(localizedString("Top processes"), origin: NSPoint(x: 0, y: self.processesHeight-Constants.Popup.separatorHeight), width: self.frame.width)
         let container: ProcessesView = ProcessesView(
             frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y),
@@ -271,6 +241,8 @@ internal class Popup: PopupWrapper {
         
         return view
     }
+    
+    // MARK: - Updates
     
     public func loadCallback(_ value: RAM_Usage) {
         let date = Date()
@@ -288,9 +260,12 @@ internal class Popup: PopupWrapper {
         self.wiredField?.stringValue = Units(bytes: Int64(value.wired)).getReadableMemory(style: .memory)
         self.compressedField?.stringValue = Units(bytes: Int64(value.compressed)).getReadableMemory(style: .memory)
         self.swapField?.stringValue = Units(bytes: Int64(value.swap.used)).getReadableMemory(style: .memory)
-        self.pressureField?.stringValue = value.pressure.percentage.map { "\($0)%" } ?? "-"
+        self.pressurePercentageField?.stringValue = value.pressure.percentage.map { "\($0)%" } ?? "n/a"
+        self.pressureField?.stringValue = localizedString(value.pressure.value.rawValue.capitalized)
         
-        self.usedField?.stringValue = Units(bytes: Int64(value.used)).getReadableMemory(style: .memory)
+        let used = Units(bytes: Int64(value.used)).getReadableMemory(style: .memory)
+        self.usageField?.stringValue = used
+        self.usedField?.stringValue = used
         self.freeField?.stringValue = Units(bytes: Int64(value.free)).getReadableMemory(style: .memory)
         
         let values = [
@@ -304,11 +279,6 @@ internal class Popup: PopupWrapper {
         self.circle?.setSegments(values)
         self.circle?.setNonActiveSegmentColor(self.freeColor)
         self.circle?.display()
-        
-        self.level?.setActiveSegment(value.pressure.value.number())
-        self.level?.setTitle(localizedString(value.pressure.value.rawValue.capitalized))
-        self.level?.toolTip = "\(localizedString("Memory pressure")): \(value.pressure.value.rawValue)"
-        self.level?.display()
         
         self.bar?.setValues(values)
         
@@ -326,6 +296,18 @@ internal class Popup: PopupWrapper {
             let process = list[i]
             self.processes?.set(i, process, [Units(bytes: Int64(process.usage)).getReadableMemory(style: .memory)])
         }
+    }
+    
+    public func numberOfProcessesUpdated() {
+        DispatchQueue.main.async(execute: {
+            guard self.contentLoaded, (self.processes?.count ?? 0) != self.numberOfProcesses else { return }
+            
+            self.processesView?.removeFromSuperview()
+            self.processes = nil
+            self.addSection(self.initProcesses())
+            self.replay(self.processesCache, render: self.renderProcesses)
+            self.resizeToFitContent()
+        })
     }
     
     // MARK: - Settings
