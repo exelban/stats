@@ -242,7 +242,7 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
         }
         guard let popup = self.popup else { return }
         
-        if popup.occlusionState.rawValue == 8192 {
+        if !popup.occlusionState.contains(.visible) {
             popup.contentView?.invalidateIntrinsicContentSize()
             
             let windowCenter = popup.contentView!.intrinsicContentSize.width / 2
@@ -259,9 +259,7 @@ internal class CombinedView: NSObject, NSGestureRecognizerDelegate {
                 }
             }
             
-            popup.setFrameOrigin(NSPoint(x: x, y: y))
-            popup.orderFrontRegardless()
-            popup.makeKey()
+            popup.show(at: NSPoint(x: x, y: y))
         } else {
             popup.setIsVisible(false)
         }

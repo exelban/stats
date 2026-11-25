@@ -125,7 +125,11 @@ open class PopupWrapper: NSStackView, Popup_p {
 
 public class PopupWindow: NSPanel, NSWindowDelegate {
     private let viewController: PopupViewController
-    internal var locked: Bool = false
+    internal var locked: Bool = false {
+        didSet {
+            self.viewController.setCloseButton(self.locked)
+        }
+    }
     internal var openedBy: widget_t? = nil
     
     public init(title: String, module: ModuleType, view: Popup_p?, visibilityCallback: @escaping (_ state: Bool) -> Void) {
@@ -145,7 +149,9 @@ public class PopupWindow: NSPanel, NSWindowDelegate {
         )
         
         self.viewController.visibilityCallback = { [weak self] state in
-            self?.locked = false
+            if !state {
+                self?.locked = false
+            }
             visibilityCallback(state)
         }
         
@@ -162,8 +168,14 @@ public class PopupWindow: NSPanel, NSWindowDelegate {
         self.delegate = self
     }
     
+    public func show(at origin: NSPoint) {
+        self.setFrameOrigin(origin)
+        self.locked = false
+        self.orderFrontRegardless()
+        self.makeKey()
+    }
+    
     public func windowWillMove(_ notification: Notification) {
-        self.viewController.setCloseButton(true)
         self.locked = true
     }
     
@@ -174,7 +186,6 @@ public class PopupWindow: NSPanel, NSWindowDelegate {
     public func dismissIfUnlocked() {
         guard !self.locked else { return }
         
-        self.viewController.setCloseButton(false)
         self.setIsVisible(false)
     }
 }
@@ -352,7 +363,6 @@ internal class PopupView: NSView {
         }
     }
     internal func disappear() {
-        self.header.setCloseButton(false)
         self.view?.disappear()
         (self.view as? PopupWrapper)?.releaseContent()
     }
@@ -408,6 +418,7 @@ internal class PopupView: NSView {
 internal class HeaderView: NSStackView {
     private var titleView: NSTextField? = nil
     private var activityButton: NSButton?
+    private var dragStart: NSEvent?
     
     private var title: String = ""
     private var isCloseAction: Bool = false
@@ -481,6 +492,31 @@ internal class HeaderView: NSStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override var mouseDownCanMoveWindow: Bool { false }
+    
+    override func hitTest(_ point: NSPoint) -> NSView? {
+        let view = super.hitTest(point)
+        if let title = self.titleView, view === title {
+            return self
+        }
+        return view
+    }
+    
+    override func mouseDown(with event: NSEvent) {
+        self.dragStart = event
+    }
+    
+    override func mouseDragged(with event: NSEvent) {
+        guard let start = self.dragStart, let popup = self.window as? PopupWindow else { return }
+        self.dragStart = nil
+        popup.locked = true
+        popup.performDrag(with: start)
+    }
+    
+    override func mouseUp(with event: NSEvent) {
+        self.dragStart = nil
+    }
+    
     fileprivate func setTitle(_ newTitle: String) {
         self.title = newTitle
         self.titleView?.stringValue = localizedString(newTitle)
@@ -541,8 +577,6 @@ internal class HeaderView: NSStackView {
     
     @objc private func closePopup() {
         self.window?.setIsVisible(false)
-        self.setCloseButton(false)
-        return
     }
     
     fileprivate func setCloseButton(_ state: Bool) {

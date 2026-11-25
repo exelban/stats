@@ -357,7 +357,7 @@ open class Module {
             popup.openedBy = widget
         }
         
-        if popup.occlusionState.rawValue == 8192 || reopen {
+        if !popup.occlusionState.contains(.visible) || reopen {
             popup.contentView?.invalidateIntrinsicContentSize()
             
             let windowCenter = popup.contentView!.intrinsicContentSize.width / 2
@@ -374,9 +374,7 @@ open class Module {
                 }
             }
             
-            popup.setFrameOrigin(NSPoint(x: x, y: y))
-            popup.orderFrontRegardless()
-            popup.makeKey()
+            popup.show(at: NSPoint(x: x, y: y))
         } else {
             popup.locked = false
             popup.openedBy = nil

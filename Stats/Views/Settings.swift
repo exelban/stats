@@ -84,6 +84,11 @@ class SettingsWindow: NSWindow, NSWindowDelegate, NSToolbarDelegate {
         self.setFrameAutosaveName(SettingsWindow.frameAutosaveName)
         if !self.setFrameUsingName(SettingsWindow.frameAutosaveName) {
             self.positionCenter()
+        } else if self.frame.height > self.frame.width {
+            var frame = self.frame
+            frame.origin.y = frame.maxY - SettingsWindow.size.height
+            frame.size.height = SettingsWindow.size.height
+            self.setFrame(frame, display: false)
         }
         self.setIsVisible(false)
         self.minSize = NSSize(width: SettingsWindow.size.width, height: SettingsWindow.size.height-Constants.Popup.headerHeight)
