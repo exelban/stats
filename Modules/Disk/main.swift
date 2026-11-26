@@ -293,13 +293,14 @@ public class Disk: Module {
     private func capacityCallback(_ value: Disks) {
         guard self.enabled else { return }
         
+        let mainDisk = value.first(where: { $0.mediaName == self.selectedDisk }) ?? value.first(where: { $0.root })
         DispatchQueue.main.async(execute: {
-            self.popupView.capacityCallback(value)
+            self.popupView.capacityCallback(value, mainDiskID: mainDisk?.uuid)
             self.previewView.capacityCallback(value)
         })
         self.settingsView.setList(value)
         
-        guard let d = value.first(where: { $0.mediaName == self.selectedDisk }) ?? value.first(where: { $0.root }) else {
+        guard let d = mainDisk else {
             self.summaryCallback(nil)
             return
         }
