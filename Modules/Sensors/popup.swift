@@ -131,18 +131,13 @@ internal class Popup: PopupWrapper {
             fans.forEach { (f: Sensor_p) in
                 if let fan = f as? Fan {
                     if f.isComputed {
-                        let sensor = SensorView(fan, width: self.frame.width, toggleable: false) {}
+                        let sensor = FanSpeedView(fan, width: self.frame.width, format: self.fanValueState)
                         self.list[fan.key] = sensor
                         container.addArrangedSubview(sensor)
                     } else {
                         guard let view = self.fanViews[fan.key] else { return }
-                        view.sizeCallback = { [weak self, weak container] in
-                            guard let container else { return }
-                            let h = container.arrangedSubviews.map({ $0.bounds.height + container.spacing }).reduce(0, +) - container.spacing
-                            if container.frame.size.height != h && h >= 0 {
-                                container.setFrameSize(NSSize(width: container.frame.width, height: h))
-                            }
-                            self?.recalculateHeight()
+                        view.sizeCallback = { [weak self] in
+                            self?.resizeToFitContent()
                         }
                         view.loadContent()
                         self.list[fan.key] = view
@@ -151,10 +146,6 @@ internal class Popup: PopupWrapper {
                 }
             }
             
-            let h = container.arrangedSubviews.map({ $0.bounds.height + container.spacing }).reduce(0, +) - container.spacing
-            if container.frame.size.height != h {
-                container.setFrameSize(NSSize(width: container.frame.width, height: h))
-            }
             self.addArrangedSubview(container)
         }
         
@@ -184,7 +175,7 @@ internal class Popup: PopupWrapper {
                     let history = self.chartHistory[s.key] ?? LineChartData(capacity: 120)
                     self.chartHistory[s.key] = history
                     let sensor = SensorView(s, width: self.frame.width, history: history) { [weak self] in
-                        self?.recalculateHeight()
+                        self?.resizeToFitContent()
                     }
                     self.addArrangedSubview(sensor)
                     self.list[s.key] = sensor
@@ -192,7 +183,7 @@ internal class Popup: PopupWrapper {
             }
         }
         
-        self.recalculateHeight()
+        self.resizeToFitContent()
     }
     
     internal func usageCallback(_ values: [Sensor_p]) {
@@ -221,6 +212,10 @@ internal class Popup: PopupWrapper {
                 if let f = s as? Fan {
                     fan.update(f)
                 }
+            case let row as FanSpeedView:
+                if let fan = s as? Fan {
+                    row.update(fan, format: self.fanValueState)
+                }
             case let sensor as SensorView:
                 sensor.update(s)
             case .none, .some:
@@ -231,14 +226,6 @@ internal class Popup: PopupWrapper {
     
     public override func appear() {
         self.replay(self.sensorsCache, render: self.renderSensors)
-    }
-    
-    private func recalculateHeight() {
-        let h = self.arrangedSubviews.map({ $0.bounds.height + self.spacing }).reduce(0, +) - self.spacing
-        if self.frame.size.height != h {
-            self.setFrameSize(NSSize(width: self.frame.width, height: h))
-            self.sizeCallback?(self.frame.size)
-        }
     }
     
     // MARK: - Settings
@@ -499,6 +486,54 @@ internal class ChartSensorView: NSStackView {
 
 // MARK: - Fan view
 
+private class FanSpeedView: NSStackView {
+    static let verticalInset: CGFloat = 4
+    private let valueField = TextView()
+    private let barView = BarChartView(size: 6, horizontal: true)
+    
+    init(_ fan: Fan, width: CGFloat, format: FanValue) {
+        let inset = fan.isComputed ? FanSpeedView.verticalInset : 0
+        super.init(frame: NSRect(x: 0, y: 0, width: width, height: 16 + 2*inset))
+        self.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
+        self.heightAnchor.constraint(equalToConstant: self.frame.height).isActive = true
+        self.orientation = .horizontal
+        self.alignment = .centerY
+        self.edgeInsets = NSEdgeInsets(top: inset, left: 0, bottom: inset, right: 0)
+        self.distribution = .fillEqually
+        self.spacing = 0
+        
+        let nameField: NSTextField = TextView()
+        nameField.stringValue = fan.name
+        nameField.toolTip = fan.key
+        nameField.cell?.truncatesLastVisibleLine = true
+        
+        self.valueField.font = NSFont.systemFont(ofSize: 13, weight: .regular)
+        self.valueField.alignment = .trailing
+        self.barView.widthAnchor.constraint(equalToConstant: 110).isActive = true
+        
+        self.addArrangedSubview(nameField)
+        self.addArrangedSubview(self.barView)
+        self.addArrangedSubview(self.valueField)
+        self.update(fan, format: format)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func update(_ fan: Fan, format: FanValue) {
+        if fan.value == 1 {
+            self.valueField.stringValue = ""
+        } else if fan.maxSpeed == 1 || fan.maxSpeed == 0 {
+            self.valueField.stringValue = "\(Int(fan.value)) RPM"
+        } else {
+            self.valueField.stringValue = format == .percentage ? "\(fan.percentage)%" : fan.formattedValue
+        }
+        self.valueField.toolTip = fan.formattedValue
+        self.barView.setValue(ColorValue(Double(max(0, fan.percentage)) / 100))
+    }
+}
+
 internal class FanView: NSStackView {
     public var sizeCallback: (() -> Void)
     
@@ -509,14 +544,12 @@ internal class FanView: NSStackView {
     private var controlView: NSView? = nil
     private var buttonsView: NSView? = nil
     
-    private var valueField: NSTextField? = nil
+    private var speedView: FanSpeedView? = nil
     private var sliderValueField: NSTextField? = nil
     
     private var slider: NSSlider? = nil
     private var modeButtons: ModeButtons? = nil
     private var debouncer: DispatchWorkItem? = nil
-    
-    private var barView: BarChartView? = nil
     
     private var minBtn: NSButton? = nil
     private var maxBtn: NSButton? = nil
@@ -558,7 +591,7 @@ internal class FanView: NSStackView {
         self.alignment = .centerX
         self.distribution = .fillProportionally
         self.spacing = 1
-        self.edgeInsets = NSEdgeInsets(top: 4, left: 0, bottom: 4, right: 0)
+        self.edgeInsets = NSEdgeInsets(top: FanSpeedView.verticalInset, left: 0, bottom: FanSpeedView.verticalInset, right: 0)
         self.wantsLayer = true
         self.layer?.cornerRadius = Constants.Popup.radius
         
@@ -583,11 +616,13 @@ internal class FanView: NSStackView {
     }
     
     public func loadContent() {
-        guard self.barView == nil else { return }
+        guard self.speedView == nil else { return }
         self.helperView = self.noHelper()
         self.controlView = self.control()
         self.buttonsView = self.mode()
-        self.nameAndSpeed()
+        let speedView = FanSpeedView(self.fan, width: self.frame.width, format: self.fanValue)
+        self.speedView = speedView
+        self.addArrangedSubview(speedView)
         self.setupControls()
     }
     
@@ -597,11 +632,10 @@ internal class FanView: NSStackView {
         self.helperView = nil
         self.controlView = nil
         self.buttonsView = nil
-        self.valueField = nil
+        self.speedView = nil
         self.sliderValueField = nil
         self.slider = nil
         self.modeButtons = nil
-        self.barView = nil
         self.minBtn = nil
         self.maxBtn = nil
         self.helperButton = nil
@@ -620,41 +654,6 @@ internal class FanView: NSStackView {
         NotificationCenter.default.removeObserver(self, name: .fanHelperState, object: nil)
         NotificationCenter.default.removeObserver(self, name: .toggleFanControl, object: nil)
         NotificationCenter.default.removeObserver(self, name: NSApplication.didBecomeActiveNotification, object: nil)
-    }
-    
-    private func nameAndSpeed() {
-        let row: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 16))
-        row.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
-        row.heightAnchor.constraint(equalToConstant: row.bounds.height).isActive = true
-        row.orientation = .horizontal
-        row.distribution = .fillEqually
-        row.spacing = 0
-        
-        let nameField: NSTextField = TextView()
-        nameField.stringValue = self.fan.name
-        nameField.toolTip = self.fan.key
-        nameField.cell?.truncatesLastVisibleLine = true
-        
-        let value = self.fan.value
-        let valueField: NSTextField = TextView()
-        valueField.font = NSFont.systemFont(ofSize: 13, weight: .regular)
-        valueField.alignment = .trailing
-        valueField.stringValue = self.fanValue == .percentage ? "\(self.fan.percentage)%" : self.fan.formattedValue
-        valueField.toolTip = "\(value)"
-        
-        let percentage = self.fan.percentage < 0 ? 0 : self.fan.percentage
-        let barView = BarChartView(size: 6, horizontal: true)
-        barView.widthAnchor.constraint(equalToConstant: 110).isActive = true
-        barView.setValue(ColorValue(Double(percentage) / 100))
-        
-        row.addArrangedSubview(nameField)
-        row.addArrangedSubview(barView)
-        self.barView = barView
-        row.addArrangedSubview(valueField)
-        
-        self.valueField = valueField
-        
-        self.addArrangedSubview(row)
     }
     
     private func noHelper() -> NSView {
@@ -971,20 +970,7 @@ internal class FanView: NSStackView {
             if (self.window?.isVisible ?? false) || !self.ready {
                 self.fan.value = value.value
                 
-                var newValue = ""
-                if value.value != 1 {
-                    if self.fan.maxSpeed == 1 || self.fan.maxSpeed == 0 {
-                        newValue = "\(Int(value.value)) RPM"
-                    } else {
-                        newValue = self.fanValue == .percentage ? "\(value.percentage)%" : value.formattedValue
-                    }
-                }
-                
-                self.valueField?.stringValue = newValue
-                self.valueField?.toolTip = value.formattedValue
-                
-                let percentage = value.percentage < 0 ? 0 : value.percentage
-                self.barView?.setValue(ColorValue(Double(percentage) / 100))
+                self.speedView?.update(value, format: self.fanValue)
                 
                 if self.resetModeAfterSleep && !value.mode.isAutomatic {
                     if self.sliderValueField?.stringValue.isEmpty != true && self.slider?.doubleValue != value.value {

@@ -30,14 +30,16 @@ custom_rules:
   blank_line_indentation:
     regex: >-
       (?mx)^(?=([\t\ ]*)\S)
-      (?:
+      (?=(?:
         \1guard\b(?:[^\r\n]*,\r?\n[\t\ ]+)+[^\r\n]*\belse[\t\ ]*\{[^\r\n]*\}
         |
         (?!(?:(?<=,\n)|(?<=,\r\n))\1(?!guard\b)[^\r\n]*\belse[\t\ ]*\{[^\r\n]*\}$)
         \1\S[^\r\n]*
       )
-      \r?\n(?!\1\r?$)([\t\ ]*\r?\n)
+      \r?\n(?!\1\r?$)([\t\ ]*\r?\n))
+      \1\S
     capture_group: 2
+    excluded_match_kinds: [comment, comment.mark, comment.url, doccomment, doccomment.field]
     message: "Indent the blank line to match the preceding line or the start of the multiline guard."
     severity: warning
 
