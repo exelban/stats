@@ -2443,16 +2443,11 @@ public class SeparatorView: NSStackView {
         self.spacing = Constants.Popup.margins
         self.translatesAutoresizingMaskIntoConstraints = false
         
-        let labelView: NSTextField = NSTextField(labelWithString: "")
+        let labelView: NSTextField = NSTextField(labelWithString: label)
         labelView.alignment = .center
-        labelView.isBezeled = false
-        labelView.isEditable = false
-        labelView.drawsBackground = false
-        labelView.attributedStringValue = NSAttributedString(string: label.uppercased(), attributes: [
-            .font: NSFont.systemFont(ofSize: 10, weight: .semibold),
-            .foregroundColor: NSColor.tertiaryLabelColor,
-            .kern: 1.0
-        ])
+        labelView.font = .systemFont(ofSize: 11)
+        labelView.textColor = .secondaryLabelColor
+        labelView.alphaValue = 0.65
         labelView.setContentHuggingPriority(.required, for: .horizontal)
         labelView.setContentCompressionResistancePriority(.required, for: .horizontal)
         

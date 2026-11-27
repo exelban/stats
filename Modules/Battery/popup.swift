@@ -14,10 +14,9 @@ import Kit
 
 internal class Popup: PopupWrapper {
     private let chartHistory = BatteryChartData()
-    private let dashboardHeight: CGFloat = 160
     
     private var dashboardBatteryView: BatteryView? = nil
-    private var dashboardBatteryStatus: BatteryStatus? = nil
+    private var dashboardBatteryStatus: NSTextField? = nil
     private var levelField: NSTextField? = nil
     private var chart: BatteryChartView? = nil
     
@@ -37,7 +36,7 @@ internal class Popup: PopupWrapper {
     private var temperatureField: NSTextField? = nil
     
     private var adapterView: NSView? = nil
-    private var chargingStateField: StatusBadgeView? = nil
+    private var chargingStateField: ValueField? = nil
     private var adapterPowerField: NSTextField? = nil
     private var adapterCurrentField: NSTextField? = nil
     private var adapterVoltageField: NSTextField? = nil
@@ -65,14 +64,18 @@ internal class Popup: PopupWrapper {
         self.orientation = .vertical
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     public override func loadContent() {
-        self.addArrangedSubview(self.initDashboard())
-        self.addArrangedSubview(self.initChart())
-        self.addArrangedSubview(self.initDetails())
-        self.addArrangedSubview(self.initBattery())
-        self.addArrangedSubview(self.initProcesses())
+        self.addSection(self.initDashboard())
+        self.addSection(self.initChart())
+        self.addSection(self.initDetails())
+        self.addSection(self.initBattery())
+        self.addSection(self.initProcesses())
         
-        self.recalculateHeight()
+        self.resizeToFitContent()
     }
     
     public override func unloadContent() {
@@ -102,10 +105,6 @@ internal class Popup: PopupWrapper {
         self.processes = nil
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     public override func appear() {
         self.replay(self.processesCache, render: self.renderProcesses)
         self.replay(self.usageCache, render: self.renderUsage)
@@ -116,72 +115,41 @@ internal class Popup: PopupWrapper {
         self.processes?.setLock(false)
     }
     
-    private func recalculateHeight() {
-        var h: CGFloat = 0
-        self.arrangedSubviews.forEach { v in
-            if let v = v as? NSStackView {
-                h += v.arrangedSubviews.map({ $0.fittingSize.height }).reduce(0, +)
-            } else {
-                h += v.fittingSize.height
-            }
-        }
-        if self.frame.size.height != h {
-            self.setFrameSize(NSSize(width: self.frame.width, height: h))
-            self.sizeCallback?(self.frame.size)
-        }
-    }
+    // MARK: - Views
     
     private func initDashboard() -> NSView {
-        let view: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.dashboardHeight))
+        let view: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: Constants.Popup.dashboardHeight))
         view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
-        view.orientation = .vertical
-        view.spacing = 0
+        view.orientation = .horizontal
+        view.alignment = .centerY
+        view.distribution = .fillEqually
+        view.spacing = Constants.Popup.margins
+        view.edgeInsets = .init(top: Constants.Popup.margins, left: Constants.Popup.margins, bottom: Constants.Popup.margins, right: Constants.Popup.margins)
         
         let batteryView = BatteryView()
-        batteryView.heightAnchor.constraint(equalToConstant: 90).isActive = true
+        batteryView.heightAnchor.constraint(equalTo: batteryView.widthAnchor, multiplier: 0.85 * 60/130).isActive = true
+        self.dashboardBatteryView = batteryView
         
         let information = NSStackView()
-        information.heightAnchor.constraint(equalToConstant: 70).isActive = true
         information.orientation = .vertical
-        information.spacing = 2
+        information.alignment = .centerX
+        information.spacing = Constants.Popup.spacing
         
-        var level: NSStackView {
-            let view = NSStackView()
-            view.orientation = .horizontal
-            view.alignment = .firstBaseline
-            view.spacing = -2
-            view.distribution = .fill
-            view.setHuggingPriority(.defaultLow, for: .horizontal)
-            
-            let value: NSTextField = ValueField("100")
-            value.font = .systemFont(ofSize: 28, weight: .medium)
-            value.textColor = .labelColor
-            self.levelField = value
-            
-            let percentage: NSTextField = LabelField("%")
-            percentage.font = .systemFont(ofSize: 16, weight: .medium)
-            percentage.textColor = .tertiaryLabelColor
-            
-            let leftSpacer = NSView()
-            let rightSpacer = NSView()
-            
-            view.addArrangedSubview(leftSpacer)
-            view.addArrangedSubview(value)
-            view.addArrangedSubview(percentage)
-            view.addArrangedSubview(rightSpacer)
-            
-            leftSpacer.widthAnchor.constraint(equalTo: rightSpacer.widthAnchor).isActive = true
-            
-            return view
-        }
-        
+        let level = NSTextField(labelWithString: "—")
+        level.alignment = .center
+        level.font = .systemFont(ofSize: 24, weight: .semibold)
         information.addArrangedSubview(level)
-        let batteryStatus = BatteryStatus()
-        information.addArrangedSubview(batteryStatus)
-        self.dashboardBatteryStatus = batteryStatus
+        self.levelField = level
+        
+        let status = NSTextField(wrappingLabelWithString: localizedString("Unknown"))
+        status.alignment = .center
+        status.font = .systemFont(ofSize: 11)
+        status.textColor = .secondaryLabelColor
+        information.addArrangedSubview(status)
+        status.widthAnchor.constraint(equalTo: information.widthAnchor).isActive = true
+        self.dashboardBatteryStatus = status
         
         view.addArrangedSubview(batteryView)
-        self.dashboardBatteryView = batteryView
         view.addArrangedSubview(information)
         
         return view
@@ -194,8 +162,6 @@ internal class Popup: PopupWrapper {
         view.addArrangedSubview(SeparatorView(label: localizedString("Usage history")))
         
         let chart = BatteryChartView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 90), history: self.chartHistory)
-        chart.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
-        chart.layer?.cornerRadius = Constants.Popup.radius
         chart.heightAnchor.constraint(equalToConstant: chart.frame.height).isActive = true
         view.addArrangedSubview(chart)
         chart.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
@@ -234,7 +200,7 @@ internal class Popup: PopupWrapper {
             let capacity: NSStackView = {
                 let rows = NSStackView()
                 rows.orientation = .vertical
-                rows.spacing = 0
+                rows.spacing = 3
                 rows.distribution = .fill
                 
                 let labels: NSStackView = {
@@ -243,11 +209,11 @@ internal class Popup: PopupWrapper {
                     row.distribution = .fill
                     row.spacing = 0
                     
-                    let max = LabelField(localizedString("Max capacity"), size: 8)
+                    let max = LabelField(localizedString("Max capacity"), size: 10)
                     max.textColor = .tertiaryLabelColor
-                    let designed = LabelField(localizedString("Designed capacity"), size: 8)
+                    let designed = LabelField(localizedString("Designed capacity"), size: 10)
                     designed.textColor = .tertiaryLabelColor
-                    designed.alignment = .trailing
+                    designed.alignment = .right
                     
                     row.addArrangedSubview(max)
                     row.addArrangedSubview(NSView())
@@ -262,11 +228,10 @@ internal class Popup: PopupWrapper {
                     row.distribution = .fill
                     row.spacing = 0
                     
-                    let max = LabelField("0 mAh", size: 11)
-                    max.textColor = .secondaryLabelColor
-                    let designed = LabelField("0 mAh", size: 11)
-                    designed.textColor = .secondaryLabelColor
-                    designed.alignment = .trailing
+                    let max = ValueField("0 mAh", size: 12)
+                    max.alignment = .natural
+                    let designed = ValueField("0 mAh", size: 12)
+                    designed.alignment = .right
                     
                     self.maxCapacityField = max
                     self.designedCapacityField = designed
@@ -288,7 +253,7 @@ internal class Popup: PopupWrapper {
             }()
             
             view.addArrangedSubview(capacity)
-            let barView = BarChartView(size: 10, horizontal: true)
+            let barView = BarChartView(size: 5, horizontal: true)
             view.addArrangedSubview(barView)
             self.barView = barView
             
@@ -297,12 +262,12 @@ internal class Popup: PopupWrapper {
         
         view.addArrangedSubview(health)
         
-        self.powerField = popupRow(view, title: "\(localizedString("Power")):", value: "0 W").1
-        self.currentField = popupRow(view, title: "\(localizedString("Current")):", value: "0 mA").1
-        self.voltageField = popupRow(view, title: "\(localizedString("Voltage")):", value: "0 V").1
         self.healthField = popupRow(view, title: "\(localizedString("Health")):", value: "").1
         self.cyclesField = popupRow(view, title: "\(localizedString("Cycles")):", value: "").1
         self.temperatureField = popupRow(view, title: "\(localizedString("Temperature")):", value: "").1
+        self.powerField = popupRow(view, title: "\(localizedString("Power")):", value: "0 W").1
+        self.currentField = popupRow(view, title: "\(localizedString("Current")):", value: "0 mA").1
+        self.voltageField = popupRow(view, title: "\(localizedString("Voltage")):", value: "0 V").1
         
         self.batterySection = view
         
@@ -315,7 +280,7 @@ internal class Popup: PopupWrapper {
         view.spacing = 0
         view.addArrangedSubview(SeparatorView(label: localizedString("Power adapter")))
         
-        self.chargingStateField = popupBadgeRow(view, title: "\(localizedString("Is charging")):", ok: "Yes", notOk: "No").1
+        self.chargingStateField = popupRow(view, title: "\(localizedString("Is charging")):", value: "").1
         self.adapterPowerField = popupRow(view, title: "\(localizedString("Power")):", value: "0 W").1
         self.adapterCurrentField = popupRow(view, title: "\(localizedString("Current")):", value: "0 mA").1
         self.adapterVoltageField = popupRow(view, title: "\(localizedString("Voltage")):", value: "0 V").1
@@ -345,6 +310,8 @@ internal class Popup: PopupWrapper {
         return view
     }
     
+    // MARK: - Updates
+    
     public func usageCallback(_ value: Battery_Usage) {
         let date = Date()
         self.apply(value, to: self.usageCache, render: self.renderUsage)
@@ -356,9 +323,17 @@ internal class Popup: PopupWrapper {
     
     private func renderUsage(_ value: Battery_Usage) {
         self.dashboardBatteryView?.setValue(abs(value.level), connected: !value.isBatteryPowered, charging: value.isCharging)
-        self.dashboardBatteryStatus?.set(value)
+        if value.isBatteryPowered {
+            self.dashboardBatteryStatus?.stringValue = localizedString("On battery")
+        } else if value.isCharging {
+            self.dashboardBatteryStatus?.stringValue = localizedString("Charging")
+        } else if value.optimizedChargingEngaged && !(value.isCharged && value.level >= 1) {
+            self.dashboardBatteryStatus?.stringValue = localizedString("On hold")
+        } else {
+            self.dashboardBatteryStatus?.stringValue = localizedString("Plugged in")
+        }
         
-        self.levelField?.stringValue = "\(Int(abs(value.level) * 100))"
+        self.levelField?.stringValue = "\(Int(abs(value.level) * 100))%"
         self.levelField?.toolTip = "\(value.currentCapacity) mAh"
         
         self.sourceField?.stringValue = localizedString(value.powerSource)
@@ -374,7 +349,7 @@ internal class Popup: PopupWrapper {
             if self.adapterView != nil {
                 self.adapterView?.removeFromSuperview()
                 self.adapterView = nil
-                self.recalculateHeight()
+                self.resizeToFitContent()
             }
         } else {
             self.timeLabelField?.stringValue = "\(localizedString("Time to charge")):"
@@ -390,10 +365,10 @@ internal class Popup: PopupWrapper {
                     index = i + 1
                 }
                 self.insertArrangedSubview(self.initAdapter(), at: index)
-                self.recalculateHeight()
+                self.resizeToFitContent()
             }
             
-            self.chargingStateField?.setStatus(value.isCharging)
+            self.chargingStateField?.stringValue = value.isCharging ? localizedString("Yes") : localizedString("No")
             
             var power: String = value.adapterPower > 0 ? "\(value.adapterPower.roundTo(decimalPlaces: 2)) W" : ""
             if value.ACwatts > 0 {
@@ -457,7 +432,7 @@ internal class Popup: PopupWrapper {
             self.processes = nil
             self.addArrangedSubview(self.initProcesses())
             self.processesCache.initialized = false
-            self.recalculateHeight()
+            self.resizeToFitContent()
         })
     }
     
@@ -608,87 +583,5 @@ internal class BatteryView: NSView {
         let image = NSImage(systemSymbolName: name, accessibilityDescription: nil)?.withSymbolConfiguration(config)
         image?.isTemplate = false
         return image
-    }
-}
-
-internal class BatteryStatus: NSStackView {
-    private var view: NSView? = nil
-    private var icon: NSImageView? = nil
-    private var field: NSTextField? = nil
-    
-    public override init(frame: NSRect = NSRect.zero) {
-        super.init(frame: frame)
-        
-        self.orientation = .horizontal
-        self.alignment = .firstBaseline
-        self.spacing = 0
-        self.distribution = .fill
-        self.setHuggingPriority(.defaultLow, for: .horizontal)
-        
-        let block = NSStackView()
-        block.orientation = .horizontal
-        block.alignment = .centerY
-        block.spacing = 4
-        block.translatesAutoresizingMaskIntoConstraints = false
-        block.wantsLayer = true
-        block.layer?.backgroundColor = NSColor.systemGray.withAlphaComponent(0.18).cgColor
-        block.layer?.cornerRadius = 8
-        block.edgeInsets = NSEdgeInsets(top: 3, left: 7, bottom: 3, right: 7)
-        self.view = block
-        
-        let icon = NSImageView()
-        icon.image = NSImage(systemSymbolName: "bolt.fill", accessibilityDescription: localizedString("Unknown"))
-        icon.contentTintColor = .systemGray
-        icon.symbolConfiguration = .init(pointSize: 10, weight: .bold)
-        icon.isHidden = true
-        self.icon = icon
-        
-        let label = NSTextField(labelWithString: localizedString("Unknown"))
-        label.font = .systemFont(ofSize: 11, weight: .bold)
-        label.textColor = .systemGray
-        self.field = label
-        
-        block.addArrangedSubview(icon)
-        block.addArrangedSubview(label)
-        
-        let leftSpacer = NSView()
-        let rightSpacer = NSView()
-        
-        self.addArrangedSubview(leftSpacer)
-        self.addArrangedSubview(block)
-        self.addArrangedSubview(rightSpacer)
-        
-        leftSpacer.widthAnchor.constraint(equalTo: rightSpacer.widthAnchor).isActive = true
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    public func set(_ value: Battery_Usage) {
-        var text: String = localizedString("Charging")
-        var color: NSColor = .systemGreen
-        var symbol: String = "bolt.fill"
-        
-        if value.isBatteryPowered {
-            text = localizedString("On battery")
-            color = value.level > 0.15 ? .systemGray : .systemRed
-        } else if !value.isCharging {
-            if value.isCharged && value.level >= 1 {
-                text = localizedString("Plugged in")
-                symbol = "powerplug.fill"
-            } else if value.optimizedChargingEngaged {
-                text = localizedString("On hold")
-                color = .systemGray
-                symbol = "powerplug.fill"
-            }
-        }
-        
-        self.icon?.isHidden = value.isBatteryPowered
-        self.icon?.image = NSImage(systemSymbolName: symbol, accessibilityDescription: text)
-        self.icon?.contentTintColor = color
-        self.field?.textColor = color
-        self.field?.stringValue = text
-        self.view?.layer?.backgroundColor = color.withAlphaComponent(0.18).cgColor
     }
 }

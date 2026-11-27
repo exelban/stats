@@ -211,16 +211,6 @@ public class ChartView: NSView {
         self.layer?.add(transition, forKey: kCATransition)
     }
     
-    fileprivate func slideTransition(_ dx: CGFloat, duration: CFTimeInterval) {
-        guard dx != 0 else { return }
-        let animation = CABasicAnimation(keyPath: "transform.translation.x")
-        animation.fromValue = dx
-        animation.toValue = 0
-        animation.duration = duration
-        animation.timingFunction = CAMediaTimingFunction(name: .linear)
-        self.layer?.add(animation, forKey: "slide")
-    }
-    
     fileprivate func fadeOrDisplay() {
         self.onMain { [weak self] in
             guard let self, self.window?.isVisible ?? false else { return }
@@ -278,6 +268,13 @@ public final class LineChartData {
         
         self.points[self.head] = value
         self.head = (self.head + 1) % n
+    }
+    
+    fileprivate func clear() {
+        self.lock.lock()
+        defer { self.lock.unlock() }
+        self.points = Array(repeating: nil, count: self.points.count)
+        self.head = 0
     }
     
     public func resize(_ capacity: Int) {
@@ -338,6 +335,15 @@ public final class LineChartData {
 }
 
 public class LineChartView: ChartView {
+    private final class PlotView: NSView {
+        override func draw(_ dirtyRect: NSRect) {
+            super.draw(dirtyRect)
+            (self.superview as? LineChartView)?.drawChart()
+        }
+    }
+    
+    private let plot = PlotView()
+    private let minMaxLabel = NSTextField(labelWithString: "")
     private static let xLegendFont = NSFont.systemFont(ofSize: 9, weight: .light)
     private static let xLegendSampleWidth = "00:00:00".widthOfString(usingFont: xLegendFont)
     
@@ -390,6 +396,15 @@ public class LineChartView: ChartView {
         super.init(frame: frame, queueLabel: "eu.exelban.Stats.Charts.Line")
         self.animationEnabled = animation
         
+        self.plot.frame = self.bounds
+        self.plot.autoresizingMask = [.width, .height]
+        self.plot.wantsLayer = true
+        self.addSubview(self.plot)
+        
+        self.minMaxLabel.font = NSFont.systemFont(ofSize: 9, weight: .light)
+        self.minMaxLabel.isHidden = true
+        self.addSubview(self.minMaxLabel)
+        
         self.dateFormatter.dateFormat = "dd/MM HH:mm:ss"
         self.legendDateFormatter.dateFormat = "HH:mm:ss"
         
@@ -412,6 +427,10 @@ public class LineChartView: ChartView {
     public override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
+        self.plot.needsDisplay = true
+    }
+    
+    internal func drawChart() {
         var originalPoints: [DoubleValue?] = []
         var shadowPoints: [DoubleValue?] = []
         var transparent: Bool = true
@@ -538,22 +557,13 @@ public class LineChartView: ChartView {
             }
         }
         
+        self.minMaxLabel.isHidden = !minMax
         if minMax {
-            let stringAttributes = [
-                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .light),
-                NSAttributedString.Key.foregroundColor: self.isDarkMode ? NSColor.white : NSColor.textColor,
-                NSAttributedString.Key.paragraphStyle: NSMutableParagraphStyle()
-            ]
-            
-            var str: String = ""
-            let flatList = originalPoints.map{ $0?.value ?? 0 }
-            if let value = flatList.max() {
-                str = toolTipFunc != nil ? toolTipFunc!(DoubleValue(value)) : "\(Int(value.rounded(toPlaces: 2) * 100))\(suffix)"
-            }
-            let textWidth = str.widthOfString(usingFont: stringAttributes[NSAttributedString.Key.font] as! NSFont)
-            let y = flipY ? xLegendHeight + 1 : height + xLegendHeight - 9
-            let rect = CGRect(x: 1, y: y, width: textWidth, height: 8)
-            NSAttributedString.init(string: str, attributes: stringAttributes).draw(with: rect)
+            self.minMaxLabel.stringValue = toolTipFunc?(DoubleValue(maxValue)) ?? "\(Int(maxValue.rounded(toPlaces: 2) * 100))\(suffix)"
+            self.minMaxLabel.textColor = self.isDarkMode ? .white : .textColor
+            self.minMaxLabel.sizeToFit()
+            let y = flipY ? xLegendHeight : height + xLegendHeight - self.minMaxLabel.frame.height
+            self.minMaxLabel.setFrameOrigin(NSPoint(x: 0, y: y))
         }
         
         if xLegend, list.count >= 2 {
@@ -685,7 +695,7 @@ public class LineChartView: ChartView {
     
     public override func hitTest(_ point: NSPoint) -> NSView? {
         guard self.tooltipEnabledSnapshot else { return nil }
-        return super.hitTest(point)
+        return super.hitTest(point) == nil ? nil : self
     }
     
     public func addValue(_ value: DoubleValue) {
@@ -693,14 +703,23 @@ public class LineChartView: ChartView {
         self.historyUpdated()
     }
     
+    private func slideTransition(_ dx: CGFloat, duration: CFTimeInterval) {
+        guard dx != 0 else { return }
+        let animation = CABasicAnimation(keyPath: "transform.translation.x")
+        animation.fromValue = dx
+        animation.toValue = 0
+        animation.duration = duration
+        animation.timingFunction = CAMediaTimingFunction(name: .linear)
+        self.plot.layer?.add(animation, forKey: "slide")
+    }
+    
     public func historyUpdated() {
         self.onMain { [weak self] in
             guard let self, self.window?.isVisible ?? false else { return }
-            let state = self.read { (n: self.history.capacity, xLegend: self.xLegend, yLegend: self.yLegend) }
-            let dx = state.n > 1 ? (self.bounds.width - (state.yLegend ? 30 : 0)) / CGFloat(state.n - 1) : 0
-            // Legends share the layer with the plot and must remain stationary.
-            guard dx >= 1, !state.xLegend, !state.yLegend, !self.stop, self.animationsAllowed else {
-                self.layer?.removeAnimation(forKey: "slide")
+            let state = self.read { (n: self.history.capacity, hasLegend: self.xLegend || self.yLegend) }
+            let dx = state.n > 1 ? self.bounds.width / CGFloat(state.n - 1) : 0
+            guard dx >= 1, !state.hasLegend, !self.stop, self.animationsAllowed else {
+                self.plot.layer?.removeAnimation(forKey: "slide")
                 self.lastSlideAt = 0
                 self.needsDisplay = true
                 return
@@ -711,7 +730,7 @@ public class LineChartView: ChartView {
             CATransaction.begin()
             CATransaction.setDisableActions(true)
             self.slideTransition(dx, duration: min(max(dt, 0.1), 1.0))
-            self.display()
+            self.plot.display()
             CATransaction.commit()
         }
     }
@@ -723,7 +742,7 @@ public class LineChartView: ChartView {
     public func reinit(_ num: Int = 60) {
         self.history.resize(num)
         self.onMain { [weak self] in
-            self?.layer?.removeAnimation(forKey: "slide")
+            self?.plot.layer?.removeAnimation(forKey: "slide")
             self?.displayIfVisible()
         }
     }
@@ -740,7 +759,7 @@ public class LineChartView: ChartView {
     public func setPoints(_ newPoints: [DoubleValue]) {
         self.history.setPoints(newPoints)
         self.onMain { [weak self] in
-            self?.layer?.removeAnimation(forKey: "slide")
+            self?.plot.layer?.removeAnimation(forKey: "slide")
             self?.displayIfVisible()
         }
     }
@@ -796,7 +815,7 @@ public class LineChartView: ChartView {
             self.yLegend = y
         }
         self.onMain { [weak self] in
-            self?.layer?.removeAnimation(forKey: "slide")
+            self?.plot.layer?.removeAnimation(forKey: "slide")
             self?.lastSlideAt = 0
             self?.displayIfVisible()
         }
@@ -850,6 +869,11 @@ public final class NetworkChartData {
     public func append(upload: Double, download: Double, at date: Date = Date()) {
         self.input.append(DoubleValue(download, at: date))
         self.output.append(DoubleValue(upload, at: date))
+    }
+    
+    public func clear() {
+        self.input.clear()
+        self.output.clear()
     }
     
     public func resize(_ capacity: Int) {
@@ -1102,8 +1126,9 @@ public class PieChartView: ChartView {
             let str = NSAttributedString.init(string: text, attributes: stringAttributes)
             str.draw(with: rect)
         } else if let value = value, drawValue {
-            let fontSize: CGFloat = min(15, 15 * pow(min(self.frame.width, self.frame.height) / 60, 1.7))
-            let font = NSFont.systemFont(ofSize: fontSize, weight: .regular)
+            let diameter = min(self.bounds.width, self.bounds.height)
+            let fontSize = diameter > 60 ? min(18, 15 + (diameter - 60) / 12) : 15 * pow(diameter / 60, 1.7)
+            let font = NSFont.systemFont(ofSize: fontSize, weight: diameter >= 80 ? .medium : .regular)
             let stringAttributes = [
                 NSAttributedString.Key.font: font,
                 NSAttributedString.Key.foregroundColor: self.isDarkMode ? NSColor.white : NSColor.textColor,
@@ -1111,10 +1136,9 @@ public class PieChartView: ChartView {
             ]
             
             let percentage = "\(Int(value.rounded(toPlaces: 2) * 100))%"
-            let width: CGFloat = percentage.widthOfString(usingFont: font)
-            let rect = CGRect(x: (self.frame.width-width)/2, y: (self.frame.height-fontSize*11/15)/2, width: width, height: fontSize*12/15)
             let str = NSAttributedString.init(string: percentage, attributes: stringAttributes)
-            str.draw(with: rect)
+            let size = str.size()
+            str.draw(at: CGPoint(x: centerPoint.x - size.width/2, y: centerPoint.y - size.height/2))
         }
     }
     
@@ -1402,7 +1426,7 @@ public class ColumnChartView: ChartView {
                 roundedRect: NSRect(x: x, y: 0, width: partitionSize.width, height: partitionSize.height),
                 xRadius: radius, yRadius: radius
             )
-            NSColor.underPageBackgroundColor.withAlphaComponent(0.25).setFill()
+            NSColor.underPageBackgroundColor.withAlphaComponent(0.75).setFill()
             track.fill()
             track.close()
             

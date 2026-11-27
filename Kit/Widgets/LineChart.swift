@@ -237,7 +237,7 @@ public class LineChart: WidgetWrapper {
         )
         self.chart.setColor(color)
         self.chart.setFrameSize(chartSize)
-        self.chart.draw(NSRect(origin: .zero, size: chartSize))
+        self.chart.drawChart()
         
         context.restoreGState()
         
