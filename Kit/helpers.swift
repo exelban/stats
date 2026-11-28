@@ -419,30 +419,6 @@ public func separatorView(_ title: String, origin: NSPoint = NSPoint(x: 0, y: 0)
     return view
 }
 
-public func popupBadgeRow(_ view: NSView? = nil, title: String, status: Bool? = nil, ok: String = "UP", notOk: String = "DOWN") -> (LabelField, StatusBadgeView, NSView) {
-    let width = view?.frame.width ?? 0
-    let height: CGFloat = 22
-    let rowView: NSView = NSView(frame: NSRect(x: 0, y: 0, width: width, height: height))
-    
-    let labelWidth = title.widthOfString(usingFont: .systemFont(ofSize: 12, weight: .regular)) + 4
-    let labelView: LabelField = LabelField(frame: NSRect(x: isRTL ? width - labelWidth : 0, y: (height-16)/2, width: labelWidth, height: 16), title)
-    
-    let badgeView = StatusBadgeView(frame: NSRect(x: isRTL ? 0 : rowView.frame.width - 50, y: (height-14)/2, width: 50, height: 14), status, ok: ok, notOk: notOk)
-    badgeView.autoresizingMask = isRTL ? [.maxXMargin] : [.minXMargin]
-    
-    rowView.addSubview(labelView)
-    rowView.addSubview(badgeView)
-    
-    if let view = view as? NSStackView {
-        rowView.heightAnchor.constraint(equalToConstant: rowView.bounds.height).isActive = true
-        view.addArrangedSubview(rowView)
-    } else if let view {
-        view.addSubview(rowView)
-    }
-    
-    return (labelView, badgeView, rowView)
-}
-
 public func popupRow(_ view: NSView? = nil, title: String, value: String, multiline: Bool = false) -> (LabelField, ValueField, NSView) {
     let lines: CGFloat = CGFloat(multiline ? value.filter { $0 == "\n" }.count + 1 : 1)
     let width = view?.frame.width ?? 0

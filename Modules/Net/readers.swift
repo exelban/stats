@@ -126,7 +126,10 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate, CLLocationMa
         get { Store.shared.string(key: "Network_interface", defaultValue: self.primaryInterface) }
         set { Store.shared.set(key: "Network_interface", value: newValue) }
     }
+    private let readLock = NSLock()
     private var lastInterfaceID: String = ""
+    private var lastReader: String?
+    private var previousCounters: Bandwidth?
     
     private func isVirtualInterface(_ name: String) -> Bool {
         return self.virtualInterfacePrefixes.contains(where: { name.hasPrefix($0) })
@@ -226,8 +229,12 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate, CLLocationMa
             guard let self else { return }
             if self.active {
                 self.resetWiFiDetails()
-                self.usage.reset()
-                self.callback(self.usage)
+                let usage = self.variablesQueue.sync {
+                    self.previousCounters = nil
+                    self._usage.reset()
+                    return self._usage
+                }
+                self.callback(usage)
             }
         }
         
@@ -260,7 +267,12 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate, CLLocationMa
     }
     
     public override func start() {
+        let restarting = !self.active
         self.variablesQueue.sync {
+            if restarting {
+                self.previousCounters = nil
+                self._usage.bandwidth = Bandwidth()
+            }
             self._usage.wifiLocationAuthorization = nil
         }
         super.start()
@@ -280,36 +292,29 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate, CLLocationMa
     }
     
     public override func read() {
+        guard self.readLock.try() else { return }
+        defer { self.readLock.unlock() }
         self.checkUsageReset()
         
         let interfaceID = self.interfaceID
+        let reader = self.reader
+        let sourceChanged = interfaceID != self.lastInterfaceID || reader != self.lastReader
+        self.lastReader = reader
         if interfaceID != self.lastInterfaceID {
             self.lastInterfaceID = interfaceID
             self.resetWiFiDetails()
-            self.usage.bandwidth = Bandwidth()
             self.lastDetailsReadTS = .distantPast
         }
         
         self.requestDetails()
         
-        let current: Bandwidth
-        if self.reader == "interface" {
+        let current: Bandwidth?
+        if reader == "interface" {
             current = self.readInterfaceBandwidth()
         } else {
             self.readInterfaceStatus()
             current = self.readProcessBandwidth()
         }
-        
-        // allows to reset the value to 0 when first read
-        if self.usage.bandwidth.upload != 0 {
-            self.usage.bandwidth.upload = current.upload - self.usage.bandwidth.upload
-        }
-        if self.usage.bandwidth.download != 0 {
-            self.usage.bandwidth.download = current.download - self.usage.bandwidth.download
-        }
-        
-        self.usage.bandwidth.upload = max(self.usage.bandwidth.upload, 0) // prevent negative upload value
-        self.usage.bandwidth.download = max(self.usage.bandwidth.download, 0) // prevent negative download value
         
         // drop one-shot counter jumps (e.g. on reconnect) that exceed what the link can physically deliver
         let interval = self.interval ?? 1
@@ -319,29 +324,34 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate, CLLocationMa
             }
             return Int64(12_500_000_000 * interval) // 100 Gbps fallback when link rate is unknown
         }()
-        if self.usage.bandwidth.upload > maxDelta { self.usage.bandwidth.upload = 0 }
-        if self.usage.bandwidth.download > maxDelta { self.usage.bandwidth.download = 0 }
-        
-        self.usage.total.upload += self.usage.bandwidth.upload
-        self.usage.total.download += self.usage.bandwidth.download
-        
-        self.usage.status = self.reachability.isReachable
-        
-        if self.vpnConnection && self.VPNMode {
-            self.usage.bandwidth.upload /= 2
-            self.usage.bandwidth.download /= 2
+        let adjustForVPN = self.vpnConnection && self.VPNMode
+        let reachable = self.reachability.isReachable
+        let usage = self.variablesQueue.sync {
+            var delta = Bandwidth()
+            if !sourceChanged, let previous = self.previousCounters, let current {
+                delta.upload = max(0, current.upload - previous.upload)
+                delta.download = max(0, current.download - previous.download)
+                if delta.upload > maxDelta { delta.upload = 0 }
+                if delta.download > maxDelta { delta.download = 0 }
+            }
+            self.previousCounters = current
+            self._usage.total.upload += delta.upload
+            self._usage.total.download += delta.download
+            if adjustForVPN {
+                delta.upload /= 2
+                delta.download /= 2
+            }
+            self._usage.bandwidth = delta
+            self._usage.status = reachable
+            return self._usage
         }
-        
-        self.callback(self.usage)
-        
-        self.usage.bandwidth.upload = current.upload
-        self.usage.bandwidth.download = current.download
+        self.callback(usage)
     }
     
-    private func readInterfaceBandwidth() -> Bandwidth {
+    private func readInterfaceBandwidth() -> Bandwidth? {
         var interfaceAddresses: UnsafeMutablePointer<ifaddrs>? = nil
         guard getifaddrs(&interfaceAddresses) == 0 else {
-            return Bandwidth()
+            return nil
         }
         
         var pointer = interfaceAddresses
@@ -356,7 +366,7 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate, CLLocationMa
         }
         freeifaddrs(interfaceAddresses)
         
-        return self.getBytesInfo() ?? Bandwidth()
+        return self.getBytesInfo()
     }
     
     private func readInterfaceStatus() {
@@ -430,7 +440,7 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate, CLLocationMa
         return nil
     }
     
-    private func readProcessBandwidth() -> Bandwidth {
+    private func readProcessBandwidth() -> Bandwidth? {
         guard let output = process(
             path: "/usr/bin/nettop",
             arguments: ["-P", "-L", "1", "-n", "-k", "time,interface,state,rx_dupe,rx_ooo,re-tx,rtt_avg,rcvsize,tx_win,tc_class,tc_mgt,cc_algo,P,C,R,W,arch"],
@@ -439,10 +449,11 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate, CLLocationMa
                 "LC_ALL": "en_US.UTF-8"
             ],
             timeout: 5
-        ) else { return Bandwidth() }
+        ) else { return nil }
         
         var totalUpload: Int64 = 0
         var totalDownload: Int64 = 0
+        var foundCounters = false
         var firstLine = false
         output.enumerateLines { (line, _) in
             if !firstLine {
@@ -451,19 +462,15 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate, CLLocationMa
             }
             
             let parsedLine = line.split(separator: ",")
-            guard parsedLine.count >= 3 else {
-                return
-            }
-            
-            if let download = Int64(parsedLine[1]) {
-                totalDownload += download
-            }
-            if let upload = Int64(parsedLine[2]) {
-                totalUpload += upload
-            }
+            guard parsedLine.count >= 3,
+                  let download = Int64(parsedLine[1]),
+                  let upload = Int64(parsedLine[2]) else { return }
+            foundCounters = true
+            totalDownload += download
+            totalUpload += upload
         }
         
-        return Bandwidth(upload: totalUpload, download: totalDownload)
+        return foundCounters ? Bandwidth(upload: totalUpload, download: totalDownload) : nil
     }
     
     private func requestDetails() {
@@ -785,9 +792,14 @@ internal class UsageReader: Reader<Network_Usage>, CWEventDelegate, CLLocationMa
     }
     
     @objc func resetTotalNetworkUsage() {
-        self.usage.total = Bandwidth()
-        self.save(self.usage)
-        self.nextUsageResetDate = self.nextUsageReset(after: Date())
+        let date = Date()
+        let usage = self.variablesQueue.sync {
+            self._usage.total = Bandwidth()
+            self._usage.lastReset = date
+            return self._usage
+        }
+        self.save(usage)
+        self.nextUsageResetDate = self.nextUsageReset(after: date)
     }
     
     private func startListeningForWifiEvents() {

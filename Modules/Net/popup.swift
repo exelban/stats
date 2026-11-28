@@ -16,35 +16,27 @@ import Kit
 internal class Popup: PopupWrapper {
     private let bandwidthHistory = NetworkChartData(capacity: 180)
     private let connectivityHistory = GridChartData(capacity: 90)
-    private var uploadContainerView: NSView? = nil
-    private var uploadView: NSView? = nil
+    private var uploadRow: BandwidthRow? = nil
     private var uploadValue: Int64 = 0
-    private var uploadValueField: NSTextField? = nil
-    private var uploadUnitField: NSTextField? = nil
-    private var uploadStateView: ColorView? = nil
     
-    private var downloadContainerView: NSView? = nil
-    private var downloadView: NSView? = nil
+    private var downloadRow: BandwidthRow? = nil
     private var downloadValue: Int64 = 0
-    private var downloadValueField: NSTextField? = nil
-    private var downloadUnitField: NSTextField? = nil
-    private var downloadStateView: ColorView? = nil
     
     private var downloadColorView: NSView? = nil
     private var uploadColorView: NSView? = nil
+    
+    private var internetStatusField: NSTextField? = nil
+    private var latencyField: NSTextField? = nil
+    private var jitterField: NSTextField? = nil
     
     private var totalUploadLabel: LabelField? = nil
     private var totalUploadField: ValueField? = nil
     private var totalDownloadLabel: LabelField? = nil
     private var totalDownloadField: ValueField? = nil
-    private var statusField: StatusBadgeView? = nil
-    private var connectivityField: StatusBadgeView? = nil
-    private var latencyField: ValueField? = nil
-    private var jitterField: ValueField? = nil
     
     private var interfaceView: NSStackView? = nil
     private var interfaceField: ValueField? = nil
-    private var interfaceStatusField: StatusBadgeView? = nil
+    private var interfaceStatusField: ValueField? = nil
     private var macAddressField: ValueField? = nil
     private var ssidField: ValueField? = nil
     private var standardField: ValueField? = nil
@@ -85,7 +77,6 @@ internal class Popup: PopupWrapper {
     private let usageCache = PopupCache<Network_Usage>()
     private let connectivityCache = PopupCache<Network_Connectivity?>()
     
-    private var lastReset: Date = Date()
     private var latency: [Double] = []
     private var jitter: [Double] = []
     
@@ -139,12 +130,14 @@ internal class Popup: PopupWrapper {
         self.publicIPState = Store.shared.bool(key: "\(self.title)_publicIP", defaultValue: self.publicIPState)
         self.interfaceDetailsState = Store.shared.bool(key: "\(self.title)_interfaceDetails", defaultValue: self.interfaceDetailsState)
         self.emojiCCState = Store.shared.bool(key: "\(self.title)_emojiCC", defaultValue: self.emojiCCState)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.resetTotalNetworkUsageCallback), name: .resetTotalNetworkUsage, object: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     public override func loadContent() {
-        self.addArrangedSubview(self.initDashboard())
+        self.addSection(self.initDashboard())
         self.addArrangedSubview(self.initChart())
         self.addArrangedSubview(self.initConnectivityChart())
         self.addArrangedSubview(self.initDetails())
@@ -156,28 +149,19 @@ internal class Popup: PopupWrapper {
             self.addressView?.removeFromSuperview()
         }
         
-        self.recalculateHeight()
+        self.resizeToFitContent()
     }
     
     public override func unloadContent() {
-        self.uploadContainerView = nil
-        self.uploadView = nil
-        self.uploadValueField = nil
-        self.uploadUnitField = nil
-        self.uploadStateView = nil
-        self.downloadContainerView = nil
-        self.downloadView = nil
-        self.downloadValueField = nil
-        self.downloadUnitField = nil
-        self.downloadStateView = nil
+        self.uploadRow = nil
+        self.downloadRow = nil
         self.downloadColorView = nil
         self.uploadColorView = nil
         self.totalUploadLabel = nil
         self.totalUploadField = nil
         self.totalDownloadLabel = nil
         self.totalDownloadField = nil
-        self.statusField = nil
-        self.connectivityField = nil
+        self.internetStatusField = nil
         self.latencyField = nil
         self.jitterField = nil
         self.interfaceView = nil
@@ -207,53 +191,79 @@ internal class Popup: PopupWrapper {
         self.locationPermissionButton = nil
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    public override func appear() {
+        self.replay(self.processesCache, render: self.renderProcesses)
+        self.replay(self.usageCache, render: self.renderUsage)
+        self.replay(self.connectivityCache, render: self.renderConnectivity)
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: .resetTotalNetworkUsage, object: nil)
+    public override func disappear() {
+        self.processes?.setLock(false)
     }
     
-    private func recalculateHeight() {
-        var h: CGFloat = 0
-        self.arrangedSubviews.forEach { v in
-            if let v = v as? NSStackView {
-                h += v.arrangedSubviews.map({ $0.bounds.height }).reduce(0, +)
-            } else {
-                h += v.bounds.height
-            }
-        }
-        if self.frame.size.height != h {
-            self.setFrameSize(NSSize(width: self.frame.width, height: h))
-            self.sizeCallback?(self.frame.size)
-        }
-    }
-    
-    // MARK: - views
+    // MARK: - Views
     
     private func initDashboard() -> NSView {
-        let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 90))
+        let view: NSStackView = NSStackView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: Constants.Popup.dashboardHeight))
         view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
+        view.orientation = .horizontal
+        view.distribution = .fillEqually
+        view.spacing = Constants.Popup.margins
+        view.edgeInsets = .init(top: Constants.Popup.margins, left: Constants.Popup.margins, bottom: Constants.Popup.margins, right: Constants.Popup.margins)
         
-        let leftPart: NSView = NSView(frame: NSRect(x: isRTL ? view.frame.width / 2 : 0, y: 0, width: view.frame.width / 2, height: view.frame.height))
-        let downloadFields = self.topValueView(leftPart, title: localizedString("Downloading"), color: self.downloadColor)
-        self.downloadContainerView = leftPart
-        self.downloadView = downloadFields.0
-        self.downloadValueField = downloadFields.1
-        self.downloadUnitField = downloadFields.2
-        self.downloadStateView = downloadFields.3
+        let speed = NSStackView()
+        speed.orientation = .vertical
+        speed.alignment = .leading
+        speed.spacing = Constants.Popup.margins
         
-        let rightPart: NSView = NSView(frame: NSRect(x: isRTL ? 0 : view.frame.width / 2, y: 0, width: view.frame.width / 2, height: view.frame.height))
-        let uploadFields = self.topValueView(rightPart, title: localizedString("Uploading"), color: self.uploadColor)
-        self.uploadContainerView = rightPart
-        self.uploadView = uploadFields.0
-        self.uploadValueField = uploadFields.1
-        self.uploadUnitField = uploadFields.2
-        self.uploadStateView = uploadFields.3
+        let upload = BandwidthRow(
+            icon: "arrow.up",
+            title: localizedString("Uploading"),
+            color: self.uploadColor
+        )
+        let download = BandwidthRow(
+            icon: "arrow.down",
+            title: localizedString("Downloading"),
+            color: self.downloadColor
+        )
+        self.uploadRow = upload
+        self.downloadRow = download
+        speed.addArrangedSubview(upload)
+        speed.addArrangedSubview(download)
+        upload.widthAnchor.constraint(equalTo: speed.widthAnchor).isActive = true
+        download.widthAnchor.constraint(equalTo: speed.widthAnchor).isActive = true
+        self.setUploadDownloadFields()
         
-        view.addSubview(leftPart)
-        view.addSubview(rightPart)
+        let details = NSStackView()
+        details.orientation = .vertical
+        details.alignment = .leading
+        details.spacing = Constants.Popup.spacing*2
+        
+        let status = PopupDashboardDetailsRow(
+            icon: "globe",
+            title: localizedString("Internet connection"),
+            dafaultValue: "n/a"
+        )
+        self.internetStatusField = status.valueView
+        let latency = PopupDashboardDetailsRow(
+            icon: "timer",
+            title: localizedString("Latency"),
+            dafaultValue: "n/a"
+        )
+        self.latencyField = latency.valueView
+        let jitter = PopupDashboardDetailsRow(
+            icon: "waveform.path.ecg",
+            title: localizedString("Jitter"),
+            dafaultValue: "n/a"
+        )
+        self.jitterField = jitter.valueView
+        
+        details.addArrangedSubview(status)
+        details.addArrangedSubview(latency)
+        details.addArrangedSubview(jitter)
+        
+        view.addArrangedSubview(speed)
+        view.addArrangedSubview(details)
         
         return view
     }
@@ -263,13 +273,9 @@ internal class Popup: PopupWrapper {
         view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
         
         let separator = separatorView(localizedString("Usage history"), origin: NSPoint(x: 0, y: 90), width: self.frame.width)
-        let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
-        container.wantsLayer = true
-        container.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
-        container.layer?.cornerRadius = Constants.Popup.radius
         
         let chart = NetworkChartView(
-            frame: NSRect(x: 0, y: 1, width: container.frame.width, height: container.frame.height - 2),
+            frame: NSRect(x: 0, y: 1, width: view.frame.width, height: separator.frame.origin.y - 2),
             num: self.chartHistory, reversedOrder: self.reverseOrderState, outColor: self.uploadColor, inColor: self.downloadColor,
             scale: self.chartScale,
             fixedScale: Double(self.chartFixedScaleSize.toBytes(self.chartFixedScale)),
@@ -277,11 +283,10 @@ internal class Popup: PopupWrapper {
         )
         chart.setBase(self.base)
         chart.setSpeedUnit(self.speedUnit)
-        container.addSubview(chart)
         self.chart = chart
         
         view.addSubview(separator)
-        view.addSubview(container)
+        view.addSubview(chart)
         
         return view
     }
@@ -290,17 +295,12 @@ internal class Popup: PopupWrapper {
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: 30 + Constants.Popup.separatorHeight))
         view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
         let separator = separatorView(localizedString("Connectivity history"), origin: NSPoint(x: 0, y: 30), width: self.frame.width)
-        let container: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y))
-        container.wantsLayer = true
-        container.layer?.backgroundColor = NSColor.lightGray.withAlphaComponent(0.1).cgColor
-        container.layer?.cornerRadius = 3
         
-        let chart = GridChartView(frame: NSRect(x: 0, y: 1, width: container.frame.width, height: container.frame.height - 2), grid: (30, 3), history: self.connectivityHistory)
-        container.addSubview(chart)
+        let chart = GridChartView(frame: NSRect(x: 0, y: 1, width: view.frame.width, height: separator.frame.origin.y - 2), grid: (30, 3), history: self.connectivityHistory)
         self.connectivityChart = chart
         
         view.addSubview(separator)
-        view.addSubview(container)
+        view.addSubview(chart)
         
         return view
     }
@@ -311,7 +311,7 @@ internal class Popup: PopupWrapper {
         view.spacing = 0
         
         view.addArrangedSubview(SeparatorView(
-            label: localizedString("Interface"),
+            label: localizedString("Details"),
             button: PopupButton(toolTip: localizedString("Reset"), icon: "arrow.clockwise") { [weak self] in
                 self?.resetTotalNetworkUsage()
             }
@@ -328,11 +328,6 @@ internal class Popup: PopupWrapper {
         self.totalDownloadLabel = totalDownload.1
         self.totalDownloadField = totalDownload.2
         
-        self.statusField = popupBadgeRow(view, title: "\(localizedString("Status")):").1
-        self.connectivityField = popupBadgeRow(view, title: "\(localizedString("Internet connection")):").1
-        self.latencyField = popupRow(view, title: "\(localizedString("Latency")):", value: "0 ms").1
-        self.jitterField = popupRow(view, title: "\("Jitter"):", value: "0 ms").1
-        
         return view
     }
     
@@ -348,11 +343,6 @@ internal class Popup: PopupWrapper {
             }
         ))
         
-        self.interfaceField = popupRow(view, title: "\(localizedString("Interface")):", value: localizedString("Unknown")).1
-        self.interfaceStatusField = popupBadgeRow(view, title: "\(localizedString("Status")):").1
-        self.macAddressField = popupRow(view, title: "\(localizedString("Physical address")):", value: localizedString("Unknown")).1
-        self.macAddressField?.isSelectable = true
-        
         let ssid = popupRow(view, title: "\(localizedString("Network")):", value: localizedString("Unknown"))
         
         let permissionButton = NSButton(title: localizedString("Open Location Settings"), target: self, action: #selector(self.requestLocationPermission))
@@ -363,9 +353,15 @@ internal class Popup: PopupWrapper {
         
         ssid.2.addSubview(permissionButton)
         self.locationPermissionButton = permissionButton
-        let standard = popupRow(view, title: "\(localizedString("Standard")):", value: localizedString("Unavailable"))
+        
+        self.interfaceField = popupRow(view, title: "\(localizedString("Interface")):", value: localizedString("Unknown")).1
+        self.interfaceStatusField = popupRow(view, title: "\(localizedString("Status")):", value: "").1
+        self.macAddressField = popupRow(view, title: "\(localizedString("Physical address")):", value: localizedString("Unknown")).1
+        self.macAddressField?.isSelectable = true
+        
+        let standard = popupRow(view, title: "\(localizedString("WiFi standard")):", value: localizedString("Unavailable"))
         let channel = popupRow(view, title: "\(localizedString("Channel")):", value: localizedString("Unavailable"))
-        let speed = popupRow(view, title: "\(localizedString("Speed")):", value: localizedString("Unknown"))
+        let speed = popupRow(view, title: "\(localizedString("Link speed")):", value: localizedString("Unknown"))
         
         self.ssidField = ssid.1
         self.standardField = standard.1
@@ -426,13 +422,11 @@ internal class Popup: PopupWrapper {
     }
     
     private func initProcesses() -> NSView {
-        if self.numberOfProcesses == 0 {
-            let v = NSView()
-            self.processesView = v
-            return v
-        }
-        
         let view: NSView = NSView(frame: NSRect(x: 0, y: 0, width: self.frame.width, height: self.processesHeight))
+        view.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
+        self.processesView = view
+        guard self.numberOfProcesses != 0 else { return view }
+        
         let separator = separatorView(localizedString("Top processes"), origin: NSPoint(x: 0, y: self.processesHeight-Constants.Popup.separatorHeight), width: self.frame.width)
         let container: ProcessesView = ProcessesView(
             frame: NSRect(x: 0, y: 0, width: self.frame.width, height: separator.frame.origin.y),
@@ -442,21 +436,10 @@ internal class Popup: PopupWrapper {
         self.processes = container
         view.addSubview(separator)
         view.addSubview(container)
-        self.processesView = view
         return view
     }
     
-    // MARK: - callbacks
-    
-    public override func appear() {
-        self.replay(self.processesCache, render: self.renderProcesses)
-        self.replay(self.usageCache, render: self.renderUsage)
-        self.replay(self.connectivityCache, render: self.renderConnectivity)
-    }
-    
-    public override func disappear() {
-        self.processes?.setLock(false)
-    }
+    // MARK: - Updates
     
     public func numberOfProcessesUpdated() {
         if self.processes?.count == self.numberOfProcesses { return }
@@ -468,7 +451,7 @@ internal class Popup: PopupWrapper {
             self.processes = nil
             self.addArrangedSubview(self.initProcesses())
             self.processesCache.initialized = false
-            self.recalculateHeight()
+            self.resizeToFitContent()
         })
     }
     
@@ -509,10 +492,10 @@ internal class Popup: PopupWrapper {
         form.unitsStyle = .full
         form.allowedUnits = [.day, .hour, .minute]
         
-        if let duration = form.string(from: self.lastReset, to: Date()) {
-            self.totalUploadLabel?.toolTip = localizedString("Last reset", duration)
-            self.totalDownloadLabel?.toolTip = localizedString("Last reset", duration)
-        }
+        let duration = value.lastReset.flatMap { form.string(from: $0, to: Date()) }
+        let tooltip = duration.map { localizedString("Last reset", $0) }
+        self.totalUploadLabel?.toolTip = tooltip
+        self.totalDownloadLabel?.toolTip = tooltip
         
         if let interface = value.interface {
             self.interfaceField?.stringValue = "\(interface.displayName) (\(interface.BSDName)"
@@ -520,12 +503,12 @@ internal class Popup: PopupWrapper {
                 self.interfaceField?.stringValue += ", \(cc)"
             }
             self.interfaceField?.stringValue += ")"
-            self.interfaceStatusField?.setStatus(interface.status)
+            self.interfaceStatusField?.stringValue = interface.status ? localizedString("UP") : localizedString("DOWN")
             self.macAddressField?.stringValue = interface.address
             self.interfaceSpeedField?.stringValue = "\(Int(interface.transmitRate.rounded()))Mbps"
         } else {
             self.interfaceField?.stringValue = localizedString("Unknown")
-            self.interfaceStatusField?.setStatus(nil)
+            self.interfaceStatusField?.stringValue = ""
             self.macAddressField?.stringValue = localizedString("Unknown")
             self.interfaceSpeedField?.stringValue = localizedString("Unknown")
         }
@@ -679,10 +662,8 @@ internal class Popup: PopupWrapper {
             }
         }
         
-        self.statusField?.setStatus(value.status)
-        
         if resized {
-            self.recalculateHeight()
+            self.resizeToFitContent()
         }
         
         self.chart?.display()
@@ -712,6 +693,7 @@ internal class Popup: PopupWrapper {
     }
     
     private func renderConnectivity(_ value: Network_Connectivity?) {
+        var status = localizedString("Unknown")
         var latency = localizedString("Unknown")
         var jitter = localizedString("Unknown")
         
@@ -722,11 +704,13 @@ internal class Popup: PopupWrapper {
             if v.status && !self.jitter.isEmpty {
                 jitter = "\((self.jitter.reduce(0, +) / Double(self.jitter.count)).rounded(toPlaces: 2)) ms"
             }
+            status = v.status ? localizedString("UP") : localizedString("DOWN")
         }
+        
+        self.internetStatusField?.stringValue = status
         self.latencyField?.stringValue = latency
         self.jitterField?.stringValue = jitter
         
-        self.connectivityField?.setStatus(value?.status)
         self.connectivityChart?.display()
     }
     
@@ -746,7 +730,7 @@ internal class Popup: PopupWrapper {
     }
     
     public func resetConnectivityView() {
-        self.connectivityField?.setStatus(nil)
+        self.internetStatusField?.stringValue = "n/a"
     }
     
     // MARK: - Settings
@@ -819,10 +803,10 @@ internal class Popup: PopupWrapper {
         guard let key = sender.representedObject as? String else { return }
         self.uploadColorState = SColor.fromString(key, defaultValue: self.uploadColorState)
         Store.shared.set(key: "\(self.title)_uploadColor", value: self.uploadColorState.key)
+        self.uploadRow?.setColor(self.uploadColor)
         if let color = self.uploadColorState.additional as? NSColor {
             self.processes?.setColor(1, color)
             self.uploadColorView?.layer?.backgroundColor = color.cgColor
-            self.uploadStateView?.setColor(color)
             self.chart?.setColors(out: color)
         }
     }
@@ -830,10 +814,10 @@ internal class Popup: PopupWrapper {
         guard let key = sender.representedObject as? String else { return }
         self.downloadColorState = SColor.fromString(key, defaultValue: self.downloadColorState)
         Store.shared.set(key: "\(self.title)_downloadColor", value: self.downloadColorState.key)
+        self.downloadRow?.setColor(self.downloadColor)
         if let color = self.downloadColorState.additional as? NSColor {
             self.processes?.setColor(0, color)
             self.downloadColorView?.layer?.backgroundColor = color.cgColor
-            self.downloadStateView?.setColor(color)
             self.chart?.setColors(in: color)
         }
     }
@@ -869,7 +853,7 @@ internal class Popup: PopupWrapper {
             } else if let view = self.addressView {
                 self.insertArrangedSubview(view, at: 4)
             }
-            self.recalculateHeight()
+            self.resizeToFitContent()
         })
     }
     @objc private func toggleFixedScale(_ newValue: Int) {
@@ -906,7 +890,7 @@ internal class Popup: PopupWrapper {
             }
         }
         
-        self.recalculateHeight()
+        self.resizeToFitContent()
     }
     @objc private func toggleEmojiCC(_ sender: NSControl) {
         self.emojiCCState = !controlState(sender)
@@ -915,96 +899,12 @@ internal class Popup: PopupWrapper {
     
     // MARK: - helpers
     
-    private func topValueView(_ view: NSView, title: String, color: NSColor) -> (NSView, NSTextField, NSTextField, ColorView) {
-        let topHeight: CGFloat = 30
-        let titleHeight: CGFloat = 15
-        
-        view.setAccessibilityElement(true)
-        view.toolTip = title
-        
-        let valueWidth = "0".widthOfString(usingFont: .systemFont(ofSize: 26, weight: .light)) + 5
-        let unitWidth = "KB/s".widthOfString(usingFont: .systemFont(ofSize: 13, weight: .light)) + 5
-        let topPartWidth = valueWidth + unitWidth
-        
-        let topView: NSView = NSView(frame: NSRect(
-            x: (view.frame.width-topPartWidth)/2,
-            y: (view.frame.height - topHeight - titleHeight)/2 + titleHeight,
-            width: topPartWidth,
-            height: topHeight
-        ))
-        
-        let valueField = LabelField(frame: NSRect(x: 0, y: 0, width: valueWidth, height: 30), "0")
-        valueField.font = NSFont.systemFont(ofSize: 26, weight: .light)
-        valueField.textColor = .textColor
-        valueField.alignment = .right
-        
-        let unitField = LabelField(frame: NSRect(x: valueField.frame.width, y: 4, width: unitWidth, height: 15), "KB/s")
-        unitField.font = NSFont.systemFont(ofSize: 13, weight: .light)
-        unitField.textColor = .labelColor
-        unitField.alignment = .left
-        
-        let titleWidth: CGFloat = title.widthOfString(usingFont: NSFont.systemFont(ofSize: 11, weight: .regular))+8
-        let iconSize: CGFloat = 12
-        let bottomWidth: CGFloat = titleWidth+iconSize
-        let bottomView: NSView = NSView(frame: NSRect(
-            x: (view.frame.width-bottomWidth)/2,
-            y: topView.frame.origin.y - titleHeight - 2,
-            width: bottomWidth,
-            height: titleHeight
-        ))
-        
-        let colorBlock: ColorView = ColorView(frame: NSRect(x: 0, y: 2, width: iconSize, height: iconSize), color: color, radius: 4)
-        let titleField = LabelField(frame: NSRect(x: iconSize, y: 0, width: titleWidth, height: titleHeight), title)
-        titleField.alignment = .center
-        titleField.font = NSFont.systemFont(ofSize: 11, weight: .regular)
-        
-        topView.addSubview(valueField)
-        topView.addSubview(unitField)
-        
-        bottomView.addSubview(colorBlock)
-        bottomView.addSubview(titleField)
-        
-        view.addSubview(topView)
-        view.addSubview(bottomView)
-        
-        return (topView, valueField, unitField, colorBlock)
-    }
-    
     private func setUploadDownloadFields() {
         let upload = Units(bytes: self.uploadValue).getReadableTuple(base: self.base, unit: self.speedUnit)
         let download = Units(bytes: self.downloadValue).getReadableTuple(base: self.base, unit: self.speedUnit)
         
-        self.uploadContainerView?.toolTip = "\(localizedString("Uploading")): \(upload.0)\(upload.1)"
-        self.downloadContainerView?.toolTip = "\(localizedString("Downloading")): \(download.0)\(download.1)"
-        
-        var valueWidth = "\(upload.0)".widthOfString(usingFont: .systemFont(ofSize: 26, weight: .light)) + 5
-        var unitWidth = upload.1.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .light)) + 5
-        var topPartWidth = valueWidth + unitWidth
-        
-        self.uploadView?.setFrameSize(NSSize(width: topPartWidth, height: self.uploadView!.frame.height))
-        self.uploadView?.setFrameOrigin(NSPoint(x: ((self.frame.width/2)-topPartWidth)/2, y: self.uploadView!.frame.origin.y))
-        
-        self.uploadValueField?.setFrameSize(NSSize(width: valueWidth, height: self.uploadValueField!.frame.height))
-        self.uploadValueField?.stringValue = "\(upload.0)"
-        self.uploadUnitField?.setFrameSize(NSSize(width: unitWidth, height: self.uploadUnitField!.frame.height))
-        self.uploadUnitField?.setFrameOrigin(NSPoint(x: self.uploadValueField!.frame.width, y: self.uploadUnitField!.frame.origin.y))
-        self.uploadUnitField?.stringValue = upload.1
-        
-        valueWidth = "\(download.0)".widthOfString(usingFont: .systemFont(ofSize: 26, weight: .light)) + 5
-        unitWidth = download.1.widthOfString(usingFont: .systemFont(ofSize: 13, weight: .light)) + 5
-        topPartWidth = valueWidth + unitWidth
-        
-        self.downloadView?.setFrameSize(NSSize(width: topPartWidth, height: self.downloadView!.frame.height))
-        self.downloadView?.setFrameOrigin(NSPoint(x: ((self.frame.width/2)-topPartWidth)/2, y: self.downloadView!.frame.origin.y))
-        
-        self.downloadValueField?.setFrameSize(NSSize(width: valueWidth, height: self.downloadValueField!.frame.height))
-        self.downloadValueField?.stringValue = "\(download.0)"
-        self.downloadUnitField?.setFrameSize(NSSize(width: unitWidth, height: self.downloadUnitField!.frame.height))
-        self.downloadUnitField?.setFrameOrigin(NSPoint(x: self.downloadValueField!.frame.width, y: self.downloadUnitField!.frame.origin.y))
-        self.downloadUnitField?.stringValue = download.1
-        
-        self.uploadStateView?.setState(self.uploadValue != 0)
-        self.downloadStateView?.setState(self.downloadValue != 0)
+        self.uploadRow?.setSpeed(upload.0, unit: upload.1)
+        self.downloadRow?.setSpeed(download.0, unit: download.1)
     }
     
     @objc private func refreshPublicIP() {
@@ -1018,10 +918,78 @@ internal class Popup: PopupWrapper {
         NotificationCenter.default.post(name: .resetTotalNetworkUsage, object: nil, userInfo: nil)
         self.totalUploadField?.stringValue = Units(bytes: 0).getReadableMemory()
         self.totalDownloadField?.stringValue = Units(bytes: 0).getReadableMemory()
-        self.lastReset = Date()
+    }
+}
+
+private class BandwidthRow: NSView {
+    private let iconTile = NSView()
+    private let iconView = NSImageView()
+    private let valueView = NSTextField(labelWithString: "")
+    private let unitView = NSTextField(labelWithString: "")
+    private let title: String
+    
+    public init(icon: String, title: String, color: NSColor) {
+        self.title = title
+        super.init(frame: .zero)
+        
+        self.iconView.image = NSImage(systemSymbolName: icon, accessibilityDescription: nil)
+        self.iconView.symbolConfiguration = NSImage.SymbolConfiguration(pointSize: 14, weight: .semibold)
+        self.iconTile.wantsLayer = true
+        self.iconTile.layer?.cornerRadius = Constants.Popup.radius
+        self.iconTile.addSubview(self.iconView)
+        
+        self.valueView.font = .monospacedDigitSystemFont(ofSize: 21, weight: .bold)
+        self.valueView.alignment = .left
+        self.valueView.lineBreakMode = .byTruncatingTail
+        self.valueView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        self.unitView.font = .systemFont(ofSize: 12, weight: .semibold)
+        self.unitView.setContentCompressionResistancePriority(.required, for: .horizontal)
+        
+        let label = NSTextField(labelWithString: title)
+        label.font = .systemFont(ofSize: 11)
+        label.textColor = .secondaryLabelColor
+        label.lineBreakMode = .byTruncatingTail
+        
+        self.iconView.translatesAutoresizingMaskIntoConstraints = false
+        [self.iconTile, self.valueView, self.unitView, label].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            self.addSubview($0)
+        }
+        
+        NSLayoutConstraint.activate([
+            self.iconTile.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            self.iconTile.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            self.iconTile.widthAnchor.constraint(equalToConstant: 28),
+            self.iconTile.heightAnchor.constraint(equalToConstant: 28),
+            self.iconView.centerXAnchor.constraint(equalTo: self.iconTile.centerXAnchor),
+            self.iconView.centerYAnchor.constraint(equalTo: self.iconTile.centerYAnchor),
+            self.valueView.leadingAnchor.constraint(equalTo: self.iconTile.trailingAnchor, constant: Constants.Popup.margins),
+            self.valueView.topAnchor.constraint(equalTo: self.topAnchor),
+            self.unitView.leadingAnchor.constraint(equalTo: self.valueView.trailingAnchor, constant: Constants.Popup.spacing*2),
+            self.unitView.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor),
+            self.unitView.firstBaselineAnchor.constraint(equalTo: self.valueView.firstBaselineAnchor),
+            label.leadingAnchor.constraint(equalTo: self.valueView.leadingAnchor),
+            label.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor),
+            label.topAnchor.constraint(equalTo: self.valueView.bottomAnchor),
+            label.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        ])
+        self.setColor(color)
     }
     
-    @objc private func resetTotalNetworkUsageCallback() {
-        self.lastReset = Date()
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func setSpeed(_ value: String, unit: String) {
+        self.valueView.stringValue = value
+        self.unitView.stringValue = unit
+        self.toolTip = "\(self.title): \(value) \(unit)"
+    }
+    
+    public func setColor(_ color: NSColor) {
+        self.iconView.contentTintColor = color
+        self.iconTile.layer?.backgroundColor = color.withAlphaComponent(0.1).cgColor
+        self.valueView.textColor = color
+        self.unitView.textColor = color
     }
 }

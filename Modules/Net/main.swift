@@ -78,6 +78,7 @@ enum WiFiLocationAuthorization: String, Codable {
 public struct Network_Usage: Codable, RemoteType {
     var bandwidth: Bandwidth = Bandwidth()
     var total: Bandwidth = Bandwidth()
+    var lastReset: Date? = Date()
     
     var laddr: Network_addr = Network_addr() // local ip
     var raddr: Network_addr = Network_addr() // remote ip
@@ -188,7 +189,10 @@ public class Network: Module {
         guard self.available else { return }
         
         self.usageReader = UsageReader(.network) { [weak self] value in
-            self?.usageCallback(value)
+            guard let self, var value else { return }
+            // The reader replays its saved snapshot during initialization.
+            if self.usageReader == nil { value.bandwidth = Bandwidth() }
+            self.usageCallback(value)
         }
         self.popupView.locationPermissionAction = { [weak self] in
             self?.usageReader?.requestWiFiLocationAuthorization()
