@@ -19,6 +19,7 @@ internal class Popup: PopupWrapper {
     private let cache = PopupCache<[Clock_t]>()
     
     private var calendarView: CalendarView? = nil
+    private let clocksSeparator = SeparatorView(label: localizedString("Clocks"))
     private var calendarState: Bool = true
     private var weekNumbersState: Bool = false
     
@@ -37,7 +38,7 @@ internal class Popup: PopupWrapper {
         if let calendar = self.calendarView, self.calendarState {
             self.addArrangedSubview(calendar)
         }
-        self.recalculateHeight()
+        self.resizeToFitContent()
     }
     
     public override func unloadContent() {
@@ -59,9 +60,14 @@ internal class Popup: PopupWrapper {
     }
     
     private func render(_ list: [Clock_t]) {
-        defer { self.recalculateHeight() }
+        defer { self.resizeToFitContent() }
         
         let sorted = list.sorted(by: { $0.popupIndex < $1.popupIndex }).filter({ $0.popupState })
+        if sorted.isEmpty {
+            self.clocksSeparator.removeFromSuperview()
+        } else if self.clocksSeparator.superview == nil {
+            self.addSection(self.clocksSeparator, at: self.calendarState ? 1 : 0)
+        }
         var views = self.subviews.filter{ $0 is ClockView }.compactMap{ $0 as? ClockView }
         
         if sorted.count < views.count && !views.isEmpty {
@@ -75,14 +81,6 @@ internal class Popup: PopupWrapper {
             } else {
                 self.addArrangedSubview(ClockView(width: self.frame.width, clock: c))
             }
-        }
-    }
-    
-    private func recalculateHeight() {
-        let h = self.arrangedSubviews.map({ $0.fittingSize.height + self.spacing }).reduce(0, +) - self.spacing
-        if h > 0 && self.frame.size.height != h {
-            self.setFrameSize(NSSize(width: self.frame.width, height: h))
-            self.sizeCallback?(self.frame.size)
         }
     }
     
@@ -142,14 +140,14 @@ internal class Popup: PopupWrapper {
         } else {
             view.removeFromSuperview()
         }
-        self.recalculateHeight()
+        self.resizeToFitContent()
     }
     
     @objc private func toggleWeekNumbersState(_ sender: NSControl) {
         self.weekNumbersState = controlState(sender)
         Store.shared.set(key: "\(self.title)_calendarWeekNumbers", value: self.weekNumbersState)
         self.calendarView?.setShowWeekNumbers(self.weekNumbersState)
-        self.recalculateHeight()
+        self.resizeToFitContent()
     }
 }
 
@@ -203,11 +201,10 @@ private class CalendarView: NSStackView {
             bottom: Constants.Popup.margins,
             right: Constants.Popup.margins
         )
-        self.wantsLayer = true
-        self.layer?.cornerRadius = Constants.Popup.radius
-        
         self.updateItemSize()
-        self.addArrangedSubview(self.navigation())
+        let navigation = self.navigation()
+        self.addArrangedSubview(navigation)
+        navigation.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -2 * Constants.Popup.margins).isActive = true
         self.setup()
     }
     
@@ -230,10 +227,6 @@ private class CalendarView: NSStackView {
         self.showWeekNumbers = state
         self.updateItemSize()
         self.setup()
-    }
-    
-    override func updateLayer() {
-        self.layer?.backgroundColor = (self.isDarkMode ? NSColor(red: 17/255, green: 17/255, blue: 17/255, alpha: 0.25) : NSColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)).cgColor
     }
     
     private func setup() {
@@ -273,10 +266,10 @@ private class CalendarView: NSStackView {
         self.navigationHeightConstraint = view.heightAnchor.constraint(greaterThanOrEqualToConstant: max(self.itemSize.height, 24))
         self.navigationHeightConstraint?.isActive = true
         view.orientation = .horizontal
-        view.edgeInsets = .init(top: 0, left: 6, bottom: 6, right: 6)
+        view.edgeInsets = .init(top: 0, left: 0, bottom: 6, right: 0)
         
         let details = NSTextField(labelWithString: "\(Calendar.current.standaloneMonthSymbols[self.month-1]) \(self.year)")
-        details.font = .systemFont(ofSize: 15, weight: .medium)
+        details.font = .systemFont(ofSize: 16, weight: .semibold)
         details.lineBreakMode = .byTruncatingTail
         details.maximumNumberOfLines = 1
         details.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
@@ -285,12 +278,13 @@ private class CalendarView: NSStackView {
         buttons.orientation = .horizontal
         buttons.setContentCompressionResistancePriority(.required, for: .horizontal)
         
+        let chevron = NSImage.SymbolConfiguration(pointSize: NSFont.preferredFont(forTextStyle: .body).pointSize, weight: .bold, scale: .medium)
         let prev = NSButton()
         prev.bezelStyle = .regularSquare
         prev.translatesAutoresizingMaskIntoConstraints = false
         prev.imageScaling = .scaleNone
-        prev.image = iconFromSymbol(name: "arrow.left", scale: .medium)
-        prev.contentTintColor = .labelColor
+        prev.image = NSImage(systemSymbolName: "chevron.left", accessibilityDescription: nil)?.withSymbolConfiguration(chevron)
+        prev.contentTintColor = .secondaryLabelColor
         prev.isBordered = false
         prev.action = #selector(self.prevMonth)
         prev.target = self
@@ -301,8 +295,8 @@ private class CalendarView: NSStackView {
         next.bezelStyle = .regularSquare
         next.translatesAutoresizingMaskIntoConstraints = false
         next.imageScaling = .scaleNone
-        next.image = iconFromSymbol(name: "arrow.right", scale: .medium)
-        next.contentTintColor = .labelColor
+        next.image = NSImage(systemSymbolName: "chevron.right", accessibilityDescription: nil)?.withSymbolConfiguration(chevron)
+        next.contentTintColor = .secondaryLabelColor
         next.isBordered = false
         next.action = #selector(self.nextMonth)
         next.target = self
@@ -333,8 +327,8 @@ private class CalendarView: NSStackView {
         let cell = VerticallyCenteredTextFieldCell(textCell: value)
         view.cell = cell
         view.alignment = .center
-        view.textColor = .gray
-        view.font = .systemFont(ofSize: 10, weight: .medium)
+        view.textColor = .secondaryLabelColor
+        view.font = .systemFont(ofSize: 10)
         view.widthAnchor.constraint(equalToConstant: self.itemSize.width).isActive = true
         view.heightAnchor.constraint(equalToConstant: self.itemSize.height).isActive = true
         return view
@@ -507,8 +501,9 @@ private class CalendarItemView: NSView {
         field.cell = cell
         field.alignment = .center
         
+        field.font = .systemFont(ofSize: 12, weight: isToday ? .semibold : .regular)
         if isToday {
-            let circleSize: CGFloat = min(size.width, size.height) - 3
+            let circleSize = min(size.width, size.height) * 0.8
             let circle = NSView()
             circle.translatesAutoresizingMaskIntoConstraints = false
             circle.wantsLayer = true
@@ -530,7 +525,7 @@ private class CalendarItemView: NSView {
             ])
         } else {
             if isOutOfMonth {
-                field.textColor = .lightGray
+                field.textColor = .tertiaryLabelColor
             }
             self.addSubview(field)
             NSLayoutConstraint.activate([
