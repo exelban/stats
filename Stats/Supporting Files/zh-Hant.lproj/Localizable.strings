@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "CPU使用量";
-"CPU temperature" = "CPU溫度";
-"CPU frequency" = "CPU頻率";
 "System" = "系統";
 "User" = "使用者";
 "Idle" = "閒置";
@@ -324,7 +322,6 @@
 "GPU utilization" = "GPU使用率";
 "Model" = "型號";
 "Status" = "狀態";
-"Utilization" = "利用率";
 "Renderer utilization" = "渲染利用率";
 "Tiler utilization" = "Tiler 使用率";
 "GPU usage threshold" = "GPU使用量臨界值";
@@ -432,6 +429,8 @@
 "Public IP" = "公用IP";
 "Local IP" = "區域IP";
 "Interface" = "介面";
+"Up" = "已啟用";
+"Down" = "已停用";
 "Physical address" = "實體位址";
 "Refresh" = "重新整理";
 "Network interface" = "網路介面卡";
@@ -443,11 +442,14 @@
 "Reset data usage" = "重置資料用量";
 "VPN mode" = "VPN模式";
 "Standard" = "標準";
+"Wi-Fi standard" = "Wi-Fi 標準";
 "Security" = "安全";
 "Channel" = "通道";
 "Autodetection" = "自動檢測";
 "Widget activation threshold" = "小工具啟動臨界值";
 "Internet connection" = "網際網路連線狀態";
+"Online" = "線上";
+"Offline" = "離線";
 "Connectivity host" = "連線能力測試主機（ICMP）";
 "Leave empty to disable the check" = "留空來停用檢查";
 "Connectivity history" = "連線歷程紀錄";
@@ -457,6 +459,7 @@
 "Every 24 hours" = "每24小時";
 "Last reset" = "上次重置於 %0 前";
 "Latency" = "延遲";
+"Jitter" = "抖動";
 "Address" = "位址";
 "WiFi network" = "Wi-Fi網路";
 "Local IP changed" = "區域IP已變更";
@@ -470,6 +473,7 @@
 "Noise" = "噪音"; // qwen3.8:27b
 "Signal" = "訊號"; // qwen3.8:27b
 "Speed" = "速度"; // qwen3.8:27b
+"Link speed" = "連線速率";
 "Network interface changed" = "網路介面已變更"; // qwen3.8:27b
 "WiFi network changed" = "WiFi 網路已變更"; // qwen3.8:27b
 "This will be visible in the text widget" = "這將顯示在文字小工具中"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "Bluetooth 閾值"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "時鐘";
 "Time zone" = "時區";
 "Local" = "本地";
 "Calendar" = "日曆";

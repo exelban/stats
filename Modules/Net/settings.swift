@@ -46,13 +46,13 @@ You can use a combination of any of the variables. There is only one limitation:
 <li><b>$wifi.channelBand</b>: <small>Frequency band of the Wi-Fi channel (e.g., 2.4 GHz, 5 GHz).</small></li>
 <li><b>$wifi.channelWidth</b>: <small>Channel width used in MHz.</small></li>
 <li><b>$wifi.channelNumber</b>: <small>Channel number used by the Wi-Fi network.</small></li>
-<li><b>$status</b>: <small>Status of the network connection. "UP" if active, "DOWN" if inactive.</small></li>
+<li><b>$status</b>: <small>Network reachability: Online or Offline.</small></li>
 <li><b>$upload.total</b>: <small>Total amount of data uploaded over the connection.</small></li>
 <li><b>$upload</b>: <small>Current upload bandwidth used.</small></li>
 <li><b>$download.total</b>: <small>Total amount of data downloaded over the connection.</small></li>
 <li><b>$download</b>: <small>Current download bandwidth used.</small></li>
 <li><b>$type</b>: <small>Type of network connection (e.g., Ethernet, Wi-Fi, Cellular).</small></li>
-<li><b>$icmp.status</b>: <small>ICMP status.</small></li>
+<li><b>$icmp.status</b>: <small>Connectivity check result: Online or Offline.</small></li>
 <li><b>$icmp.latency</b>: <small>ICMP latency.</small></li>
 </ul>
 """

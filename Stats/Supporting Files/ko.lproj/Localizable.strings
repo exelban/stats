@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "CPU 사용량";
-"CPU temperature" = "CPU 온도";
-"CPU frequency" = "CPU 주파수";
 "System" = "시스템";
 "User" = "사용자";
 "Idle" = "대기";
@@ -324,7 +322,6 @@
 "GPU utilization" = "GPU 사용률";
 "Model" = "모델";
 "Status" = "상태";
-"Utilization" = "사용률";
 "Renderer utilization" = "렌더 사용률";
 "Tiler utilization" = "타일 사용률";
 "GPU usage threshold" = "GPU 사용량 임계값";
@@ -432,6 +429,8 @@
 "Public IP" = "공개 IP";
 "Local IP" = "로컬 IP";
 "Interface" = "인터페이스";
+"Up" = "활성화";
+"Down" = "비활성화";
 "Physical address" = "MAC 주소";
 "Refresh" = "새로고침";
 "Network interface" = "네트워크 인터페이스";
@@ -443,11 +442,14 @@
 "Reset data usage" = "데이터 사용량 재설정";
 "VPN mode" = "VPN 모드";
 "Standard" = "표준";
+"Wi-Fi standard" = "Wi-Fi 표준";
 "Security" = "보안";
 "Channel" = "채널";
 "Autodetection" = "자동 감지";
 "Widget activation threshold" = "위젯 활성화 임계값";
 "Internet connection" = "인터넷 연결";
+"Online" = "온라인";
+"Offline" = "오프라인";
 "Connectivity host" = "연결성 확인 호스트";
 "Leave empty to disable the check" = "연결성 확인을 비활성화하려면 이 란을 비워 두세요";
 "Connectivity history" = "연결성 기록";
@@ -457,6 +459,7 @@
 "Every 24 hours" = "24시간마다";
 "Last reset" = "마지막 초기화 이후 %0 경과";
 "Latency" = "레이턴시";
+"Jitter" = "지터";
 "Address" = "주소"; // translategemma:4b
 "WiFi network" = "WiFi 네트워크";
 "Local IP changed" = "로컬 IP가 변경되었습니다"; // gemma4:31b
@@ -470,6 +473,7 @@
 "Noise" = "소음"; // qwen3.8:27b
 "Signal" = "신호"; // qwen3.8:27b
 "Speed" = "속도"; // qwen3.8:27b
+"Link speed" = "링크 속도";
 "Network interface changed" = "네트워크 인터페이스가 변경됨"; // qwen3.8:27b
 "WiFi network changed" = "WiFi 네트워크가 변경됨"; // qwen3.8:27b
 "This will be visible in the text widget" = "이것은 텍스트 위젯에 표시됩니다"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "Bluetooth 임계값"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "시계";
 "Time zone" = "시간대";
 "Local" = "현지 시각";
 "Calendar" = "캘린더"; // gemma4:31b

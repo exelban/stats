@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "Suorittimen käyttö";
-"CPU temperature" = "Suorittimen lämpötila";
-"CPU frequency" = "Suorittimen taajuus";
 "System" = "Järjestelmä";
 "User" = "Käyttäjä";
 "Idle" = "Lepotila";
@@ -324,7 +322,6 @@
 "GPU utilization" = "GPU:n käyttö";
 "Model" = "Malli";
 "Status" = "Tila";
-"Utilization" = "Käyttöaste";
 "Renderer utilization" = "Renderöinnin käyttöaste";
 "Tiler utilization" = "Tilerin käyttöaste";
 "GPU usage threshold" = "GPU:n käytön raja";
@@ -432,6 +429,8 @@
 "Public IP" = "Julkinen IP";
 "Local IP" = "Paikallinen IP";
 "Interface" = "Liitäntä";
+"Up" = "Käytössä";
+"Down" = "Pois käytöstä";
 "Physical address" = "Fyysinen osoite";
 "Refresh" = "Päivitä";
 "Network interface" = "Verkkoliitäntä";
@@ -443,11 +442,14 @@
 "Reset data usage" = "Nollaa tiedonsiirto";
 "VPN mode" = "VPN-tila";
 "Standard" = "Standardi";
+"Wi-Fi standard" = "Wi-Fi-standardi";
 "Security" = "Turvallisuus";
 "Channel" = "Kanava";
 "Autodetection" = "Automaattinen tunnistus";
 "Widget activation threshold" = "Widgetin aktivoinnin raja";
 "Internet connection" = "Internet-yhteys";
+"Online" = "Verkossa";
+"Offline" = "Ei verkossa";
 "Connectivity host" = "Yhteyden isäntä";
 "Leave empty to disable the check" = "Jätä tyhjäksi poistaaksesi tarkistuksen käytöstä";
 "Connectivity history" = "Yhteyshistoria";
@@ -457,6 +459,7 @@
 "Every 24 hours" = "Joka 24. tunti";
 "Last reset" = "Viimeksi nollattu %0 sitten";
 "Latency" = "Viive";
+"Jitter" = "Viiveen vaihtelu";
 "Address" = "Osoite"; // translategemma:4b
 "WiFi network" = "WiFi-verkko"; // gemma4:31b
 "Local IP changed" = "Paikallinen IP-osoite on muuttunut"; // translategemma:4b
@@ -470,6 +473,7 @@
 "Noise" = "Melu"; // qwen3.8:27b
 "Signal" = "Signaali"; // qwen3.8:27b
 "Speed" = "Nopeus"; // qwen3.8:27b
+"Link speed" = "Yhteysnopeus";
 "Network interface changed" = "Verkkoliitäntä muuttui"; // qwen3.8:27b
 "WiFi network changed" = "WiFi-verkko muuttui"; // qwen3.8:27b
 "This will be visible in the text widget" = "Tämä näkyy tekstiwidgetissa"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "Bluetooth-kynnysarvo"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "Kellot";
 "Time zone" = "Aikavyöhyke";
 "Local" = "Paikallinen";
 "Calendar" = "Kalenteri";

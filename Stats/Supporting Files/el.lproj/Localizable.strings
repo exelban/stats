@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "Χρήση CPU";
-"CPU temperature" = "Θερμοκρασία CPU";
-"CPU frequency" = "Συχνότητα CPU";
 "System" = "Σύστημα";
 "User" = "Χρήστης";
 "Idle" = "Αδράνεια";
@@ -324,7 +322,6 @@
 "GPU utilization" = "Χρήση GPU";
 "Model" = "Μοντέλο";
 "Status" = "Κατάσταση";
-"Utilization" = "Χρήση";
 "Renderer utilization" = "Χρήση Render"; // gemma4:31b
 "Tiler utilization" = "Χρήση Tiler"; // gemma4:31b
 "GPU usage threshold" = "Όριο χρήσης GPU"; // gemma4:31b
@@ -432,6 +429,8 @@
 "Public IP" = "Δημόσια IP";
 "Local IP" = "Τοπική IP";
 "Interface" = "Διεπαφή";
+"Up" = "Ενεργοποιημένη";
+"Down" = "Απενεργοποιημένη";
 "Physical address" = "Φυσική διεύθυνση";
 "Refresh" = "Ανανέωση";
 "Network interface" = "Διεπαφή δικτύου";
@@ -443,11 +442,14 @@
 "Reset data usage" = "Επαναφορά δεδομένων χρήσης";
 "VPN mode" = "Λειτουργία VPN";
 "Standard" = "Κανονικός";
+"Wi-Fi standard" = "Πρότυπο Wi-Fi";
 "Security" = "Ασφάλεια";
 "Channel" = "Κανάλι";
 "Autodetection" = "Αυτοανίχνευση"; // gemma4:31b
 "Widget activation threshold" = "Κατώφλι ενεργοποίησης βίντζετ"; // gemma4:31b
 "Internet connection" = "Σύνδεση στο Διαδίκτυο"; // gemma4:31b
+"Online" = "Σε σύνδεση";
+"Offline" = "Εκτός σύνδεσης";
 "Connectivity host" = "Φιλοξεγαστής συνδεσιμότητας"; // gemma4:31b
 "Leave empty to disable the check" = "Αφήστε κενό για να απενεργοποιήσετε τον έλεγχο"; // gemma4:31b
 "Connectivity history" = "Ιστορικό συνδεσιμότητας"; // gemma4:31b
@@ -457,6 +459,7 @@
 "Every 24 hours" = "Κάθε 24 ώρες"; // translategemma:4b
 "Last reset" = "Τελευταία επαναφορά πριν από %0"; // gemma4:31b
 "Latency" = "Καθυστέρηση"; // translategemma:4b
+"Jitter" = "Διακύμανση καθυστέρησης";
 "Address" = "Διεύθυνση"; // translategemma:4b
 "WiFi network" = "Δίκτυο WiFi"; // gemma4:31b
 "Local IP changed" = "Η τοπική IP έχει αλλάξει"; // gemma4:31b
@@ -470,6 +473,7 @@
 "Noise" = "Θόρυβος"; // qwen3.8:27b
 "Signal" = "Σήμα"; // qwen3.8:27b
 "Speed" = "Ταχύτητα"; // qwen3.8:27b
+"Link speed" = "Ταχύτητα σύνδεσης";
 "Network interface changed" = "Το διαδρόμιο δικτύου άλλαξε"; // qwen3.8:27b
 "WiFi network changed" = "Το δίκτυο WiFi άλλαξε"; // qwen3.8:27b
 "This will be visible in the text widget" = "Αυτό θα είναι ορατό στο ουίτζετ κειμένου"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "Όριο Bluetooth"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "Ρολόγια";
 "Time zone" = "Ζώνη ώρας"; // translategemma:4b
 "Local" = "Τοπικός"; // translategemma:4b
 "Calendar" = "Ημερολόγιο"; // translategemma:4b

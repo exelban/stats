@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "CPU ব্যবহার";
-"CPU temperature" = "CPU তাপমাত্রা";
-"CPU frequency" = "CPU ফ্রিকোয়েন্সি";
 "System" = "সিস্টেম";
 "User" = "ব্যবহারকারী";
 "Idle" = "নিষ্ক্রিয়";
@@ -324,7 +322,6 @@
 "GPU utilization" = "GPU ব্যবহার";
 "Model" = "মডেল";
 "Status" = "অবস্থা";
-"Utilization" = "ব্যবহার";
 "Renderer utilization" = "রেন্ডার ব্যবহার";
 "Tiler utilization" = "টাইলার ব্যবহার";
 "GPU usage threshold" = "GPU ব্যবহারের সীমা";
@@ -432,6 +429,8 @@
 "Public IP" = "পাবলিক IP";
 "Local IP" = "স্থানীয় IP";
 "Interface" = "ইন্টারফেস";
+"Up" = "সক্রিয়";
+"Down" = "নিষ্ক্রিয়";
 "Physical address" = "ভৌত ঠিকানা";
 "Refresh" = "রিফ্রেশ করুন";
 "Network interface" = "নেটওয়ার্ক ইন্টারফেস";
@@ -443,11 +442,14 @@
 "Reset data usage" = "ডেটা ব্যবহার রিসেট করুন";
 "VPN mode" = "VPN মোড";
 "Standard" = "স্ট্যান্ডার্ড";
+"Wi-Fi standard" = "ওয়াই-ফাই মান";
 "Security" = "নিরাপত্তা";
 "Channel" = "চ্যানেল";
 "Autodetection" = "স্বয়ংক্রিয় শনাক্তকরণ";
 "Widget activation threshold" = "উইজেট সক্রিয়করণ সীমা";
 "Internet connection" = "ইন্টারনেট সংযোগ";
+"Online" = "অনলাইন";
+"Offline" = "অফলাইন";
 "Connectivity host" = "সংযোগ হোস্ট";
 "Leave empty to disable the check" = "পরীক্ষা নিষ্ক্রিয় করতে খালি রাখুন";
 "Connectivity history" = "সংযোগ ইতিহাস";
@@ -457,6 +459,7 @@
 "Every 24 hours" = "প্রতি 24 ঘণ্টায়";
 "Last reset" = "শেষ রিসেট %0 আগে";
 "Latency" = "লেটেন্সি";
+"Jitter" = "জিটার";
 "Address" = "ঠিকানা";
 "WiFi network" = "WiFi নেটওয়ার্ক";
 "Local IP changed" = "স্থানীয় IP পরিবর্তিত হয়েছে";
@@ -470,6 +473,7 @@
 "Noise" = "শব্দ"; // qwen3.8:27b
 "Signal" = "সিগন্যাল"; // qwen3.8:27b
 "Speed" = "গতি"; // qwen3.8:27b
+"Link speed" = "লিংকের গতি";
 "Network interface changed" = "নেটওয়ার্ক ইন্টারফেস পরিবর্তিত হয়েছে"; // qwen3.8:27b
 "WiFi network changed" = "WiFi নেটওয়ার্ক পরিবর্তিত হয়েছে"; // qwen3.8:27b
 "This will be visible in the text widget" = "এটি টেক্সট উইজেটে দৃশ্যমান হবে"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "Bluetooth সীমা"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "ঘড়ি";
 "Time zone" = "সময় অঞ্চল";
 "Local" = "স্থানীয়";
 "Calendar" = "ক্যালেন্ডার";

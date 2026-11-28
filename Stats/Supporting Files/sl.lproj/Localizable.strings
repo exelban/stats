@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "CPU poraba";
-"CPU temperature" = "CPU temperatura";
-"CPU frequency" = "CPU frekvenca";
 "System" = "Sistem";
 "User" = "Uporabnik";
 "Idle" = "Brez dela";
@@ -324,7 +322,6 @@
 "GPU utilization" = "Uporaba GPU";
 "Model" = "Model";
 "Status" = "Stanje";
-"Utilization" = "Uporaba";
 "Renderer utilization" = "Izkoriščanje renderja";
 "Tiler utilization" = "Uporaba ploščic";
 "GPU usage threshold" = "Prag uporabe GPU";
@@ -432,6 +429,8 @@
 "Public IP" = "Javni IP";
 "Local IP" = "Lokalni IP";
 "Interface" = "Vmesnik";
+"Up" = "Vklopljen";
+"Down" = "Izklopljen";
 "Physical address" = "Fizični naslov";
 "Refresh" = "Osveži";
 "Network interface" = "Mrežni vmesnik";
@@ -443,11 +442,14 @@
 "Reset data usage" = "Ponastavi porabo podatkov";
 "VPN mode" = "VPN način";
 "Standard" = "Standardno"; // qwen3.8:27b
+"Wi-Fi standard" = "Standard Wi-Fi";
 "Security" = "Varnost";
 "Channel" = "Kanal";
 "Autodetection" = "Samodejna zaznava";
 "Widget activation threshold" = "Prag aktiviranja pripomočka";
 "Internet connection" = "Internetna povezava";
+"Online" = "Povezano";
+"Offline" = "Brez povezave";
 "Connectivity host" = "Gostitelj za preverjanje povezljivosti";
 "Leave empty to disable the check" = "Pusti prazno, če želiš onemogočiti preverjanje povezljivosti";
 "Connectivity history" = "Zgodovina povezljivosti";
@@ -457,6 +459,7 @@
 "Every 24 hours" = "Vsakih 24 ur";
 "Last reset" = "Zadnja ponastavitev pred %0";
 "Latency" = "Zakasnitev";
+"Jitter" = "Nihanje zakasnitve";
 "Address" = "Naslov";
 "WiFi network" = "Omrežje WiFi"; // gemma4:31b
 "Local IP changed" = "Lokalni IP se je spremenil"; // gemma4:31b
@@ -470,6 +473,7 @@
 "Noise" = "Hrup"; // qwen3.8:27b
 "Signal" = "Signal";
 "Speed" = "Hitrost"; // qwen3.8:27b
+"Link speed" = "Hitrost povezave";
 "Network interface changed" = "Omrežni vmesnik spremenjen"; // qwen3.8:27b
 "WiFi network changed" = "WiFi omrežje spremenjeno"; // qwen3.8:27b
 "This will be visible in the text widget" = "To bo vidno v besedilnem vgradniku"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "Prag Bluetooth"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "Ure";
 "Time zone" = "Časovni pas";
 "Local" = "Lokalno";
 "Calendar" = "Koledar";

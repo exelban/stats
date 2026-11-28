@@ -190,6 +190,7 @@
 		9A97CEFB253733F300742D8F /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A97CEFA253733F300742D8F /* settings.swift */; };
 		9A97CF002537340400742D8F /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9A97CEFF2537340400742D8F /* config.plist */; };
 		9A9B25BB24F7DE2B00C3CCE6 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9A9B25BD24F7DE2B00C3CCE6 /* Localizable.strings */; };
+		017822E24D054FF685503E7C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9A9B25BD24F7DE2B00C3CCE6 /* Localizable.strings */; };
 		9A9B8C9D27149A3700218374 /* Tachometer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B8C9C27149A3700218374 /* Tachometer.swift */; };
 		9A9EA9452476D34500E3B883 /* Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9EA9442476D34500E3B883 /* Update.swift */; };
 		9AA64260244B274200416A33 /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA6425F244B274200416A33 /* popup.swift */; };
@@ -2020,6 +2021,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				017822E24D054FF685503E7C /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

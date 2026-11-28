@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "CPU-bruk";
-"CPU temperature" = "CPU-temperatur";
-"CPU frequency" = "CPU-frekvens";
 "System" = "System";
 "User" = "Bruker";
 "Idle" = "Ledig";
@@ -324,7 +322,6 @@
 "GPU utilization" = "GPU-bruk";
 "Model" = "Modell";
 "Status" = "Status";
-"Utilization" = "Bruk";
 "Renderer utilization" = "Renderbruk";
 "Tiler utilization" = "Tilerbruk";
 "GPU usage threshold" = "GPU-bruksgrense";
@@ -432,6 +429,8 @@
 "Public IP" = "Offentlig IP";
 "Local IP" = "Lokal IP";
 "Interface" = "Grensesnitt";
+"Up" = "Aktivert";
+"Down" = "Deaktivert";
 "Physical address" = "Fysisk addresse";
 "Refresh" = "Oppfrisk";
 "Network interface" = "Nettverksgrensesnitt";
@@ -443,11 +442,14 @@
 "Reset data usage" = "Nullstill databruk";
 "VPN mode" = "VPN-modus";
 "Standard" = "Standard";
+"Wi-Fi standard" = "Wi-Fi-standard";
 "Security" = "Sikkerhet";
 "Channel" = "Kanal";
 "Autodetection" = "Automatisk deteksjon";
 "Widget activation threshold" = "Statistikkaktiveringsgrense";
 "Internet connection" = "Internett-tilkobling";
+"Online" = "Tilkoblet";
+"Offline" = "Frakoblet";
 "Connectivity host" = "Tilkoblingsvert";
 "Leave empty to disable the check" = "La stå tom for å deaktivere sjekken";
 "Connectivity history" = "Tilkoblingshistorikk";
@@ -457,6 +459,7 @@
 "Every 24 hours" = "Hver 24. time";
 "Last reset" = "Sist nullstilt %0 siden";
 "Latency" = "Forsinkelse"; // translategemma:4b
+"Jitter" = "Forsinkelsesvariasjon";
 "Address" = "Adresse"; // translategemma:4b
 "WiFi network" = "WiFi-nettverk"; // translategemma:4b
 "Local IP changed" = "Lokal IP har endret seg"; // gemma4:31b
@@ -470,6 +473,7 @@
 "Noise" = "Støy"; // qwen3.8:27b
 "Signal" = "Signal";
 "Speed" = "Hastighet"; // qwen3.8:27b
+"Link speed" = "Tilkoblingshastighet";
 "Network interface changed" = "Nettverksgrensesnitt endret"; // qwen3.8:27b
 "WiFi network changed" = "WiFi-nettverket endret"; // qwen3.8:27b
 "This will be visible in the text widget" = "Dette vil være synlig i tekstwidgeten"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "Bluetooth-terkel"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "Klokker";
 "Time zone" = "Tidssone";
 "Local" = "Lokal";
 "Calendar" = "Kalender"; // translategemma:4b

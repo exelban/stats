@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "Obciążenie procesora";
-"CPU temperature" = "Temperatura procesora";
-"CPU frequency" = "Częstotliwość procesora";
 "System" = "System";
 "User" = "Użytkownik";
 "Idle" = "Nieaktywny";
@@ -324,7 +322,6 @@
 "GPU utilization" = "Wykorzystanie GPU";
 "Model" = "Model";
 "Status" = "Stan";
-"Utilization" = "Wykorzystanie";
 "Renderer utilization" = "Wykorzystanie renderera";
 "Tiler utilization" = "Wykorzystanie tilera";
 "GPU usage threshold" = "Próg wykorzystania GPU";
@@ -432,6 +429,8 @@
 "Public IP" = "Publiczny IP";
 "Local IP" = "Lokalny IP";
 "Interface" = "Interfejs";
+"Up" = "Włączony";
+"Down" = "Wyłączony";
 "Physical address" = "Adres fizyczny";
 "Refresh" = "Odśwież";
 "Network interface" = "Interfejs sieciowy";
@@ -443,11 +442,14 @@
 "Reset data usage" = "Resetuj użycie danych";
 "VPN mode" = "Tryb VPN";
 "Standard" = "Standardowy";
+"Wi-Fi standard" = "Standard Wi-Fi";
 "Security" = "Szyfrowanie";
 "Channel" = "Kanał";
 "Autodetection" = "Autodetekcja";
 "Widget activation threshold" = "Próg aktywacji widżetu";
 "Internet connection" = "Połączenie internetowe";
+"Online" = "Online";
+"Offline" = "Offline";
 "Connectivity host" = "Host łączności";
 "Leave empty to disable the check" = "Pozostaw puste, aby wyłączyć sprawdzanie";
 "Connectivity history" = "Historia łączności";
@@ -457,6 +459,7 @@
 "Every 24 hours" = "Co 24 godzin";
 "Last reset" = "Ostatni reset %0 temu";
 "Latency" = "Opóźnienie";
+"Jitter" = "Zmienność opóźnienia";
 "Address" = "Adres";
 "WiFi network" = "Sieć WiFi";
 "Local IP changed" = "Lokalny adres IP został zmieniony";
@@ -470,6 +473,7 @@
 "Noise" = "Szum";
 "Signal" = "Sygnał";
 "Speed" = "Prędkość";
+"Link speed" = "Szybkość łącza";
 "Network interface changed" = "Zmieniono interfejs sieciowy";
 "WiFi network changed" = "Zmieniono sieć Wi-Fi";
 "This will be visible in the text widget" = "Będzie to widoczne w widżecie tekstowym";
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "Próg Bluetooth"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "Zegary";
 "Time zone" = "Strefa czasowa";
 "Local" = "Lokalna";
 "Calendar" = "Kalendarz";

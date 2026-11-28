@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "การใช้งาน CPU";
-"CPU temperature" = "อุณหภูมิ CPU";
-"CPU frequency" = "ความถี่ CPU";
 "System" = "ระบบ";
 "User" = "ผู้ใช้";
 "Idle" = "ว่างเปล่า";
@@ -324,7 +322,6 @@
 "GPU utilization" = "ปริมาณการใช้งาน GPU";
 "Model" = "โมเดล";
 "Status" = "สถานะ";
-"Utilization" = "ปริมาณการใช้งาน";
 "Renderer utilization" = "ปริมาณการใช้งาน Render";
 "Tiler utilization" = "ปริมาณการใช้งาน Tiler";
 "GPU usage threshold" = "เกณฑ์การใช้งาน GPU";
@@ -432,6 +429,8 @@
 "Public IP" = "IP สาธารณะ";
 "Local IP" = "IP ในเครือข่าย";
 "Interface" = "อินเตอร์เฟส";
+"Up" = "เปิดใช้งาน";
+"Down" = "ปิดใช้งาน";
 "Physical address" = "ที่อยู่ทางกายภาพ";
 "Refresh" = "รีเฟรช";
 "Network interface" = "อินเตอร์เฟสเครือข่าย";
@@ -443,11 +442,14 @@
 "Reset data usage" = "รีเซ็ตการใช้งานข้อมูล";
 "VPN mode" = "โหมด VPN";
 "Standard" = "มาตรฐาน";
+"Wi-Fi standard" = "มาตรฐาน Wi-Fi";
 "Security" = "ความปลอดภัย";
 "Channel" = "ช่อง";
 "Autodetection" = "ตรวจหาอัตโนมัติ";
 "Widget activation threshold" = "ขีดจำกัดของการเปิดใช้งานวิดเจ็ต";
 "Internet connection" = "การเชื่อมต่ออินเทอร์เน็ต";
+"Online" = "ออนไลน์";
+"Offline" = "ออฟไลน์";
 "Connectivity host" = "โฮสต์ที่เชื่อมต่อ";
 "Leave empty to disable the check" = "เว้นว่างไว้เพื่อปิดการตรวจสอบ";
 "Connectivity history" = "ประวัติการเชื่อมต่อ"; // translategemma:4b
@@ -457,6 +459,7 @@
 "Every 24 hours" = "ทุกๆ 24 ชั่วโมง"; // gemma4:31b
 "Last reset" = "รีเซ็ตครั้งล่าสุด %0 ที่แล้ว"; // gemma4:31b
 "Latency" = "ความหน่วง"; // translategemma:4b
+"Jitter" = "ความแปรปรวนของเวลาแฝง";
 "Address" = "ที่อยู่"; // translategemma:4b
 "WiFi network" = "เครือข่าย WiFi"; // gemma4:31b
 "Local IP changed" = "Local IP เปลี่ยนแปลงแล้ว"; // gemma4:31b
@@ -470,6 +473,7 @@
 "Noise" = "เสียงรบกวน"; // qwen3.8:27b
 "Signal" = "สัญญาณ"; // qwen3.8:27b
 "Speed" = "ความเร็ว"; // qwen3.8:27b
+"Link speed" = "ความเร็วลิงก์";
 "Network interface changed" = "อินเทอร์เฟซเครือข่ายเปลี่ยนแล้ว"; // qwen3.8:27b
 "WiFi network changed" = "เครือข่าย WiFi เปลี่ยนแล้ว"; // qwen3.8:27b
 "This will be visible in the text widget" = "สิ่งนี้จะมองเห็นได้ในวิดเจ็ตข้อความ"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "เกณฑ์ Bluetooth"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "นาฬิกา";
 "Time zone" = "เขตเวลา"; // translategemma:4b
 "Local" = "ท้องถิ่น"; // gemma4:31b
 "Calendar" = "ปฏิทิน"; // translategemma:4b

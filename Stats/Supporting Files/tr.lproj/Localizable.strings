@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "CPU kullanımı";
-"CPU temperature" = "CPU sıcaklığı";
-"CPU frequency" = "CPU frekansı";
 "System" = "Sistem";
 "User" = "Kullanıcı";
 "Idle" = "Boşta";
@@ -324,7 +322,6 @@
 "GPU utilization" = "GPU kullanımı";
 "Model" = "Model";
 "Status" = "Durum";
-"Utilization" = "Kullanım";
 "Renderer utilization" = "Render kullanımı";
 "Tiler utilization" = "Tiler kullanımı";
 "GPU usage threshold" = "GPU kullanım eşiği";
@@ -432,6 +429,8 @@
 "Public IP" = "Genel IP";
 "Local IP" = "Yerel IP";
 "Interface" = "Arayüz";
+"Up" = "Etkin";
+"Down" = "Devre dışı";
 "Physical address" = "Fiziksel adres";
 "Refresh" = "Yenile";
 "Network interface" = "Ağ arayüzü";
@@ -443,11 +442,14 @@
 "Reset data usage" = "Veri kullanımını sıfırla";
 "VPN mode" = "VPN modu";
 "Standard" = "Standart";
+"Wi-Fi standard" = "Wi-Fi standardı";
 "Security" = "Güvenlik";
 "Channel" = "Kanal";
 "Autodetection" = "Otomatik algılama";
 "Widget activation threshold" = "Widget etkinleştirme eşiği";
 "Internet connection" = "İnternet bağlantısı";
+"Online" = "Çevrimiçi";
+"Offline" = "Çevrimdışı";
 "Connectivity host" = "Bağlantı sunucusu";
 "Leave empty to disable the check" = "Denetimi devre dışı bırakmak için boş bırakın";
 "Connectivity history" = "Bağlantı geçmişi";
@@ -457,6 +459,7 @@
 "Every 24 hours" = "24 saatte bir";
 "Last reset" = "Son sıfırlama %0 önce";
 "Latency" = "Gecikme";
+"Jitter" = "Gecikme dalgalanması";
 "Address" = "Adres";
 "WiFi network" = "Wi-Fi ağı";
 "Local IP changed" = "Yerel IP değişti";
@@ -470,6 +473,7 @@
 "Noise" = "Gürültü"; // qwen3.8:27b
 "Signal" = "Sinyal"; // qwen3.8:27b
 "Speed" = "Hız"; // qwen3.8:27b
+"Link speed" = "Bağlantı hızı";
 "Network interface changed" = "Ağ arayüzü değişti"; // qwen3.8:27b
 "WiFi network changed" = "WiFi ağı değişti"; // qwen3.8:27b
 "This will be visible in the text widget" = "Bu, metin widget'ında görünecek"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "Bluetooth eşiği"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "Saatler";
 "Time zone" = "Saat dilimi";
 "Local" = "Yerel";
 "Calendar" = "Takvim";

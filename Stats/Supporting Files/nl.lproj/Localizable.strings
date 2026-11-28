@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "CPU gebruik";
-"CPU temperature" = "CPU temperatuur";
-"CPU frequency" = "CPU frequentie";
 "System" = "Systeem";
 "User" = "Gebruiker";
 "Idle" = "Inactief";
@@ -324,7 +322,6 @@
 "GPU utilization" = "GPU-gebruik";
 "Model" = "Model";
 "Status" = "Status";
-"Utilization" = "Gebruik";
 "Renderer utilization" = "Render-gebruik"; // gemma4:31b
 "Tiler utilization" = "Tiler-gebruik";
 "GPU usage threshold" = "GPU-gebruiksdrempel"; // gemma4:31b
@@ -432,6 +429,8 @@
 "Public IP" = "Openbaar IP-adres";
 "Local IP" = "Lokaal IP-adres";
 "Interface" = "Interface";
+"Up" = "Ingeschakeld";
+"Down" = "Uitgeschakeld";
 "Physical address" = "Fysiek adres";
 "Refresh" = "Ververs";
 "Network interface" = "Netwerk interface";
@@ -443,11 +442,14 @@
 "Reset data usage" = "Reset dataverbruik"; // translategemma:4b
 "VPN mode" = "VPN modus";
 "Standard" = "Standaard"; // translategemma:4b
+"Wi-Fi standard" = "Wifi-standaard";
 "Security" = "Beveiliging"; // translategemma:4b
 "Channel" = "Kanaal"; // translategemma:4b
 "Autodetection" = "Automatische detectie"; // translategemma:4b
 "Widget activation threshold" = "Drempelwaarde voor het activeren van een widget"; // translategemma:4b
 "Internet connection" = "Internetverbinding"; // translategemma:4b
+"Online" = "Online";
+"Offline" = "Offline";
 "Connectivity host" = "Host voor verbinding"; // translategemma:4b
 "Leave empty to disable the check" = "Laat dit veld leeg, om de controle uit te schakelen.";
 "Connectivity history" = "Verbindingshistorie";
@@ -457,6 +459,7 @@
 "Every 24 hours" = "Elke 24 uur"; // translategemma:4b
 "Last reset" = "Laatste reset %0 geleden"; // translategemma:4b
 "Latency" = "Vertraging"; // translategemma:4b
+"Jitter" = "Jitter";
 "Address" = "Adres"; // translategemma:4b
 "WiFi network" = "WiFi-netwerk"; // translategemma:4b
 "Local IP changed" = "Het lokale IP-adres is veranderd"; // translategemma:4b
@@ -470,6 +473,7 @@
 "Noise" = "Ruis"; // qwen3.8:27b
 "Signal" = "Signaal"; // qwen3.8:27b
 "Speed" = "Snelheid"; // qwen3.8:27b
+"Link speed" = "Verbindingssnelheid";
 "Network interface changed" = "Netwerkinterface gewijzigd"; // qwen3.8:27b
 "WiFi network changed" = "WiFi-netwerk gewijzigd"; // qwen3.8:27b
 "This will be visible in the text widget" = "Dit zal zichtbaar zijn in de tekstwidget"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "Bluetooth-drempelwaarde"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "Klokken";
 "Time zone" = "Tijdszone"; // translategemma:4b
 "Local" = "Lokaal"; // translategemma:4b
 "Calendar" = "Agenda"; // translategemma:4b

@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "மையச் செயலக பயன்பாடு";
-"CPU temperature" = "மையச் செயலக வெப்பநிலை";
-"CPU frequency" = "மையச் செயலக அதிர்வெண்";
 "System" = "கணினி";
 "User" = "பயனர்";
 "Idle" = "செயலற்ற";
@@ -324,7 +322,6 @@
 "GPU utilization" = "GPU பயன்பாடு";
 "Model" = "மாதிரி";
 "Status" = "நிலை";
-"Utilization" = "பயன்பாடு";
 "Renderer utilization" = "Render பயன்பாடு";
 "Tiler utilization" = "Tiler பயன்பாடு";
 "GPU usage threshold" = "GPU பயன்பாடு வரம்பு";
@@ -432,6 +429,8 @@
 "Public IP" = "பொது IP"; // qwen3.8:27b
 "Local IP" = "உள்ளூர் IP"; // qwen3.8:27b
 "Interface" = "இடைமுகம்";
+"Up" = "இயக்கத்தில்";
+"Down" = "முடக்கத்தில்";
 "Physical address" = "இயற்பியல் முகவரி";
 "Refresh" = "புதுப்பி";
 "Network interface" = "வலைப்பின்னல் இடைமுகம்";
@@ -443,11 +442,14 @@
 "Reset data usage" = "தரவு பயன்பாட்டை மீட்டமை";
 "VPN mode" = "VPN முறை";
 "Standard" = "நிலையான";
+"Wi-Fi standard" = "வைஃபை தரநிலை";
 "Security" = "பாதுகாப்பு";
 "Channel" = "சேனல்";
 "Autodetection" = "தானியங்கு கண்டறிதல்";
 "Widget activation threshold" = "Widget செயல்படுத்தல் வரம்பு";
 "Internet connection" = "இணைய இணைப்பு";
+"Online" = "இணையத்தில்";
+"Offline" = "இணைய இணைப்பில்லை";
 "Connectivity host" = "இணைப்பு ஹோஸ்ட்";
 "Leave empty to disable the check" = "சோதனையை முடக்க காலியாக விடவும்";
 "Connectivity history" = "இணைப்பு வரலாறு";
@@ -457,6 +459,7 @@
 "Every 24 hours" = "24 மணி நேரத்திற்கு ஒருமுறை";
 "Last reset" = "கடைசி மீட்டமைப்பு %0 முன்பு";
 "Latency" = "தாமதம்";
+"Jitter" = "தாமத மாறுபாடு";
 "Address" = "முகவரி";
 "WiFi network" = "WiFi வலைப்பின்னல்";
 "Local IP changed" = "Local IP மாறிவிட்டது";
@@ -470,6 +473,7 @@
 "Noise" = "சத்தம்"; // qwen3.8:27b
 "Signal" = "சிக்னல்"; // qwen3.8:27b
 "Speed" = "வேகம்"; // qwen3.8:27b
+"Link speed" = "இணைப்பு வேகம்";
 "Network interface changed" = "நெட்வொர்க் இடைமுகம் மாற்றப்பட்டது"; // qwen3.8:27b
 "WiFi network changed" = "WiFi நெட்வொர்க் மாறியது"; // qwen3.8:27b
 "This will be visible in the text widget" = "இது உரை விட்ஜெட்டில் காணப்படும்"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "Bluetooth எல்லை"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "கடிகாரங்கள்";
 "Time zone" = "நேர மண்டலம்";
 "Local" = "உள்ளூர்";
 "Calendar" = "நாட்காட்டி";

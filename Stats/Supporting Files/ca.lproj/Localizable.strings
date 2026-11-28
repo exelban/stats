@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "Ús de la CPU";
-"CPU temperature" = "Temperatura de la CPU";
-"CPU frequency" = "Freqüència de la CPU";
 "System" = "Sistema";
 "User" = "Usuari";
 "Idle" = "Inactiu";
@@ -324,7 +322,6 @@
 "GPU utilization" = "Ús de la GPU";
 "Model" = "Model";
 "Status" = "Estat";
-"Utilization" = "Ús";
 "Renderer utilization" = "Utilització del Render";
 "Tiler utilization" = "Utilització del Tiler";
 "GPU usage threshold" = "Límit d'ús de la GPU";
@@ -432,6 +429,8 @@
 "Public IP" = "IP Pública";
 "Local IP" = "IP Local";
 "Interface" = "Interfície";
+"Up" = "Activada";
+"Down" = "Desactivada";
 "Physical address" = "Direcció física";
 "Refresh" = "Actualitza";
 "Network interface" = "Interfície de xarxa";
@@ -443,11 +442,14 @@
 "Reset data usage" = "Reinicia l'ús de dades";
 "VPN mode" = "Mode VPN";
 "Standard" = "Estàndar";
+"Wi-Fi standard" = "Estàndard Wi-Fi";
 "Security" = "Seguretat";
 "Channel" = "Canal";
 "Autodetection" = "Autodetecció";
 "Widget activation threshold" = "Límit d'activació del giny";
 "Internet connection" = "Connexió a internet";
+"Online" = "En línia";
+"Offline" = "Fora de línia";
 "Connectivity host" = "Connectivitat host";
 "Leave empty to disable the check" = "Deixa en blanc per desactivar la comprovació";
 "Connectivity history" = "Historial de connectivitat";
@@ -457,6 +459,7 @@
 "Every 24 hours" = "Cada 24 hores";
 "Last reset" = "L'últim reinici va ser fa %0";
 "Latency" = "Latència";
+"Jitter" = "Variació de latència";
 "Address" = "Adreça"; // translategemma:4b
 "WiFi network" = "Xarxa WiFi"; // gemma4:31b
 "Local IP changed" = "L'IP local ha canviat"; // gemma4:31b
@@ -470,6 +473,7 @@
 "Noise" = "Soroll"; // qwen3.8:27b
 "Signal" = "Senyal"; // qwen3.8:27b
 "Speed" = "Velocitat"; // qwen3.8:27b
+"Link speed" = "Velocitat de l’enllaç";
 "Network interface changed" = "Interfície de xarxa canviada"; // qwen3.8:27b
 "WiFi network changed" = "Xarxa Wi-Fi canviada"; // qwen3.8:27b
 "This will be visible in the text widget" = "Això serà visible al widget de text"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "Llindar de Bluetooth"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "Rellotges";
 "Time zone" = "Zona horària";
 "Local" = "Local";
 "Calendar" = "Calendari";

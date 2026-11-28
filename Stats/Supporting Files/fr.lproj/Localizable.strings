@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "Utilisation du CPU";
-"CPU temperature" = "Température du CPU";
-"CPU frequency" = "Fréquence du CPU";
 "System" = "Système";
 "User" = "Utilisateur";
 "Idle" = "Inactif";
@@ -324,7 +322,6 @@
 "GPU utilization" = "Utilisation du GPU";
 "Model" = "Modèle";
 "Status" = "Statut";
-"Utilization" = "Utilisation";
 "Renderer utilization" = "Utilisation du rendu";
 "Tiler utilization" = "Utilisation du Tiler";
 "GPU usage threshold" = "Seuil d'utilisation du GPU";
@@ -432,6 +429,8 @@
 "Public IP" = "IP publique";
 "Local IP" = "IP locale";
 "Interface" = "Interface";
+"Up" = "Activée";
+"Down" = "Désactivée";
 "Physical address" = "Adresse physique";
 "Refresh" = "Actualiser";
 "Network interface" = "Interface réseau";
@@ -443,11 +442,14 @@
 "Reset data usage" = "Réinitialiser l'utilisation des données";
 "VPN mode" = "Mode VPN";
 "Standard" = "Normal";
+"Wi-Fi standard" = "Norme Wi-Fi";
 "Security" = "Sécurité";
 "Channel" = "Canal";
 "Autodetection" = "Détection automatique";
 "Widget activation threshold" = "Seuil d'activation du widget";
 "Internet connection" = "Connexion Internet";
+"Online" = "En ligne";
+"Offline" = "Hors ligne";
 "Connectivity host" = "Hôte de connectivité";
 "Leave empty to disable the check" = "Laisser vide pour désactiver la vérification";
 "Connectivity history" = "Historique de la connectivité";
@@ -457,6 +459,7 @@
 "Every 24 hours" = "Toutes les 24 heures";
 "Last reset" = "Dernière réinitialisation il y a %0";
 "Latency" = "Latence";
+"Jitter" = "Gigue";
 "Address" = "Adresse"; // translategemma:4b
 "WiFi network" = "Réseau Wi-Fi";
 "Local IP changed" = "Adresse IP locale modifiée";
@@ -470,6 +473,7 @@
 "Noise" = "Bruit"; // qwen3.8:27b
 "Signal" = "Signal";
 "Speed" = "Vitesse"; // qwen3.8:27b
+"Link speed" = "Débit de liaison";
 "Network interface changed" = "Interface réseau modifiée"; // qwen3.8:27b
 "WiFi network changed" = "Réseau Wi-Fi modifié"; // qwen3.8:27b
 "This will be visible in the text widget" = "Cela sera visible dans le widget de texte"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "Seuil Bluetooth"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "Horloges";
 "Time zone" = "Fuseau horaire";
 "Local" = "Local";
 "Calendar" = "Calendrier";

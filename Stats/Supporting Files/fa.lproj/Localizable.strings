@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "مصرف سی پی یو";
-"CPU temperature" = "دمای سی پی یو";
-"CPU frequency" = "فرکانس سی پی یو";
 "System" = "سیستم";
 "User" = "کاربر";
 "Idle" = "بیکار";
@@ -324,7 +322,6 @@
 "GPU utilization" = "مصرف جی پی یو";
 "Model" = "مدل";
 "Status" = "وضعیت";
-"Utilization" = "استفاده";
 "Renderer utilization" = "استفاده از رندر";
 "Tiler utilization" = "استفاده از تایلر";
 "GPU usage threshold" = "آستانه مصرف جی پی یو";
@@ -432,6 +429,8 @@
 "Public IP" = "آی پی عمومی";
 "Local IP" = "آی پی محلی";
 "Interface" = "رابط";
+"Up" = "فعال";
+"Down" = "غیرفعال";
 "Physical address" = "آدرس فیزیکی";
 "Refresh" = "بروزرسانی";
 "Network interface" = "رابط شبکه";
@@ -443,11 +442,14 @@
 "Reset data usage" = "ریست مصرف دیتا";
 "VPN mode" = "حالت وی پی ان";
 "Standard" = "استاندارد";
+"Wi-Fi standard" = "استاندارد وای‌فای";
 "Security" = "امنیت";
 "Channel" = "کانال";
 "Autodetection" = "تشخیص خودکار";
 "Widget activation threshold" = "آستانه فعالسازی ویجت";
 "Internet connection" = "اتصال اینترنت";
+"Online" = "آنلاین";
+"Offline" = "آفلاین";
 "Connectivity host" = "میزبان اتصال";
 "Leave empty to disable the check" = "خالی بگذارید تا بررسی غیرفعال شود";
 "Connectivity history" = "تاریخچه اتصال"; // translategemma:4b
@@ -457,6 +459,7 @@
 "Every 24 hours" = "هر ۲۴ ساعت"; // gemma4:31b
 "Last reset" = "آخرین بازنشانی %0 پیش"; // gemma4:31b
 "Latency" = "تأخیر"; // gemma4:31b
+"Jitter" = "نوسان تأخیر";
 "Address" = "آدرس"; // translategemma:4b
 "WiFi network" = "شبکه WiFi"; // gemma4:31b
 "Local IP changed" = "IP محلی تغییر کرده است"; // gemma4:31b
@@ -470,6 +473,7 @@
 "Noise" = "نویز"; // qwen3.8:27b
 "Signal" = "سیگنال"; // qwen3.8:27b
 "Speed" = "سرعت"; // qwen3.8:27b
+"Link speed" = "سرعت پیوند";
 "Network interface changed" = "رابط شبکه تغییر کرد"; // qwen3.8:27b
 "WiFi network changed" = "شبکه WiFi تغییر کرد"; // qwen3.8:27b
 "This will be visible in the text widget" = "این در ویجت متن قابل مشاهده خواهد بود"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "آستانه Bluetooth"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "ساعت‌ها";
 "Time zone" = "منطقه زمانی"; // gemma4:31b
 "Local" = "محلی"; // translategemma:4b
 "Calendar" = "تقویم"; // translategemma:4b

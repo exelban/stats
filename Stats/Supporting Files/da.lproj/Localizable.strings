@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "CPU brug";
-"CPU temperature" = "CPU temperatur";
-"CPU frequency" = "CPU frekvens";
 "System" = "System";
 "User" = "Bruger";
 "Idle" = "Ikke i brug";
@@ -324,7 +322,6 @@
 "GPU utilization" = "GPU brugsniveau";
 "Model" = "Model";
 "Status" = "Status";
-"Utilization" = "Brugsniveau";
 "Renderer utilization" = "Renderudnyttelse";
 "Tiler utilization" = "Tilerudnyttelse";
 "GPU usage threshold" = "Grænseværdi for GPU brug";
@@ -432,6 +429,8 @@
 "Public IP" = "Offentlig IP";
 "Local IP" = "Lokal IP";
 "Interface" = "Grænseflade"; // translategemma:4b
+"Up" = "Aktiveret";
+"Down" = "Deaktiveret";
 "Physical address" = "Fysisk adresse";
 "Refresh" = "Genopfrisk";
 "Network interface" = "Netværksinterface";
@@ -443,11 +442,14 @@
 "Reset data usage" = "Nulstil databrug";
 "VPN mode" = "VPN-tilstand";
 "Standard" = "Standard";
+"Wi-Fi standard" = "Wi-Fi-standard";
 "Security" = "Sikkerhed";
 "Channel" = "Kanal";
 "Autodetection" = "Automatisk";
 "Widget activation threshold" = "Grænseværdi for aktivering af widget";
 "Internet connection" = "Internetforbindelse";
+"Online" = "Online";
+"Offline" = "Offline";
 "Connectivity host" = "Host for forbindelse"; // translategemma:4b
 "Leave empty to disable the check" = "Lad feltet være tom for at deaktivere tjekket";
 "Connectivity history" = "Forbindelseshistorik";
@@ -457,6 +459,7 @@
 "Every 24 hours" = "Hver 24 timer";
 "Last reset" = "Sidste nulstilling %0 siden";
 "Latency" = "Forsinkelse"; // translategemma:4b
+"Jitter" = "Variation i latenstid";
 "Address" = "Adresse"; // translategemma:4b
 "WiFi network" = "WiFi-netværk"; // translategemma:4b
 "Local IP changed" = "Den lokale IP-adresse har ændret sig"; // translategemma:4b
@@ -470,6 +473,7 @@
 "Noise" = "Støj"; // qwen3.8:27b
 "Signal" = "Signal";
 "Speed" = "Hastighed"; // qwen3.8:27b
+"Link speed" = "Forbindelseshastighed";
 "Network interface changed" = "Netværksgrænseflade ændret"; // qwen3.8:27b
 "WiFi network changed" = "WiFi-netværk ændret"; // qwen3.8:27b
 "This will be visible in the text widget" = "Dette vil være synligt i tekstwidgeten"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "Bluetooth-tærskel"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "Ure";
 "Time zone" = "Tidszone";
 "Local" = "Lokalt";
 "Calendar" = "Kalender"; // translategemma:4b

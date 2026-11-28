@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "CPU használat";
-"CPU temperature" = "CPU hőmérséklet";
-"CPU frequency" = "CPU frekvencia";
 "System" = "Rendszer";
 "User" = "Felhasználó";
 "Idle" = "Tétlenség";
@@ -324,7 +322,6 @@
 "GPU utilization" = "GPU terhelés";
 "Model" = "Modell";
 "Status" = "Állapot";
-"Utilization" = "Felhasználás";
 "Renderer utilization" = "Render használat";
 "Tiler utilization" = "Tiler használat";
 "GPU usage threshold" = "GPU használati küszöb";
@@ -432,6 +429,8 @@
 "Public IP" = "Nyilvános IP";
 "Local IP" = "Lokális IP";
 "Interface" = "Interfész";
+"Up" = "Engedélyezve";
+"Down" = "Letiltva";
 "Physical address" = "Fizikai cím";
 "Refresh" = "Frissítés";
 "Network interface" = "Hálózati interfész kiválasztása";
@@ -443,11 +442,14 @@
 "Reset data usage" = "Adathasználati adatok alaphelyzetbe állítása";
 "VPN mode" = "VPN mód";
 "Standard" = "Szabvány";
+"Wi-Fi standard" = "Wi-Fi-szabvány";
 "Security" = "Biztonság";
 "Channel" = "Csatorna";
 "Autodetection" = "Automatikus észlelés";
 "Widget activation threshold" = "Widget aktivációs küszöbe";
 "Internet connection" = "Internet kapcsolat";
+"Online" = "Online";
+"Offline" = "Offline";
 "Connectivity host" = "Kapcsolati gazdagép";
 "Leave empty to disable the check" = "Hagyd üresen az ellenőrzés kikapcsolásához";
 "Connectivity history" = "Kapcsolati előzmények";
@@ -457,6 +459,7 @@
 "Every 24 hours" = "24 óránként";
 "Last reset" = "Utolsó visszaállítás óta eltelt idő: %0";
 "Latency" = "Látencia"; // gemma4:31b
+"Jitter" = "Késleltetés ingadozása";
 "Address" = "Cím"; // translategemma:4b
 "WiFi network" = "WiFi hálózat"; // translategemma:4b
 "Local IP changed" = "A lokális IP megváltozott"; // gemma4:31b
@@ -470,6 +473,7 @@
 "Noise" = "Zaj"; // qwen3.8:27b
 "Signal" = "Jel"; // qwen3.8:27b
 "Speed" = "Sebesség"; // qwen3.8:27b
+"Link speed" = "Kapcsolati sebesség";
 "Network interface changed" = "Hálózati interfész módosult"; // qwen3.8:27b
 "WiFi network changed" = "WiFi hálózat módosult"; // qwen3.8:27b
 "This will be visible in the text widget" = "Ez látható lesz a szöveges widgeten"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "Bluetooth-küszöb"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "Órák";
 "Time zone" = "Időzóna";
 "Local" = "Helyi";
 "Calendar" = "Naptár"; // translategemma:4b

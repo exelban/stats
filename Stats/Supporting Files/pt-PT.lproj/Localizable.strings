@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "Utilização do CPU";
-"CPU temperature" = "Temperatura do CPU";
-"CPU frequency" = "Frequência do CPU";
 "System" = "Sistema";
 "User" = "Utilizador";
 "Idle" = "Parado";
@@ -324,7 +322,6 @@
 "GPU utilization" = "Utilização da GPU";
 "Model" = "Modelo";
 "Status" = "Estado";
-"Utilization" = "Utilização";
 "Renderer utilization" = "Utilização do render"; // gemma4:31b
 "Tiler utilization" = "Utilização do Tiler"; // gemma4:31b
 "GPU usage threshold" = "Limite de uso da GPU";
@@ -432,6 +429,8 @@
 "Public IP" = "IP Público";
 "Local IP" = "IP Local";
 "Interface" = "Interface";
+"Up" = "Ativada";
+"Down" = "Desativada";
 "Physical address" = "Endereço físico";
 "Refresh" = "Atualizar";
 "Network interface" = "Interface de rede";
@@ -443,11 +442,14 @@
 "Reset data usage" = "Limpar dados de uso";
 "VPN mode" = "Modo da VPN";
 "Standard" = "Padrão"; // translategemma:4b
+"Wi-Fi standard" = "Norma Wi-Fi";
 "Security" = "Segurança";
 "Channel" = "Canal";
 "Autodetection" = "Auto-deteção";
 "Widget activation threshold" = "Limite de ativação do widget";
 "Internet connection" = "Conexão à internet";
+"Online" = "Online";
+"Offline" = "Offline";
 "Connectivity host" = "Host da conexão";
 "Leave empty to disable the check" = "Deixar vazio para desativar a verificação";
 "Connectivity history" = "Histórico de conectividade"; // translategemma:4b
@@ -457,6 +459,7 @@
 "Every 24 hours" = "A cada 24 horas"; // translategemma:4b
 "Last reset" = "Último reset há %0"; // gemma4:31b
 "Latency" = "Latência"; // translategemma:4b
+"Jitter" = "Variação da latência";
 "Address" = "Endereço"; // translategemma:4b
 "WiFi network" = "Rede WiFi"; // translategemma:4b
 "Local IP changed" = "O IP local foi alterado"; // gemma4:31b
@@ -470,6 +473,7 @@
 "Noise" = "Ruído"; // qwen3.8:27b
 "Signal" = "Sinal"; // qwen3.8:27b
 "Speed" = "Velocidade"; // qwen3.8:27b
+"Link speed" = "Velocidade da ligação";
 "Network interface changed" = "Interface de rede alterada"; // qwen3.8:27b
 "WiFi network changed" = "Rede Wi-Fi alterada"; // qwen3.8:27b
 "This will be visible in the text widget" = "Isto ficará visível no widget de texto"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "Limiar do Bluetooth"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "Relógios";
 "Time zone" = "Fuso horário"; // translategemma:4b
 "Local" = "Local";
 "Calendar" = "Calendário"; // translategemma:4b

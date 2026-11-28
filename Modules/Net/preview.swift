@@ -235,8 +235,8 @@ internal class Preview: PreviewWrapper {
         
         self.totalUploadField = previewRow(view, color: self.uploadColor, title: "\(localizedString("Total upload")):", value: "0")
         self.totalDownloadField = previewRow(view, color: self.downloadColor, title: "\(localizedString("Total download")):", value: "0")
-        self.statusField = previewBadgeRow(view, title: "\(localizedString("Status")):")
-        self.connectivityField = previewBadgeRow(view, title: "\(localizedString("Internet connection")):")
+        self.statusField = previewBadgeRow(view, title: "\(localizedString("Status")):", ok: "Online", notOk: "Offline")
+        self.connectivityField = previewBadgeRow(view, title: "\(localizedString("Internet connection")):", ok: "Online", notOk: "Offline")
         self.latencyField = previewRow(view, title: "\(localizedString("Latency")):", value: "0 ms")
         self.jitterField = previewRow(view, title: "\("Jitter"):", value: "0 ms")
         

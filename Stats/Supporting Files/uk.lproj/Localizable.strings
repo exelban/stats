@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "Використання процесора";
-"CPU temperature" = "Температура процесора";
-"CPU frequency" = "Частота процесора";
 "System" = "Система";
 "User" = "Користувач";
 "Idle" = "Вільно";
@@ -324,7 +322,6 @@
 "GPU utilization" = "Навантаженість графічного процесора";
 "Model" = "Модель";
 "Status" = "Статус";
-"Utilization" = "Використання";
 "Renderer utilization" = "Використання рендерера";
 "Tiler utilization" = "Використання тайлера";
 "GPU usage threshold" = "Поріг використання графічного процесора";
@@ -432,6 +429,8 @@
 "Public IP" = "Публічний IP";
 "Local IP" = "Локальний IP";
 "Interface" = "Інтерфейс";
+"Up" = "Увімкнено";
+"Down" = "Вимкнено";
 "Physical address" = "Фізичний адрес";
 "Refresh" = "Оновити";
 "Network interface" = "Мережевий інтерфейс";
@@ -443,11 +442,14 @@
 "Reset data usage" = "Скинути використання даних";
 "VPN mode" = "Режим VPN";
 "Standard" = "Стандарт";
+"Wi-Fi standard" = "Стандарт Wi-Fi";
 "Security" = "Шифрування";
 "Channel" = "Канал";
 "Autodetection" = "Автовизначення";
 "Widget activation threshold" = "Поріг активації віджета";
 "Internet connection" = "Підключення до інтернету";
+"Online" = "У мережі";
+"Offline" = "Поза мережею";
 "Connectivity host" = "Хост підключення";
 "Leave empty to disable the check" = "Залиште пустим, щоб вимкнути перевірку";
 "Connectivity history" = "Історія підключення";
@@ -457,6 +459,7 @@
 "Every 24 hours" = "Кожні 24 години";
 "Last reset" = "Останнє скидання %0 тому";
 "Latency" = "Затримка";
+"Jitter" = "Коливання затримки";
 "Address" = "Адреса";
 "WiFi network" = "Мережа WiFi";
 "Local IP changed" = "Локальна IP-адреса була змінена";
@@ -470,6 +473,7 @@
 "Noise" = "Шум"; // qwen3.8:27b
 "Signal" = "Сигнал"; // qwen3.8:27b
 "Speed" = "Швидкість"; // qwen3.8:27b
+"Link speed" = "Швидкість з’єднання";
 "Network interface changed" = "Мережевий інтерфейс змінено"; // qwen3.8:27b
 "WiFi network changed" = "Мережа Wi-Fi змінилася"; // qwen3.8:27b
 "This will be visible in the text widget" = "Це буде видно у текстовому віджеті"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "Поріг Bluetooth"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "Годинники";
 "Time zone" = "Часовий пояс";
 "Local" = "Місцевий";
 "Calendar" = "Календар";

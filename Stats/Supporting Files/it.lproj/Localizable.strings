@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "Utilizzo CPU";
-"CPU temperature" = "Temperatura CPU";
-"CPU frequency" = "Frequenza CPU";
 "System" = "Sistema";
 "User" = "Utente";
 "Idle" = "Inattiva";
@@ -324,7 +322,6 @@
 "GPU utilization" = "Utilizzo GPU";
 "Model" = "Modello";
 "Status" = "Stato";
-"Utilization" = "Utilizzo";
 "Renderer utilization" = "Utilizzo rendering";
 "Tiler utilization" = "Utilizzo Tiler";
 "GPU usage threshold" = "Soglia di utilizzo GPU";
@@ -432,6 +429,8 @@
 "Public IP" = "IP Pubblico";
 "Local IP" = "IP Locale";
 "Interface" = "Interfaccia";
+"Up" = "Attiva";
+"Down" = "Disattivata";
 "Physical address" = "Indirizzo fisico";
 "Refresh" = "Aggiorna";
 "Network interface" = "Interfaccia di rete";
@@ -443,11 +442,14 @@
 "Reset data usage" = "Resetta l'utilizzo dei dati";
 "VPN mode" = "Modalità VPN";
 "Standard" = "Standard";
+"Wi-Fi standard" = "Standard Wi-Fi";
 "Security" = "Sicurezza";
 "Channel" = "Canale";
 "Autodetection" = "Rilevamento automatico";
 "Widget activation threshold" = "Soglia di attivamento widget";
 "Internet connection" = "Connessione internet";
+"Online" = "Online";
+"Offline" = "Offline";
 "Connectivity host" = "Host di connettività"; // gemma4:31b
 "Leave empty to disable the check" = "Lascia vuoto per disattivare la verifica";
 "Connectivity history" = "Cronologia connettività";
@@ -457,6 +459,7 @@
 "Every 24 hours" = "Ogni 24 ore";
 "Last reset" = "Ultimo reset %0 fa";
 "Latency" = "Latenza";
+"Jitter" = "Jitter";
 "Address" = "Indirizzo"; // translategemma:4b
 "WiFi network" = "Rete WiFi"; // translategemma:4b
 "Local IP changed" = "L'IP locale è cambiato"; // gemma4:31b
@@ -470,6 +473,7 @@
 "Noise" = "Rumore"; // qwen3.8:27b
 "Signal" = "Segnale"; // qwen3.8:27b
 "Speed" = "Velocità"; // qwen3.8:27b
+"Link speed" = "Velocità del collegamento";
 "Network interface changed" = "Interfaccia di rete modificata"; // qwen3.8:27b
 "WiFi network changed" = "Rete WiFi cambiata"; // qwen3.8:27b
 "This will be visible in the text widget" = "Questo sarà visibile nel widget di testo"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "Soglia Bluetooth"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "Orologi";
 "Time zone" = "Fuso Orario";
 "Local" = "Locale";
 "Calendar" = "Calendario";

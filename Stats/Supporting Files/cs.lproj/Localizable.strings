@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "Použití CPU";
-"CPU temperature" = "Teplota CPU";
-"CPU frequency" = "Frekvence CPU";
 "System" = "Systém";
 "User" = "Uživatel";
 "Idle" = "Nečinný";
@@ -324,7 +322,6 @@
 "GPU utilization" = "Využití GPU";
 "Model" = "Model";
 "Status" = "Stav"; // translategemma:4b
-"Utilization" = "Využití";
 "Renderer utilization" = "Využití vykreslování";
 "Tiler utilization" = "Využití tilingu";
 "GPU usage threshold" = "Prahová hodnota využití GPU";
@@ -432,6 +429,8 @@
 "Public IP" = "Veřejná IP";
 "Local IP" = "Místní IP";
 "Interface" = "Rozhraní";
+"Up" = "Zapnuto";
+"Down" = "Vypnuto";
 "Physical address" = "Fyzická adresa";
 "Refresh" = "Obnovit";
 "Network interface" = "Síťové rozhraní";
@@ -443,11 +442,14 @@
 "Reset data usage" = "Resetovat využití dat";
 "VPN mode" = "VPN režim";
 "Standard" = "Standardní"; // gemma4:31b-it-qat
+"Wi-Fi standard" = "Standard Wi-Fi";
 "Security" = "Zabezpečení";
 "Channel" = "Kanál";
 "Autodetection" = "Automatická detekce";
 "Widget activation threshold" = "Práh aktivace widgetu";
 "Internet connection" = "Připojení k internetu";
+"Online" = "Online";
+"Offline" = "Offline";
 "Connectivity host" = "Hostitel připojení";
 "Leave empty to disable the check" = "Pro vypnutí kontroly ponechte prázdné pole";
 "Connectivity history" = "Historie konektivity"; // gemma4:31b
@@ -457,6 +459,7 @@
 "Every 24 hours" = "Každých 24 hodin"; // translategemma:4b
 "Last reset" = "Poslední reset před %0"; // gemma4:31b
 "Latency" = "Latence"; // translategemma:4b
+"Jitter" = "Kolísání latence";
 "Address" = "Adresa"; // translategemma:4b
 "WiFi network" = "Síť WiFi"; // gemma4:31b
 "Local IP changed" = "Lokální IP se změnila"; // gemma4:31b
@@ -470,6 +473,7 @@
 "Noise" = "Hluk"; // qwen3.8:27b
 "Signal" = "Signál"; // qwen3.8:27b
 "Speed" = "Rychlost"; // qwen3.8:27b
+"Link speed" = "Rychlost spojení";
 "Network interface changed" = "Síťové rozhraní změněno"; // qwen3.8:27b
 "WiFi network changed" = "Síť WiFi změněna"; // qwen3.8:27b
 "This will be visible in the text widget" = "Toto bude vidět v textovém widgetu"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "Prahová hodnota Bluetooth"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "Hodiny";
 "Time zone" = "Časové pásmo"; // gemma4:31b
 "Local" = "Lokální"; // gemma4:31b
 "Calendar" = "Kalendář"; // translategemma:4b

@@ -319,7 +319,7 @@ public class Network: Module {
                         default: return
                         }
                     case "$status":
-                        replacement = localizedString(value.status ? "UP" : "DOWN")
+                        replacement = localizedString(value.status ? "Online" : "Offline")
                     case "$upload":
                         switch pair.value {
                         case "total": replacement = Units(bytes: value.total.upload).getReadableMemory()
@@ -335,7 +335,7 @@ public class Network: Module {
                     case "$icmp":
                         guard let connectivity = self.connectivityReader?.value else { return }
                         switch pair.value {
-                        case "status": replacement = localizedString(connectivity.status ? "UP" : "DOWN")
+                        case "status": replacement = localizedString(connectivity.status ? "Online" : "Offline")
                         case "latency": replacement = "\(Int(connectivity.latency)) ms"
                         default: return
                         }

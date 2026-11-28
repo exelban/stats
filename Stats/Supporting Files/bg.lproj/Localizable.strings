@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "Употреба на процесора";
-"CPU temperature" = "Температура на процесора";
-"CPU frequency" = "Честота на процесора";
 "System" = "Система";
 "User" = "Потребител";
 "Idle" = "В покой";
@@ -324,7 +322,6 @@
 "GPU utilization" = "Утилизация на графичната карта";
 "Model" = "Модел";
 "Status" = "Статус";
-"Utilization" = "Утилизация";
 "Renderer utilization" = "Използване на рендерера"; // gemma4:31b
 "Tiler utilization" = "Използване на Tiler"; // gemma4:31b
 "GPU usage threshold" = "Праг на използване на GPU"; // gemma4:31b
@@ -432,6 +429,8 @@
 "Public IP" = "Публично IP";
 "Local IP" = "Локално IP";
 "Interface" = "Интерфейс";
+"Up" = "Включен";
+"Down" = "Изключен";
 "Physical address" = "Физически адрес";
 "Refresh" = "Опресняване";
 "Network interface" = "Мрежов интерфейс";
@@ -443,11 +442,14 @@
 "Reset data usage" = "Зануляване";
 "VPN mode" = "VPN режим";
 "Standard" = "Стандарт"; // translategemma:4b
+"Wi-Fi standard" = "Wi-Fi стандарт";
 "Security" = "Сигурност"; // gemma4:31b
 "Channel" = "Канал";
 "Autodetection" = "Автоматично засичане";
 "Widget activation threshold" = "Праг за активация на виджета"; // gemma4:31b
 "Internet connection" = "Интернет връзка";
+"Online" = "Онлайн";
+"Offline" = "Офлайн";
 "Connectivity host" = "Хост на свързаността"; // gemma4:31b
 "Leave empty to disable the check" = "Оставете празно, за да изключите проверката";
 "Connectivity history" = "История на свързаността"; // gemma4:31b
@@ -457,6 +459,7 @@
 "Every 24 hours" = "На всеки 24 часа"; // gemma4:31b
 "Last reset" = "Последно нулиране преди %0"; // gemma4:31b
 "Latency" = "Закъснение"; // gemma4:31b
+"Jitter" = "Колебание на закъснението";
 "Address" = "Адрес"; // translategemma:4b
 "WiFi network" = "Мрежа WiFi"; // gemma4:31b
 "Local IP changed" = "Локалният IP адрес се промени"; // gemma4:31b
@@ -470,6 +473,7 @@
 "Noise" = "Шум"; // qwen3.8:27b
 "Signal" = "Сигнал"; // qwen3.8:27b
 "Speed" = "Скорост"; // qwen3.8:27b
+"Link speed" = "Скорост на връзката";
 "Network interface changed" = "Мрежов интерфейс променен"; // qwen3.8:27b
 "WiFi network changed" = "WiFi мрежата се промени"; // qwen3.8:27b
 "This will be visible in the text widget" = "Това ще бъде видимо в текстовия виджет"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "Bluetooth праг"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "Часовници";
 "Time zone" = "Часова зона"; // translategemma:4b
 "Local" = "Локален"; // gemma4:31b
 "Calendar" = "Календар"; // translategemma:4b

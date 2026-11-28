@@ -95,7 +95,7 @@ public struct NetworkWidget: Widget {
                             HStack {
                                 Text("Status").font(.system(size: 12, weight: .regular)).foregroundColor(.secondary)
                                 Spacer()
-                                Text(value.status ? "UP" : "DOWN")
+                                Text(localizedString(value.status ? "Online" : "Offline"))
                                     .font(.system(size: 11, weight: .semibold))
                             }
                             if let interface = value.interface {

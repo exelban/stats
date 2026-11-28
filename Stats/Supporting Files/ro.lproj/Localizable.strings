@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "Utilizarea procesorului";
-"CPU temperature" = "Temperatura procesorului";
-"CPU frequency" = "Frecvența procesorului";
 "System" = "Sistem";
 "User" = "Utilizator";
 "Idle" = "Inactiv";
@@ -324,7 +322,6 @@
 "GPU utilization" = "Utilizarea plăcii video";
 "Model" = "Modelul";
 "Status" = "Statutul";
-"Utilization" = "Gradul de utilizare";
 "Renderer utilization" = "Utilizare render"; // gemma4:31b
 "Tiler utilization" = "Utilizare tiler"; // gemma4:31b
 "GPU usage threshold" = "Prag de utilizare GPU"; // gemma4:31b
@@ -432,6 +429,8 @@
 "Public IP" = "Adresa de IP publică";
 "Local IP" = "Adresa de IP locală";
 "Interface" = "Interfață";
+"Up" = "Activată";
+"Down" = "Dezactivată";
 "Physical address" = "Adresa fizică";
 "Refresh" = "Actualizare"; // gemma4:31b
 "Network interface" = "Interfața rețelei";
@@ -443,11 +442,14 @@
 "Reset data usage" = "Resetează consumul de date"; // translategemma:4b
 "VPN mode" = "Mod VPN"; // translategemma:4b
 "Standard" = "Standard";
+"Wi-Fi standard" = "Standard Wi-Fi";
 "Security" = "Securitate"; // translategemma:4b
 "Channel" = "Canal"; // translategemma:4b
 "Autodetection" = "Autodetectare"; // gemma4:31b
 "Widget activation threshold" = "Prag de activare widget"; // gemma4:31b
 "Internet connection" = "Conexiune la internet"; // translategemma:4b
+"Online" = "Online";
+"Offline" = "Offline";
 "Connectivity host" = "Host de conectivitate"; // gemma4:31b
 "Leave empty to disable the check" = "Lăsați gol pentru a dezactiva verificarea"; // gemma4:31b
 "Connectivity history" = "Istoricul conectivității"; // gemma4:31b
@@ -457,6 +459,7 @@
 "Every 24 hours" = "La fiecare 24 de ore"; // translategemma:4b
 "Last reset" = "Ultima resetare acum %0"; // gemma4:31b
 "Latency" = "Latență"; // translategemma:4b
+"Jitter" = "Variația latenței";
 "Address" = "Adresă"; // translategemma:4b
 "WiFi network" = "Rețea WiFi"; // gemma4:31b
 "Local IP changed" = "IP-ul local s-a modificat"; // gemma4:31b
@@ -470,6 +473,7 @@
 "Noise" = "Zgomot"; // qwen3.8:27b
 "Signal" = "Semnal"; // qwen3.8:27b
 "Speed" = "Viteză"; // qwen3.8:27b
+"Link speed" = "Viteza conexiunii";
 "Network interface changed" = "Interfața de rețea modificată"; // qwen3.8:27b
 "WiFi network changed" = "Rețea WiFi schimbată"; // qwen3.8:27b
 "This will be visible in the text widget" = "Acesta va fi vizibil în widgetul de text"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "Prag Bluetooth"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "Ceasuri";
 "Time zone" = "Fus orar"; // translategemma:4b
 "Local" = "Local";
 "Calendar" = "Calendar";

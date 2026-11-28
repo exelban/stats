@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "CPU占用";
-"CPU temperature" = "CPU温度";
-"CPU frequency" = "CPU频率";
 "System" = "系统";
 "User" = "用户";
 "Idle" = "闲置";
@@ -324,7 +322,6 @@
 "GPU utilization" = "GPU利用率";
 "Model" = "型号";
 "Status" = "状态";
-"Utilization" = "利用率";
 "Renderer utilization" = "渲染利用率";
 "Tiler utilization" = "Tiler利用率";
 "GPU usage threshold" = "GPU占用阈值";
@@ -432,6 +429,8 @@
 "Public IP" = "公网IP";
 "Local IP" = "本地IP";
 "Interface" = "接口";
+"Up" = "已启用";
+"Down" = "已停用";
 "Physical address" = "物理地址";
 "Refresh" = "刷新";
 "Network interface" = "网络接口";
@@ -443,11 +442,14 @@
 "Reset data usage" = "重置用量";
 "VPN mode" = "VPN 模式";
 "Standard" = "标准";
+"Wi-Fi standard" = "Wi-Fi 标准";
 "Security" = "安全";
 "Channel" = "频道";
 "Autodetection" = "自动检测";
 "Widget activation threshold" = "小组件激活阈值";
 "Internet connection" = "网络连接状态";
+"Online" = "在线";
+"Offline" = "离线";
 "Connectivity host" = "连接 Host";
 "Leave empty to disable the check" = "不在该选项内输入以禁用检查";
 "Connectivity history" = "连接历史";
@@ -457,6 +459,7 @@
 "Every 24 hours" = "每24小时";
 "Last reset" = "上次重置于 %0 之前";
 "Latency" = "延迟";
+"Jitter" = "抖动";
 "Address" = "地址";
 "WiFi network" = "WiFi网络";
 "Local IP changed" = "本地IP已变更";
@@ -470,6 +473,7 @@
 "Noise" = "噪声"; // qwen3.8:27b
 "Signal" = "信号"; // qwen3.8:27b
 "Speed" = "速度"; // qwen3.8:27b
+"Link speed" = "链路速度";
 "Network interface changed" = "网络接口已更改"; // qwen3.8:27b
 "WiFi network changed" = "WiFi 网络已更改"; // qwen3.8:27b
 "This will be visible in the text widget" = "这将在文本小部件中可见"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "Bluetooth 阈值"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "时钟";
 "Time zone" = "时区";
 "Local" = "本地";
 "Calendar" = "日历";

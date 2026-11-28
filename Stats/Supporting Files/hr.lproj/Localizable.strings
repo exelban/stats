@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "Korištenje procesora";
-"CPU temperature" = "Temperatura procesora";
-"CPU frequency" = "Frekvencija procesora";
 "System" = "Sustav";
 "User" = "Korisnik";
 "Idle" = "Bez aktivnosti";
@@ -324,7 +322,6 @@
 "GPU utilization" = "Korištenje grafičkog procesora";
 "Model" = "Model";
 "Status" = "Stanje";
-"Utilization" = "Korištenje";
 "Renderer utilization" = "Korištenje iscrtavača";
 "Tiler utilization" = "Korištenje popločivanja";
 "GPU usage threshold" = "Prag korištenja grafičkog procesora";
@@ -432,6 +429,8 @@
 "Public IP" = "Javni IP";
 "Local IP" = "Lokalni IP";
 "Interface" = "Sučelje";
+"Up" = "Uključeno";
+"Down" = "Isključeno";
 "Physical address" = "Fizička adresa";
 "Refresh" = "Osvježi";
 "Network interface" = "Sučelje mreže";
@@ -443,11 +442,14 @@
 "Reset data usage" = "Resetiraj korištenje podataka";
 "VPN mode" = "Modus virtualne privatne mreže (VPN)";
 "Standard" = "Standardni"; // qwen3.8:27b
+"Wi-Fi standard" = "Wi-Fi standard";
 "Security" = "Sigurnost";
 "Channel" = "Kanal";
 "Autodetection" = "Autodetekcija"; // gemma4:31b
 "Widget activation threshold" = "Prag aktivacije vidžeta"; // gemma4:31b
 "Internet connection" = "Internet veza"; // gemma4:31b
+"Online" = "Na mreži";
+"Offline" = "Izvan mreže";
 "Connectivity host" = "Host povezanosti"; // gemma4:31b
 "Leave empty to disable the check" = "Ostavite prazno kako biste onemogućili provjeru"; // gemma4:31b
 "Connectivity history" = "Povijest povezanosti"; // gemma4:31b
@@ -457,6 +459,7 @@
 "Every 24 hours" = "Svakih 24 sata"; // gemma4:31b
 "Last reset" = "Posljednji reset prije %0"; // gemma4:31b
 "Latency" = "Latencija"; // translategemma:4b
+"Jitter" = "Varijacija kašnjenja";
 "Address" = "Adresa"; // translategemma:4b
 "WiFi network" = "WiFi mreža"; // gemma4:31b
 "Local IP changed" = "Lokalni IP se promijenio"; // translategemma:4b
@@ -470,6 +473,7 @@
 "Noise" = "Šum"; // qwen3.8:27b
 "Signal" = "Signal";
 "Speed" = "Brzina"; // qwen3.8:27b
+"Link speed" = "Brzina veze";
 "Network interface changed" = "Mrežno sučelje promijenjeno"; // qwen3.8:27b
 "WiFi network changed" = "WiFi mreža promijenjena"; // qwen3.8:27b
 "This will be visible in the text widget" = "Ovo će biti vidljivo u tekstualnom widgetu"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "Prag Bluetootha"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "Satovi";
 "Time zone" = "Vremenska zona"; // translategemma:4b
 "Local" = "Lokalno"; // gemma4:31b
 "Calendar" = "Kalendar"; // translategemma:4b

@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "CPU 使用率";
-"CPU temperature" = "CPU 温度";
-"CPU frequency" = "CPU 周波数";
 "System" = "システム";
 "User" = "ユーザー";
 "Idle" = "アイドル";
@@ -324,7 +322,6 @@
 "GPU utilization" = "GPU 使用率";
 "Model" = "モデル";
 "Status" = "状態";
-"Utilization" = "使用率";
 "Renderer utilization" = "レンダリング使用率";
 "Tiler utilization" = "Tiler 使用率";
 "GPU usage threshold" = "GPU使用率のしきい値"; // gemma4:31b
@@ -432,6 +429,8 @@
 "Public IP" = "パブリック IP";
 "Local IP" = "ローカル IP";
 "Interface" = "インターフェイス";
+"Up" = "有効";
+"Down" = "無効";
 "Physical address" = "MAC アドレス";
 "Refresh" = "更新";
 "Network interface" = "インターフェイス";
@@ -443,11 +442,14 @@
 "Reset data usage" = "データ使用履歴をリセット";
 "VPN mode" = "VPN モード";
 "Standard" = "標準"; // translategemma:4b
+"Wi-Fi standard" = "Wi-Fi規格";
 "Security" = "セキュリティ"; // translategemma:4b
 "Channel" = "チャンネル"; // translategemma:4b
 "Autodetection" = "自動検出"; // translategemma:4b
 "Widget activation threshold" = "ウィジェットの有効化しきい値"; // gemma4:31b
 "Internet connection" = "インターネット接続"; // translategemma:4b
+"Online" = "オンライン";
+"Offline" = "オフライン";
 "Connectivity host" = "接続ホスト"; // translategemma:4b
 "Leave empty to disable the check" = "空欄のままにするとチェックが無効になります"; // gemma4:31b
 "Connectivity history" = "接続履歴"; // translategemma:4b
@@ -457,6 +459,7 @@
 "Every 24 hours" = "24時間ごと"; // gemma4:31b
 "Last reset" = "最終リセット %0 前"; // gemma4:31b
 "Latency" = "レイテンシ"; // gemma4:31b
+"Jitter" = "ジッター";
 "Address" = "アドレス";
 "WiFi network" = "WiFiネットワーク"; // gemma4:31b
 "Local IP changed" = "ローカルIPが変更されました"; // gemma4:31b
@@ -470,6 +473,7 @@
 "Noise" = "ノイズ"; // qwen3.8:27b
 "Signal" = "シグナル"; // qwen3.8:27b
 "Speed" = "速度"; // qwen3.8:27b
+"Link speed" = "リンク速度";
 "Network interface changed" = "ネットワークインターフェースが変更されました"; // qwen3.8:27b
 "WiFi network changed" = "WiFiネットワークが変更されました"; // qwen3.8:27b
 "This will be visible in the text widget" = "これはテキストウィジェットに表示されます"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "ブルートゥース閾値"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "時計";
 "Time zone" = "タイムゾーン"; // translategemma:4b
 "Local" = "ローカル";
 "Calendar" = "カレンダー"; // translategemma:4b

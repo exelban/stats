@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "सीपीयू उपयोग";
-"CPU temperature" = "सीपीयू तापमान";
-"CPU frequency" = "सीपीयू आवृत्ति";
 "System" = "सिस्टम";
 "User" = "उपयोगकर्ता";
 "Idle" = "निष्क्रिय";
@@ -324,7 +322,6 @@
 "GPU utilization" = "जीपीयू उपयोग";
 "Model" = "मॉडल";
 "Status" = "स्थिति";
-"Utilization" = "उपयोग";
 "Renderer utilization" = "रेंडर उपयोग";
 "Tiler utilization" = "टाइलर उपयोग";
 "GPU usage threshold" = "जीपीयू उपयोग सीमा";
@@ -432,6 +429,8 @@
 "Public IP" = "सार्वजनिक आईपी";
 "Local IP" = "स्थानीय आईपी";
 "Interface" = "इंटरफ़ेस";
+"Up" = "सक्षम";
+"Down" = "अक्षम";
 "Physical address" = "भौतिक पता";
 "Refresh" = "ताज़ा करें";
 "Network interface" = "नेटवर्क इंटरफ़ेस";
@@ -443,11 +442,14 @@
 "Reset data usage" = "डेटा उपयोग रीसेट करें";
 "VPN mode" = "वीपीएन मोड";
 "Standard" = "मानक";
+"Wi-Fi standard" = "वाई-फ़ाई मानक";
 "Security" = "सुरक्षा";
 "Channel" = "चैनल";
 "Autodetection" = "ऑटोडिटेक्शन";
 "Widget activation threshold" = "विजेट सक्रियण सीमा";
 "Internet connection" = "इंटरनेट कनेक्शन";
+"Online" = "ऑनलाइन";
+"Offline" = "ऑफ़लाइन";
 "Connectivity host" = "कनेक्टिविटी होस्ट (आईसीएमपी)";
 "Leave empty to disable the check" = "चेक को अक्षम करने के लिए खाली छोड़ दें";
 "Connectivity history" = "कनेक्टिविटी इतिहास";
@@ -457,6 +459,7 @@
 "Every 24 hours" = "हर 24 घंटे";
 "Last reset" = "अंतिम रीसेट %0 पहले";
 "Latency" = "विलंबता"; // gemma4:31b
+"Jitter" = "जिटर";
 "Address" = "पता"; // translategemma:4b
 "WiFi network" = "WiFi नेटवर्क"; // gemma4:31b
 "Local IP changed" = "स्थानीय IP बदल गया है"; // gemma4:31b
@@ -470,6 +473,7 @@
 "Noise" = "शोर"; // qwen3.8:27b
 "Signal" = "सिग्नल"; // qwen3.8:27b
 "Speed" = "गति"; // qwen3.8:27b
+"Link speed" = "लिंक की गति";
 "Network interface changed" = "नेटवर्क इंटरफ़ेस बदला"; // qwen3.8:27b
 "WiFi network changed" = "WiFi नेटवर्क बदला"; // qwen3.8:27b
 "This will be visible in the text widget" = "यह टेक्स्ट विजेट में दिखाई देगा"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "Bluetooth सीमा"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "घड़ियाँ";
 "Time zone" = "समय क्षेत्र";
 "Local" = "स्थानीय";
 "Calendar" = "कैलेंडर"; // translategemma:4b

@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "Použitie CPU";
-"CPU temperature" = "Teplota CPU";
-"CPU frequency" = "Frekvencia CPU";
 "System" = "Systém";
 "User" = "Používateľ";
 "Idle" = "Nečinnosť";
@@ -324,7 +322,6 @@
 "GPU utilization" = "Využitie GPU";
 "Model" = "Model"; // translategemma:4b
 "Status" = "Stav"; // gemma4:31b
-"Utilization" = "Využitie";
 "Renderer utilization" = "Využitie renderovania";
 "Tiler utilization" = "Využitie tilingu";
 "GPU usage threshold" = "Prahová hodnota využitia GPU";
@@ -432,6 +429,8 @@
 "Public IP" = "Verejná IP";
 "Local IP" = "Lokálna IP";
 "Interface" = "Rozhranie";
+"Up" = "Zapnuté";
+"Down" = "Vypnuté";
 "Physical address" = "Fyzická adresa";
 "Refresh" = "Obnoviť";
 "Network interface" = "Sieťové rozhranie";
@@ -443,11 +442,14 @@
 "Reset data usage" = "Resetovať využitie dát";
 "VPN mode" = "VPN režim";
 "Standard" = "Štandard";
+"Wi-Fi standard" = "Štandard Wi-Fi";
 "Security" = "Zabezpečenie";
 "Channel" = "Kanál";
 "Autodetection" = "Automatická detekcia";
 "Widget activation threshold" = "Prah aktivácie widgetu";
 "Internet connection" = "Pripojenie k internetu";
+"Online" = "Online";
+"Offline" = "Offline";
 "Connectivity host" = "Hostiteľ pripojenia";
 "Leave empty to disable the check" = "Ponechajte prázdne, ak chcete vypnúť kontrolu";
 "Connectivity history" = "História pripojenosti"; // translategemma:4b
@@ -457,6 +459,7 @@
 "Every 24 hours" = "Každých 24 hodín"; // translategemma:4b
 "Last reset" = "Posledné zresetovanie bolo pred %0."; // translategemma:4b
 "Latency" = "Latencia"; // translategemma:4b
+"Jitter" = "Kolísanie latencie";
 "Address" = "Adresa"; // translategemma:4b
 "WiFi network" = "WiFi sieť"; // translategemma:4b
 "Local IP changed" = "Lokálna IP adresa bola zmenená"; // translategemma:4b
@@ -470,6 +473,7 @@
 "Noise" = "Hluk"; // qwen3.8:27b
 "Signal" = "Signál"; // qwen3.8:27b
 "Speed" = "Rýchlosť"; // qwen3.8:27b
+"Link speed" = "Rýchlosť spojenia";
 "Network interface changed" = "Sieťové rozhranie sa zmenilo"; // qwen3.8:27b
 "WiFi network changed" = "Zmenená WiFi sieť"; // qwen3.8:27b
 "This will be visible in the text widget" = "Toto bude viditeľné v textovom widgeti"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "Prah Bluetooth"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "Hodiny";
 "Time zone" = "Časový pás"; // translategemma:4b
 "Local" = "Lokálny"; // translategemma:4b
 "Calendar" = "Kalendár"; // translategemma:4b

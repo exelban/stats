@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "שימוש המעבד";
-"CPU temperature" = "טמפרטורת המעבד";
-"CPU frequency" = "תדירות המעבד";
 "System" = "מערכת";
 "User" = "משתמש";
 "Idle" = "מושהה";
@@ -324,7 +322,6 @@
 "GPU utilization" = "GPU ניצול";
 "Model" = "דגם";
 "Status" = "מצב";
-"Utilization" = "ניצול";
 "Renderer utilization" = "ניצול רנדור";
 "Tiler utilization" = "ניצול ריצוף";
 "GPU usage threshold" = "סף שימוש ב-GPU"; // gemma4:31b
@@ -432,6 +429,8 @@
 "Public IP" = "כתובת רשת ציבורית";
 "Local IP" = "כתובת רשת מקומית";
 "Interface" = "ממשק";
+"Up" = "מופעל";
+"Down" = "מושבת";
 "Physical address" = "כתובת פיזית";
 "Refresh" = "רענן";
 "Network interface" = "ממשק רשת";
@@ -443,11 +442,14 @@
 "Reset data usage" = "אפס את השימוש בנתונים";
 "VPN mode" = "VPN מצב";
 "Standard" = "סטנדרט"; // gemma4:31b
+"Wi-Fi standard" = "תקן Wi-Fi";
 "Security" = "הצפנה"; // gemma4:31b
 "Channel" = "ערוץ"; // translategemma:4b
 "Autodetection" = "זיהוי אוטומטי"; // translategemma:4b
 "Widget activation threshold" = "סף הפעלת הווידג'ט"; // gemma4:31b
 "Internet connection" = "חיבור לאינטרנט"; // translategemma:4b
+"Online" = "מקוון";
+"Offline" = "לא מקוון";
 "Connectivity host" = "מארח קישוריות"; // gemma4:31b
 "Leave empty to disable the check" = "השאר ריק כדי לבטל את הבדיקה"; // gemma4:31b
 "Connectivity history" = "היסטוריית קישוריות"; // gemma4:31b
@@ -457,6 +459,7 @@
 "Every 24 hours" = "כל 24 שעות"; // gemma4:31b
 "Last reset" = "איפוס אחרון לפני %0"; // gemma4:31b
 "Latency" = "שיהוי"; // gemma4:31b
+"Jitter" = "שונות בהשהיה";
 "Address" = "כתובת"; // translategemma:4b
 "WiFi network" = "רשת WiFi"; // gemma4:31b
 "Local IP changed" = "כתובת ה-IP המקומית השתנתה"; // translategemma:4b
@@ -470,6 +473,7 @@
 "Noise" = "רעש"; // qwen3.8:27b
 "Signal" = "איתות"; // qwen3.8:27b
 "Speed" = "מהירות"; // qwen3.8:27b
+"Link speed" = "מהירות הקישור";
 "Network interface changed" = "ממשק הרשת השתנה"; // qwen3.8:27b
 "WiFi network changed" = "רשת WiFi השתנתה"; // qwen3.8:27b
 "This will be visible in the text widget" = "זה יתראה בוידג'ט הטקסט"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "סף Bluetooth"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "שעונים";
 "Time zone" = "אזור זמן"; // translategemma:4b
 "Local" = "מקומי"; // gemma4:31b
 "Calendar" = "לוח שנה"; // gemma4:31b

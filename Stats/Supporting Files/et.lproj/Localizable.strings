@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "CPU kasutus";
-"CPU temperature" = "CPU temperatuur";
-"CPU frequency" = "CPU sagedus";
 "System" = "Süsteem";
 "User" = "Kasutaja";
 "Idle" = "Ootel";
@@ -324,7 +322,6 @@
 "GPU utilization" = "GPU kasutus";
 "Model" = "Mudel";
 "Status" = "Olek";
-"Utilization" = "Kasutus";
 "Renderer utilization" = "Renderdamise kasutus";
 "Tiler utilization" = "Osapõhise renderdaja kasutus";
 "GPU usage threshold" = "GPU kasutuslävi";
@@ -432,6 +429,8 @@
 "Public IP" = "Avalik IP";
 "Local IP" = "Kohalik IP";
 "Interface" = "Liides";
+"Up" = "Lubatud";
+"Down" = "Keelatud";
 "Physical address" = "Füüsiline aadress";
 "Refresh" = "Värskenda";
 "Network interface" = "Võrguliides";
@@ -443,11 +442,14 @@
 "Reset data usage" = "Lähtesta andmekasutus";
 "VPN mode" = "VPN-režiim";
 "Standard" = "Standardne"; // qwen3.8:27b
+"Wi-Fi standard" = "Wi-Fi standard";
 "Security" = "Turvalisus";
 "Channel" = "Kanal";
 "Autodetection" = "Automaattuvastus";
 "Widget activation threshold" = "Vidina aktiveerimise lävi";
 "Internet connection" = "Internetiühendus";
+"Online" = "Võrgus";
+"Offline" = "Võrguühenduseta";
 "Connectivity host" = "Ühendushost";
 "Leave empty to disable the check" = "Kontrolli keelamiseks jätke tühjaks";
 "Connectivity history" = "Ühenduse ajalugu";
@@ -457,6 +459,7 @@
 "Every 24 hours" = "Iga 24 tunni järel";
 "Last reset" = "Viimane lähtestamine %0 tagasi";
 "Latency" = "Latents";
+"Jitter" = "Viivituse kõikumine";
 "Address" = "Aadress";
 "WiFi network" = "Wifi võrk";
 "Local IP changed" = "Lokaalne IP-aadress on muutunud";
@@ -470,6 +473,7 @@
 "Noise" = "Müra"; // qwen3.8:27b
 "Signal" = "Signaal"; // qwen3.8:27b
 "Speed" = "Kiirus"; // qwen3.8:27b
+"Link speed" = "Ühenduse kiirus";
 "Network interface changed" = "Võrguliides muutunud"; // qwen3.8:27b
 "WiFi network changed" = "WiFi võrk muutus"; // qwen3.8:27b
 "This will be visible in the text widget" = "See on nähtav tekstivihikus"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "Bluetoothi lävi"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "Kellad";
 "Time zone" = "Ajavöönd";
 "Local" = "Kohalik";
 "Calendar" = "Kalender";

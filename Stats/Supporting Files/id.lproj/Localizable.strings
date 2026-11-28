@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "Penggunaan CPU";
-"CPU temperature" = "Suhu CPU";
-"CPU frequency" = "Frekuensi CPU";
 "System" = "Sistem";
 "User" = "Pengguna";
 "Idle" = "Tidak berjalan";
@@ -324,7 +322,6 @@
 "GPU utilization" = "Pemanfaatan GPU";
 "Model" = "Model";
 "Status" = "Status";
-"Utilization" = "Pemanfaatan";
 "Renderer utilization" = "Pemanfaatan render";
 "Tiler utilization" = "Pemanfaatan tiler";
 "GPU usage threshold" = "Ambang batas penggunaan GPU"; // gemma4:31b
@@ -432,6 +429,8 @@
 "Public IP" = "IP Publik";
 "Local IP" = "IP Lokal";
 "Interface" = "Antarmuka";
+"Up" = "Aktif";
+"Down" = "Nonaktif";
 "Physical address" = "Alamat fisik";
 "Refresh" = "Segarkan";
 "Network interface" = "Antarmuka jaringan";
@@ -443,11 +442,14 @@
 "Reset data usage" = "Atur ulang penggunaan data";
 "VPN mode" = "Mode VPN";
 "Standard" = "Standar"; // translategemma:4b
+"Wi-Fi standard" = "Standar Wi-Fi";
 "Security" = "Keamanan"; // translategemma:4b
 "Channel" = "Saluran"; // translategemma:4b
 "Autodetection" = "Deteksi otomatis"; // translategemma:4b
 "Widget activation threshold" = "Ambang batas aktivasi widget"; // gemma4:31b
 "Internet connection" = "Koneksi internet"; // translategemma:4b
+"Online" = "Daring";
+"Offline" = "Luring";
 "Connectivity host" = "Host konektivitas"; // gemma4:31b
 "Leave empty to disable the check" = "Biarkan kosong untuk menonaktifkan pemeriksaan"; // gemma4:31b
 "Connectivity history" = "Riwayat konektivitas"; // gemma4:31b
@@ -457,6 +459,7 @@
 "Every 24 hours" = "Setiap 24 jam"; // translategemma:4b
 "Last reset" = "Reset terakhir %0 yang lalu"; // gemma4:31b
 "Latency" = "Latensi"; // translategemma:4b
+"Jitter" = "Jitter";
 "Address" = "Alamat"; // translategemma:4b
 "WiFi network" = "Jaringan WiFi"; // translategemma:4b
 "Local IP changed" = "IP lokal telah berubah"; // gemma4:31b
@@ -470,6 +473,7 @@
 "Noise" = "Kebisingan"; // qwen3.8:27b
 "Signal" = "Sinyal"; // qwen3.8:27b
 "Speed" = "Kecepatan"; // qwen3.8:27b
+"Link speed" = "Kecepatan tautan";
 "Network interface changed" = "Antarmuka jaringan berubah"; // qwen3.8:27b
 "WiFi network changed" = "Jaringan WiFi berubah"; // qwen3.8:27b
 "This will be visible in the text widget" = "Ini akan terlihat di widget teks"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "Ambang Bluetooth"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "Jam";
 "Time zone" = "Zona waktu"; // translategemma:4b
 "Local" = "Lokal"; // translategemma:4b
 "Calendar" = "Kalender"; // translategemma:4b

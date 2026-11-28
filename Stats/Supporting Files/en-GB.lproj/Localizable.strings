@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "CPU usage";
-"CPU temperature" = "CPU temperature";
-"CPU frequency" = "CPU frequency";
 "System" = "System";
 "User" = "User";
 "Idle" = "Idle";
@@ -324,7 +322,6 @@
 "GPU utilization" = "GPU utilisation";
 "Model" = "Model";
 "Status" = "Status";
-"Utilization" = "Utilisation";
 "Renderer utilization" = "Render utilisation";
 "Tiler utilization" = "Tiler utilisation";
 "GPU usage threshold" = "GPU usage threshold";
@@ -432,6 +429,8 @@
 "Public IP" = "Public IP";
 "Local IP" = "Local IP";
 "Interface" = "Interface";
+"Up" = "Up";
+"Down" = "Down";
 "Physical address" = "Physical address";
 "Refresh" = "Refresh";
 "Network interface" = "Network interface";
@@ -443,11 +442,14 @@
 "Reset data usage" = "Reset data usage";
 "VPN mode" = "VPN mode";
 "Standard" = "Standard";
+"Wi-Fi standard" = "Wi-Fi standard";
 "Security" = "Security";
 "Channel" = "Channel";
 "Autodetection" = "Autodetection";
 "Widget activation threshold" = "Widget activation threshold";
 "Internet connection" = "Internet connection";
+"Online" = "Online";
+"Offline" = "Offline";
 "Connectivity host" = "Connectivity host";
 "Leave empty to disable the check" = "Leave empty to disable the check";
 "Connectivity history" = "Connectivity history";
@@ -457,6 +459,7 @@
 "Every 24 hours" = "Every 24 hours";
 "Last reset" = "Last reset %0 ago";
 "Latency" = "Latency";
+"Jitter" = "Jitter";
 "Address" = "Address";
 "WiFi network" = "WiFi network";
 "Local IP changed" = "Local IP has changed";
@@ -470,6 +473,7 @@
 "Noise" = "Noise";
 "Signal" = "Signal";
 "Speed" = "Speed";
+"Link speed" = "Link speed";
 "Network interface changed" = "Network interface changed";
 "WiFi network changed" = "WiFi network changed";
 "This will be visible in the text widget" = "This will be visible in the text widget";
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "Bluetooth threshold";
 
 // Clock
+"Clocks" = "Clocks";
 "Time zone" = "Time zone";
 "Local" = "Local";
 "Calendar" = "Calendar";

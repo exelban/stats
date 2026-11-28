@@ -281,8 +281,6 @@
 
 // CPU
 "CPU usage" = "استخدام المعالج";
-"CPU temperature" = "حرارة المعالج";
-"CPU frequency" = "تردد المعالج";
 "System" = "النظام";
 "User" = "المستخدم";
 "Idle" = "الخمول";
@@ -324,7 +322,6 @@
 "GPU utilization" = "استخدام GPU";
 "Model" = "النموذج";
 "Status" = "الحالة";
-"Utilization" = "استخدام";
 "Renderer utilization" = "استخدام التصيير";
 "Tiler utilization" = "استخدام Tiler";
 "GPU usage threshold" = "عتبة استخدام GPU";
@@ -432,6 +429,8 @@
 "Public IP" = "عنوان IP العام";
 "Local IP" = "عنوان IP المحلي";
 "Interface" = "واجهة";
+"Up" = "مفعّل";
+"Down" = "معطّل";
 "Physical address" = "العنوان الفيزيائي";
 "Refresh" = "تحديث";
 "Network interface" = "واجهة الشبكة";
@@ -443,11 +442,14 @@
 "Reset data usage" = "إعادة تعيين استخدام البيانات";
 "VPN mode" = "وضع VPN";
 "Standard" = "قياسي";
+"Wi-Fi standard" = "معيار Wi-Fi";
 "Security" = "أمان";
 "Channel" = "قناة";
 "Autodetection" = "الكشف التلقائي";
 "Widget activation threshold" = "عتبة تفعيل الودجت";
 "Internet connection" = "اتصال بالإنترنت";
+"Online" = "متصل";
+"Offline" = "غير متصل";
 "Connectivity host" = "مضيف الاتصال";
 "Leave empty to disable the check" = "اتركه فارغًا لتعطيل الفحص";
 "Connectivity history" = "سجل الاتصال";
@@ -457,6 +459,7 @@
 "Every 24 hours" = "كل 24 ساعة";
 "Last reset" = "آخر إعادة تعيين منذ %0";
 "Latency" = "تأخير";
+"Jitter" = "تفاوت زمن الاستجابة";
 "Address" = "العنوان"; // translategemma:4b
 "WiFi network" = "شبكة WiFi"; // gemma4:31b
 "Local IP changed" = "تغير عنوان IP المحلي"; // translategemma:4b
@@ -470,6 +473,7 @@
 "Noise" = "الضوضاء"; // qwen3.8:27b
 "Signal" = "الإشارة"; // qwen3.8:27b
 "Speed" = "السرعة"; // qwen3.8:27b
+"Link speed" = "سرعة الارتباط";
 "Network interface changed" = "تغيّرت واجهة الشبكة"; // qwen3.8:27b
 "WiFi network changed" = "تغيّرت شبكة WiFi"; // qwen3.8:27b
 "This will be visible in the text widget" = "سيكون هذا مرئيًا في ويدجت النص"; // qwen3.8:27b
@@ -516,6 +520,7 @@
 "Bluetooth threshold" = "عتبة Bluetooth"; // qwen3.8:27b
 
 // Clock
+"Clocks" = "الساعات";
 "Time zone" = "المنطقة الزمنية";
 "Local" = "محلي";
 "Calendar" = "التقويم"; // gemma4:31b

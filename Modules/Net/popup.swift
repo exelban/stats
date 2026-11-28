@@ -359,7 +359,7 @@ internal class Popup: PopupWrapper {
         self.macAddressField = popupRow(view, title: "\(localizedString("Physical address")):", value: localizedString("Unknown")).1
         self.macAddressField?.isSelectable = true
         
-        let standard = popupRow(view, title: "\(localizedString("WiFi standard")):", value: localizedString("Unavailable"))
+        let standard = popupRow(view, title: "\(localizedString("Wi-Fi standard")):", value: localizedString("Unavailable"))
         let channel = popupRow(view, title: "\(localizedString("Channel")):", value: localizedString("Unavailable"))
         let speed = popupRow(view, title: "\(localizedString("Link speed")):", value: localizedString("Unknown"))
         
@@ -503,7 +503,7 @@ internal class Popup: PopupWrapper {
                 self.interfaceField?.stringValue += ", \(cc)"
             }
             self.interfaceField?.stringValue += ")"
-            self.interfaceStatusField?.stringValue = interface.status ? localizedString("UP") : localizedString("DOWN")
+            self.interfaceStatusField?.stringValue = interface.status ? localizedString("Up") : localizedString("Down")
             self.macAddressField?.stringValue = interface.address
             self.interfaceSpeedField?.stringValue = "\(Int(interface.transmitRate.rounded()))Mbps"
         } else {
@@ -704,7 +704,7 @@ internal class Popup: PopupWrapper {
             if v.status && !self.jitter.isEmpty {
                 jitter = "\((self.jitter.reduce(0, +) / Double(self.jitter.count)).rounded(toPlaces: 2)) ms"
             }
-            status = v.status ? localizedString("UP") : localizedString("DOWN")
+            status = v.status ? localizedString("Online") : localizedString("Offline")
         }
         
         self.internetStatusField?.stringValue = status

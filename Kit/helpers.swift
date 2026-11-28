@@ -290,10 +290,11 @@ public class StatusBadgeView: NSStackView {
     private var status: Bool?
     private let ok: String
     private let notOk: String
+    private let minimumWidth: CGFloat
     private let labelField: NSTextField = LabelField("")
     
     public override var intrinsicContentSize: CGSize {
-        return CGSize(width: self.bounds.width, height: self.bounds.height)
+        return CGSize(width: max(self.minimumWidth, self.labelField.intrinsicContentSize.width + 8), height: self.bounds.height)
     }
     
     private var color: CGColor {
@@ -309,10 +310,11 @@ public class StatusBadgeView: NSStackView {
         return ""
     }
     
-    public init(frame: NSRect = NSRect(origin: .zero, size: NSSize(width: 50, height: 14)), _ status: Bool? = nil, ok: String = "UP", notOk: String = "DOWN") {
+    public init(frame: NSRect = NSRect(origin: .zero, size: NSSize(width: 50, height: 14)), _ status: Bool? = nil, ok: String = "Up", notOk: String = "Down") {
         self.status = status
         self.ok = ok
         self.notOk = notOk
+        self.minimumWidth = frame.width
         
         super.init(frame: frame)
         
@@ -340,6 +342,7 @@ public class StatusBadgeView: NSStackView {
         guard self.status != value else { return }
         self.status = value
         self.labelField.stringValue = self.label
+        self.invalidateIntrinsicContentSize()
         self.layer?.backgroundColor = self.color
     }
 }
@@ -520,7 +523,7 @@ public func portalWithColorRow(_ v: NSStackView, color: NSColor, title: String) 
     return (colorView, valueView)
 }
 
-public func previewBadgeRow(_ view: NSStackView?, title: String, status: Bool? = nil) -> StatusBadgeView {
+public func previewBadgeRow(_ view: NSStackView?, title: String, status: Bool? = nil, ok: String = "Up", notOk: String = "Down") -> StatusBadgeView {
     let row: NSStackView = NSStackView(frame: NSRect.zero)
     row.heightAnchor.constraint(equalToConstant: 22).isActive = true
     row.orientation = .horizontal
@@ -530,7 +533,7 @@ public func previewBadgeRow(_ view: NSStackView?, title: String, status: Bool? =
     let labelView: LabelField = LabelField(title)
     labelView.font = NSFont.systemFont(ofSize: 11, weight: .regular)
     
-    let badgeView = StatusBadgeView(status)
+    let badgeView = StatusBadgeView(status, ok: ok, notOk: notOk)
     
     row.addArrangedSubview(labelView)
     row.addArrangedSubview(NSView())
